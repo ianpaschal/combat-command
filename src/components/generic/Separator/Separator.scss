@@ -1,0 +1,15 @@
+@use '/src/style/variables';
+
+.Separator {
+  background-color: variables.$outlined-border;
+}
+
+.Separator[data-orientation='horizontal'] {
+  height: 1px;
+  min-width: 100%;
+}
+
+.Separator[data-orientation='vertical'] {
+  min-height: 100%;
+  width: 1px;
+}

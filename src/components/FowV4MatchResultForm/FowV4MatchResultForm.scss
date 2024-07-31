@@ -1,0 +1,48 @@
+@use '/src/style/animate';
+@use '/src/style/variables';
+
+.FowV4MatchResultForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.GameConfigSection {
+  
+  @include animate.durationQuick;
+  @include animate.stylePop;
+  & {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+.GameConfigFields {
+  display: flex;
+  gap: calc(1rem + 1px);
+}
+
+.GameConfigEra,
+.GameConfigPoints {
+  width: 50%;
+  flex: 1 auto;
+}
+
+.OpponentsSection {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr variables.$border-width 1fr;
+}
+
+.Player0Section,
+.Player1Section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.ResultsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}

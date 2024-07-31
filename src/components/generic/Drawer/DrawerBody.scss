@@ -1,0 +1,9 @@
+@use '/src/style/variables';
+@use '/src/style/mixins';
+
+.DrawerBody {
+  position: relative;
+  padding: 1rem;
+  overflow: scroll;
+  flex: 1 auto;
+}

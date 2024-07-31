@@ -1,0 +1,48 @@
+@use '/src/style/mixins';
+
+.rdp-caption {
+  @include mixins.uiText;
+  & {
+    font-weight: 500;
+    display: flex;
+    position: relative;
+    justify-content: center;
+    height: 1.75rem;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+}
+
+
+
+.DayButton {
+  @include mixins.ghost;
+  & {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+}
+
+
+.DayButtonSelected {
+  @include mixins.solid;
+}
+
+.CalendarNavButton {
+  @include mixins.outlined-muted;
+
+  & {
+    position: absolute;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 6px;
+    top: 0;
+  }
+}
+
+.CalendarNavButtonPrevious {
+  left: 0;
+}
+.CalendarNavButtonNext {
+  right: 0;
+}

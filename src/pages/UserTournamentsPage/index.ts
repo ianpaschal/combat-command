@@ -1,0 +1,1 @@
+export { UserTournamentsPage } from './UserTournamentsPage';

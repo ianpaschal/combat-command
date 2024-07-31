@@ -1,0 +1,39 @@
+@use '/src/style/mixins';
+
+.PlayerSelectTrigger {
+  border: none;
+  background-color: transparent;
+  padding: 0.5rem;
+  margin: -0.5rem;
+  min-height: 7rem;
+
+  &-ghost {
+    @include mixins.ghost;
+  }
+
+  &-outlined {
+    @include mixins.outlined;
+  }
+}
+
+.PlayerSelectIconWrapper {
+  border-radius: 100%;
+  height: 3rem;
+  width: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // border: 2px solid black;
+}
+
+.PlayerSelectIcon {
+  color: inherit;
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+  left: 2px;
+}
+.PlayerSelectPlaceholder {
+  font-weight: 500;
+  display: block;
+}

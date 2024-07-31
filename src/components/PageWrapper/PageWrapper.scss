@@ -1,0 +1,17 @@
+@use '/src/style/variables';
+
+.PageWrapper {
+  box-sizing: border-box;
+  // width: 100vw;
+  flex: 1 auto;
+  // min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: red;
+  padding: 0.5rem;
+  padding-top: calc(variables.$app-bar-height + 1rem);
+}
+
+.page-wrapper-title {
+  margin-bottom: 8px;
+}

@@ -1,0 +1,24 @@
+@use '/src/style/variables';
+@use '/src/style/mixins';
+
+.UserPortraitName {
+  
+
+  color: variables.$text-muted;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  text-wrap: balance;
+  line-height: 1rem;
+  font-size: 0.875rem;
+
+  &[data-orientation='vertical'] {
+    text-align: center;
+  }
+
+  &[data-orientation='horizontal'] {
+
+  }
+}

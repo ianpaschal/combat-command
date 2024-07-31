@@ -1,0 +1,155 @@
+@use 'sass:color';
+@use "variables";
+
+@mixin border {
+  border-color: variables.$outlined-border;
+  border-width: variables.$border-width;
+  border-style: solid;
+}
+
+@mixin border-muted {
+  border-color: variables.$outlined-muted-border;
+  border-width: variables.$border-width;
+  border-style: solid;
+}
+
+@mixin rounded {
+  border-radius: variables.$corner-radius;
+}
+
+@mixin surfaceShadow {
+  box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);
+}
+
+@mixin shadow {
+  box-shadow: 0px 10px 38px -10px rgba(0, 0, 0, 0.35), 0px 10px 20px -15px rgba(0, 0, 0, 0.2);
+}
+
+// MUI 1
+// box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
+
+// MUI 2
+// box-shadow: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
+
+// MUI 3
+// box-shadow: 0px 3px 3px -2px rgba(0,0,0,0.2),0px 3px 4px 0px rgba(0,0,0,0.14),0px 1px 8px 0px rgba(0,0,0,0.12);
+
+@mixin solid {
+  @include rounded;
+  color: variables.$solid-text;
+  background-color: variables.$solid-bg;
+    border: none;
+  &:hover {
+    background-color: variables.$solid-bg-hover;
+  }
+}
+
+@mixin solid-muted {
+  @include rounded;
+  color: variables.$solid-muted-text;
+  background-color: variables.$solid-muted-bg;
+    border: none;
+  &:hover {
+    background-color: variables.$solid-muted-bg-hover;
+  }
+}
+
+@mixin outlined {
+  color: variables.$outlined-text;
+  background-color: variables.$outlined-bg;
+
+
+  @include border;
+  @include rounded;
+
+  &:hover {
+    background-color: variables.$outlined-bg-hover;
+  }
+}
+
+@mixin outlined-muted {
+  color: variables.$outlined-muted-text;
+  background-color: variables.$outlined-muted-bg;
+  border-color: variables.$outlined-muted-border;
+
+  @include border;
+  @include rounded;
+
+  &:hover {
+    background-color: variables.$outlined-muted-bg-hover;
+  }
+}
+
+@mixin ghost {
+  @include rounded;
+
+  color: variables.$ghost-text;
+  background-color: variables.$ghost-bg;
+  border: none;
+
+  &:hover {
+    background-color: variables.$ghost-bg-hover;
+  }
+}
+
+
+@mixin uiText {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+@mixin buttonBasis {
+  @include uiText;
+  align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  flex-grow: 0;
+  justify-content: center;
+  transition-duration: 0.25s;
+  transition-property: color, background-color;
+  transition-timing-function: ease-in-out;
+}
+
+@mixin inputBasis {
+  @include uiText;
+  @include border;
+  @include rounded;
+  & {
+    background-color: variables.$white;
+    align-items: center;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1 auto;
+    justify-content: left;
+    padding: 0.5rem 1rem;
+    height: 2.5rem;
+    font-size: 0.875rem;
+    width: 100%;
+  }
+  &-small {
+    height: 2rem;
+  }
+  &-large {
+    height: 3rem;
+  }
+}
+
+@mixin inputIcon {
+  width: 1rem;
+  height: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: inherit;
+  pointer-events: none;
+}
+
+@mixin modalOverlay {
+  position: fixed;
+  background-color: rgba(0,0,0,0.8);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}

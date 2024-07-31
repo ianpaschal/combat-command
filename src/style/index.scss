@@ -1,0 +1,37 @@
+@use '/src/style/mixins';
+@use '/src/style/variables' as *;
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: system-ui, sans-serif;
+  text-rendering: optimizeLegibility;
+  line-height: 1.25rem;
+  font-weight: 300;
+}
+
+html, body {
+  font-size: 16px;
+  background-color: $page-bg;
+  // scrollbar-gutter: stable both-edges;
+}
+
+h1 {
+  letter-spacing: -0.025em;
+  font-weight: 500;
+  font-size: 1.5rem;
+  line-height: 1.5rem;
+}
+
+h2 {
+  letter-spacing: -0.025em;
+  font-weight: 500;
+  font-size: 1.125rem;
+  line-height: 1.5rem;
+}
+
+h3 {
+  letter-spacing: -0.025em;
+  font-weight: 500;
+}

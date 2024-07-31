@@ -1,0 +1,43 @@
+@use '/src/style/mixins';
+@use "/src/style/variables" as *;
+
+.Input {
+  @include mixins.inputBasis;
+  &-slotBefore {
+    padding-left: 2.5rem;
+  }
+  &-slotAfter {
+    padding-right: 2.5rem;
+  }
+}
+
+.InputSlotBefore,
+.InputSlotAfter {
+  @include mixins.inputIcon;
+  position: absolute;
+  top: 0.75rem;
+}
+
+.InputSlotBefore {
+  left: 1rem;
+}
+.InputSlotAfter {
+  right: 1rem;
+}
+
+.InputWrapper {
+  position: relative;
+
+  &-hasError {
+    color: $red;
+
+    input {
+      border-color: $red;
+    }
+  }
+}
+
+input::placeholder, textarea::placeholder {
+  opacity: 1;
+  color: $text-muted;
+}

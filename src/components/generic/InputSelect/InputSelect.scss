@@ -1,0 +1,91 @@
+@use '/src/style/mixins';
+@use '/src/style/variables';
+@use '/src/style/animate';
+
+.InputSelectTrigger {
+  @include mixins.inputBasis;
+}
+
+.SelectIcon {
+  @include mixins.inputIcon;
+  margin-left: auto;
+}
+
+.SelectContent {
+  @include mixins.border;
+  @include mixins.shadow;
+  @include animate.durationQuick;
+  @include animate.stylePop;
+
+  & {
+    overflow: hidden;
+    background-color: variables.$white;
+    border-radius: variables.$corner-radius;
+    padding: 0.5rem 0.25rem;
+  }
+}
+
+.SelectViewport {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.SelectGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.SelectItem {
+  color: variables.$text-base;
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+  padding-left: 2rem;
+  position: relative;
+  height: 2rem;
+  font-size: 0.875rem;
+}
+.SelectItem[data-disabled] {
+  color: variables.$text-disabled;
+  // pointer-events: none;
+}
+.SelectItem[data-highlighted] {
+  // @include mixins.ghost;
+  background-color: variables.$ghost-bg-hover;
+}
+.SelectItem[data-state="checked"] {
+  @include mixins.solid;
+}
+
+.SelectLabel {
+  padding-left: 2rem;
+  font-size: 0.75rem;
+  line-height: 1.5rem;
+  color: variables.$text-base;
+  user-select: none;
+}
+
+.SelectSeparator {
+  height: variables.$border-width;
+  background-color: variables.$outlined-border;
+  margin: 0.25rem 0;
+}
+
+.SelectItemIndicator {
+  @include mixins.inputIcon;
+  position: absolute;
+  left: 0.5rem;
+  top: calc(0.5rem + 1px); // Looks better 1px further down
+}
+
+.SelectScrollButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 25px;
+  background-color: white;
+  color: red;
+  cursor: default;
+}

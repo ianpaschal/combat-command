@@ -1,0 +1,62 @@
+@use 'sass:color';
+
+// Layout
+$corner-radius: 0.375rem;
+$border-width: 1px;
+$app-bar-height: 4rem;
+$icon-button-icon-size: 1.25rem;
+
+// BASE COLORS
+$white: hsl(0, 0%, 100%);
+$red: hsl(0, 85%, 60%);
+
+// APPLIED
+$text-base: hsl(240, 5%, 10%);
+$text-muted: color.adjust($text-base, $lightness: 35%);
+$text-disabled: color.adjust($text-base, $lightness: 60%);
+$page-bg: hsl(240, 5%, 97.5%);
+$card-bg: $white;
+$border-color: color.adjust($text-base, $alpha: -0.90);
+
+@media (prefers-color-scheme: light) {
+  $text-base: hsl(240, 100%, 50%);
+}
+
+// Solid
+$solid-bg: $text-base;
+$solid-bg-hover: color.adjust($solid-bg, $lightness: 15%);
+$solid-text: $white;
+
+@media (prefers-color-scheme: light) {
+  $solid-bg: yellow;
+}
+
+// Solid-Muted
+$solid-muted-bg: color.adjust($solid-bg, $lightness: 85%);
+$solid-muted-bg-hover: color.adjust($solid-muted-bg, $lightness: 2.5%);
+$solid-muted-text: $text-base;
+
+// Solid-Danger
+$solid-danger-bg: $red;
+$solid-danger-bg-hover: color.adjust($solid-danger-bg, $lightness: 10%);
+$solid-danger-text: $solid-text;
+
+// Outlined
+$outlined-bg: $white;
+$outlined-bg-hover: color.adjust($outlined-bg, $lightness: -5%);
+$outlined-text: $text-base;
+$outlined-border: $border-color;
+
+// Outlined Muted
+$outlined-muted-bg: $outlined-bg;
+$outlined-muted-bg-hover: $outlined-bg-hover;
+$outlined-muted-text: $text-muted;
+$outlined-muted-border: color.adjust($outlined-border, $lightness: 20%);
+
+// Ghost (no border)
+$ghost-bg: transparent;
+$ghost-bg-hover: color.adjust($text-base, $alpha: -0.975);
+$ghost-text: $text-base;
+
+
+

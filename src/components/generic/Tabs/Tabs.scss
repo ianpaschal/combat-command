@@ -1,0 +1,37 @@
+@use '/src/style/mixins';
+@use '/src/style/variables';
+
+// shadcn tabs list
+// 'inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground',
+
+.TabsList {
+  padding: 0.25rem;
+  display: flex;
+  flex-direction: row;
+  gap: 0.25rem;
+  background-color: variables.$solid-muted-bg;
+  border-radius: variables.$corner-radius;
+  height: 2.5rem;
+}
+
+// shadcn tabs trigger
+//'inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm',
+
+.TabsTrigger {
+  @include mixins.buttonBasis;
+  flex: 1 auto;
+  border-radius: 0.25rem;
+  font-weight: 500;
+
+  &[data-state='active'] {
+    background-color: variables.$white;
+    @include mixins.surfaceShadow;
+  }
+  &[data-state='inactive'] {
+    &:hover {
+      background-color: variables.$solid-muted-bg-hover;
+    }
+  }
+}
+// shadcn tabs content
+// 'mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',

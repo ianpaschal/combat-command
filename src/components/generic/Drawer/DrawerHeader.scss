@@ -1,0 +1,49 @@
+@use '/src/style/variables';
+@use '/src/style/mixins';
+
+
+$close-size: 2.5rem;
+
+.DrawerHeader {
+  position: relative;
+  height: variables.$app-bar-height;
+  padding: 1rem;
+  align-items: center;
+  display: flex;
+  justify-content: left;
+  flex-shrink: 0;
+  &-left,
+  &-right {
+    padding-right: 4rem;
+    flex-direction: row;
+  }
+}
+
+.DrawerHeader-top.DrawerHeader-border {
+  border-top-width: 1px;
+  border-top-style: solid;
+  border-top-color: variables.$border-color;
+}
+.DrawerHeader-bottom.DrawerHeader-border {
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: variables.$border-color;
+}
+
+.DrawerHeaderClose {
+  @include mixins.buttonBasis;
+  @include mixins.ghost;
+
+  & {
+    position: absolute;
+    width: $close-size;
+    height: $close-size;
+    right: 1rem;
+    top: calc((variables.$app-bar-height / 2) - ($close-size / 2));
+  }
+
+  svg {
+    width: variables.$icon-button-icon-size;
+    height: variables.$icon-button-icon-size;
+  }
+}

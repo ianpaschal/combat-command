@@ -1,0 +1,77 @@
+@use 'sass:color';
+@use '/src/style/mixins';
+@use '/src/style/variables';
+
+$size-tiny: 1.5rem;
+$size-small: 2rem;
+$size-normal: 2.5rem;
+$size-large: 3rem;
+
+$icon-size-tiny: 1rem;
+$icon-size-small: calc($size-small / 2);
+$icon-size-normal: calc($size-normal / 2);
+$icon-size-large: calc($size-large / 2);
+
+.IconButton {
+  @include mixins.buttonBasis;
+  flex: none;
+  &-tiny {
+    width: $size-tiny;
+    height: $size-tiny;
+    svg {
+      width: $icon-size-tiny;
+      height: $icon-size-tiny;
+    }
+  }
+  &-small {
+    width: $size-small;
+    height: $size-small;
+    svg {
+      width: $icon-size-normal;
+      height: $icon-size-normal;
+    }
+  }
+  &-normal {
+    width: $size-normal;
+    height: $size-normal;
+    svg {
+      width: $icon-size-normal;
+      height: $icon-size-normal;
+    }
+  }
+  &-large {
+    width: $size-large;
+    height: $size-large;
+    svg {
+      width: $icon-size-large;
+      height: $icon-size-large;
+    }
+  }
+
+  &-solid {
+    @include mixins.solid;
+  }
+
+  &-solid-muted {
+    @include mixins.solid-muted;
+  }
+
+  &-outline {
+    @include mixins.outlined;
+  }
+
+  &-outline-muted {
+    @include mixins.outlined-muted;
+  }
+
+  &-ghost {
+    @include mixins.ghost;
+  }
+  &-round {
+    border-radius: 100%;
+  }
+}
+
+
+
+
