@@ -46,6 +46,7 @@ export interface InputSelectProps {
   options: InputSelectItem[];
   hasError?: boolean;
   placeholder?: string;
+  onChange?: (value: string) => void;
 }
 
 type SelectRef = ElementRef<typeof Root>;
@@ -53,9 +54,10 @@ type SelectProps = ComponentPropsWithoutRef<typeof Root> & InputSelectProps;
 export const InputSelect = forwardRef<SelectRef, SelectProps>(({
   options,
   placeholder,
+  onChange,
   ...props
 }, ref): JSX.Element => (
-  <Root {...props}>
+  <Root onValueChange={onChange} {...props}>
     <Trigger className={clsx('InputSelectTrigger')}>
       <Value ref={ref} placeholder={placeholder} />
       <Icon className="SelectIcon">

@@ -5,8 +5,8 @@ import { z } from 'zod';
 
 import { Button } from '~/components/generic/Button';
 import { Card } from '~/components/generic/Card';
-import { Form } from '~/components/generic/Form';
-import { FormTextField } from '~/components/generic/FormTextField';
+import { Form, FormField } from '~/components/generic/Form';
+import { InputText } from '~/components/generic/InputText';
 import { PageWrapper } from '~/components/PageWrapper/PageWrapper';
 import { RequireAuth } from '~/components/RequireAuth';
 
@@ -136,7 +136,9 @@ export const AccountPage = (): JSX.Element => {
       /> */}
         <Card>
           <Form form={form} onSubmit={onSubmit}>
-            <FormTextField name="email" label="Email" type="email" />
+            <FormField name="email" label="Email">
+              <InputText type="email" />
+            </FormField>
             <Button type="submit">Complete</Button>
           </Form>
           {/* <form onSubmit={updateProfile}>

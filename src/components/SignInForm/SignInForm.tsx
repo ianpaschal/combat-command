@@ -5,8 +5,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
 import { Button } from '~/components/generic/Button';
-import { Form } from '~/components/generic/Form';
-import { FormTextField } from '~/components/generic/FormTextField';
+import { Form, FormField } from '~/components/generic/Form';
+import { InputText } from '~/components/generic/InputText';
 import { supabase } from '~/supabaseClient';
 
 import './SignInForm.scss';
@@ -53,8 +53,12 @@ export const SignInForm = (): JSX.Element => {
 
   return (
     <Form form={form} onSubmit={onSubmit} className="SignInForm">
-      <FormTextField name="email" label="Email" /> {/* No type to avoid built in validation */}
-      <FormTextField name="password" label="Password" type="password" />
+      <FormField name="email" label="Email">
+        <InputText type="text" /* Not email, to avoid browser validation */ />
+      </FormField>
+      <FormField name="password" label="Password">
+        <InputText type="password" />
+      </FormField>
       <Button type="submit" disabled={loading}>Sign In</Button>
       {/* Add forgot password link */}
     </Form>

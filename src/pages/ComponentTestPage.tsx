@@ -5,11 +5,9 @@ import { z } from 'zod';
 
 import { Button } from '~/components/generic/Button/Button';
 import { Card } from '~/components/generic/Card';
-import { Form } from '~/components/generic/Form';
-import { FormSelectField } from '~/components/generic/FormSelectField';
-import { FormTextField } from '~/components/generic/FormTextField/FormTextField';
+import { Form, FormField } from '~/components/generic/Form';
 import { InputDate } from '~/components/generic/InputDate';
-import { InputSelectItem } from '~/components/generic/InputSelect/InputSelect';
+import { InputSelect, InputSelectItem } from '~/components/generic/InputSelect/InputSelect';
 import { InputText } from '~/components/generic/InputText';
 import { UserPortrait } from '~/components/UserPortrait';
 
@@ -77,8 +75,12 @@ export const ComponentTestPage = (): JSX.Element => {
         <InputText />
         <InputDate />
         <Form form={form} onSubmit={onSubmit} className="TestForm">
-          <FormTextField name="email" label="Email" type="email" />
-          <FormSelectField name="username" label="Type" options={options} />
+          <FormField name="email" label="Email">
+            <InputText type="email" />
+          </FormField>
+          <FormField name="username" label="Username">
+            <InputSelect options={options} />
+          </FormField>
           <Button type="submit">Complete</Button>
         </Form>
       </Card>

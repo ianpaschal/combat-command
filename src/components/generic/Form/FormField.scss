@@ -1,23 +1,18 @@
 @use '/src/style/mixins';
 @use '/src/style/variables';
 
-.FormTextAreaFieldLabel {
-  @include mixins.uiText;
-
-  font-weight: 500;
-  line-height: 0.875rem;
+.FormFieldLabel {
   margin-bottom: 0.375rem;
-  display: block;
 }
 
-.FormTextAreaFieldDescription {
+.FormFieldDescription {
   @include mixins.uiText;
   font-size: 0.75rem;
   margin-top: 0.25rem;
   color: variables.$text-muted;
 }
 
-.FormTextAreaFieldErrors {
+.FormFieldErrors {
   @include mixins.uiText;
   color: variables.$red;
 }

@@ -1,0 +1,9 @@
+@use '/src/style/mixins';
+
+.Label {
+  @include mixins.uiText;
+
+  font-weight: 500;
+  line-height: 0.875rem;
+  display: block;
+}

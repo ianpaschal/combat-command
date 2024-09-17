@@ -5,8 +5,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
 import { Button } from '~/components/generic/Button';
-import { Form } from '~/components/generic/Form';
-import { FormTextField } from '~/components/generic/FormTextField';
+import { Form, FormField } from '~/components/generic/Form';
+import { InputText } from '~/components/generic/InputText';
 import { useLinkedFormFields } from '~/hooks/useLinkedFormFields';
 import { supabase } from '~/supabaseClient';
 
@@ -76,13 +76,24 @@ export const SignUpForm = (): JSX.Element => {
 
   return (
     <Form form={form} onSubmit={onSubmit} className="SignUpForm">
-
-      <FormTextField name="email" label="Email" /> {/* No type to avoid built in validation */}
-      <FormTextField name="password" label="Password" type="password" />
-      <FormTextField name="passwordRepeat" label="Password (Repeat)" type="password" />
-      <FormTextField name="username" label="Username" type="text" description='Your public &quot;nom de guerre&quot;.' />
-      <FormTextField name="givenName" label="Given Name" type="text" description="Hidden, but required by some tournaments." />
-      <FormTextField name="surname" label="Surname" type="text" description="Hidden, but required by some tournaments." />
+      <FormField name="email" label="Email">
+        <InputText type="text" /* Not email, to avoid browser validation */ />
+      </FormField>
+      <FormField name="password" label="Password">
+        <InputText type="password" />
+      </FormField>
+      <FormField name="passwordRepeat" label="Password (Repeat)">
+        <InputText type="password" />
+      </FormField>
+      <FormField name="username" label="Username" description='Your public &quot;nom de guerre&quot;.'>
+        <InputText type="text" />
+      </FormField>
+      <FormField name="givenName" label="Given Name" description="Hidden, but required by some tournaments." >
+        <InputText type="text" />
+      </FormField>
+      <FormField name="surname" label="Surname" description="Hidden, but required by some tournaments.">
+        <InputText type="text" />
+      </FormField>
       <Button type="submit" disabled={loading}>Register</Button>
     </Form>
   );

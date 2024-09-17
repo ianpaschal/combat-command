@@ -4,15 +4,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
 import { useAuth } from '~/components/AuthProvider';
+import { Animate } from '~/components/generic/Animate';
 import { Button } from '~/components/generic/Button';
-import { Form } from '~/components/generic/Form';
-import { FormSelectField } from '~/components/generic/FormSelectField';
-import { FormTextField } from '~/components/generic/FormTextField';
+import { Form, FormField } from '~/components/generic/Form';
+import { InputText } from '~/components/generic/InputText';
 import { Separator } from '~/components/generic/Separator';
 import { PlayerSelect } from '~/components/PlayerSelect';
 import { UserPortrait } from '~/components/UserPortrait';
 import { InputSelectOption } from '../generic/InputSelect';
-import { InputSelectItem } from '../generic/InputSelect/InputSelect';
+import { InputSelect, InputSelectItem } from '../generic/InputSelect/InputSelect';
 import {
   fowV4MatchConfigSchema,
   fowV4MatchResultSchema,
@@ -143,23 +143,33 @@ export const FowV4MatchResultForm = (): JSX.Element => {
   return (
     <Form form={form} onSubmit={onSubmit} className="FowV4MatchResultForm">
       <div className="GameMetaSection">
-        <FormSelectField name="tournament_pairing_id" label="Result for" options={pairingOptions} />
+        <FormField name="tournament_pairing_id" label="Result for">
+          <InputSelect options={pairingOptions} />
+        </FormField>
       </div>
       <Separator />
-      {showGameConfigSection && (
+      <Animate show={showGameConfigSection}>
         <div className="GameConfigSection" data-state={showGameConfigSection ? 'open' : 'closed'}>
           <div className="GameConfigFields">
-            <FormSelectField className="GameConfigEra" name="detailed_config.era" label="Era" options={eraOptions} />
-            <FormTextField className="GameConfigPoints" name="detailed_config.points" label="Points" type="number" />
+            <FormField className="GameConfigEra" name="detailed_config.era" label="Era">
+              <InputSelect options={eraOptions} />
+            </FormField>
+            <FormField className="GameConfigPoints" name="detailed_config.points" label="Points">
+              <InputText type="number" />
+            </FormField>
           </div>
           <Separator />
         </div>
-      )}
+      </Animate>
       <div className="OpponentsSection">
         <div className="Player0Section">
           <UserPortrait username="FooBar" givenName="Ian" familyName="Paschal" />
-          <FormSelectField name="detailed_result.player_0_stance" label="Stance" options={stanceOptions} />
-          <FormTextField name="detailed_result.player_0_units_lost" label="Units Lost" type="number" />
+          <FormField name="detailed_result.player_0_stance" label="Stance">
+            <InputSelect options={stanceOptions} />
+          </FormField>
+          <FormField name="detailed_result.player_0_units_lost" label="Units Lost">
+            <InputText type="number" min={0} />
+          </FormField>
         </div>
         <Separator orientation="vertical" />
         <div className="Player1Section">
@@ -168,26 +178,34 @@ export const FowV4MatchResultForm = (): JSX.Element => {
             onSelect={(id) => console.log(id)}
             variant="outlined"
           />
-          <FormSelectField name="detailed_result.player_1_stance" label="Stance" options={stanceOptions} />
-          <FormTextField name="detailed_result.player_1_units_lost" label="Units Lost" type="number" min={0} />
+          <FormField name="detailed_result.player_1_stance" label="Stance">
+            <InputSelect options={stanceOptions} />
+          </FormField>
+          <FormField name="detailed_result.player_1_units_lost" label="Units Lost">
+            <InputText type="number" min={0} />
+          </FormField>
         </div>
       </div>
       <Separator />
       <div className="ResultsSection">
-        <FormSelectField name="detailed_result.mission_id" label="Mission" options={missionOptions} />
-        <FormSelectField name="detailed_result.attacker" label="Attacker" options={playerOptions} />
-        <FormTextField name="detailed_result.turns_played" label="Turns Played" type="number" min={0} />
-        <FormSelectField name="detailed_result.outcome_type" label="Outcome Type" options={outcomeOptions} />
-        {showWinnerField && (
-          <FormSelectField name="detailed_result.winner" label="Winner" options={winnerOptions} />
-        )}
+        <FormField name="detailed_result.mission_id" label="Mission">
+          <InputSelect options={missionOptions} />
+        </FormField>
+        <FormField name="detailed_result.attacker" label="Attacker">
+          <InputSelect options={playerOptions} />
+        </FormField>
+        <FormField name="detailed_result.turns_played" label="Turns Played" >
+          <InputText type="number" min={0} />
+        </FormField>
+        <FormField name="detailed_result.outcome_type" label="Outcome Type">
+          <InputSelect options={outcomeOptions} />
+        </FormField>
+        <Animate show={showWinnerField}>
+          <FormField name="detailed_result.winner" label="Winner" >
+            <InputSelect options={winnerOptions} />
+          </FormField>
+        </Animate>
       </div>
-
-      {/* 
-      mission_id: 'free_for_all',
-      outcome_type: 'objective_taken',
-      winner: undefined, // Select field, values populated based on player IDs
-      attacker: 0, // Select field, values populated based on player IDs */}
       <Button type="submit" disabled={loading}>Register</Button>
     </Form>
   );

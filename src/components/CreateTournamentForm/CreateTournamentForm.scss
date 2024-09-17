@@ -36,3 +36,10 @@
   @include animate.stylePop;
   @include animate.durationQuick;
 }
+
+.CreateTournamentFormCompetitorsInputs {
+  flex: 1 auto;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr 1fr;
+}
