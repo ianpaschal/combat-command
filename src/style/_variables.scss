@@ -12,7 +12,7 @@ $red: hsl(0, 85%, 60%);
 
 // APPLIED
 $text-base: hsl(240, 5%, 10%);
-$text-muted: color.adjust($text-base, $lightness: 35%);
+$text-muted: color.adjust($text-base, $lightness: 40%);
 $text-disabled: color.adjust($text-base, $lightness: 60%);
 $page-bg: hsl(240, 5%, 97.5%);
 $card-bg: $white;
@@ -25,6 +25,7 @@ $border-color: color.adjust($text-base, $alpha: -0.90);
 // Solid
 $solid-bg: $text-base;
 $solid-bg-hover: color.adjust($solid-bg, $lightness: 15%);
+$solid-bg-disabled: color.adjust($solid-bg, $lightness: 30%);
 $solid-text: $white;
 
 @media (prefers-color-scheme: light) {
@@ -34,6 +35,7 @@ $solid-text: $white;
 // Solid-Muted
 $solid-muted-bg: color.adjust($solid-bg, $lightness: 85%);
 $solid-muted-bg-hover: color.adjust($solid-muted-bg, $lightness: 2.5%);
+$solid-muted-bg-disabled: color.adjust($solid-bg, $lightness: 10%);
 $solid-muted-text: $text-base;
 
 // Solid-Danger
