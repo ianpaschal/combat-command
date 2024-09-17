@@ -1,17 +1,21 @@
 @use '/src/style/variables';
+@use '/src/style/animate';
 
 .PageWrapper {
+  @include animate.durationQuick;
+  @include animate.stylePop;
   box-sizing: border-box;
   // width: 100vw;
   flex: 1 auto;
   // min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background-color: red;
-  padding: 0.5rem;
+  padding: 1rem;
   padding-top: calc(variables.$app-bar-height + 1rem);
+  margin: 0 auto;
 }
 
-.page-wrapper-title {
-  margin-bottom: 8px;
+.PageWrapperHeader {
+  margin-bottom: 1rem;
+  height: 2.5rem;
 }

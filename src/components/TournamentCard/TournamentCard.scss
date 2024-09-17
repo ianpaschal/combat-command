@@ -1,0 +1,39 @@
+@use '/src/style/variables';
+
+.TournamentCard {
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+
+  &-horizontal {
+    height: 8rem;
+
+    .ThumbnailWrapper {
+      width: 8rem;
+      height: 8rem;
+    }
+ 
+    img {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.TournamentCardContent {
+  padding: 1rem;
+
+  h3 {
+    margin-bottom: 0.25rem;
+  }
+
+  span {
+    color: variables.$text-muted;
+    display: block;
+  }
+
+}
+

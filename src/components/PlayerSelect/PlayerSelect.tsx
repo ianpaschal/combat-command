@@ -1,10 +1,6 @@
 import { useEffect, useState } from 'react';
 import clsx from 'clsx';
-import {
-  Plus,
-  Search,
-  UserSearch,
-} from 'lucide-react';
+import { Search, UserSearch } from 'lucide-react';
 
 import {
   Dialog,
@@ -37,7 +33,7 @@ export const PlayerSelect = ({
   variant = 'ghost',
   players,
 }: PlayerSelectProps): JSX.Element => {
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedId] = useState<string | null>(null);
   useEffect(() => {
     onSelect(selectedId);
   }, [onSelect, selectedId]);

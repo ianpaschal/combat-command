@@ -1,3 +1,4 @@
+import * as Portal from '@radix-ui/react-portal';
 import { useWindowWidth } from '@react-hook/window-size/throttled';
 import { Menu, Plus } from 'lucide-react';
 
@@ -24,35 +25,37 @@ export const AppBar = ({
     !route.hidden && !!route.title
   ));
   return (
-    <div className="AppBarRoot">
-      <div className="AppBarContent" style={{ maxWidth }}>
-        {isMobile && (
-          <Drawer.Root>
-            <Drawer.Trigger asChild>
-              <IconButton variant="ghost"><Menu /></IconButton>
-            </Drawer.Trigger>
-            <Drawer.Content side="left">
-              <Drawer.Header>
-                LOGO
-              </Drawer.Header>
-              <Drawer.Body>
-                <NavLinks orientation="vertical" routes={navRoutes} />
-                <Button slotBefore={<Plus />} variant="solid">Check In Match</Button>
-              </Drawer.Body>
-            </Drawer.Content>
-          </Drawer.Root>
-        )}
-        <div>
-          LOGO
+    <Portal.Root>
+      <div className="AppBarRoot">
+        <div className="AppBarContent" style={{ maxWidth }}>
+          {isMobile && (
+            <Drawer.Root>
+              <Drawer.Trigger asChild>
+                <IconButton variant="ghost"><Menu /></IconButton>
+              </Drawer.Trigger>
+              <Drawer.Content side="left">
+                <Drawer.Header title="Navigation" hideTitle>
+                  LOGO
+                </Drawer.Header>
+                <Drawer.Body>
+                  <NavLinks orientation="vertical" routes={navRoutes} />
+                  <Button slotBefore={<Plus />} variant="solid">Check In Match</Button>
+                </Drawer.Body>
+              </Drawer.Content>
+            </Drawer.Root>
+          )}
+          <div>
+            LOGO
+          </div>
+          {!isMobile && (
+            <>
+              <NavLinks routes={navRoutes} />
+              <IconButton round variant="solid"><Plus /></IconButton>
+            </>
+          )}
+          <AccountMenu />
         </div>
-        {!isMobile && (
-          <>
-            <NavLinks routes={navRoutes} />
-            <IconButton round variant="solid"><Plus /></IconButton>
-          </>
-        )}
-        <AccountMenu />
-      </div>
-    </div >
+      </div >
+    </Portal.Root>
   );
 };

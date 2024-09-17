@@ -13,12 +13,13 @@ import clsx from 'clsx';
 import './Tabs.scss';
 
 type TabsListRef = ElementRef<typeof List>;
-type TabsListProps = ComponentPropsWithoutRef<typeof List>;
+type TabsListProps = ComponentPropsWithoutRef<typeof List> & { width?: 'max' | 'min' };
 const TabsList = forwardRef<TabsListRef, TabsListProps>(({
   className,
+  width = 'max',
   ...props
 }, ref): JSX.Element => (
-  <List ref={ref} className={clsx('TabsList', className)} {...props} />
+  <List ref={ref} className={clsx('TabsList', `TabsList-${width}`, className)} {...props} />
 ));
 
 type TabsTriggerRef = ElementRef<typeof Trigger>;

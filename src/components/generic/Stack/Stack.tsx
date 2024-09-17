@@ -18,8 +18,8 @@ export const Stack = ({
   orientation = 'vertical',
   className,
   gap = '1rem',
-  verticalAlign = 'center',
-  horizontalAlign = 'center',
+  verticalAlign,
+  horizontalAlign,
   children,
 }: StackProps): JSX.Element => {
   // Easier to build the style object here

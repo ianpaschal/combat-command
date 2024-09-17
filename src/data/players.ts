@@ -1,4 +1,3 @@
-import { TournamentTeam } from '~/types/Tournament';
 import { User } from '~/types/User';
 
 export const users: User[] = [

@@ -56,11 +56,11 @@ $icon-size-large: calc($size-large / 2);
     @include mixins.solid-muted;
   }
 
-  &-outline {
+  &-outlined {
     @include mixins.outlined;
   }
 
-  &-outline-muted {
+  &-outlined-muted {
     @include mixins.outlined-muted;
   }
 

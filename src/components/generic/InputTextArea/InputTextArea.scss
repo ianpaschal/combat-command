@@ -1,0 +1,30 @@
+@use '/src/style/mixins';
+@use "/src/style/variables" as *;
+
+.InputTextArea {
+  @include mixins.inputBasis;
+  & {
+    height: 7.5rem;
+    position: relative;
+    flex: 1 auto;
+    width: 100%;
+    resize: none;
+    padding-bottom: 1rem;
+  }
+
+
+  &-hasError {
+    color: $red;
+
+    textarea {
+      border-color: $red;
+    }
+  }
+}
+
+
+
+input::placeholder, textarea::placeholder {
+  opacity: 1;
+  color: $text-muted;
+}

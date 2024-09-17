@@ -1,0 +1,38 @@
+@use '/src/style/animate';
+@use '/src/style/variables';
+@use '/src/style/mixins';
+
+.FowV4CreateTournamentForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.RegistrationGroup {
+  @include mixins.border;
+  @include mixins.surfaceShadow;
+  @include animate.durationQuick;
+  @include animate.stylePop;
+  
+  border-radius: variables.$corner-radius;
+
+  height: 6rem;
+  width: 100%;
+  
+}
+
+.CompetitorGroupSizeInput {
+  max-width: 5rem;
+}
+
+.CreateTournamentFormDateTimeStart,
+.CreateTournamentFormDateTimeEnd {
+  flex: 1 auto;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr) );
+}
+
+.CreateTournamentFormCompetitorSizeInput {
+  @include animate.stylePop;
+  @include animate.durationQuick;
+}

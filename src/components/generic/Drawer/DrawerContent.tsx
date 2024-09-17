@@ -28,6 +28,7 @@ export const DrawerContent = forwardRef<ElementRef<typeof Content>, DrawerConten
     <Overlay className="DrawerOverlay" />
     <Content
       ref={ref}
+      aria-describedby={undefined}
       className={clsx(
         'DrawerContent',
         `DrawerContent-${side}`,

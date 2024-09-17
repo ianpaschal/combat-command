@@ -46,6 +46,7 @@
   position: relative;
   height: 2rem;
   font-size: 0.875rem;
+  flex-shrink: 0;
 }
 .SelectItem[data-disabled] {
   color: variables.$text-disabled;

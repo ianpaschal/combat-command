@@ -9,7 +9,7 @@ import { Form } from '~/components/generic/Form';
 import { FormSelectField } from '~/components/generic/FormSelectField';
 import { FormTextField } from '~/components/generic/FormTextField/FormTextField';
 import { InputDate } from '~/components/generic/InputDate';
-import { InputSelectOption } from '~/components/generic/InputSelect/InputSelect';
+import { InputSelectItem } from '~/components/generic/InputSelect/InputSelect';
 import { InputText } from '~/components/generic/InputText';
 import { UserPortrait } from '~/components/UserPortrait';
 
@@ -39,7 +39,7 @@ export const ComponentTestPage = (): JSX.Element => {
     console.log(data);
   };
 
-  const options: InputSelectOption[] = [
+  const options: InputSelectItem[] = [
     {
       label: 'Test 1',
       options: [
@@ -47,7 +47,7 @@ export const ComponentTestPage = (): JSX.Element => {
         { value: 'bar', label: 'Bar' },
       ],
     },
-    'separator',
+    '-' as const,
     { value: 'qux', label: 'Qux' },
   ];
 
@@ -56,8 +56,8 @@ export const ComponentTestPage = (): JSX.Element => {
       <Card>
         <Button slotBefore={<Camera />}>Test</Button>
         <Button slotBefore={<Camera />} variant="solid-muted">Test</Button>
-        <Button slotAfter={<Camera />} variant="outline">Test</Button>
-        <Button slotAfter={<Camera />} variant="outline-muted">Test</Button>
+        <Button slotAfter={<Camera />} variant="outlined">Test</Button>
+        <Button slotAfter={<Camera />} variant="outlined-muted">Test</Button>
         <Button slotAfter={<Camera />} variant="ghost">Test</Button>
       </Card>
 

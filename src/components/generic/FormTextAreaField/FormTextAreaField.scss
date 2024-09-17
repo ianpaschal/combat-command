@@ -1,7 +1,7 @@
 @use '/src/style/mixins';
 @use '/src/style/variables';
 
-.FormTextFieldLabel {
+.FormTextAreaFieldLabel {
   @include mixins.uiText;
 
   font-weight: 500;
@@ -10,14 +10,14 @@
   display: block;
 }
 
-.FormTextFieldDescription {
+.FormTextAreaFieldDescription {
   @include mixins.uiText;
   font-size: 0.75rem;
   margin-top: 0.25rem;
   color: variables.$text-muted;
 }
 
-.FormTextFieldErrors {
+.FormTextAreaFieldErrors {
   @include mixins.uiText;
   color: variables.$red;
 }

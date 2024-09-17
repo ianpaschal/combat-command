@@ -127,8 +127,11 @@ export const FowV4MatchResultForm = (): JSX.Element => {
     { label: 'Operation Overlord', value: 'bar' },
   ];
   const playerOptions: InputSelectOption[] = [
-    { label: 'Player 0', value: '0' },
-    { label: 'Player 1', value: '1' },
+    { label: 'Player 1', value: '0' },
+    { label: 'Player 2', value: '1' },
+  ];
+  const winnerOptions: InputSelectOption[] = [
+    ...playerOptions,
     { label: 'Draw', value: 'NONE' },
   ];
 
@@ -176,7 +179,7 @@ export const FowV4MatchResultForm = (): JSX.Element => {
         <FormTextField name="detailed_result.turns_played" label="Turns Played" type="number" min={0} />
         <FormSelectField name="detailed_result.outcome_type" label="Outcome Type" options={outcomeOptions} />
         {showWinnerField && (
-          <FormSelectField name="detailed_result.winner" label="Winner" options={playerOptions} />
+          <FormSelectField name="detailed_result.winner" label="Winner" options={winnerOptions} />
         )}
       </div>
 

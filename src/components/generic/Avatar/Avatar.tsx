@@ -23,7 +23,7 @@ export const Avatar = ({
   <Root className="AvatarRoot" style={{ width: size, height: size }}>
     <Image
       className="AvatarImage"
-      src="https://github.com/shadcn.png"
+      src={avatarUrl}
       alt={displayName}
     />
     <Fallback className="AvatarFallback" delayMs={600}>

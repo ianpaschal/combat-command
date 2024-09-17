@@ -2,10 +2,12 @@ import {
   ChartColumnBig,
   HomeIcon,
   LogIn,
-  SettingsIcon,
+  Settings,
+  Swords,
   Wrench,
 } from 'lucide-react';
 
+import { RouteConfig } from '~/components/generic/NavLinks';
 // import { LandingPage } from '~/pages/LandingPage/LandingPage';
 // import { ListsPage } from '~/pages/ListsPage';
 // import { SettingsPage } from '~/pages/SettingsPage';
@@ -14,18 +16,17 @@ import { AccessPage } from '~/pages/AccessPage';
 // import { RouteConfig } from '~/components/AppRoutes';
 // import { AccountPage } from '~/pages/AccountPage';
 import { ComponentTestPage } from '~/pages/ComponentTestPage';
-// import { CreateTournamentPage } from '~/pages/CreateTournamentPage';
+import { CreateTournamentPage } from '~/pages/CreateTournamentPage';
 import { DashboardPage } from '~/pages/DashboardPage';
-// import { SignUpPage } from '~/pages/SignUpPage';
-import { StatisticsPage } from '~/pages/StatisticsPage';
-import { RouteConfig } from './components/generic/NavLinks';
 // import { SignInForm } from './components/SignInForm';
 // import { SignUpForm } from './components/SignUpForm';
-import { SettingsPage } from './pages/SettingsPage';
+import { SettingsPage } from '~/pages/SettingsPage';
+// import { SignUpPage } from '~/pages/SignUpPage';
+import { StatisticsPage } from '~/pages/StatisticsPage';
+import { TournamentsPage } from '~/pages/TournamentsPage';
 // import { UserPage } from './pages/UserPage';
-import { UserProfilePage } from './pages/UserProfilePage';
+import { UserProfilePage } from '~/pages/UserProfilePage';
 // import { TournamentDetailPage } from '~/pages/TournamentDetailPage';
-// import { TournamentsPage } from '~/pages/TournamentsPage';
 
 export const routes: RouteConfig[] = [
   {
@@ -33,6 +34,18 @@ export const routes: RouteConfig[] = [
     title: 'Dashboard',
     path: '/dashboard',
     element: <DashboardPage />,
+  },
+  {
+    icon: <Swords />,
+    title: 'Tournaments',
+    path: '/tournaments',
+    element: <TournamentsPage />,
+  },
+  {
+    path: '/tournaments/create',
+    title: 'Create Tournaments',
+    element: <CreateTournamentPage />,
+    hidden: true,
   },
   {
     path: '/users/:id',
@@ -49,7 +62,7 @@ export const routes: RouteConfig[] = [
     ],
   },
   {
-    icon: <SettingsIcon />,
+    icon: <Settings />,
     title: 'Settings',
     path: '/settings',
     element: <SettingsPage />,

@@ -7,7 +7,7 @@ import { clsx } from 'clsx';
 
 import './Button.scss';
 
-export type ButtonVariant = 'solid' | 'solid-muted' | 'outline' | 'outline-muted' | 'ghost';
+export type ButtonVariant = 'solid' | 'solid-muted' | 'outlined' | 'outlined-muted' | 'ghost';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;

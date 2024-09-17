@@ -15,5 +15,4 @@ export const Separator = forwardRef<SeparatorRef, SeparatorProps>(({
   ...props
 }, ref) => (
   <Root ref={ref} className={clsx('Separator', className)} {...props} />
-),
-);
+));

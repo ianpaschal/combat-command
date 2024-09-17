@@ -1,13 +1,3 @@
-import { MatchResult } from '~/types/MatchResult';
-import { TournamentPairing } from '~/types/TournamentPairing';
-import { TournamentRegistration } from '~/types/TournamentRegistration';
-
-interface Opponent {
-  id: string;
-  playedIds: string[];
-  playedTables: number[];
-}
-
 // export const createSwissPairings = <T>(opponents: Opponent[], tableCount: number, compareFn: (a: unknown, b: unknown) => boolean): TournamentPairing[] => {
 
 //   // For each registration, make a list of possible registrations

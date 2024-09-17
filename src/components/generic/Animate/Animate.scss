@@ -1,0 +1,16 @@
+@use '/src/style/animate';
+
+.Animated {
+  &--speed-quick {
+    @include animate.durationQuick;
+  }
+  &--speed-slow {
+    @include animate.durationSlow;
+  }
+  &--style-pop {
+    @include animate.stylePop;
+  }
+  &[data-state='closed'] {
+    display: none;
+  }
+}

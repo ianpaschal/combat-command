@@ -8,12 +8,11 @@ export interface User {
   updated_at: Timestamp;
 
   // Always visible
-  user_name: string;
+  username: string;
   avatar_url: string | null;
 
   // Extra data
   given_name: string | null;
-  given_name_visibility: 'public' | 'tournaments' | 'private';
   family_name: string | null;
-  family_name_visibility: 'public' | 'tournaments' | 'private';
+  name_visibility: 'public' | 'tournaments' | 'private';
 }

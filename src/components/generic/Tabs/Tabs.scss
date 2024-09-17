@@ -12,6 +12,13 @@
   background-color: variables.$solid-muted-bg;
   border-radius: variables.$corner-radius;
   height: 2.5rem;
+
+  &-min {
+    width: min-content;
+  }
+  &-max {
+    width: 100%;
+  }
 }
 
 // shadcn tabs trigger
@@ -19,9 +26,14 @@
 
 .TabsTrigger {
   @include mixins.buttonBasis;
-  flex: 1 auto;
-  border-radius: 0.25rem;
-  font-weight: 500;
+  @include mixins.solid-muted;
+  
+  & {
+    flex: 1 auto;
+    border-radius: 0.25rem;
+    font-weight: 500;
+    padding: 1rem;
+  }
 
   &[data-state='active'] {
     background-color: variables.$white;

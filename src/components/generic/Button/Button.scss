@@ -27,11 +27,11 @@
   @include mixins.solid-muted;
 }
 
-.Button-outline {
+.Button-outlined {
   @include mixins.outlined;
 }
 
-.Button-outline-muted {
+.Button-outlined-muted {
   @include mixins.outlined-muted;
 }
 
