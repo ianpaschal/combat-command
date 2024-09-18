@@ -4,6 +4,7 @@ import {
   useFieldArray,
   useForm,
 } from 'react-hook-form';
+import { useBlocker } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import clsx from 'clsx';
 import {
@@ -26,6 +27,7 @@ import { InputTextArea } from '~/components/generic/InputTextArea';
 import { Label } from '~/components/generic/Label';
 import { Stack } from '~/components/generic/Stack';
 import { Switch } from '~/components/generic/Switch';
+import { UnsavedChangesDialog } from '~/components/UnsavedChangesDialog';
 import { createCn } from '~/utils/createCn';
 
 import './CreateTournamentForm.scss';
@@ -46,6 +48,18 @@ const formSchema = z.object({
   start_date: z.string(),
   start_time: z.string(),
   title: z.string(),
+
+  // Maybe move title, start, end, location, description, url, to meta field as JSON object?
+
+  // Hidden fields
+  // registrations_open
+  // match_results_open
+  // active_round
+  // round_count
+  // game_system_id
+  // game_system_config: json (rules, points, era)
+  // ranking_config
+  // pairing_config
 });
 
 type FormInput = z.infer<typeof formSchema>;
@@ -80,6 +94,8 @@ export const CreateTournamentForm = (): JSX.Element => {
     name: 'competitor_groups',
   });
 
+  const blocker = useBlocker(() => form.formState.isDirty);
+
   const onSubmit: SubmitHandler<FormInput> = async (data: FormInput): Promise<void> => {
     console.log(data);
   };
@@ -110,8 +126,11 @@ export const CreateTournamentForm = (): JSX.Element => {
   const competitorLabel = isTeam ? 'Teams' : 'Players';
   const totalPlayers = competitor_count * competitor_size;
 
+  console.log(form.formState.isDirty, blocker.state);
+
   return (
     <Form form={form} onSubmit={onSubmit} className="FowV4MatchResultForm">
+      <UnsavedChangesDialog blocker={blocker} />
       <Card className="GameMetaSection" title="General">
         <Stack>
           <FormField name="title" label="Title" description="Avoid including points and other rules in the title.">
@@ -128,7 +147,7 @@ export const CreateTournamentForm = (): JSX.Element => {
           </FormField>
           <Stack className="DateTimeSection" orientation="horizontal">
             <div className={cn('DateTimeStart')}>
-              <FormField name="start_Date" label="Start Date">
+              <FormField name="start_date" label="Start Date">
                 <InputDate />
               </FormField>
               <FormField name="start_time" label="Start Time" >
