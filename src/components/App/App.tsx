@@ -1,11 +1,11 @@
-import { useLocation } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 
 import { AppBar } from '~/components/AppBar';
-import { AppRoutes } from '~/components/AppRoutes';
 import { useAuth } from '~/components/AuthProvider';
 import { CheckInMatchDialog } from '~/components/CheckInMatchDialog';
-import { routes } from '~/routes';
+import { getNavLinks } from '~/routes';
 
+// import { routes } from '~/routes';
 import './App.scss';
 
 const checkInMatchPath = '/matches/check-in';
@@ -13,12 +13,13 @@ const checkInMatchPath = '/matches/check-in';
 export const App = (): JSX.Element => {
   const user = useAuth();
   const { pathname } = useLocation();
+  const links = getNavLinks('main');
   return (
     <div className="App">
       {user && (
-        <AppBar routes={routes} />
+        <AppBar navItems={links} />
       )}
-      <AppRoutes routes={routes} />
+      <Outlet />
       {user && pathname !== checkInMatchPath && (
         <CheckInMatchDialog />
       )}

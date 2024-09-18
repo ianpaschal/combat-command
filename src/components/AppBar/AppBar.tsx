@@ -5,25 +5,22 @@ import { Menu, Plus } from 'lucide-react';
 import { AccountMenu } from '~/components/AccountMenu';
 import { Drawer } from '~/components/generic/Drawer';
 import { IconButton } from '~/components/generic/IconButton';
-import { NavLinks, RouteConfig } from '~/components/generic/NavLinks';
+import { NavLink, NavLinks } from '~/components/generic/NavLinks';
 import { Button } from '../generic/Button';
 
 import './AppBar.scss';
 
 export interface AppBarProps {
   maxWidth?: string | number;
-  routes: RouteConfig[];
+  navItems: NavLink[];
 }
 
 export const AppBar = ({
   maxWidth,
-  routes,
+  navItems,
 }: AppBarProps): JSX.Element => {
   const width = useWindowWidth();
   const isMobile = width <= 720;
-  const navRoutes = routes.filter((route) => (
-    !route.hidden && !!route.title
-  ));
   return (
     <Portal.Root>
       <div className="AppBarRoot">
@@ -38,7 +35,7 @@ export const AppBar = ({
                   LOGO
                 </Drawer.Header>
                 <Drawer.Body>
-                  <NavLinks orientation="vertical" routes={navRoutes} />
+                  <NavLinks orientation="vertical" routes={navItems} />
                   <Button slotBefore={<Plus />} variant="solid">Check In Match</Button>
                 </Drawer.Body>
               </Drawer.Content>
@@ -49,7 +46,7 @@ export const AppBar = ({
           </div>
           {!isMobile && (
             <>
-              <NavLinks routes={navRoutes} />
+              <NavLinks routes={navItems} />
               <IconButton round variant="solid"><Plus /></IconButton>
             </>
           )}

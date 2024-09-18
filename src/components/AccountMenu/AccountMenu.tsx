@@ -2,17 +2,13 @@ import * as Popover from '@radix-ui/react-popover';
 import { LogOut } from 'lucide-react';
 
 import { Avatar } from '~/components/generic/Avatar';
-import { NavLinks } from '~/components/generic/NavLinks';
-import { routes } from '~/routes';
+import { NavLinks, RouteConfig } from '~/components/generic/NavLinks';
+// import { routes } from '~/routes';
 import { Button } from '../generic/Button';
 
 import './AccountMenu.scss';
 
-const accountMenuPaths = ['/sign-out', '/users/:id', '/settings'];
-
-const accountMenuLinks = routes.filter((route) => (
-  accountMenuPaths.includes(route.path)
-));
+const accountMenuLinks: RouteConfig[] = [];
 
 export const AccountMenu = (): JSX.Element => (
   <Popover.Root >

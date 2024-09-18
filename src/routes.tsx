@@ -1,112 +1,160 @@
-import {
-  ChartColumnBig,
-  HomeIcon,
-  LogIn,
-  Settings,
-  Swords,
-  Wrench,
-} from 'lucide-react';
+import { createBrowserRouter } from 'react-router-dom';
 
-import { RouteConfig } from '~/components/generic/NavLinks';
-// import { LandingPage } from '~/pages/LandingPage/LandingPage';
-// import { ListsPage } from '~/pages/ListsPage';
-// import { SettingsPage } from '~/pages/SettingsPage';
+import { App } from '~/components/App';
+import {
+  NavLink,
+  RouteConfig,
+  Visibility,
+} from '~/components/generic/NavLinks';
 import { AccessPage } from '~/pages/AccessPage';
-// import { AppBar } from '~/components/AppBar/AppBar';
-// import { RouteConfig } from '~/components/AppRoutes';
-// import { AccountPage } from '~/pages/AccountPage';
 import { ComponentTestPage } from '~/pages/ComponentTestPage';
 import { CreateTournamentPage } from '~/pages/CreateTournamentPage';
 import { DashboardPage } from '~/pages/DashboardPage';
-// import { SignInForm } from './components/SignInForm';
-// import { SignUpForm } from './components/SignUpForm';
-import { SettingsPage } from '~/pages/SettingsPage';
-// import { SignUpPage } from '~/pages/SignUpPage';
+import { LandingPage } from '~/pages/LandingPage';
 import { StatisticsPage } from '~/pages/StatisticsPage';
 import { TournamentsPage } from '~/pages/TournamentsPage';
-// import { UserPage } from './pages/UserPage';
-import { UserProfilePage } from '~/pages/UserProfilePage';
-// import { TournamentDetailPage } from '~/pages/TournamentDetailPage';
 
 export const routes: RouteConfig[] = [
   {
-    icon: <HomeIcon />,
-    title: 'Dashboard',
     path: '/dashboard',
+    title: 'Dashboard',
+    visibility: ['main'],
     element: <DashboardPage />,
   },
   {
-    icon: <Swords />,
-    title: 'Tournaments',
     path: '/tournaments',
+    title: 'Tournaments',
+    visibility: ['main'],
     element: <TournamentsPage />,
   },
   {
     path: '/tournaments/create',
-    title: 'Create Tournaments',
+    title: 'Create Tournament',
+    visibility: [],
     element: <CreateTournamentPage />,
-    hidden: true,
   },
   {
-    path: '/users/:id',
-    title: 'Profile',
-    element: <UserProfilePage />,
-    hidden: true,
-    subRoutes: [
-      {
-        path: '/users/:id/tournaments',
-        title: 'Tournaments',
-        element: <UserProfilePage />,
-        hidden: true,
-      },
-    ],
-  },
-  {
-    icon: <Settings />,
-    title: 'Settings',
-    path: '/settings',
-    element: <SettingsPage />,
-    // subRoutes: [
-    //   {
-    //     icon: <UserIcon />,
-    //     title: 'Profile',
-    //     path: '/profile',
-    //     element: <ProfileSettingsPage />,
-    //   },
-    //   {
-    //     title: 'Account',
-    //     path: '/account',
-    //     element: <AccountSettingsPage />,
-    //   },
-    // ],
-  },
-  {
-    icon: <ChartColumnBig />,
-    title: 'Statistics',
     path: '/statistics',
+    title: 'Statistics',
+    visibility: ['main'],
     element: <StatisticsPage />,
   },
   {
-    icon: <LogIn />,
-    title: 'Sign In',
     path: '/sign-in',
+    title: 'Sign In',
+    visibility: [],
     element: <AccessPage />,
-    hidden: true,
   },
   {
-    icon: <LogIn />,
-    title: 'Sign Up',
     path: '/sign-up',
+    title: 'Sign Up',
+    visibility: [],
     element: <AccessPage />,
-    hidden: true,
   },
   {
-    icon: <Wrench />,
-    title: 'Test',
     path: '/test',
+    title: 'Test',
+    visibility: ['main'],
     element: <ComponentTestPage />,
   },
 ];
+
+export const getNavLinks = (visibility: Visibility): NavLink[] => (
+  routes.filter((route) => (
+    route.visibility.includes(visibility)
+  )).map(({ path, title }) => ({
+    path, title,
+  }))
+);
+
+export const router = createBrowserRouter([{
+  path: '/',
+  element: <App />,
+  children: [
+    { path: '', element: <LandingPage /> },
+    ...routes.map(({ path, element }) => ({ path, element })),
+  ],
+}]);
+
+// export const routes: RouteConfig[] = [
+//   {
+//     icon: <HomeIcon />,
+//     title: 'Dashboard',
+//     path: '/dashboard',
+//     element: <DashboardPage />,
+//   },
+//   {
+//     icon: <Swords />,
+//     title: 'Tournaments',
+//     path: '/tournaments',
+//     element: <TournamentsPage />,
+//   },
+//   {
+//     path: '/tournaments/create',
+//     title: 'Create Tournaments',
+//     element: <CreateTournamentPage />,
+//     hidden: true,
+//   },
+//   {
+//     path: '/users/:id',
+//     title: 'Profile',
+//     element: <UserProfilePage />,
+//     hidden: true,
+//     subRoutes: [
+//       {
+//         path: '/users/:id/tournaments',
+//         title: 'Tournaments',
+//         element: <UserProfilePage />,
+//         hidden: true,
+//       },
+//     ],
+//   },
+//   {
+//     icon: <Settings />,
+//     title: 'Settings',
+//     path: '/settings',
+//     element: <SettingsPage />,
+//     // subRoutes: [
+//     //   {
+//     //     icon: <UserIcon />,
+//     //     title: 'Profile',
+//     //     path: '/profile',
+//     //     element: <ProfileSettingsPage />,
+//     //   },
+//     //   {
+//     //     title: 'Account',
+//     //     path: '/account',
+//     //     element: <AccountSettingsPage />,
+//     //   },
+//     // ],
+//   },
+//   {
+//     icon: <ChartColumnBig />,
+//     title: 'Statistics',
+//     path: '/statistics',
+//     element: <StatisticsPage />,
+//   },
+//   {
+//     icon: <LogIn />,
+//     title: 'Sign In',
+//     path: '/sign-in',
+//     element: <AccessPage />,
+//     hidden: true,
+//   },
+//   {
+//     icon: <LogIn />,
+//     title: 'Sign Up',
+//     path: '/sign-up',
+//     element: <AccessPage />,
+//     hidden: true,
+//   },
+//   {
+//     icon: <Wrench />,
+//     title: 'Test',
+//     path: '/test',
+//     element: <ComponentTestPage />,
+//   },
+// ];
 
 // const routesNew = [
 //   { path: '/dashboard', element: <DashboardPage /> },

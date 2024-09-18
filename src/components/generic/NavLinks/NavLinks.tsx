@@ -1,21 +1,25 @@
-import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 
 import './NavLinks.scss';
 
+export type Visibility = 'main' | 'accountMenu';
+
 export interface RouteConfig {
-  icon?: ReactNode;
-  title: string;
+  visibility: Visibility[];
   path: string;
-  subRoutes?: RouteConfig[];
-  hidden?: boolean;
-  element: ReactNode;
+  element: JSX.Element;
+  title: string;
+}
+
+export interface NavLink {
+  path: string;
+  title: string;
 }
 
 export interface NavLinksProps {
   orientation?: 'horizontal' | 'vertical';
-  routes: RouteConfig[];
+  routes: NavLink[];
 }
 
 export const NavLinks = ({
@@ -27,7 +31,6 @@ export const NavLinks = ({
       <Link key={i} to={route.path} className="NavLinksItem">
         {route.title}
       </Link>
-    ),
-    )}
+    ))}
   </nav>
 );

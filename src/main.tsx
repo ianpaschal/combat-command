@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
+import { RouterProvider } from 'react-router-dom';
 
-import { App } from '~/components/App';
 import { AuthProvider } from '~/components/AuthProvider';
+import { router } from '~/routes';
 
 import '@fontsource/jost/400.css'; // Normal
 import '@fontsource/jost/500.css'; // Medium
@@ -15,10 +15,8 @@ import '~/style/index.scss';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
-    </BrowserRouter>
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>,
 );

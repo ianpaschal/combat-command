@@ -1,2 +1,2 @@
-export type { NavLinksProps, RouteConfig } from './NavLinks';
+export type { NavLink, NavLinksProps, RouteConfig, Visibility } from './NavLinks';
 export { NavLinks } from './NavLinks';
