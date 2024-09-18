@@ -15,6 +15,8 @@ import {
 import clsx from 'clsx';
 import { X } from 'lucide-react';
 
+import { Stack } from '~/components/generic/Stack';
+
 import './Dialog.scss';
 
 type DialogOverlayRef = ElementRef<typeof Overlay>;
@@ -78,7 +80,10 @@ export const DialogDescription = forwardRef<DialogDescriptionRef, DialogDescript
 interface DialogFooterProps extends HTMLAttributes<HTMLDivElement> { }
 export const DialogFooter = ({
   className,
+  children,
   ...props
 }: DialogFooterProps): JSX.Element => (
-  <div className={clsx('DialogFooter', className)} {...props} />
+  <Stack className={clsx('DialogFooter', className)} orientation="horizontal" horizontalAlign="end" {...props}>
+    {children}
+  </Stack>
 );

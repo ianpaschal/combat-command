@@ -44,6 +44,16 @@
   }
 }
 
+@mixin solid-danger {
+  @include rounded;
+  color: variables.$solid-danger-text;
+  background-color: variables.$solid-danger-bg;
+    border: none;
+  &:hover {
+    background-color: variables.$solid-danger-bg-hover;
+  }
+}
+
 @mixin solid-muted {
   @include rounded;
   color: variables.$solid-muted-text;

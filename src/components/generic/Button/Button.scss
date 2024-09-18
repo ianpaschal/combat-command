@@ -17,11 +17,14 @@
     justify-content: center;
     align-items: center;
   }
+  &-solid {
+    @include mixins.solid;
+  }
+  &-danger {
+    @include mixins.solid-danger;
+  }
 }
 
-.Button-solid {
-  @include mixins.solid;
-}
 
 .Button-solid-muted {
   @include mixins.solid-muted;

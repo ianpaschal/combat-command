@@ -13,6 +13,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   slotBefore?: ReactNode;
   slotAfter?: ReactNode;
+  intent?: 'danger';
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
@@ -21,10 +22,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   children,
   slotBefore,
   slotAfter,
+  intent,
   ...props
 }, ref) => (
   <button
-    className={clsx('Button', `Button-${variant}`, className)}
+    className={clsx('Button', `Button-${variant}`, { 'Button-danger': intent === 'danger' }, className)}
     ref={ref}
     {...props}
   >
