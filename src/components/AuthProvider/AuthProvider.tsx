@@ -4,9 +4,12 @@ import {
   useState,
 } from 'react';
 import { User } from '@supabase/supabase-js';
+import { LoaderCircle } from 'lucide-react';
 
 import { supabase } from '~/supabaseClient';
 import { AuthContext } from './AuthProvider.context';
+
+import './AuthProvider.scss';
 
 export interface AuthProviderProps {
   children: ReactNode;
@@ -43,7 +46,9 @@ export const AuthProvider = ({
 
   if (loading) {
     return (
-      <>Loading...</>
+      <div className="AuthProvider--loading">
+        <LoaderCircle className="AuthProvider__LoadingIcon" />
+      </div>
     );
   }
 
