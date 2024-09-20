@@ -1,20 +1,25 @@
-import { Plus } from 'lucide-react';
+import { ReactNode } from 'react';
 
-import { FloatingActionButton } from '~/components/FloatingActionButton';
 import { FowV4MatchResultForm } from '~/components/FowV4MatchResultForm';
 import { Drawer } from '~/components/generic/Drawer';
 
-export const CheckInMatchDialog = (): JSX.Element => (
+export interface CheckInMatchDialogProps {
+  children: ReactNode;
+  tournamentId?: string;
+}
+
+export const CheckInMatchDialog = ({
+  children,
+  tournamentId,
+}: CheckInMatchDialogProps): JSX.Element => (
   <Drawer.Root>
     <Drawer.Trigger asChild>
-      <FloatingActionButton>
-        <Plus />
-      </FloatingActionButton>
+      {children}
     </Drawer.Trigger>
     <Drawer.Content side="bottom">
       <Drawer.Header title="Check-In Match" border side="bottom" />
       <Drawer.Body>
-        <FowV4MatchResultForm />
+        <FowV4MatchResultForm tournamentId={tournamentId} />
       </Drawer.Body>
     </Drawer.Content>
   </Drawer.Root>
