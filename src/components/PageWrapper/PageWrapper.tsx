@@ -1,8 +1,10 @@
 import { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
+import clsx from 'clsx';
 import { ArrowLeft } from 'lucide-react';
 
 import { IconButton } from '~/components/generic/IconButton';
+import { ScrollArea } from '~/components/generic/ScrollArea';
 import { Stack } from '~/components/generic/Stack';
 
 import './PageWrapper.scss';
@@ -12,22 +14,24 @@ export interface PageWrapperProps {
   title?: string;
   maxWidth?: number | string;
   showBackButton?: boolean;
+  appBarPadding?: boolean;
 }
 
 export const PageWrapper = ({
   children,
   title,
+  appBarPadding = true,
   maxWidth,
   showBackButton = false,
 }: PageWrapperProps): JSX.Element => {
   const navigate = useNavigate();
   const handleClickBack = (): void => navigate(-1);
   return (
-    <div className="PageWrapper" style={{ maxWidth: maxWidth || undefined }}>
+    <ScrollArea className={clsx('PageWrapper', { 'PageWrapper--HasAppBar': appBarPadding })}>
       {(showBackButton || title) && (
-        <Stack orientation="horizontal" verticalAlign="center" className="PageWrapperHeader">
+        <Stack orientation="horizontal" verticalAlign="center" className="PageWrapper__Header">
           {showBackButton && (
-            <IconButton onClick={handleClickBack} size="small" variant="outlined">
+            <IconButton onClick={handleClickBack} variant="outlined">
               <ArrowLeft />
             </IconButton>
           )}
@@ -36,7 +40,9 @@ export const PageWrapper = ({
           )}
         </Stack>
       )}
-      {children}
-    </div>
+      <div className="PageWrapper__Body">
+        {children}
+      </div>
+    </ScrollArea>
   );
 };

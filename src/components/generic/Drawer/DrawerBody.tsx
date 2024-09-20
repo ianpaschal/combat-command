@@ -1,6 +1,8 @@
 import { HTMLAttributes } from 'react';
 import clsx from 'clsx';
 
+import { ScrollArea } from '~/components/generic/ScrollArea';
+
 import './DrawerBody.scss';
 
 export interface DrawerBodyProps extends HTMLAttributes<HTMLDivElement> {
@@ -9,10 +11,11 @@ export interface DrawerBodyProps extends HTMLAttributes<HTMLDivElement> {
 
 export const DrawerBody = ({
   className,
+  side,
   children,
   ...props
 }: DrawerBodyProps): JSX.Element => (
-  <div className={clsx('DrawerBody', className)} {...props}>
+  <ScrollArea className={clsx('DrawerBody', className)} type="scroll">
     {children}
-  </div>
+  </ScrollArea>
 );

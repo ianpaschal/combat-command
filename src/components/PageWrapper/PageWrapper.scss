@@ -2,20 +2,31 @@
 @use '/src/style/animate';
 
 .PageWrapper {
-  @include animate.durationQuick;
-  @include animate.stylePop;
-  box-sizing: border-box;
-  // width: 100vw;
-  flex: 1 auto;
-  // min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  padding: 1rem;
-  padding-top: calc(variables.$app-bar-height + 1rem);
-  margin: 0 auto;
+  // @include animate.durationQuick;
+  // @include animate.stylePop;
+
+  & {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 0 1rem;
+    position: absolute;
+    width: 100vw;
+    background-color: transparent;
+  }
+  &--HasAppBar {
+    top: variables.$app-bar-height;
+    height: calc(100dvh - variables.$app-bar-height);
+  }
 }
 
-.PageWrapperHeader {
+.PageWrapper__Header {
   margin-bottom: 1rem;
   height: 2.5rem;
+  margin-top: 1rem;
+}
+
+.PageWrapper__Body {
+  margin-bottom: 1rem;
 }
