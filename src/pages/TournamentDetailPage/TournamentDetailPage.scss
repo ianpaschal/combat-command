@@ -1,0 +1,131 @@
+
+.TournamentDetailPage {
+
+  &__OverviewSection {
+    overflow: hidden;
+  }
+  &__Banner {
+    // background-color: hsl(55, 45%, 25%);
+    background-color: hsl(220, 20%, 90%);
+    height: 10rem;
+    position: relative;
+    // &Overlay{
+    //   background-image: url(/src/assets/banner.png);
+    //   background-position: center;
+    //   background-size: cover;
+    //   position: absolute;
+    //   top: 0;
+    //   bottom: 0;
+    //   left: 0;
+    //   right: 0;
+    // }
+  }
+  &__Description {
+    padding: 1rem;
+  }
+  &__PairingsSection {
+    display: flex;
+    flex-direction: column;
+  }
+  &__PairingsScrollArea {
+    flex: 1 auto;
+  }
+  &__PairingsItemList {
+    display: flex;
+    gap: 1rem;
+    flex: 1 auto;
+    margin: 1rem;
+  }
+  &__PairingItem {
+    width: 10rem;
+    height: 12rem;
+  }
+}
+// .TournamentDetailPage__Body {
+//   display: flex;
+//   gap: 1rem;
+//   flex: 1 auto;
+//   flex-direction: column;
+// }
+  .TournamentDetailPage__Body {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr) );
+    grid-template-rows: min-content;
+    flex: 1 auto;
+  }
+
+.TournamentDetailPage__OverviewSection {
+  // height: 100%;
+}
+// .TournamentDetailPage__PairingsSection {
+//   height: 240px;
+// }
+
+.TournamentDetailPage__SubSectionsWrapper {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr) );
+  grid-template-rows: min-content;
+}
+
+// 320px + 2 x 16px
+@media (min-width: 352px) {
+  // .TournamentDetailPage__Body {
+  //   grid-template-columns: 1fr;
+  // }
+  // .TournamentDetailPage__OverviewSection {
+  //   grid-column: 1;
+  // }
+}
+
+// 2 x 320px + 3 x 16px
+@media (min-width: 688px) {
+  .TournamentDetailPage__OverviewWrapper {
+    grid-column: 1 / 3;
+  }
+  .TournamentDetailPage__SubSectionsWrapper {
+    grid-column: 1 / 3;
+    .TournamentDetailPage__RegistrationsSection {
+      grid-column: 1 / 3;
+    }
+    .TournamentDetailPage__PairingsSection {
+      grid-column: 1 / 3;
+    }
+    .TournamentDetailPage__RankingsSection {
+      grid-column: 1 / 2;
+    }
+    .TournamentDetailPage__MatchResultsSection {
+      grid-column: 2 / 3;
+    }
+  }
+}
+
+// 3 x 320px + 4 x 16px
+@media (min-width: 1024px) {
+  // .TournamentDetailPage__Body {
+  //   display: grid;
+  //   gap: 1rem;
+  //   grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr) );
+  //   flex: 1 auto;
+  // }
+  .TournamentDetailPage__OverviewWrapper {
+    grid-column: 1 / 2;
+  }
+  .TournamentDetailPage__SubSectionsWrapper {
+    grid-column: 2 / 4;
+    .TournamentDetailPage__RegistrationsSection {
+      grid-column: 1 / 3;
+    }
+    .TournamentDetailPage__PairingsSection {
+      grid-column: 1 / 3;
+    }
+    .TournamentDetailPage__RankingsSection {
+      grid-column: 1 / 2;
+    }
+    .TournamentDetailPage__MatchResultsSection {
+      grid-column: 2 / 3;
+    }
+  }
+}
+

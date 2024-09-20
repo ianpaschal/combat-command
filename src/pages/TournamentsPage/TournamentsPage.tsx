@@ -41,15 +41,15 @@ export const TournamentsPage = (): JSX.Element => {
         </TabsList>
         <TabsContent value="all" tabIndex={-1}>
           <Stack orientation="vertical" gap="0.5rem">
-            <TournamentCard />
-            <TournamentCard />
-            <TournamentCard />
-            <TournamentCard />
-            <TournamentCard />
-            <TournamentCard />
-            <TournamentCard />
-            <TournamentCard />
-            <TournamentCard />
+            <TournamentCard tournamentId="foo" />
+            <TournamentCard tournamentId="foo" />
+            <TournamentCard tournamentId="foo" />
+            <TournamentCard tournamentId="foo" />
+            <TournamentCard tournamentId="foo" />
+            <TournamentCard tournamentId="foo" />
+            <TournamentCard tournamentId="foo" />
+            <TournamentCard tournamentId="foo" />
+            <TournamentCard tournamentId="foo" />
           </Stack>
         </TabsContent>
         <TabsContent value="future" tabIndex={-1}>

@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 
 import { Card } from '~/components/generic/Card';
@@ -5,19 +6,25 @@ import { Card } from '~/components/generic/Card';
 import './TournamentCard.scss';
 
 export interface TournamentCardProps {
+  tournamentId: string;
   orientation?: 'vertical' | 'horizontal';
 }
 export const TournamentCard = ({
+  tournamentId,
   orientation = 'horizontal',
 }: TournamentCardProps) => {
+  const navigate = useNavigate();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const data = {
     title: 'Foo',
     thumbnail_url: 'https://github.com/shadcn.png',
     banner_url: 'https://github.com/shadcn.png',
   };
+  const handleClickCard = (): void => {
+    navigate(`/tournaments/${tournamentId}`);
+  };
   return (
-    <Card className={clsx('TournamentCard', `TournamentCard-${orientation}`)}>
+    <Card className={clsx('TournamentCard', `TournamentCard-${orientation}`)} onClick={handleClickCard}>
       <div className="ThumbnailWrapper">
         <img
           className="Image"
