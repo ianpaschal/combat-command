@@ -1,5 +1,5 @@
 @use '/src/style/mixins';
-@use '/src/style/variables' as *;
+@use '/src/style/variables';
 
 * {
   padding: 0;
@@ -11,8 +11,7 @@
 
 html, body {
   font-size: 16px;
-  background-color: $page-bg;
-  // scrollbar-gutter: stable both-edges;
+  background-color: variables.$page-bg;
   line-height: 1.25rem;
   font-weight: 300;
 }
@@ -36,4 +35,10 @@ h3 {
   font-size: 0.875rem;
   line-height: 1rem;
   font-weight: 500;
+}
+
+p {
+  color: variables.$text-muted;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
 }
