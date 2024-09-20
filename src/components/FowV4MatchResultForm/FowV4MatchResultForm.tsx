@@ -83,9 +83,22 @@ const outcomeOptions: InputSelectOption[] = [
   { label: 'Force Broken', value: 'force_broken' },
 ];
 
-export const FowV4MatchResultForm = (): JSX.Element => {
+export interface FowV4MatchResultFormProps {
+  tournamentId?: string;
+  matchResultId?: string;
+}
+
+export const FowV4MatchResultForm = ({
+  tournamentId,
+  matchResultId,
+}: FowV4MatchResultFormProps): JSX.Element => {
   const user = useAuth();
   const [loading] = useState<boolean>(false);
+
+  // If tournamentId !== undefined, get the correct pairing which includes this user
+
+  // If matchresultId !== populate all default values from that (editing)
+
   const form = useForm<FormInput>({
     resolver: zodResolver(formSchema),
     defaultValues: {
