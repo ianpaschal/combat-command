@@ -15,7 +15,9 @@ export const DrawerBody = ({
   children,
   ...props
 }: DrawerBodyProps): JSX.Element => (
-  <ScrollArea className={clsx('DrawerBody', className)} type="scroll">
-    {children}
+  <ScrollArea type="scroll">
+    <div className={clsx('DrawerBody', className)} >
+      {children}
+    </div>
   </ScrollArea>
 );
