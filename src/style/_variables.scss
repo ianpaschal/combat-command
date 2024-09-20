@@ -11,15 +11,15 @@ $white: hsl(0, 0%, 100%);
 $red: hsl(0, 85%, 60%);
 
 // APPLIED
-$text-base: hsl(240, 5%, 10%);
+$text-base: hsl(220, 5%, 10%);
 $text-muted: color.adjust($text-base, $lightness: 40%);
 $text-disabled: color.adjust($text-base, $lightness: 60%);
-$page-bg: hsl(240, 5%, 97.5%);
+$page-bg: hsl(220, 5%, 97.5%);
 $card-bg: $white;
 $border-color: color.adjust($text-base, $alpha: -0.90);
 
 @media (prefers-color-scheme: light) {
-  $text-base: hsl(240, 100%, 50%);
+  $text-base: hsl(220, 100%, 50%);
 }
 
 // Solid
