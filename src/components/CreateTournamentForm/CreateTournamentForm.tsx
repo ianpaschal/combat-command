@@ -32,7 +32,14 @@ import { createCn } from '~/utils/createCn';
 
 import './CreateTournamentForm.scss';
 
-const formSchema = z.object({
+const tournamentStatusSchema = z.union([
+  z.literal('draft'),
+  z.literal('published'),
+  z.literal('active'),
+  z.literal('archived'),
+]);
+
+const tournamentSchema = z.object({
   competitor_count: z.coerce.number().min(2, 'Tournaments require at least two competitors.'),
   competitor_groups: z.array(z.object({
     name: z.string().min(1).max(20),
@@ -43,26 +50,25 @@ const formSchema = z.object({
   end_date: z.string(),
   end_time: z.string(),
   location: z.string(),
-  organizer_id: z.string(),
+  organizer_ids: z.array(z.string().uuid()),
   rules_pack_url: z.optional(z.string().url('Please provide a valid URL.')).or(z.literal('')),
   start_date: z.string(),
   start_time: z.string(),
   title: z.string(),
 
-  // Maybe move title, start, end, location, description, url, to meta field as JSON object?
-
   // Hidden fields
-  // registrations_open
-  // match_results_open
-  // active_round
-  // round_count
-  // game_system_id
+  status: tournamentStatusSchema,
+  registrations_open: z.boolean(),
+  current_round: z.optional(z.number()),
+  round_count: z.number(),
+  game_system_id: z.string().uuid(),
+  logo_url: z.optional(z.string().url('Please provide a valid URL.')).or(z.literal('')),
   // game_system_config: json (rules, points, era)
-  // ranking_config
-  // pairing_config
+  // ranking_config: json
+  // pairing_config: json
 });
 
-type FormInput = z.infer<typeof formSchema>;
+export type Tournament = z.infer<typeof tournamentSchema>;
 
 const cn = createCn('CreateTournamentForm');
 
@@ -71,8 +77,8 @@ export const CreateTournamentForm = (): JSX.Element => {
   const [loading] = useState<boolean>(false);
   const [isTeam, setIsTeam] = useState<boolean>(false);
 
-  const form = useForm<FormInput>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<Tournament>({
+    resolver: zodResolver(tournamentSchema),
     defaultValues: {
       competitor_count: 10,
       competitor_groups: [{ name: 'All Competitors', size: 10 }],
@@ -81,7 +87,7 @@ export const CreateTournamentForm = (): JSX.Element => {
       end_date: '',
       end_time: '18:00',
       location: '',
-      organizer_id: user?.id,
+      organizer_ids: [user?.id],
       rules_pack_url: '',
       start_date: '',
       start_time: '09:00',
@@ -96,7 +102,7 @@ export const CreateTournamentForm = (): JSX.Element => {
 
   const blocker = useBlocker(() => form.formState.isDirty);
 
-  const onSubmit: SubmitHandler<FormInput> = async (data: FormInput): Promise<void> => {
+  const onSubmit: SubmitHandler<Tournament> = async (data: Tournament): Promise<void> => {
     console.log(data);
   };
 
@@ -129,7 +135,7 @@ export const CreateTournamentForm = (): JSX.Element => {
   console.log(form.formState.isDirty, blocker.state);
 
   return (
-    <Form form={form} onSubmit={onSubmit} className="FowV4MatchResultForm">
+    <Form form={form} onSubmit={onSubmit} className="CreateTournamentForm">
       <UnsavedChangesDialog blocker={blocker} />
       <Card className="GameMetaSection" title="General">
         <Stack>
@@ -194,7 +200,7 @@ export const CreateTournamentForm = (): JSX.Element => {
       >
         <Stack horizontalAlign="end" gap="0.5rem">
           {competitorGroupFields.map((_field, i) => (
-            <Stack orientation="horizontal" gap="0.5rem" className="RegistrationGroup">
+            <Stack orientation="horizontal" gap="0.5rem" className="RegistrationGroup" verticalAlign="center">
               <Stack gap={0}>
                 <IconButton onClick={(e) => handleRemoveGroup(e, i)} variant="ghost" size="small"><ChevronUp /></IconButton>
                 <IconButton onClick={(e) => handleRemoveGroup(e, i)} variant="ghost" size="small" disabled={competitorGroupFields.length < 2}><X /></IconButton>

@@ -2,10 +2,11 @@
 @use '/src/style/variables';
 @use '/src/style/mixins';
 
-.FowV4CreateTournamentForm {
+.CreateTournamentForm {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  flex: 1 auto;
 }
 .RegistrationGroup {
   @include mixins.border;
@@ -15,9 +16,9 @@
   
   border-radius: variables.$corner-radius;
 
-  height: 6rem;
+  height: calc(6rem + (2 * variables.$border-width));
   width: 100%;
-  
+  padding-right: 1rem;
 }
 
 .CompetitorGroupSizeInput {
