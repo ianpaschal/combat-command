@@ -91,6 +91,22 @@
   }
 }
 
+@mixin outlined-danger {
+  @include border;
+  @include rounded;
+
+  & {
+    color: variables.$outlined-danger-text;
+    background-color: variables.$outlined-danger-bg;
+    border-color: variables.$outlined-danger-border;
+  }
+
+
+  // &:hover {
+  //   background-color: variables.$outlined-muted-bg-hover;
+  // }
+}
+
 @mixin ghost {
   @include rounded;
 

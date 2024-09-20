@@ -55,6 +55,11 @@ $outlined-muted-bg-hover: $outlined-bg-hover;
 $outlined-muted-text: $text-muted;
 $outlined-muted-border: color.adjust($outlined-border, $lightness: 20%);
 
+// Outlined Danger
+$outlined-danger-bg: color.adjust($red, $lightness: 35%);
+$outlined-danger-text: $red;
+$outlined-danger-border: $red;
+
 // Ghost (no border)
 $ghost-bg: transparent;
 $ghost-bg-hover: color.adjust($text-base, $alpha: -0.975);
