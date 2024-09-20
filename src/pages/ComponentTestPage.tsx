@@ -1,8 +1,10 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Camera } from 'lucide-react';
+import { Camera, Plus } from 'lucide-react';
 import { z } from 'zod';
 
+import { CheckInMatchDialog } from '~/components/CheckInMatchDialog';
+import { FloatingActionButton } from '~/components/FloatingActionButton';
 import { Button } from '~/components/generic/Button/Button';
 import { Card } from '~/components/generic/Card';
 import { Form, FormField } from '~/components/generic/Form';
@@ -84,6 +86,11 @@ export const ComponentTestPage = (): JSX.Element => {
           <Button type="submit">Complete</Button>
         </Form>
       </Card>
+      <CheckInMatchDialog>
+        <FloatingActionButton>
+          <Plus />
+        </FloatingActionButton>
+      </CheckInMatchDialog>
     </div >
   );
 };
