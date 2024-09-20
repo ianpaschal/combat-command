@@ -20,7 +20,7 @@ export const AppBar = ({
   navItems,
 }: AppBarProps): JSX.Element => {
   const width = useWindowWidth();
-  const isMobile = width <= 720;
+  const isMobile = width <= 688;
   return (
     <Portal.Root>
       <div className="AppBarRoot">
