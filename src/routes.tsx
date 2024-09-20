@@ -12,6 +12,7 @@ import { CreateTournamentPage } from '~/pages/CreateTournamentPage';
 import { DashboardPage } from '~/pages/DashboardPage';
 import { LandingPage } from '~/pages/LandingPage';
 import { StatisticsPage } from '~/pages/StatisticsPage';
+import { TournamentDetailPage } from '~/pages/TournamentDetailPage';
 import { TournamentsPage } from '~/pages/TournamentsPage';
 
 export const routes: RouteConfig[] = [
@@ -26,6 +27,12 @@ export const routes: RouteConfig[] = [
     title: 'Tournaments',
     visibility: ['main'],
     element: <TournamentsPage />,
+  },
+  {
+    path: '/tournaments/:id',
+    title: 'View Tournament',
+    visibility: [],
+    element: <TournamentDetailPage />,
   },
   {
     path: '/tournaments/create',
