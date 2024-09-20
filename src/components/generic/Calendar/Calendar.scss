@@ -1,14 +1,13 @@
 @use '/src/style/mixins';
+@use '/src/style/flex';
 
 .rdp-caption {
   @include mixins.uiText;
+  @include flex.centered;
   & {
     font-weight: 500;
-    display: flex;
     position: relative;
-    justify-content: center;
     height: 1.75rem;
-    align-items: center;
     margin-bottom: 0.5rem;
   }
 }

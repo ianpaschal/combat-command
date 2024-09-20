@@ -1,15 +1,15 @@
 @use '/src/style/mixins';
 @use '/src/style/variables' as *;
+@use '/src/style/flex';
 
 .AvatarRoot {
   display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  vertical-align: middle;
+
   overflow: hidden;
   flex-shrink: 0;
   border-radius: 100%;
   background-color: transparent;
+  @include flex.centered;
 }
 
 .AvatarImage {
@@ -22,13 +22,11 @@
 .AvatarFallback {
   width: 100%;
   height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   // background-color: transparent;
   // color: var(--violet-11);
   font-size: 15px;
   line-height: 1;
   font-weight: 500;
    // user-select: none;
+  @include flex.centered;
 }

@@ -1,6 +1,7 @@
 @use '/src/style/mixins';
 @use '/src/style/variables';
 @use '/src/style/animate';
+@use '/src/style/flex';
 
 .InputSelectTrigger {
   @include mixins.inputBasis;
@@ -82,9 +83,7 @@
 }
 
 .SelectScrollButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include flex.centered;
   height: 25px;
   background-color: white;
   color: red;

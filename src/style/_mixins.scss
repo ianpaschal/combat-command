@@ -1,5 +1,6 @@
 @use 'sass:color';
 @use "variables";
+@use 'flex';
 
 @mixin border {
   border-color: variables.$outlined-border;
@@ -110,11 +111,12 @@
 
 @mixin buttonBasis {
   @include uiText;
-  align-items: center;
+  @include flex.centered;
+
   box-sizing: border-box;
-  display: flex;
+
   flex-grow: 0;
-  justify-content: center;
+ 
   transition-duration: 0.25s;
   transition-property: color, background-color;
   transition-timing-function: ease-in-out;
@@ -148,11 +150,9 @@
 @mixin inputIcon {
   width: 1rem;
   height: 1rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   color: inherit;
   pointer-events: none;
+  @include flex.centered;
 }
 
 @mixin modalOverlay {

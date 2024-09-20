@@ -1,9 +1,9 @@
+@use '/src/style/flex';
+
 .AccessPage {
-  display: flex;
   min-height: 100vh;
-  align-items: start;
-  justify-content: center;
   padding: 1rem;
+  @include flex.centered;
 }
 
 .AccessPageCard {

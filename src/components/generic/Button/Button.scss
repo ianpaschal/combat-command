@@ -1,5 +1,6 @@
 @use 'sass:color';
 @use '/src/style/mixins';
+@use '/src/style/flex';
 
 .Button {
   @include mixins.buttonBasis;
@@ -13,9 +14,7 @@
   &-slotBefore, &-slotAfter {
     width: 1rem;
     height: 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    @include flex.centered;
   }
   &-solid {
     @include mixins.solid;
