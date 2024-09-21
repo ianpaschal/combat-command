@@ -14,6 +14,7 @@ import { Card } from '~/components/generic/Card';
 import { Drawer } from '~/components/generic/Drawer';
 import { ScrollArea } from '~/components/generic/ScrollArea';
 import { Stack } from '~/components/generic/Stack';
+import { ManageTournamentDrawer } from '~/components/ManageTournamentDrawer';
 import { PageWrapper } from '~/components/PageWrapper';
 import { createCn } from '~/utils/createCn';
 
@@ -23,7 +24,8 @@ const cn = createCn('TournamentDetailPage');
 
 export const TournamentDetailPage = (): JSX.Element => {
   const user = useAuth();
-  const { id: tournamentId } = useParams();
+  const params = useParams();
+  const tournamentId = params.id!; // Must exist or else how did we get to this route?
 
   console.log(tournamentId);
 
@@ -146,28 +148,12 @@ export const TournamentDetailPage = (): JSX.Element => {
         </CheckInMatchDialog>
       )}
       {showManageButton && (
-        <Drawer.Root>
-          <Drawer.Trigger asChild>
-            <FloatingActionButton>
-              <Cog />
-            </FloatingActionButton>
-          </Drawer.Trigger>
-          <Drawer.Content side="bottom">
-            <Drawer.Header title={`Manage ${tournament.title}`} border side="bottom" />
-            <Drawer.Body>
-              - MAIN:
-              - Button to edit tourney (disabled after starting)
-              - Button to publish & open regs
-              - Button to close regs
-              - Button to Go live! (all the above will lock. switch to battle mode)
-              - DANGER ZONE
-              - Un-publish:
-              - **Warning!** Doing this will hide the tournament and notify all players that the tournament status is pending. If you need to edit tournament details you can do that without un-publishing, and players will be notified of the changes.
-              - Cancel (Only for unpublished tournaments)
-              - **Warning!** This is permanent! All registrations will be deleted and players will be notified that the tournament was cancelled.
-            </Drawer.Body>
-          </Drawer.Content>
-        </Drawer.Root>
+        <ManageTournamentDrawer tournamentId={tournamentId} trigger={(
+          <FloatingActionButton>
+            <Cog />
+          </FloatingActionButton>
+        )} />
+
       )}
     </PageWrapper>
   );
