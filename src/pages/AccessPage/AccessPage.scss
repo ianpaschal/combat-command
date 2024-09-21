@@ -7,18 +7,15 @@
 }
 
 .AccessPageCard {
-  flex: 1 auto;
   max-width: 24rem;
   margin: 0.5rem;
-  display: flex;
-  flex-direction: column;
+  @include flex.column(0);
   align-items: center;
+  @include flex.stretchy;
 }
 
 .AccessPageTabs {
   width: 100%;
-  display: flex;
-  gap: 1rem;
-  flex-direction: column;
   margin-top: 1rem;
+  @include flex.column(1rem);
 }

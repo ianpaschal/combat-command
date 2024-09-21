@@ -1,14 +1,31 @@
-@mixin row {
+/**
+ * These mixins exist primarily to avoid constant repetition.
+ */
+@mixin row ($gap) {
   display: flex;
+  gap: $gap;
 }
 
-@mixin column {
+// Use args for this
+// @mixin rowYCentered {
+//   align-items: center;
+// }
+// @mixin columnYCentered {
+//   justify-content: center;
+// }
+
+@mixin column ($gap) {
   display: flex;
   flex-direction: column;
+  gap: $gap;
 }
 
 @mixin centered {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+@mixin stretchy {
+  flex: 1 auto;
 }

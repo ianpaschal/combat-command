@@ -1,6 +1,7 @@
 @use '/src/style/variables';
 @use '/src/style/mixins';
+@use '/src/style/flex';
 
 .DrawerBody {
-  flex: 1 auto;
+  @include flex.stretchy;
 }

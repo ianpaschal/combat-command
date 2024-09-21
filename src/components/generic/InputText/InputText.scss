@@ -1,5 +1,6 @@
 @use '/src/style/mixins';
 @use "/src/style/variables" as *;
+@use '/src/style/flex';
 
 .Input {
   @include mixins.inputBasis;
@@ -27,8 +28,8 @@
 
 .InputWrapper {
   position: relative;
-     flex: 1 auto;
-     width: 100%;
+  @include flex.stretchy;
+  width: 100%;
 
   &-hasError {
     color: $red;

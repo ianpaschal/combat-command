@@ -57,9 +57,11 @@
 
 @mixin solid-muted {
   @include rounded;
-  color: variables.$solid-muted-text;
-  background-color: variables.$solid-muted-bg;
+  & {
+    color: variables.$solid-muted-text;
+    background-color: variables.$solid-muted-bg;
     border: none;
+  }
   &:hover {
     background-color: variables.$solid-muted-bg-hover;
   }
@@ -142,13 +144,13 @@
   @include uiText;
   @include border;
   @include rounded;
+  @include flex.stretchy;
   & {
     background-color: variables.$white;
     align-items: center;
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
-    flex: 1 auto;
     justify-content: left;
     padding: 0.5rem 1rem;
     height: 2.5rem;

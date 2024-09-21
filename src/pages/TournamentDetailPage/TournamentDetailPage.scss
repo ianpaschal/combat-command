@@ -1,3 +1,4 @@
+@use '/src/style/flex';
 
 .TournamentDetailPage {
 
@@ -28,39 +29,28 @@
     flex-direction: column;
   }
   &__PairingsScrollArea {
-    flex: 1 auto;
+    @include flex.stretchy;
   }
   &__PairingsItemList {
     display: flex;
     gap: 1rem;
-    flex: 1 auto;
     margin: 1rem;
+    @include flex.stretchy;
   }
   &__PairingItem {
     width: 10rem;
     height: 12rem;
   }
 }
-// .TournamentDetailPage__Body {
-//   display: flex;
-//   gap: 1rem;
-//   flex: 1 auto;
-//   flex-direction: column;
-// }
-  .TournamentDetailPage__Body {
-    display: grid;
-    gap: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr) );
-    grid-template-rows: min-content;
-    flex: 1 auto;
-  }
 
-.TournamentDetailPage__OverviewSection {
-  // height: 100%;
+.TournamentDetailPage__Body {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr) );
+  grid-template-rows: min-content;
+  @include flex.stretchy;
 }
-// .TournamentDetailPage__PairingsSection {
-//   height: 240px;
-// }
+
 
 .TournamentDetailPage__SubSectionsWrapper {
   display: grid;
@@ -71,12 +61,7 @@
 
 // 320px + 2 x 16px
 @media (min-width: 352px) {
-  // .TournamentDetailPage__Body {
-  //   grid-template-columns: 1fr;
-  // }
-  // .TournamentDetailPage__OverviewSection {
-  //   grid-column: 1;
-  // }
+
 }
 
 // 2 x 320px + 3 x 16px
@@ -103,12 +88,6 @@
 
 // 3 x 320px + 4 x 16px
 @media (min-width: 1024px) {
-  // .TournamentDetailPage__Body {
-  //   display: grid;
-  //   gap: 1rem;
-  //   grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr) );
-  //   flex: 1 auto;
-  // }
   .TournamentDetailPage__OverviewWrapper {
     grid-column: 1 / 2;
   }

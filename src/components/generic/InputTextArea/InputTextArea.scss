@@ -1,12 +1,14 @@
 @use '/src/style/mixins';
 @use "/src/style/variables" as *;
+@use '/src/style/flex';
 
 .InputTextArea {
   @include mixins.inputBasis;
+  @include flex.stretchy;
+
   & {
     height: 7.5rem;
     position: relative;
-    flex: 1 auto;
     width: 100%;
     resize: none;
     padding-bottom: 1rem;

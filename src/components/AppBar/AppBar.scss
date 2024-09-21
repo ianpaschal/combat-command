@@ -1,5 +1,6 @@
 @use '/src/style/mixins';
 @use '/src/style/variables';
+@use '/src/style/flex';
 
 .AppBarRoot {
   background-color: variables.$card-bg;
@@ -7,8 +8,6 @@
   border-bottom-style: solid;
   border-bottom-width: variables.$border-width;
   box-sizing: border-box;
-  display: flex;
-  gap: 1rem;
   height: variables.$app-bar-height;
   left: 0;
   padding: 1rem;
@@ -16,14 +15,14 @@
   position: fixed;
   top: 0;
   width: 100vw;
+  @include flex.row(1rem);
 }
 
 .AppBarContent {
+  
+  @include flex.row(1rem);
+  @include flex.stretchy;
   align-items: center;
-  display: flex;
-  flex-direction: row;
-  flex: 1 auto;
-  gap: 1rem;
   justify-content: space-between;
   margin: 0 auto;
 }

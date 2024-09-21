@@ -1,15 +1,16 @@
 @use '/src/style/mixins';
 @use '/src/style/variables';
+@use '/src/style/flex';
 
 .NavLinksRoot {
+  @include flex.stretchy;
   display: flex;
   gap: 0.25rem;
-  flex: 1 auto;
   justify-content: start;
   &-vertical {
     flex-direction: column;
     .NavLinksItem {
-      flex: 1 auto;
+      @include flex.stretchy;
       justify-content: left;
     }
   }
