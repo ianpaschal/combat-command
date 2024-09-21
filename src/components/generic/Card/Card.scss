@@ -13,11 +13,21 @@ $default-padding: 1rem;
 
   overflow: hidden;
 
+  &--danger {
+    @include mixins.outlined-danger;
+    & {
+      background-color: white;
+    }
 
+  }
 
   &__Header {
     padding: 1rem;
-    padding-bottom: 0
+    padding-bottom: 0;
+
+    &--danger {
+      color: variables.$red;
+    }
   }
 
   &__Description {

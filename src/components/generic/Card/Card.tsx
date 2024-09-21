@@ -8,6 +8,7 @@ import './Card.scss';
 export interface CardProps extends HTMLAttributes<HTMLDivElement> {
   disablePadding?: boolean;
   description?: string;
+  intent?: 'danger' | 'success';
 }
 
 const cn = createCn('Card');
@@ -17,14 +18,15 @@ export const Card = ({
   disablePadding = false,
   title,
   description,
+  intent,
   className,
   ...props
 }: CardProps): JSX.Element => {
   const hasHeader = title || description;
   return (
-    <div className={clsx('Card', className)} {...props}>
+    <div className={clsx(cn(), intent && cn(`--${intent}`), className)} {...props}>
       {hasHeader && (
-        <div className={cn('__Header')}>
+        <div className={clsx(cn('__Header'), intent && cn(`__Header--${intent}`))}>
           {title && (
             <h2>{title}</h2>
           )}
