@@ -44,10 +44,7 @@ export const AppBar = ({
           )}
           <img src={logo} height={40} width={40} />
           {!isMobile && (
-            <>
-              <NavLinks routes={navItems} />
-              <IconButton round variant="solid"><Plus /></IconButton>
-            </>
+            <NavLinks routes={navItems} />
           )}
           <AccountMenu />
         </div>
