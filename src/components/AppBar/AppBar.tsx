@@ -2,6 +2,7 @@ import * as Portal from '@radix-ui/react-portal';
 import { useWindowWidth } from '@react-hook/window-size/throttled';
 import { Menu, Plus } from 'lucide-react';
 
+import logo from '~/assets/logo.svg';
 import { AccountMenu } from '~/components/AccountMenu';
 import { Drawer } from '~/components/generic/Drawer';
 import { IconButton } from '~/components/generic/IconButton';
@@ -32,7 +33,7 @@ export const AppBar = ({
               </Drawer.Trigger>
               <Drawer.Content side="left">
                 <Drawer.Header title="Navigation" hideTitle>
-                  LOGO
+                  <img src={logo} height={40} width={40} />
                 </Drawer.Header>
                 <Drawer.Body>
                   <NavLinks orientation="vertical" routes={navItems} />
@@ -41,9 +42,7 @@ export const AppBar = ({
               </Drawer.Content>
             </Drawer.Root>
           )}
-          <div>
-            LOGO
-          </div>
+          <img src={logo} height={40} width={40} />
           {!isMobile && (
             <>
               <NavLinks routes={navItems} />
