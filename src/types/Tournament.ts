@@ -31,6 +31,7 @@ const tournamentSchema = z.object({
   start_time: z.string(),
   status: tournamentStatusSchema,
   title: z.string(),
+  use_national_teams: z.boolean(),
   // game_system_config: json (rules, points, era)
   // ranking_config: json
   // pairing_config: json

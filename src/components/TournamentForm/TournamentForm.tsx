@@ -36,6 +36,7 @@ const defaultValues: Partial<Tournament> = {
   competitor_count: 10,
   competitor_groups: [{ name: 'All Competitors', size: 10 }],
   competitor_size: 1,
+  use_national_teams: false,
   description: '',
   end_date: '',
   end_time: '18:00',
@@ -60,7 +61,8 @@ export const TournamentForm = ({
   loading = false,
   onSubmit,
 }: TournamentFormProps): JSX.Element => {
-  const [isTeam, setIsTeam] = useState<boolean>(false);
+  const [useTeams, setUseTeams] = useState<boolean>(false);
+  const [forceNationalTeams, setForceNationalTeams] = useState<boolean>(false);
 
   const form = useForm<Tournament>({
     resolver: tournamentResolver,
@@ -90,19 +92,19 @@ export const TournamentForm = ({
 
   const handleToggleIsTeam = (checked: boolean): void => {
     // If changing from team to solos, convert total players back to teams of 1
-    if (isTeam && !checked) {
+    if (useTeams && !checked) {
       form.reset((prev) => ({
         ...prev,
         competitor_size: 1,
         competitor_count: totalPlayers,
       }));
     }
-    setIsTeam(checked);
+    setUseTeams(checked);
   };
 
   const { competitor_count, competitor_size } = form.watch();
 
-  const competitorLabel = isTeam ? 'Teams' : 'Players';
+  const competitorLabel = useTeams ? 'Teams' : 'Players';
   const totalPlayers = competitor_count * competitor_size;
 
   return (
@@ -148,18 +150,24 @@ export const TournamentForm = ({
       >
         <Stack>
           <Stack orientation="horizontal" verticalAlign="center">
-            <Switch id="isTeam" checked={isTeam} onCheckedChange={handleToggleIsTeam} />
+            <Switch id="isTeam" checked={useTeams} onCheckedChange={handleToggleIsTeam} />
             <Label htmlFor="isTeam">Team Tournament</Label>
           </Stack>
           <div className={cn('__CompetitorsInputs')}>
             <FormField name="competitor_count" label={`Total ${competitorLabel}`}>
               <InputText type="number" />
             </FormField>
-            <Animate show={isTeam}>
+            <Animate show={useTeams}>
               <FormField className={cn('__CompetitorSizeInput')} name="competitor_size" label="Team Size">
                 <InputText type="number" />
               </FormField>
             </Animate>
+            {/* <Animate show={useTeams}>
+              <Stack orientation="horizontal" verticalAlign="center">
+                <Switch id="forceNationalTeams" checked={useTeams} onCheckedChange={handleToggleForceNationalTeams} />
+                <Label htmlFor="forceNationalTeams">Force National Teams</Label>
+              </Stack>
+            </Animate> */}
           </div>
           <h3>Total Players: {totalPlayers}</h3>
         </Stack>
