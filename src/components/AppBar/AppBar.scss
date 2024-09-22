@@ -30,3 +30,9 @@
 .AppBarRight {
   margin-left: auto;
 }
+
+.AppBar__Logo {
+  width: 2.5rem;
+  height: 2.5rem;
+  color: variables.$text-base;
+}
