@@ -4,18 +4,27 @@
   min-height: 100vh;
   padding: 1rem;
   @include flex.centered;
+
+  &__Card {
+    width: 20rem;
+    .Card__Body {
+      align-items: center;
+      @include flex.column(1rem);
+    }
+  }
+
+  &__Logo {
+    width: 6rem;
+    height: 6rem;
+    color: inherit;
+  }
+
+  &__Tabs {
+    width: 100%;
+    margin-top: 1rem;
+    @include flex.column(1rem);
+  }
 }
 
-.AccessPageCard {
-  max-width: 24rem;
-  margin: 0.5rem;
-  @include flex.column(0);
-  align-items: center;
-  @include flex.stretchy;
-}
 
-.AccessPageTabs {
-  width: 100%;
-  margin-top: 1rem;
-  @include flex.column(1rem);
-}
+

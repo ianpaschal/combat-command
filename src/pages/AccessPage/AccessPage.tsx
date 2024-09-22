@@ -1,5 +1,6 @@
 import { Navigate } from 'react-router-dom';
 
+import { AppLogo } from '~/components/AppLogo';
 import { useAuth } from '~/components/AuthProvider';
 import { Card } from '~/components/generic/Card';
 import {
@@ -10,9 +11,12 @@ import {
 } from '~/components/generic/Tabs';
 import { SignInForm } from '~/components/SignInForm';
 import { SignUpForm } from '~/components/SignUpForm';
+import { createCn } from '~/utils/componentLib/createCn';
 import { useRoutedTabs } from './AccessPage.hooks';
 
 import './AccessPage.scss';
+
+const cn = createCn('AccessPage');
 
 export const AccessPage = (): JSX.Element => {
   const user = useAuth();
@@ -25,10 +29,11 @@ export const AccessPage = (): JSX.Element => {
   }
 
   return (
-    <div className="AccessPage">
-      <Card className="AccessPageCard">
-        LOGO
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="AccessPageTabs">
+    <div className={cn()}>
+      <Card className={cn('__Card')}>
+        <AppLogo className={cn('__Logo')} />
+        <h1>CombatCommand</h1>
+        <Tabs className={cn('__Tabs')} value={activeTab} onValueChange={setActiveTab} >
           <TabsList>
             <TabsTrigger value="sign-in">Sign In</TabsTrigger>
             <TabsTrigger value="sign-up">Register</TabsTrigger>

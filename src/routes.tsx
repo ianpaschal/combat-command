@@ -47,13 +47,19 @@ export const routes: RouteConfig[] = [
     element: <StatisticsPage />,
   },
   {
-    path: '/sign-in',
+    path: '/auth',
+    title: 'Sign In or Sign Up',
+    visibility: [],
+    element: <AccessPage />,
+  },
+  {
+    path: '/auth/sign-in',
     title: 'Sign In',
     visibility: [],
     element: <AccessPage />,
   },
   {
-    path: '/sign-up',
+    path: '/auth/sign-up',
     title: 'Sign Up',
     visibility: [],
     element: <AccessPage />,

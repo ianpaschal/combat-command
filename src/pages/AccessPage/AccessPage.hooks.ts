@@ -9,12 +9,15 @@ export const useRoutedTabs = (tabNames: string[]): [string, (tab: string) => voi
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
+  const splitPath = pathname.split('/').slice(1);
+  const basePath = splitPath.slice(0, splitPath.length - 1).join('/');
+
   const pathTab = tabNames.find((tabName) => (
-    tabName === pathname.split('/').pop()
+    tabName === splitPath.at(-1)
   )) || tabNames[0];
 
   const setPathTab = (value: string) => {
-    navigate(`/${value}`);
+    navigate(`/${basePath}/${value}`);
   };
 
   return [
