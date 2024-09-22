@@ -1,12 +1,12 @@
 import { ReactNode, useState } from 'react';
 
-import { Tournament } from '~/components/CreateTournamentForm/CreateTournamentForm';
 import { Button } from '~/components/generic/Button';
 import { Card } from '~/components/generic/Card';
 import { Drawer } from '~/components/generic/Drawer';
 import { Label } from '~/components/generic/Label';
 import { Stack } from '~/components/generic/Stack';
 import { Switch } from '~/components/generic/Switch';
+import { Tournament } from '~/types/Tournament';
 
 import './ManageTournamentDrawer.scss';
 
@@ -21,7 +21,7 @@ export const ManageTournamentDrawer = ({
 }: ManageTournamentDrawerProps): JSX.Element => {
 
   const tournament: Tournament = {
-    status: 'draft',
+    status: 'published',
     competitor_count: 40,
     competitor_groups: [{ name: 'All Players', size: 40 }],
     competitor_size: 1,
@@ -41,7 +41,7 @@ export const ManageTournamentDrawer = ({
     title: 'FOW Belgian Nationals 2024',
   };
 
-  const [registrationsOpen, setRegisterationsOpen] = useState<boolean>(tournament.registrations_open);
+  const [registrationsOpen, setRegistrationsOpen] = useState<boolean>(tournament.registrations_open);
 
   const showEditButton = ['draft', 'published'].includes(tournament.status);
   const showPublishButton = tournament.status === 'draft';
@@ -58,7 +58,7 @@ export const ManageTournamentDrawer = ({
         <Drawer.Body className="ManageTournamentDrawer__Body">
           {showEditButton && (
             <Card>
-              <Button>Edit</Button>
+              <Button variant="outlined">Edit Tournament Details</Button>
             </Card>
           )}
           {showPublishButton && (
@@ -67,8 +67,11 @@ export const ManageTournamentDrawer = ({
             </Card>
           )}
           {showCloseRegistrationsButton && (
-            <Card>
-              <Button>Close Registration</Button>
+            <Card title="Registrations" description='Set registrations to "Open" to closed. You can also configure a moment in them for them to close automatically.'>
+              <Stack orientation="horizontal" verticalAlign="center">
+                <Switch id="isTeam" checked={registrationsOpen} onCheckedChange={() => setRegistrationsOpen(!registrationsOpen)} />
+                <Label htmlFor="isTeam">Registrations Open</Label>
+              </Stack>
             </Card>
           )}
           {showStartTournamentButton && (
@@ -77,7 +80,7 @@ export const ManageTournamentDrawer = ({
             </Card>
           )}
           <Card title="Danger Zone" intent="danger">
-            <Button>Start Tournament</Button>
+            <Button variant="outlined" intent="danger">Un-Publish Tournament</Button>
           </Card>
 
           - DANGER ZONE

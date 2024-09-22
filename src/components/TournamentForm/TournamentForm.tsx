@@ -5,7 +5,6 @@ import {
   useForm,
 } from 'react-hook-form';
 import { useBlocker } from 'react-router-dom';
-import { zodResolver } from '@hookform/resolvers/zod';
 import clsx from 'clsx';
 import {
   ChevronDown,
@@ -13,9 +12,7 @@ import {
   Clock,
   X,
 } from 'lucide-react';
-import { z } from 'zod';
 
-import { useAuth } from '~/components/AuthProvider';
 import { Animate } from '~/components/generic/Animate';
 import { Button } from '~/components/generic/Button';
 import { Card } from '~/components/generic/Card';
@@ -28,70 +25,49 @@ import { Label } from '~/components/generic/Label';
 import { Stack } from '~/components/generic/Stack';
 import { Switch } from '~/components/generic/Switch';
 import { UnsavedChangesDialog } from '~/components/UnsavedChangesDialog';
-import { createCn } from '~/utils/createCn';
+import { Tournament, tournamentResolver } from '~/types/Tournament';
+import { createCn } from '~/utils/componentLib/createCn';
 
-import './CreateTournamentForm.scss';
+import './TournamentForm.scss';
 
-const tournamentStatusSchema = z.union([
-  z.literal('draft'),
-  z.literal('published'),
-  z.literal('active'),
-  z.literal('archived'),
-]);
+const cn = createCn('TournamentForm');
 
-const tournamentSchema = z.object({
-  competitor_count: z.coerce.number().min(2, 'Tournaments require at least two competitors.'),
-  competitor_groups: z.array(z.object({
-    name: z.string().min(1).max(20),
-    size: z.coerce.number().min(1),
-  })),
-  competitor_size: z.coerce.number(),
-  description: z.optional(z.string().max(1000, 'Descriptions are limited to 1000 characters.')),
-  end_date: z.string(),
-  end_time: z.string(),
-  location: z.string(),
-  organizer_ids: z.array(z.string().uuid()),
-  rules_pack_url: z.optional(z.string().url('Please provide a valid URL.')).or(z.literal('')),
-  start_date: z.string(),
-  start_time: z.string(),
-  title: z.string(),
+const defaultValues: Partial<Tournament> = {
+  competitor_count: 10,
+  competitor_groups: [{ name: 'All Competitors', size: 10 }],
+  competitor_size: 1,
+  description: '',
+  end_date: '',
+  end_time: '18:00',
+  location: '',
+  organizer_ids: [],
+  rules_pack_url: '',
+  start_date: '',
+  start_time: '09:00',
+  title: '',
+};
 
-  // Hidden fields
-  status: tournamentStatusSchema,
-  registrations_open: z.boolean(),
-  current_round: z.optional(z.number()),
-  round_count: z.number(),
-  game_system_id: z.string().uuid(),
-  logo_url: z.optional(z.string().url('Please provide a valid URL.')).or(z.literal('')),
-  // game_system_config: json (rules, points, era)
-  // ranking_config: json
-  // pairing_config: json
-});
+export interface TournamentFormProps {
+  tournament?: Tournament;
+  defaultValues?: Partial<Tournament>;
+  loading?: boolean;
+  onSubmit: SubmitHandler<Tournament>;
+}
 
-export type Tournament = z.infer<typeof tournamentSchema>;
-
-const cn = createCn('CreateTournamentForm');
-
-export const CreateTournamentForm = (): JSX.Element => {
-  const user = useAuth();
-  const [loading] = useState<boolean>(false);
+export const TournamentForm = ({
+  tournament,
+  defaultValues: defaultValueOverrides,
+  loading = false,
+  onSubmit,
+}: TournamentFormProps): JSX.Element => {
   const [isTeam, setIsTeam] = useState<boolean>(false);
 
   const form = useForm<Tournament>({
-    resolver: zodResolver(tournamentSchema),
+    resolver: tournamentResolver,
     defaultValues: {
-      competitor_count: 10,
-      competitor_groups: [{ name: 'All Competitors', size: 10 }],
-      competitor_size: 1,
-      description: '',
-      end_date: '',
-      end_time: '18:00',
-      location: '',
-      organizer_ids: [user?.id],
-      rules_pack_url: '',
-      start_date: '',
-      start_time: '09:00',
-      title: '',
+      ...defaultValues,
+      ...defaultValueOverrides,
+      ...tournament,
     },
     mode: 'onBlur',
   });
@@ -102,14 +78,11 @@ export const CreateTournamentForm = (): JSX.Element => {
 
   const blocker = useBlocker(() => form.formState.isDirty);
 
-  const onSubmit: SubmitHandler<Tournament> = async (data: Tournament): Promise<void> => {
-    console.log(data);
-  };
-
   const handleAddGroup = (e: MouseEvent): void => {
     e.preventDefault();
     append({ name: '', size: 0 });
   };
+
   const handleRemoveGroup = (e: MouseEvent, i: number): void => {
     e.preventDefault();
     remove(i);
@@ -132,12 +105,10 @@ export const CreateTournamentForm = (): JSX.Element => {
   const competitorLabel = isTeam ? 'Teams' : 'Players';
   const totalPlayers = competitor_count * competitor_size;
 
-  console.log(form.formState.isDirty, blocker.state);
-
   return (
-    <Form form={form} onSubmit={onSubmit} className="CreateTournamentForm">
+    <Form form={form} onSubmit={onSubmit} className={cn()}>
       <UnsavedChangesDialog blocker={blocker} />
-      <Card className="GameMetaSection" title="General">
+      <Card className={cn('__GameMetaSection')} title="General">
         <Stack>
           <FormField name="title" label="Title" description="Avoid including points and other rules in the title.">
             <InputText type="text" />
@@ -151,8 +122,8 @@ export const CreateTournamentForm = (): JSX.Element => {
           <FormField name="location" label="Location">
             <InputText type="text" />
           </FormField>
-          <Stack className="DateTimeSection" orientation="horizontal">
-            <div className={cn('DateTimeStart')}>
+          <Stack className={cn('__DateTimeSection')} orientation="horizontal">
+            <div className={cn('__DateTimeStart')}>
               <FormField name="start_date" label="Start Date">
                 <InputDate />
               </FormField>
@@ -160,7 +131,7 @@ export const CreateTournamentForm = (): JSX.Element => {
                 <InputText type="time" slotBefore={<Clock />} />
               </FormField>
             </div>
-            <div className={cn('DateTimeEnd')}>
+            <div className={cn('__DateTimeEnd')}>
               <FormField name="end_date" label="End Date">
                 <InputDate />
               </FormField>
@@ -180,12 +151,12 @@ export const CreateTournamentForm = (): JSX.Element => {
             <Switch id="isTeam" checked={isTeam} onCheckedChange={handleToggleIsTeam} />
             <Label htmlFor="isTeam">Team Tournament</Label>
           </Stack>
-          <div className={cn('CompetitorsInputs')}>
+          <div className={cn('__CompetitorsInputs')}>
             <FormField name="competitor_count" label={`Total ${competitorLabel}`}>
               <InputText type="number" />
             </FormField>
             <Animate show={isTeam}>
-              <FormField className={cn('CompetitorSizeInput')} name="competitor_size" label="Team Size">
+              <FormField className={cn('__CompetitorSizeInput')} name="competitor_size" label="Team Size">
                 <InputText type="number" />
               </FormField>
             </Animate>
@@ -194,13 +165,13 @@ export const CreateTournamentForm = (): JSX.Element => {
         </Stack>
       </Card>
       <Card
-        className={clsx(cn('GroupsCard'))}
+        className={clsx(cn('__GroupsCard'))}
         title="Registration Groups"
         description={`Use groups to create different sets of ${competitorLabel} such as 'Axis' and 'Allies'.`}
       >
         <Stack horizontalAlign="end" gap="0.5rem">
           {competitorGroupFields.map((_field, i) => (
-            <Stack orientation="horizontal" gap="0.5rem" className="RegistrationGroup" verticalAlign="center">
+            <Stack orientation="horizontal" gap="0.5rem" className={cn('__RegistrationGroup')} verticalAlign="center">
               <Stack gap={0}>
                 <IconButton onClick={(e) => handleRemoveGroup(e, i)} variant="ghost" size="small"><ChevronUp /></IconButton>
                 <IconButton onClick={(e) => handleRemoveGroup(e, i)} variant="ghost" size="small" disabled={competitorGroupFields.length < 2}><X /></IconButton>
@@ -209,15 +180,15 @@ export const CreateTournamentForm = (): JSX.Element => {
               <FormField name={`competitor_groups.${i}.name`} label="Name">
                 <InputText type="text" />
               </FormField>
-              <FormField name={`competitor_groups.${i}.size`} label={competitorLabel} className="CompetitorGroupSizeInput">
+              <FormField name={`competitor_groups.${i}.size`} label={competitorLabel} className={cn('__CompetitorGroupSizeInput')}>
                 <InputText type="number" />
               </FormField>
             </Stack>
           ))}
-          <Button variant="solid-muted" onClick={handleAddGroup}>Add Group</Button>
+          <Button variant="solid" muted onClick={handleAddGroup}>Add Group</Button>
         </Stack>
       </Card>
       <Button type="submit" disabled={loading}>Create</Button>
-    </Form >
+    </Form>
   );
 };

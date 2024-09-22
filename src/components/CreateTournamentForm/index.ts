@@ -1,1 +1,0 @@
-export { CreateTournamentForm } from './CreateTournamentForm';

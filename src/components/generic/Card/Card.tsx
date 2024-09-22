@@ -1,7 +1,7 @@
 import { HTMLAttributes } from 'react';
 import clsx from 'clsx';
 
-import { createCn } from '~/utils/createCn';
+import { createCn } from '~/utils/componentLib/createCn';
 
 import './Card.scss';
 

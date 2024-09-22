@@ -1,0 +1,48 @@
+@use '/src/style/animate';
+@use '/src/style/variables';
+@use '/src/style/mixins';
+@use '/src/style/flex';
+
+.TournamentForm {
+  @include flex.column(1rem);
+  @include flex.stretchy;
+
+  &__DateTimeStart,
+  &__DateTimeEnd {
+    @include flex.stretchy;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr) );
+  }
+  &__CompetitorsInputs {
+    @include flex.stretchy;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr 1fr;
+  }
+  &__CompetitorSizeInput {
+    @include animate.stylePop;
+    @include animate.durationQuick;
+  }
+  &__RegistrationGroup {
+    @include mixins.border;
+    @include mixins.surfaceShadow;
+    @include animate.durationQuick;
+    @include animate.stylePop;
+    & {
+      border-radius: variables.$corner-radius;
+      height: calc(6rem + (2 * variables.$border-width));
+      width: 100%;
+      padding-right: 1rem;
+    }
+  }
+  &__CompetitorGroupSizeInput {
+    max-width: 5rem;
+  }
+}
+
+
+
+
+
+

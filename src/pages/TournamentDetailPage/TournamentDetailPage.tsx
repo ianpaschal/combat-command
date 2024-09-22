@@ -8,7 +8,6 @@ import {
 
 import { useAuth } from '~/components/AuthProvider';
 import { CheckInMatchDialog } from '~/components/CheckInMatchDialog';
-import { Tournament } from '~/components/CreateTournamentForm/CreateTournamentForm';
 import { FloatingActionButton } from '~/components/FloatingActionButton';
 import { Card } from '~/components/generic/Card';
 import { Drawer } from '~/components/generic/Drawer';
@@ -16,7 +15,8 @@ import { ScrollArea } from '~/components/generic/ScrollArea';
 import { Stack } from '~/components/generic/Stack';
 import { ManageTournamentDrawer } from '~/components/ManageTournamentDrawer';
 import { PageWrapper } from '~/components/PageWrapper';
-import { createCn } from '~/utils/createCn';
+import { Tournament } from '~/types/Tournament';
+import { createCn } from '~/utils/componentLib/createCn';
 
 import './TournamentDetailPage.scss';
 
@@ -148,12 +148,14 @@ export const TournamentDetailPage = (): JSX.Element => {
         </CheckInMatchDialog>
       )}
       {showManageButton && (
-        <ManageTournamentDrawer tournamentId={tournamentId} trigger={(
-          <FloatingActionButton>
-            <Cog />
-          </FloatingActionButton>
-        )} />
-
+        <ManageTournamentDrawer
+          tournamentId={tournamentId}
+          trigger={(
+            <FloatingActionButton>
+              <Cog />
+            </FloatingActionButton>
+          )}
+        />
       )}
     </PageWrapper>
   );
