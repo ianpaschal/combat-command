@@ -1,5 +1,5 @@
 {
-  "name": "battle-tools",
+  "name": "combat-command",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,8 +10,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@fontsource/jost": "^5.0.18",
-    "@fontsource/libre-caslon-text": "^5.0.20",
     "@hookform/resolvers": "^3.9.0",
     "@radix-ui/react-aspect-ratio": "^1.1.0",
     "@radix-ui/react-avatar": "^1.1.0",
@@ -34,7 +32,6 @@
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
     "fast-xml-parser": "^4.4.0",
-    "framer-motion": "^11.3.13",
     "lucide-react": "^0.438.0",
     "nanoid": "^5.0.7",
     "pdfjs-dist": "^4.4.168",
