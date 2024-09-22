@@ -22,7 +22,7 @@ module.exports = {
     '@stylistic/js/no-multi-spaces': "error",
     '@stylistic/js/no-multiple-empty-lines': ['error', { max: 1, maxBOF: 0, maxEOF: 1 }],
     '@stylistic/ts/indent': ['error', 2],
-    '@stylistic/ts/object-curly-spacing': ['error', 'always', { 'arraysInObjects': false }],
+    '@stylistic/ts/object-curly-spacing': ['error', 'always'],
     '@stylistic/ts/semi': 'error',
     '@stylistic/ts/quotes': ['error', 'single'],
     '@stylistic/js/jsx-quotes': ["error", "prefer-double"],
