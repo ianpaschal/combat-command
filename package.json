@@ -33,6 +33,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
     "fast-xml-parser": "^4.4.0",
+    "flag-icons": "^7.2.3",
     "lucide-react": "^0.438.0",
     "nanoid": "^5.0.7",
     "pdfjs-dist": "^4.4.168",
