@@ -32,22 +32,6 @@ $scrollbar-padding: 0.25rem;
   &[data-state='hidden'] {
     animation-name: fadeOut;
   }
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  @keyframes fadeOut {
-    from {
-      opacity: 1;
-    }
-    to {
-      opacity: 0;
-    }
-  }
 }
 .ScrollAreaScrollbar:hover {
   background-color: variables.$ghost-bg-hover;

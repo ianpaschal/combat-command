@@ -1,38 +1,31 @@
-@use '/src/style/mixins';
 @use '/src/style/variables';
 @use '/src/style/flex';
 
-.AppBarRoot {
-  background-color: variables.$card-bg;
-  border-bottom-color: variables.$outlined-border;
-  border-bottom-style: solid;
-  border-bottom-width: variables.$border-width;
-  box-sizing: border-box;
-  height: variables.$app-bar-height;
-  left: 0;
-  padding: 1rem;
-  padding-right: 1.5rem;
-  position: fixed;
-  top: 0;
-  width: 100vw;
-  @include flex.row(1rem);
-}
-
-.AppBarContent {
-  
-  @include flex.row(1rem);
-  @include flex.stretchy;
-  align-items: center;
-  justify-content: space-between;
-  margin: 0 auto;
-}
-
-.AppBarRight {
-  margin-left: auto;
-}
-
-.AppBar__Logo {
-  width: 2.5rem;
-  height: 2.5rem;
-  color: variables.$text-base;
+.AppBar {
+  &__Root {
+    background-color: variables.$card-bg;
+    border-bottom-color: variables.$outlined-border;
+    border-bottom-style: solid;
+    border-bottom-width: variables.$border-width;
+    height: variables.$app-bar-height;
+    left: 0;
+    padding: 1rem;
+    padding-right: 1.5rem;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    @include flex.row(1rem);
+  }
+  &__Content {
+    @include flex.row(1rem);
+    @include flex.stretchy;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 auto;
+  }
+  &__Logo {
+    width: 2.5rem;
+    height: 2.5rem;
+    color: variables.$text-base;
+  }
 }

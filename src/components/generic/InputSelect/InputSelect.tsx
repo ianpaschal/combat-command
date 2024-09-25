@@ -100,6 +100,7 @@ export const InputSelect = forwardRef<SelectRef, SelectProps>(({
     </Portal>
   </Root>
 ));
+InputSelect.displayName = 'InputSelect';
 
 type SelectItemRef = ElementRef<typeof Item>;
 type SelectItemProps = ComponentPropsWithoutRef<typeof Item>;
@@ -115,3 +116,4 @@ const SelectItem = forwardRef<SelectItemRef, SelectItemProps>(({
     </ItemIndicator>
   </Item>
 ));
+SelectItem.displayName = 'SelectItem';

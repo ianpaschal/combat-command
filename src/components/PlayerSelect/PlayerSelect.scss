@@ -1,5 +1,6 @@
-@use '/src/style/mixins';
+
 @use '/src/style/flex';
+@use '/src/style/variants';
 
 .PlayerSelectTrigger {
   border: none;
@@ -9,11 +10,11 @@
   min-height: 7rem;
 
   &-ghost {
-    @include mixins.ghost;
+    @include variants.ghost;
   }
 
   &-outlined {
-    @include mixins.outlined;
+    @include variants.outlined;
   }
 }
 

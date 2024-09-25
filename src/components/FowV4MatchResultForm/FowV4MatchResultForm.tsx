@@ -5,6 +5,7 @@ import { z } from 'zod';
 
 import { useAuth } from '~/components/AuthProvider';
 import { Animate } from '~/components/generic/Animate';
+import { Avatar } from '~/components/generic/Avatar';
 import { Button } from '~/components/generic/Button';
 import { Form, FormField } from '~/components/generic/Form';
 import { InputText } from '~/components/generic/InputText';
@@ -176,7 +177,9 @@ export const FowV4MatchResultForm = ({
       </Animate>
       <div className="OpponentsSection">
         <div className="Player0Section">
-          <UserPortrait username="FooBar" givenName="Ian" familyName="Paschal" />
+          <UserPortrait name="FooBar">
+            <Avatar />
+          </UserPortrait>
           <FormField name="detailed_result.player_0_stance" label="Stance">
             <InputSelect options={stanceOptions} />
           </FormField>

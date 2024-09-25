@@ -1,18 +1,19 @@
-@use '/src/style/mixins';
+
 @use '/src/style/variables';
+@use '/src/style/text';
 
-.FormFieldLabel {
-  margin-bottom: 0.375rem;
-}
-
-.FormFieldDescription {
-  @include mixins.uiText;
-  font-size: 0.75rem;
-  margin-top: 0.25rem;
-  color: variables.$text-muted;
-}
-
-.FormFieldErrors {
-  @include mixins.uiText;
-  color: variables.$red;
+.FormField {
+  &__Label {
+    margin-bottom: 0.375rem;
+  }
+  &__Description {
+    @include text.ui($muted: true);
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+    color: variables.$text-muted;
+  }
+  &__Errors {
+    @include text.ui;
+    color: variables.$red;
+  }
 }

@@ -17,7 +17,7 @@ export const UnsavedChangesDialog = ({
   <Dialog open={blocker.state === 'blocked'}>
     <DialogContent title="You have unsaved changes" description="Are you sure you want to navigate away? Unsaved changes will be lost.">
       <DialogFooter>
-        <Button onClick={blocker.reset} variant="solid-muted">
+        <Button onClick={blocker.reset} variant="solid" muted>
           Cancel
         </Button>
         <Button onClick={blocker.proceed} intent="danger">

@@ -1,0 +1,19 @@
+@use 'variables';
+
+@mixin normal {
+  border-color: variables.$outlined-border;
+  border-width: variables.$border-width;
+  border-style: solid;
+}
+
+@mixin muted {
+  border-color: variables.$outlinedMuted-border;
+  border-width: variables.$border-width;
+  border-style: solid;
+}
+
+@mixin danger {
+  border-color: variables.$outlinedDanger-border;
+  border-width: variables.$border-width;
+  border-style: solid;
+}

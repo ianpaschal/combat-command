@@ -1,10 +1,10 @@
-@use '/src/style/mixins';
+@use '/src/style/text';
 
 .Label {
-  @include mixins.uiText;
-
-  font-weight: 500;
-  line-height: 1rem;
-  display: block;
-  max-width: 8rem;
+  @include text.ui($bold: true);
+  & {
+    line-height: 1rem;
+    display: block;
+    max-width: 8rem;
+  }
 }

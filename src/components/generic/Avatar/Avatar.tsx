@@ -33,10 +33,11 @@ export const Avatar = ({
       src={avatarUrl}
       alt={displayName}
     />
-    <Fallback className={cn('__Fallback')} delayMs={600}>
-      <User />
-    </Fallback>
-
+    {!avatarUrl && (
+      <Fallback className={cn('__Fallback')} delayMs={600}>
+        <User />
+      </Fallback>
+    )}
     {onEdit && (
       <span onClick={onEdit}>
 

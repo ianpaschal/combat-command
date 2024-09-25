@@ -1,6 +1,7 @@
 @use '/src/style/variables';
-@use '/src/style/mixins';
 
+@use '/src/style/variants';
+@use '/src/style/text';
 
 $close-size: 2.5rem;
 
@@ -31,9 +32,8 @@ $close-size: 2.5rem;
 }
 
 .DrawerHeaderClose {
-  @include mixins.buttonBasis;
-  @include mixins.ghost;
-
+  @include text.ui;
+  @include variants.ghost;
   & {
     position: absolute;
     width: $close-size;

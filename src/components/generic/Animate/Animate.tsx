@@ -1,6 +1,8 @@
 import { ReactElement } from 'react';
 import clsx from 'clsx';
 
+import { createCn } from '~/utils/componentLib/createCn';
+
 import './Animate.scss';
 
 export interface AnimateProps {
@@ -10,6 +12,8 @@ export interface AnimateProps {
   style?: 'pop';
 }
 
+const cn = createCn('Animate');
+
 export const Animate = ({
   children,
   show = false,
@@ -17,7 +21,7 @@ export const Animate = ({
   style = 'pop',
 }: AnimateProps): JSX.Element => (
   <div
-    className={clsx('Animated', `Animated--speed-${speed}`, `Animated--style-${style}`)}
+    className={clsx(cn(), cn(`--speed-${speed}`), cn(`--style-${style}`))}
     data-state={show ? 'open' : 'closed'}
   >
     {children}

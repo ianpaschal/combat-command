@@ -1,0 +1,20 @@
+@use '/src/style/corners';
+@use '/src/style/flex';
+@use '/src/style/sizes';
+@use '/src/style/variables';
+
+.TabsList {
+  @include corners.normal;
+  @include flex.row(0.25rem);
+  @include sizes.normal;
+  & {
+    padding: 0.25rem;
+    background-color: variables.$solidMuted-bg;
+  }
+  &-min {
+    width: min-content;
+  }
+  &-max {
+    width: 100%;
+  }
+}

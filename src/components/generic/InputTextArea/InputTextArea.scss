@@ -1,11 +1,16 @@
-@use '/src/style/mixins';
-@use "/src/style/variables" as *;
+
+@use '/src/style/variables';
 @use '/src/style/flex';
+@use '/src/style/variants';
+@use '/src/style/corners';
+@use '/src/style/sizes';
 
 .InputTextArea {
-  @include mixins.inputBasis;
+  @include variants.outlined;
+  @include sizes.normal;
+  @include corners.normal;
+  @include flex.row($xAlign: left, $yAlign: center);
   @include flex.stretchy;
-
   & {
     height: 7.5rem;
     position: relative;
@@ -13,13 +18,11 @@
     resize: none;
     padding-bottom: 1rem;
   }
-
-
   &-hasError {
-    color: $red;
+    color: variables.$red;
 
     textarea {
-      border-color: $red;
+      border-color: variables.$red;
     }
   }
 }
@@ -28,5 +31,5 @@
 
 input::placeholder, textarea::placeholder {
   opacity: 1;
-  color: $text-muted;
+  color: variables.$text-muted;
 }

@@ -4,10 +4,10 @@ import { Menu, Plus } from 'lucide-react';
 
 import { AccountMenu } from '~/components/AccountMenu';
 import { AppLogo } from '~/components/AppLogo';
+import { Button } from '~/components/generic/Button';
 import { Drawer } from '~/components/generic/Drawer';
-import { IconButton } from '~/components/generic/IconButton';
 import { NavLink, NavLinks } from '~/components/generic/NavLinks';
-import { Button } from '../generic/Button';
+import { createCn } from '~/utils/componentLib/createCn';
 
 import './AppBar.scss';
 
@@ -15,6 +15,8 @@ export interface AppBarProps {
   maxWidth?: string | number;
   navItems: NavLink[];
 }
+
+const cn = createCn('AppBar');
 
 export const AppBar = ({
   maxWidth,
@@ -24,26 +26,26 @@ export const AppBar = ({
   const isMobile = width <= 688;
   return (
     <Portal.Root>
-      <div className="AppBarRoot">
-        <div className="AppBarContent" style={{ maxWidth }}>
+      <div className={cn('__Root')}>
+        <div className={cn('__Content')} style={{ maxWidth }}>
           {isMobile && (
             <Drawer.Root>
               <Drawer.Trigger asChild>
-                <IconButton variant="ghost"><Menu /></IconButton>
+                <Button variant="ghost"><Menu /></Button>
               </Drawer.Trigger>
               <Drawer.Content side="left">
                 <Drawer.Header title="Navigation" hideTitle>
-                  <AppLogo className="AppBar__Logo" />
+                  <AppLogo className={cn('__Logo')} />
                 </Drawer.Header>
                 <Drawer.Body>
                   <NavLinks orientation="vertical" routes={navItems} />
-                  <Button slotBefore={<Plus />} variant="solid">Check In Match</Button>
+                  <Button variant="solid">Check In Match</Button>
                 </Drawer.Body>
               </Drawer.Content>
             </Drawer.Root>
           )}
           {/* <img src={logo} height={40} width={40} /> */}
-          <AppLogo className="AppBar__Logo" />
+          <AppLogo className={cn('__Logo')} />
           {!isMobile && (
             <NavLinks routes={navItems} />
           )}

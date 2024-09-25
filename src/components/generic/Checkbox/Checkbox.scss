@@ -1,0 +1,59 @@
+@use '/src/style/sizes';
+@use '/src/style/variables';
+@use '/src/style/variants';
+@use '/src/style/corners';
+@use '/src/style/flex';
+@use '/src/style/animate';
+
+.Checkbox {
+  @include variants.reset;
+  @include flex.centered;
+  & {
+    position: relative;
+  }
+  // Size
+  &--size-tiny {
+    @include sizes.tiny;
+    @include corners.tight;
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+  &--size-small {
+    @include sizes.small;
+    @include corners.normal;
+  }
+  &--size-normal {
+    @include sizes.normal;
+    @include corners.normal;
+  }
+  &--size-large {
+    @include sizes.large;
+    @include corners.normal;
+  }
+
+  // Variant+Intent
+  &--solid {
+    @include variants.solidMuted();
+    &[data-state='checked'] {
+      @include variants.solid();
+    }
+  }
+  &--outlined {
+    @include variants.outlinedMuted($hover: false);
+    &[data-state='checked'] {
+      @include variants.outlined($hover: false);
+    }
+  }
+
+  &__Indicator {
+    margin-top: 3px; // Looks better
+    &--solid {
+      color: variables.$solid-text;
+    }
+    &--outlined {
+      color: variables.$outlined-text;
+    }
+  }
+}

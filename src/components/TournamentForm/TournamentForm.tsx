@@ -181,9 +181,9 @@ export const TournamentForm = ({
           {competitorGroupFields.map((_field, i) => (
             <Stack orientation="horizontal" gap="0.5rem" className={cn('__RegistrationGroup')} verticalAlign="center">
               <Stack gap={0}>
-                <IconButton onClick={(e) => handleRemoveGroup(e, i)} variant="ghost" size="small"><ChevronUp /></IconButton>
-                <IconButton onClick={(e) => handleRemoveGroup(e, i)} variant="ghost" size="small" disabled={competitorGroupFields.length < 2}><X /></IconButton>
-                <IconButton onClick={(e) => handleRemoveGroup(e, i)} variant="ghost" size="small"><ChevronDown /></IconButton>
+                <Button onClick={(e) => handleRemoveGroup(e, i)} variant="ghost" size="small"><ChevronUp /></Button>
+                <Button onClick={(e) => handleRemoveGroup(e, i)} variant="ghost" size="small" disabled={competitorGroupFields.length < 2}><X /></Button>
+                <Button onClick={(e) => handleRemoveGroup(e, i)} variant="ghost" size="small"><ChevronDown /></Button>
               </Stack>
               <FormField name={`competitor_groups.${i}.name`} label="Name">
                 <InputText type="text" />

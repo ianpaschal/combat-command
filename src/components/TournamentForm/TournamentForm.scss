@@ -1,7 +1,9 @@
 @use '/src/style/animate';
-@use '/src/style/variables';
-@use '/src/style/mixins';
 @use '/src/style/flex';
+
+@use '/src/style/shadows';
+@use '/src/style/variables';
+@use '/src/style/variants';
 
 .TournamentForm {
   @include flex.column(1rem);
@@ -25,8 +27,8 @@
     @include animate.durationQuick;
   }
   &__RegistrationGroup {
-    @include mixins.border;
-    @include mixins.surfaceShadow;
+    @include variants.outlined;
+    @include shadows.surfaceShadow;
     @include animate.durationQuick;
     @include animate.stylePop;
     & {

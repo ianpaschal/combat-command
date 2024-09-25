@@ -1,8 +1,14 @@
-import { cloneElement, ReactElement } from 'react';
+import {
+  cloneElement,
+  isValidElement,
+  ReactElement,
+} from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import clsx from 'clsx';
 
 import { Label } from '~/components/generic/Label';
+import { createCn } from '~/utils/componentLib/createCn';
+import { getComponentName } from '~/utils/componentLib/getComponentName';
 
 import './FormField.scss';
 
@@ -14,6 +20,8 @@ export interface FormFieldProps {
   children: ReactElement;
 }
 
+const cn = createCn('FormField');
+
 export const FormField = ({
   className,
   description,
@@ -24,10 +32,13 @@ export const FormField = ({
 }: FormFieldProps): JSX.Element => {
   const { control, formState: { errors } } = useFormContext();
   const hasError = Boolean(errors[name]);
+  if (isValidElement(children) && ['Switch', 'Checkbox'].includes(getComponentName(children))) {
+    console.log('Use horizontal layout');
+  }
   return (
     <div className={className}>
       {label && (
-        <Label className={clsx('FormFieldLabel', { 'FormFieldLabel-error': hasError })}>{label}</Label>
+        <Label className={clsx(cn('__Label'), { [cn('__Label--error')]: hasError })}>{label}</Label>
       )}
       <Controller
         control={control}
@@ -37,10 +48,10 @@ export const FormField = ({
         name={name}
       />
       {hasError && (
-        <div className={clsx('FormFieldErrors')}>{errors[name]?.message as string}</div>
+        <div className={clsx(cn('__Errors'))}>{errors[name]?.message as string}</div>
       )}
       {description && (
-        <div className={clsx('FormFieldDescription')}>{description}</div>
+        <div className={clsx(cn('__Description'))}>{description}</div>
       )}
     </div>
   );

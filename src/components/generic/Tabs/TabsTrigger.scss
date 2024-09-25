@@ -1,0 +1,30 @@
+@use '/src/style/corners';
+@use '/src/style/flex';
+
+@use '/src/style/variables';
+@use '/src/style/variants';
+@use '/src/style/shadows';
+@use '/src/style/text';
+
+.TabsTrigger {
+  @include corners.tight;
+  @include flex.centered;
+  @include flex.stretchy;
+  @include text.ui;
+  @include variants.solidMuted;
+  & {
+    flex-grow: 0;
+    font-weight: 500;
+    padding: 0 1rem;
+    height: 100%;
+  }
+  &[data-state='active'] {
+    background-color: variables.$white;
+    @include shadows.surfaceShadow;
+  }
+  &[data-state='inactive'] {
+    &:hover {
+      background-color: variables.$solidMuted-bg-hover;
+    }
+  }
+}

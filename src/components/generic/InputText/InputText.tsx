@@ -40,3 +40,4 @@ export const InputText = forwardRef<HTMLInputElement, InputTextProps>(({
     )}
   </div>
 ));
+InputText.displayName = 'InputText';

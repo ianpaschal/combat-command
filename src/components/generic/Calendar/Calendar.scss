@@ -1,8 +1,10 @@
-@use '/src/style/mixins';
+
 @use '/src/style/flex';
+@use '/src/style/variants';
+@use '/src/style/text';
 
 .rdp-caption {
-  @include mixins.uiText;
+  @include text.ui;
   @include flex.centered;
   & {
     font-weight: 500;
@@ -15,7 +17,7 @@
 
 
 .DayButton {
-  @include mixins.ghost;
+  @include variants.ghost;
   & {
     width: 2.25rem;
     height: 2.25rem;
@@ -24,11 +26,11 @@
 
 
 .DayButtonSelected {
-  @include mixins.solid;
+  @include variants.solid;
 }
 
 .CalendarNavButton {
-  @include mixins.outlined-muted;
+  @include variants.outlinedMuted;
 
   & {
     position: absolute;

@@ -1,29 +1,59 @@
 /**
  * These mixins exist primarily to avoid constant repetition.
  */
-@mixin row ($gap) {
+@mixin row ($gap: 1rem, $xAlign: left, $yAlign: top) {
   display: flex;
+  flex-direction: row;
   gap: $gap;
+  @if $xAlign == left {
+    justify-content: start;
+  }
+  @if $xAlign == center {
+    justify-content: center;
+  }
+  @if $xAlign == right {
+    justify-content: end;
+  }
+  @if $yAlign == top {
+    align-items: start;
+  }
+  @if $yAlign == center {
+    align-items: center;
+  }
+  @if $yAlign == bottom {
+    align-items: end;
+  }
 }
 
-// Use args for this
-// @mixin rowYCentered {
-//   align-items: center;
-// }
-// @mixin columnYCentered {
-//   justify-content: center;
-// }
-
-@mixin column ($gap) {
+@mixin column ($gap: 1rem, $xAlign: left, $yAlign: top) {
   display: flex;
   flex-direction: column;
   gap: $gap;
+  @if $xAlign == left {
+    align-items: left;
+  }
+  @if $xAlign == center {
+    align-items: center;
+  }
+  @if $xAlign == right {
+    align-items: right;
+  }
+  @if $yAlign == top {
+    justify-content: start;
+  }
+  @if $yAlign == center {
+    justify-content: center;
+  }
+  @if $yAlign == right {
+    justify-content: end;
+  }
 }
 
-@mixin centered {
+@mixin centered ($gap: 1rem) {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: $gap;
 }
 
 @mixin stretchy {

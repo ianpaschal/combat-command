@@ -17,10 +17,7 @@ $text-disabled: color.adjust($text-base, $lightness: 60%);
 $page-bg: hsl(220, 5%, 97.5%);
 $card-bg: $white;
 $border-color: color.adjust($text-base, $alpha: -0.90);
-
-@media (prefers-color-scheme: light) {
-  $text-base: hsl(220, 100%, 50%);
-}
+$modal-overlay-bg-color: rgba(0,0,0,0.8);
 
 // Solid
 $solid-bg: $text-base;
@@ -28,20 +25,16 @@ $solid-bg-hover: color.adjust($solid-bg, $lightness: 15%);
 $solid-bg-disabled: color.adjust($solid-bg, $lightness: 30%);
 $solid-text: $white;
 
-@media (prefers-color-scheme: light) {
-  $solid-bg: yellow;
-}
+// solidMuted
+$solidMuted-bg: color.adjust($solid-bg, $lightness: 85%);
+$solidMuted-bg-hover: color.adjust($solidMuted-bg, $lightness: 2.5%);
+$solidMuted-bg-disabled: color.adjust($solid-bg, $lightness: 10%);
+$solidMuted-text: $text-base;
 
-// Solid-Muted
-$solid-muted-bg: color.adjust($solid-bg, $lightness: 85%);
-$solid-muted-bg-hover: color.adjust($solid-muted-bg, $lightness: 2.5%);
-$solid-muted-bg-disabled: color.adjust($solid-bg, $lightness: 10%);
-$solid-muted-text: $text-base;
-
-// Solid-Danger
-$solid-danger-bg: $red;
-$solid-danger-bg-hover: color.adjust($solid-danger-bg, $lightness: 10%);
-$solid-danger-text: $solid-text;
+// solidDanger
+$solidDanger-bg: $red;
+$solidDanger-bg-hover: color.adjust($solidDanger-bg, $lightness: 10%);
+$solidDanger-text: $solid-text;
 
 // Outlined
 $outlined-bg: $white;
@@ -50,15 +43,16 @@ $outlined-text: $text-base;
 $outlined-border: $border-color;
 
 // Outlined Muted
-$outlined-muted-bg: $outlined-bg;
-$outlined-muted-bg-hover: $outlined-bg-hover;
-$outlined-muted-text: $text-muted;
-$outlined-muted-border: color.adjust($outlined-border, $lightness: 20%);
+$outlinedMuted-bg: $outlined-bg;
+$outlinedMuted-bg-hover: $outlined-bg-hover;
+$outlinedMuted-text: $text-muted;
+$outlinedMuted-border: color.adjust($outlined-border, $lightness: 20%);
 
 // Outlined Danger
-$outlined-danger-bg: color.adjust($red, $lightness: 35%);
-$outlined-danger-text: $red;
-$outlined-danger-border: $red;
+$outlinedDanger-bg: $white;
+$outlinedDanger-bg-hover: color.adjust($red, $lightness: 35%);
+$outlinedDanger-text: $red;
+$outlinedDanger-border: $red;
 
 // Ghost (no border)
 $ghost-bg: transparent;

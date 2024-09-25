@@ -1,12 +1,14 @@
-@use 'sass:color';
 @use '/src/style/variables';
-@use '/src/style/mixins';
 @use '/src/style/animate';
+@use '/src/style/utils';
 
 .DrawerOverlay {
-  @include mixins.modalOverlay;
+  @include utils.modalOverlay;
   @include animate.durationSlow;
   @include animate.styleFade;
+  & {
+    background-color: variables.$modal-overlay-bg-color;
+  }
 }
 
 .DrawerContent {

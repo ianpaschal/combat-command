@@ -6,12 +6,12 @@ import {
 import { Root as PortalRoot } from '@radix-ui/react-portal';
 import clsx from 'clsx';
 
-import { IconButton } from '~/components/generic/IconButton';
+import { Button } from '~/components/generic/Button';
 
 import './FloatingActionButton.scss';
 
-type FloatingActionButtonRef = ElementRef<typeof IconButton>;
-type FloatingActionButtonProps = ComponentPropsWithoutRef<typeof IconButton>;
+type FloatingActionButtonRef = ElementRef<typeof Button>;
+type FloatingActionButtonProps = ComponentPropsWithoutRef<typeof Button>;
 export const FloatingActionButton = forwardRef<FloatingActionButtonRef, FloatingActionButtonProps>(({
   children,
   className,
@@ -20,7 +20,7 @@ export const FloatingActionButton = forwardRef<FloatingActionButtonRef, Floating
   ...props
 }, ref): JSX.Element => (
   <PortalRoot asChild>
-    <IconButton
+    <Button
       ref={ref}
       className={clsx('FloatingActionButton', className)}
       size={size}
@@ -29,6 +29,6 @@ export const FloatingActionButton = forwardRef<FloatingActionButtonRef, Floating
       {...props}
     >
       {children}
-    </IconButton>
+    </Button>
   </PortalRoot>
 ));

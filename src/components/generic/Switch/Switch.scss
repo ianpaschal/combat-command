@@ -1,6 +1,7 @@
-@use '/src/style/mixins';
+
 @use '/src/style/animate';
 @use '/src/style/variables';
+@use '/src/style/shadows';
 
 $switch-height: 1.5rem;
 $switch-width: 2.5rem;
@@ -12,7 +13,7 @@ $thumb-offset: calc($switch-width - ($thumb-inset + $thumb-size));
   all: unset;
   width: $switch-width;
   height: $switch-height;
-  background-color: variables.$solid-muted-bg;
+  background-color: variables.$solidMuted-bg;
   border-radius: calc($switch-height / 2);
   position: relative;
   transition: background-color 100ms;
@@ -23,21 +24,20 @@ $thumb-offset: calc($switch-width - ($thumb-inset + $thumb-size));
   &[data-state='checked'] {
     background-color: variables.$text-base;
   }
-
-}
-
-.SwitchThumb {
-  @include mixins.surfaceShadow;
-  pointer-events: none;
-  display: block;
-  width: $thumb-size;
-  height: $thumb-size;
-  background-color: variables.$white;
-  border-radius: 100%;
-  transition: transform  100ms;
-  transform: translateX($thumb-inset);
-  &[data-state='checked'] {
-    transform: translateX($thumb-offset);
+  &__Thumb {
+    @include shadows.surfaceShadow;
+    & {
+      pointer-events: none;
+      display: block;
+      width: $thumb-size;
+      height: $thumb-size;
+      background-color: variables.$white;
+      border-radius: 100%;
+      transition: transform  100ms;
+      transform: translateX($thumb-inset);
+    }
+    &[data-state='checked'] {
+      transform: translateX($thumb-offset);
+    }
   }
 }
-

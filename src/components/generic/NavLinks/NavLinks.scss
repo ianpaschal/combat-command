@@ -1,6 +1,9 @@
-@use '/src/style/mixins';
+
 @use '/src/style/variables';
 @use '/src/style/flex';
+@use '/src/style/variants';
+@use '/src/style/corners';
+@use '/src/style/text';
 
 .NavLinksRoot {
   @include flex.stretchy;
@@ -22,11 +25,11 @@
 
 
 .NavLinksItem {
-  @include mixins.uiText;
-  @include mixins.buttonBasis;
-  @include mixins.ghost;
-
-  &{
+  @include text.ui;
+  @include variants.ghost;
+  @include corners.normal;
+  & {
+    flex-grow: 0;
     padding: 0.625rem 1rem;
     text-decoration: none;
     font-weight: 400;

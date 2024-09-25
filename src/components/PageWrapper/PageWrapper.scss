@@ -6,11 +6,9 @@
   // @include animate.stylePop;
 
   & {
-    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     height: 100vh;
-    padding: 0 1rem;
     position: absolute;
     width: 100vw;
     background-color: transparent;
@@ -22,11 +20,10 @@
 }
 
 .PageWrapper__Header {
-  margin-bottom: 1rem;
+  margin: 1rem;
   height: 2.5rem;
-  margin-top: 1rem;
 }
 
 .PageWrapper__Body {
-  margin-bottom: 1rem;
+  margin: 1rem;
 }

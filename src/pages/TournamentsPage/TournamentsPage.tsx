@@ -7,7 +7,6 @@ import {
 
 import { Button } from '~/components/generic/Button';
 import { Card } from '~/components/generic/Card';
-import { IconButton } from '~/components/generic/IconButton';
 import { InputText } from '~/components/generic/InputText';
 import { Stack } from '~/components/generic/Stack';
 import {
@@ -30,8 +29,8 @@ export const TournamentsPage = (): JSX.Element => {
     <PageWrapper title="Tournaments">
       <Stack orientation="horizontal">
         <InputText slotBefore={<Search />} placeholder="Search..." />
-        <Button slotBefore={<ListFilter />} variant="outlined">Filter</Button>
-        <IconButton onClick={handleClickCreateTournament}><Plus /></IconButton>
+        <Button variant="outlined"><ListFilter />Filter</Button>
+        <Button onClick={handleClickCreateTournament}><Plus /></Button>
       </Stack>
       <Tabs defaultValue="all">
         <TabsList width="min">

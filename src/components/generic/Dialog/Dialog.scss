@@ -1,12 +1,17 @@
 @use '/src/style/animate';
-@use '/src/style/mixins';
+
 @use '/src/style/variables';
 @use '/src/style/flex';
+@use '/src/style/utils';
+@use '/src/style/text';
 
 .DialogOverlay {
-  @include mixins.modalOverlay;
+  @include utils.modalOverlay;
   @include animate.durationQuick;
   @include animate.styleFade;
+  & {
+    background-color: variables.$modal-overlay-bg-color;
+  }
 }
 
 .DialogPositioner {
@@ -32,12 +37,13 @@
 }
 
 .DialogClose {
-  @include mixins.buttonBasis;
-  // @include mixins.ghost;
-
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
+  @include text.ui;
+  & {
+    flex-grow: 0;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
 }
 
 .DialogHeader {
@@ -53,6 +59,5 @@
 }
 
 .DialogDescription {
-  @include mixins.uiText;
-  color: variables.$text-muted;
+  @include text.ui($muted: true);
 }

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import { ArrowLeft } from 'lucide-react';
 
-import { IconButton } from '~/components/generic/IconButton';
+import { Button } from '~/components/generic/Button';
 import { ScrollArea } from '~/components/generic/ScrollArea';
 import { Stack } from '~/components/generic/Stack';
 
@@ -31,9 +31,9 @@ export const PageWrapper = ({
       {(showBackButton || title) && (
         <Stack orientation="horizontal" verticalAlign="center" className="PageWrapper__Header">
           {showBackButton && (
-            <IconButton onClick={handleClickBack} variant="outlined">
+            <Button onClick={handleClickBack} variant="outlined">
               <ArrowLeft />
-            </IconButton>
+            </Button>
           )}
           {title && (
             <h1 className="page-wrapper-title">{title}</h1>

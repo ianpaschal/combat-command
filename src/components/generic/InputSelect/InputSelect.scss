@@ -1,20 +1,36 @@
-@use '/src/style/mixins';
+
 @use '/src/style/variables';
 @use '/src/style/animate';
 @use '/src/style/flex';
+@use '/src/style/variants';
+@use '/src/style/borders';
+@use '/src/style/shadows';
+@use '/src/style/sizes';
+@use '/src/style/corners';
 
 .InputSelectTrigger {
-  @include mixins.inputBasis;
+  @include variants.outlined;
+  @include sizes.normal;
+  @include corners.normal;
+  @include flex.row($xAlign: left, $yAlign: center);
+  & {
+    width: 100%;
+    padding: 0 1rem;
+  }
 }
 
 .SelectIcon {
-  @include mixins.inputIcon;
+  width: 1rem;
+  height: 1rem;
+  color: inherit;
+  pointer-events: none;
+  @include flex.centered;
   margin-left: auto;
 }
 
 .SelectContent {
-  @include mixins.border;
-  @include mixins.shadow;
+  @include borders.normal;
+  @include shadows.shadow;
   @include animate.durationQuick;
   @include animate.stylePop;
 
@@ -54,11 +70,10 @@
   // pointer-events: none;
 }
 .SelectItem[data-highlighted] {
-  // @include mixins.ghost;
   background-color: variables.$ghost-bg-hover;
 }
 .SelectItem[data-state="checked"] {
-  @include mixins.solid;
+  @include variants.solid;
 }
 
 .SelectLabel {
@@ -76,7 +91,11 @@
 }
 
 .SelectItemIndicator {
-  @include mixins.inputIcon;
+  width: 1rem;
+  height: 1rem;
+  color: inherit;
+  pointer-events: none;
+  @include flex.centered;
   position: absolute;
   left: 0.5rem;
   top: calc(0.5rem + 1px); // Looks better 1px further down
@@ -86,6 +105,5 @@
   @include flex.centered;
   height: 25px;
   background-color: white;
-  color: red;
   cursor: default;
 }

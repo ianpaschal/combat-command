@@ -1,42 +1,68 @@
-@use 'sass:color';
-@use '/src/style/mixins';
+
 @use '/src/style/flex';
+@use '/src/style/variants';
+@use '/src/style/corners';
+@use '/src/style/sizes';
+@use '/src/style/text';
 
 .Button {
-  @include mixins.buttonBasis;
-  height: 40px;
-  padding: 8px 16px;
-  font-size: 14px;
-  line-height: 24px;
-  font-weight: 500;
-  gap: 0.5rem;
+  @include flex.centered(0.5rem);
+  @include corners.normal;
+  @include text.ui($bold: true);
 
-  &-slotBefore, &-slotAfter {
-    width: 1rem;
+  svg {
     height: 1rem;
-    @include flex.centered;
+    width: 1rem;
+    flex-shrink: 0;
   }
-  &-solid {
-    @include mixins.solid;
+  & {
+    padding: 0 1rem;
   }
-  &-danger {
-    @include mixins.solid-danger;
+  &--iconOnly {
+    padding: 0.5rem;
   }
-}
+  &--round {
+    @include corners.round;
+  }
 
+  // Size
+  &--size-tiny {
+    @include sizes.tiny;
+  }
+  &--size-small {
+    @include sizes.small;
+  }
+  &--size-normal {
+    @include sizes.normal;
+  }
+  &--size-large {
+    @include sizes.large;
+    svg {
+      height: 1.5rem;
+      width: 1.5rem;
+    }
+  }
 
-.Button-solid-muted {
-  @include mixins.solid-muted;
-}
-
-.Button-outlined {
-  @include mixins.outlined;
-}
-
-.Button-outlined-muted {
-  @include mixins.outlined-muted;
-}
-
-.Button-ghost {
-  @include mixins.ghost;
+  // Variant+Intent
+  &--solid {
+    @include variants.solid;
+  }
+  &--solid-danger {
+    @include variants.solidDanger;
+  }
+  &--solid-muted {
+    @include variants.solidMuted;
+  }
+  &--outlined {
+    @include variants.outlined;
+  }
+  &--outlined-muted {
+    @include variants.outlinedMuted;
+  }
+  &--outlined-danger {
+    @include variants.outlinedDanger;
+  }
+  &--ghost {
+    @include variants.ghost;
+  }
 }

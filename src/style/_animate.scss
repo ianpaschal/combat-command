@@ -1,13 +1,11 @@
 @mixin durationSlow {
   animation-duration: 250ms;
   animation-timing-function: ease-in-out;
-  // animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @mixin durationQuick {
   animation-duration: 100ms;
   animation-timing-function: ease-in-out;
-  // animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @mixin styleSlideLeft {
@@ -16,22 +14,6 @@
   }
   &[data-state='closed'] {
     animation-name: slideOutLeft;
-  }
-  @keyframes slideInLeft {
-    from {
-      transform: translateX(-100%);
-    }
-    to {
-      transform: translateX(0);
-    }
-  }
-  @keyframes slideOutLeft {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-100%);
-    }
   }
 }
 
@@ -42,22 +24,6 @@
   &[data-state='closed'] {
     animation-name: slideOutRight;
   }
-  @keyframes slideInRight {
-    from {
-      transform: translateX(100%);
-    }
-    to {
-      transform: translateX(0);
-    }
-  }
-  @keyframes slideOutRight {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(100%);
-    }
-  }
 }
 
 @mixin styleSlideUp {
@@ -67,41 +33,9 @@
   &[data-state='closed'] {
     animation-name: slideOutBottom;
   }
-  @keyframes slideInBottom {
-    from {
-      transform: translateY(100%);
-    }
-    to {
-      transform: translateY(0);
-    }
-  }
-  @keyframes slideOutBottom {
-    from {
-      transform: translateY(0);
-    }
-    to {
-      transform: translateY(100%);
-    }
-  }
 }
 
 @mixin styleSlideDown {
-  @keyframes slideInTop {
-    from {
-      transform: translateY(-100%);
-    }
-    to {
-      transform: translateY(0);
-    }
-  }
-  @keyframes slideOutTop {
-    from {
-      transform: translateY(0);
-    }
-    to {
-      transform: translateY(-100%);
-    }
-  }
   &[data-state='open'] {
     animation-name: slideInTop;
   }
@@ -117,26 +51,6 @@
   &[data-state='closed'] {
     animation-name: popOut;
   }
-  @keyframes popIn {
-    from {
-      opacity: 0;
-      transform: scale(0.95);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-  @keyframes popOut {
-    from {
-      opacity: 1;
-      transform: scale(1);
-    }
-    to {
-      opacity: 0;
-      transform: scale(0.95);
-    }
-  }
 }
 
 @mixin styleFade {
@@ -145,21 +59,5 @@
   }
   &[data-state='closed'] {
     animation-name: fadeOut;
-  }
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  @keyframes fadeOut {
-    from {
-      opacity: 1;
-    }
-    to {
-      opacity: 0;
-    }
   }
 }

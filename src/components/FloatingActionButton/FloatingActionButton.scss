@@ -1,8 +1,10 @@
-@use '/src/style/mixins';
+
+@use '/src/style/corners';
 
 $offset: 1.5rem;
 
 .FloatingActionButton {
+  @include corners.round;
   position: fixed;
   bottom: $offset;
   right: calc($offset - (100vw - 100%));

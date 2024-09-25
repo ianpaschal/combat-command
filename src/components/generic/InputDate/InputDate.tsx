@@ -43,3 +43,4 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(({
     </Popover.Root>
   );
 });
+InputDate.displayName = 'InputDate';

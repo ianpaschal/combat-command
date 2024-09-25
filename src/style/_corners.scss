@@ -1,0 +1,15 @@
+@mixin tight {
+  border-radius: 0.25rem;
+}
+
+@mixin normal {
+  border-radius: 0.375rem;
+}
+
+@mixin wide {
+  border-radius: 0.5rem;
+}
+
+@mixin round {
+  border-radius: 100%;
+}

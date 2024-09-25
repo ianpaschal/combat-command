@@ -5,12 +5,16 @@ import { z } from 'zod';
 
 import { CheckInMatchDialog } from '~/components/CheckInMatchDialog';
 import { FloatingActionButton } from '~/components/FloatingActionButton';
+import { Avatar } from '~/components/generic/Avatar';
 import { Button } from '~/components/generic/Button/Button';
 import { Card } from '~/components/generic/Card';
+import { Checkbox } from '~/components/generic/Checkbox';
+import { FlagCircle } from '~/components/generic/FlagCircle';
 import { Form, FormField } from '~/components/generic/Form';
 import { InputDate } from '~/components/generic/InputDate';
 import { InputSelect, InputSelectItem } from '~/components/generic/InputSelect/InputSelect';
 import { InputText } from '~/components/generic/InputText';
+import { Stack } from '~/components/generic/Stack';
 import { UserPortrait } from '~/components/UserPortrait';
 
 import './ComponentTestPage.scss';
@@ -19,9 +23,8 @@ const formSchema = z.object({
   email: z.string().min(5, {
     message: 'Email must be at least 5 characters.',
   }),
-  username: z.string().min(20, {
-    message: 'Username must be at least 20 characters.',
-  }),
+  username: z.string(),
+  useTeams: z.boolean(),
 });
 
 type FormInput = z.infer<typeof formSchema>;
@@ -32,6 +35,7 @@ export const ComponentTestPage = (): JSX.Element => {
     defaultValues: {
       email: '',
       username: '',
+      useTeams: false,
     },
   });
 
@@ -54,24 +58,52 @@ export const ComponentTestPage = (): JSX.Element => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', padding: '5rem 0.5rem' }}>
       <Card>
-        <Button slotBefore={<Camera />}>Test</Button>
-        <Button slotBefore={<Camera />} variant="solid-muted">Test</Button>
-        <Button slotAfter={<Camera />} variant="outlined">Test</Button>
-        <Button slotAfter={<Camera />} variant="outlined-muted">Test</Button>
-        <Button slotAfter={<Camera />} variant="ghost">Test</Button>
+        <Button><Camera />Test</Button>
+        <Button variant="solid" muted><Camera />Test</Button>
+        <Button variant="outlined"><Camera />Test</Button>
+        <Button variant="outlined" muted><Camera />Test</Button>
+        <Button variant="ghost"><Camera />Test</Button>
+        <Button>Test</Button>
+        <Button variant="solid" muted>Test</Button>
+        <Button variant="outlined">Test</Button>
+        <Button variant="outlined" muted>Test</Button>
+        <Button variant="ghost">Test</Button>
+        <Button><Camera /></Button>
+        <Button variant="solid" muted><Camera /></Button>
+        <Button variant="outlined"><Camera /></Button>
+        <Button variant="outlined" muted><Camera /></Button>
+        <Button variant="ghost"><Camera /></Button>
       </Card>
 
       <Card>
-        Hello world
-        <UserPortrait username="FooBar" givenName="Ian" familyName="Paschal" orientation="horizontal" />
-      </Card>
 
-      {/* <InputSelect options={}/> */}
-      {/* <InputCheckbox options={}/> */}
+        <Stack>
+          Hello world
+          <UserPortrait name="Ian Paschal With a long name" orientation="horizontal">
+            <Avatar />
+          </UserPortrait>
+          <UserPortrait name="Ian Paschal" orientation="vertical">
+            <Avatar />
+          </UserPortrait>
+          <UserPortrait name="Netherlands" orientation="horizontal">
+            <FlagCircle code="nl" />
+          </UserPortrait>
+          <UserPortrait name="Netherlands" orientation="horizontal" reversed>
+            <FlagCircle code="nl" />
+          </UserPortrait>
+          <UserPortrait name="Germany" orientation="vertical">
+            <FlagCircle code="de" />
+          </UserPortrait>
+          {/* <span className="fi fi-gb-wls fis" style={{ width: '6rem', height: '6rem', borderRadius: '100%' }} /> */}
+          <Avatar countryCode="nl" avatarUrl="https://github.com/shadcn.png" />
+          <FlagCircle code="nl" />
+        </Stack>
+
+      </Card>
 
       {/* LOW PRIORITY */}
       {/* <InputFile */}
-      {/* <InputTextArea */}
+      {/* <InputCheckbox options={}/> */}
 
       <Card>
         <InputText />
@@ -82,6 +114,12 @@ export const ComponentTestPage = (): JSX.Element => {
           </FormField>
           <FormField name="username" label="Username">
             <InputSelect options={options} />
+          </FormField>
+          <FormField name="useTeams" label="Teams">
+            <Checkbox />
+          </FormField>
+          <FormField name="useTeams" label="Teams">
+            <Checkbox variant="outlined" />
           </FormField>
           <Button type="submit">Complete</Button>
         </Form>
