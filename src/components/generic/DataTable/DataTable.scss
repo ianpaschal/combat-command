@@ -81,17 +81,27 @@ $row-height: 3rem;
     border-bottom: variables.$border-width solid variables.$border-color;
   }
 
-  &_DefaultCell {
-    @include text.ui;
 
-    padding: 0.25rem 0.5rem;
-
-    @include flex.row($gap: 0, $yAlign: center);
-  }
 
   &_IndexCell {
     @include flex.centered;
 
     color: variables.$text-muted;
   }
+}
+
+.DefaultCell {
+  @include text.ui;
+
+  padding: 0.25rem 0.5rem;
+
+  @include flex.row($yAlign: center);
+}
+
+.CountryCell {
+  @include text.ui;
+
+  padding: 0.25rem 0.5rem;
+
+  @include flex.row($gap: 0.5rem, $yAlign: center);
 }

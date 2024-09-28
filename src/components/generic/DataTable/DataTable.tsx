@@ -1,4 +1,8 @@
-import { ReactNode } from 'react';
+import {
+  cloneElement,
+  ReactElement,
+  ReactNode,
+} from 'react';
 import * as Popover from '@radix-ui/react-popover';
 import clsx from 'clsx';
 import { Cog, Search } from 'lucide-react';
@@ -14,7 +18,7 @@ import './DataTable.scss';
 export interface ColumnDef<T> {
   header: string;
   width?: number | string;
-  render: (data: T, i?: number) => ReactNode;
+  render: (data: T, iRow: number, iCol: number) => ReactElement;
 }
 
 export interface DataTableProps<T> {
@@ -79,11 +83,9 @@ export const DataTable = <T,>({
                     {i + 1}
                   </div>
                 )}
-                {columns.map((column, j) => (
-                  <div className={cn('_DefaultCell')} key={`${cn('_Cell')}-${i}-${j}`}>
-                    {column.render(row, i)}
-                  </div>
-                ))}
+                {columns.map((column, j) => cloneElement(column.render(row, i, j), {
+                  key: `${cn('_Cell')}-${i}-${j}`,
+                }))}
               </div>
             ))}
           </div>
@@ -91,5 +93,4 @@ export const DataTable = <T,>({
       </div>
     </div>
   );
-}
-  ;
+};
