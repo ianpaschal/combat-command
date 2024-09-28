@@ -3,23 +3,25 @@
 
 // TODO: Move to utils
 @mixin reset {
-  border: none;
   background-color: transparent;
+  border: none;
 }
 
-@mixin variantDefaults {
+@mixin variant-defaults {
+  transition-timing-function: ease-in-out;
   transition-duration: 0.25s;
   transition-property: color, background-color;
-  transition-timing-function: ease-in-out;
 }
 
 @mixin solid($hover: true) {
-  @include variantDefaults;
+  @include variant-defaults;
+
   & {
     color: variables.$solid-text;
     background-color: variables.$solid-bg;
     border: none;
   }
+
   @if $hover {
     &:hover {
       background-color: variables.$solid-bg-hover;
@@ -27,41 +29,47 @@
   }
 }
 
-@mixin solidDanger($hover: true) {
-  @include variantDefaults;
+@mixin solid-danger($hover: true) {
+  @include variant-defaults;
+
   & {
-    color: variables.$solidDanger-text;
-    background-color: variables.$solidDanger-bg;
+    color: variables.$solid-danger-text;
+    background-color: variables.$solid-danger-bg;
     border: none;
   }
+
   @if $hover {
     &:hover {
-      background-color: variables.$solidDanger-bg-hover;
+      background-color: variables.$solid-danger-bg-hover;
     }
   }
 }
 
-@mixin solidMuted($hover: true) {
-  @include variantDefaults;
+@mixin solid-muted($hover: true) {
+  @include variant-defaults;
+
   & {
-    color: variables.$solidMuted-text;
-    background-color: variables.$solidMuted-bg;
+    color: variables.$solid-muted-text;
+    background-color: variables.$solid-muted-bg;
     border: none;
   }
+
   @if $hover {
     &:hover {
-      background-color: variables.$solidMuted-bg-hover;
+      background-color: variables.$solid-muted-bg-hover;
     }
   }
 }
 
 @mixin outlined($hover: true) {
-  @include variantDefaults;
+  @include variant-defaults;
   @include borders.normal;
+
   & {
     color: variables.$outlined-text;
     background-color: variables.$outlined-bg;
   }
+
   @if $hover {
     &:hover {
       background-color: variables.$outlined-bg-hover;
@@ -69,42 +77,48 @@
   }
 }
 
-@mixin outlinedMuted($hover: true) {
-  @include variantDefaults;
+@mixin outlined-muted($hover: true) {
+  @include variant-defaults;
   @include borders.muted;
+
   & {
-    color: variables.$outlinedMuted-text;
-    background-color: variables.$outlinedMuted-bg;
+    color: variables.$outlined-muted-text;
+    background-color: variables.$outlined-muted-bg;
   }
+
   @if $hover {
     &:hover {
-      background-color: variables.$outlinedMuted-bg-hover;
+      background-color: variables.$outlined-muted-bg-hover;
     }
   }
 }
 
-@mixin outlinedDanger($hover: true) {
-  @include variantDefaults;
+@mixin outlined-danger($hover: true) {
+  @include variant-defaults;
   @include borders.danger;
+
   & {
-    color: variables.$outlinedDanger-text;
-    background-color: variables.$outlinedDanger-bg;
-    border-color: variables.$outlinedDanger-border;
+    color: variables.$outlined-danger-text;
+    background-color: variables.$outlined-danger-bg;
+    border-color: variables.$outlined-danger-border;
   }
+
   @if $hover {
     &:hover {
-      background-color: variables.$outlinedDanger-bg-hover;
+      background-color: variables.$outlined-danger-bg-hover;
     }
   }
 }
 
 @mixin ghost($hover: true) {
-  @include variantDefaults;
+  @include variant-defaults;
+
   & {
     color: variables.$ghost-text;
     background-color: variables.$ghost-bg;
     border: none;
   }
+
   @if $hover {
     &:hover {
       background-color: variables.$ghost-bg-hover;

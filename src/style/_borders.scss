@@ -2,18 +2,18 @@
 
 @mixin normal {
   border-color: variables.$outlined-border;
-  border-width: variables.$border-width;
   border-style: solid;
+  border-width: variables.$border-width;
 }
 
 @mixin muted {
-  border-color: variables.$outlinedMuted-border;
-  border-width: variables.$border-width;
+  border-color: variables.$outlined-muted-border;
   border-style: solid;
+  border-width: variables.$border-width;
 }
 
 @mixin danger {
-  border-color: variables.$outlinedDanger-border;
-  border-width: variables.$border-width;
+  border-color: variables.$outlined-danger-border;
   border-style: solid;
+  border-width: variables.$border-width;
 }

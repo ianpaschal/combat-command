@@ -9,36 +9,43 @@
   @include flex.column(1rem);
   @include flex.stretchy;
 
-  &__DateTimeStart,
-  &__DateTimeEnd {
+  &_DateTimeStart,
+  &_DateTimeEnd {
     @include flex.stretchy;
+
     display: grid;
-    gap: 1rem;
     grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr) );
-  }
-  &__CompetitorsInputs {
-    @include flex.stretchy;
-    display: grid;
     gap: 1rem;
+  }
+
+  &_CompetitorsInputs {
+    @include flex.stretchy;
+
+    display: grid;
     grid-template-columns: 1fr 1fr;
+    gap: 1rem;
   }
-  &__CompetitorSizeInput {
-    @include animate.stylePop;
-    @include animate.durationQuick;
+
+  &_CompetitorSizeInput {
+    @include animate.style-pop;
+    @include animate.duration-quick;
   }
-  &__RegistrationGroup {
+
+  &_RegistrationGroup {
     @include variants.outlined;
-    @include shadows.surfaceShadow;
-    @include animate.durationQuick;
-    @include animate.stylePop;
+    @include shadows.surface-shadow;
+    @include animate.duration-quick;
+    @include animate.style-pop;
+
     & {
-      border-radius: variables.$corner-radius;
-      height: calc(6rem + (2 * variables.$border-width));
       width: 100%;
+      height: calc(6rem + (2 * variables.$border-width));
       padding-right: 1rem;
+      border-radius: variables.$corner-radius;
     }
   }
-  &__CompetitorGroupSizeInput {
+
+  &_CompetitorGroupSizeInput {
     max-width: 5rem;
   }
 }

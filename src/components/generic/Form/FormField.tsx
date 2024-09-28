@@ -38,7 +38,7 @@ export const FormField = ({
   return (
     <div className={className}>
       {label && (
-        <Label className={clsx(cn('__Label'), { [cn('__Label--error')]: hasError })}>{label}</Label>
+        <Label className={clsx(cn('_Label'), { [cn('_Label-error')]: hasError })}>{label}</Label>
       )}
       <Controller
         control={control}
@@ -48,10 +48,10 @@ export const FormField = ({
         name={name}
       />
       {hasError && (
-        <div className={clsx(cn('__Errors'))}>{errors[name]?.message as string}</div>
+        <div className={clsx(cn('_Errors'))}>{errors[name]?.message as string}</div>
       )}
       {description && (
-        <div className={clsx(cn('__Description'))}>{description}</div>
+        <div className={clsx(cn('_Description'))}>{description}</div>
       )}
     </div>
   );

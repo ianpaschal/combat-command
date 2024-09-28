@@ -55,7 +55,7 @@ export const ManageTournamentDrawer = ({
       </Drawer.Trigger>
       <Drawer.Content side="bottom">
         <Drawer.Header title={`Manage ${tournament.title}`} border side="bottom" />
-        <Drawer.Body className="ManageTournamentDrawer__Body">
+        <Drawer.Body className="ManageTournamentDrawer_Body">
           {showEditButton && (
             <Card>
               <Button variant="outlined">Edit Tournament Details</Button>

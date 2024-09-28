@@ -7,13 +7,14 @@
   @include corners.normal;
   @include flex.row(0.25rem);
   @include sizes.normal;
-  & {
-    padding: 0.25rem;
-    background-color: variables.$solidMuted-bg;
-  }
+
+  padding: 0.25rem;
+  background-color: variables.$solid-muted-bg;
+
   &-min {
     width: min-content;
   }
+
   &-max {
     width: 100%;
   }

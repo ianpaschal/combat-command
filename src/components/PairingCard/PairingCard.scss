@@ -1,0 +1,25 @@
+@use '/src/style/flex';
+@use '/src/style/variables';
+
+.PairingCard {
+  padding: 0.5rem;
+
+  &_MainSection {
+    display: grid;
+    grid-template-columns: 1fr 2rem 1fr;
+  }
+
+  &_Separator {
+    @include flex.centered;
+
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: variables.$text-muted;
+  }
+
+  &_Competitor0,
+  &_Competitor1 {
+    flex-shrink: 0;
+    min-width: calc(50% - 1rem);
+  }
+}

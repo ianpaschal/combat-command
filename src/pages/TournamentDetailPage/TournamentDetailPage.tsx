@@ -1,5 +1,5 @@
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Separator } from '@radix-ui/react-separator';
 import {
   Cog,
   Plus,
@@ -9,12 +9,14 @@ import {
 import { useAuth } from '~/components/AuthProvider';
 import { CheckInMatchDialog } from '~/components/CheckInMatchDialog';
 import { FloatingActionButton } from '~/components/FloatingActionButton';
+import { FowV4RankingsTable } from '~/components/FowV4RankingsTable/FowV4RankingsTable';
 import { Card } from '~/components/generic/Card';
-import { Drawer } from '~/components/generic/Drawer';
 import { ScrollArea } from '~/components/generic/ScrollArea';
 import { Stack } from '~/components/generic/Stack';
 import { ManageTournamentDrawer } from '~/components/ManageTournamentDrawer';
+import { MatchResultCard } from '~/components/MatchResultCard/MatchResultCard';
 import { PageWrapper } from '~/components/PageWrapper';
+import { PairingCard } from '~/components/PairingCard';
 import { Tournament } from '~/types/Tournament';
 import { createCn } from '~/utils/componentLib/createCn';
 
@@ -48,28 +50,29 @@ export const TournamentDetailPage = (): JSX.Element => {
     start_date: '2024-11-09',
     start_time: '8:00',
     title: 'FOW Belgian Nationals 2024',
+    use_national_teams: false,
   };
 
   const isOrganizer = user && tournament.organizer_ids.includes(user.id);
 
   const showRegistrations = tournament.status === 'published' && tournament.registrations_open;
-  const showResults = tournament.status === 'active';
+  const showMatchResults = tournament.status === 'active';
   const showRegisterButton = tournament.registrations_open && !isOrganizer;
   const showAddMatchResultButton = tournament.status === 'active' && !isOrganizer && tournament.current_round !== undefined;
   const showPairings = tournament.status === 'active' && tournament.current_round !== undefined;
   const showManageButton = isOrganizer;
 
-  console.log(showAddMatchResultButton);
+  const [matchRoundFilter, setMatchRoundFilter] = useState<string>('round_2');
 
   return (
     <PageWrapper title={tournament.title} showBackButton>
-      <div className="TournamentDetailPage__Body">
-        <div className="TournamentDetailPage__OverviewWrapper">
-          <Card className="TournamentDetailPage__OverviewSection" disablePadding>
-            <div className={cn('__Banner')}>
-              <div className={cn('__BannerOverlay')} />
+      <div className="TournamentDetailPage_Body">
+        <div className="TournamentDetailPage_OverviewWrapper">
+          <Card className="TournamentDetailPage_OverviewSection" disablePadding>
+            <div className={cn('_Banner')}>
+              <div className={cn('_BannerOverlay')} />
             </div>
-            <Stack className={cn('__Description')}>
+            <Stack className={cn('_Description')}>
               <div>
                 Date
                 Place
@@ -80,58 +83,57 @@ export const TournamentDetailPage = (): JSX.Element => {
             </Stack>
           </Card>
         </div>
-        <div className="TournamentDetailPage__SubSectionsWrapper">
+        <div className={cn('_SubSectionsWrapper')}>
           {showRegistrations && (
-            <Card className="TournamentDetailPage__RegistrationsSection" title="Registrations">
+            <Card className={cn('_RegistrationsSection')} title="Registrations">
               Registrations
             </Card>
           )}
+          <Card className={cn('_RankingsSection')} title="Rankings">
+            <FowV4RankingsTable />
+          </Card>
           {showPairings && (
             <Card
-              className="TournamentDetailPage__PairingsSection"
+              className="TournamentDetailPage_PairingsSection"
               title={`Round ${(tournament.current_round || 0) + 1} Pairings`}
               disablePadding
             >
-              <ScrollArea className={cn('__PairingsScrollArea')}>
-                <div className={cn('__PairingsItemList')}>
-                  <Card className={cn('__PairingItem')}>
-                    A match up
-                  </Card>
-                  <Card className={cn('__PairingItem')}>
-                    A match up
-                  </Card>
-                  <Card className={cn('__PairingItem')}>
-                    A match up
-                  </Card>
-                  <Card className={cn('__PairingItem')}>
-                    A match up
-                  </Card>
-                  <Card className={cn('__PairingItem')}>
-                    A match up
-                  </Card>
-                  <Card className={cn('__PairingItem')}>
-                    A match up
-                  </Card>
-                  <Card className={cn('__PairingItem')}>
-                    A match up
-                  </Card>
-                  <Card className={cn('__PairingItem')}>
-                    A match up
-                  </Card>
+              <ScrollArea className={cn('_PairingsScrollArea')} addIndicatorBorder>
+                <div className={cn('_PairingsItemList')}>
+                  <PairingCard />
+                  <PairingCard />
+                  <PairingCard />
+                  <PairingCard />
+                  <PairingCard />
+                  <PairingCard />
+                  <PairingCard />
+                  <PairingCard />
+                  <PairingCard />
+                  <PairingCard />
                 </div>
               </ScrollArea>
-
             </Card>
           )}
-          {showResults && (
-            <>
-              <Card className="TournamentDetailPage__RankingsSection" title="Rankings">
-                Rankings
-              </Card>
-              <Card className="TournamentDetailPage__MatchResultsSection" title="Match Results">
-                Matches
-              </Card>
-            </>
+          {showMatchResults && (
+            <Card className={cn('_MatchResultsSection')} title="Match Results" disablePadding>
+              <ScrollArea className={cn('_MatchResultsScrollArea')} addIndicatorBorder>
+                <div className={cn('_MatchResultsItemList')}>
+                  <MatchResultCard />
+                  <MatchResultCard />
+                  <MatchResultCard />
+                  <MatchResultCard />
+                  <MatchResultCard />
+                  <MatchResultCard />
+                  <MatchResultCard />
+                  <MatchResultCard />
+                  <MatchResultCard />
+                  <MatchResultCard />
+                  <MatchResultCard />
+                  <MatchResultCard />
+                  <MatchResultCard />
+                </div>
+              </ScrollArea>
+            </Card>
           )}
         </div>
       </div>

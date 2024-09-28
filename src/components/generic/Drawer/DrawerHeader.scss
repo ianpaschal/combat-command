@@ -7,39 +7,41 @@ $close-size: 2.5rem;
 
 .DrawerHeader {
   position: relative;
+
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: left;
+
   height: variables.$app-bar-height;
   padding: 1rem;
-  align-items: center;
-  display: flex;
-  justify-content: left;
-  flex-shrink: 0;
+
   &-left,
   &-right {
-    padding-right: 4rem;
     flex-direction: row;
+    padding-right: 4rem;
   }
 }
 
 .DrawerHeader-top.DrawerHeader-border {
-  border-top-width: 1px;
-  border-top-style: solid;
-  border-top-color: variables.$border-color;
+  border-top: 1px solid variables.$border-color;
 }
+
 .DrawerHeader-bottom.DrawerHeader-border {
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-  border-bottom-color: variables.$border-color;
+  border-bottom: 1px solid variables.$border-color;
 }
 
 .DrawerHeaderClose {
   @include text.ui;
   @include variants.ghost;
+
   & {
     position: absolute;
+    top: calc((variables.$app-bar-height / 2) - ($close-size / 2));
+    right: 1rem;
+
     width: $close-size;
     height: $close-size;
-    right: 1rem;
-    top: calc((variables.$app-bar-height / 2) - ($close-size / 2));
   }
 
   svg {

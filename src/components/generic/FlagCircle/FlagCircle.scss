@@ -2,9 +2,13 @@
 @use '/src/style/variables';
 
 .FlagCircle {
-  border-radius: 100%;
-  // A normal border pushes the background image 1px away from the edges giving the circle "flat sides"
-  box-shadow: inset variables.$border-color 0px 0px 0px 1px;
+  flex-shrink: 0;
+
   width: 2.5rem;
   height: 2.5rem;
+
+  border-radius: 100%;
+
+  // A normal border pushes the background image 1px away from the edges giving the circle "flat sides"
+  box-shadow: inset variables.$border-color 0 0 0 1px;
 }

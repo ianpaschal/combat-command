@@ -18,7 +18,7 @@ export const UserPortrait = ({
   name,
   reversed = false,
 }: UserPortraitProps): JSX.Element => (
-  <div className={clsx('UserPortrait', `UserPortrait--${orientation}`, reversed && `UserPortrait--${orientation}Reversed`, className)}>
+  <div className={clsx('UserPortrait', `UserPortrait-${orientation}`, reversed && `UserPortrait-${orientation}Reversed`, className)}>
     {cloneElement(children, { size: orientation === 'horizontal' ? '2.5rem' : '4.5rem' })}
     <div className="UserPortraitName" data-orientation={orientation}>
       {name}

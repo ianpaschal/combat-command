@@ -3,17 +3,21 @@
 @use '/src/style/text';
 
 .FormField {
-  &__Label {
+  &_Label {
     margin-bottom: 0.375rem;
   }
-  &__Description {
+
+  &_Description {
     @include text.ui($muted: true);
-    font-size: 0.75rem;
+
     margin-top: 0.25rem;
+    font-size: 0.75rem;
     color: variables.$text-muted;
   }
-  &__Errors {
+
+  &_Errors {
     @include text.ui;
+
     color: variables.$red;
   }
 }

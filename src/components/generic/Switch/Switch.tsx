@@ -19,8 +19,8 @@ export const Switch = forwardRef<SwitchRef, SwitchProps>(({
   disabled,
   ...props
 }, ref) => (
-  <Root ref={ref} className={clsx(cn(), { [cn('--disabled')]: disabled }, className)} {...props}>
-    <Thumb className={cn('__Thumb')} />
+  <Root ref={ref} className={clsx(cn(), { [cn('-disabled')]: disabled }, className)} {...props}>
+    <Thumb className={cn('_Thumb')} />
   </Root>
 ));
 Switch.displayName = cn();

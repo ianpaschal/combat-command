@@ -59,8 +59,8 @@ export const AuthProvider = ({
 
   if (loading) {
     return (
-      <div className={cn('--loading')}>
-        <LoaderCircle className={cn('__LoadingIcon')} />
+      <div className={cn('-loading')}>
+        <LoaderCircle className={cn('_LoadingIcon')} />
       </div>
     );
   }

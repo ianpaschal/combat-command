@@ -3,16 +3,20 @@
 @use '/src/style/variables';
 
 .AuthProvider {
-  &--loading {
+  &-loading {
     @include flex.centered;
-    @include utils.modalOverlay;
+    @include utils.modal-overlay;
   }
-  &__LoadingIcon {
-    animation: spin 1s infinite linear;
-    color: variables.$text-base;
-    height: 4rem;
-    opacity: 0.2;
+
+  &_LoadingIcon {
     width: 4rem;
+    height: 4rem;
+
+    color: variables.$text-base;
+
+    opacity: 0.2;
+
+    animation: spin 1s infinite linear;
   }
 }
 
@@ -20,6 +24,7 @@
   from {
     transform: scale(1) rotate(0deg);
   }
+
   to {
     transform: scale(1) rotate(360deg);
   }

@@ -34,12 +34,12 @@ export const Checkbox = forwardRef<CheckboxRef, CheckboxProps>(({
 }, ref) => (
   <Root
     ref={ref}
-    className={clsx(cn(), cn(`--${variant}`), cn(`--size-${size}`), { [cn('--disabled')]: disabled }, className)}
+    className={clsx(cn(), cn(`-${variant}`), cn(`-size-${size}`), { [cn('-disabled')]: disabled }, className)}
     checked={value}
     onCheckedChange={onChange}
     {...props}
   >
-    <Indicator className={clsx(cn('__Indicator'), cn(`__Indicator--${variant}`))}>
+    <Indicator className={clsx(cn('_Indicator'), cn(`_Indicator-${variant}`))}>
       <Check />
     </Indicator>
   </Root>

@@ -3,75 +3,91 @@
 @use '/src/style/utils';
 
 .DrawerOverlay {
-  @include utils.modalOverlay;
-  @include animate.durationSlow;
-  @include animate.styleFade;
+  @include utils.modal-overlay;
+  @include animate.duration-slow;
+  @include animate.style-fade;
+
   & {
     background-color: variables.$modal-overlay-bg-color;
   }
 }
 
 .DrawerContent {
-  @include animate.durationSlow;
+  @include animate.duration-slow;
 
   position: absolute;
-  background-color: variables.$card-bg;
+
   overflow: hidden;
   display: flex;
   flex-direction: column;
+
+  background-color: variables.$card-bg;
 
   &-left,
   &-right {
     position: fixed;
     top: 0;
     bottom: 0;
+
     width: 20rem;
     max-width: calc(100vw - 2rem);
   }
+
   &-top,
   &-bottom {
     position: fixed;
-    left: 0;
     right: 0;
+    left: 0;
     height: calc(100dvh - 2rem);
   }
 
   &-left {
-    @include animate.styleSlideLeft;
+    @include animate.style-slide-left;
+
     &-rounded {
       border-top-right-radius: variables.$corner-radius;
       border-bottom-right-radius: variables.$corner-radius;
     }
+
     & {
       left: 0;
     }
   }
+
   &-right {
-    @include animate.styleSlideRight;
+    @include animate.style-slide-right;
+
     &-rounded {
       border-top-left-radius: variables.$corner-radius;
       border-bottom-left-radius: variables.$corner-radius;
     }
+
     & {
       right: 0;
     }
   }
+
   &-top {
-    @include animate.styleSlideDown;
+    @include animate.style-slide-down;
+
     &-rounded {
       border-bottom-right-radius: variables.$corner-radius;
       border-bottom-left-radius: variables.$corner-radius;
     }
+
     & {
       top: 0;
     }
   }
+
   &-bottom {
-    @include animate.styleSlideUp;
+    @include animate.style-slide-up;
+
     &-rounded {
       border-top-left-radius: variables.$corner-radius;
       border-top-right-radius: variables.$corner-radius;
     }
+
     & {
       bottom: 0;
     }

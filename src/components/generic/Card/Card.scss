@@ -9,39 +9,45 @@
 $default-padding: 1rem;
 
 .Card {
+  @include flex.column($gap: 0);
   @include variants.outlined($hover: false);
-  @include shadows.surfaceShadow;
+  @include shadows.surface-shadow;
   @include corners.normal;
   @include flex.stretchy;
+
   & {
     overflow: hidden;
     background-color: variables.$card-bg;
   }
 
-  &--danger {
-    @include variants.outlinedDanger($hover: false);
+  &-danger {
+    @include variants.outlined-danger($hover: false);
   }
 
-  &__Header {
+  &_Header {
     padding: 1rem;
-    padding-bottom: 0;
 
-    &--danger {
+    &-danger {
       color: variables.$red;
     }
   }
 
-  &__Description {
+  &_Description {
     @include text.ui;
+
     color: variables.$text-muted;
   }
 
-  &__Body {
-    padding: $default-padding;
+  &_Body {
+    overflow: hidden;
     width: 100%;
+    padding: $default-padding;
 
+    &-hasHeader {
+      padding-top: 0;
+    }
 
-    &--noPadding {
+    &-noPadding {
       padding: 0;
     }
   }

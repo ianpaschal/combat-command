@@ -2,28 +2,32 @@
 @use '/src/style/animate';
 
 .PageWrapper {
-  // @include animate.durationQuick;
-  // @include animate.stylePop;
+  // @include animate.duration-quick;
+  // @include animate.style-pop;
 
   & {
+    position: absolute;
+
     display: flex;
     flex-direction: column;
-    height: 100vh;
-    position: absolute;
+
     width: 100vw;
+    height: 100vh;
+
     background-color: transparent;
   }
-  &--HasAppBar {
+
+  &-HasAppBar {
     top: variables.$app-bar-height;
     height: calc(100dvh - variables.$app-bar-height);
   }
 }
 
-.PageWrapper__Header {
-  margin: 1rem;
+.PageWrapper_Header {
   height: 2.5rem;
+  margin: 1rem;
 }
 
-.PageWrapper__Body {
+.PageWrapper_Body {
   margin: 1rem;
 }

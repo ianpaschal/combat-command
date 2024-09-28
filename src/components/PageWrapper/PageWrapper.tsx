@@ -27,9 +27,9 @@ export const PageWrapper = ({
   const navigate = useNavigate();
   const handleClickBack = (): void => navigate(-1);
   return (
-    <ScrollArea className={clsx('PageWrapper', { 'PageWrapper--HasAppBar': appBarPadding })}>
+    <ScrollArea className={clsx('PageWrapper', { 'PageWrapper-HasAppBar': appBarPadding })}>
       {(showBackButton || title) && (
-        <Stack orientation="horizontal" verticalAlign="center" className="PageWrapper__Header">
+        <Stack orientation="horizontal" verticalAlign="center" className="PageWrapper_Header">
           {showBackButton && (
             <Button onClick={handleClickBack} variant="outlined">
               <ArrowLeft />
@@ -40,7 +40,7 @@ export const PageWrapper = ({
           )}
         </Stack>
       )}
-      <div className="PageWrapper__Body">
+      <div className="PageWrapper_Body">
         {children}
       </div>
     </ScrollArea>

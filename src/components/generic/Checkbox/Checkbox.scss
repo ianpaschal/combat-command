@@ -8,51 +8,61 @@
 .Checkbox {
   @include variants.reset;
   @include flex.centered;
+
   & {
     position: relative;
   }
+
   // Size
-  &--size-tiny {
+  &-size-tiny {
     @include sizes.tiny;
     @include corners.tight;
+
     svg {
       width: 1.5rem;
       height: 1.5rem;
     }
   }
-  &--size-small {
+
+  &-size-small {
     @include sizes.small;
     @include corners.normal;
   }
-  &--size-normal {
+
+  &-size-normal {
     @include sizes.normal;
     @include corners.normal;
   }
-  &--size-large {
+
+  &-size-large {
     @include sizes.large;
     @include corners.normal;
   }
 
   // Variant+Intent
-  &--solid {
-    @include variants.solidMuted();
+  &-solid {
+    @include variants.solid-muted;
+
     &[data-state='checked'] {
-      @include variants.solid();
+      @include variants.solid;
     }
   }
-  &--outlined {
-    @include variants.outlinedMuted($hover: false);
+
+  &-outlined {
+    @include variants.outlined-muted($hover: false);
+
     &[data-state='checked'] {
       @include variants.outlined($hover: false);
     }
   }
 
-  &__Indicator {
+  &_Indicator {
     margin-top: 3px; // Looks better
-    &--solid {
+    &-solid {
       color: variables.$solid-text;
     }
-    &--outlined {
+
+    &-outlined {
       color: variables.$outlined-text;
     }
   }

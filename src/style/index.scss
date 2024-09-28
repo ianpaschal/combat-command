@@ -2,154 +2,169 @@
 @use '/src/style/variables';
 
 * {
-  padding: 0;
-  margin: 0;
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+
   font-family: system-ui, sans-serif;
-  text-rendering: optimizeLegibility;
+  text-rendering: optimizelegibility;
 }
 
 html, body {
   font-size: 16px;
-  background-color: variables.$page-bg;
-  line-height: 1.25rem;
   font-weight: 300;
+  line-height: 1.25rem;
+  background-color: variables.$page-bg;
 }
 
 h1 {
+  font-size: 1.25rem;
+
   // letter-spacing: -0.025em;
   font-weight: 500;
-  font-size: 1.25rem;
   line-height: 1.5rem;
 }
 
 h2 {
+  font-size: 1rem;
+
   // letter-spacing: -0.025em;
   font-weight: 500;
-  font-size: 1rem;
   line-height: 1.25rem;
 }
 
 h3 {
   // letter-spacing: -0.025em;
   font-size: 0.875rem;
-  line-height: 1rem;
   font-weight: 500;
+  line-height: 1rem;
 }
 
 p {
-  color: variables.$text-muted;
   font-size: 0.875rem;
   line-height: 1.25rem;
+  color: variables.$text-muted;
 }
 
-@keyframes slideInLeft {
+@keyframes slide-in-left {
   from {
     transform: translateX(-100%);
   }
+
   to {
     transform: translateX(0);
   }
 }
 
-@keyframes slideOutLeft {
+@keyframes slide-out-left {
   from {
     transform: translateX(0);
   }
+
   to {
     transform: translateX(-100%);
   }
 }
 
-@keyframes slideInRight {
+@keyframes slide-in-right {
   from {
     transform: translateX(100%);
   }
+
   to {
     transform: translateX(0);
   }
 }
 
-@keyframes slideOutRight {
+@keyframes slide-out-right {
   from {
     transform: translateX(0);
   }
+
   to {
     transform: translateX(100%);
   }
 }
 
-@keyframes slideInTop {
+@keyframes slide-in-top {
   from {
     transform: translateY(-100%);
   }
+
   to {
     transform: translateY(0);
   }
 }
 
-@keyframes slideOutTop {
+@keyframes slide-out-top {
   from {
     transform: translateY(0);
   }
+
   to {
     transform: translateY(-100%);
   }
 }
 
-@keyframes slideInBottom {
+@keyframes slide-in-bottom {
   from {
     transform: translateY(100%);
   }
+
   to {
     transform: translateY(0);
   }
 }
 
-@keyframes slideOutBottom {
+@keyframes slide-out-bottom {
   from {
     transform: translateY(0);
   }
+
   to {
     transform: translateY(100%);
   }
 }
 
-@keyframes popIn {
+@keyframes pop-in {
   from {
-    opacity: 0;
     transform: scale(0.95);
+    opacity: 0;
   }
+
   to {
-    opacity: 1;
     transform: scale(1);
+    opacity: 1;
   }
 }
 
-@keyframes popOut {
+@keyframes pop-out {
   from {
-    opacity: 1;
     transform: scale(1);
+    opacity: 1;
   }
+
   to {
-    opacity: 0;
     transform: scale(0.95);
+    opacity: 0;
   }
 }
 
-@keyframes fadeIn {
+@keyframes fade-in {
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
 }
 
-@keyframes fadeOut {
+@keyframes fade-out {
   from {
     opacity: 1;
   }
+
   to {
     opacity: 0;
   }

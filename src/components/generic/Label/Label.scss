@@ -2,9 +2,8 @@
 
 .Label {
   @include text.ui($bold: true);
-  & {
-    line-height: 1rem;
-    display: block;
-    max-width: 8rem;
-  }
+
+  display: block;
+  max-width: 8rem;
+  line-height: 1rem;
 }

@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import clsx from 'clsx';
 
+import { bem } from '~/utils/componentLib/bem';
+
 import './NavLinks.scss';
 
 export type Visibility = 'main' | 'accountMenu';
@@ -22,13 +24,15 @@ export interface NavLinksProps {
   routes: NavLink[];
 }
 
+const cn = bem('NavLinks');
+
 export const NavLinks = ({
   orientation = 'horizontal',
   routes,
 }: NavLinksProps): JSX.Element => (
-  <nav className={clsx('NavLinksRoot', `NavLinksRoot-${orientation}`)}>
+  <nav className={clsx(cn('Root', { [orientation]: true }))}>
     {routes.map((route, i) => (
-      <Link key={i} to={route.path} className="NavLinksItem">
+      <Link key={i} to={route.path} className={cn('Item')}>
         {route.title}
       </Link>
     ))}

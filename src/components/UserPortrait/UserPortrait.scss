@@ -3,41 +3,42 @@
 @use '/src/style/flex';
 
 .UserPortrait {
-  &--vertical {
+  &-vertical {
     @include flex.column(0.5rem);
     @include flex.stretchy;
-    text-align: center;
-    max-width: 8rem;
+
     align-items: center;
-  }
-  &--verticalReversed {
-    flex-direction: column-reverse;
+    max-width: 8rem;
+    text-align: center;
   }
 
-  &--horizontal {
+  &-verticalReversed {
+    flex-direction: column-reverse;
+    justify-content: end;
+  }
+
+  &-horizontal {
     @include flex.row(0.5rem);
     @include flex.stretchy;
-    max-width: 12rem;
+
     align-items: center;
   }
-  &--horizontalReversed {
+
+  &-horizontalReversed {
     flex-direction: row-reverse;
+    justify-content: end;
   }
-
-
 }
+
 .UserPortraitName {
-  
-
-  color: variables.$text-muted;
   overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  line-clamp: 2;
+  display: block;
   -webkit-line-clamp: 2;
-  text-wrap: balance;
-  line-height: 1rem;
+  line-clamp: 2;
+
   font-size: 0.875rem;
-
-
+  line-height: 1rem;
+  color: variables.$text-muted;
+  text-overflow: ellipsis;
+  text-wrap: balance;
 }

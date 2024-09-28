@@ -13,10 +13,10 @@ export const mod = ({
     console.warn('Elements with the style "ghost" cannot have an intent or be muted.');
   }
   if (intent && variant !== 'ghost') {
-    return `--${variant}-${intent}`;
+    return `-${variant}-${intent}`;
   }
   if (muted && variant !== 'ghost') {
-    return `--${variant}-muted`;
+    return `-${variant}-muted`;
   }
-  return `--${variant}`;
+  return `-${variant}`;
 };

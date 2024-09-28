@@ -6,9 +6,10 @@
 @use '/src/style/text';
 
 .DialogOverlay {
-  @include utils.modalOverlay;
-  @include animate.durationQuick;
-  @include animate.styleFade;
+  @include utils.modal-overlay;
+  @include animate.duration-quick;
+  @include animate.style-fade;
+
   & {
     background-color: variables.$modal-overlay-bg-color;
   }
@@ -16,38 +17,36 @@
 
 .DialogPositioner {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
+
   @include flex.centered;
 }
 
 .DialogContent {
-  background-color: variables.$white;
-  border-radius: variables.$corner-radius;
+  position: relative;
+
   max-width: min(calc(100vw - 1rem), 720px);
   max-height: calc(100dvh - 1rem);
   padding: 1rem 1.5rem 1.5rem;
-  @include flex.stretchy;
-  position: relative;
 
-  @include animate.durationQuick;
-  @include animate.stylePop;
+  background-color: variables.$white;
+  border-radius: variables.$corner-radius;
+
+  @include flex.stretchy;
+
+  @include animate.duration-quick;
+  @include animate.style-pop;
 }
 
 .DialogClose {
   @include text.ui;
+
   & {
-    flex-grow: 0;
     position: absolute;
     top: 1rem;
     right: 1rem;
+    flex-grow: 0;
   }
-}
-
-.DialogHeader {
-
 }
 
 .DialogFooter {

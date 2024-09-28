@@ -11,13 +11,17 @@
   @include corners.normal;
   @include flex.row($xAlign: left, $yAlign: center);
   @include flex.stretchy;
+
   & {
-    height: 7.5rem;
-    position: relative;
-    width: 100%;
     resize: none;
+
+    position: relative;
+
+    width: 100%;
+    height: 7.5rem;
     padding-bottom: 1rem;
   }
+
   &-hasError {
     color: variables.$red;
 
@@ -30,6 +34,6 @@
 
 
 input::placeholder, textarea::placeholder {
-  opacity: 1;
   color: variables.$text-muted;
+  opacity: 1;
 }

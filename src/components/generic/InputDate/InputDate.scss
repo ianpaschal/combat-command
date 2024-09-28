@@ -11,12 +11,13 @@
 .InputDatePopoverContent {
   @include variants.outlined($hover: false);
   @include shadows.shadow;
-  @include animate.durationQuick;
-  @include animate.stylePop;
+  @include animate.duration-quick;
+  @include animate.style-pop;
+
   & {
-    background-color: variables.$card-bg;
-    padding: 1rem;
-    border-radius: variables.$corner-radius;
     margin: 0.25rem 0;
+    padding: 1rem;
+    background-color: variables.$card-bg;
+    border-radius: variables.$corner-radius;
   }
 }

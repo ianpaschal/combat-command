@@ -4,14 +4,16 @@
 
 .FowV4MatchResultForm {
   @include flex.column(1rem);
+
   margin: 1rem;
 }
 
 .GameConfigSection {
-  @include animate.durationQuick;
-  @include animate.stylePop;
+  @include animate.duration-quick;
+  @include animate.style-pop;
   @include flex.column(1rem);
 }
+
 .GameConfigFields {
   display: flex;
   gap: calc(1rem + 1px);
@@ -20,13 +22,14 @@
 .GameConfigEra,
 .GameConfigPoints {
   width: 50%;
+
   @include flex.stretchy;
 }
 
 .OpponentsSection {
   display: grid;
-  gap: 1rem;
   grid-template-columns: 1fr variables.$border-width 1fr;
+  gap: 1rem;
 }
 
 .Player0Section,

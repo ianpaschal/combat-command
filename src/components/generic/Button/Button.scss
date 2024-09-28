@@ -11,58 +11,71 @@
   @include text.ui($bold: true);
 
   svg {
-    height: 1rem;
-    width: 1rem;
     flex-shrink: 0;
+    width: 1rem;
+    height: 1rem;
   }
+
   & {
     padding: 0 1rem;
   }
-  &--iconOnly {
+
+  &-iconOnly {
     padding: 0.5rem;
   }
-  &--round {
+
+  &-round {
     @include corners.round;
   }
 
   // Size
-  &--size-tiny {
+  &-size-tiny {
     @include sizes.tiny;
   }
-  &--size-small {
+
+  &-size-small {
     @include sizes.small;
   }
-  &--size-normal {
+
+  &-size-normal {
     @include sizes.normal;
   }
-  &--size-large {
+
+  &-size-large {
     @include sizes.large;
+
     svg {
-      height: 1.5rem;
       width: 1.5rem;
+      height: 1.5rem;
     }
   }
 
   // Variant+Intent
-  &--solid {
+  &-solid {
     @include variants.solid;
   }
-  &--solid-danger {
-    @include variants.solidDanger;
+
+  &-solidDanger {
+    @include variants.solid-danger;
   }
-  &--solid-muted {
-    @include variants.solidMuted;
+
+  &-solid-muted {
+    @include variants.solid-muted;
   }
-  &--outlined {
+
+  &-outlined {
     @include variants.outlined;
   }
-  &--outlined-muted {
-    @include variants.outlinedMuted;
+
+  &-outlined-muted {
+    @include variants.outlined-muted;
   }
-  &--outlined-danger {
-    @include variants.outlinedDanger;
+
+  &-outlined-danger {
+    @include variants.outlined-danger;
   }
-  &--ghost {
+
+  &-ghost {
     @include variants.ghost;
   }
 }

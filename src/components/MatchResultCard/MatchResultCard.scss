@@ -1,0 +1,42 @@
+@use '/src/style/flex';
+@use '/src/style/variables';
+
+.MatchResultCard {
+  &_MainSection {
+    display: grid;
+    grid-template-columns: 1fr 4rem 1fr;
+    grid-template-rows: 1rem 2rem 1fr;
+    gap: 0.25rem;
+
+    padding: 1rem;
+  }
+
+  &_Player0Profile {
+    grid-column: 1 / 2;
+    grid-row: 1 / 4;
+  }
+
+  &_Player1Profile {
+    grid-column: 3 / 4;
+    grid-row: 1 / 4;
+  }
+
+  &_Score {
+    @include flex.centered($gap: 0.25rem);
+
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+  }
+
+  &_ScorePlayer0,
+  &_ScorePlayer1 {
+    height: 2rem;
+    font-size: 1.75rem;
+    font-weight: 500;
+    line-height: 2rem;
+  }
+
+  &_ScoreSeparator {
+    font-size: 1.25rem;
+  }
+}

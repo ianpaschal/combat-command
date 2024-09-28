@@ -30,10 +30,10 @@ export const AccessPage = (): JSX.Element => {
 
   return (
     <div className={cn()}>
-      <Card className={cn('__Card')}>
-        <AppLogo className={cn('__Logo')} />
+      <Card className={cn('_Card')}>
+        <AppLogo className={cn('_Logo')} />
         <h1>CombatCommand</h1>
-        <Tabs className={cn('__Tabs')} value={activeTab} onValueChange={setActiveTab} >
+        <Tabs className={cn('_Tabs')} value={activeTab} onValueChange={setActiveTab} >
           <TabsList>
             <TabsTrigger value="sign-in">Sign In</TabsTrigger>
             <TabsTrigger value="sign-up">Register</TabsTrigger>

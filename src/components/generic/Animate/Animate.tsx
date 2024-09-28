@@ -21,7 +21,7 @@ export const Animate = ({
   style = 'pop',
 }: AnimateProps): JSX.Element => (
   <div
-    className={clsx(cn(), cn(`--speed-${speed}`), cn(`--style-${style}`))}
+    className={clsx(cn(), cn(`-speed-${speed}`), cn(`-style-${style}`))}
     data-state={show ? 'open' : 'closed'}
   >
     {children}
@@ -31,7 +31,7 @@ export const Animate = ({
 // TODO: There shouldn't be a need for a separate div, but data-state doesn't seem possible to set
 // const enhancedChildren = Children.map(children, child =>
 //   cloneElement(child, {
-//     className: clsx(child.props.className, 'Animated', `Animated--speed-${speed}`, `Animated--style-${style}`),
+//     className: clsx(child.props.className, 'Animated', `Animated-speed-${speed}`, `Animated-style-${style}`),
 //     'data-state': show ? 'open' : 'closed',
 //   }),
 // );

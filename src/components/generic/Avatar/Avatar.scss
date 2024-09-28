@@ -3,39 +3,43 @@
 @use '/src/style/flex';
 
 .Avatar {
-  background-color: transparent;
+  position: relative;
   display: flex;
   flex-shrink: 0;
-  position: relative;
-  &__Image {
-    border-radius: 100%;
-    height: 100%;
-    object-fit: cover;
+  background-color: transparent;
+
+  &_Image {
     pointer-events: none;
     user-select: none;
+
     width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    border-radius: 100%;
   }
-  &__Fallback {
+
+  &_Fallback {
     @include flex.centered;
+
     & {
-      background-color: variables.$solidMuted-bg;
-      border-radius: 100%;
-      bottom: 0;
-      height: 100%;
-      left: 0;
-      position: absolute;
-      right: 0;
-      top: 0;
       user-select: none;
+
+      position: absolute;
+      inset: 0;
+
       width: 100%;
+      height: 100%;
+
+      background-color: variables.$solid-muted-bg;
+      border-radius: 100%;
     }
   }
-  &__Flag {
-    bottom: 0;
-    outline-color: variables.$white;
-    outline-style: solid;
-    outline-width: 2px;
+
+  &_Flag {
     position: absolute;
     right: 0;
+    bottom: 0;
+    outline: variables.$white solid 2px;
   }
 }

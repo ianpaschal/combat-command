@@ -13,7 +13,7 @@ import './Avatar.scss';
 export interface AvatarProps {
   avatarUrl?: string;
   displayName?: string;
-  size?: string | number;
+  size?: number;
   countryCode?: string;
   onEdit?: () => void;
 }
@@ -24,17 +24,17 @@ export const Avatar = ({
   avatarUrl,
   displayName,
   countryCode,
-  size = '2.5rem',
+  size = 40,
   onEdit,
 }: AvatarProps): JSX.Element => (
   <Root className={cn()} style={{ width: size, height: size }}>
     <Image
-      className={cn('__Image')}
+      className={cn('_Image')}
       src={avatarUrl}
       alt={displayName}
     />
     {!avatarUrl && (
-      <Fallback className={cn('__Fallback')} delayMs={600}>
+      <Fallback className={cn('_Fallback')} delayMs={600}>
         <User />
       </Fallback>
     )}
@@ -44,7 +44,7 @@ export const Avatar = ({
       </span>
     )}
     {countryCode && (
-      <FlagCircle className={cn('__Flag')} code={countryCode} size="0.875rem" />
+      <FlagCircle className={cn('_Flag')} code={countryCode} size={size / 3} />
     )}
   </Root>
 );

@@ -3,25 +3,29 @@
 .AccessPage {
   min-height: 100vh;
   padding: 1rem;
+
   @include flex.centered;
 
-  &__Card {
+  &_Card {
     width: 20rem;
-    .Card__Body {
+
+    .Card_Body {
       align-items: center;
+
       @include flex.column(1rem);
     }
   }
 
-  &__Logo {
+  &_Logo {
     width: 6rem;
     height: 6rem;
     color: inherit;
   }
 
-  &__Tabs {
+  &_Tabs {
     width: 100%;
     margin-top: 1rem;
+
     @include flex.column(1rem);
   }
 }

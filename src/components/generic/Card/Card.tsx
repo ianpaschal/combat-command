@@ -24,21 +24,21 @@ export const Card = ({
 }: CardProps): JSX.Element => {
   const hasHeader = title || description;
   return (
-    <div className={clsx(cn(), intent && cn(`--${intent}`), className)} {...props}>
+    <div className={clsx(cn(), intent && cn(`-${intent}`), className)} {...props}>
       {hasHeader && (
-        <div className={clsx(cn('__Header'), intent && cn(`__Header--${intent}`))}>
+        <div className={clsx(cn('_Header'), intent && cn(`_Header-${intent}`))}>
           {title && (
             <h2>{title}</h2>
           )}
           {description && (
-            <p className={cn('__Description')}>{description}</p>
+            <p className={cn('_Description')}>{description}</p>
           )}
         </div>
       )}
       <div
-        className={clsx(cn('__Body'), {
-          [`${cn('__Body')}--noPadding`]: disablePadding,
-          [`${cn('__Body')}--hasHeader`]: hasHeader,
+        className={clsx(cn('_Body'), {
+          [`${cn('_Body')}-noPadding`]: disablePadding,
+          [`${cn('_Body')}-hasHeader`]: hasHeader,
         })}
       >
         {children}

@@ -1,6 +1,5 @@
 @use '/src/style/corners';
 @use '/src/style/flex';
-
 @use '/src/style/variables';
 @use '/src/style/variants';
 @use '/src/style/shadows';
@@ -11,20 +10,22 @@
   @include flex.centered;
   @include flex.stretchy;
   @include text.ui;
-  @include variants.solidMuted;
-  & {
-    flex-grow: 0;
-    font-weight: 500;
-    padding: 0 1rem;
-    height: 100%;
-  }
+  @include variants.solid-muted;
+
+  flex-grow: 0;
+  height: 100%;
+  padding: 0 1rem;
+  font-weight: 500;
+
   &[data-state='active'] {
+    @include shadows.surface-shadow;
+
     background-color: variables.$white;
-    @include shadows.surfaceShadow;
   }
+
   &[data-state='inactive'] {
     &:hover {
-      background-color: variables.$solidMuted-bg-hover;
+      background-color: variables.$solid-muted-bg-hover;
     }
   }
 }

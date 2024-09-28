@@ -10,13 +10,16 @@
   @include sizes.normal;
   @include corners.normal;
   @include flex.row($xAlign: left, $yAlign: center);
+
   & {
     width: 100%;
     padding: 0 1rem;
   }
+
   &-slotBefore {
     padding-left: 2.25rem;
   }
+
   &-slotAfter {
     padding-right: 2.25rem;
   }
@@ -24,25 +27,32 @@
 
 .InputSlotBefore,
 .InputSlotAfter {
-  width: 1rem;
-  height: 1rem;
-  color: inherit;
   pointer-events: none;
-  @include flex.centered;
+
   position: absolute;
   top: 0.75rem;
+
+  width: 1rem;
+  height: 1rem;
+
+  color: inherit;
+
+  @include flex.centered;
 }
 
 .InputSlotBefore {
   left: 0.75rem;
 }
+
 .InputSlotAfter {
   right: 0.75rem;
 }
 
 .InputWrapper {
   position: relative;
+
   @include flex.stretchy;
+
   width: 100%;
 
   &-hasError {
@@ -55,6 +65,6 @@
 }
 
 input::placeholder, textarea::placeholder {
-  opacity: 1;
   color: variables.$text-muted;
+  opacity: 1;
 }

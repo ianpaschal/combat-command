@@ -110,7 +110,7 @@ export const TournamentForm = ({
   return (
     <Form form={form} onSubmit={onSubmit} className={cn()}>
       <UnsavedChangesDialog blocker={blocker} />
-      <Card className={cn('__GameMetaSection')} title="General">
+      <Card className={cn('_GameMetaSection')} title="General">
         <Stack>
           <FormField name="title" label="Title" description="Avoid including points and other rules in the title.">
             <InputText type="text" />
@@ -124,8 +124,8 @@ export const TournamentForm = ({
           <FormField name="location" label="Location">
             <InputText type="text" />
           </FormField>
-          <Stack className={cn('__DateTimeSection')} orientation="horizontal">
-            <div className={cn('__DateTimeStart')}>
+          <Stack className={cn('_DateTimeSection')} orientation="horizontal">
+            <div className={cn('_DateTimeStart')}>
               <FormField name="start_date" label="Start Date">
                 <InputDate />
               </FormField>
@@ -133,7 +133,7 @@ export const TournamentForm = ({
                 <InputText type="time" slotBefore={<Clock />} />
               </FormField>
             </div>
-            <div className={cn('__DateTimeEnd')}>
+            <div className={cn('_DateTimeEnd')}>
               <FormField name="end_date" label="End Date">
                 <InputDate />
               </FormField>
@@ -153,12 +153,12 @@ export const TournamentForm = ({
             <Switch id="isTeam" checked={useTeams} onCheckedChange={handleToggleIsTeam} />
             <Label htmlFor="isTeam">Team Tournament</Label>
           </Stack>
-          <div className={cn('__CompetitorsInputs')}>
+          <div className={cn('_CompetitorsInputs')}>
             <FormField name="competitor_count" label={`Total ${competitorLabel}`}>
               <InputText type="number" />
             </FormField>
             <Animate show={useTeams}>
-              <FormField className={cn('__CompetitorSizeInput')} name="competitor_size" label="Team Size">
+              <FormField className={cn('_CompetitorSizeInput')} name="competitor_size" label="Team Size">
                 <InputText type="number" />
               </FormField>
             </Animate>
@@ -173,13 +173,13 @@ export const TournamentForm = ({
         </Stack>
       </Card>
       <Card
-        className={clsx(cn('__GroupsCard'))}
+        className={clsx(cn('_GroupsCard'))}
         title="Registration Groups"
         description={`Use groups to create different sets of ${competitorLabel} such as 'Axis' and 'Allies'.`}
       >
         <Stack horizontalAlign="end" gap="0.5rem">
           {competitorGroupFields.map((_field, i) => (
-            <Stack orientation="horizontal" gap="0.5rem" className={cn('__RegistrationGroup')} verticalAlign="center">
+            <Stack orientation="horizontal" gap="0.5rem" className={cn('_RegistrationGroup')} verticalAlign="center">
               <Stack gap={0}>
                 <Button onClick={(e) => handleRemoveGroup(e, i)} variant="ghost" size="small"><ChevronUp /></Button>
                 <Button onClick={(e) => handleRemoveGroup(e, i)} variant="ghost" size="small" disabled={competitorGroupFields.length < 2}><X /></Button>
@@ -188,7 +188,7 @@ export const TournamentForm = ({
               <FormField name={`competitor_groups.${i}.name`} label="Name">
                 <InputText type="text" />
               </FormField>
-              <FormField name={`competitor_groups.${i}.size`} label={competitorLabel} className={cn('__CompetitorGroupSizeInput')}>
+              <FormField name={`competitor_groups.${i}.size`} label={competitorLabel} className={cn('_CompetitorGroupSizeInput')}>
                 <InputText type="number" />
               </FormField>
             </Stack>

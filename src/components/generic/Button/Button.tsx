@@ -40,10 +40,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   const classNames = clsx(
     cn(),
     cn(mod({ variant, intent, muted })),
-    cn(`--size-${size}`),
+    cn(`-size-${size}`),
     {
-      [cn('--round')]: round,
-      [cn('--iconOnly')]: elements.length === 1 && isValidElement(elements[0]),
+      [cn('-round')]: round,
+      [cn('-iconOnly')]: elements.length === 1 && isValidElement(elements[0]),
     },
     className,
   );

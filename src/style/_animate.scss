@@ -1,63 +1,69 @@
-@mixin durationSlow {
+@mixin duration-slow {
   animation-duration: 250ms;
   animation-timing-function: ease-in-out;
 }
 
-@mixin durationQuick {
+@mixin duration-quick {
   animation-duration: 100ms;
   animation-timing-function: ease-in-out;
 }
 
-@mixin styleSlideLeft {
+@mixin style-slide-left {
   &[data-state='open'] {
-    animation-name: slideInLeft;
+    animation-name: slide-in-left;
   }
+
   &[data-state='closed'] {
-    animation-name: slideOutLeft;
+    animation-name: slide-out-left;
   }
 }
 
-@mixin styleSlideRight {
+@mixin style-slide-right {
   &[data-state='open'] {
-    animation-name: slideInRight;
+    animation-name: slide-in-right;
   }
+
   &[data-state='closed'] {
-    animation-name: slideOutRight;
+    animation-name: slide-out-right;
   }
 }
 
-@mixin styleSlideUp {
+@mixin style-slide-up {
   &[data-state='open'] {
-    animation-name: slideInBottom;
+    animation-name: slide-in-bottom;
   }
+
   &[data-state='closed'] {
-    animation-name: slideOutBottom;
+    animation-name: slide-out-bottom;
   }
 }
 
-@mixin styleSlideDown {
+@mixin style-slide-down {
   &[data-state='open'] {
-    animation-name: slideInTop;
+    animation-name: slide-in-top;
   }
+
   &[data-state='closed'] {
-    animation-name: slideOutTop;
+    animation-name: slide-out-top;
   }
 }
 
-@mixin stylePop {
+@mixin style-pop {
   &[data-state='open'] {
-    animation-name: popIn;
+    animation-name: pop-in;
   }
+
   &[data-state='closed'] {
-    animation-name: popOut;
+    animation-name: pop-out;
   }
 }
 
-@mixin styleFade {
+@mixin style-fade {
   &[data-state='open'] {
-    animation-name: fadeIn;
+    animation-name: fade-in;
   }
+
   &[data-state='closed'] {
-    animation-name: fadeOut;
+    animation-name: fade-out;
   }
 }

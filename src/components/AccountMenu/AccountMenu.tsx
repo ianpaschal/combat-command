@@ -15,10 +15,10 @@ const cn = createCn('AccountMenu');
 
 export const AccountMenu = (): JSX.Element => (
   <Popover.Root >
-    <Popover.Trigger className={cn('__Trigger')}>
+    <Popover.Trigger className={cn('_Trigger')}>
       <Avatar displayName="Ian" />
     </Popover.Trigger>
-    <Popover.Content className={cn('__Content')} align="start">
+    <Popover.Content className={cn('_Content')} align="start">
       <NavLinks orientation="vertical" routes={accountMenuLinks} />
       <Button variant="ghost"><LogOut />Sign Out</Button>
     </Popover.Content>

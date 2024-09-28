@@ -1,0 +1,97 @@
+@use '/src/style/flex';
+@use '/src/style/variables';
+@use '/src/style/variants';
+@use '/src/style/shadows';
+@use '/src/style/animate';
+@use '/src/style/borders';
+@use '/src/style/corners';
+@use '/src/style/text';
+
+$row-height: 3rem;
+
+.DataTable {
+  @include flex.column($gap: 0);
+  @include flex.stretchy;
+
+  overflow: hidden;
+  max-width: 100%;
+  max-height: 100%;
+
+  &_Controls {
+    @include flex.row($gap: 0.5rem);
+
+    margin-bottom: 0.5rem;
+  }
+
+  &_PopoverContent {
+    @include variants.outlined($hover: false);
+    @include shadows.shadow;
+    @include animate.duration-quick;
+    @include animate.style-pop;
+
+    & {
+      margin: 0.25rem 0;
+      padding: 1rem;
+      background-color: variables.$card-bg;
+      border-radius: variables.$corner-radius;
+    }
+  }
+
+  &_Table {
+    @include borders.normal;
+    @include corners.normal;
+
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &_Header {
+    display: grid;
+    min-height: $row-height;
+    padding: 0 0.5rem;
+    border-bottom: variables.$border-width solid variables.$border-color;
+  }
+
+  &_HeaderCell {
+    @include text.ui($bold: true);
+
+    padding: 0.25rem 0.5rem;
+
+    @include flex.row($gap: 0, $yAlign: center);
+  }
+
+  &_Body {
+    @include flex.stretchy;
+
+    display: flex;
+    flex-direction: column;
+  }
+
+  &_Row {
+    @include flex.stretchy;
+
+    display: grid;
+    width: 100%;
+    height: $row-height;
+    padding: 0 0.5rem;
+  }
+
+  &_Row:not(:last-child) {
+    border-bottom: variables.$border-width solid variables.$border-color;
+  }
+
+  &_DefaultCell {
+    @include text.ui;
+
+    padding: 0.25rem 0.5rem;
+
+    @include flex.row($gap: 0, $yAlign: center);
+  }
+
+  &_IndexCell {
+    @include flex.centered;
+
+    color: variables.$text-muted;
+  }
+}

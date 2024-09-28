@@ -26,8 +26,8 @@ export const AppBar = ({
   const isMobile = width <= 688;
   return (
     <Portal.Root>
-      <div className={cn('__Root')}>
-        <div className={cn('__Content')} style={{ maxWidth }}>
+      <div className={cn('_Root')}>
+        <div className={cn('_Content')} style={{ maxWidth }}>
           {isMobile && (
             <Drawer.Root>
               <Drawer.Trigger asChild>
@@ -35,7 +35,7 @@ export const AppBar = ({
               </Drawer.Trigger>
               <Drawer.Content side="left">
                 <Drawer.Header title="Navigation" hideTitle>
-                  <AppLogo className={cn('__Logo')} />
+                  <AppLogo className={cn('_Logo')} />
                 </Drawer.Header>
                 <Drawer.Body>
                   <NavLinks orientation="vertical" routes={navItems} />
@@ -45,7 +45,7 @@ export const AppBar = ({
             </Drawer.Root>
           )}
           {/* <img src={logo} height={40} width={40} /> */}
-          <AppLogo className={cn('__Logo')} />
+          <AppLogo className={cn('_Logo')} />
           {!isMobile && (
             <NavLinks routes={navItems} />
           )}

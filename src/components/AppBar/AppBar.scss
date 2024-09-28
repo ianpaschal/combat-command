@@ -2,28 +2,32 @@
 @use '/src/style/flex';
 
 .AppBar {
-  &__Root {
-    background-color: variables.$card-bg;
-    border-bottom-color: variables.$outlined-border;
-    border-bottom-style: solid;
-    border-bottom-width: variables.$border-width;
-    height: variables.$app-bar-height;
-    left: 0;
-    padding: 1rem;
-    padding-right: 1.5rem;
+  &_Root {
     position: fixed;
     top: 0;
+    left: 0;
+
     width: 100vw;
+    height: variables.$app-bar-height;
+    padding: 1rem;
+    padding-right: 1.5rem;
+
+    background-color: variables.$card-bg;
+    border-bottom: variables.$border-width solid variables.$outlined-border;
+
     @include flex.row(1rem);
   }
-  &__Content {
+
+  &_Content {
     @include flex.row(1rem);
     @include flex.stretchy;
+
     align-items: center;
     justify-content: space-between;
     margin: 0 auto;
   }
-  &__Logo {
+
+  &_Logo {
     width: 2.5rem;
     height: 2.5rem;
     color: variables.$text-base;
