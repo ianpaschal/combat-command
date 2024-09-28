@@ -6,21 +6,23 @@ import { Drawer } from '~/components/generic/Drawer';
 import { Label } from '~/components/generic/Label';
 import { Stack } from '~/components/generic/Stack';
 import { Switch } from '~/components/generic/Switch';
-import { Tournament } from '~/types/Tournament';
+import { TournamentRecord } from '~/types/Tournament';
 
 import './ManageTournamentDrawer.scss';
 
 export interface ManageTournamentDrawerProps {
-  trigger: ReactNode;
   tournamentId: string;
+  trigger: ReactNode;
 }
 
 export const ManageTournamentDrawer = ({
+  // tournamentId,
   trigger,
-  tournamentId,
 }: ManageTournamentDrawerProps): JSX.Element => {
 
-  const tournament: Tournament = {
+  const tournament: TournamentRecord = {
+    id: '27b59ae9-30d5-4e38-a0e0-20f66ed35a06',
+    created_at: 'foo',
     status: 'published',
     competitor_count: 40,
     competitor_groups: [{ name: 'All Players', size: 40 }],
@@ -34,11 +36,13 @@ export const ManageTournamentDrawer = ({
     logo_url: '',
     organizer_ids: [''],
     registrations_open: true,
+    registrations_close_at: '2024-11-03',
     round_count: 5,
     rules_pack_url: 'https://drive.google.com/file/d/1rtX-xqkbHxgHEe-Ggd1msqclb5HdWJ8C',
     start_date: '2024-11-09',
     start_time: '8:00',
     title: 'FOW Belgian Nationals 2024',
+    use_national_teams: false,
   };
 
   const [registrationsOpen, setRegistrationsOpen] = useState<boolean>(tournament.registrations_open);
@@ -80,15 +84,11 @@ export const ManageTournamentDrawer = ({
             </Card>
           )}
           <Card title="Danger Zone" intent="danger">
+            <p><strong>Warning!</strong> Doing this will hide the tournament and notify all players that the tournament status is pending. If you need to edit tournament details you can do that without un-publishing, and players will be notified of the changes.</p>
             <Button variant="outlined" intent="danger">Un-Publish Tournament</Button>
+            <p>**Warning!** This is permanent! All registrations will be deleted and players will be notified that the tournament was cancelled.</p>
+            <Button variant="outlined" intent="danger">Cancel Tournament</Button>
           </Card>
-
-          - DANGER ZONE
-          - Un-publish:
-          - **Warning!** Doing this will hide the tournament and notify all players that the tournament status is pending. If you need to edit tournament details you can do that without un-publishing, and players will be notified of the changes.
-          - Cancel
-          - **Warning!** This is permanent! All registrations will be deleted and players will be notified that the tournament was cancelled.
-
         </Drawer.Body>
       </Drawer.Content>
     </Drawer.Root>

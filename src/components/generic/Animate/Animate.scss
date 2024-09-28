@@ -1,6 +1,6 @@
 @use '/src/style/animate';
 
-.Animated {
+.Animate {
   &-speed-quick {
     @include animate.duration-quick;
   }

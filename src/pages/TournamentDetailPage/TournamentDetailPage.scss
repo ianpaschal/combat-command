@@ -60,9 +60,7 @@
 
 
 // 320px + 2 x 16px
-// @media (width >= 352px) {
-
-// }
+// @media (width >= 352px) { }
 
 // 2 x 320px + 3 x 16px
 @media (width >= 688px) {
@@ -71,7 +69,6 @@
     max-height: 32rem;
 
     .Card_Body {
-      overflow: hidden;
       display: flex;
       flex-direction: column;
     }

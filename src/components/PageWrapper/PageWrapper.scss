@@ -17,17 +17,18 @@
     background-color: transparent;
   }
 
+  &_Header {
+    height: 2.5rem;
+    margin: 1rem;
+  }
+
+  &_Body {
+    margin: 1rem;
+  }
+
   &-HasAppBar {
     top: variables.$app-bar-height;
     height: calc(100dvh - variables.$app-bar-height);
   }
 }
 
-.PageWrapper_Header {
-  height: 2.5rem;
-  margin: 1rem;
-}
-
-.PageWrapper_Body {
-  margin: 1rem;
-}

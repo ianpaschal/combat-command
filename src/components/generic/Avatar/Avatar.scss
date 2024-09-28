@@ -3,7 +3,6 @@
 @use '/src/style/flex';
 
 .Avatar {
-  position: relative;
   display: flex;
   flex-shrink: 0;
   background-color: transparent;
@@ -25,7 +24,6 @@
     & {
       user-select: none;
 
-      position: absolute;
       inset: 0;
 
       width: 100%;

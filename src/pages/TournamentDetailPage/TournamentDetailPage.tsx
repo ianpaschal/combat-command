@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   Cog,
@@ -17,21 +16,21 @@ import { ManageTournamentDrawer } from '~/components/ManageTournamentDrawer';
 import { MatchResultCard } from '~/components/MatchResultCard/MatchResultCard';
 import { PageWrapper } from '~/components/PageWrapper';
 import { PairingCard } from '~/components/PairingCard';
+import { TournamentRegistrationsCard } from '~/components/TournamentRegistrationsCard';
 import { Tournament } from '~/types/Tournament';
-import { createCn } from '~/utils/componentLib/createCn';
+import { bem } from '~/utils/componentLib/bem';
 
 import './TournamentDetailPage.scss';
 
-const cn = createCn('TournamentDetailPage');
+const cn = bem('TournamentDetailPage');
 
 export const TournamentDetailPage = (): JSX.Element => {
   const user = useAuth();
   const params = useParams();
   const tournamentId = params.id!; // Must exist or else how did we get to this route?
 
-  console.log(tournamentId);
-
-  const tournament: Tournament = {
+  const tournament: Tournament & { id: string } = {
+    id: 'dd616369-917c-4506-a017-ba3a8e503eda',
     status: 'active',
     competitor_count: 40,
     competitor_groups: [{ name: 'All Players', size: 40 }],
@@ -55,24 +54,28 @@ export const TournamentDetailPage = (): JSX.Element => {
 
   const isOrganizer = user && tournament.organizer_ids.includes(user.id);
 
-  const showRegistrations = tournament.status === 'published' && tournament.registrations_open;
+  // Show registrations and register button:
+  const showRegistrations = tournament.status === 'published';
+
+  // Show rankings, pairings, and match results:
+  const showRankings = tournament.status === 'active';
   const showMatchResults = tournament.status === 'active';
+  const showPairings = tournament.status === 'active' && tournament.current_round !== undefined;
+
+  // Fast-action buttons:
   const showRegisterButton = tournament.registrations_open && !isOrganizer;
   const showAddMatchResultButton = tournament.status === 'active' && !isOrganizer && tournament.current_round !== undefined;
-  const showPairings = tournament.status === 'active' && tournament.current_round !== undefined;
   const showManageButton = isOrganizer;
-
-  const [matchRoundFilter, setMatchRoundFilter] = useState<string>('round_2');
 
   return (
     <PageWrapper title={tournament.title} showBackButton>
-      <div className="TournamentDetailPage_Body">
-        <div className="TournamentDetailPage_OverviewWrapper">
-          <Card className="TournamentDetailPage_OverviewSection" disablePadding>
-            <div className={cn('_Banner')}>
-              <div className={cn('_BannerOverlay')} />
+      <div className={cn('Body')}>
+        <div className={cn('OverviewWrapper')}>
+          <Card className={cn('OverviewSection')} disablePadding>
+            <div className={cn('Banner')}>
+              <div className={cn('BannerOverlay')} />
             </div>
-            <Stack className={cn('_Description')}>
+            <Stack className={cn('Description')}>
               <div>
                 Date
                 Place
@@ -83,41 +86,41 @@ export const TournamentDetailPage = (): JSX.Element => {
             </Stack>
           </Card>
         </div>
-        <div className={cn('_SubSectionsWrapper')}>
+        <div className={cn('SubSectionsWrapper')}>
           {showRegistrations && (
-            <Card className={cn('_RegistrationsSection')} title="Registrations">
-              Registrations
+            <TournamentRegistrationsCard className={cn('RegistrationsSection')} tournamentId={tournament.id} />
+          )}
+          {showRankings && (
+            <Card className={cn('RankingsSection')} title="Rankings">
+              <FowV4RankingsTable />
             </Card>
           )}
-          <Card className={cn('_RankingsSection')} title="Rankings">
-            <FowV4RankingsTable />
-          </Card>
           {showPairings && (
             <Card
-              className="TournamentDetailPage_PairingsSection"
+              className={cn('PairingsSection')}
               title={`Round ${(tournament.current_round || 0) + 1} Pairings`}
               disablePadding
             >
-              <ScrollArea className={cn('_PairingsScrollArea')} addIndicatorBorder>
-                <div className={cn('_PairingsItemList')}>
-                  <PairingCard />
-                  <PairingCard />
-                  <PairingCard />
-                  <PairingCard />
-                  <PairingCard />
-                  <PairingCard />
-                  <PairingCard />
-                  <PairingCard />
-                  <PairingCard />
-                  <PairingCard />
+              <ScrollArea className={cn('PairingsScrollArea')} addIndicatorBorder>
+                <div className={cn('PairingsItemList')}>
+                  <PairingCard id="foo" />
+                  <PairingCard id="foo" />
+                  <PairingCard id="foo" />
+                  <PairingCard id="foo" />
+                  <PairingCard id="foo" />
+                  <PairingCard id="foo" />
+                  <PairingCard id="foo" />
+                  <PairingCard id="foo" />
+                  <PairingCard id="foo" />
+                  <PairingCard id="foo" />
                 </div>
               </ScrollArea>
             </Card>
           )}
           {showMatchResults && (
-            <Card className={cn('_MatchResultsSection')} title="Match Results" disablePadding>
-              <ScrollArea className={cn('_MatchResultsScrollArea')} addIndicatorBorder>
-                <div className={cn('_MatchResultsItemList')}>
+            <Card className={cn('MatchResultsSection')} title="Match Results" disablePadding>
+              <ScrollArea className={cn('MatchResultsScrollArea')} addIndicatorBorder>
+                <div className={cn('MatchResultsItemList')}>
                   <MatchResultCard />
                   <MatchResultCard />
                   <MatchResultCard />

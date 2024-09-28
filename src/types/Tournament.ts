@@ -32,6 +32,7 @@ const tournamentSchema = z.object({
   status: tournamentStatusSchema,
   title: z.string(),
   use_national_teams: z.boolean(),
+  registrations_close_at: z.string(),
   // game_system_config: json (rules, points, era)
   // ranking_config: json
   // pairing_config: json
@@ -49,7 +50,7 @@ export type Tournament = z.infer<typeof tournamentSchema>;
 export type TournamentRecord = Tournament & {
   id: string;
   created_at: string;
-  modified_at: string;
+  modified_at?: string;
 };
 
 // export interface Tournament {

@@ -1,4 +1,8 @@
-import { ColumnDef, DataTable } from '~/components/generic/DataTable';
+import {
+  ColumnDef,
+  DataTable,
+  DefaultCell,
+} from '~/components/generic/DataTable';
 
 interface FowV4Ranking {
   name: string;
@@ -12,22 +16,22 @@ export const FowV4RankingsTable = (): JSX.Element => {
   const columnDefs: ColumnDef<FowV4Ranking>[] = [
     {
       header: 'Team Name',
-      render: (data) => data.name,
+      render: (data) => <DefaultCell value={data.name} />,
       width: '2fr',
     },
     {
       header: 'Wins',
-      render: (data) => data.wins,
+      render: (data) => <DefaultCell value={data.wins} />,
       width: '1fr',
     },
     {
       header: 'Points',
-      render: (data) => data.points,
+      render: (data) => <DefaultCell value={data.points} />,
       width: '1fr',
     },
     {
       header: 'Kills',
-      render: (data) => data.kills,
+      render: (data) => <DefaultCell value={data.kills} />,
       width: '1fr',
     },
   ];

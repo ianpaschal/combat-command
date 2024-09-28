@@ -6,7 +6,7 @@
 @use '/src/style/sizes';
 
 .Input {
-  @include variants.outlined;
+  @include variants.outlined($hover: false);
   @include sizes.normal;
   @include corners.normal;
   @include flex.row($xAlign: left, $yAlign: center);
