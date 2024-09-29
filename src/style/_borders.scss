@@ -17,3 +17,9 @@
   border-style: solid;
   border-width: variables.$border-width;
 }
+
+@mixin disabled {
+  border-color: variables.$outlined-disabled-border;
+  border-style: solid;
+  border-width: variables.$border-width;
+}

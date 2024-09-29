@@ -77,6 +77,20 @@
   }
 }
 
+@mixin outlined-disabled {
+  @include variant-defaults;
+  @include borders.disabled;
+
+  & {
+    color: variables.$outlined-disabled-text;
+    background-color: variables.$outlined-disabled-bg;
+  }
+
+  &:hover {
+    background-color: variables.$outlined-disabled-bg-hover;
+  }
+}
+
 @mixin outlined-muted($hover: true) {
   @include variant-defaults;
   @include borders.muted;

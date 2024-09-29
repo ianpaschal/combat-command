@@ -21,7 +21,7 @@ $modal-overlay-bg-color: rgb(0 0 0 / 80%);
 
 // Solid
 $solid-bg: $text-base;
-$solid-bg-hover: color.adjust($solid-bg, $lightness: 15%);
+$solid-bg-hover: color.adjust($solid-bg, $lightness: 20%);
 $solid-bg-disabled: color.adjust($solid-bg, $lightness: 30%);
 $solid-text: $white;
 
@@ -41,6 +41,12 @@ $outlined-bg: $white;
 $outlined-bg-hover: color.adjust($outlined-bg, $lightness: -5%);
 $outlined-text: $text-base;
 $outlined-border: $border-color;
+
+// Outlined (Disabled)
+$outlined-disabled-bg: $white;
+$outlined-disabled-bg-hover: $outlined-bg;
+$outlined-disabled-text: $text-disabled;
+$outlined-disabled-border: color.adjust($border-color, $alpha: -0.025);
 
 // Outlined (Muted)
 $outlined-muted-bg: $outlined-bg;
