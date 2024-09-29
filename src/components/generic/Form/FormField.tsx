@@ -18,6 +18,7 @@ export interface FormFieldProps {
   name: string;
   className?: string;
   children: ReactElement;
+  disabled?: boolean;
 }
 
 const cn = createCn('FormField');
@@ -27,6 +28,7 @@ export const FormField = ({
   description,
   label,
   name,
+  disabled = false,
   children,
   ...props
 }: FormFieldProps): JSX.Element => {
@@ -36,14 +38,14 @@ export const FormField = ({
     console.log('Use horizontal layout');
   }
   return (
-    <div className={className}>
+    <div className={clsx(cn(), className)}>
       {label && (
-        <Label className={clsx(cn('_Label'), { [cn('_Label-error')]: hasError })}>{label}</Label>
+        <Label className={clsx(cn('_Label'), { [cn('_Label-error')]: hasError, [cn('_Label-disabled')]: disabled })}>{label}</Label>
       )}
       <Controller
         control={control}
         render={({ field }) => (
-          cloneElement(children, { ...field, ...props, hasError })
+          cloneElement(children, { ...field, ...props, hasError, disabled })
         )}
         name={name}
       />
@@ -51,7 +53,7 @@ export const FormField = ({
         <div className={clsx(cn('_Errors'))}>{errors[name]?.message as string}</div>
       )}
       {description && (
-        <div className={clsx(cn('_Description'))}>{description}</div>
+        <div className={clsx(cn('_Description'), { [cn('_Description-error')]: hasError, [cn('_Description-disabled')]: disabled })}>{description}</div>
       )}
     </div>
   );

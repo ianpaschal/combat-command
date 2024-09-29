@@ -5,6 +5,10 @@
 .FormField {
   &_Label {
     margin-bottom: 0.375rem;
+
+    &-disabled {
+      color: variables.$text-disabled;
+    }
   }
 
   &_Description {
@@ -13,6 +17,10 @@
     margin-top: 0.25rem;
     font-size: 0.75rem;
     color: variables.$text-muted;
+
+    &-disabled {
+      color: variables.$text-disabled;
+    }
   }
 
   &_Errors {
