@@ -55,10 +55,11 @@ export const InputSelect = forwardRef<SelectRef, SelectProps>(({
   options,
   placeholder,
   onChange,
+  disabled = false,
   ...props
 }, ref): JSX.Element => (
-  <Root onValueChange={onChange} {...props}>
-    <Trigger className={clsx('InputSelectTrigger')}>
+  <Root onValueChange={onChange} disabled={disabled} {...props}>
+    <Trigger className={clsx('InputSelectTrigger', { 'InputSelectTrigger--disabled': disabled })}>
       <Value ref={ref} placeholder={placeholder} />
       <Icon className="SelectIcon">
         <ChevronDown />

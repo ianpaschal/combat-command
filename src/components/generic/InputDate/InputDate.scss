@@ -3,9 +3,15 @@
 @use '/src/style/animate';
 @use '/src/style/variants';
 @use '/src/style/shadows';
+@use '/src/style/text';
+@use '/src/style/flex';
 
 .InputDateTrigger {
-  text-align: left;
+  width: 100%;
+
+  @include flex.row($gap: 0.5rem, $yAlign: center);
+  @include flex.stretchy;
+  @include text.ui;
 }
 
 .InputDatePopoverContent {

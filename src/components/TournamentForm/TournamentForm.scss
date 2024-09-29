@@ -18,6 +18,10 @@
     gap: 1rem;
   }
 
+  &_GameSystemForm {
+    @include flex.column;
+  }
+
   &_CompetitorsInputs {
     @include flex.stretchy;
 
@@ -47,6 +51,10 @@
 
   &_CompetitorGroupSizeInput {
     max-width: 5rem;
+  }
+
+  &_GameSystemFields {
+    @include flex.column;
   }
 }
 

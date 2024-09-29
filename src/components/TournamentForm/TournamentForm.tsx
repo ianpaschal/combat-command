@@ -13,18 +13,21 @@ import {
   X,
 } from 'lucide-react';
 
+import { FowV4TournamentGameConfigForm } from '~/components/FowV4TournamentGameConfigForm';
 import { Animate } from '~/components/generic/Animate';
 import { Button } from '~/components/generic/Button';
 import { Card } from '~/components/generic/Card';
 import { Form, FormField } from '~/components/generic/Form';
-import { IconButton } from '~/components/generic/IconButton';
 import { InputDate } from '~/components/generic/InputDate';
+import { InputSelect } from '~/components/generic/InputSelect';
 import { InputText } from '~/components/generic/InputText';
 import { InputTextArea } from '~/components/generic/InputTextArea';
 import { Label } from '~/components/generic/Label';
+import { Separator } from '~/components/generic/Separator';
 import { Stack } from '~/components/generic/Stack';
 import { Switch } from '~/components/generic/Switch';
 import { UnsavedChangesDialog } from '~/components/UnsavedChangesDialog';
+import { FowV4GameSystemConfig } from '~/types/fowV4/fowV4GameSystemConfigSchema';
 import { Tournament, tournamentResolver } from '~/types/Tournament';
 import { createCn } from '~/utils/componentLib/createCn';
 
@@ -32,8 +35,18 @@ import './TournamentForm.scss';
 
 const cn = createCn('TournamentForm');
 
+const defaultFowV4GameConfigValues: FowV4GameSystemConfig = {
+  dynamic_points: true,
+  era: 'lw',
+  points: 100,
+  lessons_from_the_front_version: '2024-03',
+  mid_war_monsters: 'no',
+  mission_pack_version: '2023-04',
+  allowed_books: [],
+};
+
 const defaultValues: Partial<Tournament> = {
-  competitor_count: 10,
+  competitor_count: 20,
   competitor_groups: [{ name: 'All Competitors', size: 10 }],
   competitor_size: 1,
   use_national_teams: false,
@@ -46,6 +59,8 @@ const defaultValues: Partial<Tournament> = {
   start_date: '',
   start_time: '09:00',
   title: '',
+  game_system_id: 'd7399fd6-cbba-4996-9dc3-942a1de5c401',
+  game_system_config: defaultFowV4GameConfigValues,
 };
 
 export interface TournamentFormProps {
@@ -62,7 +77,7 @@ export const TournamentForm = ({
   onSubmit,
 }: TournamentFormProps): JSX.Element => {
   const [useTeams, setUseTeams] = useState<boolean>(false);
-  const [forceNationalTeams, setForceNationalTeams] = useState<boolean>(false);
+  // const [forceNationalTeams, setForceNationalTeams] = useState<boolean>(false);
 
   const form = useForm<Tournament>({
     resolver: tournamentResolver,
@@ -144,6 +159,15 @@ export const TournamentForm = ({
           </Stack>
         </Stack>
       </Card>
+      <Card title="Game Rules">
+        <div className={cn('_GameSystemFields')}>
+          <FormField name="game_system_id" label="Game System" description="Only Flames of War V4 is supported at the moment." disabled>
+            <InputSelect options={[{ value: 'd7399fd6-cbba-4996-9dc3-942a1de5c401', label: 'Flames of War V4' }]} />
+          </FormField>
+          <Separator />
+          <FowV4TournamentGameConfigForm form={form} />
+        </div>
+      </Card>
       <Card
         title="Players & Teams"
         description="Ranking and pairing configuration as well as player tasks can be configured after creation."
@@ -170,6 +194,7 @@ export const TournamentForm = ({
             </Animate> */}
           </div>
           <h3>Total Players: {totalPlayers}</h3>
+          <Separator />
         </Stack>
       </Card>
       <Card
@@ -197,6 +222,6 @@ export const TournamentForm = ({
         </Stack>
       </Card>
       <Button type="submit" disabled={loading}>Create</Button>
-    </Form>
+    </Form >
   );
 };

@@ -1,42 +1,69 @@
-import { useNavigate } from 'react-router-dom';
-import clsx from 'clsx';
+import { useLocation, useNavigate } from 'react-router-dom';
 
+import { useAuth } from '~/components/AuthProvider';
+import { Button } from '~/components/generic/Button';
 import { Card } from '~/components/generic/Card';
+import { Stack } from '~/components/generic/Stack';
+import { TournamentRecord } from '~/types/Tournament';
+import { bem } from '~/utils/componentLib/bem';
 
 import './TournamentCard.scss';
 
 export interface TournamentCardProps {
-  tournamentId: string;
-  orientation?: 'vertical' | 'horizontal';
+  tournament: TournamentRecord;
+  maxHeight?: number | string;
 }
+
+const cn = bem('TournamentCard');
+
 export const TournamentCard = ({
-  tournamentId,
-  orientation = 'horizontal',
+  tournament,
 }: TournamentCardProps) => {
+  const user = useAuth();
   const navigate = useNavigate();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const data = {
-    title: 'Foo',
-    thumbnail_url: 'https://github.com/shadcn.png',
-    banner_url: 'https://github.com/shadcn.png',
+  const location = useLocation();
+
+  const tournamentUrl = `/tournaments/${tournament.id}`;
+
+  const handleClickView = (): void => {
+    navigate(tournamentUrl);
   };
-  const handleClickCard = (): void => {
-    navigate(`/tournaments/${tournamentId}`);
-  };
+
+  const showViewButton = !location.pathname.includes(tournamentUrl);
+
+  const showManageRegistrationButton = false;
+  const showManageTournamentButton = user && tournament.organizer_ids.includes(user.id);
+  const showRegisterButton = user && !showManageTournamentButton && !showManageRegistrationButton;
+
   return (
-    <Card className={clsx('TournamentCard', `TournamentCard-${orientation}`)} onClick={handleClickCard}>
-      <div className="ThumbnailWrapper">
-        <img
-          className="Image"
-          src="https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=300&dpr=2&q=80"
-          alt="Landscape photograph by Tobias Tullius"
-        />
+    <Card className={cn()} disablePadding>
+      <div className={cn('Banner')}>
+        <div className={cn('BannerOverlay')} />
       </div>
-      <div className="TournamentCardContent">
-        <h3>Belgian Nationals 2025</h3>
-        <span>Line points</span>
-        <span>Line with date and time</span>
-        <span>Line with place</span>
+      <Stack className={cn('Description')}>
+        <div>
+          Date
+          Place
+          Game System & Rules
+        </div>
+        <h3>Description</h3>
+        <p>{tournament.description}</p>
+        <h3>Rankings & Pairings</h3>
+        <p>{tournament.description}</p>
+      </Stack>
+      <div className={cn('Actions')}>
+        {showRegisterButton && (
+          <Button>Register</Button>
+        )}
+        {showManageRegistrationButton && (
+          <Button>Manage</Button>
+        )}
+        {showManageTournamentButton && (
+          <Button>Manage</Button>
+        )}
+        {showViewButton && (
+          <Button onClick={handleClickView}>View</Button>
+        )}
       </div>
     </Card>
   );

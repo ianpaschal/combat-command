@@ -1,12 +1,9 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
-const tournamentStatusSchema = z.union([
-  z.literal('draft'),
-  z.literal('published'),
-  z.literal('active'),
-  z.literal('archived'),
-]);
+import { fowV4GameSystemConfigSchema } from '~/types/fowV4/fowV4GameSystemConfigSchema';
+import { tournamentPairingMethodSchema } from '~/types/TournamentPairingMethod';
+import { tournamentStatusSchema } from '~/types/TournamentStatus';
 
 const tournamentSchema = z.object({
   competitor_count: z.coerce.number().min(2, 'Tournaments require at least two competitors.'),
@@ -20,7 +17,7 @@ const tournamentSchema = z.object({
   description: z.optional(z.string().max(1000, 'Descriptions are limited to 1000 characters.')),
   end_date: z.string(),
   end_time: z.string(),
-  game_system_id: z.string().uuid(),
+  game_system_id: z.string(),
   location: z.string(),
   logo_url: z.optional(z.string().url('Please provide a valid URL.')).or(z.literal('')),
   organizer_ids: z.array(z.string().uuid()),
@@ -30,17 +27,20 @@ const tournamentSchema = z.object({
   start_date: z.string(),
   start_time: z.string(),
   status: tournamentStatusSchema,
-  title: z.string(),
+  title: z.string().min(5),
   use_national_teams: z.boolean(),
   registrations_close_at: z.string(),
-  // game_system_config: json (rules, points, era)
-  // ranking_config: json
-  // pairing_config: json
-
-  // FIXME: This doesn't work
-}).refine((data) => false, {
-  message: 'Wrong team size or wrong max player size',
-  path: ['maxPlayers', 'teamSize'],
+  game_system_config: fowV4GameSystemConfigSchema, // TODO: Replace with a union of other game systems
+  pairing_method: tournamentPairingMethodSchema,
+  ranking_factors: z.array(z.string()),
+}).refine(data => {
+  if (data.game_system_id === 'flames_of_war_v4') {
+    return fowV4GameSystemConfigSchema.safeParse(data.game_system_config).success;
+  }
+  return false; // Return false if no valid game_system_id matches
+}, {
+  message: 'Invalid config for the selected game system.',
+  path: ['game_system_config'], // Highlight the game_system_config field in case of error
 });
 
 export const tournamentResolver = zodResolver(tournamentSchema);
@@ -52,37 +52,3 @@ export type TournamentRecord = Tournament & {
   created_at: string;
   modified_at?: string;
 };
-
-// export interface Tournament {
-//   id: UUID;
-//   created_at: Timestamp;
-//   modified_at: Timestamp;
-//   visibility: 'draft' | 'hidden' | 'public';
-//   registration_open: boolean;
-//   match_results_open: boolean;
-//   team_size_limit: number | null;
-//   active_round_index: number | null;
-//   round_count: number;
-//   type: 'team' | 'solo';
-  
-//   // Display info
-//   title: string;
-//   description: string;
-//   start_date: Timestamp;
-//   end_date: Timestamp;
-//   location: string;
-
-//   game_system_id: UUID; // Foreign key, table: game_systems
-//   organizer_ids: UUID[]; // Foreign key, table: users
-// }
-
-// export interface TournamentTeam {
-//   tournament_team_id: UUID;
-//   created_at: Timestamp;
-//   modified_at: Timestamp;
-//   tournament_id: UUID; // foreign key
-//   name: string;
-// }
-
-// export type TournamentFields = Omit<Tournament, 'tournament_id' | 'created_at' | 'modified_at'>;
-

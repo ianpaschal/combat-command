@@ -43,7 +43,6 @@ export const Card = ({
       >
         {children}
       </div>
-
     </div>
   );
 };

@@ -73,7 +73,6 @@ export const ScrollArea = forwardRef<ScrollAreaRef, ScrollAreaProps>(({
       setIsRightHidden(false);
     }
   };
-  console.log(isTopHidden);
   return (
     <Root className={clsx(cn('Root'), className)} ref={ref} type="scroll" scrollHideDelay={1000} {...props}>
       <Viewport className={cn('Viewport')} ref={viewportRef} onScroll={handleScroll}>

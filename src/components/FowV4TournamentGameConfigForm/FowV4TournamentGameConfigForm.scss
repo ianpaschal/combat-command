@@ -1,0 +1,28 @@
+@use '/src/style/animate';
+@use '/src/style/flex';
+
+@use '/src/style/shadows';
+@use '/src/style/variables';
+@use '/src/style/variants';
+
+.FowV4TournamentGameConfigForm {
+  @include flex.column;
+
+  &_PointsEra {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+    gap: 1rem;
+  }
+
+  &_RuleAddOns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 1rem;
+  }
+}
+
+
+
+
+
+

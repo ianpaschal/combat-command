@@ -1,66 +1,165 @@
 import { useNavigate } from 'react-router-dom';
+import * as Popover from '@radix-ui/react-popover';
+import { useWindowWidth } from '@react-hook/window-size/throttled';
 import {
   ListFilter,
   Plus,
   Search,
 } from 'lucide-react';
 
+import { useAuth } from '~/components/AuthProvider';
 import { Button } from '~/components/generic/Button';
-import { Card } from '~/components/generic/Card';
 import { InputText } from '~/components/generic/InputText';
-import { Stack } from '~/components/generic/Stack';
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '~/components/generic/Tabs';
 import { PageWrapper } from '~/components/PageWrapper';
 import { TournamentCard } from '~/components/TournamentCard/TournamentCard';
+import { BREAKPOINT_TABLET } from '~/settings';
+import { TournamentRecord } from '~/types/Tournament';
+import { bem } from '~/utils/componentLib/bem';
 
 import './TournamentsPage.scss';
 
+const cn = bem('TournamentsPage');
+
 export const TournamentsPage = (): JSX.Element => {
+  const user = useAuth();
   const navigate = useNavigate();
   const handleClickCreateTournament = (): void => {
     navigate('/tournaments/create');
   };
+
+  const showButtonText = useWindowWidth() > BREAKPOINT_TABLET;
+
+  // TODO: Maybe just fetch the data. easier to fetch it once rather than for every card
+  const tournaments: TournamentRecord[] = [
+    {
+      id: 'dd616369-917c-4506-a017-ba3a8e503eda',
+      created_at: 'foo',
+      status: 'active',
+      competitor_count: 40,
+      competitor_groups: [{ name: 'All Players', size: 40 }],
+      competitor_size: 1,
+      current_round: 2,
+      description: 'Our yearly Flames of war tournament this time hosted at the Bastogne War Museum 95 points MW ',
+      end_date: '2024-11-10',
+      end_time: '17:00',
+      game_system_id: 'aec41143-341b-4da3-aef6-7cca7beb44a4',
+      location: 'Bastogne, BE',
+      logo_url: '',
+      organizer_ids: [user?.id || ''],
+      registrations_open: true,
+      round_count: 5,
+      rules_pack_url: 'https://drive.google.com/file/d/1rtX-xqkbHxgHEe-Ggd1msqclb5HdWJ8C',
+      start_date: '2024-11-09',
+      start_time: '8:00',
+      title: 'FOW Belgian Nationals 2024',
+      use_national_teams: false,
+      registrations_close_at: 'foo',
+    },
+    {
+      id: 'dd616369-917c-4506-a017-ba3a8e503eda',
+      created_at: 'foo',
+      status: 'active',
+      competitor_count: 40,
+      competitor_groups: [{ name: 'All Players', size: 40 }],
+      competitor_size: 1,
+      current_round: 2,
+      description: 'Our yearly Flames of war tournament this time hosted at the Bastogne War Museum 95 points MW ',
+      end_date: '2024-11-10',
+      end_time: '17:00',
+      game_system_id: 'aec41143-341b-4da3-aef6-7cca7beb44a4',
+      location: 'Bastogne, BE',
+      logo_url: '',
+      organizer_ids: [user?.id || ''],
+      registrations_open: true,
+      round_count: 5,
+      rules_pack_url: 'https://drive.google.com/file/d/1rtX-xqkbHxgHEe-Ggd1msqclb5HdWJ8C',
+      start_date: '2024-11-09',
+      start_time: '8:00',
+      title: 'FOW Belgian Nationals 2024',
+      use_national_teams: false,
+      registrations_close_at: 'foo',
+    },
+    {
+      id: 'dd616369-917c-4506-a017-ba3a8e503eda',
+      created_at: 'foo',
+      status: 'active',
+      competitor_count: 40,
+      competitor_groups: [{ name: 'All Players', size: 40 }],
+      competitor_size: 1,
+      current_round: 2,
+      description: 'Our yearly Flames of war tournament this time hosted at the Bastogne War Museum 95 points MW ',
+      end_date: '2024-11-10',
+      end_time: '17:00',
+      game_system_id: 'aec41143-341b-4da3-aef6-7cca7beb44a4',
+      location: 'Bastogne, BE',
+      logo_url: '',
+      organizer_ids: [''],
+      registrations_open: true,
+      round_count: 5,
+      rules_pack_url: 'https://drive.google.com/file/d/1rtX-xqkbHxgHEe-Ggd1msqclb5HdWJ8C',
+      start_date: '2024-11-09',
+      start_time: '8:00',
+      title: 'FOW Belgian Nationals 2024',
+      use_national_teams: false,
+      registrations_close_at: 'foo',
+    },
+    {
+      id: 'dd616369-917c-4506-a017-ba3a8e503eda',
+      created_at: 'foo',
+      status: 'active',
+      competitor_count: 40,
+      competitor_groups: [{ name: 'All Players', size: 40 }],
+      competitor_size: 1,
+      current_round: 2,
+      description: 'Our yearly Flames of war tournament this time hosted at the Bastogne War Museum 95 points MW ',
+      end_date: '2024-11-10',
+      end_time: '17:00',
+      game_system_id: 'aec41143-341b-4da3-aef6-7cca7beb44a4',
+      location: 'Bastogne, BE',
+      logo_url: '',
+      organizer_ids: [''],
+      registrations_open: true,
+      round_count: 5,
+      rules_pack_url: 'https://drive.google.com/file/d/1rtX-xqkbHxgHEe-Ggd1msqclb5HdWJ8C',
+      start_date: '2024-11-09',
+      start_time: '8:00',
+      title: 'FOW Belgian Nationals 2024',
+      use_national_teams: false,
+      registrations_close_at: 'foo',
+    },
+  ];
+
   return (
     <PageWrapper title="Tournaments">
-      <Stack orientation="horizontal">
+      <div className={cn('Filters')}>
         <InputText slotBefore={<Search />} placeholder="Search..." />
-        <Button variant="outlined"><ListFilter />Filter</Button>
-        <Button onClick={handleClickCreateTournament}><Plus /></Button>
-      </Stack>
-      <Tabs defaultValue="all">
-        <TabsList width="min">
-          <TabsTrigger value="all">All</TabsTrigger>
-          <TabsTrigger value="future">Future</TabsTrigger>
-          <TabsTrigger value="past">Past</TabsTrigger>
-        </TabsList>
-        <TabsContent value="all" tabIndex={-1}>
-          <Stack orientation="vertical" gap="0.5rem">
-            <TournamentCard tournamentId="foo" />
-            <TournamentCard tournamentId="foo" />
-            <TournamentCard tournamentId="foo" />
-            <TournamentCard tournamentId="foo" />
-            <TournamentCard tournamentId="foo" />
-            <TournamentCard tournamentId="foo" />
-            <TournamentCard tournamentId="foo" />
-            <TournamentCard tournamentId="foo" />
-            <TournamentCard tournamentId="foo" />
-          </Stack>
-        </TabsContent>
-        <TabsContent value="future" tabIndex={-1}>
-          V1
-          <Card className="TournamentsListView">
-            Future Tournaments
-          </Card>
-        </TabsContent>
-        <TabsContent value="past" tabIndex={-1}>
-          V2
-        </TabsContent>
-      </Tabs>
+        <Popover.Root>
+          <Popover.Trigger asChild>
+            <Button variant="outlined">
+              <ListFilter />
+              {showButtonText && (
+                <span>Filter</span>
+              )}
+            </Button>
+          </Popover.Trigger>
+          <Popover.Portal>
+            <Popover.Content className={cn('FilterPopover')} align="end">
+              Coming soon!
+            </Popover.Content>
+          </Popover.Portal>
+        </Popover.Root>
+        <Button onClick={handleClickCreateTournament}>
+          <Plus />
+          {showButtonText && (
+            <span>Create</span>
+          )}
+        </Button>
+      </div>
+      <div className={cn('List')}>
+        {tournaments.map((tournaments) => (
+          <TournamentCard key={tournaments.id} tournament={tournaments} />
+        ))}
+      </div>
     </PageWrapper>
   );
 };

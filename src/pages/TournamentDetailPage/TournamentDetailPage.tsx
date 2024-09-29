@@ -16,8 +16,9 @@ import { ManageTournamentDrawer } from '~/components/ManageTournamentDrawer';
 import { MatchResultCard } from '~/components/MatchResultCard/MatchResultCard';
 import { PageWrapper } from '~/components/PageWrapper';
 import { PairingCard } from '~/components/PairingCard';
+import { TournamentCard } from '~/components/TournamentCard/TournamentCard';
 import { TournamentRegistrationsCard } from '~/components/TournamentRegistrationsCard';
-import { Tournament } from '~/types/Tournament';
+import { Tournament, TournamentRecord } from '~/types/Tournament';
 import { bem } from '~/utils/componentLib/bem';
 
 import './TournamentDetailPage.scss';
@@ -29,8 +30,9 @@ export const TournamentDetailPage = (): JSX.Element => {
   const params = useParams();
   const tournamentId = params.id!; // Must exist or else how did we get to this route?
 
-  const tournament: Tournament & { id: string } = {
+  const tournament: TournamentRecord = {
     id: 'dd616369-917c-4506-a017-ba3a8e503eda',
+    created_at: 'foo',
     status: 'active',
     competitor_count: 40,
     competitor_groups: [{ name: 'All Players', size: 40 }],
@@ -50,6 +52,7 @@ export const TournamentDetailPage = (): JSX.Element => {
     start_time: '8:00',
     title: 'FOW Belgian Nationals 2024',
     use_national_teams: false,
+    registrations_close_at: 'foo',
   };
 
   const isOrganizer = user && tournament.organizer_ids.includes(user.id);
@@ -71,20 +74,7 @@ export const TournamentDetailPage = (): JSX.Element => {
     <PageWrapper title={tournament.title} showBackButton>
       <div className={cn('Body')}>
         <div className={cn('OverviewWrapper')}>
-          <Card className={cn('OverviewSection')} disablePadding>
-            <div className={cn('Banner')}>
-              <div className={cn('BannerOverlay')} />
-            </div>
-            <Stack className={cn('Description')}>
-              <div>
-                Date
-                Place
-                Game System & Rules
-              </div>
-              <h3>Description</h3>
-              <p>{tournament.description}</p>
-            </Stack>
-          </Card>
+          <TournamentCard tournament={tournament} />
         </div>
         <div className={cn('SubSectionsWrapper')}>
           {showRegistrations && (
