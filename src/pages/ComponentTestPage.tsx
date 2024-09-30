@@ -15,6 +15,8 @@ import { InputDate } from '~/components/generic/InputDate';
 import { InputSelect, InputSelectItem } from '~/components/generic/InputSelect/InputSelect';
 import { InputText } from '~/components/generic/InputText';
 import { Stack } from '~/components/generic/Stack';
+import { Switch } from '~/components/generic/Switch';
+import { Tag } from '~/components/generic/Tag';
 import { UserPortrait } from '~/components/UserPortrait';
 
 import './ComponentTestPage.scss';
@@ -76,7 +78,7 @@ export const ComponentTestPage = (): JSX.Element => {
       </Card>
 
       <Card>
-
+        <Tag>Hello</Tag><Tag>World</Tag>
         <Stack>
           Hello world
           <UserPortrait name="Ian Paschal With a long name" orientation="horizontal">
@@ -112,14 +114,17 @@ export const ComponentTestPage = (): JSX.Element => {
           <FormField name="email" label="Email">
             <InputText type="email" />
           </FormField>
-          <FormField name="username" label="Username">
+          <FormField name="username" label="Username" description="What the world will know you as">
             <InputSelect options={options} />
           </FormField>
-          <FormField name="useTeams" label="Teams">
+          <FormField name="useTeams" label="Teams" description="Where will this appear?">
             <Checkbox />
           </FormField>
           <FormField name="useTeams" label="Teams">
             <Checkbox variant="outlined" />
+          </FormField>
+          <FormField name="useSwitch" label="A Switch" description="Some description">
+            <Switch />
           </FormField>
           <Button type="submit">Complete</Button>
         </Form>
