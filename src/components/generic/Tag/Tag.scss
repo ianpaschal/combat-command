@@ -1,0 +1,21 @@
+@use '/src/style/corners';
+@use '/src/style/text';
+@use '/src/style/variables';
+@use '/src/style/borders';
+
+.Tag {
+  @include corners.tight;
+  @include borders.normal;
+  @include text.ui($bold: true);
+
+  display: inline-block;
+
+  height: 1.5rem;
+  margin: -2px 0;
+  padding: 0 5px;
+
+  line-height: calc(1.5rem - (2 * variables.$border-width));
+  color: variables.$solid-muted-text;
+
+  background-color: variables.$solid-muted-bg;
+}
