@@ -9,7 +9,7 @@
 
 @mixin variant-defaults {
   transition-timing-function: ease-in-out;
-  transition-duration: 0.25s;
+  transition-duration: 150ms;
   transition-property: color, background-color;
 }
 

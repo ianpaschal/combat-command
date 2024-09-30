@@ -2,6 +2,7 @@
 @use '/src/style/animate';
 @use '/src/style/variables';
 @use '/src/style/shadows';
+@use '/src/style/variants';
 
 $switch-height: 1.5rem;
 $switch-width: 2.5rem;
@@ -12,22 +13,25 @@ $thumb-offset: calc($switch-width - ($thumb-inset + $thumb-size));
 .Switch {
   all: unset;
 
+  @include variants.solid-muted;
+
   position: relative;
 
   width: $switch-width;
   height: $switch-height;
 
-  background-color: variables.$solid-muted-bg;
+  // background-color: variables.$solid-muted-bg;
   border-radius: calc($switch-height / 2);
 
-  transition: background-color 100ms;
+  transition-property: background-color;
 
   // -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   // &:focus {
   //   box-shadow: 0 0 0 2px blue;
   // }
   &[data-state='checked'] {
-    background-color: variables.$text-base;
+    // background-color: variables.$text-base;
+    @include variants.solid;
   }
 
   &_Thumb {
