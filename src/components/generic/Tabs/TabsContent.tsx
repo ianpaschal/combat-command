@@ -12,5 +12,5 @@ export const TabsContent = forwardRef<TabsContentRef, TabsContentProps>(({
   className,
   ...props
 }, ref): JSX.Element => (
-  <Content ref={ref} className={clsx('TabsContent', className)} {...props} />
+  <Content ref={ref} className={clsx('TabsContent', className)} {...props} tabIndex={-1} />
 ));

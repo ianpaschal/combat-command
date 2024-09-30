@@ -38,10 +38,10 @@ export const AccessPage = (): JSX.Element => {
             <TabsTrigger value="sign-in">Sign In</TabsTrigger>
             <TabsTrigger value="sign-up">Register</TabsTrigger>
           </TabsList>
-          <TabsContent value="sign-in" tabIndex={-1}>
+          <TabsContent value="sign-in">
             <SignInForm />
           </TabsContent>
-          <TabsContent value="sign-up" tabIndex={-1}>
+          <TabsContent value="sign-up">
             <SignUpForm />
           </TabsContent>
         </Tabs>
