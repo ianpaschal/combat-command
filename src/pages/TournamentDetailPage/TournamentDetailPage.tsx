@@ -53,6 +53,15 @@ export const TournamentDetailPage = (): JSX.Element => {
     title: 'FOW Belgian Nationals 2024',
     use_national_teams: false,
     registrations_close_at: 'foo',
+    game_system_config: {
+      points: 100,
+      era: 'lw',
+      lessons_from_the_front_version: '2024-03',
+      mission_pack_version: '2024-06',
+      allowed_books: [],
+    },
+    ranking_factors: [],
+    pairing_method: 'swiss',
   };
 
   const isOrganizer = user && tournament.organizer_ids.includes(user.id);
