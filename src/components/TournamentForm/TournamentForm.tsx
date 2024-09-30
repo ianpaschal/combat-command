@@ -22,7 +22,6 @@ import { InputDate } from '~/components/generic/InputDate';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { InputText } from '~/components/generic/InputText';
 import { InputTextArea } from '~/components/generic/InputTextArea';
-import { Label } from '~/components/generic/Label';
 import { Separator } from '~/components/generic/Separator';
 import { Stack } from '~/components/generic/Stack';
 import { Switch } from '~/components/generic/Switch';
@@ -173,10 +172,9 @@ export const TournamentForm = ({
         description="Ranking and pairing configuration as well as player tasks can be configured after creation."
       >
         <Stack>
-          <Stack orientation="horizontal" verticalAlign="center">
-            <Switch id="isTeam" checked={useTeams} onCheckedChange={handleToggleIsTeam} />
-            <Label htmlFor="isTeam">Team Tournament</Label>
-          </Stack>
+          <FormField label="Is team tournament?">
+            <Switch checked={useTeams} onCheckedChange={handleToggleIsTeam} />
+          </FormField>
           <div className={cn('_CompetitorsInputs')}>
             <FormField name="competitor_count" label={`Total ${competitorLabel}`}>
               <InputText type="number" />
@@ -194,7 +192,6 @@ export const TournamentForm = ({
             </Animate> */}
           </div>
           <h3>Total Players: {totalPlayers}</h3>
-          <Separator />
         </Stack>
       </Card>
       <Card
@@ -204,7 +201,7 @@ export const TournamentForm = ({
       >
         <Stack horizontalAlign="end" gap="0.5rem">
           {competitorGroupFields.map((_field, i) => (
-            <Stack orientation="horizontal" gap="0.5rem" className={cn('_RegistrationGroup')} verticalAlign="center">
+            <Stack key={i} orientation="horizontal" gap="0.5rem" className={cn('_RegistrationGroup')} verticalAlign="center">
               <Stack gap={0}>
                 <Button onClick={(e) => handleRemoveGroup(e, i)} variant="ghost" size="small"><ChevronUp /></Button>
                 <Button onClick={(e) => handleRemoveGroup(e, i)} variant="ghost" size="small" disabled={competitorGroupFields.length < 2}><X /></Button>

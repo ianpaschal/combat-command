@@ -1,5 +1,6 @@
 @use '/src/style/variables';
 @use '/src/style/flex';
+@use '/src/style/text';
 
 .TournamentCard {
   overflow: hidden;
@@ -23,8 +24,49 @@
     // }
   }
 
-  &_Description {
+  &_InfoSection {
+    @include flex.column;
+
     padding: 1rem;
+  }
+
+  &_GameSystem {
+    @include text.ui($muted: true, $bold: true);
+  }
+
+  &_Overview {
+    @include flex.column($gap: 0.5rem);
+  }
+
+  &_DateTime,
+  &_Location,
+  &_SeatsAvailable,
+  &_GamePlay {
+    @include flex.row($gap: 0.5rem, $yAlign: center);
+    @include text.ui;
+
+    svg {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+
+  &_InfoSectionExpanded {
+    @include flex.column;
+
+    padding: 1rem;
+  }
+
+  &_RulesPack {
+    a {
+      @include flex.row($gap: 0.25rem, $yAlign: center);
+      @include text.ui;
+    }
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+    }
   }
 
   &_Actions {
