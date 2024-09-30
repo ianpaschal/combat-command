@@ -12,18 +12,26 @@
   height: 2.5rem;
 }
 
-@mixin tiny {
+@mixin tiny($square: false) {
   min-width: 1.5rem;
   height: 1.5rem;
+
+  @if $square {
+    width: 1.5rem;
+  }
 
   &::before {
     @include mobile-hit-box;
   }
 }
 
-@mixin small {
+@mixin small($square: false) {
   min-width: 2rem;
   height: 2rem;
+
+  @if $square {
+    width: 1.5rem;
+  }
 
   &::before {
     @include mobile-hit-box;

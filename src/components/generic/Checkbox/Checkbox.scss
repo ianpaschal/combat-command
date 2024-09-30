@@ -8,6 +8,11 @@
 .Checkbox {
   @include variants.reset;
   @include flex.centered;
+  @include variants.solid-muted;
+
+  &[data-state='checked'] {
+    @include variants.solid;
+  }
 
   & {
     position: relative;
@@ -15,12 +20,12 @@
 
   // Size
   &-size-tiny {
-    @include sizes.tiny;
+    @include sizes.tiny($square: true);
     @include corners.tight;
 
     svg {
-      width: 1.5rem;
-      height: 1.5rem;
+      width: 1.25rem;
+      height: 1.25rem;
     }
   }
 
@@ -39,31 +44,11 @@
     @include corners.normal;
   }
 
-  // Variant+Intent
-  &-solid {
-    @include variants.solid-muted;
 
-    &[data-state='checked'] {
-      @include variants.solid;
-    }
-  }
 
-  &-outlined {
-    @include variants.outlined-muted($hover: false);
-
-    &[data-state='checked'] {
-      @include variants.outlined($hover: false);
-    }
-  }
 
   &_Indicator {
     margin-top: 3px; // Looks better
-    &-solid {
-      color: variables.$solid-text;
-    }
-
-    &-outlined {
-      color: variables.$outlined-text;
-    }
+    color: variables.$solid-text;
   }
 }
