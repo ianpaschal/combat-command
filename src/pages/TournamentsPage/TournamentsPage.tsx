@@ -12,7 +12,7 @@ import { Button } from '~/components/generic/Button';
 import { InputText } from '~/components/generic/InputText';
 import { PageWrapper } from '~/components/PageWrapper';
 import { TournamentCard } from '~/components/TournamentCard/TournamentCard';
-import { BREAKPOINT_TABLET } from '~/settings';
+import { MIN_WIDTH_TABLET } from '~/settings';
 import { TournamentRecord } from '~/types/Tournament';
 import { bem } from '~/utils/componentLib/bem';
 
@@ -27,7 +27,7 @@ export const TournamentsPage = (): JSX.Element => {
     navigate('/tournaments/create');
   };
 
-  const showButtonText = useWindowWidth() > BREAKPOINT_TABLET;
+  const showButtonText = useWindowWidth() > MIN_WIDTH_TABLET;
 
   // TODO: Maybe just fetch the data. easier to fetch it once rather than for every card
   const tournaments: TournamentRecord[] = [
