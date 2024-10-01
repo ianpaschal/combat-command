@@ -18,7 +18,7 @@ export const AccountMenu = (): JSX.Element => (
     <Popover.Trigger className={cn('_Trigger')}>
       <Avatar displayName="Ian" />
     </Popover.Trigger>
-    <Popover.Content className={cn('_Content')} align="start">
+    <Popover.Content className={cn('_Content')} align="end">
       <NavLinks orientation="vertical" routes={accountMenuLinks} />
       <Button variant="ghost"><LogOut />Sign Out</Button>
     </Popover.Content>
