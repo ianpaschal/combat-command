@@ -12,7 +12,7 @@ export interface FlagCircleProps {
 export const FlagCircle = ({
   className,
   code,
-  size,
+  size = '2.5rem',
 }: FlagCircleProps): JSX.Element => (
   <div
     className={clsx('FlagCircle', 'fis', `fi-${code}`, className)}
