@@ -18,7 +18,7 @@
   }
 
   &-horizontal {
-    @include flex.row(0.5rem);
+    @include flex.row($gap: 0.5rem);
     @include flex.stretchy;
 
     align-items: center;

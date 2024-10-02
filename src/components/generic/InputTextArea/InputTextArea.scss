@@ -10,7 +10,7 @@
   @include variants.outlined($hover: false);
   @include sizes.normal;
   @include corners.normal;
-  @include flex.row($xAlign: left, $yAlign: center);
+  @include flex.row;
   @include flex.stretchy;
   @include text.ui;
 

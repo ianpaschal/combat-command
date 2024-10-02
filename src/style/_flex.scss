@@ -1,7 +1,7 @@
 /**
  * These mixins exist primarily to avoid constant repetition.
  */
-@mixin row($gap: 1rem, $xAlign: left, $yAlign: top) {
+@mixin row($gap: 1rem, $xAlign: left, $yAlign: center) {
   display: flex;
   flex-direction: row;
   gap: $gap;
@@ -37,7 +37,7 @@
   gap: $gap;
 
   @if $xAlign == left {
-    align-items: left;
+    align-items: start;
   }
 
   @if $xAlign == center {
@@ -45,7 +45,7 @@
   }
 
   @if $xAlign == right {
-    align-items: right;
+    align-items: end;
   }
 
   @if $yAlign == top {

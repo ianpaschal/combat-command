@@ -13,11 +13,11 @@
     background-color: variables.$card-bg;
     border-bottom: variables.$border-width solid variables.$outlined-border;
 
-    @include flex.row(1rem);
+    @include flex.row;
   }
 
   &_Content {
-    @include flex.row(1rem);
+    @include flex.row;
     @include flex.stretchy;
 
     align-items: center;

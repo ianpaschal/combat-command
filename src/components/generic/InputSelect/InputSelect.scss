@@ -12,7 +12,7 @@
   @include variants.outlined;
   @include sizes.normal;
   @include corners.normal;
-  @include flex.row($xAlign: left, $yAlign: center);
+  @include flex.row;
 
   & {
     width: 100%;

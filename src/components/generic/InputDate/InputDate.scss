@@ -9,7 +9,7 @@
 .InputDateTrigger {
   width: 100%;
 
-  @include flex.row($gap: 0.5rem, $yAlign: center);
+  @include flex.row($gap: 0.5rem);
   @include flex.stretchy;
   @include text.ui;
 }

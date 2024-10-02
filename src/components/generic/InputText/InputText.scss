@@ -9,7 +9,6 @@
   @include variants.outlined($hover: false);
   @include sizes.normal;
   @include corners.normal;
-  @include flex.row($xAlign: left, $yAlign: center);
 
   &::-webkit-datetime-edit {}
   &::-webkit-datetime-edit-fields-wrapper {}
@@ -25,6 +24,7 @@
   &::-webkit-datetime-edit-ampm-field {}
 
   &::-webkit-inner-spin-button {}
+  @include flex.row;
 
   &::-webkit-calendar-picker-indicator {
     color: orange;

@@ -58,7 +58,7 @@ $row-height: 3rem;
 
     padding: 0.25rem 0.5rem;
 
-    @include flex.row($gap: 0, $yAlign: center);
+    @include flex.row($gap: 0);
   }
 
   &_Body {
@@ -95,7 +95,7 @@ $row-height: 3rem;
 
   padding: 0.25rem 0.5rem;
 
-  @include flex.row($yAlign: center);
+  @include flex.row;
 }
 
 .CountryCell {
@@ -103,5 +103,5 @@ $row-height: 3rem;
 
   padding: 0.25rem 0.5rem;
 
-  @include flex.row($gap: 0.5rem, $yAlign: center);
+  @include flex.row($gap: 0.5rem);
 }

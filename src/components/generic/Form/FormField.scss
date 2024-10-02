@@ -19,7 +19,7 @@
 
 
   &_Label {
-    @include flex.row($yAlign: center);
+    @include flex.row;
 
     grid-column: 1 / 3;
     grid-row: 1 / 2;

@@ -5,7 +5,7 @@
 
 .TabsList {
   @include corners.normal;
-  @include flex.row(0.25rem);
+  @include flex.row($gap: 0.25rem);
   @include sizes.normal;
 
   padding: 0.25rem;
