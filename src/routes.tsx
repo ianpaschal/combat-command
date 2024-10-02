@@ -43,7 +43,7 @@ export const routes: RouteConfig[] = [
   {
     path: '/statistics',
     title: 'Statistics',
-    visibility: ['main'],
+    visibility: [], // TODO: Add to 'main' later
     element: <StatisticsPage />,
   },
   {
@@ -67,7 +67,7 @@ export const routes: RouteConfig[] = [
   {
     path: '/test',
     title: 'Test',
-    visibility: ['main'],
+    visibility: [],
     element: <ComponentTestPage />,
   },
 ];
