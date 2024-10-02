@@ -1,6 +1,5 @@
 import { z, ZodLiteral } from 'zod';
 
-import { InputSelectOption } from '~/components/generic/InputSelect';
 import { InputSelectItem } from '~/components/generic/InputSelect/InputSelect';
 
 export const fowV4BookSchema = z.union([
