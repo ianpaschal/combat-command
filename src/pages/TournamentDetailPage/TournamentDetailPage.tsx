@@ -1,4 +1,6 @@
 import { useParams } from 'react-router-dom';
+import { Label } from '@radix-ui/react-label';
+import { useWindowWidth } from '@react-hook/window-size/throttled';
 import {
   Cog,
   Plus,
@@ -10,15 +12,16 @@ import { CheckInMatchDialog } from '~/components/CheckInMatchDialog';
 import { FloatingActionButton } from '~/components/FloatingActionButton';
 import { FowV4RankingsTable } from '~/components/FowV4RankingsTable/FowV4RankingsTable';
 import { Card } from '~/components/generic/Card';
+import { InputSelect } from '~/components/generic/InputSelect';
 import { ScrollArea } from '~/components/generic/ScrollArea';
-import { Stack } from '~/components/generic/Stack';
 import { ManageTournamentDrawer } from '~/components/ManageTournamentDrawer';
-import { MatchResultCard } from '~/components/MatchResultCard/MatchResultCard';
+import { MatchResultCard } from '~/components/MatchResultCard';
 import { PageWrapper } from '~/components/PageWrapper';
 import { PairingCard } from '~/components/PairingCard';
 import { TournamentCard } from '~/components/TournamentCard/TournamentCard';
 import { TournamentRegistrationsCard } from '~/components/TournamentRegistrationsCard';
-import { Tournament, TournamentRecord } from '~/types/Tournament';
+import { MIN_WIDTH_DESKTOP } from '~/settings';
+import { TournamentRecord } from '~/types/Tournament';
 import { bem } from '~/utils/componentLib/bem';
 
 import './TournamentDetailPage.scss';
@@ -34,9 +37,9 @@ export const TournamentDetailPage = (): JSX.Element => {
     id: 'dd616369-917c-4506-a017-ba3a8e503eda',
     created_at: 'foo',
     status: 'active',
-    competitor_count: 40,
-    competitor_groups: [{ name: 'All Players', size: 40 }],
-    competitor_size: 1,
+    competitor_count: 21,
+    competitor_groups: [{ name: 'All Players', size: 21 }],
+    competitor_size: 3,
     current_round: 2,
     description: 'Our yearly Flames of war tournament this time hosted at the Bastogne War Museum 95 points MW ',
     end_date: '2024-11-10',
@@ -63,6 +66,7 @@ export const TournamentDetailPage = (): JSX.Element => {
     ranking_factors: [],
     pairing_method: 'swiss',
   };
+  const fitToWindow = useWindowWidth() >= MIN_WIDTH_DESKTOP;
 
   const isOrganizer = user && tournament.organizer_ids.includes(user.id);
 
@@ -80,64 +84,60 @@ export const TournamentDetailPage = (): JSX.Element => {
   const showManageButton = isOrganizer;
 
   return (
-    <PageWrapper title={tournament.title} showBackButton>
-      <div className={cn('Body')}>
-        <div className={cn('OverviewWrapper')}>
-          <TournamentCard tournament={tournament} />
-        </div>
-        <div className={cn('SubSectionsWrapper')}>
-          {showRegistrations && (
-            <TournamentRegistrationsCard className={cn('RegistrationsSection')} tournamentId={tournament.id} />
-          )}
-          {showRankings && (
-            <Card className={cn('RankingsSection')} title="Rankings">
-              <FowV4RankingsTable />
-            </Card>
-          )}
-          {showPairings && (
-            <Card
-              className={cn('PairingsSection')}
-              title={`Round ${(tournament.current_round || 0) + 1} Pairings`}
-              disablePadding
-            >
-              <ScrollArea className={cn('PairingsScrollArea')} addIndicatorBorder>
-                <div className={cn('PairingsItemList')}>
-                  <PairingCard id="foo" />
-                  <PairingCard id="foo" />
-                  <PairingCard id="foo" />
-                  <PairingCard id="foo" />
-                  <PairingCard id="foo" />
-                  <PairingCard id="foo" />
-                  <PairingCard id="foo" />
-                  <PairingCard id="foo" />
-                  <PairingCard id="foo" />
-                  <PairingCard id="foo" />
-                </div>
-              </ScrollArea>
-            </Card>
-          )}
-          {showMatchResults && (
-            <Card className={cn('MatchResultsSection')} title="Match Results" disablePadding>
-              <ScrollArea className={cn('MatchResultsScrollArea')} addIndicatorBorder>
-                <div className={cn('MatchResultsItemList')}>
-                  <MatchResultCard />
-                  <MatchResultCard />
-                  <MatchResultCard />
-                  <MatchResultCard />
-                  <MatchResultCard />
-                  <MatchResultCard />
-                  <MatchResultCard />
-                  <MatchResultCard />
-                  <MatchResultCard />
-                  <MatchResultCard />
-                  <MatchResultCard />
-                  <MatchResultCard />
-                  <MatchResultCard />
-                </div>
-              </ScrollArea>
-            </Card>
-          )}
-        </div>
+    <PageWrapper title={'Test'} showBackButton fitToWindow={fitToWindow}>
+      <div className="TournamentDetailPage">
+        <TournamentCard className={cn('OverviewCard')} tournament={tournament} expanded />
+        {showRankings && (
+          <Card className={cn('RankingsCard')} title="Rankings">
+            <FowV4RankingsTable />
+          </Card>
+        )}
+        {showRegistrations && (
+          <TournamentRegistrationsCard tournamentId={tournament.id} />
+        )}
+        {showPairings && (
+          <Card className={cn('PairingListCard')} title="Pairings" disablePadding>
+            <div className={cn('PairingsFilter')}>
+              <Label>Round</Label>
+              <InputSelect options={[{ value: 'all', label: 'All' }, { value: 'current', label: 'Current' }, '-', { value: 'round_0', label: 'Round 1' }]} />
+            </div>
+            <ScrollArea className={cn('PairingsScrollArea')} addIndicatorBorder>
+              <div className={cn('PairingsItemList')}>
+                <PairingCard id="foo" />
+                <PairingCard id="foo" />
+                <PairingCard id="foo" />
+                <PairingCard id="foo" />
+                <PairingCard id="foo" />
+                <PairingCard id="foo" />
+                <PairingCard id="foo" />
+                <PairingCard id="foo" />
+                <PairingCard id="foo" />
+                <PairingCard id="foo" />
+              </div>
+            </ScrollArea>
+          </Card>
+        )}
+        {showMatchResults && (
+          <Card className={cn('MatchResultListCard')} title="Match Results" disablePadding>
+            <ScrollArea className={cn('MatchResultsScrollArea')} addIndicatorBorder>
+              <div className={cn('MatchResultsItemList')}>
+                <MatchResultCard />
+                <MatchResultCard />
+                <MatchResultCard />
+                <MatchResultCard />
+                <MatchResultCard />
+                <MatchResultCard />
+                <MatchResultCard />
+                <MatchResultCard />
+                <MatchResultCard />
+                <MatchResultCard />
+                <MatchResultCard />
+                <MatchResultCard />
+                <MatchResultCard />
+              </div>
+            </ScrollArea>
+          </Card>
+        )}
       </div>
       {showRegisterButton && (
         <FloatingActionButton>

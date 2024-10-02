@@ -3,16 +3,13 @@ import {
   useLocation,
   useNavigate,
 } from 'react-router-dom';
+import clsx from 'clsx';
 import {
   ArrowRight,
-  ArrowUpFromDot,
   CalendarClock,
   Cog,
   Dices,
-  Map,
   MapPin,
-  MoreHorizontal,
-  MoreVertical,
   SquareArrowOutUpRight,
   UserPlus,
   Users,
@@ -22,8 +19,9 @@ import { useAuth } from '~/components/AuthProvider';
 import { Button } from '~/components/generic/Button';
 import { Card } from '~/components/generic/Card';
 import { Label } from '~/components/generic/Label';
-import { Stack } from '~/components/generic/Stack';
+import { ScrollArea } from '~/components/generic/ScrollArea';
 import { Tag } from '~/components/generic/Tag';
+import { ManageTournamentDrawer } from '~/components/ManageTournamentDrawer';
 import { fowV4EraOptions } from '~/types/fowV4/fowV4EraSchema';
 import { TournamentRecord } from '~/types/Tournament';
 import { bem } from '~/utils/componentLib/bem';
@@ -33,6 +31,7 @@ import './TournamentCard.scss';
 export interface TournamentCardProps {
   tournament: TournamentRecord;
   maxHeight?: number | string;
+  className?: string;
   expanded?: boolean;
 }
 
@@ -40,6 +39,7 @@ const cn = bem('TournamentCard');
 
 export const TournamentCard = ({
   tournament,
+  className,
   expanded,
 }: TournamentCardProps) => {
   const user = useAuth();
@@ -61,7 +61,7 @@ export const TournamentCard = ({
   const showRegisterButton = user && !showManageTournamentButton && !showManageRegistrationButton;
 
   return (
-    <Card className={cn()} disablePadding>
+    <Card className={clsx(cn(), className)} disablePadding>
       <div className={cn('Banner')}>
         <div className={cn('BannerOverlay')} />
       </div>
@@ -79,7 +79,10 @@ export const TournamentCard = ({
           </div>
           <div className={cn('SeatsAvailable')}>
             <Users />
-            10 / 20
+            <span>10 / 20</span>
+            {tournament.competitor_size > 1 && (
+              <span>- Team Size: {tournament.competitor_size}</span>
+            )}
           </div>
           <div className={cn('GamePlay')}>
             <Dices />
@@ -94,23 +97,45 @@ export const TournamentCard = ({
         </div>
       </div>
       {showExpanded && (
-        <div className={cn('InfoSectionExpanded')}>
-          <div className={cn('Description')}>
-            <h3>Description</h3>
-            <p>{tournament.description}</p>
-          </div>
-          {tournament.rules_pack_url && (
-            <div className={cn('RulesPack')}>
-              <Link to={tournament.rules_pack_url}>
-                Rules Pack<SquareArrowOutUpRight />
-              </Link>
+        <ScrollArea addIndicatorBorder>
+          <div className={cn('InfoSectionExpanded')}>
+            <div className={cn('Description')}>
+              <h3>Description</h3>
+              <p>{tournament.description}</p>
             </div>
-          )}
-          <div className={cn('PairingRanking')}>
-            <h3>Pairing & Ranking</h3>
-            <p>{tournament.description}</p>
+            {tournament.rules_pack_url && (
+              <div className={cn('RulesPack')}>
+                <Link to={tournament.rules_pack_url}>
+                  Rules Pack<SquareArrowOutUpRight />
+                </Link>
+              </div>
+            )}
+            <div className={cn('PairingRanking')}>
+              <h3>Pairing & Ranking</h3>
+              <p>{tournament.description}</p>
+            </div>
+            <div className={cn('PairingRanking')}>
+              <h3>Pairing & Ranking</h3>
+              <p>{tournament.description}</p>
+            </div>
+            <div className={cn('PairingRanking')}>
+              <h3>Pairing & Ranking</h3>
+              <p>{tournament.description}</p>
+            </div>
+            <div className={cn('PairingRanking')}>
+              <h3>Pairing & Ranking</h3>
+              <p>{tournament.description}</p>
+            </div>
+            <div className={cn('PairingRanking')}>
+              <h3>Pairing & Ranking</h3>
+              <p>{tournament.description}</p>
+            </div>
+            <div className={cn('PairingRanking')}>
+              <h3>Pairing & Ranking</h3>
+              <p>{tournament.description}</p>
+            </div>
           </div>
-        </div>
+        </ScrollArea>
       )}
       <div className={cn('Actions')}>
         {showRegisterButton && (
@@ -120,13 +145,18 @@ export const TournamentCard = ({
           </Button>
         )}
         {showManageRegistrationButton && (
-          <Button>Manage</Button>
+          <Button>Manage Regs</Button>
         )}
         {showManageTournamentButton && (
-          <Button>
-            <Cog />
-            Manage
-          </Button>
+          <ManageTournamentDrawer
+            tournamentId={tournament.id}
+            trigger={(
+              <Button>
+                <Cog />
+                Manage
+              </Button>
+            )}
+          />
         )}
         {!isTournamentDetailPage && (
           <Button onClick={handleClickView}>

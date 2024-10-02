@@ -1,52 +1,18 @@
 @use '/src/style/flex';
 
 .TournamentDetailPage {
-  &_OverviewSection {
-    overflow: hidden;
-  }
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr) );
+  gap: 1rem;
 
-  &_Banner {
-    position: relative;
-    height: 10rem;
-
-    // background-color: hsl(55, 45%, 25%);
-    background-color: hsl(220deg 20% 90%);
-
-    // &Overlay{
-    //   background-image: url(/src/assets/banner.png);
-    //   background-position: center;
-    //   background-size: cover;
-    //   position: absolute;
-    //   top: 0;
-    //   bottom: 0;
-    //   left: 0;
-    //   right: 0;
-    // }
-  }
-
-  &_Description {
-    padding: 1rem;
-  }
-
-  &_Body {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr) );
-    grid-template-rows: min-content;
-    gap: 1rem;
-
-    @include flex.stretchy;
-  }
-
-  &_SubSectionsWrapper {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr) );
-    grid-template-rows: min-content;
-    gap: 1rem;
-  }
+  min-height: 0;
+  max-height: 100%;
 
   &_PairingsScrollArea,
   &_MatchResultsScrollArea {
     @include flex.stretchy;
+
+    min-height: 0;
   }
 
   &_PairingsItemList,
@@ -64,66 +30,77 @@
 
 // 2 x 320px + 3 x 16px
 @media (width >= 688px) {
-  .TournamentDetailPage_PairingsSection,
-  .TournamentDetailPage_MatchResultsSection {
-    max-height: 32rem;
+  .TournamentDetailPage {
+    grid-template-rows: auto 24rem 32rem;
 
-    .Card_Body {
-      display: flex;
-      flex-direction: column;
+    &_OverviewCard {
+      grid-column: 1 / 3;
+      grid-row: 1 / 2;
     }
-  }
 
-  .TournamentDetailPage_OverviewWrapper {
-    grid-column: 1 / 3;
-  }
+    &_RankingsCard {
+      grid-column: 1 / 3;
+      grid-row: 2 / 3;
+    }
 
-  .TournamentDetailPage_SubSectionsWrapper {
-    grid-column: 1 / 3;
-  }
+    &_PairingListCard {
+      grid-column: 1 / 2;
+      grid-row: 3 / 4;
+    }
 
-  .TournamentDetailPage_RegistrationsSection {
-    grid-column: 1 / 3;
-  }
-
-  .TournamentDetailPage_RankingsSection {
-    grid-column: 1 / 3;
-    max-height: 20rem;
-  }
-
-  .TournamentDetailPage_PairingsSection {
-    grid-column: 1 / 2;
-  }
-
-  .TournamentDetailPage_MatchResultsSection {
-    grid-column: 2 / 3;
+    &_MatchResultListCard {
+      grid-column: 2 / 3;
+      grid-row: 3 / 4;
+    }
   }
 }
 
 // 3 x 320px + 4 x 16px
 @media (width >= 1024px) {
-  .TournamentDetailPage_OverviewWrapper {
-    grid-column: 1 / 2;
-  }
+  .TournamentDetailPage {
+    grid-template-rows: 18rem auto;
 
-  .TournamentDetailPage_SubSectionsWrapper {
-    grid-column: 2 / 4;
-  }
+    &_OverviewCard {
+      grid-column: 1 / 2;
+      grid-row: 1 / 3;
+    }
 
-  .TournamentDetailPage_RegistrationsSection {
-    grid-column: 1 / 3;
-  }
+    &_RankingsCard {
+      grid-column: 2 / 4;
+      grid-row: 1 / 2;
+    }
 
-  .TournamentDetailPage_RankingsSection {
-    grid-column: 1 / 3;
-  }
+    &_PairingListCard {
+      grid-column: 2 / 3;
+      grid-row: 2 / 3;
+    }
 
-  .TournamentDetailPage_PairingsSection {
-    grid-column: 1 / 2;
-  }
-
-  .TournamentDetailPage_MatchResultsSection {
-    grid-column: 2 / 3;
+    &_MatchResultListCard {
+      grid-column: 3 / 4;
+      grid-row: 2 / 3;
+    }
   }
 }
 
+
+
+  // &_Banner {
+  //   position: relative;
+  //   height: 10rem;
+
+  //   // background-color: hsl(55, 45%, 25%);
+  //   background-color: hsl(220deg 20% 90%);
+
+
+  // }
+
+    // &Overlay{
+    //   background-image: url(/src/assets/banner.png);
+    //   background-position: center;
+    //   background-size: cover;
+    //   position: absolute;
+    //   top: 0;
+    //   bottom: 0;
+    //   left: 0;
+    //   right: 0;
+    // }
