@@ -43,6 +43,15 @@ export const ManageTournamentDrawer = ({
     start_time: '8:00',
     title: 'FOW Belgian Nationals 2024',
     use_national_teams: false,
+    game_system_config: {
+      points: 100,
+      era: 'lw',
+      lessons_from_the_front_version: '2024-03',
+      mission_pack_version: '2024-06',
+      allowed_books: [],
+    },
+    ranking_factors: [],
+    pairing_method: 'swiss',
   };
 
   const [registrationsOpen, setRegistrationsOpen] = useState<boolean>(tournament.registrations_open);
