@@ -1,12 +1,13 @@
 @use '/src/style/flex';
+@use '/src/style/text';
 @use '/src/style/variables';
+@use '/src/style/borders';
 
 .PairingCard {
-  padding: 0.5rem;
-
   &_MainSection {
     display: grid;
     grid-template-columns: 1fr 2rem 1fr;
+    padding: 0.5rem;
   }
 
   &_Separator {
@@ -21,5 +22,29 @@
   &_Competitor1 {
     flex-shrink: 0;
     min-width: calc(50% - 1rem);
+  }
+
+  &_AdditionalSection {
+    @include borders.normal($side: bottom);
+    @include text.ui($bold: true, $muted: true);
+
+    @include flex.row($gap: 0);
+
+
+    font-size: 0.75rem;
+  }
+
+  &_TableSection,
+  &_RoundSection {
+    width: calc((100% - variables.$border-width) / 2);
+
+
+    @include flex.centered;
+
+    padding: 0.5rem;
+  }
+
+  &_RoundSection {
+    @include borders.normal($side: right);
   }
 }

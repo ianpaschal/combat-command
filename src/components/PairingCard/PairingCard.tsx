@@ -19,16 +19,21 @@ export const PairingCard = ({
   id,
 }: PairingCardProps): JSX.Element => {
   const pairing = {
-
+    round_index: 2,
+    table_index: 1,
   };
   const competitor0 = {
-
+    user_ids: ['foo', 'bar'],
+    country_code: 'be',
+    team_name: null,
   };
   const competitor1 = {
     user_ids: ['foo', 'bar'],
     country_code: 'nl',
     team_name: null,
   };
+
+  const isTeamPairing = competitor0.user_ids.length > 0 || competitor1.user_ids.length;
 
   // TODO: Move this to the user profile and rename
   const renderCompetitorProfile = (c: typeof competitor1, props: Partial<UserPortraitProps>): ReactNode => {
@@ -65,13 +70,17 @@ export const PairingCard = ({
 
   return (
     <Card className={cn()} disablePadding>
+      <div className={cn('_AdditionalSection')}>
+        <div className={cn('_RoundSection')}>Round {pairing.round_index + 1}</div>
+        <div className={cn('_TableSection')}>{isTeamPairing ? 'Table Row' : 'Table'} {pairing.table_index + 1}</div>
+      </div>
       <div className={cn('_MainSection')}>
         <UserPortrait name="Belgium" orientation="horizontal" className={cn('_Competitor0')} reversed>
-          <FlagCircle code="be" />
+          <FlagCircle code={competitor0.country_code} />
         </UserPortrait>
         <span className={cn('_Separator')}>vs.</span>
         <UserPortrait name="Netherlands" orientation="horizontal" className={cn('_Competitor1')}>
-          <FlagCircle code="nl" />
+          <FlagCircle code={competitor1.country_code} />
         </UserPortrait>
       </div>
     </Card>
