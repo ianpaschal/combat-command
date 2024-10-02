@@ -1,13 +1,8 @@
-import {
-  forwardRef,
-  InputHTMLAttributes,
-  useState,
-} from 'react';
+import { forwardRef } from 'react';
 import * as Popover from '@radix-ui/react-popover';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
 
-import { Button } from '~/components/generic/Button';
 import { Calendar } from '~/components/generic/Calendar';
 import { InputText } from '~/components/generic/InputText';
 

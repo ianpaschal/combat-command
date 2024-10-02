@@ -1,14 +1,9 @@
-import {
-  cloneElement,
-  ReactElement,
-  ReactNode,
-} from 'react';
+import { cloneElement, ReactElement } from 'react';
 import * as Popover from '@radix-ui/react-popover';
 import clsx from 'clsx';
 import { Cog, Search } from 'lucide-react';
 
 import { Button } from '~/components/generic/Button';
-import { InputSelect } from '~/components/generic/InputSelect';
 import { InputText } from '~/components/generic/InputText';
 import { ScrollArea } from '~/components/generic/ScrollArea';
 import { createCn } from '~/utils/componentLib/createCn';
