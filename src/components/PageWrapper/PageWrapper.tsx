@@ -5,44 +5,47 @@ import { ArrowLeft } from 'lucide-react';
 
 import { Button } from '~/components/generic/Button';
 import { ScrollArea } from '~/components/generic/ScrollArea';
-import { Stack } from '~/components/generic/Stack';
-import { MAX_WIDTH } from '~/settings';
+import { bem } from '~/utils/componentLib/bem';
 
 import './PageWrapper.scss';
 
 export interface PageWrapperProps {
+  appBarPadding?: boolean;
   children: ReactNode;
-  title?: string;
+  fitToWindow?: boolean;
   maxWidth?: number | string;
   showBackButton?: boolean;
-  appBarPadding?: boolean;
+  title?: string;
 }
 
+const cn = bem('PageWrapper');
+
 export const PageWrapper = ({
-  children,
-  title,
   appBarPadding = true,
-  maxWidth = MAX_WIDTH,
+  children,
+  fitToWindow = false,
+  maxWidth,
   showBackButton = false,
+  title,
 }: PageWrapperProps): JSX.Element => {
   const navigate = useNavigate();
   const handleClickBack = (): void => navigate(-1);
   return (
-    <ScrollArea className={clsx('PageWrapper', { 'PageWrapper-HasAppBar': appBarPadding })}>
-      <div className="PageWrapper_Content" style={{ maxWidth }}>
+    <ScrollArea className={clsx(cn(), { 'PageWrapper-hasAppBar': appBarPadding })}>
+      <div className={cn('Content', { fitToWindow })} style={{ maxWidth }}>
         {(showBackButton || title) && (
-          <Stack orientation="horizontal" verticalAlign="center" className="PageWrapper_Header">
+          <div className={cn('Header')}>
             {showBackButton && (
               <Button onClick={handleClickBack} variant="outlined">
                 <ArrowLeft />
               </Button>
             )}
             {title && (
-              <h1 className="page-wrapper-title">{title}</h1>
+              <h1>{title}</h1>
             )}
-          </Stack>
+          </div>
         )}
-        <div className="PageWrapper_Body">
+        <div className={cn('Body', { fitToWindow })}>
           {children}
         </div>
       </div>
