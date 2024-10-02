@@ -1,6 +1,6 @@
 @use 'variables';
 
-@mixin ui($bold: false, $muted: false) {
+@mixin ui($bold: false, $muted: false, $link: false) {
   font-size: 0.875rem;
   font-weight: 300;
   line-height: 1.25rem;
@@ -12,6 +12,10 @@
 
   @if $muted == true {
     color: variables.$text-muted;
+  }
+
+  @if $link == true {
+    color: variables.$text-link;
   }
 }
 

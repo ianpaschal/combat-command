@@ -51,6 +51,10 @@ p {
   color: variables.$text-muted;
 }
 
+a {
+  color: variables.$text-link;
+}
+
 @keyframes slide-in-left {
   from {
     transform: translateX(-100%);
