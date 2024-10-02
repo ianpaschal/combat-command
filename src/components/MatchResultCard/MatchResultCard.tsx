@@ -7,9 +7,7 @@ import './MatchResultCard.scss';
 
 const cn = createCn('MatchResultCard');
 export const MatchResultCard = (): JSX.Element => {
-  const matchResult = {
-
-  };
+  const matchResult = {};
   return (
     <Card disablePadding className={cn()}>
       <div>

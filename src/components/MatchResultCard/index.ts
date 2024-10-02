@@ -1,0 +1,1 @@
+export { MatchResultCard } from './MatchResultCard';
