@@ -4,6 +4,8 @@
 
 $scrollbar-size: 1rem;
 $scrollbar-padding: 0.25rem;
+$indicator-gradient-start-color: color.adjust(variables.$border-color, $alpha: -0.05);
+$indicator-gradient-end-color: rgb(0 0 0 / 0%);
 
 .ScrollArea {
   &_Root {
@@ -40,10 +42,20 @@ $scrollbar-padding: 0.25rem;
     }
 
     &Top {
-      background-image: linear-gradient(color.adjust(variables.$border-color, $alpha: -0.05), rgb(0 0 0 / 0%));
+      top: 0;
+      background-image: linear-gradient($indicator-gradient-start-color, $indicator-gradient-end-color);
 
       &-addBorder {
         border-top: variables.$border-width solid variables.$border-color;
+      }
+    }
+
+    &Bottom {
+      bottom: 0;
+      background-image: linear-gradient($indicator-gradient-end-color, $indicator-gradient-start-color);
+
+      &-addBorder {
+        border-bottom: variables.$border-width solid variables.$border-color;
       }
     }
   }

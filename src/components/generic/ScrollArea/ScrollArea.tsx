@@ -2,11 +2,6 @@ import {
   ComponentPropsWithoutRef,
   ElementRef,
   forwardRef,
-  LegacyRef,
-  MutableRefObject,
-  RefObject,
-  useEffect,
-  useImperativeHandle,
   useRef,
   useState,
 } from 'react';
@@ -48,26 +43,24 @@ export const ScrollArea = forwardRef<ScrollAreaRef, ScrollAreaProps>(({
     if (!viewportRef.current) {
       return;
     }
-    const height = viewportRef.current.clientHeight;
-    const width = viewportRef.current.clientWidth;
-    const yScroll = viewportRef.current.scrollTop;
-    const xScroll = viewportRef.current.scrollLeft;
-    if (yScroll > 0) {
+    const { width, height } = viewportRef.current.getBoundingClientRect();
+    const { scrollTop, scrollLeft, scrollHeight, scrollWidth } = viewportRef.current;
+    if (scrollTop > 0) {
       setIsTopHidden(true);
     } else {
       setIsTopHidden(false);
     }
-    if (yScroll < height) {
+    if (scrollTop + height < scrollHeight) {
       setIsBottomHidden(true);
     } else {
       setIsBottomHidden(false);
     }
-    if (xScroll > 0) {
+    if (scrollLeft > 0) {
       setIsLeftHidden(true);
     } else {
       setIsLeftHidden(false);
     }
-    if (xScroll < width) {
+    if (scrollLeft + width < scrollWidth) {
       setIsRightHidden(true);
     } else {
       setIsRightHidden(false);
