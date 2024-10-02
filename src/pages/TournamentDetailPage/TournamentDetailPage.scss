@@ -8,6 +8,13 @@
   min-height: 0;
   max-height: 100%;
 
+  &_PairingsFilter {
+    @include flex.row;
+
+    width: 100%;
+    padding: 0 1rem;
+  }
+
   &_PairingsScrollArea,
   &_MatchResultsScrollArea {
     @include flex.stretchy;

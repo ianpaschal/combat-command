@@ -39,7 +39,7 @@ $default-padding: 1rem;
   }
 
   &_Body {
-    @include flex.column($gap: 0, $xAlign: left);
+    @include flex.column($gap: 0);
 
     overflow: hidden;
     width: 100%;

@@ -1,5 +1,4 @@
 import { useParams } from 'react-router-dom';
-import { Label } from '@radix-ui/react-label';
 import { useWindowWidth } from '@react-hook/window-size/throttled';
 import {
   Cog,
@@ -13,6 +12,7 @@ import { FloatingActionButton } from '~/components/FloatingActionButton';
 import { FowV4RankingsTable } from '~/components/FowV4RankingsTable/FowV4RankingsTable';
 import { Card } from '~/components/generic/Card';
 import { InputSelect } from '~/components/generic/InputSelect';
+import { Label } from '~/components/generic/Label';
 import { ScrollArea } from '~/components/generic/ScrollArea';
 import { ManageTournamentDrawer } from '~/components/ManageTournamentDrawer';
 import { MatchResultCard } from '~/components/MatchResultCard';
