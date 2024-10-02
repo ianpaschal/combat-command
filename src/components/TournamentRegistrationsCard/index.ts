@@ -1,1 +1,0 @@
-export { TournamentRegistrationsCard } from './TournamentRegistrationsCard';

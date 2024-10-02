@@ -19,7 +19,7 @@ import { MatchResultCard } from '~/components/MatchResultCard';
 import { PageWrapper } from '~/components/PageWrapper';
 import { PairingCard } from '~/components/PairingCard';
 import { TournamentCard } from '~/components/TournamentCard/TournamentCard';
-import { TournamentRegistrationsCard } from '~/components/TournamentRegistrationsCard';
+import { TournamentRegistrationsTable } from '~/components/TournamentRegistrationsTable';
 import { MIN_WIDTH_DESKTOP } from '~/settings';
 import { TournamentRecord } from '~/types/Tournament';
 import { bem } from '~/utils/componentLib/bem';
@@ -93,7 +93,9 @@ export const TournamentDetailPage = (): JSX.Element => {
           </Card>
         )}
         {showRegistrations && (
-          <TournamentRegistrationsCard tournamentId={tournament.id} />
+          <Card className={cn('RegistrationsCard')} title="Registrations">
+            <TournamentRegistrationsTable />
+          </Card>
         )}
         {showPairings && (
           <Card className={cn('PairingListCard')} title="Pairings" disablePadding>

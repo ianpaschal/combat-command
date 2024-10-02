@@ -1,27 +1,17 @@
-import clsx from 'clsx';
-
-import { Card } from '~/components/generic/Card';
 import {
   ColumnDef,
   CountryCell,
   DataTable,
   DefaultCell,
 } from '~/components/generic/DataTable';
-import { bem } from '~/utils/componentLib/bem';
 
-interface TournamentRegistrationsCardProps {
-  tournamentId: string;
-  className?: string;
-}
+// interface TournamentRegistrationsTableProps {
+//   tournamentId: string;
+// }
 
 type RegistrationRow = { teamName: string; playerName: string; };
 
-const cn = bem('TournamentRegistrationsCard');
-
-export const TournamentRegistrationsCard = ({
-  // tournamentId,
-  className,
-}: TournamentRegistrationsCardProps): JSX.Element => {
+export const TournamentRegistrationsTable = (): JSX.Element => {
   const tournament = {
     use_national_teams: true,
     competitor_size: 6,
@@ -80,8 +70,6 @@ export const TournamentRegistrationsCard = ({
   ];
 
   return (
-    <Card className={clsx(cn(), className)} title="Registrations">
-      <DataTable data={rows} columns={columns} includeLineNumbers />
-    </Card>
+    <DataTable data={rows} columns={columns} includeLineNumbers />
   );
 };
