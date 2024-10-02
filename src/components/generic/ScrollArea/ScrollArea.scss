@@ -11,6 +11,7 @@ $indicator-gradient-end-color: rgb(0 0 0 / 0%);
   &_Root {
     overflow: hidden;
     display: flex;
+    width: 100%;
   }
 
   &_Viewport {
@@ -45,7 +46,7 @@ $indicator-gradient-end-color: rgb(0 0 0 / 0%);
       top: 0;
       background-image: linear-gradient($indicator-gradient-start-color, $indicator-gradient-end-color);
 
-      &-addBorder {
+      &-bordered {
         border-top: variables.$border-width solid variables.$border-color;
       }
     }
@@ -54,7 +55,7 @@ $indicator-gradient-end-color: rgb(0 0 0 / 0%);
       bottom: 0;
       background-image: linear-gradient($indicator-gradient-end-color, $indicator-gradient-start-color);
 
-      &-addBorder {
+      &-bordered {
         border-bottom: variables.$border-width solid variables.$border-color;
       }
     }

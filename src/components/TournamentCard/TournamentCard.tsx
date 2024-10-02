@@ -97,7 +97,7 @@ export const TournamentCard = ({
         </div>
       </div>
       {showExpanded && (
-        <ScrollArea addIndicatorBorder>
+        <ScrollArea indicatorBorder={['top', 'bottom']}>
           <div className={cn('InfoSectionExpanded')}>
             <div className={cn('Description')}>
               <h3>Description</h3>

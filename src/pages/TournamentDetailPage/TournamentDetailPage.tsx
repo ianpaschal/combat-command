@@ -103,7 +103,7 @@ export const TournamentDetailPage = (): JSX.Element => {
               <Label>Round</Label>
               <InputSelect options={[{ value: 'all', label: 'All' }, { value: 'current', label: 'Current' }, '-', { value: 'round_0', label: 'Round 1' }]} />
             </div>
-            <ScrollArea className={cn('PairingsScrollArea')} addIndicatorBorder>
+            <ScrollArea className={cn('PairingsScrollArea')} indicatorBorder="top">
               <div className={cn('PairingsItemList')}>
                 <PairingCard id="foo" />
                 <PairingCard id="foo" />
@@ -121,7 +121,7 @@ export const TournamentDetailPage = (): JSX.Element => {
         )}
         {showMatchResults && (
           <Card className={cn('MatchResultListCard')} title="Match Results" disablePadding>
-            <ScrollArea className={cn('MatchResultsScrollArea')} addIndicatorBorder>
+            <ScrollArea className={cn('MatchResultsScrollArea')} indicatorBorder="top">
               <div className={cn('MatchResultsItemList')}>
                 <MatchResultCard />
                 <MatchResultCard />
