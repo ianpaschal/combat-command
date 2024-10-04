@@ -1,8 +1,8 @@
-@use 'variables';
+@use "variables";
 
 @mixin ui($bold: false, $muted: false, $link: false) {
   font-size: 0.875rem;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.25rem;
   color: variables.$text-base;
 
@@ -21,12 +21,11 @@
 
 @mixin normal {
   font-size: 0.875rem;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.25rem;
   color: variables.$text-muted;
 }
 
-
-  // - `text.uiBold` 0.875rem x 1.25rem, 700
-  // - `text.uiMuted` 0.875rem x 1.25rem, 700
-  // - `text.normal` 0.875rem, muted color
+// - `text.uiBold` 0.875rem x 1.25rem, 700
+// - `text.uiMuted` 0.875rem x 1.25rem, 700
+// - `text.normal` 0.875rem, muted color

@@ -1,10 +1,9 @@
-
-@use '/src/style/flex';
-@use '/src/style/variables';
-@use '/src/style/variants';
-@use '/src/style/corners';
-@use '/src/style/shadows';
-@use '/src/style/text';
+@use "/src/style/flex";
+@use "/src/style/variables";
+@use "/src/style/variants";
+@use "/src/style/corners";
+@use "/src/style/shadows";
+@use "/src/style/text";
 
 $default-padding: 1rem;
 

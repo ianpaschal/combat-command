@@ -1,9 +1,9 @@
-@use '/src/style/corners';
-@use '/src/style/flex';
-@use '/src/style/variables';
-@use '/src/style/variants';
-@use '/src/style/shadows';
-@use '/src/style/text';
+@use "/src/style/corners";
+@use "/src/style/flex";
+@use "/src/style/variables";
+@use "/src/style/variants";
+@use "/src/style/shadows";
+@use "/src/style/text";
 
 .TabsTrigger {
   @include corners.tight;
@@ -17,13 +17,13 @@
   padding: 0 1rem;
   font-weight: 500;
 
-  &[data-state='active'] {
+  &[data-state="active"] {
     @include shadows.surface-shadow;
 
     background-color: variables.$white;
   }
 
-  &[data-state='inactive'] {
+  &[data-state="inactive"] {
     &:hover {
       background-color: variables.$solid-muted-bg-hover;
     }

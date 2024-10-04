@@ -1,16 +1,16 @@
-@use '/src/style/sizes';
-@use '/src/style/variables';
-@use '/src/style/variants';
-@use '/src/style/corners';
-@use '/src/style/flex';
-@use '/src/style/animate';
+@use "/src/style/sizes";
+@use "/src/style/variables";
+@use "/src/style/variants";
+@use "/src/style/corners";
+@use "/src/style/flex";
+@use "/src/style/animate";
 
 .Checkbox {
   @include variants.reset;
   @include flex.centered;
   @include variants.solid-muted;
 
-  &[data-state='checked'] {
+  &[data-state="checked"] {
     @include variants.solid;
   }
 
@@ -43,9 +43,6 @@
     @include sizes.large;
     @include corners.normal;
   }
-
-
-
 
   &_Indicator {
     margin-top: 3px; // Looks better

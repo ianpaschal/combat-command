@@ -1,4 +1,4 @@
-@use 'sass:color';
+@use "sass:color";
 
 // Layout
 $corner-radius: 0.375rem;
@@ -18,7 +18,7 @@ $text-disabled: color.adjust($text-base, $lightness: 60%);
 $text-link: $blue;
 $page-bg: hsl(220deg 5% 97.5%);
 $card-bg: $white;
-$border-color: color.adjust($text-base, $alpha: -0.90);
+$border-color: color.adjust($text-base, $alpha: -0.9);
 $modal-overlay-bg-color: rgb(0 0 0 / 80%);
 
 // Solid
@@ -66,6 +66,3 @@ $outlined-danger-border: $red;
 $ghost-bg: transparent;
 $ghost-bg-hover: color.adjust($text-base, $alpha: -0.975);
 $ghost-text: $text-base;
-
-
-

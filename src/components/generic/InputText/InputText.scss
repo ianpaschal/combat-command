@@ -1,9 +1,8 @@
-
-@use '/src/style/variables';
-@use '/src/style/flex';
-@use '/src/style/variants';
-@use '/src/style/corners';
-@use '/src/style/sizes';
+@use "/src/style/variables";
+@use "/src/style/flex";
+@use "/src/style/variants";
+@use "/src/style/corners";
+@use "/src/style/sizes";
 
 .Input {
   @include variants.outlined($hover: false);
@@ -23,8 +22,6 @@
   &-slotAfter {
     padding-right: 2.25rem;
   }
-
-
 }
 
 .InputSlotBefore,
@@ -66,7 +63,8 @@
   }
 }
 
-input::placeholder, textarea::placeholder {
+input::placeholder,
+textarea::placeholder {
   color: variables.$text-muted;
   opacity: 1;
 }

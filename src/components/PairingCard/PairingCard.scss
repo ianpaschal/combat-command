@@ -1,7 +1,7 @@
-@use '/src/style/flex';
-@use '/src/style/text';
-@use '/src/style/variables';
-@use '/src/style/borders';
+@use "/src/style/flex";
+@use "/src/style/text";
+@use "/src/style/variables";
+@use "/src/style/borders";
 
 .PairingCard {
   &_MainSection {
@@ -30,14 +30,12 @@
 
     @include flex.row($gap: 0);
 
-
     font-size: 0.75rem;
   }
 
   &_TableSection,
   &_RoundSection {
     width: calc((100% - variables.$border-width) / 2);
-
 
     @include flex.centered;
 

@@ -1,8 +1,8 @@
-@use '/src/style/flex';
-@use '/src/style/variants';
-@use '/src/style/shadows';
-@use '/src/style/animate';
-@use '/src/style/variables';
+@use "/src/style/flex";
+@use "/src/style/variants";
+@use "/src/style/shadows";
+@use "/src/style/animate";
+@use "/src/style/variables";
 
 .TournamentsPage {
   &_Filters {
@@ -27,7 +27,7 @@
 
   &_List {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr) );
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
     grid-template-rows: min-content;
     gap: 1rem;
 

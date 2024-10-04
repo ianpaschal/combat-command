@@ -1,10 +1,9 @@
-
-@use '/src/style/variables';
-@use '/src/style/animate';
-@use '/src/style/variants';
-@use '/src/style/shadows';
-@use '/src/style/text';
-@use '/src/style/flex';
+@use "/src/style/variables";
+@use "/src/style/animate";
+@use "/src/style/variants";
+@use "/src/style/shadows";
+@use "/src/style/text";
+@use "/src/style/flex";
 
 .InputDateTrigger {
   width: 100%;

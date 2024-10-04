@@ -1,6 +1,6 @@
-@use '/src/style/variables';
-@use '/src/style/flex';
-@use '/src/style/text';
+@use "/src/style/variables";
+@use "/src/style/flex";
+@use "/src/style/text";
 
 .TournamentCard {
   overflow: hidden;
@@ -79,5 +79,3 @@
     padding: 1rem;
   }
 }
-
-

@@ -1,9 +1,9 @@
-@use '/src/style/animate';
-@use '/src/style/flex';
+@use "/src/style/animate";
+@use "/src/style/flex";
 
-@use '/src/style/shadows';
-@use '/src/style/variables';
-@use '/src/style/variants';
+@use "/src/style/shadows";
+@use "/src/style/variables";
+@use "/src/style/variants";
 
 .TournamentForm {
   @include flex.column(1rem);
@@ -14,7 +14,7 @@
     @include flex.stretchy;
 
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr) );
+    grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
     gap: 1rem;
   }
 
@@ -57,9 +57,3 @@
     @include flex.column;
   }
 }
-
-
-
-
-
-

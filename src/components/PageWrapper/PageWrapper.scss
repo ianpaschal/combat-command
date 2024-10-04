@@ -1,6 +1,6 @@
-@use '/src/style/variables';
-@use '/src/style/animate';
-@use '/src/style/flex';
+@use "/src/style/variables";
+@use "/src/style/animate";
+@use "/src/style/flex";
 
 .PageWrapper {
   max-width: 100vw;
@@ -37,4 +37,3 @@
     }
   }
 }
-

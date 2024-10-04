@@ -1,8 +1,8 @@
-@use '/src/style/variables';
-@use '/src/style/animate';
-@use '/src/style/variants';
-@use '/src/style/shadows';
-@use '/src/style/corners';
+@use "/src/style/variables";
+@use "/src/style/animate";
+@use "/src/style/variants";
+@use "/src/style/shadows";
+@use "/src/style/corners";
 
 .AccountMenu {
   &_Trigger {
@@ -12,15 +12,14 @@
 
   &_Content {
     @include animate.duration-quick;
-    @include animate.style-pop;
     @include corners.normal;
     @include shadows.shadow;
     @include variants.outlined($hover: false);
 
-    & {
-      margin: 0.25rem 0;
-      padding: 0.25rem;
-      background-color: variables.$card-bg;
-    }
+    margin: 0.25rem 0;
+    padding: 0.25rem;
+    background-color: variables.$card-bg;
+
+    @include animate.style-pop; // Must list last because it contains nested declarations
   }
 }

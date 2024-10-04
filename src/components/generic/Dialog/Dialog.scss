@@ -1,18 +1,16 @@
-@use '/src/style/animate';
+@use "/src/style/animate";
 
-@use '/src/style/variables';
-@use '/src/style/flex';
-@use '/src/style/utils';
-@use '/src/style/text';
+@use "/src/style/variables";
+@use "/src/style/flex";
+@use "/src/style/utils";
+@use "/src/style/text";
 
 .DialogOverlay {
   @include utils.modal-overlay;
   @include animate.duration-quick;
   @include animate.style-fade;
 
-  & {
-    background-color: variables.$modal-overlay-bg-color;
-  }
+  background-color: variables.$modal-overlay-bg-color;
 }
 
 .DialogPositioner {

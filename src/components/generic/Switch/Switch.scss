@@ -1,8 +1,7 @@
-
-@use '/src/style/animate';
-@use '/src/style/variables';
-@use '/src/style/shadows';
-@use '/src/style/variants';
+@use "/src/style/animate";
+@use "/src/style/variables";
+@use "/src/style/shadows";
+@use "/src/style/variants";
 
 $switch-height: 1.5rem;
 $switch-width: 2.5rem;
@@ -29,7 +28,7 @@ $thumb-offset: calc($switch-width - ($thumb-inset + $thumb-size));
   // &:focus {
   //   box-shadow: 0 0 0 2px blue;
   // }
-  &[data-state='checked'] {
+  &[data-state="checked"] {
     // background-color: variables.$text-base;
     @include variants.solid;
   }
@@ -51,7 +50,7 @@ $thumb-offset: calc($switch-width - ($thumb-inset + $thumb-size));
 
     transition: transform  100ms;
 
-    &[data-state='checked'] {
+    &[data-state="checked"] {
       transform: translateX($thumb-offset);
     }
   }

@@ -1,4 +1,4 @@
-@use 'variables';
+@use "variables";
 
 @mixin normal($side: all) {
   border-color: variables.$outlined-border;
@@ -27,7 +27,6 @@
     border-style: none;
     border-right-style: solid;
   }
-
 }
 
 @mixin muted {

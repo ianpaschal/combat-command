@@ -1,7 +1,6 @@
-
 // 40px, approximately 1cm x 1cm on mobile with 3x resolution
 @mixin mobile-hit-box {
-  content: '';
+  content: "";
 
   position: absolute;
   top: 50%;

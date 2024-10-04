@@ -1,6 +1,6 @@
-@use '/src/style/animate';
-@use '/src/style/variables';
-@use '/src/style/flex';
+@use "/src/style/animate";
+@use "/src/style/variables";
+@use "/src/style/flex";
 
 .FowV4MatchResultForm {
   @include flex.column(1rem);

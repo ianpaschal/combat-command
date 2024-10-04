@@ -1,12 +1,11 @@
-
-@use '/src/style/variables';
-@use '/src/style/animate';
-@use '/src/style/flex';
-@use '/src/style/variants';
-@use '/src/style/borders';
-@use '/src/style/shadows';
-@use '/src/style/sizes';
-@use '/src/style/corners';
+@use "/src/style/variables";
+@use "/src/style/animate";
+@use "/src/style/flex";
+@use "/src/style/variants";
+@use "/src/style/borders";
+@use "/src/style/shadows";
+@use "/src/style/sizes";
+@use "/src/style/corners";
 
 .InputSelectTrigger {
   @include variants.outlined;

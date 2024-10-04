@@ -1,7 +1,7 @@
-@use '/src/style/corners';
-@use '/src/style/flex';
-@use '/src/style/sizes';
-@use '/src/style/variables';
+@use "/src/style/corners";
+@use "/src/style/flex";
+@use "/src/style/sizes";
+@use "/src/style/variables";
 
 .TabsList {
   @include corners.normal;

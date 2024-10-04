@@ -1,8 +1,7 @@
-
-@use '/src/style/flex';
-@use '/src/style/variants';
-@use '/src/style/text';
-@use '/src/style/corners';
+@use "/src/style/flex";
+@use "/src/style/variants";
+@use "/src/style/text";
+@use "/src/style/corners";
 
 .rdp-caption {
   @include text.ui;
@@ -16,8 +15,6 @@
   }
 }
 
-
-
 .DayButton {
   @include variants.ghost;
   @include corners.normal;
@@ -27,7 +24,6 @@
     height: 2.25rem;
   }
 }
-
 
 .DayButtonSelected {
   @include variants.solid;

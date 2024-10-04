@@ -1,6 +1,6 @@
-@use 'sass:color';
-@use '/src/style/variables';
-@use '/src/style/flex';
+@use "sass:color";
+@use "/src/style/variables";
+@use "/src/style/flex";
 
 $scrollbar-size: 1rem;
 $scrollbar-padding: 0.25rem;
@@ -21,7 +21,10 @@ $indicator-gradient-end-color: rgb(0 0 0 / 0%);
   }
 
   &_Indicator {
-    &Top, &Bottom, &Left, &Right {
+    &Top,
+    &Bottom,
+    &Left,
+    &Right {
       pointer-events: none;
       position: absolute;
       opacity: 0;
@@ -32,12 +35,14 @@ $indicator-gradient-end-color: rgb(0 0 0 / 0%);
       }
     }
 
-    &Top, &Bottom {
+    &Top,
+    &Bottom {
       width: 100%;
       height: 0.75rem;
     }
 
-    &Left, &Right {
+    &Left,
+    &Right {
       width: 0.75rem;
       height: 100%;
     }
@@ -78,20 +83,20 @@ $indicator-gradient-end-color: rgb(0 0 0 / 0%);
 
     animation-duration: 150ms;
 
-    &[data-orientation='vertical'] {
+    &[data-orientation="vertical"] {
       width: $scrollbar-size;
     }
 
-    &[data-orientation='horizontal'] {
+    &[data-orientation="horizontal"] {
       flex-direction: column;
       height: $scrollbar-size;
     }
 
-    &[data-state='visible'] {
+    &[data-state="visible"] {
       animation-name: fade-in;
     }
 
-    &[data-state='hidden'] {
+    &[data-state="hidden"] {
       animation-name: fade-out;
     }
 
@@ -111,7 +116,7 @@ $indicator-gradient-end-color: rgb(0 0 0 / 0%);
 
     /* increase target size for touch devices https://www.w3.org/WAI/WCAG21/Understanding/target-size.html */
     &::before {
-      content: '';
+      content: "";
 
       position: absolute;
       top: 50%;

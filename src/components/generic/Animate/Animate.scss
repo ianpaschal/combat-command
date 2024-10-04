@@ -1,4 +1,4 @@
-@use '/src/style/animate';
+@use "/src/style/animate";
 
 .Animate {
   &-speed-quick {
@@ -13,7 +13,7 @@
     @include animate.style-pop;
   }
 
-  &[data-state='closed'] {
+  &[data-state="closed"] {
     display: none;
   }
 }

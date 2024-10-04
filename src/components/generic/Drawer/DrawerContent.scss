@@ -1,6 +1,6 @@
-@use '/src/style/variables';
-@use '/src/style/animate';
-@use '/src/style/utils';
+@use "/src/style/variables";
+@use "/src/style/animate";
+@use "/src/style/utils";
 
 .DrawerOverlay {
   @include utils.modal-overlay;
@@ -93,6 +93,3 @@
     }
   }
 }
-
-
-

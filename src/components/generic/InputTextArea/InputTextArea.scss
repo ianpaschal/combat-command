@@ -1,10 +1,9 @@
-
-@use '/src/style/variables';
-@use '/src/style/flex';
-@use '/src/style/variants';
-@use '/src/style/corners';
-@use '/src/style/sizes';
-@use '/src/style/text';
+@use "/src/style/variables";
+@use "/src/style/flex";
+@use "/src/style/variants";
+@use "/src/style/corners";
+@use "/src/style/sizes";
+@use "/src/style/text";
 
 .InputTextArea {
   @include variants.outlined($hover: false);
@@ -33,9 +32,8 @@
   }
 }
 
-
-
-input::placeholder, textarea::placeholder {
+input::placeholder,
+textarea::placeholder {
   color: variables.$text-muted;
   opacity: 1;
 }

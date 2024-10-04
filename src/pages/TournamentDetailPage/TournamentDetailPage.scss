@@ -1,8 +1,8 @@
-@use '/src/style/flex';
+@use "/src/style/flex";
 
 .TournamentDetailPage {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr) );
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
   gap: 1rem;
 
   min-height: 0;
@@ -30,7 +30,6 @@
     @include flex.stretchy;
   }
 }
-
 
 // 320px + 2 x 16px
 // @media (width >= 352px) { }
@@ -99,25 +98,22 @@
   }
 }
 
+// &_Banner {
+//   position: relative;
+//   height: 10rem;
 
+//   // background-color: hsl(55, 45%, 25%);
+//   background-color: hsl(220deg 20% 90%);
 
-  // &_Banner {
-  //   position: relative;
-  //   height: 10rem;
+// }
 
-  //   // background-color: hsl(55, 45%, 25%);
-  //   background-color: hsl(220deg 20% 90%);
-
-
-  // }
-
-    // &Overlay{
-    //   background-image: url(/src/assets/banner.png);
-    //   background-position: center;
-    //   background-size: cover;
-    //   position: absolute;
-    //   top: 0;
-    //   bottom: 0;
-    //   left: 0;
-    //   right: 0;
-    // }
+// &Overlay{
+//   background-image: url(/src/assets/banner.png);
+//   background-position: center;
+//   background-size: cover;
+//   position: absolute;
+//   top: 0;
+//   bottom: 0;
+//   left: 0;
+//   right: 0;
+// }

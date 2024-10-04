@@ -1,7 +1,6 @@
-
-@use '/src/style/variables';
-@use '/src/style/text';
-@use '/src/style/flex';
+@use "/src/style/variables";
+@use "/src/style/text";
+@use "/src/style/flex";
 
 .FormField {
   display: grid;
@@ -16,7 +15,6 @@
     grid-template-rows: auto;
     gap: 0 1rem;
   }
-
 
   &_Label {
     @include flex.row;
@@ -60,8 +58,6 @@
     &-disabled {
       color: variables.$text-disabled;
     }
-
-
   }
 
   &_Errors {

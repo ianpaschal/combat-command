@@ -1,8 +1,8 @@
-@use '/src/style/variables';
-@use '/src/style/flex';
-@use '/src/style/variants';
-@use '/src/style/corners';
-@use '/src/style/text';
+@use "/src/style/variables";
+@use "/src/style/flex";
+@use "/src/style/variants";
+@use "/src/style/corners";
+@use "/src/style/text";
 
 .NavLinks {
   &_Root {
@@ -38,7 +38,3 @@
     text-decoration: none;
   }
 }
-
-
-
-

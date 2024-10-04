@@ -1,9 +1,8 @@
-
-@use '/src/style/flex';
-@use '/src/style/variants';
-@use '/src/style/corners';
-@use '/src/style/sizes';
-@use '/src/style/text';
+@use "/src/style/flex";
+@use "/src/style/variants";
+@use "/src/style/corners";
+@use "/src/style/sizes";
+@use "/src/style/text";
 
 .Button {
   @include flex.centered(0.5rem);
