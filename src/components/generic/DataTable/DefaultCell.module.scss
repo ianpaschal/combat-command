@@ -1,0 +1,9 @@
+@use "/src/style/text";
+@use "/src/style/flex";
+
+.Root {
+  @include text.ui;
+  @include flex.row;
+
+  padding: 0.25rem 0.5rem;
+}

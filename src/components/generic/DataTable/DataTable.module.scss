@@ -1,0 +1,94 @@
+@use "/src/style/flex";
+@use "/src/style/variables";
+@use "/src/style/variants";
+@use "/src/style/shadows";
+@use "/src/style/animate";
+@use "/src/style/borders";
+@use "/src/style/corners";
+@use "/src/style/text";
+
+$row-height: 3rem;
+
+.Root {
+  @include flex.column($gap: 0);
+  @include flex.stretchy;
+
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.Controls {
+  @include flex.row($gap: 0.5rem);
+
+  margin-bottom: 0.5rem;
+}
+
+.PopoverContent {
+  @include shadows.shadow;
+  @include animate.duration-quick;
+  @include variants.outlined($hover: false);
+
+  margin: 0.25rem 0;
+  padding: 1rem;
+  background-color: variables.$card-bg;
+  border-radius: variables.$corner-radius;
+
+  @include animate.style-pop; // Must list last because it contains nested declarations
+}
+
+.Table {
+  @include corners.normal;
+  @include borders.normal;
+
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.Header {
+  @include borders.normal($side: bottom);
+
+  display: grid;
+  min-height: $row-height;
+  padding: 0 0.5rem;
+}
+
+.HeaderCell {
+  @include text.ui($bold: true);
+  @include flex.row($gap: 0);
+
+  padding: 0.25rem 0.5rem;
+}
+
+.Body {
+  @include flex.column($gap: 0);
+  @include flex.stretchy;
+}
+
+.Row {
+  @include flex.stretchy;
+
+  display: grid;
+  width: 100%;
+  height: $row-height;
+  padding: 0 0.5rem;
+}
+
+.Row:not(:last-child) {
+  border-bottom: variables.$border-width solid variables.$border-color;
+}
+
+.IndexCell {
+  @include flex.centered;
+
+  color: variables.$text-muted;
+}
+
+.CountryCell {
+  @include flex.row($gap: 0.5rem);
+  @include text.ui;
+
+  padding: 0.25rem 0.5rem;
+}

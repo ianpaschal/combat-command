@@ -6,9 +6,9 @@ import { Cog, Search } from 'lucide-react';
 import { Button } from '~/components/generic/Button';
 import { InputText } from '~/components/generic/InputText';
 import { ScrollArea } from '~/components/generic/ScrollArea';
-import { createCn } from '~/utils/componentLib/createCn';
+import { DefaultCell } from './DefaultCell';
 
-import './DataTable.scss';
+import styles from './DataTable.module.scss';
 
 export interface ColumnDef<T> {
   header: string;
@@ -23,14 +23,12 @@ export interface DataTableProps<T> {
   includeLineNumbers?: boolean;
 }
 
-const cn = createCn('DataTable');
 export const DataTable = <T,>({
   data,
   columns,
   maxHeight,
   includeLineNumbers = false,
 }: DataTableProps<T>): JSX.Element => {
-
   const gridTemplateColumns = columns.reduce((acc, col) => {
     if (col.width && typeof col.width === 'number') {
       return `${acc} ${col.width}px`;
@@ -40,10 +38,9 @@ export const DataTable = <T,>({
     }
     return `${acc} 1fr`;
   }, includeLineNumbers ? '2rem' : '');
-
   return (
-    <div className={cn()}>
-      <div className={cn('_Controls')}>
+    <div className={styles.Root}>
+      <div className={styles.Controls}>
         <InputText placeholder="Filter..." slotBefore={<Search />} />
         <Popover.Root>
           <Popover.Trigger asChild>
@@ -52,34 +49,32 @@ export const DataTable = <T,>({
             </Button>
           </Popover.Trigger>
           <Popover.Portal>
-            <Popover.Content className={cn('_PopoverContent')} align="end">
+            <Popover.Content className={styles.PopoverContent} align="end">
               Checkboxes
             </Popover.Content>
           </Popover.Portal>
         </Popover.Root>
       </div>
-      <div className={cn('_Table')} style={{ maxHeight: maxHeight || undefined }}>
-        <div className={cn('_Header')} style={{ gridTemplateColumns }}>
+      <div className={styles.Table} style={{ maxHeight: maxHeight || undefined }}>
+        <div className={styles.Header} style={{ gridTemplateColumns }}>
           {includeLineNumbers && (
-            <div className={clsx(cn('_HeaderCell'), cn('_IndexCell'))} />
+            <div className={clsx(styles.HeaderCell, styles.IndexCell)} />
           )}
           {columns.map((column) => (
-            <div className={cn('_HeaderCell')} key={`${cn('_HeaderCell')}-${column.header.toLocaleLowerCase()}`}>
+            <div className={styles.HeaderCell} key={`DataTable_HeaderCell-${column.header.toLocaleLowerCase()}`}>
               {column.header}
             </div>
           ))}
         </div>
-        <ScrollArea className={cn('_Body')} >
-          <div className={cn('_Rows')}>
+        <ScrollArea className={styles.Body}>
+          <div>
             {data.map((row, i) => (
-              <div className={cn('_Row')} key={`${cn('_Row')}-${i}`} style={{ gridTemplateColumns }}>
+              <div className={styles.Row} key={`DataTable_Row-${i}`} style={{ gridTemplateColumns }}>
                 {includeLineNumbers && (
-                  <div className={clsx(cn('_DefaultCell'), cn('_IndexCell'))}>
-                    {i + 1}
-                  </div>
+                  <DefaultCell className={styles.IndexCell} value={i + 1} />
                 )}
                 {columns.map((column, j) => cloneElement(column.render(row, i, j), {
-                  key: `${cn('_Cell')}-${i}-${j}`,
+                  key: `DataTable_Cell-${i}-${j}`,
                 }))}
               </div>
             ))}

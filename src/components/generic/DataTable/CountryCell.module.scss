@@ -1,0 +1,9 @@
+@use "/src/style/text";
+@use "/src/style/flex";
+
+.Root {
+  @include flex.row($gap: 0.5rem);
+  @include text.ui;
+
+  padding: 0.25rem 0.5rem;
+}

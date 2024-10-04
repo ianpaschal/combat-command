@@ -1,16 +1,17 @@
-import { bem } from '~/utils/componentLib/bem';
+import clsx from 'clsx';
 
-import './DataTable.scss';
+import styles from './DefaultCell.module.scss';
 
 export interface DefaultCellProps {
   value: string | number;
+  className?: string;
 }
 
-const cn = bem('DefaultCell');
 export const DefaultCell = ({
   value,
+  className,
 }: DefaultCellProps): JSX.Element => (
-  <div className={cn()}>
+  <div className={clsx(styles.Root, className)}>
     {value}
   </div>
 );
