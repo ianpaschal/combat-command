@@ -1,7 +1,9 @@
 @use "/src/style/variables";
 @use "/src/style/flex";
+@use "/src/style/borders";
 
 .Avatar {
+  position: relative;
   display: flex;
   flex-shrink: 0;
   background-color: transparent;
@@ -38,5 +40,32 @@
     right: 0;
     bottom: 0;
     outline: variables.$white solid 2px;
+  }
+
+  .Badge {
+    position: absolute;
+    border-radius: 100%;
+    outline: 2px solid white;
+    outline-offset: -2px;
+
+    &TopLeft {
+      top: 0;
+      left: 0;
+    }
+
+    &TopRight {
+      top: 0;
+      right: 0;
+    }
+
+    &BottomLeft {
+      bottom: 0;
+      left: 0;
+    }
+
+    &BottomRight {
+      right: 0;
+      bottom: 0;
+    }
   }
 }
