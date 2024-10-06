@@ -1,11 +1,14 @@
+import { dummyRankings } from '~/components/FowV4RankingsTable/dummyRankings';
 import {
   ColumnDef,
+  CountryCell,
   DataTable,
   DefaultCell,
 } from '~/components/generic/DataTable';
+import { TournamentCompetitor } from '~/types/TournamentCompetitor';
 
 interface FowV4Ranking {
-  name: string;
+  competitor: Omit<TournamentCompetitor, 'tournament_id' | 'list_ids'>;
   wins: number;
   points: number;
   kills: number;
@@ -16,7 +19,18 @@ export const FowV4RankingsTable = (): JSX.Element => {
   const columnDefs: ColumnDef<FowV4Ranking>[] = [
     {
       header: 'Team Name',
-      render: (data) => <DefaultCell value={data.name} />,
+      render: ({ competitor }) => {
+        if (competitor.user_ids.length > 1) {
+          if (competitor.country_code) {
+            return (<CountryCell code={competitor.country_code} />);
+          }
+          if (competitor.team_name) {
+            return (<DefaultCell value={competitor.team_name} />);
+          }
+          return (<DefaultCell value="Unknown Team" />);
+        }
+        return (<DefaultCell value={competitor.user_ids[0]} />);
+      },
       width: '2fr',
     },
     {
@@ -35,129 +49,7 @@ export const FowV4RankingsTable = (): JSX.Element => {
       width: '1fr',
     },
   ];
-  const rankings: FowV4Ranking[] = [
-    {
-      name: 'Foo',
-      wins: 5,
-      points: 15,
-      kills: 30,
-    },
-    {
-      name: 'Foo',
-      wins: 5,
-      points: 15,
-      kills: 30,
-    },
-    {
-      name: 'Foo',
-      wins: 5,
-      points: 15,
-      kills: 30,
-    },
-    {
-      name: 'Foo',
-      wins: 5,
-      points: 15,
-      kills: 30,
-    },
-    {
-      name: 'Foo',
-      wins: 5,
-      points: 15,
-      kills: 30,
-    },
-    {
-      name: 'Foo',
-      wins: 5,
-      points: 15,
-      kills: 30,
-    },
-    {
-      name: 'Foo',
-      wins: 5,
-      points: 15,
-      kills: 30,
-    },
-    {
-      name: 'Foo',
-      wins: 5,
-      points: 15,
-      kills: 30,
-    },
-    {
-      name: 'Foo',
-      wins: 5,
-      points: 15,
-      kills: 30,
-    },
-    {
-      name: 'Foo',
-      wins: 5,
-      points: 15,
-      kills: 30,
-    },
-    {
-      name: 'Foo',
-      wins: 5,
-      points: 15,
-      kills: 30,
-    },
-    {
-      name: 'Foo',
-      wins: 5,
-      points: 15,
-      kills: 30,
-    },
-    {
-      name: 'Foo',
-      wins: 5,
-      points: 15,
-      kills: 30,
-    },
-    {
-      name: 'Foo',
-      wins: 5,
-      points: 15,
-      kills: 30,
-    },
-    {
-      name: 'Foo',
-      wins: 5,
-      points: 15,
-      kills: 30,
-    },
-    {
-      name: 'Foo',
-      wins: 5,
-      points: 15,
-      kills: 30,
-    },
-    {
-      name: 'Foo',
-      wins: 5,
-      points: 15,
-      kills: 30,
-    },
-    {
-      name: 'Foo',
-      wins: 5,
-      points: 15,
-      kills: 30,
-    },
-    {
-      name: 'Foo',
-      wins: 5,
-      points: 15,
-      kills: 30,
-    },
-    {
-      name: 'Foo',
-      wins: 5,
-      points: 15,
-      kills: 30,
-    },
-  ];
   return (
-    <DataTable data={rankings} columns={columnDefs} includeLineNumbers />
+    <DataTable data={dummyRankings} columns={columnDefs} includeLineNumbers />
   );
 };
