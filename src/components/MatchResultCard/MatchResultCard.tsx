@@ -21,10 +21,16 @@ export const MatchResultCard = (): JSX.Element => {
       <div className={cn('_MainSection')}>
         <UserPortrait name="Foo" orientation="vertical" className={cn('_Player0Profile')}>
           <Avatar
-            badges={[{
-              element: <div className={cn('_StanceBadge')}><Sword /></div>,
-              position: 'top-right',
-            }]}
+            badges={[
+              {
+                element: <div className={cn('_StanceBadge')}><Sword /></div>,
+                position: 'top-right',
+              },
+              {
+                element: <FlagCircle size="1.5rem" code="be" />,
+                position: 'bottom-left',
+              },
+            ]}
           />
         </UserPortrait>
         <UserPortrait name="Bar" orientation="vertical" className={cn('_Player1Profile')}>

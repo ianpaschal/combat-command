@@ -18,10 +18,6 @@
     grid-row: 1 / 4;
   }
 
-  &_Player0Avatar {
-    outline: blue 2px solid;
-  }
-
   &_Player1Profile {
     grid-column: 3 / 4;
     grid-row: 1 / 4;
@@ -85,7 +81,10 @@
 
     width: 1.5rem;
     height: 1.5rem;
-    background-color: red;
+
+    color: variables.$text-muted;
+
+    background-color: white;
     border-radius: 100%;
 
     svg {
