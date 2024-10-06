@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
+import { DbRecord } from '~/types/DbRecord';
 import { fowV4GameSystemConfigSchema } from '~/types/fowV4/fowV4GameSystemConfigSchema';
 import { tournamentPairingMethodSchema } from '~/types/TournamentPairingMethod';
 import { tournamentStatusSchema } from '~/types/TournamentStatus';
@@ -47,8 +48,4 @@ export const tournamentResolver = zodResolver(tournamentSchema);
 
 export type Tournament = z.infer<typeof tournamentSchema>;
 
-export type TournamentRecord = Tournament & {
-  id: string;
-  created_at: string;
-  modified_at?: string;
-};
+export type TournamentRecord = Tournament & DbRecord;

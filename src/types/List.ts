@@ -1,4 +1,4 @@
-import { Record } from './Record';
+import { Record } from './DbRecord';
 import { UUID } from './UUID';
 
 export interface List<T> extends Record {

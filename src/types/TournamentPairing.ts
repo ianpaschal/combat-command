@@ -1,25 +1,18 @@
-import { Timestamp } from './Timestamp';
-import { UUID } from './UUID';
+import { z } from 'zod';
 
-export interface TournamentTeamPairing {
-  id: UUID; // Primary key
-  created_at: Timestamp;
-  modified_at: Timestamp;
-  tournament_id: UUID; // Foreign key
-  round: number;
-  tables: number[];
-  opponents: [UUID, UUID]; // Player or team IDs
-}
+import { DbRecord } from '~/types/DbRecord';
+import { tournamentCompetitorSchema } from '~/types/TournamentCompetitor';
 
-export interface TournamentPairing {
-  id?: UUID; // Primary key
-  created_at?: Timestamp;
-  modified_at?: Timestamp;
-  tournament_id?: UUID; // Foreign key
-  round?: number;
-  table?: number;
-  opponents: [UUID, UUID]; // Player or team IDs
-}
+export const tournamentPairingSchema = z.object({
+  tournament_id: z.string().uuid(),
+  round_index: z.number().min(0),
+  table_index: z.number().min(0),
+  competitors: z.array(tournamentCompetitorSchema).min(2).max(2),
+});
+
+export type TournamentPairing = z.infer<typeof tournamentPairingSchema>;
+
+export type TournamentPairingRecord = TournamentPairing & DbRecord;
 
 export const createPairingsSwiss = (tournamentId: string, tableCount: number, rankings: string[], previousParings?: TournamentPairing[]): TournamentPairing[] => {
   
