@@ -13,7 +13,7 @@
     @include flex.row;
 
     width: 100%;
-    padding: 0 1rem;
+    padding: 0 1rem 0.5rem;
   }
 
   &_PairingsScrollArea,
@@ -26,6 +26,7 @@
   &_PairingsItemList,
   &_MatchResultsItemList {
     margin: 1rem;
+    margin-top: 0;
 
     @include flex.column($gap: 0.5rem);
     @include flex.stretchy;
