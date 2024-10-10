@@ -4,6 +4,8 @@
 @use "/src/style/text";
 
 .MatchResultCard {
+  flex-shrink: 0;
+
   &_MainSection {
     display: grid;
     grid-template-columns: 1fr 4rem 1fr;
@@ -14,11 +16,15 @@
   }
 
   &_Player0Profile {
+    @include flex.row($xAlign: right);
+
     grid-column: 1 / 2;
     grid-row: 1 / 4;
   }
 
   &_Player1Profile {
+    @include flex.row($xAlign: left);
+
     grid-column: 3 / 4;
     grid-row: 1 / 4;
   }

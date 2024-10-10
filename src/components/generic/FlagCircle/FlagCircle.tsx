@@ -12,10 +12,21 @@ export interface FlagCircleProps {
 export const FlagCircle = ({
   className,
   code,
-  size = '2.5rem',
-}: FlagCircleProps): JSX.Element => (
-  <div
-    className={clsx('FlagCircle', 'fis', `fi-${code}`, className)}
-    style={size ? { width: size, height: size } : {}}
-  />
-);
+  size,
+}: FlagCircleProps): JSX.Element => {
+  if (code === 'merc') {
+    return (
+      <div
+        className={clsx('FlagCircle', 'FlagCircle-merc', className)}
+        style={size ? { width: size, height: size } : {}}
+      />
+    );
+  }
+  console.log('size', size);
+  return (
+    <div
+      className={clsx('FlagCircle', 'fis', `fi-${code}`, className)}
+      style={size ? { width: size, height: size } : {}}
+    />
+  );
+};

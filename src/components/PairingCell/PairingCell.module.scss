@@ -1,0 +1,87 @@
+@use "/src/style/flex";
+@use "/src/style/text";
+@use "/src/style/variables";
+@use "/src/style/borders";
+
+.Root {
+  @include text.ui;
+
+  display: grid;
+  grid-template-columns: 1fr 1.5rem 1rem 1.5rem 1fr;
+  gap: 0.5rem;
+  line-height: 1rem;
+}
+
+.Separator {
+  @include flex.centered;
+
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: variables.$text-muted;
+}
+
+@mixin competitor-base {
+  overflow: hidden;
+  display: -webkit-box; /* Required for -webkit-line-clamp to work */
+  flex-shrink: 0;
+  -webkit-box-orient: vertical; /* Required for -webkit-line-clamp to work */
+  -webkit-line-clamp: 2; /* Limits the number of lines */
+  line-clamp: 2; /* Non-standard fallback (optional, for future support) */
+  align-self: center;
+
+  max-height: 2rem; /* 2 lines at 1rem line height each */
+
+  font-size: 0.875rem;
+  line-height: 1rem;
+  text-overflow: ellipsis; /* Enables ellipsis if the text is truncated */
+  text-wrap: balance; /* Optional, for balancing text wrapping */
+}
+
+.Competitor0 {
+  @include competitor-base;
+
+  justify-self: end;
+  text-align: right;
+}
+
+.Competitor1 {
+  @include competitor-base;
+
+  justify-self: start;
+  text-align: left;
+}
+
+.Competitor0Avatar,
+.Competitor1Avatar {
+  align-self: center;
+}
+
+.PairingCard {
+  &_MainSection {
+    display: grid;
+    grid-template-columns: 1fr 2rem 1fr;
+    padding: 0.5rem;
+  }
+
+  &_AdditionalSection {
+    @include borders.normal($side: bottom);
+    @include text.ui($bold: true, $muted: true);
+
+    @include flex.row($gap: 0);
+
+    font-size: 0.75rem;
+  }
+
+  &_TableSection,
+  &_RoundSection {
+    width: calc((100% - variables.$border-width) / 2);
+
+    @include flex.centered;
+
+    padding: 0.5rem;
+  }
+
+  &_RoundSection {
+    @include borders.normal($side: right);
+  }
+}

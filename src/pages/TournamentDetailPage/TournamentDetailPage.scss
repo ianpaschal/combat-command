@@ -1,69 +1,74 @@
 @use "/src/style/flex";
 
 .TournamentDetailPage {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-  gap: 1rem;
+  @include flex.column;
+  @include flex.stretchy;
 
   min-height: 0;
   max-height: 100%;
 
-  &_PairingsFilter,
-  &_MatchResultsFilter {
+  &_SecondarySection {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 8rem;
+    flex-shrink: 0;
+    gap: 1rem;
+
+    min-height: 0;
+
+    .TournamentDetailPage_OverviewCard {
+      grid-column: 1 / 2;
+      grid-row: 1 / 3;
+    }
+  }
+
+  &_PrimarySection {
+    @include flex.stretchy;
+
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 2.5rem 1fr;
+    gap: 1rem;
+
+    min-height: 0;
+  }
+
+  &_Toolbar {
+    grid-column: 1/2;
+    grid-row: 1/2;
+  }
+
+  &_PairingsFilter {
     @include flex.row;
 
     width: 100%;
     padding: 0 1rem 0.5rem;
   }
 
-  &_PairingsScrollArea,
-  &_MatchResultsScrollArea {
+  &_PairingsScrollArea {
     @include flex.stretchy;
 
     min-height: 0;
   }
 
-  &_PairingsItemList,
-  &_MatchResultsItemList {
+  &_PairingsItemList {
     margin: 1rem;
     margin-top: 0;
 
-    @include flex.column($gap: 0.5rem);
     @include flex.stretchy;
   }
-}
 
-// 320px + 2 x 16px
-// @media (width >= 352px) { }
+  &_LiveMatchResults {
+    @include flex.column;
 
-// 2 x 320px + 3 x 16px
-@media (width >= 688px) {
-  .TournamentDetailPage {
-    grid-template-rows: auto 24rem 32rem;
+    overflow: hidden;
 
-    &_OverviewCard {
-      grid-column: 1 / 3;
-      grid-row: 1 / 2;
-    }
+    .LiveMatchResultItemList {
+      @include flex.column(0.5rem);
 
-    &_RegistrationsCard {
-      grid-column: 1 / 3;
-      grid-row: 2 / 4;
-    }
+      overflow: hidden;
 
-    &_RankingsCard {
-      grid-column: 1 / 3;
-      grid-row: 2 / 3;
-    }
-
-    &_PairingListCard {
-      grid-column: 1 / 2;
-      grid-row: 3 / 4;
-    }
-
-    &_MatchResultListCard {
-      grid-column: 2 / 3;
-      grid-row: 3 / 4;
+      mask-image: linear-gradient(to bottom, rgb(0 0 0 / 100%) 70%, rgb(0 0 0 / 0%) 100%);
     }
   }
 }
@@ -71,51 +76,19 @@
 // 3 x 320px + 4 x 16px
 @media (width >= 1024px) {
   .TournamentDetailPage {
-    grid-template-rows: 18rem auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    grid-template-rows: 100%;
+    gap: 1rem;
 
-    &_OverviewCard {
-      grid-column: 1 / 2;
-      grid-row: 1 / 3;
+    &_SecondarySection {
+      grid-column: 1/2;
+      grid-row: 1/2;
     }
 
-    &_RegistrationsCard {
-      grid-column: 2 / 4;
-      grid-row: 1 / 3;
-    }
-
-    &_RankingsCard {
-      grid-column: 2 / 4;
-      grid-row: 1 / 2;
-    }
-
-    &_PairingListCard {
-      grid-column: 2 / 3;
-      grid-row: 2 / 3;
-    }
-
-    &_MatchResultListCard {
-      grid-column: 3 / 4;
-      grid-row: 2 / 3;
+    &_PrimarySection {
+      grid-column: 2/4;
+      grid-row: 1/2;
     }
   }
 }
-
-// &_Banner {
-//   position: relative;
-//   height: 10rem;
-
-//   // background-color: hsl(55, 45%, 25%);
-//   background-color: hsl(220deg 20% 90%);
-
-// }
-
-// &Overlay{
-//   background-image: url(/src/assets/banner.png);
-//   background-position: center;
-//   background-size: cover;
-//   position: absolute;
-//   top: 0;
-//   bottom: 0;
-//   left: 0;
-//   right: 0;
-// }

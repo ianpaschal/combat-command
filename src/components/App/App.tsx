@@ -1,21 +1,34 @@
 import { Outlet } from 'react-router-dom';
+import { useWindowSize } from '@react-hook/window-size/throttled';
 
 import { AppBar } from '~/components/AppBar';
 import { useAuth } from '~/components/AuthProvider';
 import { getNavLinks } from '~/routes';
-import { MAX_WIDTH } from '~/settings';
+import {
+  MAX_WIDTH,
+  MIN_HEIGHT,
+  MIN_WIDTH,
+} from '~/settings';
 
 import './App.scss';
 
 export const App = (): JSX.Element => {
   const user = useAuth();
   const links = getNavLinks('main');
+  const [width, height] = useWindowSize();
+  if (width < MIN_WIDTH || height < MIN_HEIGHT) {
+    return (
+      <div className="App">
+        Please use a larger device to use CombatCommand. If you are currently using your phone in landscape mode, please turn it to portrait mode.
+      </div>
+    );
+  }
   return (
     <div className="App">
       {user && (
         <AppBar navItems={links} maxWidth={MAX_WIDTH} />
       )}
       <Outlet />
-    </div >
+    </div>
   );
 };

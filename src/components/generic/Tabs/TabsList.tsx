@@ -6,7 +6,7 @@ import {
 import { List } from '@radix-ui/react-tabs';
 import clsx from 'clsx';
 
-import './TabsList.scss';
+import styles from './TabsList.module.scss';
 
 type TabsListRef = ElementRef<typeof List>;
 type TabsListProps = ComponentPropsWithoutRef<typeof List> & { width?: 'max' | 'min' };
@@ -15,5 +15,5 @@ export const TabsList = forwardRef<TabsListRef, TabsListProps>(({
   width = 'max',
   ...props
 }, ref): JSX.Element => (
-  <List ref={ref} className={clsx('TabsList', `TabsList-${width}`, className)} {...props} />
+  <List ref={ref} className={clsx('TabsList', styles.Root, styles[`Root-${width}`], className)} {...props} />
 ));

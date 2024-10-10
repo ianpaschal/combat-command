@@ -35,13 +35,11 @@ import './TournamentForm.scss';
 const cn = createCn('TournamentForm');
 
 const defaultFowV4GameConfigValues: FowV4GameSystemConfig = {
-  dynamic_points: true,
   era: 'lw',
   points: 100,
   lessons_from_the_front_version: '2024-03',
-  mid_war_monsters: 'no',
+  allow_mid_war_monsters: 'no',
   mission_pack_version: '2023-04',
-  allowed_books: [],
 };
 
 const defaultValues: Partial<Tournament> = {
@@ -50,13 +48,11 @@ const defaultValues: Partial<Tournament> = {
   competitor_size: 1,
   use_national_teams: false,
   description: '',
-  end_date: '',
-  end_time: '18:00',
+  ends_at: '',
   location: '',
   organizer_ids: [],
   rules_pack_url: '',
-  start_date: '',
-  start_time: '09:00',
+  starts_at: '',
   title: '',
   game_system_id: 'd7399fd6-cbba-4996-9dc3-942a1de5c401',
   game_system_config: defaultFowV4GameConfigValues,

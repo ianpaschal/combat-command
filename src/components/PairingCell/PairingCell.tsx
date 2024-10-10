@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import clsx from 'clsx';
 import { country, subdivision } from 'iso-3166-2';
 
 import { Avatar } from '~/components/generic/Avatar';
@@ -6,18 +7,19 @@ import { Card } from '~/components/generic/Card';
 import { FlagCircle } from '~/components/generic/FlagCircle';
 import { UserPortrait } from '~/components/UserPortrait';
 import { UserPortraitProps } from '~/components/UserPortrait/UserPortrait';
+import { TournamentPairing } from '~/types/TournamentPairing';
 import { createCn } from '~/utils/componentLib/createCn';
 
-import './PairingCard.scss';
+import styles from './PairingCell.module.scss';
 
-interface PairingCardProps {
-  id: string;
+interface PairingCellProps {
+  data: TournamentPairing;
 }
 
-const cn = createCn('PairingCard');
-export const PairingCard = ({
-  id,
-}: PairingCardProps): JSX.Element => {
+const cn = createCn('PairingCell');
+export const PairingCell = ({
+  data,
+}: PairingCellProps): JSX.Element => {
   const pairing = {
     round_index: 2,
     table_index: 1,
@@ -69,20 +71,16 @@ export const PairingCard = ({
   };
 
   return (
-    <Card className={cn()} disablePadding>
-      <div className={cn('_AdditionalSection')}>
-        <div className={cn('_RoundSection')}>Round {pairing.round_index + 1}</div>
-        <div className={cn('_TableSection')}>{isTeamPairing ? 'Table Row' : 'Table'} {pairing.table_index + 1}</div>
+    <div className={clsx('PairingCell', styles.Root)}>
+      <div className={styles.Competitor0}>
+        Belgium
       </div>
-      <div className={cn('_MainSection')}>
-        <UserPortrait name="Belgium" orientation="horizontal" className={cn('_Competitor0')} reversed>
-          <FlagCircle code={competitor0.country_code} />
-        </UserPortrait>
-        <span className={cn('_Separator')}>vs.</span>
-        <UserPortrait name="Netherlands" orientation="horizontal" className={cn('_Competitor1')}>
-          <FlagCircle code={competitor1.country_code} />
-        </UserPortrait>
+      <FlagCircle code={competitor0.country_code} size="1.5rem" className={styles.Competitor0Avatar} />
+      <span className={styles.Separator}>vs.</span>
+      <FlagCircle code={competitor1.country_code} size="1.5rem" className={styles.Competitor1Avatar} />
+      <div className={styles.Competitor1}>
+        Kingdom of the Netherlands
       </div>
-    </Card>
+    </div>
   );
 };

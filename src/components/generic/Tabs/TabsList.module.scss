@@ -3,11 +3,12 @@
 @use "/src/style/sizes";
 @use "/src/style/variables";
 
-.TabsList {
+.Root {
   @include corners.normal;
   @include flex.row($gap: 0.25rem);
   @include sizes.normal;
 
+  flex-shrink: 0;
   padding: 0.25rem;
   background-color: variables.$solid-muted-bg;
 

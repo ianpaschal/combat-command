@@ -51,6 +51,7 @@ $row-height: 3rem;
   @include borders.normal($side: bottom);
 
   display: grid;
+  gap: 0.5rem;
   min-height: $row-height;
   padding: 0 0.5rem;
 }
@@ -71,6 +72,8 @@ $row-height: 3rem;
   @include flex.stretchy;
 
   display: grid;
+  gap: 0.5rem;
+
   width: 100%;
   height: $row-height;
   padding: 0 0.5rem;

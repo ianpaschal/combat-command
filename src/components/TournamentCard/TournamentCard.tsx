@@ -17,7 +17,6 @@ import {
 
 import { useAuth } from '~/components/AuthProvider';
 import { Button } from '~/components/generic/Button';
-import { Card } from '~/components/generic/Card';
 import { Label } from '~/components/generic/Label';
 import { ScrollArea } from '~/components/generic/ScrollArea';
 import { Tag } from '~/components/generic/Tag';
@@ -28,11 +27,15 @@ import { bem } from '~/utils/componentLib/bem';
 
 import './TournamentCard.scss';
 
+// TODO: Rename this component to TournamentOverview or something so it can logically be used
+// In popups or drawers
+
 export interface TournamentCardProps {
   tournament: TournamentRecord;
   maxHeight?: number | string;
   className?: string;
   expanded?: boolean;
+  orientation?: 'horizontal' | 'vertical';
 }
 
 const cn = bem('TournamentCard');
@@ -41,6 +44,7 @@ export const TournamentCard = ({
   tournament,
   className,
   expanded,
+  orientation = 'vertical',
 }: TournamentCardProps) => {
   const user = useAuth();
   const navigate = useNavigate();
@@ -55,49 +59,51 @@ export const TournamentCard = ({
   const isTournamentDetailPage = location.pathname.includes(tournamentUrl);
 
   const showExpanded = expanded !== undefined ? expanded : isTournamentDetailPage;
+  const showActionButtons = !isTournamentDetailPage;
 
   const showManageRegistrationButton = false;
   const showManageTournamentButton = user && tournament.organizer_ids.includes(user.id);
   const showRegisterButton = user && !showManageTournamentButton && !showManageRegistrationButton;
 
   return (
-    <Card className={clsx(cn(), className)} disablePadding>
+    <div className={clsx(cn(), `${cn()}-${orientation}`, className)}>
       <div className={cn('Banner')}>
         <div className={cn('BannerOverlay')} />
       </div>
-      <div className={cn('InfoSection')}>
-        <h3 className={cn('GameSystem')}>Flames of War V4</h3>
-        <h2 className={cn('Title')}>{tournament.title}</h2>
-        <div className={cn('Overview')}>
-          <div className={cn('DateTime')}>
-            <CalendarClock />
-            {tournament.start_date} - {tournament.end_date}
-          </div>
-          <div className={cn('Location')}>
-            <MapPin />
-            {tournament.location}
-          </div>
-          <div className={cn('SeatsAvailable')}>
-            <Users />
-            <span>10 / 20</span>
-            {tournament.competitor_size > 1 && (
-              <span>- Team Size: {tournament.competitor_size}</span>
-            )}
-          </div>
-          <div className={cn('GamePlay')}>
-            <Dices />
-            <Tag>{`${tournament.game_system_config.points} pts`}</Tag>
-            <Tag>{fowV4EraOptions.find((option) => option.value === tournament.game_system_config.era)?.label}</Tag>
-            {tournament.game_system_config.era === 'mw' && (
-              <>
-                <Label>Dynamic Points</Label><span>{tournament.game_system_config.era}</span>
-              </>
-            )}
+      <ScrollArea indicatorBorder={showActionButtons ? ['bottom'] : undefined}>
+        <div className={cn('InfoSection')}>
+          <h3 className={cn('GameSystem')}>Flames of War V4</h3>
+          <h2 className={cn('Title')}>{tournament.title}</h2>
+          <div className={cn('Overview')}>
+            <div className={cn('DateTime')}>
+              <CalendarClock />
+              {tournament.start_date} - {tournament.end_date}
+            </div>
+            <div className={cn('Location')}>
+              <MapPin />
+              {tournament.location}
+            </div>
+            <div className={cn('SeatsAvailable')}>
+              <Users />
+              <span>10 / 20</span>
+              {tournament.competitor_size > 1 && (
+                <span>- Team Size: {tournament.competitor_size}</span>
+              )}
+            </div>
+            <div className={cn('GamePlay')}>
+              <Dices />
+              <Tag>{`${tournament.game_system_config.points} pts`}</Tag>
+              <Tag>{fowV4EraOptions.find((option) => option.value === tournament.game_system_config.era)?.label}</Tag>
+              {tournament.game_system_config.era === 'mw' && (
+                <>
+                  <Label>Dynamic Points</Label><span>{tournament.game_system_config.era}</span>
+                </>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-      {showExpanded && (
-        <ScrollArea indicatorBorder={['top', 'bottom']}>
+        {showExpanded && (
+
           <div className={cn('InfoSectionExpanded')}>
             <div className={cn('Description')}>
               <h3>Description</h3>
@@ -114,57 +120,40 @@ export const TournamentCard = ({
               <h3>Pairing & Ranking</h3>
               <p>{tournament.description}</p>
             </div>
-            <div className={cn('PairingRanking')}>
-              <h3>Pairing & Ranking</h3>
-              <p>{tournament.description}</p>
-            </div>
-            <div className={cn('PairingRanking')}>
-              <h3>Pairing & Ranking</h3>
-              <p>{tournament.description}</p>
-            </div>
-            <div className={cn('PairingRanking')}>
-              <h3>Pairing & Ranking</h3>
-              <p>{tournament.description}</p>
-            </div>
-            <div className={cn('PairingRanking')}>
-              <h3>Pairing & Ranking</h3>
-              <p>{tournament.description}</p>
-            </div>
-            <div className={cn('PairingRanking')}>
-              <h3>Pairing & Ranking</h3>
-              <p>{tournament.description}</p>
-            </div>
           </div>
-        </ScrollArea>
+
+        )}
+      </ScrollArea>
+      {showActionButtons && (
+        <div className={cn('Actions')}>
+          {showRegisterButton && (
+            <Button>
+              <UserPlus />
+              Register
+            </Button>
+          )}
+          {showManageRegistrationButton && (
+            <Button>Manage Regs</Button>
+          )}
+          {showManageTournamentButton && (
+            <ManageTournamentDrawer
+              tournamentId={tournament.id}
+              trigger={(
+                <Button>
+                  <Cog />
+                  Manage
+                </Button>
+              )}
+            />
+          )}
+          {!isTournamentDetailPage && (
+            <Button onClick={handleClickView}>
+              View
+              <ArrowRight />
+            </Button>
+          )}
+        </div>
       )}
-      <div className={cn('Actions')}>
-        {showRegisterButton && (
-          <Button>
-            <UserPlus />
-            Register
-          </Button>
-        )}
-        {showManageRegistrationButton && (
-          <Button>Manage Regs</Button>
-        )}
-        {showManageTournamentButton && (
-          <ManageTournamentDrawer
-            tournamentId={tournament.id}
-            trigger={(
-              <Button>
-                <Cog />
-                Manage
-              </Button>
-            )}
-          />
-        )}
-        {!isTournamentDetailPage && (
-          <Button onClick={handleClickView}>
-            View
-            <ArrowRight />
-          </Button>
-        )}
-      </div>
-    </Card>
+    </div>
   );
 };

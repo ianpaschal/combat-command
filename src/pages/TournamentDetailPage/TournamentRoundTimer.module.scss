@@ -1,0 +1,66 @@
+@use "/src/style/flex";
+@use "/src/style/borders";
+@use "/src/style/corners";
+@use "/src/style/text";
+
+.Root {
+  @include corners.wide;
+
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+}
+
+.TimerSection {
+  @include flex.stretchy;
+  @include flex.column($gap: 0, $xAlign: center);
+
+  justify-content: space-between;
+
+  width: 100%;
+  height: 100%;
+  padding: 0.5rem;
+
+  color: white;
+
+  background-image: linear-gradient(135deg, #0b1120 0%, #1e3a8a 100%);
+  background-position: 0 0;
+  background-size: 100% 100%;
+}
+
+.TimeRemaining {
+  @include flex.row($gap: 0.25rem);
+
+  font-size: 1.75rem;
+  line-height: 2rem;
+}
+
+.EndsAt {
+  @include flex.row($gap: 0.25rem);
+
+  svg {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+}
+
+.Toolbar {
+  @include flex.row($gap: 0);
+
+  height: 2.5rem;
+  padding: 0.25rem;
+}
+
+.Controls {
+  @include flex.row($gap: 0.5rem);
+}
+
+.MatchResultsMonitor {
+  @include flex.stretchy;
+  @include text.ui;
+
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  text-align: right;
+}

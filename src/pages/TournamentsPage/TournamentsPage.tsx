@@ -9,6 +9,7 @@ import {
 
 import { useAuth } from '~/components/AuthProvider';
 import { Button } from '~/components/generic/Button';
+import { Card } from '~/components/generic/Card';
 import { InputText } from '~/components/generic/InputText';
 import { PageWrapper } from '~/components/PageWrapper';
 import { TournamentCard } from '~/components/TournamentCard/TournamentCard';
@@ -193,7 +194,9 @@ export const TournamentsPage = (): JSX.Element => {
       </div>
       <div className={cn('List')}>
         {tournaments.map((tournaments) => (
-          <TournamentCard key={tournaments.id} tournament={tournaments} />
+          <Card disablePadding>
+            <TournamentCard key={tournaments.id} tournament={tournaments} />
+          </Card>
         ))}
       </div>
     </PageWrapper>

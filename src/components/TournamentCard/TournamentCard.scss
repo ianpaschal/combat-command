@@ -3,7 +3,14 @@
 @use "/src/style/text";
 
 .TournamentCard {
+  @include flex.column($gap: 0);
+
   overflow: hidden;
+  max-height: 100%;
+
+  &-horizontal {
+    max-height: 27.75rem;
+  }
 
   &_Banner {
     position: relative;

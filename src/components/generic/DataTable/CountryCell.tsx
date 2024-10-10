@@ -1,6 +1,5 @@
-import { country, subdivision } from 'iso-3166-2';
-
 import { FlagCircle } from '~/components/generic/FlagCircle';
+import { getCountryName } from '~/utils/getCountryName';
 
 import styles from './CountryCell.module.scss';
 
@@ -14,7 +13,7 @@ export const CountryCell = ({
   <div className={styles.Root}>
     <FlagCircle code={code} size="1.5rem" />
     <span>
-      {code.includes('-') ? subdivision(code)?.name : country(code)?.name}
+      {getCountryName(code)}
     </span>
   </div>
 );

@@ -19,35 +19,39 @@ export const MatchResultCard = (): JSX.Element => {
   return (
     <Card disablePadding className={cn()}>
       <div className={cn('_MainSection')}>
-        <UserPortrait name="Foo" orientation="vertical" className={cn('_Player0Profile')}>
-          <Avatar
-            badges={[
-              {
-                element: <div className={cn('_StanceBadge')}><Sword /></div>,
-                position: 'top-right',
-              },
-              {
-                element: <FlagCircle size="1.5rem" code="be" />,
-                position: 'bottom-left',
-              },
-            ]}
-          />
-        </UserPortrait>
-        <UserPortrait name="Bar" orientation="vertical" className={cn('_Player1Profile')}>
-          <Avatar
-            className={cn('_Player0Avatar')}
-            badges={[
-              {
-                element: <div className={cn('_StanceBadge')}><Shield /></div>,
-                position: 'top-left',
-              },
-              {
-                element: <FlagCircle size="1.5rem" code="nl" />,
-                position: 'bottom-right',
-              },
-            ]}
-          />
-        </UserPortrait>
+        <div className={cn('_Player0Profile')}>
+          <UserPortrait name="Foo" orientation="vertical">
+            <Avatar
+              badges={[
+                {
+                  element: <div className={cn('_StanceBadge')}><Sword /></div>,
+                  position: 'top-right',
+                },
+                {
+                  element: <FlagCircle size="1.5rem" code="be" />,
+                  position: 'bottom-left',
+                },
+              ]}
+            />
+          </UserPortrait>
+        </div>
+        <div className={cn('_Player1Profile')}>
+          <UserPortrait name="Bar" orientation="vertical">
+            <Avatar
+              className={cn('_Player0Avatar')}
+              badges={[
+                {
+                  element: <div className={cn('_StanceBadge')}><Shield /></div>,
+                  position: 'top-left',
+                },
+                {
+                  element: <FlagCircle size="1.5rem" code="nl" />,
+                  position: 'bottom-right',
+                },
+              ]}
+            />
+          </UserPortrait>
+        </div>
         <div className={cn('_Score')}>
           <span className={cn('_ScorePlayer0')}>6</span>
           <span className={cn('_ScoreSeparator')}>:</span>

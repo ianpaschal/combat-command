@@ -157,7 +157,7 @@ export const dummyRankings = [
   {
     competitor: {
       user_ids: ['foo', 'bar'],
-      country_code: 'xx',
+      country_code: 'merc',
     },
     wins: 10,
     points: 128,
