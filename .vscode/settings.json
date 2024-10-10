@@ -1,12 +1,19 @@
 {
   "cSpell.words": [
+    "Afrika",
+    "Avanti",
+    "bagration",
     "clsx",
     "hookform",
-    "supabase"
+    "Korps",
+    "LFTF",
+    "supabase",
+    "waffen"
   ],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
     "source.fixAll.stylelint": "explicit"
   },
-  "stylelint.validate": ["css", "scss", ".module.scss"]
+  "stylelint.validate": ["css", "scss", ".module.scss"],
+  "typescript.preferences.importModuleSpecifier": "non-relative"
 }

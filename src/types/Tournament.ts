@@ -3,37 +3,44 @@ import { z } from 'zod';
 
 import { DbRecord } from '~/types/DbRecord';
 import { fowV4GameSystemConfigSchema } from '~/types/fowV4/fowV4GameSystemConfigSchema';
+import { gameSystemSchema } from '~/types/GameSystem';
 import { tournamentPairingMethodSchema } from '~/types/TournamentPairingMethod';
 import { tournamentStatusSchema } from '~/types/TournamentStatus';
 
 const tournamentSchema = z.object({
+
+  // Metadata
+  title: z.string().min(5),
+  description: z.optional(z.string().max(1000, 'Descriptions are limited to 1000 characters.')),
+  location: z.string(),
+  banner_url: z.optional(z.string().url('Please provide a valid URL.')).or(z.literal('')),
+  starts_at: z.string(),
+  ends_at: z.string(),
+  rules_pack_url: z.optional(z.string().url('Please provide a valid URL.')).or(z.literal('')),
+
+  // Format Config
   competitor_count: z.coerce.number().min(2, 'Tournaments require at least two competitors.'),
   competitor_groups: z.array(z.object({
     name: z.string().min(1).max(20),
     size: z.coerce.number().min(1),
   })),
   competitor_size: z.coerce.number(),
-  current_round: z.optional(z.number()),
-  // TODO: How to handle round timing? especially pauses
-  description: z.optional(z.string().max(1000, 'Descriptions are limited to 1000 characters.')),
-  end_date: z.string(),
-  end_time: z.string(),
-  game_system_id: z.string(),
-  location: z.string(),
-  logo_url: z.optional(z.string().url('Please provide a valid URL.')).or(z.literal('')),
-  organizer_ids: z.array(z.string().uuid()),
-  registrations_open: z.boolean(),
-  round_count: z.number(),
-  rules_pack_url: z.optional(z.string().url('Please provide a valid URL.')).or(z.literal('')),
-  start_date: z.string(),
-  start_time: z.string(),
-  status: tournamentStatusSchema,
-  title: z.string().min(5),
   use_national_teams: z.boolean(),
-  registrations_close_at: z.string(),
-  game_system_config: fowV4GameSystemConfigSchema, // TODO: Replace with a union of other game systems
+  round_count: z.number(),
   pairing_method: tournamentPairingMethodSchema,
+
+  // Game Config
+  game_system_id: gameSystemSchema,
+  game_system_config: fowV4GameSystemConfigSchema, // TODO: Replace with a union of other game systems
   ranking_factors: z.array(z.string()),
+
+  // Management
+  organizer_ids: z.array(z.string().uuid()),
+  current_round: z.optional(z.number()),
+  status: tournamentStatusSchema,
+  registrations_open: z.boolean(),
+  registrations_close_at: z.string(),
+
 }).refine(data => {
   if (data.game_system_id === 'flames_of_war_v4') {
     return fowV4GameSystemConfigSchema.safeParse(data.game_system_config).success;

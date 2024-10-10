@@ -1,25 +1,26 @@
-import { Record } from './DbRecord';
-import { UUID } from './UUID';
+import { z } from 'zod';
 
-export interface MatchResult<T> extends Record {
-  id: string;
-  created_at: string;
-  modified_at: string;
+import { DbRecord } from '~/types/DbRecord';
+import { fowV4GameSystemConfigSchema } from '~/types/fowV4/fowV4GameSystemConfigSchema';
+import { fowV4MatchOutcomeSchema } from '~/types/fowV4/fowV4MatchOutcomeSchema';
 
-  detailed_outcome: T;
+export const matchResultSchema = z.object({
+  game_system_config: fowV4GameSystemConfigSchema, // TODO: Replace with a union of other game systems
+  game_system_id: z.string(),
+  outcome: fowV4MatchOutcomeSchema, // TODO: Replace with a union of other game systems
+  player_0_user_id: z.string().uuid(),
+  player_0_list_id: z.optional(z.string().uuid()),
+  player_0_notes: z.optional(z.string()),
+  player_0_notes_private: z.optional(z.boolean()),
+  player_1_user_id: z.string().uuid(),
+  player_1_list_id: z.optional(z.string().uuid()),
+  player_1_notes: z.optional(z.string()),
+  player_1_notes_private: z.optional(z.boolean()),
+  tournament_id: z.optional(z.string().uuid()),
+  tournament_pairing_id: z.optional(z.string().uuid()),
+  // match_type: z.optional()
+});
 
-  // Foreign keys
-  game_system_id: UUID;
-  player_0_id: UUID;
-  player_0_list_id: UUID;
-  player_1_id: UUID;
-  player_1_list_id: UUID;
-  tournament_id?: UUID;
-  tournament_pairing_id?: UUID;
-}
+export type MatchResult = z.infer<typeof matchResultSchema>;
 
-/**
- * Pairing ID or tournament ID? Chances are if you want to view your match results, you want to know
- * what tournament they occurred in. But if you're viewing a tournament you want to query match
- * results for a given pairing ID.
- */
+export type MatchResultRecord = MatchResult & DbRecord;

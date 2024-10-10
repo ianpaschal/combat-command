@@ -1,7 +1,5 @@
 import { z, ZodLiteral } from 'zod';
 
-import { InputSelectItem } from '~/components/generic/InputSelect/InputSelect';
-
 export const fowV4BookSchema = z.union([
   z.literal('lw_bagration_axis_allies'),
   z.literal('lw_bagration_german'),
@@ -62,7 +60,7 @@ export const fowV4BookLabels: Record<FowV4Book, string> = {
   mw_eastern_front_hungarian: 'Hungarian Steel',
 };
 
-export const fowV4BookOptions: InputSelectItem[] = fowV4BookSchema.options.filter(
+export const fowV4BookOptions = fowV4BookSchema.options.filter(
   (option) => option instanceof ZodLiteral,
 ).map(
   ({ value }) => ({ value, label: fowV4BookLabels[value] }),

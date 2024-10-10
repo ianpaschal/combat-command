@@ -1,6 +1,7 @@
 import { Timestamp } from './Timestamp';
 import { UUID } from './UUID';
 
+// DEPRECATED
 export interface TournamentRegistration {
   tournament_registration_id: string; // Primary key
   created_at: Timestamp;
