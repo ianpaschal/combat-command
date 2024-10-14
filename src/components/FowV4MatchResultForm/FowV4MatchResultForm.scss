@@ -34,7 +34,7 @@
 
 .Player0Section,
 .Player1Section {
-  @include flex.column(1rem);
+  @include flex.column($xAlign: center);
 }
 
 .ResultsSection {

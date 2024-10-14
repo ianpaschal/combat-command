@@ -11,6 +11,7 @@ import { ComponentTestPage } from '~/pages/ComponentTestPage';
 import { CreateTournamentPage } from '~/pages/CreateTournamentPage';
 import { DashboardPage } from '~/pages/DashboardPage';
 import { LandingPage } from '~/pages/LandingPage';
+import { MatchResultsPage } from '~/pages/MatchResultsPage';
 import { StatisticsPage } from '~/pages/StatisticsPage';
 import { TournamentDetailPage } from '~/pages/TournamentDetailPage';
 import { TournamentsPage } from '~/pages/TournamentsPage';
@@ -39,6 +40,12 @@ export const routes: RouteConfig[] = [
     title: 'Create Tournament',
     visibility: [],
     element: <CreateTournamentPage />,
+  },
+  {
+    path: '/matches',
+    title: 'Match Results',
+    visibility: ['main'],
+    element: <MatchResultsPage />,
   },
   {
     path: '/statistics',
