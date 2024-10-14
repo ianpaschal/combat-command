@@ -61,6 +61,7 @@
   &_LiveMatchResults {
     @include flex.column;
 
+    position: relative;
     overflow: hidden;
 
     .LiveMatchResultItemList {
@@ -70,6 +71,13 @@
 
       mask-image: linear-gradient(to bottom, rgb(0 0 0 / 100%) 70%, rgb(0 0 0 / 0%) 100%);
     }
+  }
+
+  &_LiveMatchResultsViewMoreButton {
+    position: absolute;
+    right: 3rem;
+    bottom: 2rem;
+    left: 3rem;
   }
 }
 

@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useWindowWidth } from '@react-hook/window-size/throttled';
 import {
+  ArrowRight,
+  ArrowRightToLine,
   Cog,
   Plus,
   UserRoundPlus,
@@ -11,6 +13,7 @@ import { useAuth } from '~/components/AuthProvider';
 import { CheckInMatchDialog } from '~/components/CheckInMatchDialog';
 import { FloatingActionButton } from '~/components/FloatingActionButton';
 import { FowV4RankingsTable } from '~/components/FowV4RankingsTable/FowV4RankingsTable';
+import { Button } from '~/components/generic/Button';
 import { Card } from '~/components/generic/Card';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { Label } from '~/components/generic/Label';
@@ -120,6 +123,13 @@ export const TournamentDetailPage = (): JSX.Element => {
                       <MatchResultCard />
                       <MatchResultCard />
                     </div>
+                    <Button
+                      className={cn('LiveMatchResultsViewMoreButton')}
+                      variant="outlined"
+                      onClick={() => setTab('matches')}
+                    >
+                      View All Results<ArrowRight />
+                    </Button>
                   </div>
                 )}
               </>
