@@ -37,9 +37,8 @@ export const AppBar = ({
                 <Drawer.Header title="Navigation" hideTitle>
                   <AppLogo className={cn('_Logo')} />
                 </Drawer.Header>
-                <Drawer.Body>
+                <Drawer.Body className={cn('_NavLinks')}>
                   <NavLinks orientation="vertical" routes={navItems} />
-                  <Button variant="solid">Check In Match</Button>
                 </Drawer.Body>
               </Drawer.Content>
             </Drawer.Root>
