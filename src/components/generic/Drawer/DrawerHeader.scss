@@ -1,7 +1,8 @@
 @use "/src/style/variables";
-
+@use "/src/style/corners";
 @use "/src/style/variants";
 @use "/src/style/text";
+@use "/src/style/flex";
 
 $close-size: 2.5rem;
 
@@ -32,8 +33,9 @@ $close-size: 2.5rem;
 }
 
 .DrawerHeaderClose {
-  @include text.ui;
   @include variants.ghost;
+  @include corners.normal;
+  @include flex.centered;
 
   & {
     position: absolute;

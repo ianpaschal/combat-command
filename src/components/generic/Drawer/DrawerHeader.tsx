@@ -31,9 +31,6 @@ export const DrawerHeader = ({
       <Title className={clsx('DrawerTitle', className)}>{title}</Title>
     )}
     {children}
-    <Close className="DrawerHeaderClose">
-      <X />
-    </Close>
   </div>
 );
 

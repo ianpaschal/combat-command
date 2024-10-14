@@ -1,0 +1,56 @@
+@use "/src/style/animate";
+@use "/src/style/corners";
+@use "/src/style/flex";
+@use "/src/style/sizes";
+@use "/src/style/text";
+@use "/src/style/utils";
+@use "/src/style/variables";
+@use "/src/style/variants";
+
+.Positioner {
+  @include flex.centered;
+
+  position: fixed;
+  inset: 0;
+}
+
+.Overlay {
+  @include utils.modal-overlay;
+  @include animate.duration-quick;
+  @include animate.style-fade;
+
+  background-color: variables.$modal-overlay-bg-color;
+}
+
+.Content {
+  position: relative;
+
+  max-width: min(calc(100vw - 1rem), 720px);
+  max-height: calc(100vh - 1rem);
+  padding: 1rem 1.5rem 1.5rem;
+
+  background-color: variables.$white;
+  border-radius: variables.$corner-radius;
+
+  @include flex.stretchy;
+
+  @include animate.duration-quick;
+  @include animate.style-pop;
+}
+
+.Close {
+  @include variants.ghost;
+  @include corners.normal;
+  @include flex.centered;
+  @include sizes.small;
+
+  position: absolute;
+  z-index: 1; // TODO: Figure out why this is needed for absolute positioned elements...
+  top: 1rem;
+  right: 1rem;
+
+  svg {
+    width: variables.$icon-button-icon-size;
+    height: variables.$icon-button-icon-size;
+  }
+}

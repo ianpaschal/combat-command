@@ -28,36 +28,36 @@ export const DialogOverlay = forwardRef<DialogOverlayRef, DialogOverlayProps>(({
   <Overlay ref={ref} className={clsx('DialogOverlay', className)} {...props} />
 ));
 
-type DialogBodyRef = ElementRef<typeof Content>;
-type DialogBodyProps = ComponentPropsWithoutRef<typeof Content> & {
-  title: string;
-  description?: string;
-};
-export const DialogContent = forwardRef<DialogBodyRef, DialogBodyProps>(({
-  className,
-  children,
-  title,
-  description,
-  ...props
-}, ref): JSX.Element => (
-  <Portal>
-    <DialogOverlay />
-    <div className="DialogPositioner">
-      <Content ref={ref} className={clsx('DialogContent', className)} {...props}>
-        <div className={'DialogHeader'}>
-          <DialogTitle>{title}</DialogTitle>
-          {description && (
-            <DialogDescription>{description}</DialogDescription>
-          )}
-          <Close className={clsx('DialogClose', 'IconButton-ghost', 'IconButton-tiny')}>
-            <X />
-          </Close>
-        </div>
-        {children}
-      </Content>
-    </div>
-  </Portal>
-));
+// type DialogBodyRef = ElementRef<typeof Content>;
+// type DialogBodyProps = ComponentPropsWithoutRef<typeof Content> & {
+//   title: string;
+//   description?: string;
+// };
+// export const DialogContent = forwardRef<DialogBodyRef, DialogBodyProps>(({
+//   className,
+//   children,
+//   title,
+//   description,
+//   ...props
+// }, ref): JSX.Element => (
+//   <Portal>
+//     <DialogOverlay />
+//     <div className="DialogPositioner">
+//       <Content ref={ref} className={clsx('DialogContent', className)} {...props}>
+//         <div className={'DialogHeader'}>
+//           <DialogTitle>{title}</DialogTitle>
+//           {description && (
+//             <DialogDescription>{description}</DialogDescription>
+//           )}
+//           <Close className={clsx('DialogClose', 'IconButton-ghost', 'IconButton-tiny')}>
+//             <X />
+//           </Close>
+//         </div>
+//         {children}
+//       </Content>
+//     </div>
+//   </Portal>
+// ));
 
 type DialogTitleRef = ElementRef<typeof Title>;
 type DialogTitleProps = ComponentPropsWithoutRef<typeof Title>;
