@@ -1,12 +1,10 @@
-create type tournament_visibility as enum (
-  'hidden',
-  'public'
+create type tournament_status as enum (
+  'draft',
+  'published',
+  'active',
+  'archived'
 );
 
-create type tournament_type as enum (
-  'solo',
-  'team'
-);
 
 create table tournaments (
   id uuid default gen_random_uuid() primary key,
