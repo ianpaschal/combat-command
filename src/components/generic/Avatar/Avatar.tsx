@@ -65,17 +65,16 @@ export const Avatar = ({
   return (
     <Root className={clsx(cn(), className)} style={{ width: size, height: size }}>
       <div className={cn('_Content')}>
-        {avatarUrl ? (
+        {avatarUrl && (
           <Image
             className={cn('_Image')}
             src={avatarUrl}
             alt={displayName}
           />
-        ) : (
-          <Fallback className={cn('_Fallback')} delayMs={600}>
-            <User />
-          </Fallback>
         )}
+        <Fallback className={cn('_Fallback')}>
+          <User />
+        </Fallback>
       </div>
       {onEdit && (
         <span onClick={onEdit}>

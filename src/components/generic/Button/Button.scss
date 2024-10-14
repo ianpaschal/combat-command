@@ -9,6 +9,8 @@
   @include corners.normal;
   @include text.ui($bold: true);
 
+  flex-shrink: 0;
+
   svg {
     flex-shrink: 0;
     width: 1rem;
