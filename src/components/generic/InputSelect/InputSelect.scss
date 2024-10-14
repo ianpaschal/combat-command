@@ -61,6 +61,10 @@
   gap: 0.25rem;
 }
 
+.SelectGroupLabel {
+  color: red;
+}
+
 .SelectItem {
   position: relative;
 
@@ -91,14 +95,14 @@
   @include variants.solid;
 }
 
-.SelectLabel {
+.SelectGroupLabel {
   user-select: none;
 
   padding-left: 2rem;
 
   font-size: 0.75rem;
   line-height: 1.5rem;
-  color: variables.$text-base;
+  color: variables.$text-muted;
 }
 
 .SelectSeparator {

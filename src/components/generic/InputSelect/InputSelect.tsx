@@ -79,7 +79,7 @@ export const InputSelect = forwardRef<SelectRef, SelectProps>(({
             } else if ('options' in item) {
               return (
                 <Group key={item.label} className="SelectGroup">
-                  <Label className="SelectLabel">{item.label}</Label>
+                  <Label className="SelectGroupLabel">{item.label}</Label>
                   {item.options.map((subItem) => (
                     <SelectItem key={subItem.value} value={subItem.value}>
                       {subItem.label}

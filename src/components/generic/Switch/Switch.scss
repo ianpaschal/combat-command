@@ -10,8 +10,6 @@ $thumb-size: calc($switch-height - (2 * $thumb-inset));
 $thumb-offset: calc($switch-width - ($thumb-inset + $thumb-size));
 
 .Switch {
-  all: unset;
-
   @include variants.solid-muted;
 
   position: relative;

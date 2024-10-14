@@ -10,7 +10,7 @@ import { Label } from '~/components/generic/Label';
 import { bem } from '~/utils/componentLib/bem';
 import { getComponentName } from '~/utils/componentLib/getComponentName';
 
-import './FormField.scss';
+import styles from './FormField.module.scss';
 
 export interface FormFieldProps {
   children: ReactElement;
@@ -34,17 +34,22 @@ export const FormField = ({
 }: FormFieldProps): JSX.Element => {
   const { control, formState: { errors } } = useFormContext();
   const hasError = !!name && !!errors[name];
-  const horizontal = isValidElement(children) && ['Switch', 'Checkbox'].includes(getComponentName(children));
+  const nonTextual = isValidElement(children) && ['Switch', 'Checkbox'].includes(getComponentName(children));
 
   return (
-    <div className={clsx(cn(), { [`${cn()}-horizontal`]: horizontal }, className)}>
-      <Label className={cn('Label', { hasError, disabled, horizontal })} htmlFor={name}>{label}</Label>
+    <div
+      className={clsx(styles.Root, {
+        [styles['Root-vertical']]: !nonTextual,
+        [styles['Root-horizontal']]: nonTextual,
+      }, className)}
+    >
+      <Label className={clsx(styles.Label)} htmlFor={name}>{label}</Label>
       {(name && control) ? (
         <>
           <Controller
             control={control}
             render={({ field }) => (
-              cloneElement(children, { ...field, ...props, className: cn('Input', { hasError, disabled, horizontal }), hasError, disabled })
+              cloneElement(children, { ...field, ...props, className: clsx(styles.Input), hasError, disabled })
             )}
             name={name}
           />
@@ -53,10 +58,10 @@ export const FormField = ({
           )}
         </>
       ) : (
-        cloneElement(children, { ...props, className: cn('Input', { disabled, horizontal }), disabled })
+        cloneElement(children, { ...props, className: clsx(styles.Input), disabled })
       )}
       {description && (
-        <div className={cn('Description', { hasError, disabled, horizontal })}>{description}</div>
+        <div className={clsx(styles.Description)}>{description}</div>
       )}
     </div>
   );
