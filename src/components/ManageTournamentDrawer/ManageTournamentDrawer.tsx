@@ -103,3 +103,34 @@ export const ManageTournamentDrawer = ({
     </Drawer.Root>
   );
 };
+
+/*
+Things this needs to do:
+
+If status === draft:
+
+Actions: Edit, Publish, Delete
+
+If status === published:
+- Edit
+- Un-publish
+- Cancel
+- Open Registrations (if closed)
+- Close Registrations (if open)
+
+If status === active && current_round:
+- End round early
+- Add match result
+
+If status ==- active:
+- Close tournament
+
+If status === active && !current_round && !pairings:
+- Generate new pairings
+
+If status === active && !current_round && pairings:
+- Start next round
+
+If status === archived:
+- NOTHING! 
+*/

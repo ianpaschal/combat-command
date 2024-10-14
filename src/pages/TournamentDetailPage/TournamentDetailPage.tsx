@@ -22,6 +22,7 @@ import {
   TabsTrigger,
 } from '~/components/generic/Tabs';
 import { ManageTournamentDrawer } from '~/components/ManageTournamentDrawer';
+import { ManageTournamentMenu } from '~/components/ManageTournamentMenu';
 import { MatchResultCard } from '~/components/MatchResultCard';
 import { PageWrapper } from '~/components/PageWrapper';
 import { TournamentCard } from '~/components/TournamentCard/TournamentCard';
@@ -175,8 +176,8 @@ export const TournamentDetailPage = (): JSX.Element => {
         </CheckInMatchDialog>
       )}
       {showManageButton && (
-        <ManageTournamentDrawer
-          tournamentId={tournamentId}
+        <ManageTournamentMenu
+          tournament={tournament}
           trigger={(
             <FloatingActionButton>
               <Cog />
@@ -187,16 +188,3 @@ export const TournamentDetailPage = (): JSX.Element => {
     </PageWrapper>
   );
 };
-
-/*
-
-     {isRoundActive && (
-            <>
-           
-            </>
-          )}
-            */
-
-/*
-         
-          */

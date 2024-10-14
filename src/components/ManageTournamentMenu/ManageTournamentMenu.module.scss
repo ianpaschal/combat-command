@@ -1,0 +1,23 @@
+@use "/src/style/variables";
+@use "/src/style/animate";
+@use "/src/style/variants";
+@use "/src/style/shadows";
+@use "/src/style/corners";
+@use "/src/style/flex";
+@use "/src/style/text";
+@use "/src/style/borders";
+
+.Content {
+  @include animate.duration-quick;
+  @include corners.normal;
+  @include shadows.shadow;
+  @include variants.outlined($hover: false);
+  @include flex.column($gap: 0.25rem);
+
+  min-width: 10rem;
+  margin: 0.25rem 0;
+  padding: 0.25rem 0;
+  background-color: variables.$card-bg;
+
+  @include animate.style-pop; // Must list last because it contains nested declarations
+}
