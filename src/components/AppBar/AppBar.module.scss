@@ -1,0 +1,45 @@
+@use "/src/style/variables";
+@use "/src/style/flex";
+@use "/src/style/borders";
+
+.Root {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 100vw;
+  height: variables.$app-bar-height;
+
+  background-color: variables.$card-bg;
+  border-bottom: variables.$border-width solid variables.$outlined-border;
+
+  @include flex.row;
+}
+
+.Content {
+  @include flex.row;
+  @include flex.stretchy;
+
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto;
+  padding: 0.75rem 1rem;
+}
+
+.Logo {
+  width: 2.5rem;
+  height: 2.5rem;
+  color: variables.$text-base;
+}
+
+.NavLinks {
+  padding: 0.5rem;
+}
+
+.DrawerHeader {
+  @include flex.row;
+  @include borders.normal($side: bottom);
+
+  height: variables.$app-bar-height;
+  padding-left: 1rem;
+}

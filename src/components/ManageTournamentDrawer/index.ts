@@ -1,1 +1,0 @@
-export { ManageTournamentDrawer } from './ManageTournamentDrawer';

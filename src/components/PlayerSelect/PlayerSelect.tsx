@@ -2,11 +2,7 @@ import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { Search, UserSearch } from 'lucide-react';
 
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-} from '~/components/generic/Dialog';
+import { Dialog } from '~/components/generic/Dialog';
 import { InputText } from '~/components/generic/InputText';
 import { Stack } from '~/components/generic/Stack';
 import { UserPortrait } from '~/components/UserPortrait';
@@ -38,25 +34,27 @@ export const PlayerSelect = ({
     onSelect(selectedId);
   }, [onSelect, selectedId]);
   return (
-    <Dialog>
-      <DialogTrigger className={clsx('PlayerSelectTrigger', `PlayerSelectTrigger-${variant}`, className)}>
-        {selectedId ? (
-          <UserPortrait username="Foooby" className="PlayerSelectUserPortrait" />
-        ) : (
-          <Stack orientation="vertical" gap="0.5rem">
-            <UserSearch className="PlayerSelectIcon" />
-            <span className="PlayerSelectPlaceholder">Select User...</span>
-          </Stack>
-        )}
-      </DialogTrigger>
-      <DialogContent title="Select User">
-        <InputText slotAfter={<Search />} />
-        {players.map((player) => (
-          <div key={player.id}>
+    <Dialog
+      title="Select Player"
+      trigger={
+        <div className={clsx('PlayerSelectTrigger', `PlayerSelectTrigger-${variant}`, className)}>
+          {selectedId ? (
+            <UserPortrait username="Foooby" className="PlayerSelectUserPortrait" />
+          ) : (
+            <Stack orientation="vertical" gap="0.5rem">
+              <UserSearch className="PlayerSelectIcon" />
+              <span className="PlayerSelectPlaceholder">Select User...</span>
+            </Stack>
+          )}
+        </div>
+      }
+    >
+      <InputText slotAfter={<Search />} />
+      {players.map((player) => (
+        <div key={player.id}>
 
-          </div>
-        ))}
-      </DialogContent>
+        </div>
+      ))}
     </Dialog>
   );
 };

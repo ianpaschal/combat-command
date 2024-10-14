@@ -1,7 +1,0 @@
-@use "/src/style/variables";
-
-@use "/src/style/flex";
-
-.DrawerBody {
-  @include flex.stretchy;
-}

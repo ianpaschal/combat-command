@@ -1,31 +1,26 @@
 @use "/src/style/animate";
 @use "/src/style/corners";
 @use "/src/style/flex";
+@use "/src/style/sizes";
 @use "/src/style/text";
 @use "/src/style/utils";
 @use "/src/style/variables";
 @use "/src/style/variants";
-@use "/src/style/sizes";
 
-.DrawerOverlay {
+.Overlay {
   @include utils.modal-overlay;
   @include animate.duration-slow;
   @include animate.style-fade;
 
-  & {
-    background-color: variables.$modal-overlay-bg-color;
-  }
+  background-color: variables.$modal-overlay-bg-color;
 }
 
-.DrawerContent {
+.Content {
+  @include flex.column($gap: 0);
+  @include flex.stretchy;
   @include animate.duration-slow;
 
   position: absolute;
-
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-
   background-color: variables.$card-bg;
 
   &-left,
@@ -34,7 +29,7 @@
     top: 0;
     bottom: 0;
 
-    width: 20rem;
+    min-width: 16rem;
     max-width: calc(100vw - 2rem);
   }
 
@@ -43,7 +38,7 @@
     position: fixed;
     right: 0;
     left: 0;
-    height: calc(100vh - 2rem);
+    max-height: calc(100vh - 2rem);
   }
 
   &-left {
@@ -99,7 +94,53 @@
   }
 }
 
-.DrawerClose {
+@media (width >= 688px) {
+  .Content {
+    max-width: min(calc(100vw - 2rem), 720px);
+  }
+
+  .Header,
+  .Description {
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+  }
+
+  .Inner {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+
+  .Footer {
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+  }
+}
+
+.Header {
+  @include flex.row;
+
+  min-height: 4rem;
+  padding: 1rem;
+
+  h2 {
+    line-height: 2rem;
+  }
+}
+
+.Description {
+  padding: 0 1rem;
+}
+
+.Inner {
+  @include flex.stretchy;
+}
+
+.Footer {
+  height: 4.5rem;
+  padding: 1rem;
+}
+
+.Close {
   @include variants.ghost;
   @include corners.normal;
   @include flex.centered;

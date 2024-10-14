@@ -24,7 +24,6 @@ import {
   TabsList,
   TabsTrigger,
 } from '~/components/generic/Tabs';
-import { ManageTournamentDrawer } from '~/components/ManageTournamentDrawer';
 import { ManageTournamentMenu } from '~/components/ManageTournamentMenu';
 import { MatchResultCard } from '~/components/MatchResultCard';
 import { PageWrapper } from '~/components/PageWrapper';

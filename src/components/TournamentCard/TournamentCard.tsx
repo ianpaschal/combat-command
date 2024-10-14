@@ -20,7 +20,7 @@ import { Button } from '~/components/generic/Button';
 import { Label } from '~/components/generic/Label';
 import { ScrollArea } from '~/components/generic/ScrollArea';
 import { Tag } from '~/components/generic/Tag';
-import { ManageTournamentDrawer } from '~/components/ManageTournamentDrawer';
+import { ManageTournamentMenu } from '~/components/ManageTournamentMenu';
 import { fowV4EraOptions } from '~/types/fowV4/fowV4EraSchema';
 import { TournamentRecord } from '~/types/Tournament';
 import { bem } from '~/utils/componentLib/bem';
@@ -136,14 +136,14 @@ export const TournamentCard = ({
             <Button>Manage Regs</Button>
           )}
           {showManageTournamentButton && (
-            <ManageTournamentDrawer
-              tournamentId={tournament.id}
-              trigger={(
+            <ManageTournamentMenu
+              tournament={tournament}
+              trigger={
                 <Button>
                   <Cog />
                   Manage
                 </Button>
-              )}
+              }
             />
           )}
           {!isTournamentDetailPage && (

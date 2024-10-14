@@ -7,44 +7,45 @@ import { AppLogo } from '~/components/AppLogo';
 import { Button } from '~/components/generic/Button';
 import { Drawer } from '~/components/generic/Drawer';
 import { NavLink, NavLinks } from '~/components/generic/NavLinks';
-import { createCn } from '~/utils/componentLib/createCn';
+import { MIN_WIDTH_TABLET } from '~/settings';
 
-import './AppBar.scss';
+import styles from './AppBar.module.scss';
 
 export interface AppBarProps {
   maxWidth?: string | number;
   navItems: NavLink[];
 }
 
-const cn = createCn('AppBar');
-
 export const AppBar = ({
   maxWidth,
   navItems,
 }: AppBarProps): JSX.Element => {
   const width = useWindowWidth();
-  const isMobile = width <= 688;
+  const isMobile = width <= MIN_WIDTH_TABLET;
   return (
     <Portal.Root>
-      <div className={cn('_Root')}>
-        <div className={cn('_Content')} style={{ maxWidth }}>
+      <div className={styles.Root}>
+        <div className={styles.Content} style={{ maxWidth }}>
           {isMobile && (
-            <Drawer.Root>
-              <Drawer.Trigger asChild>
-                <Button variant="ghost"><Menu /></Button>
-              </Drawer.Trigger>
-              <Drawer.Content side="left">
-                <Drawer.Header title="Navigation" hideTitle>
-                  <AppLogo className={cn('_Logo')} />
-                </Drawer.Header>
-                <Drawer.Body className={cn('_NavLinks')}>
-                  <NavLinks orientation="vertical" routes={navItems} />
-                </Drawer.Body>
-              </Drawer.Content>
-            </Drawer.Root>
+            <Drawer
+              side="left"
+              trigger={
+                <Button variant="ghost">
+                  <Menu />
+                </Button>
+              }
+              header={
+                <div className={styles.DrawerHeader}>
+                  <AppLogo className={styles.Logo} />
+                </div>
+              }
+            >
+              <div className={styles.NavLinks}>
+                <NavLinks orientation="vertical" routes={navItems} />
+              </div>
+            </Drawer>
           )}
-          {/* <img src={logo} height={40} width={40} /> */}
-          <AppLogo className={cn('_Logo')} />
+          <AppLogo className={styles.Logo} />
           {!isMobile && (
             <NavLinks routes={navItems} />
           )}
