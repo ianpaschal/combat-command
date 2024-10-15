@@ -12,6 +12,7 @@
 
   position: fixed;
   inset: 0;
+  margin: var(--modal-side-margin);
 }
 
 .Overlay {
@@ -26,42 +27,20 @@
   @include flex.column($gap: 0);
   @include flex.stretchy;
   @include animate.duration-quick;
-  @include animate.style-pop;
+  @include animate.style-fade;
   @include corners.normal;
 
   position: relative;
-  max-width: min(calc(100vw - 1rem), 720px);
-  max-height: calc(100vh - 2rem);
+  max-width: min(100%, 720px);
+  max-height: 100%;
   background-color: variables.$card-bg;
-}
-
-@media (width >= 688px) {
-  .Content {
-    max-width: min(calc(100vw - 2rem), 720px);
-  }
-
-  .Header,
-  .Description {
-    padding-right: 1.5rem;
-    padding-left: 1.5rem;
-  }
-
-  .Inner {
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
-  }
-
-  .Footer {
-    padding-right: 1.5rem;
-    padding-left: 1.5rem;
-  }
 }
 
 .Header {
   @include flex.row;
 
   min-height: 4rem;
-  padding: 1rem;
+  padding: 1rem var(--modal-side-padding);
 
   h2 {
     line-height: 2rem;
@@ -74,11 +53,14 @@
 
 .Inner {
   @include flex.stretchy;
+  @include flex.column($gap: 0);
+
+  min-height: 0;
 }
 
 .Footer {
   height: 4.5rem;
-  padding: 1rem;
+  padding: 1rem var(--modal-side-padding);
 }
 
 .Close {

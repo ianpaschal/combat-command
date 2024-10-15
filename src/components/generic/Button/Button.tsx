@@ -40,7 +40,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   const classNames = clsx(
     cn(),
     cn(mod({ variant, intent, muted })),
-    cn(`-size-${size}`),
+    size !== null ? cn(`-size-${size}`) : undefined,
     {
       [cn('-round')]: round,
       [cn('-iconOnly')]: elements.length === 1 && isValidElement(elements[0]),

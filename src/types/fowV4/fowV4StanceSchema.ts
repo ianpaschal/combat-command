@@ -1,6 +1,6 @@
 import { z, ZodLiteral } from 'zod';
 
-import { InputSelectItem } from '~/components/generic/InputSelect/InputSelect';
+import { InputSelectOption } from '~/components/generic/InputSelect/InputSelect';
 
 export const fowV4stanceSchema = z.union([
   z.literal('attack'),
@@ -16,7 +16,7 @@ export const fowV4StanceLabels: Record<FowV4Stance, string> = {
   defend: 'Defend',
 };
 
-export const fowV4StanceOptions: InputSelectItem[] = fowV4stanceSchema.options.filter(
+export const fowV4StanceOptions: InputSelectOption[] = fowV4stanceSchema.options.filter(
   (option) => option instanceof ZodLiteral,
 ).map(
   ({ value }) => ({ value, label: fowV4StanceLabels[value] }),

@@ -1,24 +1,26 @@
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import clsx from 'clsx';
 import { z } from 'zod';
 
 import { useAuth } from '~/components/AuthProvider';
+import { missions } from '~/components/FowV4MatchResultForm/missions';
+import { FowV4TournamentGameConfigForm } from '~/components/FowV4TournamentGameConfigForm';
 import { Animate } from '~/components/generic/Animate';
 import { Avatar } from '~/components/generic/Avatar';
 import { Button } from '~/components/generic/Button';
 import { Form, FormField } from '~/components/generic/Form';
+import { InputSelectOption } from '~/components/generic/InputSelect';
+import { InputSelect, InputSelectItem } from '~/components/generic/InputSelect/InputSelect';
 import { InputText } from '~/components/generic/InputText';
 import { Separator } from '~/components/generic/Separator';
 import { PlayerSelect } from '~/components/PlayerSelect';
 import { UserPortrait } from '~/components/UserPortrait';
-import { InputSelectOption } from '../generic/InputSelect';
-import { InputSelect, InputSelectItem } from '../generic/InputSelect/InputSelect';
-import {
-  fowV4MatchConfigSchema,
-  fowV4MatchResultSchema,
-  Stance,
-} from './FowV4MatchResultForm.schema';
+import { fowV4LFTFVersionOptions } from '~/types/fowV4/fowV4LFTFVersionSchema';
+import { fowV4MissionPackVersionOptions } from '~/types/fowV4/fowV4MissionPackVersionSchema';
+import { fowV4StanceOptions } from '~/types/fowV4/fowV4StanceSchema';
+import { fowV4MatchConfigSchema, fowV4MatchResultSchema } from './FowV4MatchResultForm.schema';
 
 import './FowV4MatchResultForm.scss';
 
@@ -35,48 +37,6 @@ const formSchema = z.object({
 
 type FormInput = z.infer<typeof formSchema>;
 
-const eraOptions: InputSelectOption[] = [
-  { label: 'Early War', value: 'ew' },
-  { label: 'Mid-War', value: 'mw' },
-  { label: 'Late War', value: 'lw' },
-];
-
-const stanceOptions: InputSelectOption[] = [
-  { label: 'Attack', value: 'attack' },
-  { label: 'Maneuver', value: 'maneuver' },
-  { label: 'Defend', value: 'defend' },
-];
-
-const missionOptions: InputSelectOption[] = [
-  { label: 'Annihilation', value: 'annihilation' },
-  { label: 'Breakthrough', value: 'breakthrough' },
-  { label: 'Bridgehead', value: 'bridgehead' },
-  { label: 'Bypass', value: 'bypass' },
-  { label: 'Cornered', value: 'cornered' },
-  { label: 'Counterattack', value: 'counterattack' },
-  { label: 'Counterstrike', value: 'counterstrike' },
-  { label: 'Covering Force', value: 'covering_force' },
-  { label: 'Dogfight', value: 'dogfight' },
-  { label: 'Dust-Up', value: 'dust_up' },
-  { label: 'Encirclement', value: 'encirclement' },
-  { label: 'Encounter', value: 'encounter' },
-  { label: 'Escape', value: 'escape' },
-  { label: 'Fighting Withdrawal', value: 'fighting_withdrawal' },
-  { label: 'Free for All', value: 'free_for_all' },
-  { label: 'Gauntlet', value: 'gauntlet' },
-  { label: 'Hold the Pocket', value: 'hold_the_pocket' },
-  { label: 'It\'s a Trap', value: 'its_a_trap' },
-  { label: 'Killing Ground', value: 'killing_ground' },
-  { label: 'No Retreat', value: 'no_retreat' },
-  { label: 'Outflanked', value: 'outflanked' },
-  { label: 'Outmanoeuvred', value: 'outmanoeuvred' },
-  { label: 'Probe (Contact)', value: 'probe' },
-  { label: 'Scouts Out', value: 'scouts_out' },
-  { label: 'Spearpoint', value: 'spearpoint' },
-  { label: 'Valley of Death', value: 'valley_of_death' },
-  { label: 'Vanguard', value: 'vanguard' },
-];
-
 const outcomeOptions: InputSelectOption[] = [
   { label: 'Objective Taken', value: 'objective_taken' },
   { label: 'Objective Defended', value: 'objective_defended' },
@@ -85,11 +45,13 @@ const outcomeOptions: InputSelectOption[] = [
 ];
 
 export interface FowV4MatchResultFormProps {
+  className?: string;
   tournamentId?: string;
   matchResultId?: string;
 }
 
 export const FowV4MatchResultForm = ({
+  className,
   tournamentId,
   matchResultId,
 }: FowV4MatchResultFormProps): JSX.Element => {
@@ -112,8 +74,8 @@ export const FowV4MatchResultForm = ({
       detailed_config: { // Auto-filled & disabled if tournament pairing ID is not undefined
         era: 'lw',
         points: 100,
-        rule_add_ons: ['lessons_from_the_front_2024-04'], // Hidden
-        mission_pack: 'fow_v4_missions_2023-04', // Hidden
+        lessons_from_the_front_version: [...fowV4LFTFVersionOptions].pop()?.value,
+        mission_pack_version: [...fowV4MissionPackVersionOptions].pop()?.value,
       },
       detailed_result: {
         mission_id: undefined,
@@ -121,9 +83,10 @@ export const FowV4MatchResultForm = ({
         winner: undefined, // Select field, values populated based on player IDs
         turns_played: 1,
         attacker: undefined, // Select field, values populated based on player IDs
-        player_0_stance: stanceOptions[0].value as Stance,
+        firstTurn: undefined,
+        player_0_stance: undefined,
         player_0_units_lost: 0,
-        player_1_stance: stanceOptions[0].value as Stance,
+        player_1_stance: undefined,
         player_1_units_lost: 0,
       },
     },
@@ -146,7 +109,6 @@ export const FowV4MatchResultForm = ({
   ];
   const winnerOptions: InputSelectOption[] = [
     ...playerOptions,
-    { label: 'Draw', value: 'NONE' },
   ];
 
   const { watch } = form;
@@ -154,24 +116,20 @@ export const FowV4MatchResultForm = ({
   const showGameConfigSection = tournament_pairing_id === 'NONE';
   const showWinnerField = !!detailed_result.outcome_type && detailed_result.outcome_type !== 'time_out';
 
+  const showAttacker = missions.find((mission) => mission.id === detailed_result.mission_id)?.attacker === 'roll';
+  const showFirstTurn = missions.find((mission) => mission.id === detailed_result.mission_id)?.firstTurn === 'roll';
+
   return (
-    <Form form={form} onSubmit={onSubmit} className="FowV4MatchResultForm">
+    <Form form={form} onSubmit={onSubmit} className={clsx('FowV4MatchResultForm', className)}>
       <div className="GameMetaSection">
-        <FormField name="tournament_pairing_id" label="Result for">
+        <FormField name="tournament_pairing_id" label="Result for" disabled={!!tournamentId}>
           <InputSelect options={pairingOptions} />
         </FormField>
       </div>
       <Separator />
       <Animate show={showGameConfigSection}>
         <div className="GameConfigSection" data-state={showGameConfigSection ? 'open' : 'closed'}>
-          <div className="GameConfigFields">
-            <FormField className="GameConfigEra" name="detailed_config.era" label="Era">
-              <InputSelect options={eraOptions} />
-            </FormField>
-            <FormField className="GameConfigPoints" name="detailed_config.points" label="Points">
-              <InputText type="number" />
-            </FormField>
-          </div>
+          <FowV4TournamentGameConfigForm fieldName="detailed_config" hideRuleAddOns />
           <Separator />
         </div>
       </Animate>
@@ -181,7 +139,7 @@ export const FowV4MatchResultForm = ({
             <Avatar />
           </UserPortrait>
           <FormField name="detailed_result.player_0_stance" label="Stance">
-            <InputSelect options={stanceOptions} />
+            <InputSelect options={fowV4StanceOptions} />
           </FormField>
           <FormField name="detailed_result.player_0_units_lost" label="Units Lost">
             <InputText type="number" min={0} />
@@ -190,12 +148,10 @@ export const FowV4MatchResultForm = ({
         <Separator orientation="vertical" />
         <div className="Player1Section">
           <PlayerSelect
-            players={[{ id: 'foo', given_name: 'Ian', surname: 'Paschal', avatar_url: '' }]}
             onSelect={(id) => console.log(id)}
-            variant="outlined"
           />
           <FormField name="detailed_result.player_1_stance" label="Stance">
-            <InputSelect options={stanceOptions} />
+            <InputSelect options={fowV4StanceOptions} />
           </FormField>
           <FormField name="detailed_result.player_1_units_lost" label="Units Lost">
             <InputText type="number" min={0} />
@@ -205,24 +161,33 @@ export const FowV4MatchResultForm = ({
       <Separator />
       <div className="ResultsSection">
         <FormField name="detailed_result.mission_id" label="Mission">
-          <InputSelect options={missionOptions} />
+          <InputSelect options={missions.map(({ label, id }) => ({ label, value: id }))} />
         </FormField>
-        <FormField name="detailed_result.attacker" label="Attacker">
-          <InputSelect options={playerOptions} />
-        </FormField>
-        <FormField name="detailed_result.turns_played" label="Turns Played" >
-          <InputText type="number" min={0} />
-        </FormField>
-        <FormField name="detailed_result.outcome_type" label="Outcome Type">
-          <InputSelect options={outcomeOptions} />
-        </FormField>
+        <Animate show={showAttacker}>
+          <FormField name="detailed_result.attacker" label="Attacker">
+            <InputSelect options={playerOptions} />
+          </FormField>
+        </Animate>
+        <Animate show={showFirstTurn}>
+          <FormField name="detailed_result.firstTurn" label="First Turn">
+            <InputSelect options={playerOptions} />
+          </FormField>
+        </Animate>
+        <div className="OutcomeSection">
+          <FormField name="detailed_result.turns_played" label="Rounds Played" >
+            <InputText type="number" min={0} />
+          </FormField>
+          <FormField name="detailed_result.outcome_type" label="Outcome Type">
+            <InputSelect options={outcomeOptions} />
+          </FormField>
+        </div>
         <Animate show={showWinnerField}>
           <FormField name="detailed_result.winner" label="Winner" >
             <InputSelect options={winnerOptions} />
           </FormField>
         </Animate>
       </div>
-      <Button type="submit" disabled={loading}>Register</Button>
+      <Button type="submit" disabled={loading} className="SubmitButton">Check In Match</Button>
     </Form>
   );
 };

@@ -12,13 +12,15 @@ import {
 import { X } from 'lucide-react';
 
 import { Button, ButtonProps } from '~/components/generic/Button';
-import { ScrollArea } from '~/components/generic/ScrollArea';
 
 import styles from './Dialog.module.scss';
 
 export interface DialogProps extends ComponentPropsWithoutRef<typeof Root> {
   children: ReactNode;
   trigger?: ReactNode;
+  maxWidth?: number;
+  maxHeight?: number;
+  height?: number;
 
   // Standard elements
   title?: string;
@@ -33,6 +35,9 @@ export interface DialogProps extends ComponentPropsWithoutRef<typeof Root> {
 export const Dialog = ({
   actions,
   children,
+  maxWidth,
+  maxHeight,
+  height,
   description,
   footer,
   header,
@@ -49,7 +54,14 @@ export const Dialog = ({
     <Portal>
       <Overlay className={styles.Overlay} />
       <div className={styles.Positioner}>
-        <Content className={styles.Content}>
+        <Content
+          className={styles.Content}
+          style={{
+            maxWidth,
+            maxHeight: height && maxHeight ? Math.max(height, maxHeight) : maxHeight,
+            height: height && maxHeight ? Math.max(height, maxHeight) : height,
+          }}
+        >
           <Close className={styles.Close}>
             <X />
           </Close>
@@ -61,22 +73,14 @@ export const Dialog = ({
             </div>
           )}
           {header}
-          <ScrollArea
-            type="scroll"
-            indicatorBorder={[
-              ...(title || header ? ['top'] : []),
-              ...(footer || actions?.length ? ['bottom'] : []),
-            ]}
-          >
-            <div className={styles.Inner}>
-              {description && (
-                <Description className={styles.Description}>
-                  {description}
-                </Description>
-              )}
-              {children}
-            </div>
-          </ScrollArea>
+          <div className={styles.Inner}>
+            {description && (
+              <Description className={styles.Description}>
+                {description}
+              </Description>
+            )}
+            {children}
+          </div>
           {footer}
           {actions?.length && (
             <div className={styles.Footer}>

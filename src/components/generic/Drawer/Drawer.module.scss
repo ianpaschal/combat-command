@@ -30,7 +30,7 @@
     bottom: 0;
 
     min-width: 16rem;
-    max-width: calc(100vw - 2rem);
+    max-width: calc(100vw - var(--modal-side-margin));
   }
 
   &-top,
@@ -38,7 +38,7 @@
     position: fixed;
     right: 0;
     left: 0;
-    max-height: calc(100vh - 2rem);
+    max-height: calc(100vh - var(--modal-side-margin));
   }
 
   &-left {
@@ -94,33 +94,11 @@
   }
 }
 
-@media (width >= 688px) {
-  .Content {
-    max-width: min(calc(100vw - 2rem), 720px);
-  }
-
-  .Header,
-  .Description {
-    padding-right: 1.5rem;
-    padding-left: 1.5rem;
-  }
-
-  .Inner {
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
-  }
-
-  .Footer {
-    padding-right: 1.5rem;
-    padding-left: 1.5rem;
-  }
-}
-
 .Header {
   @include flex.row;
 
   min-height: 4rem;
-  padding: 1rem;
+  padding: 1rem var(--modal-side-padding);
 
   h2 {
     line-height: 2rem;
@@ -133,11 +111,14 @@
 
 .Inner {
   @include flex.stretchy;
+  @include flex.column($gap: 0);
+
+  min-height: 0;
 }
 
 .Footer {
   height: 4.5rem;
-  padding: 1rem;
+  padding: 1rem var(--modal-side-padding);
 }
 
 .Close {

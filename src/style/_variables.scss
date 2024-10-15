@@ -1,5 +1,17 @@
 @use "sass:color";
 
+:root {
+  --modal-side-padding: 1rem;
+  --modal-side-margin: 0.5rem;
+}
+
+@media (width >= 688px) {
+  :root {
+    --modal-side-padding: 1.5rem;
+    --modal-side-margin: 1rem;
+  }
+}
+
 // Layout
 $corner-radius: 0.375rem;
 $border-width: 1px;
@@ -40,7 +52,7 @@ $solid-danger-text: $solid-text;
 
 // Outlined
 $outlined-bg: $white;
-$outlined-bg-hover: color.adjust($outlined-bg, $lightness: -5%);
+$outlined-bg-hover: color.adjust($outlined-bg, $lightness: -2.5%);
 $outlined-text: $text-base;
 $outlined-border: $border-color;
 

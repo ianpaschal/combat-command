@@ -46,3 +46,9 @@
   border-style: solid;
   border-width: variables.$border-width;
 }
+
+@mixin dashed {
+  border-color: variables.$outlined-border;
+  border-style: dashed;
+  border-width: variables.$border-width;
+}

@@ -32,57 +32,6 @@ export const ScrollArea = forwardRef<ScrollAreaRef, ScrollAreaProps>(({
   ...props
 }, ref) => {
   const [viewportRef, onScroll, indicatorProps] = useScrollIndicators(indicatorBorder);
-  // const viewportRef = useRef<ElementRef<typeof Viewport>>(null);
-  // const [isTopHidden, setIsTopHidden] = useState<boolean>(false);
-  // const [isBottomHidden, setIsBottomHidden] = useState<boolean>(true);
-  // const [isLeftHidden, setIsLeftHidden] = useState<boolean>(false);
-  // const [isRightHidden, setIsRightHidden] = useState<boolean>(true);
-  // // FIXME: Is this needed? I don't think so, but maybe if the refs start misbehaving...
-  // // useImperativeHandle(ref, () => viewportRef.current!, []);
-
-  // const getIndicatorBorders = (): { top?: boolean, bottom?: boolean, left?: boolean, right?: boolean, } => {
-  //   if (indicatorBorder) {
-  //     if (Array.isArray(indicatorBorder)) {
-  //       return indicatorBorder.reduce((acc, value) => ({
-  //         ...acc,
-  //         [value]: true,
-  //       }), {});
-  //     } else {
-  //       return { [indicatorBorder]: true };
-  //     }
-  //   }
-  //   return {};
-  // };
-
-  // const borders = getIndicatorBorders();
-
-  // const handleScroll = (): void => {
-  //   if (!viewportRef.current) {
-  //     return;
-  //   }
-  //   const { width, height } = viewportRef.current.getBoundingClientRect();
-  //   const { scrollTop, scrollLeft, scrollHeight, scrollWidth } = viewportRef.current;
-  //   if (scrollTop > 0) {
-  //     setIsTopHidden(true);
-  //   } else {
-  //     setIsTopHidden(false);
-  //   }
-  //   if (scrollTop + height < scrollHeight) {
-  //     setIsBottomHidden(true);
-  //   } else {
-  //     setIsBottomHidden(false);
-  //   }
-  //   if (scrollLeft > 0) {
-  //     setIsLeftHidden(true);
-  //   } else {
-  //     setIsLeftHidden(false);
-  //   }
-  //   if (scrollLeft + width < scrollWidth) {
-  //     setIsRightHidden(true);
-  //   } else {
-  //     setIsRightHidden(false);
-  //   }
-  // };
   return (
     <Root className={clsx(cn('Root'), className)} ref={ref} type="scroll" scrollHideDelay={1000} {...props}>
       <Viewport className={cn('Viewport')} ref={viewportRef} onScroll={onScroll}>

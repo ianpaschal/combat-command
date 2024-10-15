@@ -1,5 +1,5 @@
 @use "/src/style/variables";
-
+@use "/src/style/text";
 @use "/src/style/flex";
 
 .UserPortrait {
@@ -31,14 +31,14 @@
 }
 
 .UserPortraitName {
+  @include text.ui($muted: true);
+
   overflow: hidden;
   display: block;
   -webkit-line-clamp: 2;
   line-clamp: 2;
 
-  font-size: 0.875rem;
   line-height: 1rem;
-  color: variables.$text-muted;
   text-overflow: ellipsis;
   text-wrap: balance;
 }
