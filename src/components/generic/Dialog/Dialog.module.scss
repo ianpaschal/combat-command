@@ -10,6 +10,7 @@
 .Positioner {
   @include flex.centered;
 
+  pointer-events: none;
   position: fixed;
   inset: 0;
   margin: var(--modal-side-margin);
@@ -17,18 +18,14 @@
 
 .Overlay {
   @include utils.modal-overlay;
-  @include animate.duration-quick;
-  @include animate.style-fade;
 
   background-color: variables.$modal-overlay-bg-color;
 }
 
 .Content {
+  @include corners.normal;
   @include flex.column($gap: 0);
   @include flex.stretchy;
-  @include animate.duration-quick;
-  @include animate.style-fade;
-  @include corners.normal;
 
   position: relative;
   max-width: min(100%, 720px);
