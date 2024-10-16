@@ -6,7 +6,7 @@ import {
 import { Root } from '@radix-ui/react-separator';
 import clsx from 'clsx';
 
-import './Separator.scss';
+import styles from './Separator.module.scss';
 
 type SeparatorRef = ElementRef<typeof Root>;
 type SeparatorProps = ComponentPropsWithoutRef<typeof Root>;
@@ -14,5 +14,5 @@ export const Separator = forwardRef<SeparatorRef, SeparatorProps>(({
   className,
   ...props
 }, ref) => (
-  <Root ref={ref} className={clsx('Separator', className)} {...props} />
+  <Root ref={ref} className={clsx(styles.Separator, className)} {...props} />
 ));
