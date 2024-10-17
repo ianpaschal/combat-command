@@ -21,6 +21,10 @@
   &--disabled {
     @include variants.outlined-disabled;
   }
+
+  &--hasError {
+    border-color: variables.$red;
+  }
 }
 
 .SelectIcon {

@@ -27,6 +27,7 @@ $blue: hsl(205deg 100% 50%);
 $text-base: hsl(220deg 5% 10%);
 $text-muted: color.adjust($text-base, $lightness: 40%);
 $text-disabled: color.adjust($text-base, $lightness: 60%);
+$text-error: $red;
 $text-link: $blue;
 $page-bg: hsl(220deg 5% 97.5%);
 $card-bg: $white;

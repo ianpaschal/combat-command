@@ -45,7 +45,7 @@
 }
 
 .Description {
-  padding: 0 1rem;
+  padding: 0 var(--modal-side-padding);
 }
 
 .Inner {
@@ -56,6 +56,8 @@
 }
 
 .Footer {
+  @include flex.row($xAlign: right);
+
   height: 4.5rem;
   padding: 1rem var(--modal-side-padding);
 }

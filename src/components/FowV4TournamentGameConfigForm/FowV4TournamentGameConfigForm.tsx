@@ -3,7 +3,6 @@ import { UseFormReturn } from 'react-hook-form';
 import { FormField } from '~/components/generic/Form';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { InputText } from '~/components/generic/InputText';
-import { Separator } from '~/components/generic/Separator';
 import { fowV4EraOptions } from '~/types/fowV4/fowV4EraSchema';
 import { fowV4LFTFVersionOptions } from '~/types/fowV4/fowV4LFTFVersionSchema';
 import { fowV4MissionPackVersionOptions } from '~/types/fowV4/fowV4MissionPackVersionSchema';

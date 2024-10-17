@@ -93,6 +93,12 @@ export const missions: Mission[] = [
     firstTurn: 'attacker',
   },
   {
+    id: 'free_for_all',
+    label: 'Free for All',
+    attacker: 'roll',
+    firstTurn: 'roll',
+  },
+  {
     id: 'gauntlet',
     label: 'Gauntlet',
     attacker: 'stance',
@@ -166,15 +172,14 @@ export const missions: Mission[] = [
   },
 ];
 
-export const getAttackerByStances = (stance0: FowV4Stance, stance1: FowV4Stance): 0 | 1 | null => {
+export const getRolesByStances = (stance0: FowV4Stance, stance1: FowV4Stance): { attacker: 0|1, defender: 0|1 } | undefined=> {
   const values = [...fowV4StanceOptions].reverse().map((option) => option.value);
-  const aggression0 = values.indexOf(stance0);
-  const aggression1 = values.indexOf(stance1);
-  if (aggression1 > aggression0) {
-    return 1;
+  const player0Aggression = values.indexOf(stance0);
+  const player1Aggression = values.indexOf(stance1);
+  if (player1Aggression > player0Aggression) {
+    return { attacker: 1, defender: 0 };
   }
-  if (aggression0 > aggression1) {
-    return 0;
+  if (player0Aggression > player1Aggression) {
+    return { attacker: 0, defender: 1 };
   }
-  return null;
 };

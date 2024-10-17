@@ -28,79 +28,77 @@ import {
   ChevronUpIcon,
 } from 'lucide-react';
 
+import { useStringSelect } from '~/components/generic/InputSelect/InputSelect.hooks';
+import { InputSelectItem, SelectValue } from '~/components/generic/InputSelect/InputSelect.types';
+
 import './InputSelect.scss';
-
-export interface InputSelectOption {
-  value: string;
-  label: string;
-}
-export interface InputSelectGroup {
-  label: string;
-  options: InputSelectOption[];
-}
-
-export type InputSelectItem = (InputSelectGroup | InputSelectOption | '-');
 
 export interface InputSelectProps {
   className?: string;
-  options: InputSelectItem[];
+  options: InputSelectItem<SelectValue>[];
   hasError?: boolean;
   placeholder?: string;
-  onChange?: (value: string) => void;
+  onChange?: (value: SelectValue) => void;
+  value?: SelectValue;
 }
 
 type SelectRef = ElementRef<typeof Root>;
-type SelectProps = ComponentPropsWithoutRef<typeof Root> & InputSelectProps;
+type SelectProps = Omit<ComponentPropsWithoutRef<typeof Root>, 'value'> & InputSelectProps;
 export const InputSelect = forwardRef<SelectRef, SelectProps>(({
   options,
   placeholder,
   onChange,
+  hasError,
   disabled = false,
+  value,
   ...props
-}, ref): JSX.Element => (
-  <Root onValueChange={onChange} disabled={disabled} {...props}>
-    <Trigger className={clsx('InputSelectTrigger', { 'InputSelectTrigger--disabled': disabled })}>
-      <Value ref={ref} placeholder={placeholder} />
-      <Icon className="SelectIcon">
-        <ChevronDown />
-      </Icon>
-    </Trigger>
-    <Portal>
-      <Content className="SelectContent">
-        <ScrollUpButton className="SelectScrollButton">
-          <ChevronUpIcon />
-        </ScrollUpButton>
-        <Viewport className="SelectViewport">
-          {options.map((item, i) => {
-            if (typeof item === 'string' && item === '-') {
-              return (
-                <Separator key={`${i}_separator`} className="SelectSeparator" />
-              );
-            } else if ('options' in item) {
-              return (
-                <Group key={item.label} className="SelectGroup">
-                  <Label className="SelectGroupLabel">{item.label}</Label>
-                  {item.options.map((subItem) => (
-                    <SelectItem key={subItem.value} value={subItem.value}>
-                      {subItem.label}
-                    </SelectItem>
-                  ))}
-                </Group>
-              );
-            } else {
-              return (
-                <SelectItem key={item.value} value={item.value}>{item.label}</SelectItem>
-              );
-            }
-          })}
-        </Viewport>
-        <ScrollDownButton className="SelectScrollButton">
-          <ChevronDownIcon />
-        </ScrollDownButton>
-      </Content>
-    </Portal>
-  </Root>
-));
+}, ref): JSX.Element => {
+  const [stringValue, stringOptions, handleValueChange] = useStringSelect(value, options, onChange);
+  return (
+    <Root onValueChange={handleValueChange} disabled={disabled} value={stringValue} {...props}>
+      <Trigger className={clsx('InputSelectTrigger', { 'InputSelectTrigger--hasError': hasError, 'InputSelectTrigger--disabled': disabled })}>
+        <Value ref={ref} placeholder={placeholder} />
+        <Icon className="SelectIcon">
+          <ChevronDown />
+        </Icon>
+      </Trigger>
+      <Portal>
+        <Content className="SelectContent">
+          <ScrollUpButton className="SelectScrollButton">
+            <ChevronUpIcon />
+          </ScrollUpButton>
+          <Viewport className="SelectViewport">
+            {stringOptions.map((item, i) => {
+              if (typeof item === 'string' && item === '-') {
+                return (
+                  <Separator key={`${i}_separator`} className="SelectSeparator" />
+                );
+              } else if ('options' in item) {
+                return (
+                  <Group key={item.label} className="SelectGroup">
+                    <Label className="SelectGroupLabel">{item.label}</Label>
+                    {item.options.map((subItem) => (
+                      <SelectItem key={subItem.value} value={subItem.value}>
+                        {subItem.label}
+                      </SelectItem>
+                    ))}
+                  </Group>
+                );
+              } else {
+                return (
+                  <SelectItem key={item.value} value={item.value}>{item.label}</SelectItem>
+                );
+              }
+            })}
+          </Viewport>
+          <ScrollDownButton className="SelectScrollButton">
+            <ChevronDownIcon />
+          </ScrollDownButton>
+        </Content>
+      </Portal>
+    </Root>
+  );
+});
 InputSelect.displayName = 'InputSelect';
 
 type SelectItemRef = ElementRef<typeof Item>;

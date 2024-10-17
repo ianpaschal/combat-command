@@ -50,7 +50,7 @@ export const Avatar = ({
       `Badge${convertToPascalCase(config.position)}`,
     );
 
-    console.log(className);
+    // console.log(className);
     const style = config.size ? {
       // width: config.size,
       // height: config.size,

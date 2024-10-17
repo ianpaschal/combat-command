@@ -38,6 +38,7 @@
 
   &_Turns {
     @include flex.column($xAlign: center);
+    @include text.ui($muted: true);
 
     grid-column: 2 / 3;
     grid-row: 3 / 4;

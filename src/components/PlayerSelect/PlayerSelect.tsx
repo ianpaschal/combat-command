@@ -1,11 +1,7 @@
-import { useEffect, useState } from 'react';
-import { Close, DialogClose } from '@radix-ui/react-dialog';
+import { useState } from 'react';
+import { DialogClose } from '@radix-ui/react-dialog';
 import clsx from 'clsx';
-import {
-  Scroll,
-  Search,
-  UserSearch,
-} from 'lucide-react';
+import { Search, UserSearch } from 'lucide-react';
 
 import { Avatar } from '~/components/generic/Avatar';
 import { Button } from '~/components/generic/Button';
@@ -22,23 +18,27 @@ interface PlayerOption {
   id: string;
   given_name: string;
   family_name: string;
+  username: string;
   avatar_url: string;
 }
 
 export interface PlayerSelectProps {
   className?: string;
-  onSelect: (id: string | null) => void;
+  value?: string;
+  hasError?: boolean;
+  onChange: (id: string | null) => void;
 }
 
 export const PlayerSelect = ({
-  onSelect,
+  value,
+  onChange,
+  hasError,
   className,
 }: PlayerSelectProps): JSX.Element => {
-  const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const [filterText, setFilterText] = useState<string>('');
 
-  const players = [
+  const players: PlayerOption[] = [
     {
       'id': '143f4b07-98b6-4525-9c5f-f03f2a750854',
       'given_name': 'John',
@@ -181,24 +181,20 @@ export const PlayerSelect = ({
     },
   ];
 
-  // Notify parent component
-  useEffect(() => {
-    onSelect(selectedId);
-  }, [onSelect, selectedId]);
-
   const playerOptions = players.filter((player) => (
     player.given_name.includes(filterText) ||
     player.family_name.includes(filterText) ||
-    player.username.includes(filterText)
+    player.username.includes(filterText) ||
+    player.id === value
   ));
 
   return (
     <Dialog
       title="Select Player"
       trigger={
-        <div className={clsx(styles.Trigger, className)}>
-          {selectedId ? (
-            <UserPortrait name={getUserDisplayName(players.find((player) => player.id === selectedId) as User)}>
+        <div className={clsx(styles.Trigger, { [styles['Trigger-hasError']]: hasError }, className)}>
+          {value ? (
+            <UserPortrait name={getUserDisplayName(players.find((player) => player.id === value) as User)}>
               <Avatar />
             </UserPortrait>
           ) : (
@@ -220,21 +216,19 @@ export const PlayerSelect = ({
           onChange={(e) => setFilterText(e.target.value)}
         />
       </div>
-      <ScrollArea indicatorBorder="top">
+      <ScrollArea indicatorBorder="top" className={styles.ScrollArea}>
         <div className={styles.PlayerList}>
           {playerOptions.map((player) => (
             <DialogClose key={player.id} asChild>
               <Button
                 className={styles.PlayerListItem}
                 onClick={() => {
-                  setSelectedId(player.id);
+                  onChange(player.id === value ? null : player.id);
                 }}
-                variant="ghost"
+                variant={player.id === value ? 'solid' : 'ghost'}
                 size={null}
               >
-                <UserPortrait name={getUserDisplayName(player as User)} orientation="horizontal">
-                  <Avatar />
-                </UserPortrait>
+                <Avatar />{getUserDisplayName(player as User)}
               </Button>
             </DialogClose>
           ))}

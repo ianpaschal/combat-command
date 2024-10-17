@@ -1,2 +1,3 @@
-export type { InputSelectOption, InputSelectProps } from './InputSelect';
+export type { InputSelectProps } from './InputSelect';
 export { InputSelect } from './InputSelect';
+export type { InputSelectItem, InputSelectOption } from './InputSelect.types';

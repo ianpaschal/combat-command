@@ -1,6 +1,7 @@
 import {
   ComponentPropsWithoutRef,
   ReactNode,
+  useEffect,
   useState,
 } from 'react';
 import {
@@ -21,7 +22,7 @@ import { Button, ButtonProps } from '~/components/generic/Button';
 import styles from './Dialog.module.scss';
 
 export interface DialogProps extends ComponentPropsWithoutRef<typeof Root> {
-  children: ReactNode;
+  children?: ReactNode;
   trigger?: ReactNode;
   maxWidth?: number;
   maxHeight?: number;
@@ -30,7 +31,7 @@ export interface DialogProps extends ComponentPropsWithoutRef<typeof Root> {
   // Standard elements
   title?: string;
   description?: string;
-  actions?: ({ label: string; } & ButtonProps)[];
+  actions?: ({ label: string; cancel?: boolean; } & ButtonProps)[];
 
   // Custom elements
   header?: ReactNode;
@@ -48,11 +49,32 @@ export const Dialog = ({
   header,
   title,
   trigger,
+  open: controlledOpen = false,
+  onOpenChange,
   ...props
 }: DialogProps): JSX.Element => {
-  const [open, setOpen] = useState<boolean>(false);
+  /**
+   * This nonsense is needed because Framer Motion requires the dialog to be controlled. So we have
+   * an internal state for when the dialog is not externally controlled, but which is kept in sync
+   * when it is.
+   * 
+   * Would like to get rid of it. Might dump Framer Motion because it hasn't worked everywhere I
+   * hoped. However for Dialogs it's needed to create a "pop" animation using translate scale. With
+   * pure CSS, the need to use the translate property for centering the dialog conflicts with
+   * animating the translate property.
+   */
+  const [open, setOpen] = useState<boolean>(controlledOpen);
+  const handleOpen = (isOpen: boolean): void => {
+    setOpen(isOpen);
+    if (onOpenChange) {
+      onOpenChange(isOpen);
+    }
+  };
+  useEffect(() => {
+    setOpen(controlledOpen);
+  }, [controlledOpen]);
   return (
-    <Root open={open} onOpenChange={setOpen} {...props}>
+    <Root open={open} onOpenChange={handleOpen} {...props}>
       {trigger && (
         <Trigger asChild>
           {trigger}
@@ -97,11 +119,22 @@ export const Dialog = ({
                   {footer}
                   {actions?.length && (
                     <div className={styles.Footer}>
-                      {actions.map(({ label, ...itemProps }, i) => (
-                        <Button key={i} {...itemProps}>
-                          {label}
-                        </Button>
-                      ))}
+                      {actions.map(({ label, cancel, ...itemProps }, i) => {
+                        if (cancel) {
+                          return (
+                            <Close key={i} asChild>
+                              <Button {...itemProps}>
+                                {label}
+                              </Button>
+                            </Close>
+                          );
+                        }
+                        return (
+                          <Button key={i} {...itemProps}>
+                            {label}
+                          </Button>
+                        );
+                      })}
                     </div>
                   )}
                   <Close className={styles.Close}>

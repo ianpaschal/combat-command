@@ -3,11 +3,14 @@ import {
   isValidElement,
   ReactElement,
 } from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
+import {
+  Controller,
+  get,
+  useFormContext,
+} from 'react-hook-form';
 import clsx from 'clsx';
 
 import { Label } from '~/components/generic/Label';
-import { bem } from '~/utils/componentLib/bem';
 import { getComponentName } from '~/utils/componentLib/getComponentName';
 
 import styles from './FormField.module.scss';
@@ -21,8 +24,6 @@ export interface FormFieldProps {
   name?: string;
 }
 
-const cn = bem('FormField');
-
 export const FormField = ({
   children,
   className,
@@ -33,9 +34,9 @@ export const FormField = ({
   ...props
 }: FormFieldProps): JSX.Element => {
   const { control, formState: { errors } } = useFormContext();
-  const hasError = !!name && !!errors[name];
+  const error = get(errors, name);
+  const showErrorState = !!error;
   const nonTextual = isValidElement(children) && ['Switch', 'Checkbox'].includes(getComponentName(children));
-
   return (
     <div
       className={clsx(styles.Root, {
@@ -43,25 +44,25 @@ export const FormField = ({
         [styles['Root-horizontal']]: nonTextual,
       }, className)}
     >
-      <Label className={clsx(styles.Label)} htmlFor={name}>{label}</Label>
+      <Label className={styles.Label} htmlFor={name}>{label}</Label>
       {(name && control) ? (
         <>
           <Controller
             control={control}
             render={({ field }) => (
-              cloneElement(children, { ...field, ...props, className: clsx(styles.Input), hasError, disabled })
+              cloneElement(children, { ...field, ...props, className: styles.Input, hasError: showErrorState, disabled })
             )}
             name={name}
           />
-          {hasError && (
-            <div className={clsx(cn('Errors'))}>{errors[name]?.message as string}</div>
+          {showErrorState && (
+            <div className={styles.Errors}>{error?.message as string}</div>
           )}
         </>
       ) : (
         cloneElement(children, { ...props, className: clsx(styles.Input), disabled })
       )}
       {description && (
-        <div className={clsx(styles.Description)}>{description}</div>
+        <div className={styles.Description}>{description}</div>
       )}
     </div>
   );

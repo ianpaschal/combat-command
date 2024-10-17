@@ -6,25 +6,51 @@ import {
 
 import { Avatar } from '~/components/generic/Avatar';
 import { Card } from '~/components/generic/Card';
-import { Tag } from '~/components/generic/Tag';
 import { UserPortrait } from '~/components/UserPortrait';
+import { fowV4MatchOutcomeTypeLabels } from '~/types/fowV4/fowV4MatchOutcomeTypeSchema';
+import { Match } from '~/types/Match';
 import { createCn } from '~/utils/componentLib/createCn';
 import { FlagCircle } from '../generic/FlagCircle';
 
 import './MatchResultCard.scss';
 
 const cn = createCn('MatchResultCard');
-export const MatchResultCard = (): JSX.Element => {
-  const matchResult = {};
+
+export interface MatchResultCardProps {
+  matchId?: string;
+  matchData?: Match;
+}
+export const MatchResultCard = ({
+  matchId,
+  matchData,
+}: MatchResultCardProps): JSX.Element => {
+  let data;
+  if (matchId) {
+    // Fetch the match
+    data = {} as Match;
+  } else if (matchData) {
+    data = matchData;
+  }
+  if (!data) {
+    return (
+      <Card disablePadding className={cn()}>
+        Not found...
+      </Card>
+    );
+  }
   return (
     <Card disablePadding className={cn()}>
       <div className={cn('_MainSection')}>
         <div className={cn('_Player0Profile')}>
-          <UserPortrait name="Foo" orientation="vertical">
+          <UserPortrait name={data.players[0].user_id} orientation="vertical">
             <Avatar
               badges={[
                 {
-                  element: <div className={cn('_StanceBadge')}><Sword /></div>,
+                  element: (
+                    <div className={cn('_StanceBadge')}>
+                      {data.outcome.attacker === 0 ? <Sword /> : <Shield />}
+                    </div>
+                  ),
                   position: 'top-right',
                 },
                 {
@@ -36,12 +62,16 @@ export const MatchResultCard = (): JSX.Element => {
           </UserPortrait>
         </div>
         <div className={cn('_Player1Profile')}>
-          <UserPortrait name="Bar" orientation="vertical">
+          <UserPortrait name={data.players[1].user_id} orientation="vertical">
             <Avatar
-              className={cn('_Player0Avatar')}
+              className={cn('_Player1Avatar')}
               badges={[
                 {
-                  element: <div className={cn('_StanceBadge')}><Shield /></div>,
+                  element: (
+                    <div className={cn('_StanceBadge')}>
+                      {data.outcome.attacker === 1 ? <Sword /> : <Shield />}
+                    </div>
+                  ),
                   position: 'top-left',
                 },
                 {
@@ -58,12 +88,12 @@ export const MatchResultCard = (): JSX.Element => {
           <span className={cn('_ScorePlayer1')}>3</span>
         </div>
         <div className={cn('_Turns')}>
-          <Tag>6 Turns</Tag>
+          {`${data.outcome.turns_played} Turns`}
         </div>
       </div>
       <div className={cn('_BottomSection')}>
-        <div className={cn('_MissionSection')}><Map /> Bypass</div>
-        <div className={cn('_OutcomeSection')}>Objective Captured</div>
+        <div className={cn('_MissionSection')}><Map /> {data.outcome.mission_id}</div>
+        <div className={cn('_OutcomeSection')}>{fowV4MatchOutcomeTypeLabels[data.outcome.outcome_type]}</div>
       </div>
     </Card>
   );
