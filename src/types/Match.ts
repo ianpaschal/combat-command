@@ -23,7 +23,7 @@ export const matchSchema = z.object({
   })).min(2),
 
   // Tournament Info
-  tournament_pairing_id: z.union([z.string().uuid(), z.literal('NONE')]),
+  tournament_pairing_id: z.union([z.string().uuid(), z.null()]),
 });
 
 export type Match = z.infer<typeof matchSchema> ;

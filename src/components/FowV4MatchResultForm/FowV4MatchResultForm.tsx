@@ -54,7 +54,7 @@ export const FowV4MatchResultForm = ({
   const form = useForm<Match>({
     resolver: zodResolver(matchSchema),
     defaultValues: {
-      tournament_pairing_id: 'NONE',
+      tournament_pairing_id: null,
 
       // Auto-filled & disabled if tournament pairing ID is not undefined
       game_system_id: 'flames_of_war_v4', // Hidden
@@ -149,7 +149,7 @@ export const FowV4MatchResultForm = ({
     }
   }, [setValue, selectedMission, attacker]);
 
-  const showGameConfigSection = tournament_pairing_id === 'NONE';
+  const showGameConfigSection = !tournament_pairing_id;
   const showAttacker = (!!player_0_stance && !!player_1_stance && player_0_stance === player_1_stance) || selectedMission?.attacker === 'roll';
   const showFirstTurn = selectedMission?.firstTurn === 'roll';
   const showWinnerField = !!outcome_type && outcome_type !== 'time_out';
