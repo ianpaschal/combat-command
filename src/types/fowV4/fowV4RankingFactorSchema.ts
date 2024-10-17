@@ -1,7 +1,5 @@
 import { z, ZodLiteral } from 'zod';
 
-import { InputSelectItem } from '~/components/generic/InputSelect/InputSelect';
-
 export const fowV4RankingFactorSchema = z.union([
   z.literal('total_wins'),
   z.literal('total_points'),
@@ -26,7 +24,7 @@ export const fowV4RankingFactorLabels: Record<FowV4RankingFactor, string> = {
   avg_opponent_platoons_lost: 'Avg. Opponent Platoons Lost',
 };
 
-export const fowV4RankingFactorOptions: InputSelectItem[] = fowV4RankingFactorSchema.options.filter(
+export const fowV4RankingFactorOptions = fowV4RankingFactorSchema.options.filter(
   (option) => option instanceof ZodLiteral,
 ).map(
   ({ value }) => ({ value, label: fowV4RankingFactorLabels[value] }),

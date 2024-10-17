@@ -19,13 +19,11 @@ export const matchSchema = z.object({
     list_id: z.optional(z.string().uuid()), // Foreign key
     notes: z.optional(z.string()),
     notes_private: z.optional(z.boolean()),
+    confirmed: z.boolean(),
   })).min(2),
 
   // Tournament Info
-  tournament_pairing_id: z.optional(z.string().uuid()),
-  // match_type: z.optional() // casual / thematic/historical / competitive
-
-  // TODO: Photo uploads
+  tournament_pairing_id: z.union([z.string().uuid(), z.literal('NONE')]),
 });
 
 export type Match = z.infer<typeof matchSchema> ;

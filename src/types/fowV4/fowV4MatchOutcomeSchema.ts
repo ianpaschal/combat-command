@@ -4,17 +4,24 @@ import { fowV4MatchOutcomeTypeSchema } from '~/types/fowV4/fowV4MatchOutcomeType
 import { fowV4stanceSchema } from '~/types/fowV4/fowV4StanceSchema';
 
 export const fowV4MatchOutcomeSchema = z.object({
-  attacker: z.coerce.number().min(0).max(1),
-  mission_id: z.string(),
+  attacker: z.coerce.number({ message: 'Please select an attacker' }).min(0).max(1),
+  firstTurn: z.coerce.number({ message: 'Please select who had first turn' }).min(0).max(1),
+  mission_id: z.string({ message: 'Please select a mission' }),
   outcome_type: fowV4MatchOutcomeTypeSchema,
-  player_0_score: z.coerce.number().min(0).max(8),
   player_0_stance: fowV4stanceSchema,
   player_0_units_lost: z.coerce.number().min(0),
-  player_1_score: z.coerce.number().min(0).max(8),
   player_1_stance: fowV4stanceSchema,
   player_1_units_lost: z.coerce.number().min(0),
   turns_played: z.coerce.number().min(1),
   winner: z.optional(z.coerce.number().min(0).max(1)), // TODO: Maybe make null 
+}).superRefine((values, ctx) => {
+  if (values.outcome_type !== 'time_out' && values.winner === undefined) {
+    ctx.addIssue({
+      message: 'Please select a winner',
+      code: z.ZodIssueCode.custom,
+      path: ['winner'],
+    });
+  }
 });
 
 export type FowV4MatchOutcome = z.infer<typeof fowV4MatchOutcomeSchema>;

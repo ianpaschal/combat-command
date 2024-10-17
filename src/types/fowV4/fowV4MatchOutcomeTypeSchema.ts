@@ -5,7 +5,7 @@ export const fowV4MatchOutcomeTypeSchema = z.union([
   z.literal('objective_defended'),
   z.literal('time_out'),
   z.literal('force_broken'),
-]);
+], { message: 'Please select an outcome type' });
 
 export type FowV4MatchOutcomeType = z.infer<typeof fowV4MatchOutcomeTypeSchema>;
 
@@ -16,7 +16,7 @@ export const fowV4MatchOutcomeTypeLabels: Record<FowV4MatchOutcomeType, string> 
   force_broken: 'Force Broken',
 };
 
-export const fowV4EraOptions = fowV4MatchOutcomeTypeSchema.options.filter(
+export const fowV4OutcomeTypeOptions = fowV4MatchOutcomeTypeSchema.options.filter(
   (option) => option instanceof ZodLiteral,
 ).map(
   ({ value }) => ({ value, label: fowV4MatchOutcomeTypeLabels[value] }),
