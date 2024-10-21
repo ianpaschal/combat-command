@@ -1,0 +1,70 @@
+@use "/src/style/variables";
+@use "/src/style/flex";
+@use "/src/style/variants";
+@use "/src/style/corners";
+@use "/src/style/sizes";
+
+.Input {
+  @include variants.outlined($hover: false);
+  @include sizes.normal;
+  @include corners.normal;
+  @include flex.row;
+
+  & {
+    width: 100%;
+    padding: 0 1rem;
+  }
+
+  &-slotBefore {
+    padding-left: 2.25rem;
+  }
+
+  &-slotAfter {
+    padding-right: 2.25rem;
+  }
+}
+
+.InputSlotBefore,
+.InputSlotAfter {
+  pointer-events: none;
+
+  position: absolute;
+  top: 0.75rem;
+
+  width: 1rem;
+  height: 1rem;
+
+  color: inherit;
+
+  @include flex.centered;
+}
+
+.InputSlotBefore {
+  left: 0.75rem;
+}
+
+.InputSlotAfter {
+  right: 0.75rem;
+}
+
+.InputWrapper {
+  position: relative;
+
+  @include flex.stretchy;
+
+  width: 100%;
+
+  &-hasError {
+    color: variables.$red;
+
+    input {
+      border-color: variables.$red;
+    }
+  }
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: variables.$text-muted;
+  opacity: 1;
+}
