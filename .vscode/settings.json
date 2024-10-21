@@ -8,6 +8,7 @@
     "Korps",
     "LFTF",
     "supabase",
+    "tanstack",
     "waffen"
   ],
   "editor.codeActionsOnSave": {
