@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 /**
@@ -10,15 +11,24 @@ export const useRoutedTabs = (tabNames: string[]): [string, (tab: string) => voi
   const navigate = useNavigate();
 
   const splitPath = pathname.split('/').slice(1);
-  const basePath = splitPath.slice(0, splitPath.length - 1).join('/');
-
-  const pathTab = tabNames.find((tabName) => (
-    tabName === splitPath.at(-1)
-  )) || tabNames[0];
-
+  let basePath;
+  if (splitPath.length > 1) {
+    basePath = `/${splitPath.slice(0, splitPath.length - 1).join('/')}`;
+  } else {
+    basePath = `/${splitPath[0]}`;
+  }
+  
   const setPathTab = (value: string) => {
-    navigate(`/${basePath}/${value}`);
+    navigate(`${basePath}/${value}`);
   };
+
+  const pathTab = tabNames.find((tabName) => tabName === splitPath.at(-1)) || tabNames[0];
+
+  useEffect(() => {
+    if (pathname !== `${basePath}/${pathTab}`) {
+      navigate(`${basePath}/${pathTab}`);
+    }
+  }, [pathname, basePath, pathTab, navigate]);
 
   return [
     pathTab,

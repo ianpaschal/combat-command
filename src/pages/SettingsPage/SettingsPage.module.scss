@@ -1,0 +1,20 @@
+@use "/src/style/flex";
+
+.Root {
+  @include flex.column;
+}
+
+.Navigation {
+  flex-shrink: 0;
+  width: 10rem;
+}
+
+.Content {
+  @include flex.stretchy;
+}
+
+@media (width >= 480px) {
+  .Root {
+    @include flex.row($yAlign: top);
+  }
+}

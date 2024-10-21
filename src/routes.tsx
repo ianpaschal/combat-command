@@ -1,22 +1,35 @@
-import { createBrowserRouter } from 'react-router-dom';
-
-import { App } from '~/components/App';
 import {
-  NavLink,
-  RouteConfig,
-  Visibility,
-} from '~/components/generic/NavLinks';
+  createBrowserRouter,
+  Navigate,
+  RouteObject,
+} from 'react-router-dom';
+
+import { AccountForm } from '~/components/AccountForm';
+import { App } from '~/components/App';
+import { NavLink, Visibility } from '~/components/generic/NavLinks';
+import { UserProfileForm } from '~/components/UserProfileForm';
 import { AccessPage } from '~/pages/AccessPage';
 import { ComponentTestPage } from '~/pages/ComponentTestPage';
 import { CreateTournamentPage } from '~/pages/CreateTournamentPage';
 import { DashboardPage } from '~/pages/DashboardPage';
 import { LandingPage } from '~/pages/LandingPage';
 import { MatchResultsPage } from '~/pages/MatchResultsPage';
+import { SettingsPage } from '~/pages/SettingsPage';
 import { StatisticsPage } from '~/pages/StatisticsPage';
 import { TournamentDetailPage } from '~/pages/TournamentDetailPage';
 import { TournamentsPage } from '~/pages/TournamentsPage';
+import { UserProfilePage } from '~/pages/UserProfilePage';
 
-export const routes: RouteConfig[] = [
+export interface RouteDisplay {
+  visibility?: Visibility[];
+  title?: string;
+}
+
+export type ExtendedRouteObject = RouteDisplay & RouteObject & {
+  children?: ExtendedRouteObject[];
+};
+
+export const routes: ExtendedRouteObject[] = [
   {
     path: '/dashboard',
     title: 'Dashboard',
@@ -54,6 +67,39 @@ export const routes: RouteConfig[] = [
     element: <StatisticsPage />,
   },
   {
+    path: '/profiles/:id',
+    title: 'Uhhhhh', // FIXME: How to handle dynamic title?
+    visibility: [],
+    element: <UserProfilePage />,
+  },
+  {
+    path: '/settings',
+    title: 'Settings',
+    visibility: ['accountMenu'],
+    element: <SettingsPage />,
+    children: [
+      {
+        index: true, // This will match "/settings"
+        element: <Navigate to="profile" replace />, // Redirect to "/settings/profile"
+      },
+      {
+        path: '/settings/profile',
+        title: 'Profile',
+        element: <UserProfileForm />,
+      },
+      {
+        path: '/settings/account',
+        title: 'Account',
+        element: <AccountForm />,
+      },
+      // {
+      //   path: '/settings/appearance',
+      //   title: 'Appearance',
+      //   element: <AppearanceForm />,
+      // },
+    ],
+  },
+  {
     path: '/auth',
     title: 'Sign In or Sign Up',
     visibility: [],
@@ -79,133 +125,37 @@ export const routes: RouteConfig[] = [
   },
 ];
 
-export const getNavLinks = (visibility: Visibility): NavLink[] => (
-  routes.filter((route) => (
-    route.visibility.includes(visibility)
-  )).map(({ path, title }) => ({
-    path, title,
-  }))
+export const getNavLinksByVisibility = (visibility: Visibility): NavLink[] => (
+  // Reduce functions as filter-and-map-in-1
+  routes.reduce((acc, route) => {
+    if (route.visibility?.includes(visibility) && !!route.title && !!route.path) {
+      acc.push({ path: route.path, title: route.title });
+    }
+    return acc;
+  }, [] as NavLink[])
 );
+
+export const getNavLinksByPath = (path: string): NavLink[] => {
+  const route = routes.find((route) => (
+    route.path === path
+  ));
+  if (!route || !route.children?.length) {
+    return [];
+  }
+  // Reduce functions as filter-and-map-in-1
+  return route.children.reduce((acc, route) => {
+    if ('title' in route && typeof route.title === 'string' && !!route.path) {
+      acc.push({ path: route.path, title: route.title });
+    }
+    return acc;
+  }, [] as NavLink[]);
+};
 
 export const router = createBrowserRouter([{
   path: '/',
   element: <App />,
   children: [
     { path: '', element: <LandingPage /> },
-    ...routes.map(({ path, element }) => ({ path, element })),
+    ...routes,
   ],
 }]);
-
-// export const routes: RouteConfig[] = [
-//   {
-//     icon: <HomeIcon />,
-//     title: 'Dashboard',
-//     path: '/dashboard',
-//     element: <DashboardPage />,
-//   },
-//   {
-//     icon: <Swords />,
-//     title: 'Tournaments',
-//     path: '/tournaments',
-//     element: <TournamentsPage />,
-//   },
-//   {
-//     path: '/tournaments/create',
-//     title: 'Create Tournaments',
-//     element: <CreateTournamentPage />,
-//     hidden: true,
-//   },
-//   {
-//     path: '/users/:id',
-//     title: 'Profile',
-//     element: <UserProfilePage />,
-//     hidden: true,
-//     subRoutes: [
-//       {
-//         path: '/users/:id/tournaments',
-//         title: 'Tournaments',
-//         element: <UserProfilePage />,
-//         hidden: true,
-//       },
-//     ],
-//   },
-//   {
-//     icon: <Settings />,
-//     title: 'Settings',
-//     path: '/settings',
-//     element: <SettingsPage />,
-//     // subRoutes: [
-//     //   {
-//     //     icon: <UserIcon />,
-//     //     title: 'Profile',
-//     //     path: '/profile',
-//     //     element: <ProfileSettingsPage />,
-//     //   },
-//     //   {
-//     //     title: 'Account',
-//     //     path: '/account',
-//     //     element: <AccountSettingsPage />,
-//     //   },
-//     // ],
-//   },
-//   {
-//     icon: <ChartColumnBig />,
-//     title: 'Statistics',
-//     path: '/statistics',
-//     element: <StatisticsPage />,
-//   },
-//   {
-//     icon: <LogIn />,
-//     title: 'Sign In',
-//     path: '/sign-in',
-//     element: <AccessPage />,
-//     hidden: true,
-//   },
-//   {
-//     icon: <LogIn />,
-//     title: 'Sign Up',
-//     path: '/sign-up',
-//     element: <AccessPage />,
-//     hidden: true,
-//   },
-//   {
-//     icon: <Wrench />,
-//     title: 'Test',
-//     path: '/test',
-//     element: <ComponentTestPage />,
-//   },
-// ];
-
-// const routesNew = [
-//   { path: '/dashboard', element: <DashboardPage /> },
-
-//   { path: '/users/:id', element: <UserProfilePage /> },
-//   { path: '/users/:id/matches', element: <UserTournamentsPage /> }, // <- Maybe just a tab?
-//   { path: '/users/:id/tournaments', element: <UserTournamentsPage /> }, // <- Maybe just a tab?
-//   { path: '/users/:id/lists', element: <UserListsPage /> }, // <- Maybe just a tab?
-
-//   { path: '/settings', element: <SettingsPage /> },
-//   { path: '/settings/profile', element: <ProfileSettingsPage /> }, // <- Maybe just a tab?
-//   { path: '/settings/account', element: <AccountSettingsPage /> }, // <- Maybe just a tab?
-//   { path: '/sign-up', element: <SignUpPage /> },
-//   { path: '/forgot-password', element: <ForgotPasswordPage /> },
-// ];
-
-//       <Route element={<AccountPage />} path="/account" />
-//       <Route element={<SettingsPage />} path="/settings" />
-
-//       <Route element={<ListsPage />} path="/lists" /> 
-// {/lists/create 
-// {//lists/import  }
-// {//lists/{id}  }
-
-// {/<Route element={<TournamentsPage />} path="/tournaments" />
-//       <Route element={<CreateTournamentPage />} path="/tournaments/create" />
-//       <Route element={<TournamentDetailPage />} path="/tournaments/:id" /> }
-
-// {/* /{userId}/profile }
-// {/* /{userId}/lists  }
-// {/* /{userId}/tournaments  }
-
-//       <Route element={<SignUpPage />} path="/sign-up" /> }
-

@@ -75,7 +75,7 @@ export const SignUpForm = (): JSX.Element => {
   };
 
   return (
-    <Form form={form} onSubmit={onSubmit} className="SignUpForm">
+    <Form id="sign-up-form" form={form} onSubmit={onSubmit} className="SignUpForm">
       <FormField name="email" label="Email">
         <InputText type="text" /* Not email, to avoid browser validation */ />
       </FormField>

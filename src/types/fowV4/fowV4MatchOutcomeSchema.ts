@@ -9,9 +9,9 @@ export const fowV4MatchOutcomeSchema = z.object({
   mission_id: z.string({ message: 'Please select a mission' }),
   outcome_type: fowV4MatchOutcomeTypeSchema,
   player_0_stance: fowV4stanceSchema,
-  player_0_units_lost: z.coerce.number().min(0),
+  player_0_units_lost: z.number().min(0),
   player_1_stance: fowV4stanceSchema,
-  player_1_units_lost: z.coerce.number().min(0),
+  player_1_units_lost: z.number().min(0),
   turns_played: z.coerce.number().min(1),
   winner: z.optional(z.coerce.number().min(0).max(1)), // TODO: Maybe make null 
 }).superRefine((values, ctx) => {

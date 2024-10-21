@@ -1,0 +1,30 @@
+@use "/src/style/flex";
+
+.Form {
+  @include flex.column;
+}
+
+.SubmitButton {
+  align-self: end;
+  margin-top: 1rem;
+}
+
+.NameSection {
+  @include flex.row($yAlign: top);
+}
+
+.GivenNameField {
+  grid-area: given_name;
+}
+
+.FamilyNameField {
+  grid-area: family_name;
+}
+
+.NameVisibilityField {
+  grid-area: visibility;
+}
+
+.LocaleSection {
+  @include flex.row($yAlign: top);
+}

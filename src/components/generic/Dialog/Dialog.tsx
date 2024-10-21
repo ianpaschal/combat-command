@@ -27,11 +27,13 @@ export interface DialogProps extends ComponentPropsWithoutRef<typeof Root> {
   maxWidth?: number;
   maxHeight?: number;
   height?: number;
+  preventCancel?: boolean;
+  onCancel?: () => void;
 
   // Standard elements
   title?: string;
   description?: string;
-  actions?: ({ label: string; cancel?: boolean; } & ButtonProps)[];
+  actions?: ({ label: string; cancel?: boolean; closeOnClick?: boolean } & ButtonProps)[];
 
   // Custom elements
   header?: ReactNode;
@@ -46,6 +48,8 @@ export const Dialog = ({
   height,
   description,
   footer,
+  onCancel,
+  preventCancel = false,
   header,
   title,
   trigger,
@@ -83,8 +87,8 @@ export const Dialog = ({
       <AnimatePresence>
         {open && (
           <Portal forceMount>
-            <Overlay className={styles.Overlay} />
-            <div className={styles.Positioner}>
+            <Overlay className={styles.Overlay} onClick={onCancel} />
+            <div className={styles.Positioner} tabIndex={-1}>
               <Content
                 className={styles.Content}
                 style={{
@@ -92,6 +96,8 @@ export const Dialog = ({
                   maxHeight: height && maxHeight ? Math.max(height, maxHeight) : maxHeight,
                   height: height && maxHeight ? Math.max(height, maxHeight) : height,
                 }}
+                aria-describedby={undefined}
+                tabIndex={-1}
                 asChild
               >
                 <motion.div
@@ -119,27 +125,30 @@ export const Dialog = ({
                   {footer}
                   {actions?.length && (
                     <div className={styles.Footer}>
-                      {actions.map(({ label, cancel, ...itemProps }, i) => {
-                        if (cancel) {
-                          return (
-                            <Close key={i} asChild>
-                              <Button {...itemProps}>
-                                {label}
-                              </Button>
-                            </Close>
-                          );
-                        }
-                        return (
-                          <Button key={i} {...itemProps}>
+                      {actions?.length && actions.map(({ label, cancel, onClick, closeOnClick, ...itemProps }, i) => {
+                        const button = (
+                          <Button key={i} {...itemProps} onClick={(e) => {
+                            if (cancel && onCancel) {
+                              onCancel();
+                            }
+                            if (onClick) {
+                              onClick(e);
+                            }
+                          }}>
                             {label}
                           </Button>
                         );
+                        return (cancel || closeOnClick) ? (
+                          <Close key={i} asChild>{button}</Close>
+                        ) : button;
                       })}
                     </div>
                   )}
-                  <Close className={styles.Close}>
-                    <X />
-                  </Close>
+                  {!preventCancel && (
+                    <Close className={styles.Close} onClick={onCancel}>
+                      <X />
+                    </Close>
+                  )}
                 </motion.div>
               </Content>
             </div>

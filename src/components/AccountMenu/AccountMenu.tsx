@@ -2,26 +2,27 @@ import * as Popover from '@radix-ui/react-popover';
 import { LogOut } from 'lucide-react';
 
 import { Avatar } from '~/components/generic/Avatar';
-import { NavLinks, RouteConfig } from '~/components/generic/NavLinks';
+import { NavLinks } from '~/components/generic/NavLinks';
+import { getNavLinksByVisibility } from '~/routes';
 import { createCn } from '~/utils/componentLib/createCn';
-// import { routes } from '~/routes';
 import { Button } from '../generic/Button';
 
 import './AccountMenu.scss';
 
-const accountMenuLinks: RouteConfig[] = [];
-
 const cn = createCn('AccountMenu');
 
-export const AccountMenu = (): JSX.Element => (
-  <Popover.Root >
-    <Popover.Trigger className={cn('_Trigger')}>
-      <Avatar displayName="Ian" />
-    </Popover.Trigger>
-    <Popover.Content className={cn('_Content')} align="end">
-      <NavLinks orientation="vertical" routes={accountMenuLinks} />
-      <Button variant="ghost"><LogOut />Sign Out</Button>
-    </Popover.Content>
-  </Popover.Root>
-);
+export const AccountMenu = (): JSX.Element => {
+  const accountMenuLinks = getNavLinksByVisibility('accountMenu');
+  return (
+    <Popover.Root >
+      <Popover.Trigger className={cn('_Trigger')}>
+        <Avatar displayName="Ian" />
+      </Popover.Trigger>
+      <Popover.Content className={cn('_Content')} align="end">
+        <NavLinks orientation="vertical" routes={accountMenuLinks} wrapper={(link) => <Popover.Close asChild>{link}</Popover.Close>} />
+        <Button variant="ghost"><LogOut />Sign Out</Button>
+      </Popover.Content>
+    </Popover.Root>
+  );
+};
 AccountMenu.displayName = cn();

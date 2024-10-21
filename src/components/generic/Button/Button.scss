@@ -56,12 +56,16 @@
     @include variants.solid;
   }
 
-  &-solidDanger {
+  &-solid-muted {
+    @include variants.solid-muted;
+  }
+
+  &-solid-danger {
     @include variants.solid-danger;
   }
 
-  &-solid-muted {
-    @include variants.solid-muted;
+  &-solid-danger-muted {
+    @include variants.solid-danger-muted;
   }
 
   &-outlined {

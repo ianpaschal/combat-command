@@ -3,7 +3,7 @@ import { useWindowSize } from '@react-hook/window-size/throttled';
 
 import { AppBar } from '~/components/AppBar';
 import { useAuth } from '~/components/AuthProvider';
-import { getNavLinks } from '~/routes';
+import { getNavLinksByVisibility } from '~/routes';
 import {
   MAX_WIDTH,
   MIN_HEIGHT,
@@ -14,7 +14,7 @@ import './App.scss';
 
 export const App = (): JSX.Element => {
   const user = useAuth();
-  const links = getNavLinks('main');
+  const links = getNavLinksByVisibility('main');
   const [width, height] = useWindowSize();
   if (width < MIN_WIDTH || height < MIN_HEIGHT) {
     return (

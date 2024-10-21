@@ -12,11 +12,25 @@ export const UnsavedChangesDialog = ({
   <Dialog
     open={blocker.state === 'blocked'}
     title="You have unsaved changes"
+    description="Are you sure you want to navigate away? Unsaved changes will be lost."
+    maxWidth={360}
+    onCancel={() => {
+      console.log('cancel');
+      if (blocker.reset) {
+        blocker.reset();
+      }
+    }}
     actions={[
-      { label: 'Cancel', onClick: blocker.reset, muted: true },
-      { label: 'Continue', onClick: blocker.proceed, intent: 'danger' },
+      // {
+      // label: 'Cancel', onClick: () => {
+      //   console.log('cancel');
+      //   if (blocker.reset) {
+      //     blocker.reset();
+      //   }
+      // },
+      //   muted: true,
+      // },
+      { label: 'Continue', onClick: blocker.proceed, variant: 'solid', intent: 'danger' },
     ]}
-  >
-    Are you sure you want to navigate away? Unsaved changes will be lost.
-  </Dialog>
+  />
 );

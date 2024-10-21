@@ -13,9 +13,9 @@ import { getRolesByStances, missions } from '~/components/FowV4MatchResultForm/m
 import { FowV4TournamentGameConfigForm } from '~/components/FowV4TournamentGameConfigForm';
 import { Animate } from '~/components/generic/Animate';
 import { Avatar } from '~/components/generic/Avatar';
-import { Button } from '~/components/generic/Button';
 import { Dialog } from '~/components/generic/Dialog';
 import { Form, FormField } from '~/components/generic/Form';
+import { InputNumber } from '~/components/generic/InputNumber';
 import { InputSelect, InputSelectItem } from '~/components/generic/InputSelect';
 import { SelectValue } from '~/components/generic/InputSelect/InputSelect.types';
 import { InputText } from '~/components/generic/InputText';
@@ -32,6 +32,7 @@ import { Match, matchSchema } from '~/types/Match';
 import './FowV4MatchResultForm.scss';
 
 export interface FowV4MatchResultFormProps {
+  id: string;
   className?: string;
   tournamentId?: string;
   matchResultId?: string;
@@ -39,6 +40,7 @@ export interface FowV4MatchResultFormProps {
 }
 
 export const FowV4MatchResultForm = ({
+  id,
   className,
   tournamentId,
   onSuccess,
@@ -93,8 +95,9 @@ export const FowV4MatchResultForm = ({
     mode: 'onBlur',
   });
 
-  const onSubmit: SubmitHandler<Match> = (data): void => {
-    console.log(data, typeof data.outcome.attacker);
+  console.log('form value', form.watch().game_system_config.points);
+
+  const onSubmit: SubmitHandler<Match> = (): void => {
     setConfirmDialogOpen(true);
   };
 
@@ -155,7 +158,7 @@ export const FowV4MatchResultForm = ({
   const showWinnerField = !!outcome_type && outcome_type !== 'time_out';
 
   return (
-    <Form form={form} onSubmit={onSubmit} className={clsx('FowV4MatchResultForm', className)}>
+    <Form id={id} form={form} onSubmit={onSubmit} className={clsx('FowV4MatchResultForm', className)}>
       <div className="GameMetaSection">
         <FormField name="tournament_pairing_id" label="Result for" disabled={!!tournamentId}>
           <InputSelect options={pairingOptions} />
@@ -177,7 +180,7 @@ export const FowV4MatchResultForm = ({
             <InputSelect options={fowV4StanceOptions} />
           </FormField>
           <FormField name="outcome.player_0_units_lost" label="Units Lost">
-            <InputText type="number" min={0} />
+            <InputNumber min={0} />
           </FormField>
         </div>
         <Separator orientation="vertical" />
@@ -193,7 +196,7 @@ export const FowV4MatchResultForm = ({
             <InputSelect options={fowV4StanceOptions} />
           </FormField>
           <FormField name="outcome.player_1_units_lost" label="Units Lost">
-            <InputText type="number" min={0} />
+            <InputNumber min={0} />
           </FormField>
         </div>
       </div>
@@ -226,9 +229,6 @@ export const FowV4MatchResultForm = ({
           </FormField>
         </Animate>
       </div>
-      <Button disabled={loading} type="submit" className="SubmitButton">
-        Check In Match
-      </Button>
       <Dialog
         title="Are all details correct?"
         description="After you submit the match you will still be able to add notes and photos, but the game configuration and outcome can no longer be changed!"
@@ -236,7 +236,7 @@ export const FowV4MatchResultForm = ({
         onOpenChange={setConfirmDialogOpen}
         maxWidth={400}
         actions={[
-          { label: 'Cancel', muted: true, cancel: true },
+          { label: 'Cancel', muted: true, onClick: () => setConfirmDialogOpen(false) },
           { label: 'Submit Match', onClick: handleSubmit(onConfirmSubmit) },
         ]}
       >

@@ -10,7 +10,7 @@ export const fowV4GameSystemConfigSchema = z.object({
 
   // Game properties
   era: fowV4EraSchema,
-  points: z.number().min(0),
+  points: z.number({ message: 'Please enter a number.' }).min(5, { message: 'Matches must be played with at least 5 points.' }),
 
   // List properties
   // TODO: (maybe move to a list restrictions config?)

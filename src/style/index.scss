@@ -4,17 +4,20 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-
-  // font-family: system-ui, sans-serif;
   font-family: Figtree, sans-serif;
-  text-rendering: optimizelegibility;
+
+  /* stylelint-disable-next-line @stylistic/max-line-length */
+  // font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+
+  // text-rendering: optimizelegibility;
 
   // &:focus {
   //   outline-width: 2px;
   //   outline-offset: -2px;
   // }
   input:focus,
-  button:focus {
+  button:focus,
+  [role="option"]:focus {
     outline-width: 2px;
     outline-offset: -2px;
   }
@@ -36,6 +39,7 @@ body {
 }
 
 h1 {
+  // font-family: Figtree, sans-serif;
   font-size: 1.25rem;
 
   // letter-spacing: -0.025em;
@@ -44,6 +48,7 @@ h1 {
 }
 
 h2 {
+  // font-family: Figtree, sans-serif;
   font-size: 1rem;
 
   // letter-spacing: -0.025em;
@@ -52,16 +57,24 @@ h2 {
 }
 
 h3 {
+  // font-family: Figtree, sans-serif;
+
   // letter-spacing: -0.025em;
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 1rem;
 }
 
-p {
+p,
+li {
   font-size: 0.875rem;
+  font-weight: 300;
   line-height: 1.25rem;
   color: variables.$text-muted;
+}
+
+li {
+  margin-left: 2rem;
 }
 
 a {

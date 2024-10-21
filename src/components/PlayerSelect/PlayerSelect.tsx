@@ -9,7 +9,7 @@ import { Dialog } from '~/components/generic/Dialog';
 import { InputText } from '~/components/generic/InputText';
 import { ScrollArea } from '~/components/generic/ScrollArea';
 import { UserPortrait } from '~/components/UserPortrait';
-import { User } from '~/types/User';
+import { User } from '~/types/UserProfile';
 import { getUserDisplayName } from '~/utils/getUserDisplayName';
 
 import styles from './PlayerSelect.module.scss';

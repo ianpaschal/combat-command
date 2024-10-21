@@ -12,11 +12,15 @@ export const mod = ({
   if (variant === 'ghost' && (intent || muted)) {
     console.warn('Elements with the style "ghost" cannot have an intent or be muted.');
   }
-  if (intent && variant !== 'ghost') {
-    return `-${variant}-${intent}`;
+
+  let classSuffix = `-${variant}`;
+  if (variant !== 'ghost') {
+    if (intent) {
+      classSuffix += `-${intent}`;
+    }
+    if (muted) {
+      classSuffix += '-muted';
+    }
   }
-  if (muted && variant !== 'ghost') {
-    return `-${variant}-muted`;
-  }
-  return `-${variant}`;
+  return classSuffix;
 };

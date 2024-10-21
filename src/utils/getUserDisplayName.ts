@@ -1,11 +1,11 @@
-import { User } from '~/types/User';
+import { UserProfile, UserProfileRecord } from '~/types/UserProfile';
 
-export const getUserDisplayName = (userProfile: User | null): string => {
-  if (userProfile === null) {
+export const getUserDisplayName = (userProfile: UserProfile | UserProfileRecord): string => {
+  if (!userProfile) {
     return 'Unknown User';
   }
 
-  if (userProfile.name_visibility === 'public' ) {
+  if (userProfile.given_name && userProfile.family_name) {
     return `${userProfile.given_name} ${userProfile.family_name}`;
   }
 

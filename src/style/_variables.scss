@@ -49,7 +49,14 @@ $solid-muted-text: $text-base;
 // Solid (Danger)
 $solid-danger-bg: $red;
 $solid-danger-bg-hover: color.adjust($solid-danger-bg, $lightness: 10%);
+$solid-danger-bg-disabled: color.adjust($solid-bg, $lightness: 10%);
 $solid-danger-text: $solid-text;
+
+// Solid (Danger, Muted)
+$solid-danger-muted-bg: color.adjust($solid-danger-bg, $lightness: 35%);
+$solid-danger-muted-bg-hover: color.adjust($solid-danger-muted-bg, $lightness: 2.5%);
+$solid-danger-muted-bg-disabled: color.adjust($solid-bg, $lightness: 10%);
+$solid-danger-muted-text: $red;
 
 // Outlined
 $outlined-bg: $white;

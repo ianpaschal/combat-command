@@ -27,6 +27,20 @@
   }
 }
 
+@mixin solid-muted($hover: true) {
+  @include variant-defaults;
+
+  color: variables.$solid-muted-text;
+  background-color: variables.$solid-muted-bg;
+  border: none;
+
+  @if $hover {
+    &:hover {
+      background-color: variables.$solid-muted-bg-hover;
+    }
+  }
+}
+
 @mixin solid-danger($hover: true) {
   @include variant-defaults;
 
@@ -41,16 +55,16 @@
   }
 }
 
-@mixin solid-muted($hover: true) {
+@mixin solid-danger-muted($hover: true) {
   @include variant-defaults;
 
-  color: variables.$solid-muted-text;
-  background-color: variables.$solid-muted-bg;
+  color: variables.$solid-danger-muted-text;
+  background-color: variables.$solid-danger-muted-bg;
   border: none;
 
   @if $hover {
     &:hover {
-      background-color: variables.$solid-muted-bg-hover;
+      background-color: variables.$solid-danger-muted-bg-hover;
     }
   }
 }

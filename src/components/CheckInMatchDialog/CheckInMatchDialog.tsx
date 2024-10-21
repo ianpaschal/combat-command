@@ -23,9 +23,14 @@ export const CheckInMatchDialog = ({
       trigger={children}
       title="Check In Match Result"
       maxWidth={480}
+      actions={[
+        { label: 'Cancel', muted: true, onClick: () => setOpen(false), cancel: true },
+        { label: 'Check In Match', type: 'submit', form: 'fow-v4-match-result-form' },
+      ]}
     >
       <ScrollArea type="scroll" indicatorBorder="top">
         <FowV4MatchResultForm
+          id="fow-v4-match-result-form"
           className={styles.Form}
           tournamentId={tournamentId}
           onSuccess={() => setOpen(false)}

@@ -22,7 +22,6 @@ export const FlagCircle = ({
       />
     );
   }
-  console.log('size', size);
   return (
     <div
       className={clsx('FlagCircle', 'fis', `fi-${code}`, className)}

@@ -1,5 +1,44 @@
-export const UserProfilePage = (): JSX.Element => (
-  <>
-    A user profile
-  </>
-);
+import { useNavigate, useParams } from 'react-router-dom';
+import { Pencil } from 'lucide-react';
+
+import { Avatar } from '~/components/generic/Avatar';
+import { Button } from '~/components/generic/Button';
+import { Card } from '~/components/generic/Card';
+import { PageWrapper } from '~/components/PageWrapper';
+import { UserProfileRecord } from '~/types/UserProfile';
+import { getUserDisplayName } from '~/utils/getUserDisplayName';
+
+export const UserProfilePage = (): JSX.Element => {
+  const navigate = useNavigate();
+  const id = useParams().id!;
+  const userProfile: UserProfileRecord = {
+    id,
+    created_at: new Date().toISOString(),
+    username: 'Foober',
+    game_system_ids: [],
+    country_code: 'NL',
+    language_code: 'en_US',
+  };
+  const displayName = getUserDisplayName(userProfile);
+  return (
+    <PageWrapper>
+      <Card>
+        <Avatar />
+        {displayName}
+
+        Game Systems
+        matches played
+        tournaments
+
+        Badges
+
+        Clubs
+
+        Ranking
+        <Button onClick={() => navigate(`/profiles/${userProfile.id}/edit`)}>
+          <Pencil /> Edit
+        </Button>
+      </Card>
+    </PageWrapper>
+  );
+};
