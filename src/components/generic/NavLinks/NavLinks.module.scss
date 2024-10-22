@@ -65,29 +65,27 @@
   }
 }
 
-.NavLinks {
-  &_Root {
-    &-vertical {
-      @include flex.column($gap: 0.25rem);
+.Root {
+  &-vertical {
+    @include flex.column($gap: 0.25rem);
 
-      .NavLinks_Indicator {
-        top: 0.5rem;
-        bottom: 0.5rem;
-        left: 0;
-        width: 4px;
-      }
+    .Indicator {
+      top: 0.5rem;
+      bottom: 0.5rem;
+      left: 0;
+      width: 4px;
     }
+  }
 
-    &-horizontal {
-      @include flex.row($gap: 0.25rem);
-      @include flex.stretchy;
+  &-horizontal {
+    @include flex.row($gap: 0.25rem);
+    @include flex.stretchy;
 
-      .NavLinks_Indicator {
-        right: 1rem;
-        bottom: 0;
-        left: 1rem;
-        height: 4px;
-      }
+    .Indicator {
+      right: 1rem;
+      bottom: 0;
+      left: 1rem;
+      height: 4px;
     }
   }
 }

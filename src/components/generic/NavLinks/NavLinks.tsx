@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 
 import { ElementOrientation, ElementSize } from '~/types/componentLib';
-import { bem } from '~/utils/componentLib/bem';
 
 import styles from './NavLinks.module.scss';
 
@@ -30,8 +29,6 @@ export interface NavLinksProps {
   wrapper?: (i: number, link: ReactNode) => ReactNode;
 }
 
-const cn = bem('NavLinks');
-
 export const NavLinks = ({
   orientation = 'horizontal',
   size = 'normal',
@@ -40,7 +37,7 @@ export const NavLinks = ({
 }: NavLinksProps): JSX.Element => {
   const { pathname } = useLocation();
   return (
-    <nav className={clsx(cn('Root', { [orientation]: true }))}>
+    <nav className={styles[`Root-${orientation}`]}>
       {routes.map((route, i) => {
         const current = route.path === pathname;
         const classNames = clsx(
