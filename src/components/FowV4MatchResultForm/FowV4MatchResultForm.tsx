@@ -46,7 +46,7 @@ export const FowV4MatchResultForm = ({
   onSuccess,
 }: FowV4MatchResultFormProps): JSX.Element => {
   const user = useAuth();
-  const [loading] = useState<boolean>(false);
+  // const [loading] = useState<boolean>(false);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
 
   // TODO:
@@ -234,7 +234,7 @@ export const FowV4MatchResultForm = ({
         description="After you submit the match you will still be able to add notes and photos, but the game configuration and outcome can no longer be changed!"
         open={confirmDialogOpen}
         onOpenChange={setConfirmDialogOpen}
-        maxWidth={400}
+        width="small"
         actions={[
           { label: 'Cancel', muted: true, onClick: () => setConfirmDialogOpen(false) },
           { label: 'Submit Match', onClick: handleSubmit(onConfirmSubmit) },

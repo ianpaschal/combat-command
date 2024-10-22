@@ -1,7 +1,6 @@
 import { useLocation } from 'react-router-dom';
 
-import { RouteConfig } from '~/components/generic/NavLinks';
-import { routes } from '~/routes';
+import { ExtendedRouteObject, routes } from '~/routes';
 
 export const useRouteTitle = (): string | undefined => {
   const { pathname } = useLocation();
@@ -9,6 +8,6 @@ export const useRouteTitle = (): string | undefined => {
     ...acc,
     route,
     ...(route.children?.length ? route.children : []),
-  ], [] as RouteConfig[]);
+  ], [] as ExtendedRouteObject[]);
   return routeList.find((route) => route.path === pathname)?.title;
 };

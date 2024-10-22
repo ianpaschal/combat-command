@@ -19,6 +19,7 @@ import { Button } from '~/components/generic/Button';
 import { Card } from '~/components/generic/Card';
 import { Form, FormField } from '~/components/generic/Form';
 import { InputDate } from '~/components/generic/InputDate';
+import { InputLocation } from '~/components/generic/InputLocation';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { InputText } from '~/components/generic/InputText';
 import { InputTextArea } from '~/components/generic/InputTextArea';
@@ -26,6 +27,7 @@ import { Separator } from '~/components/generic/Separator';
 import { Stack } from '~/components/generic/Stack';
 import { Switch } from '~/components/generic/Switch';
 import { UnsavedChangesDialog } from '~/components/UnsavedChangesDialog';
+import { useLocationSearch } from '~/hooks/services/useLocationSearch';
 import { FowV4GameSystemConfig } from '~/types/fowV4/fowV4GameSystemConfigSchema';
 import { Tournament, tournamentResolver } from '~/types/Tournament';
 import { createCn } from '~/utils/componentLib/createCn';
@@ -54,7 +56,7 @@ const defaultValues: Partial<Tournament> = {
   rules_pack_url: '',
   starts_at: '',
   title: '',
-  game_system_id: 'd7399fd6-cbba-4996-9dc3-942a1de5c401',
+  game_system_id: 'flames_of_war_v4',
   game_system_config: defaultFowV4GameConfigValues,
 };
 
@@ -117,6 +119,9 @@ export const TournamentForm = ({
   const competitorLabel = useTeams ? 'Teams' : 'Players';
   const totalPlayers = competitor_count * competitor_size;
 
+  const { data: location } = useLocationSearch('bastogne');
+  console.log(location);
+
   return (
     <Form form={form} onSubmit={onSubmit} className={cn()}>
       <UnsavedChangesDialog blocker={blocker} />
@@ -134,6 +139,7 @@ export const TournamentForm = ({
           <FormField name="location" label="Location">
             <InputText type="text" />
           </FormField>
+          <InputLocation />
           <Stack className={cn('_DateTimeSection')} orientation="horizontal">
             <div className={cn('_DateTimeStart')}>
               <FormField name="start_date" label="Start Date">
@@ -160,7 +166,7 @@ export const TournamentForm = ({
             <InputSelect options={[{ value: 'd7399fd6-cbba-4996-9dc3-942a1de5c401', label: 'Flames of War V4' }]} />
           </FormField>
           <Separator />
-          <FowV4TournamentGameConfigForm form={form} />
+          <FowV4TournamentGameConfigForm />
         </div>
       </Card>
       <Card

@@ -1,35 +1,51 @@
-create type tournament_status as enum (
+CREATE TYPE tournament_status AS enum (
   'draft',
   'published',
   'active',
   'archived'
 );
 
+CREATE TYPE pairing_method AS ENUM (
+  'random',
+  'round_robin',
+  'elimination',
+  'swiss'
+);
 
-create table tournaments (
-  id uuid default gen_random_uuid() primary key,
-  created_at timestamp with time zone,
-  updated_at timestamp with time zone,
+CREATE TABLE tournaments (
+  id uuid default gen_random_uuid() PRIMARY KEY,
+  created_at TIMESTAMP WITH TIME ZONE,
+  updated_at TIMESTAMP WITH TIME ZONE,
 
-  -- Functional data
-  game_system_id uuid not null references public.game_systems,
-  organizer_id uuid not null references public.users,
-  visibility tournament_visibility default 'draft',
-  registration_open boolean default false,
-  match_results_open boolean default false,
-  team_size_limit smallint default 1,
-  active_round_index smallint,
-  round_count smallint default 3,
-  type tournament_type default 'solo',
+  -- Metadata
+  title TEXT unique,
+  description TEXT,
+  location TEXT NOT NULL,
+  starts_at TIMESTAMP WITH TIME ZONE NOT NULL,
+  ends_at TIMESTAMP WITH TIME ZONE NOT NULL,
+  banner_url TEXT,
+  rules_pack_url TEXT,
 
-  -- Display data
-  title text unique,
-  description text,
-  start_date timestamp with time zone not null,
-  end_date timestamp with time zone not null,
-  location text not null,
+  -- Format
+  competitor_count INTEGER NOT NULL,
+  competitor_groups JSONB NOT NULL,
+  competitor_size INTEGER NOT NULL,
+  use_national_teams BOOLEAN NOT NULL,
+  round_count INTEGER NOT NULL,
+  pairing_method TEXT NOT NULL,
 
-  constraint title_length check (char_length(title) >= 5)
+  -- Game Config
+  game_system_id UUID NOT NULL REFERENCES game_systems(id) ON DELETE CASCADE,
+  game_system_config_id UUID NOT NULL REFERENCES game_system_configs(id) ON DELETE CASCADE,
+  ranking_factors TEXT[] NOT NULL,
+
+  -- Management
+  creator_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+  current_round INTEGER,  -- Optional field
+  status tournament_status NOT NULL,  -- Enum for tournament status
+  registrations_open BOOLEAN NOT NULL,
+  registrations_close_at TIMESTAMPTZ NOT NULL,
+  require_real_names BOOLEAN NOT NULL,
 );
 
 -- Set up RLS
@@ -40,13 +56,4 @@ create policy "Tournaments can be created by authenticated users." on tournament
 create policy "Tournaments can be updated by their organizer." on tournaments for select to authenticated using ((select auth.uid()) = organizer_id);
 create policy "Tournaments can be deleted by their organizer." on tournaments for delete to authenticated using ((select auth.uid()) = organizer_id);
 
--- Set up CLS for read-only columns
-revoke update (created_at, updated_at) on table tournaments from authenticated, anon;
-
--- Set up auto-updating "updated_at" timestamps
-drop trigger if exists tournaments_update_dates on tournaments;
-create trigger tournaments_update_dates before update on tournaments for each row execute procedure update_dates ();
-
--- Set up auto-updating "created_at" timestamps
-drop trigger if exists tournaments_insert_dates on tournaments;
-create trigger tournaments_insert_dates before insert on tournaments for each row execute procedure insert_dates ();
+SELECT apply_basic_table_setup('tournaments');

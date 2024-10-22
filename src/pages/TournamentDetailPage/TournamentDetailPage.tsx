@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import { useWindowWidth } from '@react-hook/window-size/throttled';
 import {
   ArrowRight,
-  ArrowRightToLine,
   Cog,
   Plus,
   UserRoundPlus,
@@ -15,9 +14,6 @@ import { FloatingActionButton } from '~/components/FloatingActionButton';
 import { FowV4RankingsTable } from '~/components/FowV4RankingsTable/FowV4RankingsTable';
 import { Button } from '~/components/generic/Button';
 import { Card } from '~/components/generic/Card';
-import { InputSelect } from '~/components/generic/InputSelect';
-import { Label } from '~/components/generic/Label';
-import { ScrollArea } from '~/components/generic/ScrollArea';
 import {
   Tabs,
   TabsContent,
@@ -54,17 +50,15 @@ export const TournamentDetailPage = (): JSX.Element => {
     competitor_size: 3,
     current_round: 2,
     description: 'Our yearly Flames of war tournament this time hosted at the Bastogne War Museum 95 points MW ',
-    end_date: '2024-11-10',
-    end_time: '17:00',
-    game_system_id: 'aec41143-341b-4da3-aef6-7cca7beb44a4',
+    ends_at: '2024-11-10T17:00:00Z',
+    starts_at: '2024-11-09T08:30:00Z',
+    game_system_id: 'flames_of_war_v4',
     location: 'Bastogne, BE',
-    logo_url: '',
+    banner_url: '',
     organizer_ids: [user?.id || ''],
     registrations_open: true,
     round_count: 5,
     rules_pack_url: 'https://drive.google.com/file/d/1rtX-xqkbHxgHEe-Ggd1msqclb5HdWJ8C',
-    start_date: '2024-11-09',
-    start_time: '8:00',
     title: 'FOW Belgian Nationals 2024',
     use_national_teams: false,
     registrations_close_at: 'foo',
@@ -73,10 +67,10 @@ export const TournamentDetailPage = (): JSX.Element => {
       era: 'lw',
       lessons_from_the_front_version: '2024-03',
       mission_pack_version: '2024-06',
-      allowed_books: [],
     },
     ranking_factors: [],
     pairing_method: 'swiss',
+    require_real_names: true,
   };
 
   const [tab, setTab] = useState<string>('rankings');

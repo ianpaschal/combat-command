@@ -9,7 +9,8 @@ import { Dialog } from '~/components/generic/Dialog';
 import { InputText } from '~/components/generic/InputText';
 import { ScrollArea } from '~/components/generic/ScrollArea';
 import { UserPortrait } from '~/components/UserPortrait';
-import { User } from '~/types/UserProfile';
+import { useFetchUserProfileList } from '~/hooks/services/userProfile/useFetchUserProfileList';
+import { UserProfileRecord } from '~/types/UserProfile';
 import { getUserDisplayName } from '~/utils/getUserDisplayName';
 
 import styles from './PlayerSelect.module.scss';
@@ -37,6 +38,10 @@ export const PlayerSelect = ({
 }: PlayerSelectProps): JSX.Element => {
 
   const [filterText, setFilterText] = useState<string>('');
+
+  const { data } = useFetchUserProfileList();
+
+  console.log(data);
 
   const players: PlayerOption[] = [
     {
@@ -194,7 +199,7 @@ export const PlayerSelect = ({
       trigger={
         <div className={clsx(styles.Trigger, { [styles['Trigger-hasError']]: hasError }, className)}>
           {value ? (
-            <UserPortrait name={getUserDisplayName(players.find((player) => player.id === value) as User)}>
+            <UserPortrait name={getUserDisplayName(players.find((player) => player.id === value) as UserProfileRecord)}>
               <Avatar />
             </UserPortrait>
           ) : (
@@ -206,7 +211,7 @@ export const PlayerSelect = ({
           )}
         </div>
       }
-      maxWidth={360}
+      width="small"
       height={600}
     >
       <div className={styles.Toolbar}>
@@ -228,7 +233,7 @@ export const PlayerSelect = ({
                 variant={player.id === value ? 'solid' : 'ghost'}
                 size={null}
               >
-                <Avatar />{getUserDisplayName(player as User)}
+                <Avatar />{getUserDisplayName(player as UserProfileRecord)}
               </Button>
             </DialogClose>
           ))}

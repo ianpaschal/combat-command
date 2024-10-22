@@ -28,13 +28,24 @@
   @include flex.stretchy;
 
   pointer-events: none;
-
   position: relative;
-
-  max-width: min(100%, 720px);
   max-height: 100%;
-
   background-color: variables.$card-bg;
+
+  &-small {
+    width: 30rem; // 480px
+    max-width: min(100%, 30rem);
+  }
+
+  &-normal {
+    width: 40rem; // 640px
+    max-width: min(100%, 40rem);
+  }
+
+  &-large {
+    width: 60rem; // 960px
+    max-width: min(100%, 60rem);
+  }
 }
 
 .Header {

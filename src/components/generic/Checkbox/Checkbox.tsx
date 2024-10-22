@@ -29,7 +29,6 @@ export const Checkbox = forwardRef<CheckboxRef, CheckboxProps>(({
   variant = 'solid',
   value,
   onChange,
-  hasError,
   ...props
 }, ref) => (
   <Root

@@ -13,8 +13,8 @@ import '@fontsource/figtree/500.css';
 import '@fontsource/figtree/700.css';
 import '~/style/index.scss';
 
-const locale = await import('i18n-iso-countries/langs/en.json'); // For English
-registerLocale(locale);
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+registerLocale(require('i18n-iso-countries/langs/en.json'));
 
 const queryClient = new QueryClient();
 

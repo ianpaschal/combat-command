@@ -1,6 +1,7 @@
 create type user_data_visibility as enum (
   'hidden',
   'friends',
+  'clubs',
   'tournaments',
   'public'
 );
@@ -15,11 +16,8 @@ create table user_profiles (
   avatar_url text,
 
   given_name text,
-  given_name_visibility user_data_visibility,
   family_name text,
-  family_visibility user_data_visibility,
-
-  constraint username_length check (char_length(username) >= 3)
+  name_visibility user_data_visibility,
 );
 
 -- Set up RLS

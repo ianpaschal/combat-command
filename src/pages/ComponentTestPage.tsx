@@ -12,7 +12,8 @@ import { Checkbox } from '~/components/generic/Checkbox';
 import { FlagCircle } from '~/components/generic/FlagCircle';
 import { Form, FormField } from '~/components/generic/Form';
 import { InputDate } from '~/components/generic/InputDate';
-import { InputSelect, InputSelectItem } from '~/components/generic/InputSelect/InputSelect';
+import { InputSelectItem } from '~/components/generic/InputSelect';
+import { InputSelect } from '~/components/generic/InputSelect';
 import { InputText } from '~/components/generic/InputText';
 import { Stack } from '~/components/generic/Stack';
 import { Switch } from '~/components/generic/Switch';
@@ -46,7 +47,7 @@ export const ComponentTestPage = (): JSX.Element => {
     console.log(data);
   };
 
-  const options: InputSelectItem[] = [
+  const options: InputSelectItem<string>[] = [
     {
       label: 'Test 1',
       options: [

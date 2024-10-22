@@ -9,41 +9,44 @@ import {
 import { InputSelect } from '~/components/generic/InputSelect';
 import { Label } from '~/components/generic/Label';
 import { PairingCell } from '~/components/PairingCell';
+import { TournamentCompetitor } from '~/types/TournamentCompetitor';
 import { TournamentPairing } from '~/types/TournamentPairing';
 
-const dummyPairings: TournamentPairing[] = [
+type JoinedTournamentPairing = Omit<TournamentPairing, 'competitor_ids'> & { competitors: TournamentCompetitor[] };
+
+const dummyPairings: JoinedTournamentPairing[] = [
   {
-    tournament_id: 'foo', round_index: 0, table_index: 0, competitors: [
+    tournament_id: 'foo', round: 0, table: 0, competitors: [
       { tournament_id: 'foo', user_ids: ['foo', 'bar', 'baz'], list_ids: ['foo', 'bar', 'baz'], country_code: 'nl' },
       { tournament_id: 'foo', user_ids: ['foo', 'bar', 'baz'], list_ids: ['foo', 'bar', 'baz'], country_code: 'be' },
     ],
   },
   {
-    tournament_id: 'foo', round_index: 0, table_index: 0, competitors: [
+    tournament_id: 'foo', round: 0, table: 0, competitors: [
       { tournament_id: 'foo', user_ids: ['foo', 'bar', 'baz'], list_ids: ['foo', 'bar', 'baz'], country_code: 'nl' },
       { tournament_id: 'foo', user_ids: ['foo', 'bar', 'baz'], list_ids: ['foo', 'bar', 'baz'], country_code: 'be' },
     ],
   },
   {
-    tournament_id: 'foo', round_index: 0, table_index: 0, competitors: [
+    tournament_id: 'foo', round: 0, table: 0, competitors: [
       { tournament_id: 'foo', user_ids: ['foo', 'bar', 'baz'], list_ids: ['foo', 'bar', 'baz'], country_code: 'nl' },
       { tournament_id: 'foo', user_ids: ['foo', 'bar', 'baz'], list_ids: ['foo', 'bar', 'baz'], country_code: 'be' },
     ],
   },
   {
-    tournament_id: 'foo', round_index: 0, table_index: 0, competitors: [
+    tournament_id: 'foo', round: 0, table: 0, competitors: [
       { tournament_id: 'foo', user_ids: ['foo', 'bar', 'baz'], list_ids: ['foo', 'bar', 'baz'], country_code: 'nl' },
       { tournament_id: 'foo', user_ids: ['foo', 'bar', 'baz'], list_ids: ['foo', 'bar', 'baz'], country_code: 'be' },
     ],
   },
   {
-    tournament_id: 'foo', round_index: 0, table_index: 0, competitors: [
+    tournament_id: 'foo', round: 0, table: 0, competitors: [
       { tournament_id: 'foo', user_ids: ['foo', 'bar', 'baz'], list_ids: ['foo', 'bar', 'baz'], country_code: 'nl' },
       { tournament_id: 'foo', user_ids: ['foo', 'bar', 'baz'], list_ids: ['foo', 'bar', 'baz'], country_code: 'be' },
     ],
   },
   {
-    tournament_id: 'foo', round_index: 0, table_index: 0, competitors: [
+    tournament_id: 'foo', round: 0, table: 0, competitors: [
       { tournament_id: 'foo', user_ids: ['foo', 'bar', 'baz'], list_ids: ['foo', 'bar', 'baz'], country_code: 'nl' },
       { tournament_id: 'foo', user_ids: ['foo', 'bar', 'baz'], list_ids: ['foo', 'bar', 'baz'], country_code: 'be' },
     ],
@@ -51,10 +54,10 @@ const dummyPairings: TournamentPairing[] = [
 ];
 
 export const TournamentPairingsSection = (): JSX.Element => {
-  const columnDefs: ColumnDef<TournamentPairing>[] = [
+  const columnDefs: ColumnDef<JoinedTournamentPairing>[] = [
     {
       header: 'Table',
-      render: (data) => <DefaultCell value={data.table_index + 1} />,
+      render: (data) => <DefaultCell value={data.table + 1} />,
       width: '2.25rem',
     },
     {

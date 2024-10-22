@@ -33,7 +33,7 @@ export const useUpdateUserProfile = () => {
     //   return { previousProfile };
     // },
     onSuccess: (_data, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['userProfile', variables.id] });
+      queryClient.invalidateQueries({ queryKey: ['user_profile', variables.id] });
     },
     onError: (error) => {
       console.error('Error updating profile:', error);

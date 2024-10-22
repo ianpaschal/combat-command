@@ -7,7 +7,6 @@ import { z } from 'zod';
 import { Button } from '~/components/generic/Button';
 import { Form, FormField } from '~/components/generic/Form';
 import { InputText } from '~/components/generic/InputText';
-import { useLinkedFormFields } from '~/hooks/useLinkedFormFields';
 import { supabase } from '~/supabaseClient';
 
 import './SignUpForm.scss';
@@ -46,10 +45,8 @@ export const SignUpForm = (): JSX.Element => {
       givenName: '',
       surname: '',
     },
-    mode: 'onBlur',
+    mode: 'onSubmit',
   });
-
-  useLinkedFormFields(form, ['password', 'passwordRepeat']);
 
   const onSubmit: SubmitHandler<FormInput> = async (data: FormInput): Promise<void> => {
     const { email, password, ...restData } = data;

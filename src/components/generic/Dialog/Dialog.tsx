@@ -14,6 +14,7 @@ import {
   Title,
   Trigger,
 } from '@radix-ui/react-dialog';
+import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import { X } from 'lucide-react';
 
@@ -24,7 +25,7 @@ import styles from './Dialog.module.scss';
 export interface DialogProps extends ComponentPropsWithoutRef<typeof Root> {
   children?: ReactNode;
   trigger?: ReactNode;
-  maxWidth?: number;
+  width?: 'small' | 'normal' | 'large';
   maxHeight?: number;
   height?: number;
   preventCancel?: boolean;
@@ -43,7 +44,7 @@ export interface DialogProps extends ComponentPropsWithoutRef<typeof Root> {
 export const Dialog = ({
   actions,
   children,
-  maxWidth,
+  width = 'normal',
   maxHeight,
   height,
   description,
@@ -90,9 +91,8 @@ export const Dialog = ({
             <Overlay className={styles.Overlay} onClick={onCancel} />
             <div className={styles.Positioner} tabIndex={-1}>
               <Content
-                className={styles.Content}
+                className={clsx(styles.Content, { [styles[`Content-${width}`]]: true })}
                 style={{
-                  maxWidth,
                   maxHeight: height && maxHeight ? Math.max(height, maxHeight) : maxHeight,
                   height: height && maxHeight ? Math.max(height, maxHeight) : height,
                 }}

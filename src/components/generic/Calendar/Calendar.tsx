@@ -48,8 +48,8 @@ export const Calendar = ({
       ...classNames,
     }}
     components={{
-      IconLeft: ({ ..._props }) => <ChevronLeft />,
-      IconRight: ({ ..._props }) => <ChevronRight />,
+      IconLeft: () => <ChevronLeft />,
+      IconRight: () => <ChevronRight />,
     }}
     {...props}
   />

@@ -19,7 +19,7 @@ export const AccountMenu = (): JSX.Element => {
         <Avatar displayName="Ian" />
       </Popover.Trigger>
       <Popover.Content className={cn('_Content')} align="end">
-        <NavLinks orientation="vertical" routes={accountMenuLinks} wrapper={(link) => <Popover.Close asChild>{link}</Popover.Close>} />
+        <NavLinks orientation="vertical" routes={accountMenuLinks} wrapper={(i, link) => <Popover.Close key={i} asChild>{link}</Popover.Close>} />
         <Button variant="ghost"><LogOut />Sign Out</Button>
       </Popover.Content>
     </Popover.Root>

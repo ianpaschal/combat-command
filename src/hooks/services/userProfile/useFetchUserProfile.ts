@@ -16,7 +16,7 @@ const fetchUserProfile = async (userId: string): Promise<UserProfileRecord> => {
 };
 
 export const useFetchUserProfile = (userId?: string) => useQuery({
-  queryKey: ['userProfile', userId],
+  queryKey: ['user_profile', userId],
   queryFn: userId ? () => fetchUserProfile(userId) : undefined,
   enabled: !!userId,
 });

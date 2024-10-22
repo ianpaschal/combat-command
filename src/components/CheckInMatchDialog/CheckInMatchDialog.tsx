@@ -22,7 +22,6 @@ export const CheckInMatchDialog = ({
       onOpenChange={setOpen}
       trigger={children}
       title="Check In Match Result"
-      maxWidth={480}
       actions={[
         { label: 'Cancel', muted: true, onClick: () => setOpen(false), cancel: true },
         { label: 'Check In Match', type: 'submit', form: 'fow-v4-match-result-form' },

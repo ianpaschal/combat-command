@@ -13,7 +13,7 @@ export const UnsavedChangesDialog = ({
     open={blocker.state === 'blocked'}
     title="You have unsaved changes"
     description="Are you sure you want to navigate away? Unsaved changes will be lost."
-    maxWidth={360}
+    width="small"
     onCancel={() => {
       console.log('cancel');
       if (blocker.reset) {

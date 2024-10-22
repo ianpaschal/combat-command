@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { getNames } from 'i18n-iso-countries';
@@ -9,19 +8,20 @@ import { Form, FormField } from '~/components/generic/Form';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { InputText } from '~/components/generic/InputText';
 import { Separator } from '~/components/generic/Separator';
-import { useFetchUserProfile } from '~/hooks/services/useFetchUserProfile';
-import { useUpdateUserProfile } from '~/hooks/services/useUpdateUserProfile';
+import { useFetchUserProfile } from '~/hooks/services/userProfile/useFetchUserProfile';
+import { useUpdateUserProfile } from '~/hooks/services/userProfile/useUpdateUserProfile';
 import { UserProfile, userProfileSchema } from '~/types/UserProfile';
 import { UserProfileNameVisibility, userProfileNameVisibilityOptions } from '~/types/UserProfileNameVisibility';
 
 import styles from './UserProfileForm.module.scss';
 
 const defaultValues = {
-  username: 'asdfasdf',
+  username: '',
   given_name: '',
   family_name: '',
   name_visibility: 'hidden' as UserProfileNameVisibility,
   country_code: '',
+  avatar_url: null,
 };
 
 export const UserProfileForm = (): JSX.Element => {
@@ -33,7 +33,7 @@ export const UserProfileForm = (): JSX.Element => {
   const form = useForm<UserProfile>({
     resolver: zodResolver(userProfileSchema),
     defaultValues,
-    values: userProfile,
+    values: { ...defaultValues, ...userProfile },
   });
 
   const onSubmit: SubmitHandler<UserProfile> = (data) => {

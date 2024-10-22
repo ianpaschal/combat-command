@@ -1,13 +1,9 @@
-import { UseFormReturn } from 'react-hook-form';
-
 import { FormField } from '~/components/generic/Form';
 import { InputNumber } from '~/components/generic/InputNumber';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { fowV4EraOptions } from '~/types/fowV4/fowV4EraSchema';
 import { fowV4LFTFVersionOptions } from '~/types/fowV4/fowV4LFTFVersionSchema';
 import { fowV4MissionPackVersionOptions } from '~/types/fowV4/fowV4MissionPackVersionSchema';
-import { Match } from '~/types/Match';
-import { Tournament } from '~/types/Tournament';
 import { bem } from '~/utils/componentLib/bem';
 
 import './FowV4TournamentGameConfigForm.scss';
@@ -15,7 +11,6 @@ import './FowV4TournamentGameConfigForm.scss';
 const cn = bem('FowV4TournamentGameConfigForm');
 
 export interface FowV4TournamentGameConfigFormProps {
-  form?: UseFormReturn<Tournament | Match>;
   loading?: boolean;
   disabled?: boolean;
   fieldName?: string;

@@ -15,9 +15,9 @@ export const UserProfilePage = (): JSX.Element => {
     id,
     created_at: new Date().toISOString(),
     username: 'Foober',
-    game_system_ids: [],
     country_code: 'NL',
-    language_code: 'en_US',
+    avatar_url: null,
+    name_visibility: 'hidden',
   };
   const displayName = getUserDisplayName(userProfile);
   return (

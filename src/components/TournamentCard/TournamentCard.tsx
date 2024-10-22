@@ -77,7 +77,7 @@ export const TournamentCard = ({
           <div className={cn('Overview')}>
             <div className={cn('DateTime')}>
               <CalendarClock />
-              {tournament.start_date} - {tournament.end_date}
+              {tournament.starts_at} - {tournament.ends_at}
             </div>
             <div className={cn('Location')}>
               <MapPin />

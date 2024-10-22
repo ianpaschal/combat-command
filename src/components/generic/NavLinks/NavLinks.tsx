@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import { ElementOrientation, ElementSize } from '~/types/componentLib';
 import { bem } from '~/utils/componentLib/bem';
 
-import './NavLinks.scss';
+import styles from './NavLinks.module.scss';
 
 export type Visibility = 'main' | 'accountMenu';
 
@@ -27,7 +27,7 @@ export interface NavLinksProps {
   orientation?: ElementOrientation;
   routes: NavLink[];
   size?: ElementSize;
-  wrapper?: (link: ReactNode) => ReactNode;
+  wrapper?: (i: number, link: ReactNode) => ReactNode;
 }
 
 const cn = bem('NavLinks');
@@ -43,18 +43,34 @@ export const NavLinks = ({
     <nav className={clsx(cn('Root', { [orientation]: true }))}>
       {routes.map((route, i) => {
         const current = route.path === pathname;
+        const classNames = clsx(
+          styles.Item,
+          size ? {
+            [styles[`Item-${size}`]]: true,
+          } : undefined,
+          {
+            [styles['Item-clickable']]: !current,
+          },
+        );
         if (wrapper) {
-          return wrapper(
-            <Link key={i} to={route.path} className={cn('Item', { [size]: true, clickable: !current })}>
+          return wrapper(i, (
+            <Link
+              className={classNames}
+              to={route.path}
+            >
               {route.title}
-              <span className="NavLinks_Indicator" data-state={current ? 'visible' : 'hidden'} />
-            </Link>,
-          );
+              <span className={styles.Indicator} data-state={current ? 'visible' : 'hidden'} />
+            </Link>
+          ));
         }
         return (
-          <Link key={i} to={route.path} className={cn('Item', { [size]: true, clickable: !current })}>
+          <Link
+            key={i}
+            className={classNames}
+            to={route.path}
+          >
             {route.title}
-            <span className="NavLinks_Indicator" data-state={current ? 'visible' : 'hidden'} />
+            <span className={styles.Indicator} data-state={current ? 'visible' : 'hidden'} />
           </Link>
         );
       })}
