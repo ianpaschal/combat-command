@@ -8,13 +8,15 @@ import { AccountForm } from '~/components/AccountForm';
 import { App } from '~/components/App';
 import { NavLink, Visibility } from '~/components/generic/NavLinks';
 import { UserProfileForm } from '~/components/UserProfileForm';
-import { AccessPage } from '~/pages/AccessPage';
 import { ComponentTestPage } from '~/pages/ComponentTestPage';
 import { CreateTournamentPage } from '~/pages/CreateTournamentPage';
 import { DashboardPage } from '~/pages/DashboardPage';
+import { ForgotPasswordPage } from '~/pages/ForgotPasswordPage';
 import { LandingPage } from '~/pages/LandingPage';
 import { MatchResultsPage } from '~/pages/MatchResultsPage';
 import { SettingsPage } from '~/pages/SettingsPage';
+import { SignInPage } from '~/pages/SignInPage';
+import { SignUpPage } from '~/pages/SignUpPage';
 import { StatisticsPage } from '~/pages/StatisticsPage';
 import { TournamentDetailPage } from '~/pages/TournamentDetailPage';
 import { TournamentsPage } from '~/pages/TournamentsPage';
@@ -100,22 +102,22 @@ export const routes: ExtendedRouteObject[] = [
     ],
   },
   {
-    path: '/auth',
-    title: 'Sign In or Sign Up',
-    visibility: [],
-    element: <AccessPage />,
-  },
-  {
-    path: '/auth/sign-in',
+    path: '/sign-in',
     title: 'Sign In',
-    visibility: [],
-    element: <AccessPage />,
+    visibility: ['accountMenuExternal'],
+    element: <SignInPage />,
   },
   {
-    path: '/auth/sign-up',
+    path: '/sign-up',
     title: 'Sign Up',
+    visibility: ['accountMenuExternal'],
+    element: <SignUpPage />,
+  },
+  {
+    path: '/forgot-password',
+    title: 'Forgot Password',
     visibility: [],
-    element: <AccessPage />,
+    element: <ForgotPasswordPage />,
   },
   {
     path: '/test',

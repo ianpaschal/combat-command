@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
@@ -59,6 +59,7 @@ export const SignInForm = (): JSX.Element => {
       <FormField name="password" label="Password">
         <InputText type="password" />
       </FormField>
+      <p><Link to="/forgot-password">Forgot Password?</Link></p>
       <Button type="submit" disabled={loading}>Sign In</Button>
       {/* Add forgot password link */}
     </Form>

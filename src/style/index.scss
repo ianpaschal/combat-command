@@ -73,10 +73,13 @@ li {
   color: variables.$text-muted;
 }
 
-li {
-  margin-left: 2rem;
+a {
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.25rem;
+  color: variables.$text-link;
 }
 
-a {
-  color: variables.$text-link;
+li {
+  margin-left: 2rem;
 }

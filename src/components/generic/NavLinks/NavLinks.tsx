@@ -6,7 +6,7 @@ import { ElementOrientation, ElementSize } from '~/types/componentLib';
 
 import styles from './NavLinks.module.scss';
 
-export type Visibility = 'main' | 'accountMenu';
+export type Visibility = 'main' | 'accountMenu' | 'accountMenuExternal';
 
 export interface RouteConfig {
   index?: boolean;

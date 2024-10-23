@@ -1,0 +1,39 @@
+@use "/src/style/flex";
+@use "/src/style/borders";
+@use "/src/style/variables";
+
+.Root {
+  @include flex.row($gap: 0);
+
+  position: absolute;
+  inset: 0;
+}
+
+.Pane {
+  @include flex.column($gap: 0);
+  @include borders.normal($side: right);
+
+  width: min(100vw, 480px);
+  height: 100%;
+  background-color: variables.$card-bg;
+}
+
+.Header {
+  @include flex.row($gap: 0.25rem);
+
+  flex-shrink: 0;
+  height: 4rem;
+  padding-left: 1.5rem;
+}
+
+.Body {
+  @include flex.column($gap: 2rem);
+
+  padding: 3rem 2rem;
+}
+
+@media (width >= 480px) {
+  .Body {
+    padding: 3rem 4rem;
+  }
+}

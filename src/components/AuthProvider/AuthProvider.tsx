@@ -3,9 +3,11 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { User } from '@supabase/supabase-js';
+import { useNavigate } from 'react-router-dom';
+import { AuthChangeEvent, User } from '@supabase/supabase-js';
 import { LoaderCircle } from 'lucide-react';
 
+import { Dialog } from '~/components/generic/Dialog';
 import { supabase } from '~/supabaseClient';
 import { createCn } from '~/utils/componentLib/createCn';
 import { AuthContext } from './AuthProvider.context';
@@ -21,8 +23,11 @@ const cn = createCn('AuthProvider');
 export const AuthProvider = ({
   children,
 }: AuthProviderProps) => {
+  // const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [updatePasswordDialogOpen, setUpdatePasswordDialogOpen] = useState<boolean>(false);
+  const [lastAuthEvent, setLastAuthEvent] = useState<AuthChangeEvent | undefined>(undefined);
 
   useEffect(() => {
     if (import.meta.env.VITE_DISABLE_AUTH === 'true') {
@@ -44,11 +49,23 @@ export const AuthProvider = ({
         setLoading(false);
       };
       getUser();
-      const { data } = supabase.auth.onAuthStateChange(async (event, session) => {
+      const { data } = supabase.auth.onAuthStateChange(async (event, session): Promise<void> => {
+        // setLastAuthEvent(event);
+        // if (session?.user) {
+        //   setUser(session.user);
+        // } else {
+        //   setUser(null);
+        // }
         if (event === 'SIGNED_IN' && session?.user) {
-          setUser(session.user);
-        } else if (event === 'SIGNED_OUT') {
-          setUser(null);
+          return setUser(session.user);
+        }
+        if (event === 'PASSWORD_RECOVERY') {
+          console.log('event', event, 'session', session);
+          setUpdatePasswordDialogOpen(true);
+          // navigate('/update-password');
+        }
+        if (event === 'SIGNED_OUT') {
+          return setUser(null);
         }
       });
       return () => {
@@ -68,6 +85,12 @@ export const AuthProvider = ({
   return (
     <AuthContext.Provider value={user}>
       {children}
+      <Dialog
+        open={updatePasswordDialogOpen}
+        onOpenChange={setUpdatePasswordDialogOpen}
+        title="password change"
+        preventCancel
+      />
     </AuthContext.Provider>
   );
 };

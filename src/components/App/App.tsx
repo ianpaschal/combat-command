@@ -19,7 +19,7 @@ export const App = (): JSX.Element => {
   if (width < MIN_WIDTH || height < MIN_HEIGHT) {
     return (
       <div className="App">
-        Please use a larger device to use CombatCommand. If you are currently using your phone in landscape mode, please turn it to portrait mode.
+        <p>Please use a larger device to use CombatCommand. If you are currently using your phone in landscape mode, please turn it to portrait mode.</p>
       </div>
     );
   }

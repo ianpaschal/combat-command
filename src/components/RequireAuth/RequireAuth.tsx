@@ -13,7 +13,7 @@ export const RequireAuth = ({ children }: RequireAuthProps) => {
 
   if (!user) {
     return (
-      <Navigate to={'/auth/sign-in'} replace state={{ path: location.pathname }} />
+      <Navigate to={'/sign-in'} replace state={{ path: location.pathname }} />
     );
   }
 

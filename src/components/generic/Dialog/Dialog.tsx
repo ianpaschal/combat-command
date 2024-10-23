@@ -88,7 +88,7 @@ export const Dialog = ({
       <AnimatePresence>
         {open && (
           <Portal forceMount>
-            <Overlay className={styles.Overlay} onClick={onCancel} />
+            <Overlay forceMount className={styles.Overlay} onClick={!preventCancel && onCancel ? onCancel : undefined} />
             <div className={styles.Positioner} tabIndex={-1}>
               <Content
                 className={clsx(styles.Content, { [styles[`Content-${width}`]]: true })}
@@ -97,8 +97,14 @@ export const Dialog = ({
                   height: height && maxHeight ? Math.max(height, maxHeight) : height,
                 }}
                 aria-describedby={undefined}
+                onInteractOutside={(e) => {
+                  if (preventCancel) {
+                    e.preventDefault();
+                  }
+                }}
                 tabIndex={-1}
                 asChild
+                forceMount
               >
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}

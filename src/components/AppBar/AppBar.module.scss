@@ -1,6 +1,9 @@
 @use "/src/style/variables";
 @use "/src/style/flex";
 @use "/src/style/borders";
+@use "/src/style/text";
+@use "/src/style/corners";
+@use "/src/style/variants";
 
 .Root {
   position: fixed;
@@ -42,4 +45,27 @@
 
   height: variables.$app-bar-height;
   padding-left: 1rem;
+}
+
+.AuthLinks {
+  @include flex.row($gap: 0.25rem);
+
+  a {
+    @include text.ui;
+    @include corners.normal;
+    @include variants.ghost;
+
+    padding: 0.5rem;
+    font-weight: 400;
+    text-decoration: none;
+  }
+}
+
+@media (width < 688px) {
+  .Logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 }
