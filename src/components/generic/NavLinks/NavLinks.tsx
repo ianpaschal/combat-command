@@ -1,7 +1,9 @@
 import { ReactNode } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useWindowWidth } from '@react-hook/window-size/throttled';
 import clsx from 'clsx';
 
+import { MOBILE_BREAKPOINT } from '~/settings';
 import { ElementOrientation, ElementSize } from '~/types/componentLib';
 
 import styles from './NavLinks.module.scss';
@@ -31,11 +33,13 @@ export interface NavLinksProps {
 
 export const NavLinks = ({
   orientation = 'horizontal',
-  size = 'normal',
+  size: customSize,
   routes,
   wrapper,
 }: NavLinksProps): JSX.Element => {
   const { pathname } = useLocation();
+  const width = useWindowWidth();
+  const size = customSize || width <= MOBILE_BREAKPOINT ? 'large' : 'normal';
   return (
     <nav className={styles[`Root-${orientation}`]}>
       {routes.map((route, i) => {

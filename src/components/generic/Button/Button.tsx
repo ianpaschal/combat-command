@@ -4,9 +4,11 @@ import {
   forwardRef,
   isValidElement,
 } from 'react';
+import { useWindowWidth } from '@react-hook/window-size/throttled';
 import { clsx } from 'clsx';
 
 import { Spinner } from '~/components/generic/Spinner';
+import { MOBILE_BREAKPOINT } from '~/settings';
 import {
   ElementIntent,
   ElementSize,
@@ -32,7 +34,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   className,
   variant = 'solid',
   muted,
-  size = 'normal',
+  size: customSize,
   children,
   disabled,
   loading,
@@ -40,6 +42,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   round,
   ...props
 }, ref) => {
+  const width = useWindowWidth();
+  const size = customSize || width <= MOBILE_BREAKPOINT ? 'large' : 'normal';
   const elements = Children.toArray(children);
   const classNames = clsx(
     cn(),
