@@ -35,6 +35,7 @@
   &_Fallback {
     @include flex.centered;
 
+    color: variables.$text-base;
     background-color: variables.$solid-muted-bg;
   }
 
