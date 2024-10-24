@@ -15,7 +15,7 @@
 .Separator {
   @include flex.centered;
 
-  font-size: 0.75rem;
+  font-size: var(--font-size-small);
   font-weight: 500;
   color: variables.$text-muted;
 }
@@ -31,7 +31,7 @@
 
   max-height: 2rem; /* 2 lines at 1rem line height each */
 
-  font-size: 0.875rem;
+  font-size: var(--font-size-normal);
   line-height: 1rem;
   text-overflow: ellipsis; /* Enables ellipsis if the text is truncated */
   text-wrap: balance; /* Optional, for balancing text wrapping */
@@ -69,7 +69,7 @@
 
     @include flex.row($gap: 0);
 
-    font-size: 0.75rem;
+    font-size: var(--font-size-small);
   }
 
   &_TableSection,

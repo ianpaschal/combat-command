@@ -35,7 +35,7 @@
 
   width: min-content;
 
-  font-size: 1rem;
+  font-size: 1rem; // This is more of a graphical element, so it should always be this size
   font-weight: 600;
   line-height: 1rem;
   color: variables.$text-base;

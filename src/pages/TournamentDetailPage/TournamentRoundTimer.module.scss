@@ -2,6 +2,7 @@
 @use "/src/style/borders";
 @use "/src/style/corners";
 @use "/src/style/text";
+@use "/src/style/variables";
 
 .Root {
   @include corners.wide;
@@ -61,6 +62,6 @@
   @include text.ui;
 
   padding: 0.5rem 1rem;
-  font-size: 0.75rem;
+  font-size: var(--font-size-small);
   text-align: right;
 }

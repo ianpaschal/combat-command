@@ -216,7 +216,7 @@ export const FowV4MatchResultForm = ({
           </FormField>
         </Animate>
         <div className="OutcomeSection">
-          <FormField name="outcome.turns_played" label="Rounds Played" >
+          <FormField name="outcome.turns_played" label="Rounds" >
             <InputText type="number" min={0} />
           </FormField>
           <FormField name="outcome.outcome_type" label="Outcome Type">

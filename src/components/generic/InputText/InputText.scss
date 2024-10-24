@@ -3,12 +3,14 @@
 @use "/src/style/variants";
 @use "/src/style/corners";
 @use "/src/style/sizes";
+@use "/src/style/text";
 
 .Input {
   @include variants.outlined($hover: false);
   @include sizes.normal;
   @include corners.normal;
   @include flex.row;
+  @include text.ui;
 
   & {
     width: 100%;

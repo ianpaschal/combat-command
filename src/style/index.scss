@@ -31,55 +31,62 @@ body {
   overflow: hidden;
 
   font-size: 16px;
-  line-height: 1.25rem;
+  line-height: 1.5rem;
 
   background-color: variables.$page-bg;
-
-  // letter-spacing: 0.025em;
 }
 
 h1 {
-  // font-family: Figtree, sans-serif;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.75rem;
+}
 
-  // letter-spacing: -0.025em;
+h2 {
+  font-size: 1.25rem;
   font-weight: 500;
   line-height: 1.5rem;
 }
 
-h2 {
-  // font-family: Figtree, sans-serif;
-  font-size: 1rem;
-
-  // letter-spacing: -0.025em;
-  font-weight: 500;
-  line-height: 1.25rem;
-}
-
-h3 {
-  // font-family: Figtree, sans-serif;
-
-  // letter-spacing: -0.025em;
-  font-size: 0.875rem;
-  font-weight: 500;
-  line-height: 1rem;
-}
-
+h3,
+a,
 p,
 li {
-  font-size: 0.875rem;
+  font-size: 1rem;
   font-weight: 300;
-  line-height: 1.25rem;
+  line-height: 1.5rem;
   color: variables.$text-muted;
 }
 
+h3 {
+  font-weight: 500;
+}
+
 a {
-  font-size: 0.875rem;
   font-weight: 400;
-  line-height: 1.25rem;
   color: variables.$text-link;
 }
 
 li {
   margin-left: 2rem;
+}
+
+@media (width >= 480px) {
+  h1 {
+    font-size: 1.25rem;
+    line-height: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1rem;
+    line-height: 1.25rem;
+  }
+
+  h3,
+  a,
+  p,
+  li {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
 }

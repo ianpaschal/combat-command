@@ -1,9 +1,9 @@
 @use "variables";
 
 @mixin ui($bold: false, $muted: false, $link: false) {
-  font-size: 0.875rem;
+  font-size: var(--font-size-normal);
   font-weight: 400;
-  line-height: 1.25rem;
+  line-height: var(--line-height-normal);
   color: variables.$text-base;
 
   @if $bold == true {
@@ -17,13 +17,6 @@
   @if $link == true {
     color: variables.$text-link;
   }
-}
-
-@mixin normal {
-  font-size: 0.875rem;
-  font-weight: 400;
-  line-height: 1.25rem;
-  color: variables.$text-muted;
 }
 
 // - `text.uiBold` 0.875rem x 1.25rem, 700

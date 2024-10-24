@@ -3,12 +3,25 @@
 :root {
   --modal-side-padding: 1rem;
   --modal-side-margin: 0.5rem;
+  --font-size-normal: 1rem;
+  --line-height-normal: 1.5rem;
+  --font-size-small: 0.875rem;
+  --line-height-small: 1.25rem;
 }
 
 @media (width >= 688px) {
   :root {
     --modal-side-padding: 1.5rem;
     --modal-side-margin: 1rem;
+  }
+}
+
+@media (width >= 480px) {
+  :root {
+    --font-size-normal: 0.875rem;
+    --line-height-normal: 1.25rem;
+    --font-size-small: 0.75rem;
+    --line-height-small: 1rem;
   }
 }
 
