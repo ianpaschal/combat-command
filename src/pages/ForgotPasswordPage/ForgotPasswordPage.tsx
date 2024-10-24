@@ -39,6 +39,8 @@ export const ForgotPasswordPage = (): JSX.Element => {
     return <Navigate to="/dashboard" />;
   }
 
+  const { isPending } = resetPassword;
+
   return (
     <PageWrapperHalf>
       <div>
@@ -46,10 +48,10 @@ export const ForgotPasswordPage = (): JSX.Element => {
         <p>Get a reset link in your email</p>
       </div>
       <Form className={styles.Form} form={form} onSubmit={onSubmit}>
-        <FormField name="email" label="Email">
+        <FormField name="email" label="Email" disabled={isPending}>
           <InputText type="text" /* Not email, to avoid browser validation */ />
         </FormField>
-        <Button type="submit" disabled={resetPassword.isPending}>Send Link</Button>
+        <Button type="submit" loading={isPending}>Send Link</Button>
       </Form>
       <Separator />
       <p><Link to="/sign-up">Sign Up</Link> | <Link to="/sign-up">Sign In</Link></p>

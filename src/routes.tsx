@@ -4,10 +4,10 @@ import {
   RouteObject,
 } from 'react-router-dom';
 
-import { AccountForm } from '~/components/AccountForm';
+import { AccountSettings } from '~/components/AccountSettings';
 import { App } from '~/components/App';
 import { NavLink, Visibility } from '~/components/generic/NavLinks';
-import { UserProfileForm } from '~/components/UserProfileForm';
+import { ProfileSettings } from '~/components/ProfileSettings';
 import { ComponentTestPage } from '~/pages/ComponentTestPage';
 import { CreateTournamentPage } from '~/pages/CreateTournamentPage';
 import { DashboardPage } from '~/pages/DashboardPage';
@@ -87,12 +87,12 @@ export const routes: ExtendedRouteObject[] = [
       {
         path: '/settings/profile',
         title: 'Profile',
-        element: <UserProfileForm />,
+        element: <ProfileSettings />,
       },
       {
         path: '/settings/account',
         title: 'Account',
-        element: <AccountForm />,
+        element: <AccountSettings />,
       },
       // {
       //   path: '/settings/appearance',

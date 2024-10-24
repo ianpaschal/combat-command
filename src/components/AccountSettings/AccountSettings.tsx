@@ -3,11 +3,10 @@ import { ChangePasswordDialog } from '~/components/ChangePasswordDialog';
 import { Button } from '~/components/generic/Button';
 import { Label } from '~/components/generic/Label';
 import { Separator } from '~/components/generic/Separator';
-import { Spinner } from '~/components/generic/Spinner';
 
-import styles from './AccountForm.module.scss';
+import styles from './AccountSettings.module.scss';
 
-export const AccountForm = (): JSX.Element => {
+export const AccountSettings = (): JSX.Element => {
   const user = useAuth();
   return (
     <div className={styles.Root}>
@@ -18,7 +17,7 @@ export const AccountForm = (): JSX.Element => {
       <Label>Password</Label>
       <ChangePasswordDialog trigger={<Button muted>Change Password</Button>} />
       <Separator />
-      <Button intent="danger" muted><Spinner />Delete Account</Button>
+      <Button intent="danger" muted>Delete Account</Button>
     </div>
   );
 };

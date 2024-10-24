@@ -41,6 +41,8 @@ export const SignInPage = (): JSX.Element => {
     return <Navigate to="/dashboard" />;
   }
 
+  const { isPending } = signUp;
+
   return (
     <PageWrapperHalf>
       <div>
@@ -48,14 +50,14 @@ export const SignInPage = (): JSX.Element => {
         <p>Sign in to your account</p>
       </div>
       <Form className={styles.Form} form={form} onSubmit={onSubmit}>
-        <FormField name="email" label="Email">
+        <FormField name="email" label="Email" disabled={isPending}>
           <InputText type="text" /* Not email, to avoid browser validation */ />
         </FormField>
-        <FormField name="password" label="Password">
+        <FormField name="password" label="Password" disabled={isPending}>
           <InputText type="password" />
         </FormField>
         <Link to="/forgot-password">Forgot Password</Link>
-        <Button type="submit" disabled={signUp.isPending}>Sign In</Button>
+        <Button type="submit" loading={isPending}>Sign In</Button>
       </Form>
       <Separator />
       <p>Don't have an account yet? <Link to="/sign-up">Sign Up</Link></p>

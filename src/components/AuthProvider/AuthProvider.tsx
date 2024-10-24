@@ -8,7 +8,6 @@ import { LoaderCircle } from 'lucide-react';
 
 import { ChangePasswordDialog } from '~/components/ChangePasswordDialog';
 import { supabase } from '~/supabaseClient';
-import { createCn } from '~/utils/componentLib/createCn';
 import { AuthContext } from './AuthProvider.context';
 
 import styles from './AuthProvider.module.scss';
@@ -48,9 +47,9 @@ export const AuthProvider = ({
         if (event === 'SIGNED_IN' && session?.user) {
           return setUser(session.user);
         }
-        if (event === 'PASSWORD_RECOVERY') {
-          console.log('event', event, 'session', session);
+        if (event === 'PASSWORD_RECOVERY' && session?.user) {
           setUpdatePasswordDialogOpen(true);
+          return setUser(session.user);
         }
         if (event === 'SIGNED_OUT') {
           return setUser(null);

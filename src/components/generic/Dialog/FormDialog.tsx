@@ -32,13 +32,11 @@ export interface DialogProps<T extends FieldValues> extends ComponentPropsWithou
   children?: ReactNode;
   trigger?: ReactNode;
   width?: 'small' | 'normal' | 'large';
-  maxHeight?: number;
-  height?: number;
 
   // Form stuff
   id: string;
   title: string;
-  onSubmit: UseMutationResult<void, Error, unknown, unknown>;
+  submitHook: UseMutationResult<void, Error, T, unknown>;
   form: UseFormReturn<T>;
   classNames?: {
     form?: string;
@@ -51,8 +49,6 @@ export interface DialogProps<T extends FieldValues> extends ComponentPropsWithou
 export const FormDialog = <T extends FieldValues>({
   children,
   width = 'normal',
-  maxHeight,
-  height,
   preventCancel = false,
   title,
   trigger,
@@ -61,7 +57,7 @@ export const FormDialog = <T extends FieldValues>({
 
   // Form stuff
   id,
-  onSubmit,
+  submitHook,
   form,
   submitLabel,
   classNames,
@@ -99,12 +95,14 @@ export const FormDialog = <T extends FieldValues>({
   };
 
   const handleSubmit: SubmitHandler<T> = async (data): Promise<void> => {
-    onSubmit.mutate(data, {
+    submitHook.mutate(data, {
       onSuccess: () => {
         setOpen(false);
       },
     });
   };
+
+  const { isPending } = submitHook;
 
   return (
     <Root open={open} onOpenChange={setOpen} {...props}>
@@ -120,10 +118,6 @@ export const FormDialog = <T extends FieldValues>({
             <div className={styles.Positioner} tabIndex={-1}>
               <Content
                 className={clsx(styles.Content, { [styles[`Content-${width}`]]: true })}
-                style={{
-                  maxHeight: height && maxHeight ? Math.max(height, maxHeight) : maxHeight,
-                  height: height && maxHeight ? Math.max(height, maxHeight) : height,
-                }}
                 aria-describedby={undefined}
                 onInteractOutside={handleInteractOutside}
                 asChild
@@ -153,10 +147,10 @@ export const FormDialog = <T extends FieldValues>({
                   <div className={styles.Footer}>
                     {!preventCancel && (
                       <Close asChild>
-                        <Button muted disabled={onSubmit.isPending}>Cancel</Button>
+                        <Button muted disabled={isPending}>Cancel</Button>
                       </Close>
                     )}
-                    <Button disabled={onSubmit.isPending} loading={onSubmit.isPending}>
+                    <Button disabled={isPending} loading={isPending} type="submit" form={id}>
                       {submitLabel}
                     </Button>
                   </div>
@@ -166,6 +160,6 @@ export const FormDialog = <T extends FieldValues>({
           </Portal>
         )}
       </AnimatePresence>
-    </Root>
+    </Root >
   );
 };

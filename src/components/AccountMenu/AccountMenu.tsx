@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import * as Popover from '@radix-ui/react-popover';
 import { LogOut } from 'lucide-react';
 
@@ -14,11 +13,9 @@ import './AccountMenu.scss';
 const cn = createCn('AccountMenu');
 
 export const AccountMenu = (): JSX.Element => {
-  const navigate = useNavigate();
   const accountMenuLinks = getNavLinksByVisibility('accountMenu');
   const handleClickSignOut = (): void => {
     supabase.auth.signOut();
-    navigate('/');
   };
   return (
     <Popover.Root >

@@ -52,7 +52,7 @@ export const SignUpPage = (): JSX.Element => {
   if (useAuth()) {
     return <Navigate to="/dashboard" />;
   }
-
+  const { isPending } = signUp;
   return (
     <PageWrapperHalf>
       <div>
@@ -60,19 +60,19 @@ export const SignUpPage = (): JSX.Element => {
         <p>Create a new account</p>
       </div>
       <Form className={styles.Form} id="sign-up-form" form={form} onSubmit={onSubmit}>
-        <FormField name="username" label="Username" description="Your public display name">
+        <FormField name="username" label="Username" description="Your public display name" disabled={isPending}>
           <InputText type="text" />
         </FormField>
-        <FormField name="email" label="Email">
+        <FormField name="email" label="Email" disabled={isPending}>
           <InputText type="text" /* Not email, to avoid browser validation */ />
         </FormField>
-        <FormField name="password" label="Password">
+        <FormField name="password" label="Password" disabled={isPending}>
           <InputText type="password" />
         </FormField>
-        <FormField name="passwordRepeat" label="Password (Repeat)">
+        <FormField name="passwordRepeat" label="Password (Repeat)" disabled={isPending}>
           <InputText type="password" />
         </FormField>
-        <Button type="submit" disabled={signUp.isPending}>Sign Up</Button>
+        <Button type="submit" loading={isPending}>Sign Up</Button>
       </Form>
       <Separator />
       <p>Already have an account? <Link to="/sign-in">Sign In</Link></p>

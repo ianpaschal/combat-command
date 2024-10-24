@@ -34,6 +34,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   muted,
   size = 'normal',
   children,
+  disabled,
   loading,
   intent,
   round,
@@ -51,7 +52,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
     className,
   );
   return (
-    <button className={classNames} ref={ref} {...props}>
+    <button className={classNames} ref={ref} {...props} disabled={disabled || loading}>
       {loading && (
         <Spinner />
       )}

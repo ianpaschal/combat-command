@@ -13,7 +13,7 @@ import { useUpdateUserProfile } from '~/hooks/services/userProfile/useUpdateUser
 import { UserProfile, userProfileSchema } from '~/types/UserProfile';
 import { UserProfileNameVisibility, userProfileNameVisibilityOptions } from '~/types/UserProfileNameVisibility';
 
-import styles from './UserProfileForm.module.scss';
+import styles from './ProfileSettings.module.scss';
 
 const defaultValues = {
   username: '',
@@ -24,7 +24,7 @@ const defaultValues = {
   avatar_url: null,
 };
 
-export const UserProfileForm = (): JSX.Element => {
+export const ProfileSettings = (): JSX.Element => {
   const user = useAuth();
 
   const { data: userProfile } = useFetchUserProfile(user?.id);
