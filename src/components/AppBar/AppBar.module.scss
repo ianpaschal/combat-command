@@ -43,6 +43,7 @@
   @include flex.row;
   @include borders.normal($side: bottom);
 
+  position: relative;
   height: variables.$app-bar-height;
   padding-left: 1rem;
 }

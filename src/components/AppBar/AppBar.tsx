@@ -33,7 +33,7 @@ export const AppBar = ({
             <Drawer
               side="left"
               trigger={
-                <Button variant="ghost">
+                <Button variant="ghost" size="large" round>
                   <Menu />
                 </Button>
               }
