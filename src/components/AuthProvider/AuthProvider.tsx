@@ -3,31 +3,26 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { AuthChangeEvent, User } from '@supabase/supabase-js';
+import { User } from '@supabase/supabase-js';
 import { LoaderCircle } from 'lucide-react';
 
-import { Dialog } from '~/components/generic/Dialog';
+import { ChangePasswordDialog } from '~/components/ChangePasswordDialog';
 import { supabase } from '~/supabaseClient';
 import { createCn } from '~/utils/componentLib/createCn';
 import { AuthContext } from './AuthProvider.context';
 
-import './AuthProvider.scss';
+import styles from './AuthProvider.module.scss';
 
 export interface AuthProviderProps {
   children: ReactNode;
 }
 
-const cn = createCn('AuthProvider');
-
 export const AuthProvider = ({
   children,
 }: AuthProviderProps) => {
-  // const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [updatePasswordDialogOpen, setUpdatePasswordDialogOpen] = useState<boolean>(false);
-  const [lastAuthEvent, setLastAuthEvent] = useState<AuthChangeEvent | undefined>(undefined);
 
   useEffect(() => {
     if (import.meta.env.VITE_DISABLE_AUTH === 'true') {
@@ -50,19 +45,12 @@ export const AuthProvider = ({
       };
       getUser();
       const { data } = supabase.auth.onAuthStateChange(async (event, session): Promise<void> => {
-        // setLastAuthEvent(event);
-        // if (session?.user) {
-        //   setUser(session.user);
-        // } else {
-        //   setUser(null);
-        // }
         if (event === 'SIGNED_IN' && session?.user) {
           return setUser(session.user);
         }
         if (event === 'PASSWORD_RECOVERY') {
           console.log('event', event, 'session', session);
           setUpdatePasswordDialogOpen(true);
-          // navigate('/update-password');
         }
         if (event === 'SIGNED_OUT') {
           return setUser(null);
@@ -76,8 +64,8 @@ export const AuthProvider = ({
 
   if (loading) {
     return (
-      <div className={cn('-loading')}>
-        <LoaderCircle className={cn('_LoadingIcon')} />
+      <div className={styles.LoadingOverlay}>
+        <LoaderCircle className={styles.LoadingIcon} />
       </div>
     );
   }
@@ -85,10 +73,9 @@ export const AuthProvider = ({
   return (
     <AuthContext.Provider value={user}>
       {children}
-      <Dialog
+      <ChangePasswordDialog
         open={updatePasswordDialogOpen}
         onOpenChange={setUpdatePasswordDialogOpen}
-        title="password change"
         preventCancel
       />
     </AuthContext.Provider>

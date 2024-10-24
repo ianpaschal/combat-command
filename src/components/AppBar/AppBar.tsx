@@ -9,7 +9,6 @@ import { useAuth } from '~/components/AuthProvider';
 import { Button } from '~/components/generic/Button';
 import { Drawer } from '~/components/generic/Drawer';
 import { NavLink, NavLinks } from '~/components/generic/NavLinks';
-import { Separator } from '~/components/generic/Separator';
 import { MIN_WIDTH_TABLET } from '~/settings';
 
 import styles from './AppBar.module.scss';

@@ -1,0 +1,29 @@
+@use "/src/style/flex";
+@use "/src/style/utils";
+@use "/src/style/variables";
+
+.LoadingOverlay {
+  @include flex.centered;
+  @include utils.modal-overlay;
+}
+
+.LoadingIcon {
+  width: 4rem;
+  height: 4rem;
+
+  color: variables.$text-base;
+
+  opacity: 0.2;
+
+  animation: spin 1s infinite linear;
+}
+
+@keyframes spin {
+  from {
+    transform: scale(1) rotate(0deg);
+  }
+
+  to {
+    transform: scale(1) rotate(360deg);
+  }
+}

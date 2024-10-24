@@ -6,6 +6,7 @@ import {
 } from 'react';
 import { clsx } from 'clsx';
 
+import { Spinner } from '~/components/generic/Spinner';
 import {
   ElementIntent,
   ElementSize,
@@ -22,6 +23,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   muted?: boolean;
   size?: ElementSize;
   round?: boolean;
+  loading?: boolean;
 }
 
 const cn = createCn('Button');
@@ -32,6 +34,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   muted,
   size = 'normal',
   children,
+  loading,
   intent,
   round,
   ...props
@@ -49,6 +52,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   );
   return (
     <button className={classNames} ref={ref} {...props}>
+      {loading && (
+        <Spinner />
+      )}
       {children}
     </button>
   );

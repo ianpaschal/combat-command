@@ -1,4 +1,3 @@
-import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 
 import { UpdatePasswordFormInput } from '~/pages/UpdatePasswordPage/UpdatePasswordPage';
@@ -11,16 +10,9 @@ const updatePassword = async ({ password }: UpdatePasswordFormInput): Promise<vo
   }
 };
 
-export const useUpdatePassword = () => {
-  const navigate = useNavigate();
-
-  return useMutation({
-    mutationFn: updatePassword,
-    onSuccess: () => {
-      navigate('/');
-    },
-    onError: (error) => {
-      console.log('Error updating password:', error);
-    },
-  });
-};
+export const useUpdatePassword = () => useMutation({
+  mutationFn: updatePassword,
+  onError: (error) => {
+    console.log('Error updating password:', error);
+  },
+});
