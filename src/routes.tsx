@@ -11,6 +11,7 @@ import { ProfileSettings } from '~/components/ProfileSettings';
 import { ComponentTestPage } from '~/pages/ComponentTestPage';
 import { CreateTournamentPage } from '~/pages/CreateTournamentPage';
 import { DashboardPage } from '~/pages/DashboardPage';
+import { DialogDemo } from '~/pages/DialogDemo/DialogDemo';
 import { ForgotPasswordPage } from '~/pages/ForgotPasswordPage';
 import { LandingPage } from '~/pages/LandingPage';
 import { MatchResultsPage } from '~/pages/MatchResultsPage';
@@ -32,6 +33,12 @@ export type ExtendedRouteObject = RouteDisplay & RouteObject & {
 };
 
 export const routes: ExtendedRouteObject[] = [
+  {
+    path: '/dialog-demo',
+    title: 'Dialog Demo',
+    visibility: [],
+    element: <DialogDemo />,
+  },
   {
     path: '/dashboard',
     title: 'Dashboard',

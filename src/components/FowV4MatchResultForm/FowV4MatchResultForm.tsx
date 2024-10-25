@@ -69,7 +69,7 @@ export const FowV4MatchResultForm = ({
 
       players: [
         {
-          user_id: user!.id,
+          user_id: user?.id,
           list_id: undefined,
           confirmed: true,
         },
