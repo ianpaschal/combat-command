@@ -60,7 +60,7 @@ export const ProfileSettings = (): JSX.Element => {
           <InputText type="text" />
         </FormField>
       </div>
-      <FormField name="first_name_visibility" label="Name Visibility" className={styles.NameVisibilityField}>
+      <FormField name="name_visibility" label="Name Visibility" className={styles.NameVisibilityField}>
         <InputSelect options={userProfileNameVisibilityOptions} />
       </FormField>
       <h3>About Name Privacy</h3>
