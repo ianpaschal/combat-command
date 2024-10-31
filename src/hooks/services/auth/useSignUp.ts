@@ -12,7 +12,7 @@ const signUp = async ({ email, password, username }: SignUpFormInput): Promise<R
     email,
     password,
     options: { 
-      emailRedirectTo: '/settings/profile',
+      emailRedirectTo: 'https://www.combatcommand.net/settings/profile',
       data: {
         username,
       },
