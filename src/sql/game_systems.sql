@@ -3,7 +3,7 @@ CREATE TABLE game_systems (
   created_at TIMESTAMPTZ,
   updated_at TIMESTAMPTZ,
 
-  display_name TEXT UNIQUE NOT NULL,
+  display_name TEXT UNIQUE NOT NULL
 );
 
 -- Set up RLS

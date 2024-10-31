@@ -3,7 +3,8 @@ CREATE TABLE game_system_configs (
   created_at TIMESTAMPTZ,
   updated_at TIMESTAMPTZ,
 
-  data JSONB NOT NULL,
+  game_system_id UUID NOT NULL REFERENCES game_systems(id) ON DELETE CASCADE,
+  data JSONB NOT NULL
 );
 
 -- Set up RLS

@@ -1,24 +1,24 @@
-CREATE TYPE tournament_status AS enum (
+CREATE TYPE public.tournament_status AS ENUM (
   'draft',
   'published',
   'active',
   'archived'
 );
 
-CREATE TYPE pairing_method AS ENUM (
+CREATE TYPE public.pairing_method AS ENUM (
   'random',
   'round_robin',
   'elimination',
   'swiss'
 );
 
-CREATE TABLE tournaments (
-  id uuid default gen_random_uuid() PRIMARY KEY,
-  created_at TIMESTAMP WITH TIME ZONE,
-  updated_at TIMESTAMP WITH TIME ZONE,
+CREATE TABLE public.tournaments (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  created_at TIMESTAMPTZ,
+  updated_at TIMESTAMPTZ,
 
   -- Metadata
-  title TEXT unique,
+  title TEXT UNIQUE,
   description TEXT,
   location TEXT NOT NULL,
   starts_at TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE tournaments (
   competitor_size INTEGER NOT NULL,
   use_national_teams BOOLEAN NOT NULL,
   round_count INTEGER NOT NULL,
-  pairing_method TEXT NOT NULL,
+  pairing_method pairing_method NOT NULL,
 
   -- Game Config
   game_system_id UUID NOT NULL REFERENCES game_systems(id) ON DELETE CASCADE,
@@ -45,15 +45,15 @@ CREATE TABLE tournaments (
   status tournament_status NOT NULL,  -- Enum for tournament status
   registrations_open BOOLEAN NOT NULL,
   registrations_close_at TIMESTAMPTZ NOT NULL,
-  require_real_names BOOLEAN NOT NULL,
+  require_real_names BOOLEAN NOT NULL
 );
 
 -- Set up RLS
 alter table tournaments enable row level security;
-create policy "Public tournaments are viewable by everyone." on tournaments for select to authenticated, anon using (visibility = 'public');
-create policy "Hidden tournaments are viewable by their organizer." on tournaments for select to authenticated using ((select auth.uid()) = organizer_id AND visibility = 'hidden');
-create policy "Tournaments can be created by authenticated users." on tournaments for insert to authenticated using ((select auth.uid()) = organizer_id);
-create policy "Tournaments can be updated by their organizer." on tournaments for select to authenticated using ((select auth.uid()) = organizer_id);
-create policy "Tournaments can be deleted by their organizer." on tournaments for delete to authenticated using ((select auth.uid()) = organizer_id);
+create policy "Published tournaments are viewable by everyone." on tournaments for select to authenticated, anon using (status = 'published');
+create policy "Draft tournaments are viewable by their organizer." on tournaments for select to authenticated using ((select auth.uid()) = creator_id AND status = 'draft');
+create policy "Tournaments can be created by authenticated users." on tournaments for insert to authenticated WITH CHECK ((select auth.uid()) = creator_id);
+create policy "Tournaments can be updated by their organizer." on tournaments for select to authenticated using ((select auth.uid()) = creator_id);
+create policy "Tournaments can be deleted by their organizer." on tournaments for delete to authenticated using ((select auth.uid()) = creator_id);
 
 SELECT apply_basic_table_setup('tournaments');
