@@ -1,5 +1,6 @@
 @use "/src/style/corners";
 @use "/src/style/text";
+@use "/src/style/flex";
 @use "/src/style/variables";
 @use "/src/style/borders";
 
@@ -7,8 +8,11 @@
   @include corners.tight;
   @include borders.normal;
   @include text.ui($bold: true);
+  @include flex.row($gap: 0.25rem);
 
-  display: inline-block;
+  width: min-content;
+
+  // display: inline-block;
 
   height: 1.5rem;
   margin: -2px 0;
@@ -16,6 +20,12 @@
 
   line-height: calc(1.5rem - (2 * variables.$border-width));
   color: variables.$solid-muted-text;
+  text-wrap: nowrap;
 
   background-color: variables.$solid-muted-bg;
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+  }
 }

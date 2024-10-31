@@ -1,4 +1,5 @@
 import { useAuth } from '~/components/AuthProvider';
+import { ChangeEmailDialog } from '~/components/ChangeEmailDialog';
 import { ChangePasswordDialog } from '~/components/ChangePasswordDialog';
 import { Button } from '~/components/generic/Button';
 import { Label } from '~/components/generic/Label';
@@ -11,13 +12,17 @@ export const AccountSettings = (): JSX.Element => {
   return (
     <div className={styles.Root}>
       <Label>Email</Label>
-      {user?.email}
-      <Button muted>Change Email</Button>
+      <div className={styles.EmailLine}>
+        {user?.email}
+        {/* {user?.email_confirmed_at ? <Tag><Check />Verified</Tag> : <Tag><X />Unverified</Tag>} */}
+      </div>
+      <ChangeEmailDialog trigger={<Button muted>Change Email</Button>} />
       <Separator />
       <Label>Password</Label>
       <ChangePasswordDialog trigger={<Button muted>Change Password</Button>} />
-      <Separator />
-      <Button intent="danger" muted>Delete Account</Button>
+      {/* TODO: Re-enable */}
+      {/* <Separator />
+      <Button intent="danger" muted>Delete Account</Button> */}
     </div>
   );
 };

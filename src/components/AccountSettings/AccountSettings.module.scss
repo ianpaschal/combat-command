@@ -3,3 +3,7 @@
 .Root {
   @include flex.column($xAlign: left);
 }
+
+.EmailLine {
+  @include flex.row;
+}
