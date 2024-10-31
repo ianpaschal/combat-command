@@ -50,7 +50,7 @@ export const FormField = ({
           <Controller
             control={control}
             render={({ field }) => (
-              cloneElement(children, { ...field, ...props, className: styles.Input, hasError: showErrorState, disabled })
+              cloneElement(children, { ...field, ...props, id: name, className: styles.Input, hasError: showErrorState, disabled })
             )}
             name={name}
           />
