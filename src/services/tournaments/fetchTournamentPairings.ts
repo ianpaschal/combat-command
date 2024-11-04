@@ -1,0 +1,53 @@
+import { useQuery } from '@tanstack/react-query';
+
+import { supabase } from '~/supabaseClient';
+import {
+  PlayerRow,
+  TournamentCompetitorRow,
+  TournamentPairingRow,
+  UserProfileSecureRow,
+} from '~/types/db';
+
+export interface TournamentPairingsResponse extends TournamentPairingRow {
+  competitor_0: TournamentCompetitorRow & {
+    players: (PlayerRow & {
+      user_profile: UserProfileSecureRow;
+    })[];
+  };
+  competitor_1: TournamentCompetitorRow & {
+    players: (PlayerRow & {
+      user_profile: UserProfileSecureRow;
+    })[];
+  };
+}
+
+export const fetchTournamentParings = async (): Promise<TournamentPairingsResponse[]> => {
+  const { data, error } = await supabase
+    .from('tournament_pairings')
+    .select(`
+      *,
+      competitor_0: tournament_competitors!competitor_0_id (
+        *,
+        players (
+          *,
+          user_profile: user_profiles!user_id (*)
+        )
+      ),
+      competitor_1: tournament_competitors!competitor_1_id (
+        *,
+        players (
+          *,
+          user_profile: user_profiles!user_id (*)
+        )
+      )
+    `);
+  if (error) {
+    throw error;
+  }
+  return data;
+};
+
+export const useFetchTournamentParings = () => useQuery({
+  queryKey: ['tournament_pairings'],
+  queryFn: fetchTournamentParings,
+});

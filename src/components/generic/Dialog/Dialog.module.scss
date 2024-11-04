@@ -13,7 +13,7 @@
   pointer-events: none;
   position: fixed;
   inset: 0;
-  margin: var(--modal-side-margin);
+  margin: var(--modal-outer-gutter);
 }
 
 .Overlay {
@@ -52,7 +52,7 @@
   @include flex.row;
 
   min-height: 4rem;
-  padding: 1rem var(--modal-side-padding);
+  padding: 1rem var(--modal-inner-gutter);
 
   h2 {
     line-height: 2rem;
@@ -60,7 +60,7 @@
 }
 
 .Description {
-  padding: 0 var(--modal-side-padding);
+  padding: 0 var(--modal-inner-gutter);
 }
 
 .Inner {
@@ -74,7 +74,7 @@
   @include flex.row($xAlign: right);
 
   height: 4.5rem;
-  padding: 1rem var(--modal-side-padding);
+  padding: 1rem var(--modal-inner-gutter);
 }
 
 .Close {

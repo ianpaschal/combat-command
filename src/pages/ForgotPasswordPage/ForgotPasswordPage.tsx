@@ -9,7 +9,7 @@ import { Form, FormField } from '~/components/generic/Form';
 import { InputText } from '~/components/generic/InputText';
 import { Separator } from '~/components/generic/Separator';
 import { PageWrapperHalf } from '~/components/PageWrapperHalf';
-import { useResetPassword } from '~/hooks/services/auth/useResetPassword';
+import { useResetPassword } from '~/services/auth/useResetPassword';
 
 import styles from './ForgotPasswordPage.module.scss';
 

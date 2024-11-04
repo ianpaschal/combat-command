@@ -8,8 +8,8 @@ import { Form, FormField } from '~/components/generic/Form';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { InputText } from '~/components/generic/InputText';
 import { Separator } from '~/components/generic/Separator';
-import { useFetchUserProfile } from '~/hooks/services/userProfile/useFetchUserProfile';
-import { useUpdateUserProfile } from '~/hooks/services/userProfile/useUpdateUserProfile';
+import { useFetchUserProfile } from '~/services/userProfile/useFetchUserProfile';
+import { useUpdateUserProfile } from '~/services/userProfile/useUpdateUserProfile';
 import { UserProfile, userProfileSchema } from '~/types/UserProfile';
 import { UserProfileNameVisibility, userProfileNameVisibilityOptions } from '~/types/UserProfileNameVisibility';
 
@@ -25,7 +25,7 @@ const defaultValues = {
 };
 
 export const ProfileSettings = (): JSX.Element => {
-  const user = useAuth();
+  const { user } = useAuth();
 
   const { data: userProfile } = useFetchUserProfile(user?.id);
   const updateProfile = useUpdateUserProfile();
@@ -37,7 +37,7 @@ export const ProfileSettings = (): JSX.Element => {
   });
 
   const onSubmit: SubmitHandler<UserProfile> = (data) => {
-    updateProfile.mutate({ id: user!.id, data });
+    updateProfile.mutate({ userId: user!.id, data });
   };
 
   const countries = getNames('en', { select: 'alias' });

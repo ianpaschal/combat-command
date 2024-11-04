@@ -8,6 +8,7 @@ import { AccountSettings } from '~/components/AccountSettings';
 import { App } from '~/components/App';
 import { NavLink, Visibility } from '~/components/generic/NavLinks';
 import { ProfileSettings } from '~/components/ProfileSettings';
+import { AddMatchPage } from '~/pages/AddMatchPage';
 import { ComponentTestPage } from '~/pages/ComponentTestPage';
 import { CreateTournamentPage } from '~/pages/CreateTournamentPage';
 import { DashboardPage } from '~/pages/DashboardPage';
@@ -56,6 +57,12 @@ export const routes: ExtendedRouteObject[] = [
     title: 'View Tournament',
     visibility: [],
     element: <TournamentDetailPage />,
+  },
+  {
+    path: '/tournaments/:tournamentId/add-match',
+    title: 'Check-In Match',
+    visibility: [],
+    element: <AddMatchPage />,
   },
   {
     path: '/tournaments/create',

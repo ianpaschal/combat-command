@@ -8,7 +8,7 @@ import { Separator } from '~/components/generic/Separator';
 import styles from './AccountSettings.module.scss';
 
 export const AccountSettings = (): JSX.Element => {
-  const user = useAuth();
+  const { user } = useAuth();
   return (
     <div className={styles.Root}>
       <Label>Email</Label>

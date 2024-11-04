@@ -42,7 +42,7 @@ type UseStringSelectResult = [string | undefined, InputSelectItem<string>[], (va
 export const useStringSelect = (
   value: SelectValue | undefined,
   options: InputSelectItem<SelectValue>[],
-  onChange?: (value: SelectValue) => void,
+  onChange?: (value: SelectValue | undefined) => void,
 ): UseStringSelectResult => {
   const stringValue = value !== undefined ? stringify(value) : value;
   const stringOptions = options.map((item) => {
@@ -60,9 +60,9 @@ export const useStringSelect = (
       value: stringify(item.value),
     });
   });
-  const handleValueChange = (value: string): void => {
+  const handleValueChange = (value?: string): void => {
     if (onChange) {
-      onChange(deStringify(value));
+      onChange(value ? deStringify(value) : undefined);
     }
   };
   return [

@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { DialogProps, FormDialog } from '~/components/generic/Dialog';
 import { FormField } from '~/components/generic/Form';
 import { InputText } from '~/components/generic/InputText';
-import { useUpdatePassword } from '~/hooks/services/auth/useUpdatePassword';
+import { useUpdatePassword } from '~/services/auth/useUpdatePassword';
 import { passwordValidator } from '~/utils/passwordValidator';
 
 import styles from './ChangePasswordDialog.module.scss';

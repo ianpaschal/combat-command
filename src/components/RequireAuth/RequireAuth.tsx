@@ -8,7 +8,7 @@ export interface RequireAuthProps {
 }
 
 export const RequireAuth = ({ children }: RequireAuthProps) => {
-  const user = useAuth();
+  const { user } = useAuth();
   const location = useLocation();
 
   if (!user) {

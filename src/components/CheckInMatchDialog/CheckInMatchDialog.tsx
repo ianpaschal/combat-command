@@ -7,12 +7,14 @@ import { ScrollArea } from '~/components/generic/ScrollArea';
 import styles from './CheckInMatchDialog.module.scss';
 
 export interface CheckInMatchDialogProps {
-  children: ReactNode;
+  children?: ReactNode;
+  trigger?: ReactNode;
   tournamentId?: string;
 }
 
 export const CheckInMatchDialog = ({
   children,
+  trigger,
   tournamentId,
 }: CheckInMatchDialogProps): JSX.Element => {
   const [open, setOpen] = useState<boolean>(false);
@@ -20,7 +22,7 @@ export const CheckInMatchDialog = ({
     <Dialog
       open={open}
       onOpenChange={setOpen}
-      trigger={children}
+      trigger={trigger || children}
       title="Check In Match Result"
       actions={[
         { label: 'Cancel', muted: true, onClick: () => setOpen(false), cancel: true },

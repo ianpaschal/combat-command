@@ -19,9 +19,10 @@ $header-height: 2.5rem;
     @include flex.column;
 
     max-width: min(100vw, 1280px);
-    min-height: calc(100vh - variables.$app-bar-height);
+
+    // min-height: calc(100vh - variables.$app-bar-height);
     margin: 0 auto;
-    padding: 1rem;
+    padding: 1rem var(--modal-outer-gutter);
   }
 
   &_Header {

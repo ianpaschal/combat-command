@@ -1,6 +1,6 @@
-import { UserProfile, UserProfileRecord } from '~/types/UserProfile';
+import { UserProfileSecureRow } from '~/types/db';
 
-export const getUserDisplayName = (userProfile: UserProfile | UserProfileRecord): string => {
+export const getUserDisplayName = (userProfile: UserProfileSecureRow | undefined): string => {
   if (!userProfile) {
     return 'Unknown User';
   }
@@ -9,5 +9,5 @@ export const getUserDisplayName = (userProfile: UserProfile | UserProfileRecord)
     return `${userProfile.given_name} ${userProfile.family_name}`;
   }
 
-  return userProfile.username;
+  return userProfile?.username || 'Unknown User';
 };

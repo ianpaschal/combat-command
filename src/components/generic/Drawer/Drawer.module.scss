@@ -30,7 +30,7 @@
     bottom: 0;
 
     min-width: 16rem;
-    max-width: calc(100vw - var(--modal-side-margin));
+    max-width: calc(100vw - var(--modal-outer-gutter));
   }
 
   &-top,
@@ -38,7 +38,7 @@
     position: fixed;
     right: 0;
     left: 0;
-    max-height: calc(100vh - var(--modal-side-margin));
+    max-height: calc(100vh - var(--modal-outer-gutter));
   }
 
   &-left {
@@ -98,7 +98,7 @@
   @include flex.row;
 
   min-height: 4rem;
-  padding: 1rem var(--modal-side-padding);
+  padding: 1rem var(--modal-inner-gutter);
 
   h2 {
     line-height: 2rem;
@@ -118,7 +118,7 @@
 
 .Footer {
   height: 4.5rem;
-  padding: 1rem var(--modal-side-padding);
+  padding: 1rem var(--modal-inner-gutter);
 }
 
 .Close {

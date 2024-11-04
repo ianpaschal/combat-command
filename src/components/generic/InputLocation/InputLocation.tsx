@@ -9,9 +9,9 @@ import { Search } from 'lucide-react';
 
 import { Button } from '~/components/generic/Button';
 import { InputText } from '~/components/generic/InputText';
-import { useFetchLocation } from '~/hooks/services/useFetchLocation';
-import { useLocationSearch } from '~/hooks/services/useLocationSearch';
+import { useLocationSearch } from '~/services/useLocationSearch';
 import { useDebounce } from '~/hooks/useDebounce';
+import { useFetchLocation } from '~/services/useFetchLocation';
 
 import './InputDate.scss';
 

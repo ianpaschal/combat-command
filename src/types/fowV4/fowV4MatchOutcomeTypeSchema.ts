@@ -11,7 +11,7 @@ export type FowV4MatchOutcomeType = z.infer<typeof fowV4MatchOutcomeTypeSchema>;
 
 export const fowV4MatchOutcomeTypeLabels: Record<FowV4MatchOutcomeType, string> = {
   objective_taken: 'Objective Taken',
-  objective_defended: 'Objective Defended',
+  objective_defended: 'Attack Repelled',
   time_out: 'Time Out / Draw',
   force_broken: 'Force Broken',
 };

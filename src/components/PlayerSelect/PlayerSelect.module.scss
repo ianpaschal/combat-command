@@ -21,7 +21,7 @@
 }
 
 .Toolbar {
-  padding: 0 var(--modal-side-padding) 1rem;
+  padding: 0 var(--modal-inner-gutter) 1rem;
 }
 
 .ScrollArea {
@@ -31,7 +31,7 @@
 .PlayerList {
   @include flex.column($gap: 0.5rem);
 
-  padding: 0 var(--modal-side-padding) 1rem;
+  padding: 0 var(--modal-inner-gutter) 1rem;
 }
 
 .PlayerListItem {

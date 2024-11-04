@@ -6,49 +6,10 @@
   @include flex.column;
 }
 
-.GameConfigSection {
-  @include animate.duration-quick;
-  @include animate.style-pop;
-  @include flex.column;
-}
-
-.GameConfigFields {
-  display: flex;
-  gap: calc(1rem + 1px);
-}
-
-.GameConfigEra,
-.GameConfigPoints {
-  width: 50%;
-
-  @include flex.stretchy;
-}
-
-.OpponentsSection {
-  display: grid;
-  grid-template-columns: 1fr variables.$border-width 1fr;
-  gap: 1rem;
-}
-
-.Player0Section,
-.Player1Section {
-  @include flex.column($xAlign: center);
-}
-
-.ResultsSection {
-  @include flex.column(1rem);
-}
-
 .SubmitButton {
   align-self: end;
 }
 
-.OutcomeSection {
-  display: grid;
-  grid-template-columns: minmax(6rem, 1fr) 3fr;
-  gap: 1rem;
-}
-
 .ConfirmDialogMatchCard {
-  margin: 1rem var(--modal-side-padding) 0;
+  margin: 1rem var(--modal-inner-gutter) 0;
 }

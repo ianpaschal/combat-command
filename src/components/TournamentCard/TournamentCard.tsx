@@ -21,8 +21,8 @@ import { Label } from '~/components/generic/Label';
 import { ScrollArea } from '~/components/generic/ScrollArea';
 import { Tag } from '~/components/generic/Tag';
 import { ManageTournamentMenu } from '~/components/ManageTournamentMenu';
+import { TournamentFullResponse } from '~/services/tournaments/fetchTournamentFull';
 import { fowV4EraOptions } from '~/types/fowV4/fowV4EraSchema';
-import { TournamentRecord } from '~/types/Tournament';
 import { bem } from '~/utils/componentLib/bem';
 
 import './TournamentCard.scss';
@@ -31,7 +31,7 @@ import './TournamentCard.scss';
 // In popups or drawers
 
 export interface TournamentCardProps {
-  tournament: TournamentRecord;
+  tournament: TournamentFullResponse;
   maxHeight?: number | string;
   className?: string;
   expanded?: boolean;
@@ -46,7 +46,7 @@ export const TournamentCard = ({
   expanded,
   orientation = 'vertical',
 }: TournamentCardProps) => {
-  const user = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -62,7 +62,7 @@ export const TournamentCard = ({
   const showActionButtons = !isTournamentDetailPage;
 
   const showManageRegistrationButton = false;
-  const showManageTournamentButton = user && tournament.organizer_ids.includes(user.id);
+  const showManageTournamentButton = tournament.creator_id === user?.id;
   const showRegisterButton = user && !showManageTournamentButton && !showManageRegistrationButton;
 
   return (
@@ -92,18 +92,17 @@ export const TournamentCard = ({
             </div>
             <div className={cn('GamePlay')}>
               <Dices />
-              <Tag>{`${tournament.game_system_config.points} pts`}</Tag>
-              <Tag>{fowV4EraOptions.find((option) => option.value === tournament.game_system_config.era)?.label}</Tag>
-              {tournament.game_system_config.era === 'mw' && (
+              <Tag>{`${tournament.game_system_config?.data?.points} pts`}</Tag>
+              <Tag>{fowV4EraOptions.find((option) => option.value === tournament.game_system_config?.data?.era)?.label}</Tag>
+              {tournament.game_system_config?.data?.era === 'mw' && (
                 <>
-                  <Label>Dynamic Points</Label><span>{tournament.game_system_config.era}</span>
+                  <Label>Dynamic Points</Label><span>{tournament.game_system_config?.data?.era}</span>
                 </>
               )}
             </div>
           </div>
         </div>
         {showExpanded && (
-
           <div className={cn('InfoSectionExpanded')}>
             <div className={cn('Description')}>
               <h3>Description</h3>
@@ -121,7 +120,6 @@ export const TournamentCard = ({
               <p>{tournament.description}</p>
             </div>
           </div>
-
         )}
       </ScrollArea>
       {showActionButtons && (

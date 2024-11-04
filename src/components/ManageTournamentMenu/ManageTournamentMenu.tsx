@@ -1,4 +1,5 @@
 import { ReactElement } from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as Popover from '@radix-ui/react-popover';
 import {
   ArrowRightToLine,
@@ -16,39 +17,51 @@ import {
 } from 'lucide-react';
 
 import { MenuItem } from '~/components/generic/MenuItem';
-import { Tournament } from '~/types/Tournament';
+import { TournamentRow } from '~/types/db';
 
 import styles from './ManageTournamentMenu.module.scss';
 
 export interface ManageTournamentMenuProps {
-  tournament: Tournament;
+  tournament: TournamentRow;
   trigger: ReactElement;
 }
 
 export const ManageTournamentMenu = ({
   tournament,
   trigger,
-}: ManageTournamentMenuProps): JSX.Element => (
-  <Popover.Root>
-    <Popover.Trigger asChild>
-      {trigger}
-    </Popover.Trigger>
-    <Popover.Content className={styles.Content} align="end">
-      <MenuItem label="Edit" icon={<Pencil />} visible={['draft', 'published'].includes(tournament.status)} />
-      <MenuItem label="Publish" icon={<Eye />} visible={tournament.status === 'draft'} />
-      <MenuItem label="Add match result" icon={<Plus />} visible={tournament.status === 'active' && tournament.current_round !== undefined} disabled />
-      <MenuItem label="Open registrations" icon={<UserRoundPen />} visible={tournament.status === 'published' && tournament.registrations_open} />
-      <MenuItem label="Close registrations" icon={<UserRoundX />} visible={tournament.status === 'published' && !tournament.registrations_open} />
-      <MenuItem label="Generate new pairings" icon={<Swords />} visible={tournament.status === 'active' && tournament.current_round === undefined} />
-      <MenuItem label="Start next round" icon={<ArrowRightToLine />} visible={tournament.status === 'active' && tournament.current_round === undefined} />
-      <MenuItem label="Complete tournament" icon={<CircleCheckBig />} visible={tournament.status === 'active' && tournament.current_round === undefined} />
-      <MenuItem label="Delete" icon={<Trash />} visible={tournament.status === 'draft'} />
-      <MenuItem label="Un-publish" icon={<EyeOff />} visible={tournament.status === 'published'} />
-      <MenuItem label="Cancel event" icon={<CircleOff />} visible={tournament.status === 'published'} />
-      <MenuItem label="End round early" icon={<TimerOff />} visible={tournament.status === 'active' && tournament.current_round !== undefined} />
-    </Popover.Content>
-  </Popover.Root>
-);
+}: ManageTournamentMenuProps): JSX.Element => {
+  const navigate = useNavigate();
+  return (
+    <>
+      <Popover.Root>
+        <Popover.Trigger asChild>
+          {trigger}
+        </Popover.Trigger>
+        <Popover.Content className={styles.Content} align="end">
+          <MenuItem label="Edit" icon={<Pencil />} visible={['draft', 'published'].includes(tournament.status)} />
+          <MenuItem label="Publish" icon={<Eye />} visible={tournament.status === 'draft'} />
+          <Popover.Close asChild>
+            <MenuItem
+              label="Add match result"
+              icon={<Plus />}
+              visible={tournament.status === 'active' && tournament.current_round !== undefined}
+              onClick={() => navigate(`/tournaments/${tournament.id}/add-match`)}
+            />
+          </Popover.Close>
+          <MenuItem label="Open registrations" icon={<UserRoundPen />} visible={tournament.status === 'published' && tournament.registrations_open} />
+          <MenuItem label="Close registrations" icon={<UserRoundX />} visible={tournament.status === 'published' && !tournament.registrations_open} />
+          <MenuItem label="Generate new pairings" icon={<Swords />} visible={tournament.status === 'active' && tournament.current_round === undefined} />
+          <MenuItem label="Start next round" icon={<ArrowRightToLine />} visible={tournament.status === 'active' && tournament.current_round === undefined} />
+          <MenuItem label="Complete tournament" icon={<CircleCheckBig />} visible={tournament.status === 'active' && tournament.current_round === undefined} />
+          <MenuItem label="Delete" icon={<Trash />} visible={tournament.status === 'draft'} />
+          <MenuItem label="Un-publish" icon={<EyeOff />} visible={tournament.status === 'published'} />
+          <MenuItem label="Cancel event" icon={<CircleOff />} visible={tournament.status === 'published'} />
+          <MenuItem label="End round early" icon={<TimerOff />} visible={tournament.status === 'active' && tournament.current_round !== undefined} />
+        </Popover.Content>
+      </Popover.Root>
+    </>
+  );
+};
 
 //   If status === draft:
 

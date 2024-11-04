@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import { ArrowLeft } from 'lucide-react';
 
@@ -29,7 +29,8 @@ export const PageWrapper = ({
   title,
 }: PageWrapperProps): JSX.Element => {
   const navigate = useNavigate();
-  const handleClickBack = (): void => navigate(-1);
+  const { pathname } = useLocation();
+  const handleClickBack = (): void => navigate(`${pathname.split('/').slice(0, -1).join('/')}`);
   return (
     <ScrollArea className={clsx(cn(), { 'PageWrapper-hasAppBar': appBarPadding })}>
       <div className={cn('Content', { fitToWindow })} style={{ maxWidth }}>

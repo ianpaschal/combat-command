@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { DialogProps, FormDialog } from '~/components/generic/Dialog';
 import { FormField } from '~/components/generic/Form';
 import { InputText } from '~/components/generic/InputText';
-import { useUpdateEmail } from '~/hooks/services/auth/useUpdateEmail';
+import { useUpdateEmail } from '~/services/auth/useUpdateEmail';
 
 import styles from './ChangeEmailDialog.module.scss';
 

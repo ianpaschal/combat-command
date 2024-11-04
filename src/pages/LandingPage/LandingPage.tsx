@@ -5,7 +5,7 @@ import { PageWrapper } from '~/components/PageWrapper';
 
 export const LandingPage = (): JSX.Element => {
 
-  const user = useAuth();
+  const { user } = useAuth();
 
   if (user) {
     return <Navigate to="/dashboard" />;

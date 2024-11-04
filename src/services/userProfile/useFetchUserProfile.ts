@@ -1,13 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { supabase } from '~/supabaseClient';
-import { UserProfileRecord } from '~/types/UserProfile';
+import { UserProfileSecureRow } from '~/types/db';
 
-const fetchUserProfile = async (userId: string): Promise<UserProfileRecord> => {
+const fetchUserProfile = async (userId: string): Promise<UserProfileSecureRow> => {
   const { data, error } = await supabase
     .from('user_profiles')
     .select('*')
-    .eq('id', userId)
+    .eq('user_id', userId)
     .single();
   if (error) {
     throw error;

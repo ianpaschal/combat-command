@@ -1,8 +1,8 @@
 @use "sass:color";
 
 :root {
-  --modal-side-padding: 1rem;
-  --modal-side-margin: 0.5rem;
+  --modal-inner-gutter: 1rem;
+  --modal-outer-gutter: 0.5rem;
   --font-size-normal: 1rem;
   --line-height-normal: 1.5rem;
   --font-size-small: 0.875rem;
@@ -11,8 +11,8 @@
 
 @media (width >= 688px) {
   :root {
-    --modal-side-padding: 1.5rem;
-    --modal-side-margin: 1rem;
+    --modal-inner-gutter: 1.5rem;
+    --modal-outer-gutter: 1rem;
   }
 }
 

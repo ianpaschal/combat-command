@@ -9,55 +9,21 @@ import {
 import { InputSelect } from '~/components/generic/InputSelect';
 import { Label } from '~/components/generic/Label';
 import { PairingCell } from '~/components/PairingCell';
-import { TournamentCompetitor } from '~/types/TournamentCompetitor';
-import { TournamentPairing } from '~/types/TournamentPairing';
+import { TournamentPairingsResponse } from '~/services/tournaments/fetchTournamentPairings';
+import { useFetchTournamentParingsByTournamentId } from '~/services/tournaments/fetchTournamentPairingsByTournamentId';
 
-type JoinedTournamentPairing = Omit<TournamentPairing, 'competitor_ids'> & { competitors: TournamentCompetitor[] };
+export interface TournamentPairingsSectionProps {
+  tournamentId: string;
+}
 
-const dummyPairings: JoinedTournamentPairing[] = [
-  {
-    tournament_id: 'foo', round: 0, table: 0, competitors: [
-      { tournament_id: 'foo', user_ids: ['foo', 'bar', 'baz'], list_ids: ['foo', 'bar', 'baz'], country_code: 'nl' },
-      { tournament_id: 'foo', user_ids: ['foo', 'bar', 'baz'], list_ids: ['foo', 'bar', 'baz'], country_code: 'be' },
-    ],
-  },
-  {
-    tournament_id: 'foo', round: 0, table: 0, competitors: [
-      { tournament_id: 'foo', user_ids: ['foo', 'bar', 'baz'], list_ids: ['foo', 'bar', 'baz'], country_code: 'nl' },
-      { tournament_id: 'foo', user_ids: ['foo', 'bar', 'baz'], list_ids: ['foo', 'bar', 'baz'], country_code: 'be' },
-    ],
-  },
-  {
-    tournament_id: 'foo', round: 0, table: 0, competitors: [
-      { tournament_id: 'foo', user_ids: ['foo', 'bar', 'baz'], list_ids: ['foo', 'bar', 'baz'], country_code: 'nl' },
-      { tournament_id: 'foo', user_ids: ['foo', 'bar', 'baz'], list_ids: ['foo', 'bar', 'baz'], country_code: 'be' },
-    ],
-  },
-  {
-    tournament_id: 'foo', round: 0, table: 0, competitors: [
-      { tournament_id: 'foo', user_ids: ['foo', 'bar', 'baz'], list_ids: ['foo', 'bar', 'baz'], country_code: 'nl' },
-      { tournament_id: 'foo', user_ids: ['foo', 'bar', 'baz'], list_ids: ['foo', 'bar', 'baz'], country_code: 'be' },
-    ],
-  },
-  {
-    tournament_id: 'foo', round: 0, table: 0, competitors: [
-      { tournament_id: 'foo', user_ids: ['foo', 'bar', 'baz'], list_ids: ['foo', 'bar', 'baz'], country_code: 'nl' },
-      { tournament_id: 'foo', user_ids: ['foo', 'bar', 'baz'], list_ids: ['foo', 'bar', 'baz'], country_code: 'be' },
-    ],
-  },
-  {
-    tournament_id: 'foo', round: 0, table: 0, competitors: [
-      { tournament_id: 'foo', user_ids: ['foo', 'bar', 'baz'], list_ids: ['foo', 'bar', 'baz'], country_code: 'nl' },
-      { tournament_id: 'foo', user_ids: ['foo', 'bar', 'baz'], list_ids: ['foo', 'bar', 'baz'], country_code: 'be' },
-    ],
-  },
-];
-
-export const TournamentPairingsSection = (): JSX.Element => {
-  const columnDefs: ColumnDef<JoinedTournamentPairing>[] = [
+export const TournamentPairingsSection = ({
+  tournamentId,
+}: TournamentPairingsSectionProps): JSX.Element => {
+  const { data: pairingsList } = useFetchTournamentParingsByTournamentId(tournamentId);
+  const columnDefs: ColumnDef<TournamentPairingsResponse>[] = [
     {
       header: 'Table',
-      render: (data) => <DefaultCell value={data.table + 1} />,
+      render: (data) => <DefaultCell value={data.table_index + 1} />,
       width: '2.25rem',
     },
     {
@@ -67,13 +33,14 @@ export const TournamentPairingsSection = (): JSX.Element => {
     },
 
   ];
+  console.log(pairingsList);
   return (
     <Card className={clsx('TournamentPairingsSection')} title="Pairings" disablePadding>
       <div>
         <Label>Round</Label>
         <InputSelect options={[{ value: 'all', label: 'All' }, { value: 'current', label: 'Current' }, '-', { value: 'round_0', label: 'Round 1' }]} />
       </div>
-      <DataTable data={dummyPairings} columns={columnDefs} />
+      <DataTable data={pairingsList || []} columns={columnDefs} />
     </Card>
   );
 };

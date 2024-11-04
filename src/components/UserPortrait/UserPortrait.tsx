@@ -1,29 +1,44 @@
 import { cloneElement, ReactElement } from 'react';
 import clsx from 'clsx';
 
+import { useFetchUserProfile } from '~/services/userProfile/useFetchUserProfile';
+import { getUserDisplayName } from '~/utils/getUserDisplayName';
+
 import './UserPortrait.scss';
 
 export interface UserPortraitProps {
-  name: string;
+  userId?: string;
   children: ReactElement;
   orientation?: 'vertical' | 'horizontal';
   reversed?: boolean;
   className?: string;
   size?: number | string;
+  displayName?: string;
 }
 
 export const UserPortrait = ({
   className,
   children,
   orientation = 'vertical',
-  name,
+  userId,
   reversed = false,
+  displayName,
   size,
-}: UserPortraitProps): JSX.Element => (
-  <div className={clsx('UserPortrait', `UserPortrait-${orientation}`, reversed && `UserPortrait-${orientation}Reversed`, className)}>
-    {cloneElement(children, { size: size || (orientation === 'horizontal' ? '2.5rem' : '4.5rem') })}
-    <div className="UserPortraitName" data-orientation={orientation}>
-      {name}
+}: UserPortraitProps): JSX.Element => {
+  const { data: userProfile } = useFetchUserProfile(userId);
+  return (
+    <div className={clsx('UserPortrait', `UserPortrait-${orientation}`, reversed && `UserPortrait-${orientation}Reversed`, className)}>
+      {cloneElement(children, { size: size || (orientation === 'horizontal' ? '2.5rem' : '4.5rem') })}
+      {userProfile && (
+        <div className="UserPortraitName" data-orientation={orientation}>
+          {getUserDisplayName(userProfile)}
+        </div>
+      )}
+      {displayName && (
+        <div className="UserPortraitName" data-orientation={orientation}>
+          {displayName}
+        </div>
+      )}
     </div>
-  </div>
-);
+  );
+};

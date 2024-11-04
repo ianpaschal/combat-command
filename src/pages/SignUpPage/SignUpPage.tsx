@@ -9,7 +9,7 @@ import { Form, FormField } from '~/components/generic/Form';
 import { InputText } from '~/components/generic/InputText';
 import { Separator } from '~/components/generic/Separator';
 import { PageWrapperHalf } from '~/components/PageWrapperHalf';
-import { useSignUp } from '~/hooks/services/auth/useSignUp';
+import { useSignUp } from '~/services/auth/useSignUp';
 
 import styles from './SignUpPage.module.scss';
 

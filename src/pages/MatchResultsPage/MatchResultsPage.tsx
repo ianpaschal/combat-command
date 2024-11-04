@@ -6,7 +6,7 @@ import { FloatingActionButton } from '~/components/FloatingActionButton';
 import { PageWrapper } from '~/components/PageWrapper';
 
 export const MatchResultsPage = (): JSX.Element => {
-  const user = useAuth();
+  const { user } = useAuth();
   const showAddMatchResultButton = !!user;
   return (
     <PageWrapper title="Match Results">

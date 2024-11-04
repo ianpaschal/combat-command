@@ -20,6 +20,7 @@ export const AuthProvider = ({
   children,
 }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
+  const [profileId, setProfileId] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [updatePasswordDialogOpen, setUpdatePasswordDialogOpen] = useState<boolean>(false);
 
@@ -35,10 +36,15 @@ export const AuthProvider = ({
       setLoading(false);
     } else {
       const getUser = async () => {
-        const { data } = await supabase.auth.getUser();
-        const { user: currentUser } = data;
-        if (currentUser) {
-          setUser(currentUser);
+        const { data: auth } = await supabase.auth.getUser();
+        const { data: profile } = await supabase
+          .from('user_profiles')
+          .select('id')
+          .eq('user_id', auth.user?.id)
+          .single();
+        if (auth.user && profile) {
+          setUser(auth.user);
+          setProfileId(profile?.id as string || null);
         }
         setLoading(false);
       };
@@ -70,7 +76,7 @@ export const AuthProvider = ({
   }
 
   return (
-    <AuthContext.Provider value={user}>
+    <AuthContext.Provider value={{ user, profileId }}>
       {children}
       <ChangePasswordDialog
         open={updatePasswordDialogOpen}

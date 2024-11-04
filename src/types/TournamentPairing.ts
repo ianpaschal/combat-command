@@ -3,13 +3,13 @@ import { z } from 'zod';
 import { DbRecord } from '~/types/DbRecord';
 
 export const tournamentPairingSchema = z.object({
-  tournament_id: z.string().uuid(), //FIXME: @Simon is this OK to have here? redundant with tournament_competitor's tournament_id
-  round: z.number().min(0),
-  table: z.number().min(0),
-  competitor_ids: z.array(z.string().uuid()).min(2).max(2),
+  tournament_id: z.string().uuid(),
+  competitor_0_id: z.string().uuid(),
+  competitor_1_id: z.string().uuid(),
+  round_index: z.number().min(0),
+  table_index: z.number().min(0),
 });
 
 export type TournamentPairing = z.infer<typeof tournamentPairingSchema>;
 
 export type TournamentPairingRecord = TournamentPairing & DbRecord;
-

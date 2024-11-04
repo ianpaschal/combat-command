@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { fowV4EraSchema } from '~/types/fowV4/fowV4EraSchema';
 
 export const fowV4GameSystemConfigSchema = z.object({
+  game_system_id: z.string().uuid(),
 
   // Rule add-ons
   lessons_from_the_front_version: z.string(),

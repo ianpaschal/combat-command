@@ -22,7 +22,7 @@ export const AppBar = ({
   maxWidth,
   navItems,
 }: AppBarProps): JSX.Element => {
-  const user = useAuth();
+  const { user } = useAuth();
   const width = useWindowWidth();
   const isMobile = width <= MIN_WIDTH_TABLET;
   return (

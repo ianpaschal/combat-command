@@ -2,6 +2,7 @@ import {
   ComponentPropsWithoutRef,
   ElementRef,
   forwardRef,
+  useEffect,
 } from 'react';
 import {
   Content,
@@ -38,8 +39,8 @@ export interface InputSelectProps {
   options: InputSelectItem<SelectValue>[];
   hasError?: boolean;
   placeholder?: string;
-  onChange?: (value: SelectValue) => void;
-  value?: SelectValue;
+  onChange?: (value: SelectValue | undefined) => void;
+  value?: SelectValue | undefined;
 }
 
 type SelectRef = ElementRef<typeof Root>;
@@ -54,6 +55,13 @@ export const InputSelect = forwardRef<SelectRef, SelectProps>(({
   ...props
 }, ref): JSX.Element => {
   const [stringValue, stringOptions, handleValueChange] = useStringSelect(value, options, onChange);
+  useEffect(() => {
+    if (value && !options.find((option) => typeof option === 'object' && 'value' in option && option.value === value)) {
+      if (onChange) {
+        onChange(undefined);
+      }
+    }
+  }, [value, options, onChange]);
   return (
     <Root onValueChange={handleValueChange} disabled={disabled} value={stringValue} {...props}>
       <Trigger className={clsx('InputSelectTrigger', { 'InputSelectTrigger--hasError': hasError, 'InputSelectTrigger--disabled': disabled })}>

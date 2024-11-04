@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { OSMLocationSearchResultItem } from '~/hooks/services/useLocationSearch';
+import { OSMLocationSearchResultItem } from '~/services/useLocationSearch';
 
 const fetchLocation = async (placeId: string): Promise<OSMLocationSearchResultItem[]> => {
   const response = await fetch(`https://nominatim.openstreetmap.org/lookup?osm_ids=${placeId}&format=json`);

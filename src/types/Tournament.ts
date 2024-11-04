@@ -31,12 +31,12 @@ const tournamentSchema = z.object({
   pairing_method: tournamentPairingMethodSchema,
 
   // Game Config
-  game_system_id: z.string(),
+  game_system_id: z.string().uuid(),
   game_system_config: fowV4GameSystemConfigSchema, // TODO: Replace with a union of other game systems
   ranking_factors: z.array(z.string()),
 
   // Management
-  organizer_ids: z.array(z.string().uuid()),
+  creator_id: z.string().uuid(),
   current_round: z.optional(z.number()),
   status: tournamentStatusSchema,
   registrations_open: z.boolean(),

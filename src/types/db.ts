@@ -1,0 +1,50 @@
+import { Database } from '~/types/__generated__/database.types';
+import { FowV4GameSystemConfig } from '~/types/fowV4/fowV4GameSystemConfigSchema';
+import { FowV4MatchOutcomeFormData } from '~/types/fowV4/fowV4MatchOutcomeSchema';
+
+export type TournamentRow = Database['public']['Tables']['tournaments']['Row'];
+export type GameSystemConfigRow = Omit<Database['public']['Tables']['game_system_configs']['Row'], 'data'> & {
+  data: FowV4GameSystemConfig;
+};
+export type TournamentPairingRow = Database['public']['Tables']['tournament_pairings']['Row'];
+export type PlayerRow = Database['public']['Tables']['players']['Row'];
+export type TournamentCompetitorRow = Database['public']['Tables']['tournament_competitors']['Row'];
+export type MatchResultRow = Database['public']['Tables']['match_results']['Row'];
+export type MatchPlayerRow = Database['public']['Tables']['match_players']['Row'];
+export type UserProfileSecureRow = Database['public']['Views']['user_profiles_secure']['Row'];
+
+export type MatchResultInsert = Omit<MatchResultRow, 'id' | 'created_at' | 'updated_at'>;
+
+// Deep nested results
+export interface PlayerDeep extends PlayerRow {
+  profile: UserProfileSecureRow;
+}
+
+export interface TournamentCompetitorDeep extends TournamentCompetitorRow {
+  players: PlayerDeep[];
+}
+
+export interface TournamentPairingDeep extends TournamentPairingRow {
+  competitor_0: TournamentCompetitorDeep;
+  competitor_1: TournamentCompetitorDeep;
+}
+
+export interface TournamentDeep extends TournamentRow {
+  pairings: TournamentPairingDeep[];
+  competitors: TournamentCompetitorDeep[];
+}
+
+export interface MatchResultDeep extends MatchResultRow {
+  player_0: {
+    profile: UserProfileSecureRow;
+    competitor: TournamentCompetitorRow;
+  };
+  player_1: {
+    profile: UserProfileSecureRow;
+    competitor: TournamentCompetitorRow;
+  };
+  outcome: FowV4MatchOutcomeFormData;
+  pairing?: TournamentPairingRow;
+}
+
+export type MatchResultDraft = Omit<MatchResultDeep, 'id' | 'created_at' | 'updated_at'>;
