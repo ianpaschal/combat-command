@@ -60,9 +60,9 @@ export const TournamentsPage = (): JSX.Element => {
       </div>
       {tournaments && (
         <div className={cn('List')}>
-          {tournaments.map((tournaments) => (
-            <Card key={tournaments.id} disablePadding>
-              <TournamentCard tournament={tournaments} />
+          {tournaments.map((tournament) => (
+            <Card key={tournament.id} disablePadding>
+              <TournamentCard tournament={tournament} />
             </Card>
           ))}
         </div>

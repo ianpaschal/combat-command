@@ -84,19 +84,19 @@ export const ComponentTestPage = (): JSX.Element => {
           <Tag>Hello</Tag><Tag>World</Tag>
           <Stack>
             Hello world
-            <UserPortrait name="Ian Paschal With a long name" orientation="horizontal">
+            <UserPortrait displayName="Ian Paschal With a long name" orientation="horizontal">
               <Avatar />
             </UserPortrait>
-            <UserPortrait name="Ian Paschal" orientation="vertical">
+            <UserPortrait displayName="Ian Paschal" orientation="vertical">
               <Avatar />
             </UserPortrait>
-            <UserPortrait name="Netherlands" orientation="horizontal">
+            <UserPortrait displayName="Netherlands" orientation="horizontal">
               <FlagCircle code="nl" />
             </UserPortrait>
-            <UserPortrait name="Netherlands" orientation="horizontal" reversed>
+            <UserPortrait displayName="Netherlands" orientation="horizontal" reversed>
               <FlagCircle code="nl" />
             </UserPortrait>
-            <UserPortrait name="Germany" orientation="vertical">
+            <UserPortrait displayName="Germany" orientation="vertical">
               <FlagCircle code="de" />
             </UserPortrait>
             {/* <span className="fi fi-gb-wls fis" style={{ width: '6rem', height: '6rem', borderRadius: '100%' }} /> */}

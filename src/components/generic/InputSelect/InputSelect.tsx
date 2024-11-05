@@ -39,8 +39,8 @@ export interface InputSelectProps {
   options: InputSelectItem<SelectValue>[];
   hasError?: boolean;
   placeholder?: string;
-  onChange?: (value: SelectValue | undefined) => void;
-  value?: SelectValue | undefined;
+  onChange?: (value?: SelectValue) => void;
+  value?: SelectValue;
 }
 
 type SelectRef = ElementRef<typeof Root>;

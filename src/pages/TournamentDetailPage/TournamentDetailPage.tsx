@@ -128,7 +128,7 @@ export const TournamentDetailPage = (): JSX.Element => {
             </TabsContent>
             <TabsContent value="rankings" className={cn('TabsContentSection')}>
               <Card className={cn('RankingsCard')} title="Rankings">
-                <FowV4RankingsTable />
+                <FowV4RankingsTable results={[]} />
               </Card>
             </TabsContent>
             <TabsContent value="pairings" className={cn('TabsContentSection')}>

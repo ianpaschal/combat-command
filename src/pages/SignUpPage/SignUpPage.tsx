@@ -18,6 +18,8 @@ const signUpFormSchema = z.object({
   password: z.string().min(8, 'Password must be at least 8 characters.'),
   passwordRepeat: z.string(),
   username: z.string().min(3, 'Must be at least 3 characters.').max(24, 'Cannot be longer than 24 characters.'),
+  given_name: z.string().min(2, 'Must be at least 2 characters.').max(64, 'Cannot be longer than 64 characters.'),
+  family_name: z.string().min(2, 'Must be at least 2 characters.').max(64, 'Cannot be longer than 64 characters.'),
 }).superRefine((values, ctx) => {
   if (values.password !== values.passwordRepeat) {
     ctx.addIssue({
@@ -38,6 +40,8 @@ export const SignUpPage = (): JSX.Element => {
     defaultValues: {
       email: '',
       password: '',
+      given_name: '',
+      family_name: '',
       passwordRepeat: '',
       username: '',
     },
@@ -63,6 +67,14 @@ export const SignUpPage = (): JSX.Element => {
         <FormField name="username" label="Username" description="Your public display name" disabled={isPending}>
           <InputText type="text" />
         </FormField>
+        <Separator />
+        <FormField name="given_name" label="Given Name" description="Hidden by default" disabled={isPending}>
+          <InputText type="text" />
+        </FormField>
+        <FormField name="family_name" label="Family Name" description="Hidden by default" disabled={isPending}>
+          <InputText type="text" />
+        </FormField>
+        <Separator />
         <FormField name="email" label="Email" disabled={isPending}>
           <InputText type="text" /* Not email, to avoid browser validation */ />
         </FormField>

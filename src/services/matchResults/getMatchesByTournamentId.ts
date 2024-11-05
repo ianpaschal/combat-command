@@ -8,8 +8,8 @@ import { MatchResultDeep } from '~/types/db';
  * @param tournamentId 
  * @returns 
  */
-export const getMatchesByUserId = async (
-  params: GetMatchesParams,
+export const getMatches = async (
+  params: GetMatchesParams = {},
 ): Promise<MatchResultDeep[]> => {
   const query = supabase
     .from('match_results')
@@ -61,6 +61,6 @@ export const useGetMatchesByTournamentId = (
   enabled?: boolean,
 ) => useQuery({
   queryKey: ['matches_by_tournament_id_list', params],
-  queryFn: () => getMatchesByUserId(params),
+  queryFn: () => getMatches(params),
   enabled,
 });

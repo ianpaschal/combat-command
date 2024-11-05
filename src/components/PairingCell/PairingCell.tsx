@@ -4,13 +4,13 @@ import clsx from 'clsx';
 import { Avatar } from '~/components/generic/Avatar';
 import { FlagCircle } from '~/components/generic/FlagCircle';
 import { UserPortrait, UserPortraitProps } from '~/components/UserPortrait/UserPortrait';
-import { TournamentPairing } from '~/services/tournaments/fetchTournamentPairings';
-import { TournamentCompetitorRecord } from '~/types/TournamentCompetitor';
+import { TournamentCompetitorDeep, TournamentPairingDeep } from '~/types/db';
 import { getCountryName } from '~/utils/getCountryName';
+import { getUserDisplayName } from '~/utils/getUserDisplayName';
 
 import styles from './PairingCell.module.scss';
 
-const renderCompetitorProfile = (c: TournamentCompetitorRecord, props: Partial<UserPortraitProps>): ReactNode => {
+const renderCompetitorProfile = (c: TournamentCompetitorDeep, props: Partial<UserPortraitProps>): ReactNode => {
 
   console.log(c.players.length, c.country_code);
   // Is a team:
@@ -36,7 +36,7 @@ const renderCompetitorProfile = (c: TournamentCompetitorRecord, props: Partial<U
   // Is single player:
   if (c.players.length === 1) {
     return (
-      <UserPortrait userId={c.players[0].user_id} {...props}>
+      <UserPortrait displayName={getUserDisplayName(c.players[0].profile)} {...props}>
         <Avatar />
       </UserPortrait>
     );
@@ -44,7 +44,7 @@ const renderCompetitorProfile = (c: TournamentCompetitorRecord, props: Partial<U
 };
 
 interface PairingCellProps {
-  data: TournamentPairing;
+  data: TournamentPairingDeep;
 }
 
 export const PairingCell = ({

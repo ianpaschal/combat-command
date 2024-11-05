@@ -48,18 +48,18 @@ export const FowV4MatchResultForm = ({
     resolver: zodResolver(tournamentMatchFormSchema),
     defaultValues: {
       tournament_pairing_id: null,
-      player_0_id: null,
-      player_1_id: null,
+      player_0_id: '',
+      player_1_id: '',
       outcome: {
-        mission_id: null,
-        outcome_type: null,
-        winner: null,
+        mission_id: undefined,
+        outcome_type: undefined,
+        winner: undefined,
         turns_played: 1,
-        attacker: null,
-        firstTurn: null,
-        player_0_stance: null,
+        attacker: undefined,
+        firstTurn: undefined,
+        player_0_stance: undefined,
         player_0_units_lost: 0,
-        player_1_stance: null,
+        player_1_stance: undefined,
         player_1_units_lost: 0,
       },
     },
@@ -93,7 +93,7 @@ export const FowV4MatchResultForm = ({
 
   // Reset player values if pairing is changed
   useEffect(() => {
-    reset((prev) => ({ ...prev, player_0_id: null, player_1_id: null }));
+    reset((prev) => ({ ...prev, player_0_id: '', player_1_id: '' }));
   }, [reset, tournament_pairing_id]);
 
   const pairingOptions = getPairingOptions(tournament?.pairings || []);

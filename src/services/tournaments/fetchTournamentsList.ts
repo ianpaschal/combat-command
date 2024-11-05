@@ -1,9 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { supabase } from '~/supabaseClient';
-import { TournamentRecord } from '~/types/Tournament';
+import { TournamentRow } from '~/types/db';
+import { FowV4GameSystemConfig } from '~/types/fowV4/fowV4GameSystemConfigSchema';
 
-export const fetchTournamentsList = async (): Promise<TournamentRecord[]> => {
+export type FetchTournamentsItem = TournamentRow & {
+  game_system_config: {
+    data: FowV4GameSystemConfig
+  }
+};
+
+export const fetchTournamentsList = async (): Promise<FetchTournamentsItem[]> => {
   const { data, error } = await supabase
     .from('tournaments')
     .select(`

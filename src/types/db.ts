@@ -1,6 +1,7 @@
-import { Database } from '~/types/__generated__/database.types';
+import { Database, Tables } from '~/types/__generated__/database.types';
 import { FowV4GameSystemConfig } from '~/types/fowV4/fowV4GameSystemConfigSchema';
 import { FowV4MatchOutcomeFormData } from '~/types/fowV4/fowV4MatchOutcomeSchema';
+import { NullConversion } from '~/utils/nullsToUndefined';
 
 export type TournamentRow = Database['public']['Tables']['tournaments']['Row'];
 export type GameSystemConfigRow = Omit<Database['public']['Tables']['game_system_configs']['Row'], 'data'> & {
@@ -10,8 +11,12 @@ export type TournamentPairingRow = Database['public']['Tables']['tournament_pair
 export type PlayerRow = Database['public']['Tables']['players']['Row'];
 export type TournamentCompetitorRow = Database['public']['Tables']['tournament_competitors']['Row'];
 export type MatchResultRow = Database['public']['Tables']['match_results']['Row'];
-export type MatchPlayerRow = Database['public']['Tables']['match_players']['Row'];
-export type UserProfileSecureRow = Database['public']['Views']['user_profiles_secure']['Row'];
+export type UserProfileSecureRow = Database['public']['Views']['user_profiles_secure']['Row'] & {
+  id: string; // ID ALWAYS exists!
+};
+export type UserProfileRow = Tables<'user_profiles'>;
+
+export type UserProfileSecure = NullConversion<UserProfileSecureRow>;
 
 export type MatchResultInsert = Omit<MatchResultRow, 'id' | 'created_at' | 'updated_at'>;
 
@@ -30,6 +35,7 @@ export interface TournamentPairingDeep extends TournamentPairingRow {
 }
 
 export interface TournamentDeep extends TournamentRow {
+  game_system_config: GameSystemConfigRow;
   pairings: TournamentPairingDeep[];
   competitors: TournamentCompetitorDeep[];
 }

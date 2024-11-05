@@ -8,7 +8,7 @@ import { Form, FormField } from '~/components/generic/Form';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { InputText } from '~/components/generic/InputText';
 import { Separator } from '~/components/generic/Separator';
-import { useFetchUserProfile } from '~/services/userProfile/useFetchUserProfile';
+import { useGetOwnUserProfile } from '~/services/userProfile/getOwnUserProfile';
 import { useUpdateUserProfile } from '~/services/userProfile/useUpdateUserProfile';
 import { UserProfile, userProfileSchema } from '~/types/UserProfile';
 import { UserProfileNameVisibility, userProfileNameVisibilityOptions } from '~/types/UserProfileNameVisibility';
@@ -27,7 +27,7 @@ const defaultValues = {
 export const ProfileSettings = (): JSX.Element => {
   const { user } = useAuth();
 
-  const { data: userProfile } = useFetchUserProfile(user?.id);
+  const { data: userProfile } = useGetOwnUserProfile(user?.id);
   const updateProfile = useUpdateUserProfile();
 
   const form = useForm<UserProfile>({

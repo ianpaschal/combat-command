@@ -42,6 +42,7 @@ import './TournamentForm.scss';
 const cn = createCn('TournamentForm');
 
 const defaultFowV4GameConfigValues: FowV4GameSystemConfig = {
+  game_system_id: '',
   era: 'lw',
   points: 100,
   lessons_from_the_front_version: '2024-03',
@@ -57,7 +58,7 @@ const defaultValues: Partial<Tournament> = {
   description: '',
   ends_at: '',
   location: '',
-  organizer_ids: [],
+  creator_id: '',
   rules_pack_url: '',
   starts_at: '',
   title: '',
@@ -80,7 +81,7 @@ export const TournamentForm = ({
 }: TournamentFormProps): JSX.Element => {
   const [useTeams, setUseTeams] = useState<boolean>(false);
   // const [forceNationalTeams, setForceNationalTeams] = useState<boolean>(false);
-  const [timeZone, setTimeZone] = useState<string>(Intl.DateTimeFormat().resolvedOptions().timeZone);
+  const [timeZone] = useState<string>(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
   const form = useForm<Tournament>({
     resolver: tournamentResolver,

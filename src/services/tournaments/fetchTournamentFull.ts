@@ -39,7 +39,7 @@ export const fetchTournamentFull = async (id: string): Promise<TournamentDeep> =
     .from('tournaments')
     .select(`
       *,
-      game_system_config:game_system_configs (data),
+      game_system_config: game_system_configs (data),
       pairings: tournament_pairings (
         id,
         competitor_0: tournament_competitors!competitor_0_id (

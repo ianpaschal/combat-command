@@ -1,17 +1,17 @@
 import { calculateMatchScore } from './calculateMatchScore';
-import { getOpponentUserIdsByUser } from './getOpponentUserIdsByUser';
-import { getTotalPointsByUser } from './getTotalPointsByUser';
-import { getTotalUnitsDestroyedByUser } from './getTotalUnitsDestroyedByUser';
-import { getTotalUnitsLostByUser } from './getTotalUnitsLostByUser';
-import { getTotalWinsByUser } from './getTotalWinsByUser';
+import { getOpponentsByProfileId } from './getOpponentsByProfileId';
+import { getTotalPointsByProfileId } from './getTotalPointsByProfileId';
+import { getTotalUnitsDestroyedByProfileId } from './getTotalUnitsDestroyedByProfileId';
+import { getTotalUnitsLostByProfileId } from './getTotalUnitsLostByProfileId';
+import { getTotalWinsByProfileId } from './getTotalWinsByProfileId';
 
 const flamesOfWarV4Utils = {
   calculateMatchScore,
-  getOpponentUserIdsByUser,
-  getTotalPointsByUser,
-  getTotalUnitsDestroyedByUser,
-  getTotalUnitsLostByUser,
-  getTotalWinsByUser,
+  getOpponentsByProfileId,
+  getTotalPointsByProfileId,
+  getTotalUnitsDestroyedByProfileId,
+  getTotalUnitsLostByProfileId,
+  getTotalWinsByProfileId,
 };
 
 export default flamesOfWarV4Utils;

@@ -16,21 +16,25 @@ export interface TournamentMatchResultsSectionProps {
 export const TournamentMatchResultsSection = ({
   tournamentId,
 }: TournamentMatchResultsSectionProps): JSX.Element => {
-  const [round, setRound] = useState<number | null | undefined>(undefined);
+  const [round, setRound] = useState<number | undefined>(undefined);
   const { data: matches } = useGetMatchesByTournamentId({ tournamentId, round });
   const roundOptions = [
-    { value: null, label: 'All' },
     { value: 0, label: 'Round 1' },
     { value: 1, label: 'Round 2' },
     { value: 2, label: 'Round 3' },
     { value: 3, label: 'Round 4' },
     { value: 4, label: 'Round 5' },
   ];
+  const handleChangeRound = (value: null | number | string | undefined): void => {
+    if (value && typeof value === 'number') {
+      setRound(value);
+    }
+  };
   return (
     <Card title="Match Results" disablePadding>
       <div className={styles.Controls}>
         <Label>Round</Label>
-        <InputSelect options={roundOptions} value={round} onChange={setRound} />
+        <InputSelect options={roundOptions} value={round} onChange={handleChangeRound} />
       </div>
       <ScrollArea indicatorBorder="top">
         <div className={styles.ItemList}>

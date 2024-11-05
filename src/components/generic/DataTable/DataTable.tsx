@@ -17,7 +17,7 @@ export interface ColumnDef<T> {
 }
 
 export interface DataTableProps<T> {
-  data: T[];
+  data?: T[];
   columns: ColumnDef<T>[];
   maxHeight?: number;
   includeLineNumbers?: boolean;
@@ -68,7 +68,7 @@ export const DataTable = <T,>({
         </div>
         <ScrollArea className={styles.Body}>
           <div>
-            {data.map((row, i) => (
+            {data && data.map((row, i) => (
               <div className={styles.Row} key={`DataTable_Row-${i}`} style={{ gridTemplateColumns }}>
                 {includeLineNumbers && (
                   <DefaultCell className={styles.IndexCell} value={i + 1} />

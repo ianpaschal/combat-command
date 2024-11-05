@@ -7,7 +7,7 @@ export const CreateTournamentPage = (): JSX.Element => {
   return (
     <PageWrapper title="Create Tournament" showBackButton maxWidth={960}>
       <TournamentForm
-        defaultValues={{ organizer_ids: user ? [user.id] : [] }}
+        defaultValues={{ creator_id: user?.id }}
         onSubmit={(data) => console.log(data)}
       />
     </PageWrapper>

@@ -1,26 +1,25 @@
-import { dummyRankings } from '~/components/FowV4RankingsTable/dummyRankings';
 import {
   ColumnDef,
   CountryCell,
   DataTable,
   DefaultCell,
 } from '~/components/generic/DataTable';
-import { TournamentCompetitor } from '~/types/TournamentCompetitor';
+import { AggregateCompetitorResult } from '~/services/calculatePlayerRankings';
+import { getUserDisplayName } from '~/utils/getUserDisplayName';
 
-interface FowV4Ranking {
-  competitor: Omit<TournamentCompetitor, 'tournament_id' | 'list_ids'>;
-  wins: number;
-  points: number;
-  kills: number;
+export interface FowV4RankingsTableProps {
+  results: AggregateCompetitorResult[];
 }
 
-export const FowV4RankingsTable = (): JSX.Element => {
-
-  const columnDefs: ColumnDef<FowV4Ranking>[] = [
+// TODO: This is based on competitors and tournaments. Make a separate component for player results
+export const FowV4RankingsTable = ({
+  results,
+}: FowV4RankingsTableProps): JSX.Element => {
+  const columnDefs: ColumnDef<AggregateCompetitorResult>[] = [
     {
       header: 'Team Name',
       render: ({ competitor }) => {
-        if (competitor.user_ids.length > 1) {
+        if (competitor.players.length > 1) {
           if (competitor.country_code) {
             return (<CountryCell code={competitor.country_code} />);
           }
@@ -29,27 +28,27 @@ export const FowV4RankingsTable = (): JSX.Element => {
           }
           return (<DefaultCell value="Unknown Team" />);
         }
-        return (<DefaultCell value={competitor.user_ids[0]} />);
+        return (<DefaultCell value={getUserDisplayName(competitor.players[0].profile)} />);
       },
       width: '2fr',
     },
     {
       header: 'Wins',
-      render: (data) => <DefaultCell value={data.wins} />,
+      render: (data) => <DefaultCell value={data.total_wins} />,
       width: '1fr',
     },
     {
       header: 'Points',
-      render: (data) => <DefaultCell value={data.points} />,
+      render: (data) => <DefaultCell value={data.total_points} />,
       width: '1fr',
     },
     {
-      header: 'Kills',
-      render: (data) => <DefaultCell value={data.kills} />,
+      header: 'Units Destroyed',
+      render: (data) => <DefaultCell value={data.total_opponent_units_destroyed} />,
       width: '1fr',
     },
   ];
   return (
-    <DataTable data={dummyRankings} columns={columnDefs} includeLineNumbers />
+    <DataTable data={results} columns={columnDefs} includeLineNumbers />
   );
 };

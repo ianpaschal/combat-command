@@ -17,7 +17,7 @@ export const userProfileSchema = z.object({
   name_visibility: userProfileNameVisibilitySchema,
   
   // Always hidden
-  country_code: z.string(),
+  country_code: z.union([z.string(), z.null()]),
 });
 
 export type UserProfile = z.infer<typeof userProfileSchema> ;

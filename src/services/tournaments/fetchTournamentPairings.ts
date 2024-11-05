@@ -11,12 +11,12 @@ import {
 export interface TournamentPairingsResponse extends TournamentPairingRow {
   competitor_0: TournamentCompetitorRow & {
     players: (PlayerRow & {
-      user_profile: UserProfileSecureRow;
+      profile: UserProfileSecureRow;
     })[];
   };
   competitor_1: TournamentCompetitorRow & {
     players: (PlayerRow & {
-      user_profile: UserProfileSecureRow;
+      profile: UserProfileSecureRow;
     })[];
   };
 }
@@ -30,14 +30,14 @@ export const fetchTournamentParings = async (): Promise<TournamentPairingsRespon
         *,
         players (
           *,
-          user_profile: user_profiles!user_id (*)
+          profile: user_profiles!user_id (*)
         )
       ),
       competitor_1: tournament_competitors!competitor_1_id (
         *,
         players (
           *,
-          user_profile: user_profiles!user_id (*)
+          profile: user_profiles!user_id (*)
         )
       )
     `);

@@ -3,16 +3,16 @@ import { useQuery } from '@tanstack/react-query';
 import { supabase } from '~/supabaseClient';
 import {
   GameSystemConfigRow,
-  MatchPlayerRow,
   MatchResultRow,
+  PlayerRow,
   UserProfileSecureRow,
 } from '~/types/db';
 
 export interface MatchResultFullResponse extends MatchResultRow {
   game_system_config: GameSystemConfigRow;
   players: (
-    MatchPlayerRow & {
-      user_profile: UserProfileSecureRow;
+    PlayerRow & {
+      profile: UserProfileSecureRow;
     }
   )[];
 }
@@ -25,7 +25,7 @@ export const fetchMatchResultFull = async (id: string): Promise<MatchResultFullR
       game_system_config: game_system_configs (data),
       players: match_players (
         *,
-        user_profile: user_profiles!user_id (*)
+        profile: user_profiles!user_id (*)
       )
     `)
     .eq('id', id)

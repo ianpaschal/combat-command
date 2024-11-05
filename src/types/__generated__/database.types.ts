@@ -118,27 +118,6 @@ export type Database = {
         }
         Relationships: []
       }
-      match_players: {
-        Row: {
-          confirmed: boolean | null
-          id: string
-          match_result_id: string
-          user_id: string
-        }
-        Insert: {
-          confirmed?: boolean | null
-          id?: string
-          match_result_id: string
-          user_id: string
-        }
-        Update: {
-          confirmed?: boolean | null
-          id?: string
-          match_result_id?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
       match_results: {
         Row: {
           created_at: string | null
@@ -186,6 +165,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "match_results_player_1_id_fkey"
+            columns: ["player_1_id"]
+            isOneToOne: false
+            referencedRelation: "players"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "match_results_tournament_pairing_id_fkey"
             columns: ["tournament_pairing_id"]
             isOneToOne: false
@@ -199,7 +185,7 @@ export type Database = {
           created_at: string | null
           id: string
           placeholder_name: string | null
-          profile_id: string | null
+          profile_id: string
           tournament_competitor_id: string | null
           updated_at: string | null
         }
@@ -207,7 +193,7 @@ export type Database = {
           created_at?: string | null
           id?: string
           placeholder_name?: string | null
-          profile_id?: string | null
+          profile_id: string
           tournament_competitor_id?: string | null
           updated_at?: string | null
         }
@@ -215,7 +201,7 @@ export type Database = {
           created_at?: string | null
           id?: string
           placeholder_name?: string | null
-          profile_id?: string | null
+          profile_id?: string
           tournament_competitor_id?: string | null
           updated_at?: string | null
         }
@@ -451,8 +437,8 @@ export type Database = {
           avatar_url: string | null
           country_code: string | null
           created_at: string | null
-          family_name: string | null
-          given_name: string | null
+          family_name: string
+          given_name: string
           id: string
           name_visibility:
             | Database["public"]["Enums"]["user_data_visibility"]
@@ -465,8 +451,8 @@ export type Database = {
           avatar_url?: string | null
           country_code?: string | null
           created_at?: string | null
-          family_name?: string | null
-          given_name?: string | null
+          family_name: string
+          given_name: string
           id?: string
           name_visibility?:
             | Database["public"]["Enums"]["user_data_visibility"]
@@ -479,8 +465,8 @@ export type Database = {
           avatar_url?: string | null
           country_code?: string | null
           created_at?: string | null
-          family_name?: string | null
-          given_name?: string | null
+          family_name?: string
+          given_name?: string
           id?: string
           name_visibility?:
             | Database["public"]["Enums"]["user_data_visibility"]

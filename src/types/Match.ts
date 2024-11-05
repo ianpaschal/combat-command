@@ -13,8 +13,8 @@ export const matchSchema = z.object({
 
 export const tournamentMatchFormSchema = z.object({
   tournament_pairing_id: z.union([z.string().uuid(), z.null()]),
-  player_0_id: z.union([z.string().uuid(), z.null()]),
-  player_1_id: z.union([z.string().uuid(), z.null()]),
+  player_0_id: z.string().uuid(),
+  player_1_id: z.string().uuid(),
   outcome: fowV4MatchOutcomeSchema, // TODO: Replace with a union of other game systems
 });
 

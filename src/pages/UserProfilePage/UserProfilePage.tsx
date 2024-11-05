@@ -5,19 +5,22 @@ import { Avatar } from '~/components/generic/Avatar';
 import { Button } from '~/components/generic/Button';
 import { Card } from '~/components/generic/Card';
 import { PageWrapper } from '~/components/PageWrapper';
-import { UserProfileRecord } from '~/types/UserProfile';
+import { UserProfileSecureRow } from '~/types/db';
 import { getUserDisplayName } from '~/utils/getUserDisplayName';
 
 export const UserProfilePage = (): JSX.Element => {
   const navigate = useNavigate();
   const id = useParams().id!;
-  const userProfile: UserProfileRecord = {
-    id,
-    created_at: new Date().toISOString(),
-    username: 'Foober',
-    country_code: 'NL',
+  const userProfile: UserProfileSecureRow = {
     avatar_url: null,
-    name_visibility: 'hidden',
+    country_code: 'NL',
+    created_at: new Date().toISOString(),
+    family_name: 'Bar',
+    given_name: 'Foo',
+    id,
+    updated_at: null,
+    user_id: '',
+    username: 'Foober',
   };
   const displayName = getUserDisplayName(userProfile);
   return (
