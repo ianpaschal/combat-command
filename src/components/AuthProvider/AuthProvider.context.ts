@@ -2,11 +2,11 @@ import { createContext } from 'react';
 import { User } from '@supabase/supabase-js';
 
 export type AuthContextValue = {
-  user: User | null;
-  profileId: string | null;
+  user: User | null | undefined;
+  profileId: string | null | undefined;
 };
 
 export const AuthContext = createContext<AuthContextValue>({
-  user: null,
-  profileId: null,
+  user: undefined,
+  profileId: undefined,
 });

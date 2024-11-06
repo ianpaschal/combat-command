@@ -19,53 +19,61 @@ export interface AuthProviderProps {
 export const AuthProvider = ({
   children,
 }: AuthProviderProps) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [profileId, setProfileId] = useState<string | null>(null);
+  const [user, setUser] = useState<User | null | undefined>(undefined);
+  const [profileId, setProfileId] = useState<string | null | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(true);
   const [updatePasswordDialogOpen, setUpdatePasswordDialogOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    if (import.meta.env.VITE_DISABLE_AUTH === 'true') {
-      setUser({
-        id: '853ff12a-259d-456f-8d03-a4942ac6e8db',
-        app_metadata: {},
-        user_metadata: {},
-        aud: 'string',
-        created_at: new Date().toISOString(),
-      });
-      setLoading(false);
-    } else {
-      const getUser = async () => {
-        const { data: auth } = await supabase.auth.getUser();
-        const { data: profile } = await supabase
-          .from('user_profiles')
-          .select('id')
-          .eq('user_id', auth.user?.id)
-          .single();
-        if (auth.user && profile) {
-          setUser(auth.user);
-          setProfileId(profile?.id as string || null);
-        }
-        setLoading(false);
-      };
-      getUser();
-      const { data } = supabase.auth.onAuthStateChange(async (event, session): Promise<void> => {
-        if (event === 'SIGNED_IN' && session?.user) {
-          return setUser(session.user);
-        }
-        if (event === 'PASSWORD_RECOVERY' && session?.user) {
-          setUpdatePasswordDialogOpen(true);
-          return setUser(session.user);
-        }
-        if (event === 'SIGNED_OUT') {
-          return setUser(null);
-        }
-      });
-      return () => {
-        data.subscription.unsubscribe();
-      };
-    }
+    const getUser = async () => {
+      const { data: auth } = await supabase.auth.getUser();
+      console.log('auth', auth);
+      if (auth.user) {
+        setUser(auth.user);
+      } else {
+        setUser(null);
+        setProfileId(null);
+      }
+    };
+    console.log('getting user');
+    getUser();
+    const { data } = supabase.auth.onAuthStateChange(async (event, session): Promise<void> => {
+      if (event === 'SIGNED_IN' && session?.user) {
+        return setUser(session.user);
+      }
+      if (event === 'PASSWORD_RECOVERY' && session?.user) {
+        setUpdatePasswordDialogOpen(true);
+        return setUser(session.user);
+      }
+      if (event === 'SIGNED_OUT') {
+        return setUser(null);
+      }
+    });
+    return () => {
+      data.subscription.unsubscribe();
+    };
   }, []);
+
+  useEffect(() => {
+    const getUserProfile = async () => {
+      const { data: profile } = await supabase
+        .from('user_profiles')
+        .select('id')
+        .eq('user_id', user?.id)
+        .single();
+      setProfileId(profile?.id as string || null);
+    };
+    if (user) {
+      console.log('getting profile');
+      getUserProfile();
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (user !== undefined && profileId !== undefined) {
+      setLoading(false);
+    }
+  }, [user, profileId]);
 
   if (loading) {
     return (

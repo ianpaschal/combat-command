@@ -69,7 +69,7 @@ export const TournamentDetailPage = (): JSX.Element => {
   // Fast-action buttons:
   const showRegisterButton = tournament?.registrations_open && !isOrganizer;
   const showAddMatchResultButton = tournament?.status === 'active' && !isOrganizer && tournament?.current_round !== undefined;
-  const showManageButton = isOrganizer;
+  const showManageButton = isOrganizer && tournament;
 
   const rankedResults = tournament && matches ? calculateTournamentRankings<FowV4RankingFactor>(
     tournament,

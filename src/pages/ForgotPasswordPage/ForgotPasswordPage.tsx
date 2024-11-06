@@ -1,14 +1,14 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Link, Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
-import { useAuth } from '~/components/AuthProvider';
 import { Button } from '~/components/generic/Button';
 import { Form, FormField } from '~/components/generic/Form';
 import { InputText } from '~/components/generic/InputText';
 import { Separator } from '~/components/generic/Separator';
 import { PageWrapperHalf } from '~/components/PageWrapperHalf';
+import { PreventAuth } from '~/components/PreventAuth';
 import { useResetPassword } from '~/services/auth/useResetPassword';
 
 import styles from './ForgotPasswordPage.module.scss';
@@ -20,6 +20,7 @@ const forgotPasswordFormSchema = z.object({
 export type ForgotPasswordFormInput = z.infer<typeof forgotPasswordFormSchema>;
 
 export const ForgotPasswordPage = (): JSX.Element => {
+
   const resetPassword = useResetPassword();
 
   const form = useForm<ForgotPasswordFormInput>({
@@ -34,27 +35,24 @@ export const ForgotPasswordPage = (): JSX.Element => {
     resetPassword.mutate(data);
   };
 
-  // If logged in, redirect to dashboard
-  if (useAuth()) {
-    return <Navigate to="/dashboard" />;
-  }
-
   const { isPending } = resetPassword;
 
   return (
-    <PageWrapperHalf>
-      <div>
-        <h1>Forgot Password?</h1>
-        <p>Get a reset link in your email</p>
-      </div>
-      <Form className={styles.Form} form={form} onSubmit={onSubmit}>
-        <FormField name="email" label="Email" disabled={isPending}>
-          <InputText type="text" /* Not email, to avoid browser validation */ />
-        </FormField>
-        <Button type="submit" loading={isPending}>Send Link</Button>
-      </Form>
-      <Separator />
-      <p><Link to="/sign-up">Sign Up</Link> | <Link to="/sign-up">Sign In</Link></p>
-    </PageWrapperHalf>
+    <PreventAuth>
+      <PageWrapperHalf>
+        <div>
+          <h1>Forgot Password?</h1>
+          <p>Get a reset link in your email</p>
+        </div>
+        <Form className={styles.Form} form={form} onSubmit={onSubmit}>
+          <FormField name="email" label="Email" disabled={isPending}>
+            <InputText type="text" /* Not email, to avoid browser validation */ />
+          </FormField>
+          <Button type="submit" loading={isPending}>Send Link</Button>
+        </Form>
+        <Separator />
+        <p><Link to="/sign-up">Sign Up</Link> | <Link to="/sign-up">Sign In</Link></p>
+      </PageWrapperHalf>
+    </PreventAuth>
   );
 };
