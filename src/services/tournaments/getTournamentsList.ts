@@ -4,13 +4,13 @@ import { supabase } from '~/supabaseClient';
 import { TournamentRow } from '~/types/db';
 import { FowV4GameSystemConfig } from '~/types/fowV4/fowV4GameSystemConfigSchema';
 
-export type FetchTournamentsItem = TournamentRow & {
+export type GetTournamentsListItem = TournamentRow & {
   game_system_config: {
     data: FowV4GameSystemConfig
   }
 };
 
-export const fetchTournamentsList = async (): Promise<FetchTournamentsItem[]> => {
+export const getTournamentsList = async (): Promise<GetTournamentsListItem[]> => {
   const { data, error } = await supabase
     .from('tournaments')
     .select(`
@@ -23,7 +23,7 @@ export const fetchTournamentsList = async (): Promise<FetchTournamentsItem[]> =>
   return data;
 };
 
-export const useFetchTournamentsList = () => useQuery({
+export const useGetTournamentsList = () => useQuery({
   queryKey: ['tournaments_list'],
-  queryFn: fetchTournamentsList,
+  queryFn: getTournamentsList,
 });

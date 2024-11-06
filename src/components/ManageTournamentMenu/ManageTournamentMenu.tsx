@@ -9,20 +9,21 @@ import {
   EyeOff,
   Pencil,
   Plus,
-  Swords,
+  Rocket,
   TimerOff,
   Trash,
-  UserRoundPen,
-  UserRoundX,
 } from 'lucide-react';
 
 import { MenuItem } from '~/components/generic/MenuItem';
-import { TournamentRow } from '~/types/db';
+import { useTournamentTimer } from '~/hooks/useTournamentTimer';
+import { useCreateTournamentTimer } from '~/services/tournament_timers/createTournamentTimer';
+import { GetTournamentsListItem } from '~/services/tournaments/getTournamentsList';
+import { useUpdateTournament } from '~/services/tournaments/updateTournament';
 
 import styles from './ManageTournamentMenu.module.scss';
 
 export interface ManageTournamentMenuProps {
-  tournament: TournamentRow;
+  tournament: GetTournamentsListItem;
   trigger: ReactElement;
 }
 
@@ -31,6 +32,56 @@ export const ManageTournamentMenu = ({
   trigger,
 }: ManageTournamentMenuProps): JSX.Element => {
   const navigate = useNavigate();
+  const updateTournament = useUpdateTournament();
+  const createTournamentTimer = useCreateTournamentTimer();
+
+  const timer = useTournamentTimer(tournament.id, tournament.current_round);
+
+  const handleClickEdit = (): void => {
+    navigate(`/tournaments/${tournament.id}/edit`);
+  };
+
+  const handleClickPublish = (): void => {
+    console.log('Publishing tournament');
+    updateTournament.mutate({ id: tournament.id, status: 'published' });
+  };
+
+  const handleClickAddMatchResult = (): void => {
+    navigate(`/tournaments/${tournament.id}/add-match`);
+  };
+
+  const handleClickAdvanceRound = (): void => {
+    updateTournament.mutate({
+      id: tournament.id,
+      current_round: typeof tournament.current_round === 'number' ? tournament.current_round + 1 : 0,
+    });
+  };
+
+  const handleClickStartTournament = (): void => {
+    updateTournament.mutate({
+      id: tournament.id,
+      current_round: 0,
+      status: 'active',
+    });
+  };
+
+  const handleClickStartRound = (): void => {
+    // TODO: Decide on one format or another
+    if (!tournament.current_round && tournament.current_round !== 0) {
+      throw Error('Can not start round timer without current round!');
+    }
+    createTournamentTimer.mutate({
+      tournament_id: tournament.id,
+      round_index: tournament.current_round,
+      duration: 9000, // 2.5h in seconds
+    });
+  };
+
+  // TODO: Add with warning dialog
+  // const handleClickResetRound = (): void => {
+  //   updateTimer.mutate({ timer, action: 'reset' });
+  // };
+
   return (
     <>
       <Popover.Root>
@@ -38,20 +89,73 @@ export const ManageTournamentMenu = ({
           {trigger}
         </Popover.Trigger>
         <Popover.Content className={styles.Content} align="end">
-          <MenuItem label="Edit" icon={<Pencil />} visible={['draft', 'published'].includes(tournament.status)} />
-          <MenuItem label="Publish" icon={<Eye />} visible={tournament.status === 'draft'} />
+          <Popover.Close asChild>
+            <MenuItem
+              label="Edit"
+              icon={<Pencil />}
+              visible={['draft', 'published'].includes(tournament.status)}
+              onClick={handleClickEdit}
+            />
+          </Popover.Close>
+          <Popover.Close asChild>
+            <MenuItem
+              label="Publish"
+              icon={<Eye />}
+              visible={tournament.status === 'draft'}
+              onClick={handleClickPublish}
+            />
+          </Popover.Close>
           <Popover.Close asChild>
             <MenuItem
               label="Add match result"
               icon={<Plus />}
               visible={tournament.status === 'active' && tournament.current_round !== undefined}
-              onClick={() => navigate(`/tournaments/${tournament.id}/add-match`)}
+              onClick={handleClickAddMatchResult}
             />
           </Popover.Close>
-          <MenuItem label="Open registrations" icon={<UserRoundPen />} visible={tournament.status === 'published' && tournament.registrations_open} />
-          <MenuItem label="Close registrations" icon={<UserRoundX />} visible={tournament.status === 'published' && !tournament.registrations_open} />
-          <MenuItem label="Generate new pairings" icon={<Swords />} visible={tournament.status === 'active' && tournament.current_round === undefined} />
-          <MenuItem label="Start next round" icon={<ArrowRightToLine />} visible={tournament.status === 'active' && tournament.current_round === undefined} />
+          <Popover.Close asChild>
+            <MenuItem
+              label="Start tournament"
+              icon={<Rocket />}
+              visible={tournament.status === 'published' && !tournament.registrations_open}
+              onClick={handleClickStartTournament}
+            />
+          </Popover.Close>
+          {/* <MenuItem label="Open registrations" icon={<UserRoundPen />} visible={tournament.status === 'published' && tournament.registrations_open} /> */}
+          {/* <MenuItem label="Close registrations" icon={<UserRoundX />} visible={tournament.status === 'published' && !tournament.registrations_open} /> */}
+          {/* <MenuItem label="Generate new pairings" icon={<Swords />} visible={tournament.status === 'active' && tournament.current_round === undefined} /> */}
+          <Popover.Close asChild>
+            <MenuItem
+              label="Advance to next round"
+              icon={<ArrowRightToLine />}
+              visible={tournament.status === 'active'} // TODO: Add check that submitted match count for this round = competitor count / 2
+              onClick={handleClickAdvanceRound}
+            />
+          </Popover.Close>
+          <Popover.Close asChild>
+            <MenuItem
+              label={`Start round ${tournament.current_round}`}
+              icon={<ArrowRightToLine />}
+              visible={tournament.status === 'active'} // TODO: Add check that pairings have been generated
+              onClick={handleClickStartRound}
+            />
+          </Popover.Close>
+          <Popover.Close asChild>
+            <MenuItem
+              label="Pause round"
+              icon={<ArrowRightToLine />}
+              visible={tournament.status === 'active' && !!timer && !timer.isPaused}
+              onClick={timer?.toggle}
+            />
+          </Popover.Close>
+          <Popover.Close asChild>
+            <MenuItem
+              label="Resume round"
+              icon={<ArrowRightToLine />}
+              visible={tournament.status === 'active' && !!timer && timer.isPaused}
+              onClick={timer?.toggle}
+            />
+          </Popover.Close>
           <MenuItem label="Complete tournament" icon={<CircleCheckBig />} visible={tournament.status === 'active' && tournament.current_round === undefined} />
           <MenuItem label="Delete" icon={<Trash />} visible={tournament.status === 'draft'} />
           <MenuItem label="Un-publish" icon={<EyeOff />} visible={tournament.status === 'published'} />
@@ -63,29 +167,43 @@ export const ManageTournamentMenu = ({
   );
 };
 
-//   If status === draft:
+/*
+  once a tournament is set to active, you can generate pairings
 
-//   Actions: Edit, Publish, Delete
+  There needs to be two fields: current_round and round_active
+  current_round should never be null
 
-// If status === published:
-//   - Edit
-//     - Un - publish
-//     - Cancel
-//     - Open Registrations(if closed)
-//     - Close Registrations(if open)
+  When a round ends (because the timer counted down), round_active should be set to false.
 
-// If status === active && current_round:
-//   - End round early
-//     - Add match result
+  When all matches are in, org can press "Advance to next round"
+  - Current_round++
+  - Pairings generated for the new round
 
-// If status == - active:
-//   - Complete tournament
+  If pairings.length * 2 === competitors.length (everyone matched), org can press "Begin round ${i}"
 
-// If status === active && !current_round && !pairings:
-//   - Generate new pairings
+  - round_active = true (or timer created)
 
-// If status === active && !current_round && pairings:
-//   - Start next round
+  IDEA: Option to hide pairings until round_active === true?
 
-// If status === archived:
-//   - NOTHING! 
+  timers:
+  - started_at
+  - duration
+  - paused_at
+  - stoppage_time
+  - tournament_id
+  - round_index
+
+  // (re)Start timer:
+  - started_at: now
+  - duration: some number
+  - paused_at: null
+  - stoppage_time: 0
+
+  // Pause timer:
+  - paused_at: now
+
+  // Resume timer:
+  - stoppage_time: += now - paused_at
+  - paused_at: null
+
+*/

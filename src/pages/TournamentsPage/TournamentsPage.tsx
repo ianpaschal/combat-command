@@ -12,7 +12,7 @@ import { Card } from '~/components/generic/Card';
 import { InputText } from '~/components/generic/InputText';
 import { PageWrapper } from '~/components/PageWrapper';
 import { TournamentCard } from '~/components/TournamentCard/TournamentCard';
-import { useFetchTournamentsList } from '~/services/tournaments/fetchTournamentsList';
+import { useGetTournamentsList } from '~/services/tournaments/getTournamentsList';
 import { MIN_WIDTH_TABLET } from '~/settings';
 import { bem } from '~/utils/componentLib/bem';
 
@@ -28,7 +28,7 @@ export const TournamentsPage = (): JSX.Element => {
 
   const showButtonText = useWindowWidth() > MIN_WIDTH_TABLET;
 
-  const { data: tournaments } = useFetchTournamentsList();
+  const { data: tournaments } = useGetTournamentsList();
 
   console.log(tournaments);
 

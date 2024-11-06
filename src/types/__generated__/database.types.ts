@@ -319,6 +319,44 @@ export type Database = {
           },
         ]
       }
+      tournament_timers: {
+        Row: {
+          duration: number
+          id: string
+          paused_at: string | null
+          round_index: number
+          started_at: string
+          stoppage_time: number
+          tournament_id: string
+        }
+        Insert: {
+          duration: number
+          id?: string
+          paused_at?: string | null
+          round_index: number
+          started_at: string
+          stoppage_time?: number
+          tournament_id: string
+        }
+        Update: {
+          duration?: number
+          id?: string
+          paused_at?: string | null
+          round_index?: number
+          started_at?: string
+          stoppage_time?: number
+          tournament_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tournament_timers_tournament_id_fkey"
+            columns: ["tournament_id"]
+            isOneToOne: false
+            referencedRelation: "tournaments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tournaments: {
         Row: {
           banner_url: string | null
@@ -326,7 +364,7 @@ export type Database = {
           competitor_groups: Json
           competitor_size: number
           created_at: string | null
-          creator_id: string | null
+          creator_id: string
           current_round: number | null
           description: string | null
           ends_at: string
@@ -353,7 +391,7 @@ export type Database = {
           competitor_groups: Json
           competitor_size: number
           created_at?: string | null
-          creator_id?: string | null
+          creator_id: string
           current_round?: number | null
           description?: string | null
           ends_at: string
@@ -380,7 +418,7 @@ export type Database = {
           competitor_groups?: Json
           competitor_size?: number
           created_at?: string | null
-          creator_id?: string | null
+          creator_id?: string
           current_round?: number | null
           description?: string | null
           ends_at?: string
@@ -440,9 +478,8 @@ export type Database = {
           family_name: string
           given_name: string
           id: string
-          name_visibility:
-            | Database["public"]["Enums"]["user_data_visibility"]
-            | null
+          name_visibility: Database["public"]["Enums"]["user_data_visibility"]
+          test_user: boolean
           updated_at: string | null
           user_id: string | null
           username: string | null
@@ -454,9 +491,8 @@ export type Database = {
           family_name: string
           given_name: string
           id?: string
-          name_visibility?:
-            | Database["public"]["Enums"]["user_data_visibility"]
-            | null
+          name_visibility?: Database["public"]["Enums"]["user_data_visibility"]
+          test_user?: boolean
           updated_at?: string | null
           user_id?: string | null
           username?: string | null
@@ -468,9 +504,8 @@ export type Database = {
           family_name?: string
           given_name?: string
           id?: string
-          name_visibility?:
-            | Database["public"]["Enums"]["user_data_visibility"]
-            | null
+          name_visibility?: Database["public"]["Enums"]["user_data_visibility"]
+          test_user?: boolean
           updated_at?: string | null
           user_id?: string | null
           username?: string | null

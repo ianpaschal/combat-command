@@ -30,11 +30,8 @@
   background-size: 100% 100%;
 }
 
-.TimeRemaining {
+.TimeRemainingSection {
   @include flex.row($gap: 0.25rem);
-
-  font-size: 1.75rem;
-  line-height: 2rem;
 }
 
 .EndsAt {
@@ -64,4 +61,27 @@
   padding: 0.5rem 1rem;
   font-size: var(--font-size-small);
   text-align: right;
+}
+
+.RoundNumber {
+  color: yellow;
+}
+
+.TimeRemaining {
+  @include flex.row($gap: 0);
+
+  font-size: 1.75rem;
+  line-height: 2rem;
+}
+
+.TimeRemainingDigit {
+  display: block;
+  width: 1.125rem;
+  text-align: center;
+}
+
+.TimeRemainingSeparator {
+  display: block;
+  width: 0.75rem;
+  text-align: center;
 }

@@ -1,38 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { supabase } from '~/supabaseClient';
-import {
-  GameSystemConfigRow,
-  MatchResultRow,
-  PlayerRow,
-  TournamentCompetitorRow,
-  TournamentDeep,
-  TournamentRow,
-  UserProfileSecureRow,
-} from '~/types/db';
-
-export interface TournamentFullResponse extends TournamentRow {
-  game_system_config: GameSystemConfigRow;
-  pairings: {
-    id: string;
-    competitor_0: TournamentCompetitorRow & {
-      players: (PlayerRow & {
-        profile: UserProfileSecureRow;
-      })[];
-    };
-    competitor_1: TournamentCompetitorRow & {
-      players: (PlayerRow & {
-        profile: UserProfileSecureRow;
-      })[];
-    };
-  }[];
-  competitors: TournamentCompetitorRow & {
-    players: (PlayerRow & {
-      profile: UserProfileSecureRow;
-    })[];
-  }[];
-  match_results: MatchResultRow[];
-}
+import { TournamentDeep } from '~/types/db';
 
 export const fetchTournamentFull = async (id: string): Promise<TournamentDeep> => {
   const { data, error } = await supabase
@@ -63,13 +32,16 @@ export const fetchTournamentFull = async (id: string): Promise<TournamentDeep> =
           *,
           profile: user_profiles_secure!profile_id (*)
         )
-      )
+      ),
+      timers: tournament_timers!left (*)
     `)
     .eq('id', id)
+    .eq('timers.tournament_id', id)
     .single();
   if (error) {
     throw error;
   }
+  console.log('data', data);
   return data;
 };
 

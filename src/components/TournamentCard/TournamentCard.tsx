@@ -21,7 +21,7 @@ import { Label } from '~/components/generic/Label';
 import { ScrollArea } from '~/components/generic/ScrollArea';
 import { Tag } from '~/components/generic/Tag';
 import { ManageTournamentMenu } from '~/components/ManageTournamentMenu';
-import { FetchTournamentsItem } from '~/services/tournaments/fetchTournamentsList';
+import { GetTournamentsListItem } from '~/services/tournaments/getTournamentsList';
 import { fowV4EraOptions } from '~/types/fowV4/fowV4EraSchema';
 import { bem } from '~/utils/componentLib/bem';
 
@@ -31,7 +31,7 @@ import './TournamentCard.scss';
 // In popups or drawers
 
 export interface TournamentCardProps {
-  tournament: FetchTournamentsItem;
+  tournament: GetTournamentsListItem;
   maxHeight?: number | string;
   className?: string;
   expanded?: boolean;

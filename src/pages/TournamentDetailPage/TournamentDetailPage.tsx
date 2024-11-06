@@ -55,7 +55,7 @@ export const TournamentDetailPage = (): JSX.Element => {
   const isOrganizer = user && tournament?.creator_id === profileId;
 
   const isTournamentActive = tournament?.status === 'active';
-  const isRoundActive = isTournamentActive && tournament.current_round !== undefined;
+  const isRoundActive = isTournamentActive && tournament.current_round !== undefined && tournament.current_round !== null; // TODO: PIck null or undefined
 
   const isOverviewCardVisible = !isRoundActive && isDesktop;
 
@@ -79,15 +79,21 @@ export const TournamentDetailPage = (): JSX.Element => {
     ['total_wins', 'total_points', 'total_units_destroyed'],
   ) : [];
 
+  console.log(tournament);
+
   return (
     <PageWrapper title={tournament?.title} showBackButton fitToWindow>
       {tournament && (
         <Tabs className={'TournamentDetailPage'} value={tab} onValueChange={setTab}>
           {(isRoundActive || isOverviewCardVisible) && (
             <div className={cn('SecondarySection')}>
-              {isRoundActive && (
+              {isRoundActive && tournament.current_round !== null && (
                 <>
-                  <TournamentRoundTimer className={cn('RoundTimerSection')} />
+                  <TournamentRoundTimer
+                    className={cn('RoundTimerSection')}
+                    tournamentId={tournament.id}
+                    roundIndex={tournament.current_round}
+                  />
                   {isDesktop && (
                     <div className={cn('LiveMatchResults')}>
                       <h2>Match Results</h2>

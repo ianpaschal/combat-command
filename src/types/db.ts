@@ -14,6 +14,8 @@ export type MatchResultRow = Database['public']['Tables']['match_results']['Row'
 export type UserProfileSecureRow = Database['public']['Views']['user_profiles_secure']['Row'] & {
   id: string; // ID ALWAYS exists!
 };
+export type TournamentTimerRow = Tables<'tournament_timers'>;
+
 export type UserProfileRow = Tables<'user_profiles'>;
 
 export type UserProfileSecure = NullConversion<UserProfileSecureRow>;
@@ -38,6 +40,7 @@ export interface TournamentDeep extends TournamentRow {
   game_system_config: GameSystemConfigRow;
   pairings: TournamentPairingDeep[];
   competitors: TournamentCompetitorDeep[];
+  timers: TournamentTimerRow[];
 }
 
 export interface MatchResultDeep extends MatchResultRow {
