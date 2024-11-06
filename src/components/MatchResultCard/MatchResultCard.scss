@@ -4,6 +4,7 @@
 @use "/src/style/text";
 
 .MatchResultCard {
+  flex-grow: 0;
   flex-shrink: 0;
 
   &_MainSection {

@@ -28,9 +28,13 @@ import { TournamentRegistrationsTable } from '~/components/TournamentRegistratio
 import { TournamentMatchResultsSection } from '~/pages/TournamentDetailPage/TournamentMatchResultsSection';
 import { TournamentPairingsSection } from '~/pages/TournamentDetailPage/TournamentPairingsSection';
 import { TournamentRoundTimer } from '~/pages/TournamentDetailPage/TournamentRoundTimer';
+import { useGetMatchesByTournamentId } from '~/services/matchResults/getMatchesByTournamentId';
 import { useFetchTournamentFull } from '~/services/tournaments/fetchTournamentFull';
 import { MIN_WIDTH_DESKTOP } from '~/settings';
+import { FowV4RankingFactor } from '~/types/fowV4/fowV4RankingFactorSchema';
+import { calculateTournamentRankings } from '~/utils/common/calculateTournamentRankings';
 import { bem } from '~/utils/componentLib/bem';
+import { aggregatePlayerResults } from '~/utils/flamesOfWarV4Utils/aggregatePlayerResults';
 
 import './TournamentDetailPage.scss';
 
@@ -42,6 +46,7 @@ export const TournamentDetailPage = (): JSX.Element => {
   const tournamentId = params.id!; // Must exist or else how did we get to this route?
 
   const { data: tournament } = useFetchTournamentFull(tournamentId);
+  const { data: matches } = useGetMatchesByTournamentId({ tournamentId });
 
   const [tab, setTab] = useState<string>('rankings');
 
@@ -66,7 +71,13 @@ export const TournamentDetailPage = (): JSX.Element => {
   const showAddMatchResultButton = tournament?.status === 'active' && !isOrganizer && tournament?.current_round !== undefined;
   const showManageButton = isOrganizer;
 
-  // console.log(tournament);
+  const rankedResults = tournament && matches ? calculateTournamentRankings<FowV4RankingFactor>(
+    tournament,
+    matches,
+    1,
+    aggregatePlayerResults,
+    ['total_wins', 'total_points', 'total_units_destroyed'],
+  ) : [];
 
   return (
     <PageWrapper title={tournament?.title} showBackButton fitToWindow>
@@ -81,13 +92,9 @@ export const TournamentDetailPage = (): JSX.Element => {
                     <div className={cn('LiveMatchResults')}>
                       <h2>Match Results</h2>
                       <div className="LiveMatchResultItemList">
-                        <MatchResultCard />
-                        <MatchResultCard />
-                        <MatchResultCard />
-                        <MatchResultCard />
-                        <MatchResultCard />
-                        <MatchResultCard />
-                        <MatchResultCard />
+                        {(matches || []).map((match) => (
+                          <MatchResultCard matchData={match} />
+                        ))}
                       </div>
                       <Button
                         className={cn('LiveMatchResultsViewMoreButton')}
@@ -128,7 +135,7 @@ export const TournamentDetailPage = (): JSX.Element => {
             </TabsContent>
             <TabsContent value="rankings" className={cn('TabsContentSection')}>
               <Card className={cn('RankingsCard')} title="Rankings">
-                <FowV4RankingsTable results={[]} />
+                <FowV4RankingsTable results={rankedResults} />
               </Card>
             </TabsContent>
             <TabsContent value="pairings" className={cn('TabsContentSection')}>
@@ -140,7 +147,6 @@ export const TournamentDetailPage = (): JSX.Element => {
           </div>
         </Tabs>
       )}
-
       {showRegisterButton && (
         <FloatingActionButton>
           <UserRoundPlus />

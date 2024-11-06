@@ -66,6 +66,7 @@
 
     .LiveMatchResultItemList {
       @include flex.column(0.5rem);
+      @include flex.stretchy;
 
       overflow: hidden;
 

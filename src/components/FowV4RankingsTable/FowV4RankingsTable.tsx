@@ -4,18 +4,19 @@ import {
   DataTable,
   DefaultCell,
 } from '~/components/generic/DataTable';
-import { AggregateCompetitorResult } from '~/services/calculatePlayerRankings';
+import { FowV4RankingFactor } from '~/types/fowV4/fowV4RankingFactorSchema';
+import { CompetitorResult } from '~/utils/common/calculateTournamentRankings';
 import { getUserDisplayName } from '~/utils/getUserDisplayName';
 
 export interface FowV4RankingsTableProps {
-  results: AggregateCompetitorResult[];
+  results: CompetitorResult<FowV4RankingFactor>[];
 }
 
 // TODO: This is based on competitors and tournaments. Make a separate component for player results
 export const FowV4RankingsTable = ({
   results,
 }: FowV4RankingsTableProps): JSX.Element => {
-  const columnDefs: ColumnDef<AggregateCompetitorResult>[] = [
+  const columnDefs: ColumnDef<CompetitorResult<FowV4RankingFactor>>[] = [
     {
       header: 'Team Name',
       render: ({ competitor }) => {
@@ -34,17 +35,17 @@ export const FowV4RankingsTable = ({
     },
     {
       header: 'Wins',
-      render: (data) => <DefaultCell value={data.total_wins} />,
+      render: (data) => <DefaultCell value={data.result.total_wins} />,
       width: '1fr',
     },
     {
       header: 'Points',
-      render: (data) => <DefaultCell value={data.total_points} />,
+      render: (data) => <DefaultCell value={data.result.total_points} />,
       width: '1fr',
     },
     {
       header: 'Units Destroyed',
-      render: (data) => <DefaultCell value={data.total_opponent_units_destroyed} />,
+      render: (data) => <DefaultCell value={data.result.total_units_destroyed} />,
       width: '1fr',
     },
   ];
