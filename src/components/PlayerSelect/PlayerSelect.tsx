@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DialogClose } from '@radix-ui/react-dialog';
 import clsx from 'clsx';
 import { Search, UserSearch } from 'lucide-react';
@@ -32,7 +32,7 @@ export const PlayerSelect = ({
   className,
   hasError,
   onChange,
-  options,
+  options = [],
   value,
 }: PlayerSelectProps): JSX.Element => {
   const [filterText, setFilterText] = useState<string>('');
@@ -42,6 +42,13 @@ export const PlayerSelect = ({
   ).sort(
     (a, b) => a.label.localeCompare(b.label),
   );
+
+  useEffect(() => {
+    if (options.length === 1) {
+      onChange(options[0].value);
+    }
+  }, [options, onChange]);
+
   return (
     <Dialog
       title="Select Player"

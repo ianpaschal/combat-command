@@ -1,4 +1,4 @@
-import { TournamentPairingInput } from '~/types/db';
+import { TournamentPairingInput } from '~/types/db/TournamentPairings';
 import { RankingFactorKey } from '~/types/fowV4/fowV4RankingFactorSchema';
 import { CompetitorResult } from '~/utils/common/calculateTournamentRankings';
 

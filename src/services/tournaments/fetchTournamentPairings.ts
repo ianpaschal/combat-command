@@ -4,9 +4,9 @@ import { supabase } from '~/supabaseClient';
 import {
   PlayerRow,
   TournamentCompetitorRow,
-  TournamentPairingRow,
   UserProfileSecureRow,
 } from '~/types/db';
+import { TournamentPairingRow } from '~/types/db/TournamentPairings';
 
 export interface TournamentPairingsResponse extends TournamentPairingRow {
   competitor_0: TournamentCompetitorRow & {

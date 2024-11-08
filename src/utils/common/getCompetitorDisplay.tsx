@@ -3,8 +3,8 @@ import { ReactNode } from 'react';
 import { Avatar } from '~/components/generic/Avatar';
 import { FlagCircle } from '~/components/generic/FlagCircle';
 import { TournamentCompetitorDeep } from '~/types/db';
-import { getCountryName } from '~/utils/getCountryName';
-import { getUserDisplayName } from '~/utils/getUserDisplayName';
+import { getCountryName } from '~/utils/common/getCountryName';
+import { getUserDisplayName } from '~/utils/common/getUserDisplayName';
 
 // TODO: Add to paring cell
 export const getCompetitorDisplay = (competitor: TournamentCompetitorDeep | undefined): [string, ReactNode] => {

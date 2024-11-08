@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 
-import { TournamentPairingDeep } from '~/types/db';
+import { TournamentPairingDeep } from '~/types/db/TournamentPairings';
 import { getCompetitorDisplay } from '~/utils/common/getCompetitorDisplay';
 
 import styles from './PairingCell.module.scss';

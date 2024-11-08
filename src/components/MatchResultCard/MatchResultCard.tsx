@@ -9,18 +9,18 @@ import { Avatar } from '~/components/generic/Avatar';
 import { BadgeConfig } from '~/components/generic/Avatar/Avatar';
 import { Card } from '~/components/generic/Card';
 import { UserPortrait } from '~/components/UserPortrait';
-import { MatchResultDeep } from '~/types/db';
+import { MatchDeep } from '~/types/db/Matches';
 import { fowV4MatchOutcomeTypeLabels } from '~/types/fowV4/fowV4MatchOutcomeTypeSchema';
+import { getUserDisplayName } from '~/utils/common/getUserDisplayName';
 import { createCn } from '~/utils/componentLib/createCn';
 import flamesOfWarV4Utils from '~/utils/flamesOfWarV4Utils';
-import { getUserDisplayName } from '~/utils/getUserDisplayName';
 import { FlagCircle } from '../generic/FlagCircle';
 
 import './MatchResultCard.scss';
 
 const cn = createCn('MatchResultCard');
 
-export type MatchData = Omit<MatchResultDeep, 'id' | 'created_at' | 'updated_at' | 'game_system_config' | 'game_system_config_id'>;
+export type MatchData = Omit<MatchDeep, 'id' | 'created_at' | 'updated_at' | 'game_system_config' | 'game_system_config_id'>;
 
 export interface MatchResultCardProps {
   matchId?: string;

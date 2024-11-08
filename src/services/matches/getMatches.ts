@@ -1,7 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { supabase } from '~/supabaseClient';
-import { MatchResultDeep } from '~/types/db';
+import { MatchDeep } from '~/types/db/Matches';
+
+export interface GetMatchesInput {
+  tournamentId?: string | null;
+  round?: number | null;
+}
 
 /**
  * Fetch Tournament Pairings for a given tournament (by ID).
@@ -9,8 +14,8 @@ import { MatchResultDeep } from '~/types/db';
  * @returns 
  */
 export const getMatches = async (
-  params: GetMatchesParams = {},
-): Promise<MatchResultDeep[]> => {
+  params: GetMatchesInput,
+): Promise<MatchDeep[]> => {
   const query = supabase
     .from('match_results')
     .select(`
@@ -25,7 +30,8 @@ export const getMatches = async (
         profile: user_profiles_secure!profile_id (*),
         competitor: tournament_competitors!tournament_competitor_id (*)
       ),
-      pairing: tournament_pairings!inner (*)
+      pairing: tournament_pairings!inner (*),
+      game_system_config: game_system_configs (*)
     `);
 
   // Apply filters
@@ -45,19 +51,15 @@ export const getMatches = async (
   return data;
 };
 
-export interface GetMatchesParams {
-  tournamentId?: string | null;
-  round?: number | null;
-}
-
 /**
  * Query hook to fetch Tournament Pairings for a given tournament (by ID).
- * @param tournamentId 
+ * 
+ * @param params 
  * @param enabled 
  * @returns 
  */
 export const useGetMatchesByTournamentId = (
-  params: GetMatchesParams,
+  params: GetMatchesInput,
   enabled?: boolean,
 ) => useQuery({
   queryKey: ['matches_by_tournament_id_list', params],

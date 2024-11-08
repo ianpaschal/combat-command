@@ -1,6 +1,6 @@
-import { MatchResultDeep } from '~/types/db';
+import { MatchDeep } from '~/types/db/Matches';
 
-type MatchScoreInput = Pick<MatchResultDeep, 'outcome'>;
+type MatchScoreInput = Pick<MatchDeep, 'outcome'>;
 
 /**
  * Calculate the Victory Points (i.e. score) for a given match result.

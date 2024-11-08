@@ -1,5 +1,5 @@
 import { FlagCircle } from '~/components/generic/FlagCircle';
-import { getCountryName } from '~/utils/getCountryName';
+import { getCountryName } from '~/utils/common/getCountryName';
 
 import styles from './CountryCell.module.scss';
 

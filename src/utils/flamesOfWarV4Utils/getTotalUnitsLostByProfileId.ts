@@ -1,4 +1,4 @@
-import { MatchResultDeep } from '~/types/db';
+import { MatchDeep } from '~/types/db/Matches';
 
 /**
  * Returns the total number of units lost by a given profile within a set of match results.
@@ -8,7 +8,7 @@ import { MatchResultDeep } from '~/types/db';
  * @returns The total number of units lost
  */
 export const getTotalUnitsLostByProfileId = (
-  matchResults: MatchResultDeep[],
+  matchResults: MatchDeep[],
   profileId: string,
 ): number => (
   matchResults.reduce((acc, result) => {

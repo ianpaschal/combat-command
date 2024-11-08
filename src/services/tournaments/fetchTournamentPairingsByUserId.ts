@@ -1,11 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { supabase } from '~/supabaseClient';
-import {
-  PlayerRow,
-  TournamentCompetitorRow,
-  TournamentPairingRow,
-} from '~/types/db';
+import { PlayerRow, TournamentCompetitorRow } from '~/types/db';
+import { TournamentPairingRow } from '~/types/db/TournamentPairings';
 
 export interface TournamentPairingsByUserIdResponse extends TournamentPairingRow {
   competitors: (TournamentCompetitorRow & {

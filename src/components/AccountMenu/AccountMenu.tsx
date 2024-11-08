@@ -8,7 +8,7 @@ import { Button } from '~/components/generic/Button';
 import { Separator } from '~/components/generic/Separator';
 import { useFetchUserProfile } from '~/services/userProfile/useFetchUserProfile';
 import { supabase } from '~/supabaseClient';
-import { getUserDisplayName } from '~/utils/getUserDisplayName';
+import { getUserDisplayName } from '~/utils/common/getUserDisplayName';
 
 import styles from './AccountMenu.module.scss';
 

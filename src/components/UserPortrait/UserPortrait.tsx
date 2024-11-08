@@ -2,7 +2,7 @@ import { cloneElement, ReactElement } from 'react';
 import clsx from 'clsx';
 
 import { useFetchUserProfile } from '~/services/userProfile/useFetchUserProfile';
-import { getUserDisplayName } from '~/utils/getUserDisplayName';
+import { getUserDisplayName } from '~/utils/common/getUserDisplayName';
 
 import './UserPortrait.scss';
 

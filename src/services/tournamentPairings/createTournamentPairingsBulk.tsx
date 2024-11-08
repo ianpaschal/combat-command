@@ -3,28 +3,28 @@ import { CircleAlert } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { supabase } from '~/supabaseClient';
-import { TournamentPairingInput } from '~/types/db';
+import { TournamentPairingInput } from '~/types/db/TournamentPairings';
 
-export type CreateTournamentPairingsInput = {
+export type CreateTournamentPairingsBulkInput = {
   tournamentId: string;
   pairings: TournamentPairingInput[];
 };
 
-export const createTournamentPairings = async ({
-  pairings,
-}: CreateTournamentPairingsInput): Promise<void> => {
+export const createTournamentPairingsBulk = async (
+  params: CreateTournamentPairingsBulkInput,
+): Promise<void> => {
   const { error } = await supabase
     .from('tournament_pairings')
-    .insert(pairings);
+    .insert(params.pairings);
   if (error) {
     throw error;
   }
 };
 
-export const useCreateTournamentPairings = () => {
+export const useCreateTournamentPairingsBulk = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: createTournamentPairings,
+    mutationFn: createTournamentPairingsBulk,
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['tournaments_list'] });
       queryClient.invalidateQueries({ queryKey: ['tournament_full', variables.tournamentId] });

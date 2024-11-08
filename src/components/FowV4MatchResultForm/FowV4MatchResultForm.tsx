@@ -21,7 +21,7 @@ import { Separator } from '~/components/generic/Separator';
 import { MatchResultCard } from '~/components/MatchResultCard';
 import { PlayerSelect } from '~/components/PlayerSelect';
 import { getCompetitorPlayerOptions } from '~/components/PlayerSelect/PlayerSelect.utils';
-import { useAddMatchResult } from '~/services/matchResults/addMatchResult';
+import { useCreateMatch } from '~/services/matches/createMatch';
 import { useFetchTournamentFull } from '~/services/tournaments/fetchTournamentFull';
 import { TournamentMatchFormData, tournamentMatchFormSchema } from '~/types/Match';
 
@@ -42,7 +42,7 @@ export const FowV4MatchResultForm = ({
 }: FowV4MatchResultFormProps): JSX.Element => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const { data: tournament } = useFetchTournamentFull(tournamentId);
-  const addMatchResult = useAddMatchResult();
+  const addMatchResult = useCreateMatch();
 
   const form = useForm<TournamentMatchFormData>({
     resolver: zodResolver(tournamentMatchFormSchema),
@@ -77,7 +77,7 @@ export const FowV4MatchResultForm = ({
       return;
     }
     const { game_system_config_id } = tournament;
-    addMatchResult.mutate({ ...data, game_system_config_id, tournament_id: tournament.id }, {
+    addMatchResult.mutate({ match: { ...data, game_system_config_id }, tournamentId: tournament.id }, {
       onSuccess: () => {
         setConfirmDialogOpen(false);
         if (onSuccess) {
@@ -104,7 +104,7 @@ export const FowV4MatchResultForm = ({
     ...player1Options.filter((option) => option.value === player_1_id),
   ].map(({ label }) => label);
 
-  const draftMatch = getDraftMatch(watch(), tournament);
+  const draftMatch = confirmDialogOpen ? getDraftMatch(watch(), tournament) : null;
 
   return (
     <Form id={id} form={form} onSubmit={onSubmit} className={clsx('FowV4MatchResultForm', className)}>

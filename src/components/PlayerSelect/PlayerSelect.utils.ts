@@ -1,6 +1,6 @@
 import { PlayerOption } from '~/components/PlayerSelect/PlayerSelect';
 import { TournamentCompetitorDeep } from '~/types/db';
-import { getUserDisplayName } from '~/utils/getUserDisplayName';
+import { getUserDisplayName } from '~/utils/common/getUserDisplayName';
 
 export const getCompetitorPlayerOptions = (
   competitor?: TournamentCompetitorDeep,

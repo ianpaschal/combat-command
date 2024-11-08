@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 
 import { Dialog } from '~/components/generic/Dialog';
 import { ScrollArea } from '~/components/generic/ScrollArea';
-import { useGetMatchesByTournamentId } from '~/services/matchResults/getMatchesByTournamentId';
-import { useCreateTournamentPairings } from '~/services/tournament_pairings/createTournamentPairings';
+import { useGetMatchesByTournamentId } from '~/services/matches/getMatches';
+import { useCreateTournamentPairingsBulk } from '~/services/tournamentPairings/createTournamentPairingsBulk';
 import { useFetchTournamentFull } from '~/services/tournaments/fetchTournamentFull';
 import { useUpdateTournament } from '~/services/tournaments/updateTournament';
 import { FowV4RankingFactor } from '~/types/fowV4/fowV4RankingFactorSchema';
@@ -29,7 +29,7 @@ export const AdvanceRoundDialog = ({
 
   // Save data
   const updateTournament = useUpdateTournament();
-  const createTournamentPairings = useCreateTournamentPairings();
+  const createTournamentPairings = useCreateTournamentPairingsBulk();
 
   const nextRound = typeof tournament?.current_round === 'number' ? tournament?.current_round + 1 : 0;
   const rankedResults = tournament ? calculateTournamentRankings<FowV4RankingFactor>(

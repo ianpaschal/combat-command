@@ -6,7 +6,7 @@ import { Button } from '~/components/generic/Button';
 import { Card } from '~/components/generic/Card';
 import { PageWrapper } from '~/components/PageWrapper';
 import { UserProfileSecureRow } from '~/types/db';
-import { getUserDisplayName } from '~/utils/getUserDisplayName';
+import { getUserDisplayName } from '~/utils/common/getUserDisplayName';
 
 export const UserProfilePage = (): JSX.Element => {
   const navigate = useNavigate();

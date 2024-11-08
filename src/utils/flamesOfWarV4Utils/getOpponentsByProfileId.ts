@@ -1,4 +1,4 @@
-import { MatchResultDeep } from '~/types/db';
+import { MatchDeep } from '~/types/db/Matches';
 
 /**
  * Returns all opponent profile UUIDs for a given profile within a set of match results.
@@ -8,7 +8,7 @@ import { MatchResultDeep } from '~/types/db';
  * @returns The opponent profile UUIDs
  */
 export const getOpponentsByProfileId = (
-  matchResults: MatchResultDeep[],
+  matchResults: MatchDeep[],
   profileId: string,
 ): string[] => (
   matchResults.reduce((acc, match) => [

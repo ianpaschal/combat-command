@@ -6,7 +6,7 @@ import {
 } from '~/components/generic/DataTable';
 import { FowV4RankingFactor } from '~/types/fowV4/fowV4RankingFactorSchema';
 import { CompetitorResult } from '~/utils/common/calculateTournamentRankings';
-import { getUserDisplayName } from '~/utils/getUserDisplayName';
+import { getUserDisplayName } from '~/utils/common/getUserDisplayName';
 
 export interface FowV4RankingsTableProps {
   results: CompetitorResult<FowV4RankingFactor>[];

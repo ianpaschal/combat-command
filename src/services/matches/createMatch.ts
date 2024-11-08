@@ -2,28 +2,32 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import { supabase } from '~/supabaseClient';
-import { MatchResultInsert } from '~/types/db';
+import { MatchInput } from '~/types/db/Matches';
 
-export const addMatchResult = async ({
-  tournament_id: _tournament_id,
-  ...result
-}: MatchResultInsert): Promise<void> => {
+export type CreateMatchInput = {
+  tournamentId: string;
+  match: MatchInput;
+};
+
+export const createMatch = async ({
+  match,
+}: CreateMatchInput): Promise<void> => {
   const { error } = await supabase
     .from('match_results')
-    .insert(result);
+    .insert(match);
   if (error) {
     throw error;
   }
 };
 
-export const useAddMatchResult = () => {
+export const useCreateMatch = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: addMatchResult,
+    mutationFn: createMatch,
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['match_result_list'] });
-      queryClient.invalidateQueries({ queryKey: ['tournament_full', variables.tournament_pairing_id] });
+      queryClient.invalidateQueries({ queryKey: ['tournament_full', variables.tournamentId] });
       toast.success('Match result saved!');
     },
     onError: (error) => {

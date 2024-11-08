@@ -1,4 +1,4 @@
-import { MatchResultDeep } from '~/types/db';
+import { MatchDeep } from '~/types/db/Matches';
 import { calculateMatchScore } from './calculateMatchScore';
 
 /**
@@ -9,7 +9,7 @@ import { calculateMatchScore } from './calculateMatchScore';
  * @returns The total number of points
  */
 export const getTotalPointsByProfileId = (
-  matchResults: MatchResultDeep[],
+  matchResults: MatchDeep[],
   profileId: string,
 ): number => (
   matchResults.reduce((acc, result) => {
