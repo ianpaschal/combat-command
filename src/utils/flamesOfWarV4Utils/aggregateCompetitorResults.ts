@@ -9,7 +9,7 @@ import { getTotalUnitsLostByProfileId } from './getTotalUnitsLostByProfileId';
 import { getTotalWinsByProfileId } from './getTotalWinsByProfileId';
 
 // TODO: This could be made more generic if paired with an array of keys and getter fns
-export const aggregatePlayerResults = (
+export const aggregateCompetitorResults = (
   matches: MatchResultDeep[],
   ownProfileIds: string[],
   opponentProfileIds: string[],

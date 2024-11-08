@@ -10,7 +10,7 @@ import { FowV4RankingFactor } from '~/types/fowV4/fowV4RankingFactorSchema';
 import { calculateTournamentRankings } from '~/utils/common/calculateTournamentRankings';
 import { generateTournamentPairings } from '~/utils/common/generateTournamentPairings';
 import { getCompetitorDisplay } from '~/utils/common/getCompetitorDisplay';
-import { aggregatePlayerResults } from '~/utils/flamesOfWarV4Utils/aggregatePlayerResults';
+import flamesOfWarV4Utils from '~/utils/flamesOfWarV4Utils';
 
 export interface AdvanceRoundDialogProps {
   tournamentId: string;
@@ -35,7 +35,7 @@ export const AdvanceRoundDialog = ({
   const rankedResults = tournament ? calculateTournamentRankings<FowV4RankingFactor>(
     tournament,
     matches || [],
-    aggregatePlayerResults,
+    flamesOfWarV4Utils.aggregateCompetitorResults,
   ) : [];
 
   const pairings = tournament ? generateTournamentPairings({

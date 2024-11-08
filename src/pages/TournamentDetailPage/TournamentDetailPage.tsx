@@ -34,7 +34,7 @@ import { MIN_WIDTH_DESKTOP } from '~/settings';
 import { FowV4RankingFactor } from '~/types/fowV4/fowV4RankingFactorSchema';
 import { calculateTournamentRankings } from '~/utils/common/calculateTournamentRankings';
 import { bem } from '~/utils/componentLib/bem';
-import { aggregatePlayerResults } from '~/utils/flamesOfWarV4Utils/aggregatePlayerResults';
+import flamesOfWarV4Utils from '~/utils/flamesOfWarV4Utils';
 
 import './TournamentDetailPage.scss';
 
@@ -74,7 +74,7 @@ export const TournamentDetailPage = (): JSX.Element => {
   const rankedResults = tournament && tournament.current_round !== null ? calculateTournamentRankings<FowV4RankingFactor>(
     tournament,
     matches || [],
-    aggregatePlayerResults,
+    flamesOfWarV4Utils.aggregateCompetitorResults,
   ) : [];
   return (
     <PageWrapper title={tournament?.title} showBackButton fitToWindow>
