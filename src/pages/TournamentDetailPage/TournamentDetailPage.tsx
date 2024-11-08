@@ -71,16 +71,11 @@ export const TournamentDetailPage = (): JSX.Element => {
   const showAddMatchResultButton = tournament?.status === 'active' && !isOrganizer && tournament?.current_round !== undefined;
   const showManageButton = isOrganizer && tournament;
 
-  const rankedResults = tournament && matches ? calculateTournamentRankings<FowV4RankingFactor>(
+  const rankedResults = tournament && tournament.current_round !== null ? calculateTournamentRankings<FowV4RankingFactor>(
     tournament,
-    matches,
-    1,
+    matches || [],
     aggregatePlayerResults,
-    ['total_wins', 'total_points', 'total_units_destroyed'],
   ) : [];
-
-  console.log(tournament);
-
   return (
     <PageWrapper title={tournament?.title} showBackButton fitToWindow>
       {tournament && (
@@ -98,8 +93,8 @@ export const TournamentDetailPage = (): JSX.Element => {
                     <div className={cn('LiveMatchResults')}>
                       <h2>Match Results</h2>
                       <div className="LiveMatchResultItemList">
-                        {(matches || []).map((match) => (
-                          <MatchResultCard matchData={match} />
+                        {[...(matches || [])].reverse().map((match) => (
+                          <MatchResultCard key={match.id} matchData={match} />
                         ))}
                       </div>
                       <Button

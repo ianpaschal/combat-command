@@ -24,6 +24,22 @@ export const useTournamentTimer = (
   const [endsAt, setEndsAt] = useState<Date | null>(null);
   const updateTimer = useUpdateTournamentTimer();
 
+  // const calculateTimerValues = () => {
+  //   if (timer) {
+  //     const elapsedTotalTime = differenceInSeconds(new Date(), new Date(timer.started_at));
+  //     const elapsedRunningTime = elapsedTotalTime - timer.stoppage_time;
+  //     const newTimeRemaining = Math.max(timer.duration - elapsedRunningTime, 0);
+  //     setTimeRemaining(newTimeRemaining);
+  //     setEndsAt(addSeconds(new Date(), newTimeRemaining));
+  //   }
+  // };
+
+  // const updateTimerValues = () => {
+  //   if (timer && !timer.paused_at) {
+  //     calculateTimerValues();
+  //   }
+  // };
+
   useEffect(()=> {
     if (initialTimer) {
       setTimer(initialTimer);
@@ -31,24 +47,22 @@ export const useTournamentTimer = (
   }, [initialTimer, setTimer]);
 
   useEffect(() => {
-    if (!timer) return;
-
+    if (!timer) {
+      return;
+    }
     const updateRemainingTime = () => {
-      const isPaused = !!timer.paused_at;
       const elapsedTotalTime = differenceInSeconds(new Date(), new Date(timer.started_at));
       const elapsedRunningTime = elapsedTotalTime - timer.stoppage_time;
       const newTimeRemaining = Math.max(timer.duration - elapsedRunningTime, 0);
-      if (!isPaused) {
-        setTimeRemaining(newTimeRemaining);
-      }
-      
-      setEndsAt(!isPaused ? addSeconds(new Date(), newTimeRemaining) : null);
+      setTimeRemaining(newTimeRemaining);
+      setEndsAt(addSeconds(new Date(), newTimeRemaining));
     };
-
-    updateRemainingTime(); // Initial calculation
-
-    const interval = setInterval(updateRemainingTime, 1000);
-
+    updateRemainingTime();
+    const interval = setInterval(() => {
+      if (!timer.paused_at) {
+        updateRemainingTime();
+      }
+    }, 1000);
     return () => clearInterval(interval); // Clean up on unmount
   }, [timer]);
 
@@ -60,10 +74,11 @@ export const useTournamentTimer = (
         event: 'UPDATE',
         schema: 'public',
         table: 'tournament_timers',
-        filter: `tournament_id=eq.${tournamentId},round_index=eq.${roundIndex}`,
+        // filter: `tournament_id=eq.${tournamentId},round_index=eq.${roundIndex}`,
       },
       (payload) => {
-        console.log('DETECTED CHANGE IN TIMER');
+        // console.log('DETECTED CHANGE IN TIMER');
+        // console.log(payload);
         setTimer(payload.new as TournamentTimerRow);
       },
     )

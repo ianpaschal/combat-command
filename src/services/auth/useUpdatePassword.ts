@@ -13,6 +13,6 @@ const updatePassword = async ({ password }: ChangePasswordFormInput): Promise<vo
 export const useUpdatePassword = () => useMutation({
   mutationFn: updatePassword,
   onError: (error) => {
-    console.log('Error updating password:', error);
+    console.error('Error updating password:', error);
   },
 });

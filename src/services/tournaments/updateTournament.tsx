@@ -8,7 +8,6 @@ import { TournamentRow } from '~/types/db';
 export type UpdateTournamentInput = Partial<TournamentRow> & { id: string };
 
 export const updateTournament = async ({ id, ...data }: UpdateTournamentInput): Promise<void> => {
-  console.log('updatedata', data);
   const { error } = await supabase
     .from('tournaments')
     .update(data)

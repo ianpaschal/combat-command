@@ -11,7 +11,7 @@ import {
 
 import { Button } from '~/components/generic/Button';
 import { Card } from '~/components/generic/Card';
-import { useTournamentTimer } from '~/hooks/useTournamentTimer';
+import { UseTournamentTimerResult } from '~/hooks/useTournamentTimer';
 
 import styles from './TournamentRoundTimer.module.scss';
 
@@ -23,16 +23,16 @@ export interface TournamentRoundTimerProps {
 
 export const TournamentRoundTimer = ({
   className,
-  tournamentId,
   roundIndex,
 }: TournamentRoundTimerProps) => {
-  const timer = useTournamentTimer(tournamentId, roundIndex);
+  // const timer = useTournamentTimer(tournamentId, roundIndex);
+  const timer = {} as UseTournamentTimerResult; // TODO: Fix this
 
   const renderTimeRemaining = (): ReactNode[] => format(
     ((timer?.timeRemaining || 0) * 1000), 'h:mm:ss',
-  ).split('').map((character) => {
+  ).split('').map((character, i) => {
     const className = character === ':' ? styles.TimeRemainingSeparator : styles.TimeRemainingDigit;
-    return <span className={className}>{character}</span>;
+    return <span key={i} className={className}>{character}</span>;
   });
 
   return (

@@ -15,7 +15,7 @@ export const UnsavedChangesDialog = ({
     description="Are you sure you want to navigate away? Unsaved changes will be lost."
     width="small"
     onCancel={() => {
-      console.log('cancel');
+      // console.log('cancel');
       if (blocker.reset) {
         blocker.reset();
       }

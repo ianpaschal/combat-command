@@ -20,7 +20,7 @@ export interface BadgeConfig {
 }
 
 export interface AvatarProps {
-  avatarUrl?: string;
+  avatarUrl?: string | null;
   displayName?: string;
   size?: number;
   countryCode?: string;

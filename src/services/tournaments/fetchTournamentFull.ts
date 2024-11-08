@@ -10,7 +10,7 @@ export const fetchTournamentFull = async (id: string): Promise<TournamentDeep> =
       *,
       game_system_config: game_system_configs (data),
       pairings: tournament_pairings (
-        id,
+        *,
         competitor_0: tournament_competitors!competitor_0_id (
           *,
           players (
@@ -41,7 +41,6 @@ export const fetchTournamentFull = async (id: string): Promise<TournamentDeep> =
   if (error) {
     throw error;
   }
-  console.log('data', data);
   return data;
 };
 

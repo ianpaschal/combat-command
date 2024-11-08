@@ -5,6 +5,10 @@ export const getUserDisplayName = (userProfile: UserProfileSecureRow | undefined
     return 'Unknown User';
   }
 
+  if (userProfile.given_name && !userProfile.family_name) {
+    return userProfile.given_name;
+  }
+
   if (userProfile.given_name && userProfile.family_name) {
     return `${userProfile.given_name} ${userProfile.family_name}`;
   }

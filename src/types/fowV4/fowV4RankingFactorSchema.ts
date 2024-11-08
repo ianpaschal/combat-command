@@ -45,3 +45,5 @@ export const fowV4RankingFactorOptions = fowV4RankingFactorSchema.options.filter
 ).map(
   ({ value }) => ({ value, label: fowV4RankingFactorLabels[value] }),
 );
+
+export type RankingFactorKey = string | number | symbol;

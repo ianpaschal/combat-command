@@ -3,10 +3,12 @@ import {
   TournamentCompetitorDeep,
   TournamentDeep,
 } from '~/types/db';
+import { getCompetitorOpponents } from '~/utils/common/getCompetitorOpponents';
 import { getCompetitorProfileIds } from '~/utils/common/getCompetitorProfileIds';
   
 export type CompetitorResult<T extends (string | number | symbol)> = {
   competitor: TournamentCompetitorDeep;
+  opponentCompetitorIds: string[];
   result: AggregatorResult<T>;
 };
 
@@ -16,7 +18,6 @@ export type Aggregator<T extends (string | number | symbol)> =(
   matches: MatchResultDeep[],
   ownProfileIds: string[],
   opponentProfileIds: string[],
-  roundsPlayed: number,
 ) => AggregatorResult<T>;
 
 /**
@@ -32,57 +33,35 @@ export type Aggregator<T extends (string | number | symbol)> =(
 export const calculateTournamentRankings = <T extends (string | number | symbol)>(
   tournament: TournamentDeep,
   matches: MatchResultDeep[],
-  roundsPlayed: number,
   aggregator: Aggregator<T>,
-  rankingFactors: T[],
 ): CompetitorResult<T>[] => {
 
   // For each competitor, aggregate their results
   const results = tournament.competitors.reduce((acc, competitor) => {
-
-    // Gather profile IDs for self
     const ownProfileIds = getCompetitorProfileIds(competitor);
-
-    /* Gather opponent IDs via pairings which include this competitor:
-     * 1. Gather all pairings which include this competitor
-     * 2. For each pairing, pick out the "other" competitor
-     * 3. Aggregate profile IDs from those competitors
-     */
-    const opponentProfileIds = tournament.pairings.filter((pairing) => (
-      [pairing.competitor_0_id, pairing.competitor_1_id].includes(competitor.id)
-    )).map((pairing) => {
-      if (pairing.competitor_0_id === competitor.id) {
-        return tournament.competitors.find(
-          (competitor) => competitor.id === pairing.competitor_1_id,
-        );
-      }
-      if (pairing.competitor_1_id === competitor.id) {
-        return tournament.competitors.find(
-          (competitor) => competitor.id === pairing.competitor_0_id,
-        );
-      }
-    }).reduce((acc, competitor) => [
+    const opponents = getCompetitorOpponents(tournament, competitor.id);
+    const opponentProfileIds = getCompetitorOpponents(tournament, competitor.id).reduce((acc, competitor) => [
       ...acc,
       ...getCompetitorProfileIds(competitor),
     ], [] as string[]);
-  
     return [
       ...acc,
       {
         competitor,
-        result: aggregator(matches, ownProfileIds, opponentProfileIds, roundsPlayed),
+        opponentCompetitorIds: opponents.map((opponent) => opponent.id),
+        result: aggregator(matches, ownProfileIds, opponentProfileIds),
       },
     ];
   }, [] as CompetitorResult<T>[]);
 
   // Then sort by the ranking factors
   return results.sort((a, b) => {
-    for(const key in rankingFactors){
-      const factor = rankingFactors[key];
-      if (a.result[factor] > b.result[factor]) {
+    for(const key in tournament.ranking_factors){
+      const factor = tournament.ranking_factors[key];
+      if (a.result[factor as T] > b.result[factor as T]) {
         return -1;
       }
-      if (a.result[factor] < b.result[factor]) {
+      if (a.result[factor as T] < b.result[factor as T]) {
         return 1;
       }
     }

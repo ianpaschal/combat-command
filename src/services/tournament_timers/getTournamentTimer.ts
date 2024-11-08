@@ -11,7 +11,6 @@ export type GetTournamentTimerInput = {
 export const getTournamentTimer = async (input: GetTournamentTimerInput): Promise<TournamentTimerRow> => {
   let query;
   if (typeof input === 'string') {
-    console.log('searching for a timer by id', input);
     query = supabase
       .from('tournament_timers')
       .select('*')
@@ -19,7 +18,6 @@ export const getTournamentTimer = async (input: GetTournamentTimerInput): Promis
       .single();
   } else {
     const { tournamentId, roundIndex } = input;
-    console.log('searching for a timer by tourney id and round', tournamentId, roundIndex);
     query = supabase
       .from('tournament_timers')
       .select('*')

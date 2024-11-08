@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import { useState } from 'react';
 
 import { Card } from '~/components/generic/Card';
 import {
@@ -12,6 +12,8 @@ import { PairingCell } from '~/components/PairingCell';
 import { TournamentPairingsResponse } from '~/services/tournaments/fetchTournamentPairings';
 import { useFetchTournamentParingsByTournamentId } from '~/services/tournaments/fetchTournamentPairingsByTournamentId';
 
+import styles from './TournamentPairingsSection.module.scss';
+
 export interface TournamentPairingsSectionProps {
   tournamentId: string;
 }
@@ -19,7 +21,27 @@ export interface TournamentPairingsSectionProps {
 export const TournamentPairingsSection = ({
   tournamentId,
 }: TournamentPairingsSectionProps): JSX.Element => {
-  const { data: pairingsList } = useFetchTournamentParingsByTournamentId(tournamentId);
+  const { data: pairings } = useFetchTournamentParingsByTournamentId(tournamentId);
+
+  const [round, setRound] = useState<number>(0);
+
+  const roundOptions = [...new Set(
+    (pairings || []).map(
+      (pairing) => pairing.round_index,
+    ).filter(
+      (roundIndex) => roundIndex !== undefined,
+    ),
+  )].map(round => ({
+    value: round,
+    label: `Round ${round + 1}`,
+  }));
+
+  const handleChangeRound = (value: null | number | string | undefined): void => {
+    if (typeof value === 'number') {
+      setRound(value);
+    }
+  };
+
   const columnDefs: ColumnDef<TournamentPairingsResponse>[] = [
     {
       header: 'Table',
@@ -33,14 +55,15 @@ export const TournamentPairingsSection = ({
     },
 
   ];
-  console.log(pairingsList);
   return (
-    <Card className={clsx('TournamentPairingsSection')} title="Pairings" disablePadding>
-      <div>
-        <Label>Round</Label>
-        <InputSelect options={[{ value: 'all', label: 'All' }, { value: 'current', label: 'Current' }, '-', { value: 'round_0', label: 'Round 1' }]} />
-      </div>
-      <DataTable data={pairingsList || []} columns={columnDefs} />
+    <Card title="Pairings" disablePadding>
+      {roundOptions.length > 1 && (
+        <div className={styles.Controls}>
+          <Label>Round</Label>
+          <InputSelect options={roundOptions} value={round} onChange={handleChangeRound} disabled={roundOptions.length < 2} />
+        </div>
+      )}
+      <DataTable className={styles.DataTable} data={(pairings || []).filter((pairing) => pairing.round_index === round)} columns={columnDefs} />
     </Card>
   );
 };

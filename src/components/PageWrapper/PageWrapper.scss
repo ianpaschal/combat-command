@@ -36,7 +36,7 @@ $header-height: 2.5rem;
     @include flex.column;
 
     &-fitToWindow {
-      max-height: calc(100vh - (variables.$app-bar-height + $header-height + 3rem));
+      height: calc(100vh - (variables.$app-bar-height + $header-height + 3rem));
     }
   }
 }

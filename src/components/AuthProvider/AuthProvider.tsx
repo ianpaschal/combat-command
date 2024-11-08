@@ -27,7 +27,6 @@ export const AuthProvider = ({
   useEffect(() => {
     const getUser = async () => {
       const { data: auth } = await supabase.auth.getUser();
-      console.log('auth', auth);
       if (auth.user) {
         setUser(auth.user);
       } else {
@@ -35,7 +34,6 @@ export const AuthProvider = ({
         setProfileId(null);
       }
     };
-    console.log('getting user');
     getUser();
     const { data } = supabase.auth.onAuthStateChange(async (event, session): Promise<void> => {
       if (event === 'SIGNED_IN' && session?.user) {
@@ -64,7 +62,6 @@ export const AuthProvider = ({
       setProfileId(profile?.id as string || null);
     };
     if (user) {
-      console.log('getting profile');
       getUserProfile();
     }
   }, [user]);

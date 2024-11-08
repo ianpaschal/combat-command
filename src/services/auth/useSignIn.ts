@@ -27,7 +27,7 @@ export const useSignIn = () => {
       navigate('/');
     },
     onError: (error) => {
-      console.log('Error signing in:', error);
+      console.error('Error signing in:', error);
     },
   });
 };

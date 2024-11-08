@@ -48,8 +48,18 @@ export const FowV4RankingsTable = ({
       render: (data) => <DefaultCell value={data.result.total_units_destroyed} />,
       width: '1fr',
     },
+    {
+      header: 'Avg. Opponent Points',
+      render: (data) => <DefaultCell value={data.result.avg_opponent_points} />,
+      width: '1fr',
+    },
   ];
+  const emptyState = (
+    <div>
+      No matches yet!
+    </div>
+  );
   return (
-    <DataTable data={results} columns={columnDefs} includeLineNumbers />
+    <DataTable data={results} columns={columnDefs} includeLineNumbers emptyState={emptyState} />
   );
 };

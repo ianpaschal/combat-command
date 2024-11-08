@@ -27,7 +27,6 @@ export const updateTournamentTimer = async ({ timer, action }: UpdateTournamentT
     data = {
       paused_at: new Date().toISOString(),
     };
-    console.log(data);
   }
   if (!!timer.paused_at && action === 'resume') {
     const lastPauseDuration = differenceInSeconds(new Date(), new Date(timer.paused_at));

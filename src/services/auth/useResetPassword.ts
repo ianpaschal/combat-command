@@ -20,7 +20,7 @@ export const useResetPassword = () => {
       navigate('/');
     },
     onError: (error) => {
-      console.log('Error sending reset password email:', error);
+      console.error('Error sending reset password email:', error);
     },
   });
 };

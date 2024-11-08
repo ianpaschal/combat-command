@@ -4,7 +4,10 @@ import { toast } from 'sonner';
 import { supabase } from '~/supabaseClient';
 import { MatchResultInsert } from '~/types/db';
 
-export const addMatchResult = async (result: MatchResultInsert): Promise<void> => {
+export const addMatchResult = async ({
+  tournament_id: _tournament_id,
+  ...result
+}: MatchResultInsert): Promise<void> => {
   const { error } = await supabase
     .from('match_results')
     .insert(result);
@@ -18,8 +21,9 @@ export const useAddMatchResult = () => {
 
   return useMutation({
     mutationFn: addMatchResult,
-    onSuccess: () => {
+    onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['match_result_list'] });
+      queryClient.invalidateQueries({ queryKey: ['tournament_full', variables.tournament_pairing_id] });
       toast.success('Match result saved!');
     },
     onError: (error) => {

@@ -9,9 +9,9 @@ import { Search } from 'lucide-react';
 
 import { Button } from '~/components/generic/Button';
 import { InputText } from '~/components/generic/InputText';
-import { useLocationSearch } from '~/services/useLocationSearch';
 import { useDebounce } from '~/hooks/useDebounce';
 import { useFetchLocation } from '~/services/useFetchLocation';
+import { useLocationSearch } from '~/services/useLocationSearch';
 
 import './InputDate.scss';
 
@@ -40,8 +40,6 @@ export const InputLocation = forwardRef<HTMLButtonElement, InputLocationProps>((
       onChange(selectedPlaceId);
     }
   }, [onChange, selectedPlaceId]);
-
-  console.log(locations);
 
   return (
     <Popover.Root>

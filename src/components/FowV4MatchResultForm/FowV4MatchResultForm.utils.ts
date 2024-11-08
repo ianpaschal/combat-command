@@ -5,14 +5,20 @@ import {
   TournamentPairingDeep,
 } from '~/types/db';
 import { TournamentMatchFormData } from '~/types/Match';
+import { getCompetitorDisplay } from '~/utils/common/getCompetitorDisplay';
 
 export const getPairingOptions = (
   pairings: TournamentPairingDeep[],
+  currentRound: number,
 ): InputSelectOption<string>[] => (
-  pairings.map((pairing) => ({
-    value: pairing.id,
-    label: `${pairing.competitor_0.team_name} vs. ${pairing.competitor_1.team_name}`,
-  }))
+  pairings.filter((pairing) => pairing.round_index === currentRound).map((pairing) => {
+    const [competitor0Name] = getCompetitorDisplay(pairing.competitor_0);
+    const [competitor1Name] = getCompetitorDisplay(pairing.competitor_1);
+    return {
+      value: pairing.id,
+      label: `${competitor0Name} vs. ${competitor1Name}`,
+    };
+  })
 );
 
 export const getSelectedPairing = (

@@ -7,7 +7,28 @@ export type TournamentRow = Database['public']['Tables']['tournaments']['Row'];
 export type GameSystemConfigRow = Omit<Database['public']['Tables']['game_system_configs']['Row'], 'data'> & {
   data: FowV4GameSystemConfig;
 };
+
+// Tournament Pairings
+/**
+ * Raw Tournament Pairing row from the database
+ */
 export type TournamentPairingRow = Database['public']['Tables']['tournament_pairings']['Row'];
+
+/**
+ * Tournament Pairing row from the database, with Deep Tournament Competitors joined
+ */
+export type TournamentPairingDeep = TournamentPairingRow & {
+  competitor_0: TournamentCompetitorDeep;
+  competitor_1: TournamentCompetitorDeep;
+};
+
+/**
+ * Input to create a new Tournament Pairing
+ */
+export type TournamentPairingInput = Omit<TournamentPairingRow, 'id' | 'created_at' | 'updated_at'>;
+
+// ...
+
 export type PlayerRow = Database['public']['Tables']['players']['Row'];
 export type TournamentCompetitorRow = Database['public']['Tables']['tournament_competitors']['Row'];
 export type MatchResultRow = Database['public']['Tables']['match_results']['Row'];
@@ -20,7 +41,9 @@ export type UserProfileRow = Tables<'user_profiles'>;
 
 export type UserProfileSecure = NullConversion<UserProfileSecureRow>;
 
-export type MatchResultInsert = Omit<MatchResultRow, 'id' | 'created_at' | 'updated_at'>;
+export type MatchResultInsert = Omit<MatchResultRow, 'id' | 'created_at' | 'updated_at'> & {
+  tournament_id: string;
+};
 
 // Deep nested results
 export interface PlayerDeep extends PlayerRow {
@@ -29,11 +52,6 @@ export interface PlayerDeep extends PlayerRow {
 
 export interface TournamentCompetitorDeep extends TournamentCompetitorRow {
   players: PlayerDeep[];
-}
-
-export interface TournamentPairingDeep extends TournamentPairingRow {
-  competitor_0: TournamentCompetitorDeep;
-  competitor_1: TournamentCompetitorDeep;
 }
 
 export interface TournamentDeep extends TournamentRow {

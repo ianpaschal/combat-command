@@ -33,6 +33,12 @@
     min-height: 0;
   }
 
+  &_TabsContentSection {
+    &[data-state="active"] {
+      @include flex.column;
+    }
+  }
+
   &_Toolbar {
     grid-column: 1/2;
     grid-row: 1/2;

@@ -77,7 +77,7 @@ export const FowV4MatchResultForm = ({
       return;
     }
     const { game_system_config_id } = tournament;
-    addMatchResult.mutate({ ...data, game_system_config_id }, {
+    addMatchResult.mutate({ ...data, game_system_config_id, tournament_id: tournament.id }, {
       onSuccess: () => {
         setConfirmDialogOpen(false);
         if (onSuccess) {
@@ -96,7 +96,7 @@ export const FowV4MatchResultForm = ({
     reset((prev) => ({ ...prev, player_0_id: '', player_1_id: '' }));
   }, [reset, tournament_pairing_id]);
 
-  const pairingOptions = getPairingOptions(tournament?.pairings || []);
+  const pairingOptions = getPairingOptions(tournament?.pairings || [], tournament?.current_round || 0);
   const player0Options = getCompetitorPlayerOptions(selectedPairing?.competitor_0);
   const player1Options = getCompetitorPlayerOptions(selectedPairing?.competitor_1);
   const playerLabels = [
@@ -105,9 +105,6 @@ export const FowV4MatchResultForm = ({
   ].map(({ label }) => label);
 
   const draftMatch = getDraftMatch(watch(), tournament);
-
-  console.log('draftMatch', draftMatch);
-  console.log('raw', watch());
 
   return (
     <Form id={id} form={form} onSubmit={onSubmit} className={clsx('FowV4MatchResultForm', className)}>

@@ -1,4 +1,8 @@
-import { cloneElement, ReactElement } from 'react';
+import {
+  cloneElement,
+  ReactElement,
+  ReactNode,
+} from 'react';
 import * as Popover from '@radix-ui/react-popover';
 import clsx from 'clsx';
 import { Cog, Search } from 'lucide-react';
@@ -21,13 +25,17 @@ export interface DataTableProps<T> {
   columns: ColumnDef<T>[];
   maxHeight?: number;
   includeLineNumbers?: boolean;
+  emptyState?: ReactNode;
+  className?: string;
 }
 
 export const DataTable = <T,>({
   data,
   columns,
   maxHeight,
+  emptyState,
   includeLineNumbers = false,
+  className,
 }: DataTableProps<T>): JSX.Element => {
   const gridTemplateColumns = columns.reduce((acc, col) => {
     if (col.width && typeof col.width === 'number') {
@@ -39,7 +47,7 @@ export const DataTable = <T,>({
     return `${acc} 1fr`;
   }, includeLineNumbers ? '2rem' : '');
   return (
-    <div className={styles.Root}>
+    <div className={clsx(styles.Root, className)}>
       <div className={styles.Controls}>
         <InputText placeholder="Filter..." slotBefore={<Search />} />
         <Popover.Root>
@@ -78,6 +86,11 @@ export const DataTable = <T,>({
                 }))}
               </div>
             ))}
+            {data?.length === 0 && emptyState && (
+              <div>
+                {emptyState}
+              </div>
+            )}
           </div>
         </ScrollArea>
       </div>

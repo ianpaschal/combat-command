@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import { ReactElement, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Popover from '@radix-ui/react-popover';
 import {
@@ -14,9 +14,8 @@ import {
   Trash,
 } from 'lucide-react';
 
+import { AdvanceRoundDialog } from '~/components/AdvanceRoundDialog/AdvanceRoundDialog';
 import { MenuItem } from '~/components/generic/MenuItem';
-import { useTournamentTimer } from '~/hooks/useTournamentTimer';
-import { useCreateTournamentTimer } from '~/services/tournament_timers/createTournamentTimer';
 import { GetTournamentsListItem } from '~/services/tournaments/getTournamentsList';
 import { useUpdateTournament } from '~/services/tournaments/updateTournament';
 
@@ -33,16 +32,17 @@ export const ManageTournamentMenu = ({
 }: ManageTournamentMenuProps): JSX.Element => {
   const navigate = useNavigate();
   const updateTournament = useUpdateTournament();
-  const createTournamentTimer = useCreateTournamentTimer();
+  // const createTournamentTimer = useCreateTournamentTimer();
 
-  const timer = useTournamentTimer(tournament.id, tournament.current_round);
+  const [advanceRoundDialogOpen, setAdvanceRoundDialogOpen] = useState<boolean>(false);
+
+  // const timer = useTournamentTimer(tournament.id, tournament.current_round);
 
   const handleClickEdit = (): void => {
     navigate(`/tournaments/${tournament.id}/edit`);
   };
 
   const handleClickPublish = (): void => {
-    console.log('Publishing tournament');
     updateTournament.mutate({ id: tournament.id, status: 'published' });
   };
 
@@ -51,31 +51,24 @@ export const ManageTournamentMenu = ({
   };
 
   const handleClickAdvanceRound = (): void => {
-    updateTournament.mutate({
-      id: tournament.id,
-      current_round: typeof tournament.current_round === 'number' ? tournament.current_round + 1 : 0,
-    });
+    setAdvanceRoundDialogOpen(true);
   };
 
   const handleClickStartTournament = (): void => {
-    updateTournament.mutate({
-      id: tournament.id,
-      current_round: 0,
-      status: 'active',
-    });
+    setAdvanceRoundDialogOpen(true);
   };
 
-  const handleClickStartRound = (): void => {
-    // TODO: Decide on one format or another
-    if (!tournament.current_round && tournament.current_round !== 0) {
-      throw Error('Can not start round timer without current round!');
-    }
-    createTournamentTimer.mutate({
-      tournament_id: tournament.id,
-      round_index: tournament.current_round,
-      duration: 9000, // 2.5h in seconds
-    });
-  };
+  // const handleClickStartRound = (): void => {
+  //   // TODO: Decide on one format or another
+  //   if (!tournament.current_round && tournament.current_round !== 0) {
+  //     throw Error('Can not start round timer without current round!');
+  //   }
+  //   createTournamentTimer.mutate({
+  //     tournament_id: tournament.id,
+  //     round_index: tournament.current_round,
+  //     duration: 9000, // 2.5h in seconds
+  //   });
+  // };
 
   // TODO: Add with warning dialog
   // const handleClickResetRound = (): void => {
@@ -123,7 +116,14 @@ export const ManageTournamentMenu = ({
           </Popover.Close>
           {/* <MenuItem label="Open registrations" icon={<UserRoundPen />} visible={tournament.status === 'published' && tournament.registrations_open} /> */}
           {/* <MenuItem label="Close registrations" icon={<UserRoundX />} visible={tournament.status === 'published' && !tournament.registrations_open} /> */}
-          {/* <MenuItem label="Generate new pairings" icon={<Swords />} visible={tournament.status === 'active' && tournament.current_round === undefined} /> */}
+          {/* <Popover.Close asChild>
+            <MenuItem
+              label="Generate new pairings"
+              icon={<Swords />}
+              visible={tournament.status === 'active' && tournament.current_round !== undefined}
+              onClick={handleClickGeneratePairings}
+            />
+          </Popover.Close> */}
           <Popover.Close asChild>
             <MenuItem
               label="Advance to next round"
@@ -132,15 +132,15 @@ export const ManageTournamentMenu = ({
               onClick={handleClickAdvanceRound}
             />
           </Popover.Close>
-          <Popover.Close asChild>
+          {/* <Popover.Close asChild>
             <MenuItem
               label={`Start round ${tournament.current_round}`}
               icon={<ArrowRightToLine />}
               visible={tournament.status === 'active'} // TODO: Add check that pairings have been generated
               onClick={handleClickStartRound}
             />
-          </Popover.Close>
-          <Popover.Close asChild>
+          </Popover.Close> */}
+          {/* <Popover.Close asChild>
             <MenuItem
               label="Pause round"
               icon={<ArrowRightToLine />}
@@ -155,7 +155,7 @@ export const ManageTournamentMenu = ({
               visible={tournament.status === 'active' && !!timer && timer.isPaused}
               onClick={timer?.toggle}
             />
-          </Popover.Close>
+          </Popover.Close> */}
           <MenuItem label="Complete tournament" icon={<CircleCheckBig />} visible={tournament.status === 'active' && tournament.current_round === undefined} />
           <MenuItem label="Delete" icon={<Trash />} visible={tournament.status === 'draft'} />
           <MenuItem label="Un-publish" icon={<EyeOff />} visible={tournament.status === 'published'} />
@@ -163,6 +163,11 @@ export const ManageTournamentMenu = ({
           <MenuItem label="End round early" icon={<TimerOff />} visible={tournament.status === 'active' && tournament.current_round !== undefined} />
         </Popover.Content>
       </Popover.Root>
+      <AdvanceRoundDialog
+        tournamentId={tournament.id}
+        open={advanceRoundDialogOpen}
+        onOpenChange={setAdvanceRoundDialogOpen}
+      />
     </>
   );
 };

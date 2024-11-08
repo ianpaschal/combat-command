@@ -13,6 +13,6 @@ const updateEmail = async ({ email }: ChangeEmailFormInput): Promise<void> => {
 export const useUpdateEmail = () => useMutation({
   mutationFn: updateEmail,
   onError: (error) => {
-    console.log('Error updating email:', error);
+    console.error('Error updating email:', error);
   },
 });

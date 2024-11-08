@@ -30,8 +30,6 @@ export const TournamentsPage = (): JSX.Element => {
 
   const { data: tournaments } = useGetTournamentsList();
 
-  console.log(tournaments);
-
   return (
     <PageWrapper title="Tournaments">
       <div className={cn('Filters')}>

@@ -18,24 +18,31 @@ export const TournamentMatchResultsSection = ({
 }: TournamentMatchResultsSectionProps): JSX.Element => {
   const [round, setRound] = useState<number | undefined>(undefined);
   const { data: matches } = useGetMatchesByTournamentId({ tournamentId, round });
-  const roundOptions = [
-    { value: 0, label: 'Round 1' },
-    { value: 1, label: 'Round 2' },
-    { value: 2, label: 'Round 3' },
-    { value: 3, label: 'Round 4' },
-    { value: 4, label: 'Round 5' },
-  ];
+
+  const roundOptions = [...new Set(
+    (matches || []).map(
+      (match) => match.pairing?.round_index,
+    ).filter(
+      (roundIndex) => roundIndex !== undefined,
+    ),
+  )].map(round => ({
+    value: round,
+    label: `Round ${round + 1}`,
+  }));
+
   const handleChangeRound = (value: null | number | string | undefined): void => {
-    if (value && typeof value === 'number') {
+    if (typeof value === 'number') {
       setRound(value);
     }
   };
   return (
     <Card title="Match Results" disablePadding>
-      <div className={styles.Controls}>
-        <Label>Round</Label>
-        <InputSelect options={roundOptions} value={round} onChange={handleChangeRound} />
-      </div>
+      {roundOptions.length > 1 && (
+        <div className={styles.Controls}>
+          <Label>Round</Label>
+          <InputSelect options={roundOptions} value={round} onChange={handleChangeRound} disabled={roundOptions.length < 2} />
+        </div>
+      )}
       <ScrollArea indicatorBorder="top">
         <div className={styles.ItemList}>
           {(matches || []).map((match) => (
