@@ -1,12 +1,14 @@
 import { TournamentCompetitorDeep, TournamentDeep } from '~/types/db';
 import { MatchDeep } from '~/types/db/Matches';
 import { getCompetitorOpponents } from '~/utils/common/getCompetitorOpponents';
+import { getCompetitorPlayedTables } from '~/utils/common/getCompetitorPlayedTables';
 import { getCompetitorProfileIds } from '~/utils/common/getCompetitorProfileIds';
   
 export type CompetitorResult<T extends (string | number | symbol)> = {
   competitor: TournamentCompetitorDeep;
   opponentCompetitorIds: string[];
   result: AggregatorResult<T>;
+  playedTables: number[];
 };
 
 export type AggregatorResult<T extends (string | number | symbol)> = Record<T, number>;
@@ -41,12 +43,14 @@ export const calculateTournamentRankings = <T extends (string | number | symbol)
       ...acc,
       ...getCompetitorProfileIds(competitor),
     ], [] as string[]);
+    const playedTables = getCompetitorPlayedTables(tournament, competitor.id);
     return [
       ...acc,
       {
         competitor,
         opponentCompetitorIds: opponents.map((opponent) => opponent.id),
         result: aggregator(matches, ownProfileIds, opponentProfileIds),
+        playedTables,
       },
     ];
   }, [] as CompetitorResult<T>[]);

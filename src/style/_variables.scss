@@ -99,3 +99,7 @@ $outlined-danger-border: $red;
 $ghost-bg: transparent;
 $ghost-bg-hover: color.adjust($text-base, $alpha: -0.975);
 $ghost-text: $text-base;
+
+// Skeleton
+$skeleton-bg: color.adjust($text-base, $alpha: -0.975);
+$skeleton-bg-alt: color.adjust($text-base, $alpha: -0.9);

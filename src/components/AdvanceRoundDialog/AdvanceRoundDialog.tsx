@@ -6,11 +6,14 @@ import { useGetMatchesByTournamentId } from '~/services/matches/getMatches';
 import { useCreateTournamentPairingsBulk } from '~/services/tournamentPairings/createTournamentPairingsBulk';
 import { useFetchTournamentFull } from '~/services/tournaments/fetchTournamentFull';
 import { useUpdateTournament } from '~/services/tournaments/updateTournament';
+import { TournamentPairingInput } from '~/types/db/TournamentPairings';
 import { FowV4RankingFactor } from '~/types/fowV4/fowV4RankingFactorSchema';
 import { calculateTournamentRankings } from '~/utils/common/calculateTournamentRankings';
 import { generateTournamentPairings } from '~/utils/common/generateTournamentPairings';
 import { getCompetitorDisplay } from '~/utils/common/getCompetitorDisplay';
 import flamesOfWarV4Utils from '~/utils/flamesOfWarV4Utils';
+
+import styles from './AdvanceRoundDialog.module.scss';
 
 export interface AdvanceRoundDialogProps {
   tournamentId: string;
@@ -31,6 +34,7 @@ export const AdvanceRoundDialog = ({
   const updateTournament = useUpdateTournament();
   const createTournamentPairings = useCreateTournamentPairingsBulk();
 
+  // const thisRound = tournament?.current_round;
   const nextRound = typeof tournament?.current_round === 'number' ? tournament?.current_round + 1 : 0;
   const rankedResults = tournament ? calculateTournamentRankings<FowV4RankingFactor>(
     tournament,
@@ -53,7 +57,7 @@ export const AdvanceRoundDialog = ({
     });
     createTournamentPairings.mutate({
       tournamentId,
-      pairings,
+      pairings, // TODO FIX AFTER DAY 1
     });
   };
 
@@ -73,7 +77,7 @@ export const AdvanceRoundDialog = ({
         { label: 'Proceed', onClick: handleClickProceed },
       ]}
     >
-      <ScrollArea type="scroll" indicatorBorder="top">
+      <ScrollArea type="scroll" indicatorBorder="top" className={styles.ScrollArea}>
         The following pairings will be created:
         {pairings.map((pairing, i) => {
           const competitor0Rank = rankedResults.findIndex((result) => result.competitor.id === pairing.competitor_0_id);
@@ -96,8 +100,8 @@ export const AdvanceRoundDialog = ({
             );
           }
           return (
-            <div key={i}>
-              {`#${competitor0Rank} ${competitor0Name} vs. ${competitor1Rank} ${competitor1Name}`}
+            <div key={i} className={styles.PairingItem}>
+              {`#${competitor0Rank + 1} ${competitor0Name} vs. #${competitor1Rank + 1} ${competitor1Name} on Table ${pairing.table_index + 1}`}
             </div>
           );
         })}

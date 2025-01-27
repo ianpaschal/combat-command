@@ -1,4 +1,8 @@
-import { cloneElement, ReactElement } from 'react';
+import {
+  cloneElement,
+  CSSProperties,
+  ReactElement,
+} from 'react';
 import {
   Fallback,
   Image,
@@ -8,9 +12,10 @@ import clsx from 'clsx';
 import { User } from 'lucide-react';
 
 import { FlagCircle } from '~/components/generic/FlagCircle';
-import { createCn } from '~/utils/componentLib/createCn';
+import { useFetchAvatar } from '~/services/avatar/useFetchAvatar';
+import { useFetchUserProfile } from '~/services/userProfile/useFetchUserProfile';
 
-import './Avatar.scss';
+import styles from './Avatar.module.scss';
 
 export interface BadgeConfig {
   position: 'top' | 'top-left' | 'top-right' | 'left' | 'right' | 'bottom' | 'bottom-left' | 'bottom-right';
@@ -20,27 +25,24 @@ export interface BadgeConfig {
 }
 
 export interface AvatarProps {
-  avatarUrl?: string | null;
-  displayName?: string;
-  size?: number;
-  countryCode?: string;
-  onEdit?: () => void;
   badges?: BadgeConfig[];
   className?: string;
+  countryCode?: string;
+  loading?: boolean;
+  size?: CSSProperties['width'];
+  userId?: string;
 }
 
-const cn = createCn('Avatar');
-
 export const Avatar = ({
-  avatarUrl,
-  displayName,
-  countryCode,
-  className,
-  size = 40,
   badges: badgeConfigs,
-  onEdit,
+  className,
+  countryCode,
+  loading,
+  size = 40,
+  userId,
 }: AvatarProps): JSX.Element => {
-
+  const { data: userProfile, isLoading: isUserProfileLoading } = useFetchUserProfile(userId);
+  const { data: avatar, isLoading: isAvatarLoading } = useFetchAvatar(userProfile?.avatar_url);
   const badges = badgeConfigs?.map((config) => {
     const convertToPascalCase = (text: string): string => (
       text.replace(/(^\w|-\w)/g, (t) => t.replace(/-/, '').toUpperCase())
@@ -61,28 +63,26 @@ export const Avatar = ({
     );
   });
 
+  const isLoading = loading || isUserProfileLoading || isAvatarLoading || (userProfile?.avatar_url && !avatar);
+
+  const displayName = userProfile ? `${userProfile.given_name} ${userProfile.family_name}` : 'Unknown User';
+
   return (
-    <Root className={clsx(cn(), className)} style={{ width: size, height: size }}>
-      <div className={cn('_Content')}>
-        {avatarUrl && (
+    <Root className={clsx(styles.Root, className)} style={{ width: size, height: size }}>
+      <div className={clsx(styles.Content, { [styles.ContentLoading]: isLoading })}>
+        {(avatar && displayName) ? (
           <Image
-            className={cn('_Image')}
-            src={avatarUrl}
+            className={styles.Image}
+            src={avatar}
             alt={displayName}
           />
-        )}
-        <Fallback className={cn('_Fallback')}>
+        ) : (
           <User />
-        </Fallback>
+        )}
       </div>
-      {onEdit && (
-        <span onClick={onEdit}>
-
-        </span>
-      )}
       {badges}
       {countryCode && (
-        <FlagCircle className={cn('_Flag')} code={countryCode} size={size / 3} />
+        <FlagCircle className={styles.Flag} code={countryCode} size={`calc(${size} / 3`} />
       )}
     </Root>
   );

@@ -136,3 +136,18 @@
     }
   }
 }
+
+@mixin skeleton {
+  border: none;
+  animation: skeleton-loading 1s linear infinite alternate;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: variables.$skeleton-bg;
+  }
+
+  100% {
+    background-color: variables.$skeleton-bg-alt;
+  }
+}

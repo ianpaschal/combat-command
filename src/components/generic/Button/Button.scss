@@ -9,6 +9,7 @@
   @include corners.normal;
   @include text.ui($bold: true);
 
+  position: relative;
   flex-shrink: 0;
 
   svg {

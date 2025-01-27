@@ -52,6 +52,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
     {
       [cn('-round')]: round,
       [cn('-iconOnly')]: elements.length === 1 && isValidElement(elements[0]),
+      [cn('-disabled')]: disabled,
     },
     className,
   );

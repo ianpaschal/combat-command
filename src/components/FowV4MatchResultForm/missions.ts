@@ -1,4 +1,5 @@
 import { InputSelectOption } from '~/components/generic/InputSelect';
+import { fowV4OutcomeTypeOptions } from '~/types/fowV4/fowV4MatchOutcomeTypeSchema';
 import { FowV4MissionPackVersion } from '~/types/fowV4/fowV4MissionPackVersionSchema';
 import { FowV4Stance, fowV4StanceOptions } from '~/types/fowV4/fowV4StanceSchema';
 
@@ -9,7 +10,7 @@ interface Mission {
   firstTurn: 'attacker' | 'defender' | 'roll';
   objectives: {
     attacker: boolean; // Does the attacker need to capture objectives?
-    defender: boolean; // Does the attacker need to capture objectives?
+    defender: boolean; // Does the defender need to capture objectives?
   }
 }
 
@@ -286,7 +287,9 @@ export const missions: Mission[] = [
   },
 ];
 
-export const getRolesByStances = (stance0: FowV4Stance, stance1: FowV4Stance): { attacker: 0|1, defender: 0|1 } | undefined=> {
+type GetRolesByStancesResult = { attacker: 0, defender: 1 } | { attacker: 1, defender: 0 };
+
+export const getRolesByStances = (stance0: FowV4Stance, stance1: FowV4Stance): GetRolesByStancesResult | undefined => {
   const values = [...fowV4StanceOptions].reverse().map((option) => option.value);
   const player0Aggression = values.indexOf(stance0);
   const player1Aggression = values.indexOf(stance1);
@@ -418,17 +421,49 @@ export const getMissionOptions = (
   return missions.filter(({ id }) => missionIds.includes(id)).map(({ label, id }) => ({ label, value: id }));
 };
 
-type GetAttackerOptionsPlayer = {
-  stance?: FowV4Stance,
+export const getOutcomeTypeOptions = (missionId?: string): InputSelectOption<string>[] => {
+  if (!missionId) {
+    return [];
+  }
+  const mission = missions.find(({ id }) => id === missionId);
+  if (!mission) {
+    throw Error('Could not find a mission with that ID!');
+  }
+
+  const options = [...fowV4OutcomeTypeOptions];
+
+  // If no one has objectives, remove "Objective Captured" from options
+  if (!mission.objectives.attacker && !mission.objectives.defender) {
+    options.splice(options.findIndex((option) => option.value === 'objective_captured'), 1);
+  }
+  // If the defender has objectives, it's not possible to repel the attack
+  if (mission.objectives.defender) {
+    options.splice(options.findIndex((option) => option.value === 'attack_repelled'), 1);
+  }
+
+  return options;
+};
+
+export type GetAttackerOptionsPlayer = {
+  stance: FowV4Stance,
   label: string,
 };
 
+export type GetOptionPlayersInput = [GetAttackerOptionsPlayer, GetAttackerOptionsPlayer];
+// type GetOptionOutput = [InputSelectOption<0|1>?, InputSelectOption<0|1>?];
+type GetOptionOutput = 
+  | [] // No options
+  | [InputSelectOption<0 | 1>] // One option
+  | [InputSelectOption<0 | 1>, InputSelectOption<0 | 1>]; // Two options
+
 export const getAttackerOptions = (
-  players: GetAttackerOptionsPlayer[],
-  missionId?: string,
-): InputSelectOption<number>[] => {
+  players: GetOptionPlayersInput,
+  missionId: string,
+): GetOptionOutput => {
+
+  // If missing data, just return both players...
   if (!players[0].stance || !players[1].stance || !missionId ) {
-    return players.map(({ label }, i) => ({ label, value: i }));
+    return [];
   }
 
   const mission = missions.find(({ id }) => id === missionId);
@@ -436,15 +471,84 @@ export const getAttackerOptions = (
     throw Error('Could not find a mission with that ID!');
   }
 
+  // If stances aren't the same, and mission doesn't use a roll-off, return array with just 1 player
   if (players[0].stance !== players[1].stance && mission.attacker !== 'roll') {
-
+    console.log('asym');
     const roles = getRolesByStances(players[0].stance, players[1].stance);
-    if (roles?.attacker) {
+    if (roles?.attacker !== undefined) {
       return [{
         label: players[roles.attacker].label,
         value: roles.attacker,
       }];
     }
   }
-  return players.map(({ label }, i) => ({ label, value: i }));
+
+  // Otherwise return both players
+  return players.map(({ label }, i) => ({ label, value: i })) as GetOptionOutput;
+};
+
+export const getFirstTurnOptions = (
+  players: GetOptionPlayersInput,
+  missionId: string,
+): GetOptionOutput => {
+
+  // If missing data, just return both players...
+  if (!players[0].stance || !players[1].stance || !missionId ) {
+    return [];
+  }
+
+  const options = players.map(({ label }, i) => ({ label, value: i }));
+  
+  const mission = missions.find(({ id }) => id === missionId);
+  if (!mission) {
+    throw Error('Could not find a mission with that ID!');
+  }
+
+  const roles = getRolesByStances(players[0].stance, players[1].stance);
+
+  // If stances aren't the same, and mission doesn't use a roll-off, return array with just 1 player
+  if (roles && (mission.firstTurn === 'attacker')) {
+    return options.filter((option) => option.value === roles.attacker) as GetOptionOutput;
+  }
+  if (roles && (mission.firstTurn === 'defender')) {
+    return options.filter((option) => option.value === roles.defender) as GetOptionOutput;
+  }
+
+  // Otherwise return both players
+  return options as GetOptionOutput;
+};
+
+export const getWinnerOptions = (
+  players: GetOptionPlayersInput,
+  missionId: string,
+  attacker: 0|1,
+  outcomeType: string,
+): GetOptionOutput | [InputSelectOption<null>] => {
+
+  // If missing data, just return both players...
+  if (!players[0].stance || !players[1].stance || !missionId || attacker === undefined || !outcomeType) {
+    return [];
+  }
+
+  const options = [...players.map(({ label }, i) => ({ label, value: i }))];
+  
+  const mission = missions.find(({ id }) => id === missionId);
+  if (!mission) {
+    throw Error('Could not find a mission with that ID!');
+  }
+
+  const defender = attacker === 0 ? 1 : 0;
+
+  if (outcomeType === 'time_out') {
+    return [{ label: 'None', value: null }];
+  }
+  if (outcomeType === 'objective_captured' && !mission.objectives.defender) {
+    return options.filter((option) => option.value === attacker) as GetOptionOutput;
+  }
+  if (outcomeType === 'attack_repelled') {
+    return options.filter((option) => option.value === defender) as GetOptionOutput;
+  }
+
+  // Otherwise return both players
+  return options as GetOptionOutput;
 };

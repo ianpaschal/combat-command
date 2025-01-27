@@ -36,7 +36,7 @@ export const AccountMenu = (): JSX.Element => {
   return (
     <Popover.Root >
       <Popover.Trigger className={styles.Trigger}>
-        <Avatar displayName="Ian" />
+        <Avatar userId={userProfile?.user_id} />
       </Popover.Trigger>
       <Popover.Content className={styles.Content} align="end">
         <span className={styles.UserDisplayName}>

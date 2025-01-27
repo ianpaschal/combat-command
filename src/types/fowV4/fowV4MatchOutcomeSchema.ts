@@ -12,7 +12,7 @@ export const fowV4MatchOutcomeSchema = z.object({
   player_0_units_lost: z.number().min(0),
   player_1_stance: fowV4stanceSchema,
   player_1_units_lost: z.number().min(0),
-  turns_played: z.number().min(1),
+  turns_played: z.coerce.number().min(1),
   winner: z.union([z.number().min(0).max(1), z.null()]),
 }).superRefine((values, ctx) => {
   if (values.outcome_type !== 'time_out' && values.winner === undefined) {

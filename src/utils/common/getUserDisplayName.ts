@@ -1,6 +1,7 @@
 import { UserProfileSecureRow } from '~/types/db';
+import { NullConversion } from '~/utils/nullsToUndefined';
 
-export const getUserDisplayName = (userProfile: UserProfileSecureRow | undefined): string => {
+export const getUserDisplayName = (userProfile: NullConversion<UserProfileSecureRow> | undefined): string => {
   if (!userProfile) {
     return 'Unknown User';
   }

@@ -1,0 +1,58 @@
+@use "/src/style/variables";
+@use "/src/style/animate";
+@use "/src/style/variants";
+@use "/src/style/shadows";
+@use "/src/style/corners";
+@use "/src/style/flex";
+@use "/src/style/text";
+
+.Root {
+  position: relative;
+  width: min-content;
+}
+
+.AvatarImage {
+  overflow: hidden;
+  display: inline-block;
+  border-radius: 100%;
+}
+
+.ActionsMenu {
+  @include flex.column($gap: 0.25rem);
+  @include animate.duration-quick;
+  @include corners.normal;
+  @include shadows.shadow;
+  @include variants.outlined($hover: false);
+
+  z-index: 10000;
+  margin: 0.25rem 0;
+  padding: 0.25rem;
+  background-color: variables.$card-bg;
+
+  @include animate.style-pop; // Must list last because it contains nested declarations
+}
+
+.EditButton {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  outline: 2px solid white;
+}
+
+.UploadButton {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.AvatarLoading {
+  @include variants.skeleton;
+}
+
+.Input {
+  position: absolute;
+  visibility: hidden;
+}

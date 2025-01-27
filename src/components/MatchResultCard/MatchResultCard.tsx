@@ -4,7 +4,7 @@ import {
   Sword,
 } from 'lucide-react';
 
-import { missions } from '~/components/FowV4MatchOutcomeFormSection/missions';
+import { missions } from '~/components/FowV4MatchResultForm/missions';
 import { Avatar } from '~/components/generic/Avatar';
 import { BadgeConfig } from '~/components/generic/Avatar/Avatar';
 import { Card } from '~/components/generic/Card';
@@ -20,7 +20,9 @@ import './MatchResultCard.scss';
 
 const cn = createCn('MatchResultCard');
 
-export type MatchData = Omit<MatchDeep, 'id' | 'created_at' | 'updated_at' | 'game_system_config' | 'game_system_config_id'>;
+export type MatchData = Omit<MatchDeep, 'id' | 'created_at' | 'updated_at' | 'game_system_config' | 'game_system_config_id'> & {
+  id?: string;
+};
 
 export interface MatchResultCardProps {
   matchId?: string;
@@ -51,7 +53,7 @@ export const MatchResultCard = ({
     {
       element: (
         <div className={cn('_StanceBadge')}>
-          {data.outcome!.attacker === 0 ? <Sword /> : <Shield />}
+          {data!.attacker === 0 ? <Sword /> : <Shield />}
         </div>
       ),
       position: 'top-right',
@@ -67,7 +69,7 @@ export const MatchResultCard = ({
     {
       element: (
         <div className={cn('_StanceBadge')}>
-          {data.outcome!.attacker === 1 ? <Sword /> : <Shield />}
+          {data!.attacker === 1 ? <Sword /> : <Shield />}
         </div>
       ),
       position: 'top-right',
@@ -80,7 +82,7 @@ export const MatchResultCard = ({
     });
   }
   return (
-    <Card disablePadding className={cn()}>
+    <Card disablePadding className={cn()} id={matchData?.id || 'Unknown match'}>
       <div className={cn('_MainSection')}>
         <div className={cn('_Player0Profile')}>
           <UserPortrait displayName={getUserDisplayName(data.player_0.profile)} orientation="vertical">
@@ -98,12 +100,12 @@ export const MatchResultCard = ({
           <span className={cn('_ScorePlayer1')}>{score[1]}</span>
         </div>
         <div className={cn('_Turns')}>
-          {data.outcome.turns_played > 1 ? `${data.outcome.turns_played} Turns` : '1 Turn'}
+          {data.turns_played > 1 ? `${data.turns_played} Turns` : '1 Turn'}
         </div>
       </div>
       <div className={cn('_BottomSection')}>
-        <div className={cn('_MissionSection')}><Map /> {missions.find((mission) => mission.id === data.outcome.mission_id)?.label}</div>
-        <div className={cn('_OutcomeSection')}>{fowV4MatchOutcomeTypeLabels[data.outcome.outcome_type]}</div>
+        <div className={cn('_MissionSection')}><Map /> {missions.find((mission) => mission.id === data.mission_id)?.label}</div>
+        <div className={cn('_OutcomeSection')}>{fowV4MatchOutcomeTypeLabels[data.outcome_type]}</div>
       </div>
     </Card>
   );

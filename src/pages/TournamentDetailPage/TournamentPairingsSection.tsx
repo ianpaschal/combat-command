@@ -55,6 +55,9 @@ export const TournamentPairingsSection = ({
     },
 
   ];
+
+  const processedData = (pairings || []).filter((pairing) => pairing.round_index === round).sort((a, b) => a.table_index - b.table_index);
+
   return (
     <Card title="Pairings" disablePadding>
       {roundOptions.length > 1 && (
@@ -63,7 +66,7 @@ export const TournamentPairingsSection = ({
           <InputSelect options={roundOptions} value={round} onChange={handleChangeRound} disabled={roundOptions.length < 2} />
         </div>
       )}
-      <DataTable className={styles.DataTable} data={(pairings || []).filter((pairing) => pairing.round_index === round)} columns={columnDefs} />
+      <DataTable className={styles.DataTable} data={processedData} columns={columnDefs} />
     </Card>
   );
 };

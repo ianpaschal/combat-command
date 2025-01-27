@@ -1,3 +1,6 @@
+import { UseFormReset } from 'react-hook-form';
+
+import { getRolesByStances, missions } from '~/components/FowV4MatchResultForm/missions';
 import { InputSelectOption } from '~/components/generic/InputSelect';
 import { TournamentDeep } from '~/types/db';
 import { MatchDraft } from '~/types/db/Matches';
@@ -54,4 +57,58 @@ export const getDraftMatch = (
     });
   }
   return null;
-}; 
+};
+
+type AutoFillValuesReturn = Partial<Pick<TournamentMatchFormData, 'attacker'|'first_turn'|'winner'>>;
+
+export const autoFillValues = (
+  values: TournamentMatchFormData,
+  reset: UseFormReset<TournamentMatchFormData>,
+): AutoFillValuesReturn => {
+  const {
+    player_0_stance,
+    player_1_stance,
+    mission_id,
+    outcome_type,
+  } = values;
+
+  const autoValues: AutoFillValuesReturn = {};
+
+  // Auto-fill "attacker" if possible
+  if (player_0_stance && player_1_stance) {
+    const roles = getRolesByStances(player_0_stance, player_1_stance);
+    if (roles?.attacker !== undefined) {
+      console.log('will set attacker');
+      autoValues.attacker = roles.attacker;
+    }
+  }
+  console.log(autoValues);
+
+  const selectedMission = missions.find(({ id }) => id === mission_id);
+  const attacker = autoValues.attacker !== undefined ? autoValues.attacker : values.attacker;
+  const defender = attacker === 0 ? 1 : 0;
+  
+  if (selectedMission && attacker !== undefined) {
+    // Auto-fill "first_turn" if possible
+    if (selectedMission.firstTurn === 'attacker') {
+      autoValues.first_turn = attacker;
+    }
+    if (selectedMission.firstTurn === 'defender') {
+      autoValues.first_turn = defender;
+    }
+
+    // Auto-fill "winner" if possible
+    if (outcome_type === 'time_out') {
+      autoValues.winner = null;
+    }
+    if (outcome_type === 'objective_captured' && !selectedMission.objectives.defender) {
+      autoValues.winner = autoValues.attacker;
+    }
+    if (outcome_type === 'attack_repelled') {
+      autoValues.winner = defender;
+    }
+  }
+
+  // reset((prev) => ({ ...prev, autoValues }), { keepDefaultValues: true });
+  return autoValues;
+};

@@ -9,6 +9,104 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      fow_v4_match_results: {
+        Row: {
+          attacker: number | null
+          created_at: string | null
+          first_turn: number | null
+          game_system_config_id: string
+          id: string
+          mission_id: string | null
+          player_0_id: string | null
+          player_0_stance:
+            | Database["public"]["Enums"]["fow_v4_player_stance"]
+            | null
+          player_0_units_lost: number | null
+          player_1_id: string | null
+          player_1_stance:
+            | Database["public"]["Enums"]["fow_v4_player_stance"]
+            | null
+          player_1_units_lost: number | null
+          tournament_pairing_id: string | null
+          turns_played: number | null
+          updated_at: string | null
+          winner: number | null
+        }
+        Insert: {
+          attacker?: number | null
+          created_at?: string | null
+          first_turn?: number | null
+          game_system_config_id: string
+          id?: string
+          mission_id?: string | null
+          player_0_id?: string | null
+          player_0_stance?:
+            | Database["public"]["Enums"]["fow_v4_player_stance"]
+            | null
+          player_0_units_lost?: number | null
+          player_1_id?: string | null
+          player_1_stance?:
+            | Database["public"]["Enums"]["fow_v4_player_stance"]
+            | null
+          player_1_units_lost?: number | null
+          tournament_pairing_id?: string | null
+          turns_played?: number | null
+          updated_at?: string | null
+          winner?: number | null
+        }
+        Update: {
+          attacker?: number | null
+          created_at?: string | null
+          first_turn?: number | null
+          game_system_config_id?: string
+          id?: string
+          mission_id?: string | null
+          player_0_id?: string | null
+          player_0_stance?:
+            | Database["public"]["Enums"]["fow_v4_player_stance"]
+            | null
+          player_0_units_lost?: number | null
+          player_1_id?: string | null
+          player_1_stance?:
+            | Database["public"]["Enums"]["fow_v4_player_stance"]
+            | null
+          player_1_units_lost?: number | null
+          tournament_pairing_id?: string | null
+          turns_played?: number | null
+          updated_at?: string | null
+          winner?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "match_results_game_system_config_fkey"
+            columns: ["game_system_config_id"]
+            isOneToOne: false
+            referencedRelation: "game_system_configs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "match_results_player_0_id_fkey"
+            columns: ["player_0_id"]
+            isOneToOne: false
+            referencedRelation: "players"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "match_results_player_1_id_fkey"
+            columns: ["player_1_id"]
+            isOneToOne: false
+            referencedRelation: "players"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "match_results_tournament_pairing_id_fkey"
+            columns: ["tournament_pairing_id"]
+            isOneToOne: false
+            referencedRelation: "tournament_pairings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       friendships: {
         Row: {
           confirmed: boolean | null
@@ -117,68 +215,6 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: []
-      }
-      match_results: {
-        Row: {
-          created_at: string | null
-          game_system_config_id: string
-          id: string
-          outcome: Json
-          player_0_id: string | null
-          player_1_id: string | null
-          tournament_pairing_id: string | null
-          updated_at: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          game_system_config_id: string
-          id?: string
-          outcome: Json
-          player_0_id?: string | null
-          player_1_id?: string | null
-          tournament_pairing_id?: string | null
-          updated_at?: string | null
-        }
-        Update: {
-          created_at?: string | null
-          game_system_config_id?: string
-          id?: string
-          outcome?: Json
-          player_0_id?: string | null
-          player_1_id?: string | null
-          tournament_pairing_id?: string | null
-          updated_at?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "match_results_game_system_config_fkey"
-            columns: ["game_system_config_id"]
-            isOneToOne: false
-            referencedRelation: "game_system_configs"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "match_results_player_0_id_fkey"
-            columns: ["player_0_id"]
-            isOneToOne: false
-            referencedRelation: "players"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "match_results_player_1_id_fkey"
-            columns: ["player_1_id"]
-            isOneToOne: false
-            referencedRelation: "players"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "match_results_tournament_pairing_id_fkey"
-            columns: ["tournament_pairing_id"]
-            isOneToOne: false
-            referencedRelation: "tournament_pairings"
-            referencedColumns: ["id"]
-          },
-        ]
       }
       players: {
         Row: {
@@ -575,6 +611,12 @@ export type Database = {
       }
     }
     Enums: {
+      fow_v4_match_outcome_type:
+        | "objective_captured"
+        | "attack_repelled"
+        | "time_out"
+        | "force_broken"
+      fow_v4_player_stance: "attack" | "maneuver" | "defend"
       pairing_method: "random" | "round_robin" | "elimination" | "swiss"
       tournament_status: "draft" | "published" | "active" | "archived"
       user_data_visibility:

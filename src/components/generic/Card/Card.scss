@@ -18,7 +18,7 @@ $default-padding: 1rem;
   max-height: 100%;
 
   & {
-    overflow: hidden;
+    // overflow: hidden;
     background-color: variables.$card-bg;
   }
 
@@ -44,7 +44,7 @@ $default-padding: 1rem;
     @include flex.column($gap: 0);
     @include flex.stretchy;
 
-    overflow: hidden;
+    // overflow: hidden;
     width: 100%;
     padding: $default-padding;
 

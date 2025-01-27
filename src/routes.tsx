@@ -7,7 +7,7 @@ import {
 import { AccountSettings } from '~/components/AccountSettings';
 import { App } from '~/components/App';
 import { NavLink, Visibility } from '~/components/generic/NavLinks';
-import { ProfileSettings } from '~/components/ProfileSettings';
+import { UserProfileForm } from '~/components/UserProfileForm';
 import { AddMatchPage } from '~/pages/AddMatchPage';
 import { ComponentTestPage } from '~/pages/ComponentTestPage';
 import { CreateTournamentPage } from '~/pages/CreateTournamentPage';
@@ -20,6 +20,7 @@ import { SettingsPage } from '~/pages/SettingsPage';
 import { SignInPage } from '~/pages/SignInPage';
 import { SignUpPage } from '~/pages/SignUpPage';
 import { StatisticsPage } from '~/pages/StatisticsPage';
+import { TournamentCreatePairingsPage } from '~/pages/TournamentCreatePairingsPage';
 import { TournamentDetailPage } from '~/pages/TournamentDetailPage';
 import { TournamentsPage } from '~/pages/TournamentsPage';
 import { UserProfilePage } from '~/pages/UserProfilePage';
@@ -65,6 +66,12 @@ export const routes: ExtendedRouteObject[] = [
     element: <AddMatchPage />,
   },
   {
+    path: '/tournaments/:tournamentId/create-pairings',
+    title: 'Check-In Match',
+    visibility: [],
+    element: <TournamentCreatePairingsPage />,
+  },
+  {
     path: '/tournaments/create',
     title: 'Create Tournament',
     visibility: [],
@@ -101,7 +108,7 @@ export const routes: ExtendedRouteObject[] = [
       {
         path: '/settings/profile',
         title: 'Profile',
-        element: <ProfileSettings />,
+        element: <UserProfileForm />,
       },
       {
         path: '/settings/account',

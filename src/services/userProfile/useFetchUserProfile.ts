@@ -2,8 +2,9 @@ import { useQuery } from '@tanstack/react-query';
 
 import { supabase } from '~/supabaseClient';
 import { UserProfileSecureRow } from '~/types/db';
+import { convertNulls, NullConversion } from '~/utils/nullsToUndefined';
 
-const fetchUserProfile = async (userId: string): Promise<UserProfileSecureRow> => {
+const fetchUserProfile = async (userId: string): Promise<NullConversion<UserProfileSecureRow>> => {
   const { data, error } = await supabase
     .from('user_profiles')
     .select('*')
@@ -12,7 +13,7 @@ const fetchUserProfile = async (userId: string): Promise<UserProfileSecureRow> =
   if (error) {
     throw error;
   }
-  return data;
+  return convertNulls(data);
 };
 
 export const useFetchUserProfile = (userId?: string) => useQuery({

@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { supabase } from '~/supabaseClient';
-import { UserProfileRecord } from '~/types/UserProfile';
+import { UserProfileSecureRow } from '~/types/db';
 
-const fetchUserProfileListByTournamentPairingId = async (): Promise<UserProfileRecord[]> => {
+const fetchUserProfileListByTournamentPairingId = async (): Promise<UserProfileSecureRow[]> => {
   const { data, error } = await supabase
     .from('user_profiles')
     .select();

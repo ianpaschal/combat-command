@@ -2,6 +2,18 @@
 @use "/src/style/variables";
 @use "/src/style/flex";
 
+.FowV4MatchResultForm {
+  @include flex.column;
+}
+
+.SubmitButton {
+  align-self: end;
+}
+
+.ConfirmDialogMatchCard {
+  margin: 1rem var(--modal-inner-gutter) 0;
+}
+
 .Root {
   @include flex.column;
 }

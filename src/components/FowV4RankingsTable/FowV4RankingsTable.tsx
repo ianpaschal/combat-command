@@ -33,11 +33,11 @@ export const FowV4RankingsTable = ({
       },
       width: '2fr',
     },
-    {
-      header: 'Wins',
-      render: (data) => <DefaultCell value={data.result.total_wins} />,
-      width: '1fr',
-    },
+    // {
+    //   header: 'Wins',
+    //   render: (data) => <DefaultCell value={data.result.total_wins} />,
+    //   width: '1fr',
+    // },
     {
       header: 'Points',
       render: (data) => <DefaultCell value={data.result.total_points} />,

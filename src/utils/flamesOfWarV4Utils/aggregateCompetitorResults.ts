@@ -60,9 +60,9 @@ export const aggregateCompetitorResults = (
     };
     Object.entries(profileResults).forEach(([key, value]) => {
       const totalKey = (isOpponent ? `total_opponent_${key}` : `total_${key}`) as FowV4RankingFactor;
-      const avgKey = (isOpponent ? `avg_opponent_${key}` : `total_${key}`) as FowV4RankingFactor;
+      const avgKey = (isOpponent ? `avg_opponent_${key}` : `avg_${key}`) as FowV4RankingFactor;
       results[totalKey] = results[totalKey] + value;
-      results[avgKey] = results[totalKey] / roundsIncluded;
+      results[avgKey] = Number((results[totalKey] / roundsIncluded).toFixed(2));
     });
   });
   return results;

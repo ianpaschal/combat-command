@@ -1,0 +1,9 @@
+@use "/src/style//variables";
+
+.ScrollArea {
+  margin: 0 var(--modal-inner-gutter);
+}
+
+.PairingItem {
+  margin-bottom: 0.5rem;
+}
