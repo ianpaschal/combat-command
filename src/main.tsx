@@ -6,6 +6,7 @@ import { registerLocale } from 'i18n-iso-countries';
 import countriesEn from 'i18n-iso-countries/langs/en.json';
 
 import { AuthProvider } from '~/components/AuthProvider';
+import { ToastProvider } from '~/components/ToastProvider';
 import { router } from '~/routes';
 
 import '@fontsource/figtree/300.css';
@@ -22,9 +23,11 @@ const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <RouterProvider router={router} />
-      </AuthProvider>
+      <ToastProvider>
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
+      </ToastProvider>
     </QueryClientProvider>
   </React.StrictMode>,
 );

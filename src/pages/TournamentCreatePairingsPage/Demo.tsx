@@ -19,11 +19,7 @@ import {
   monitorForElements,
 } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { token } from '@atlaskit/tokens';
-import {
-  css,
-  jsx,
-  type SerializedStyles,
-} from '@emotion/react';
+import { css, type SerializedStyles } from '@emotion/react';
 import invariant from 'tiny-invariant';
 
 import battery from './icons/battery.png';
@@ -56,7 +52,6 @@ type State = 'idle' | 'dragging' | 'over';
 
 const itemStateStyles: { [Key in State]: undefined | SerializedStyles } = {
   idle: css({
-    // eslint-disable-next-line @atlaskit/ui-styling-standard/no-unsafe-selectors -- Ignored via go/DSP-18766
     ':hover': {
       background: token('elevation.surface.overlay', '#FFF'),
       boxShadow: token('elevation.shadow.overlay', 'none'),
@@ -104,7 +99,6 @@ const Item = memo(function Item({ src }: { src: string }) {
     );
   }, [instanceId, src]);
 
-  // eslint-disable-next-line jsx-a11y/alt-text
   return <img css={[itemStyles, itemStateStyles[state]]} ref={ref} src={src} />;
 });
 

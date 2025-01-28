@@ -3,11 +3,7 @@ import {
   CSSProperties,
   ReactElement,
 } from 'react';
-import {
-  Fallback,
-  Image,
-  Root,
-} from '@radix-ui/react-avatar';
+import { Image, Root } from '@radix-ui/react-avatar';
 import clsx from 'clsx';
 import { User } from 'lucide-react';
 

@@ -61,6 +61,7 @@ export const createPairingRows = (competitorCount: number): ReactNode[] => {
   return rows;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const renderCompetitor = (competitors: any[], pairings: any[], slotId: string) => {
 
   pairings.find((pairing) => pairing.competitors.includes());

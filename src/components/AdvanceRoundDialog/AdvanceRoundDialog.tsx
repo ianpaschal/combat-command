@@ -6,7 +6,6 @@ import { useGetMatchesByTournamentId } from '~/services/matches/getMatches';
 import { useCreateTournamentPairingsBulk } from '~/services/tournamentPairings/createTournamentPairingsBulk';
 import { useFetchTournamentFull } from '~/services/tournaments/fetchTournamentFull';
 import { useUpdateTournament } from '~/services/tournaments/updateTournament';
-import { TournamentPairingInput } from '~/types/db/TournamentPairings';
 import { FowV4RankingFactor } from '~/types/fowV4/fowV4RankingFactorSchema';
 import { calculateTournamentRankings } from '~/utils/common/calculateTournamentRankings';
 import { generateTournamentPairings } from '~/utils/common/generateTournamentPairings';

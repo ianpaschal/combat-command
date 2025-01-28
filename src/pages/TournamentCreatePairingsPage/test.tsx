@@ -1,12 +1,8 @@
 import { useState } from 'react';
 import {
-  closestCenter,
-  closestCorners,
   CollisionDetection as CollisionDetectionType,
   DndContext,
   Modifiers,
-  pointerWithin,
-  rectIntersection,
   UniqueIdentifier,
   useDraggable,
 } from '@dnd-kit/core';

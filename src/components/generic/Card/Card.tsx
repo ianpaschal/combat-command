@@ -2,7 +2,6 @@ import {
   ElementRef,
   forwardRef,
   HTMLAttributes,
-  RefObject,
 } from 'react';
 import clsx from 'clsx';
 

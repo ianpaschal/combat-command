@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useWindowWidth } from '@react-hook/window-size/throttled';
 
 import { Card } from '~/components/generic/Card';
@@ -9,10 +8,10 @@ import { MOBILE_BREAKPOINT } from '~/settings';
 import styles from './TournamentCreatePairingsPage.module.scss';
 
 export const TournamentCreatePairingsPage = (): JSX.Element => {
-  const [items, setItems] = useState<{ [key: string]: string[] }>({
-    droppable1: ['1', '2', '3'],
-    droppable2: ['4', '5'],
-  });
+  // const [items, setItems] = useState<{ [key: string]: string[] }>({
+  //   droppable1: ['1', '2', '3'],
+  //   droppable2: ['4', '5'],
+  // });
 
   const width = useWindowWidth();
   const isMobile = width <= MOBILE_BREAKPOINT;

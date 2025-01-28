@@ -1,15 +1,15 @@
-import React, {forwardRef} from 'react';
+import React, { forwardRef } from 'react';
+import type { DraggableSyntheticListeners } from '@dnd-kit/core';
+import type { Transform } from '@dnd-kit/utilities';
 import classNames from 'classnames';
-import type {DraggableSyntheticListeners} from '@dnd-kit/core';
-import type {Transform} from '@dnd-kit/utilities';
 
-import {Handle} from '../Item/components/Handle';
-
+import { Handle } from '../Item/components/Handle';
 import {
   draggable,
   draggableHorizontal,
   draggableVertical,
 } from './draggable-svg';
+
 import styles from './Draggable.module.css';
 
 export enum Axis {
@@ -47,7 +47,7 @@ export const Draggable = forwardRef<HTMLButtonElement, Props>(
       isPendingDelay = false,
       ...props
     },
-    ref
+    ref,
   ) {
     return (
       <div
@@ -56,7 +56,7 @@ export const Draggable = forwardRef<HTMLButtonElement, Props>(
           dragOverlay && styles.dragOverlay,
           dragging && styles.dragging,
           handle && styles.handle,
-          isPendingDelay && styles.pendingDelay
+          isPendingDelay && styles.pendingDelay,
         )}
         style={
           {
@@ -78,13 +78,13 @@ export const Draggable = forwardRef<HTMLButtonElement, Props>(
           {axis === Axis.Vertical
             ? draggableVertical
             : axis === Axis.Horizontal
-            ? draggableHorizontal
-            : draggable}
+              ? draggableHorizontal
+              : draggable}
           {handle ? <Handle {...(handle ? listeners : {})} /> : null}
           {props.children}
         </button>
         {label ? <label>{label}</label> : null}
       </div>
     );
-  }
+  },
 );

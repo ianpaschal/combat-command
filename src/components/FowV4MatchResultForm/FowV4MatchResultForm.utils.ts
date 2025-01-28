@@ -1,5 +1,3 @@
-import { UseFormReset } from 'react-hook-form';
-
 import { getRolesByStances, missions } from '~/components/FowV4MatchResultForm/missions';
 import { InputSelectOption } from '~/components/generic/InputSelect';
 import { TournamentDeep } from '~/types/db';
@@ -63,7 +61,6 @@ type AutoFillValuesReturn = Partial<Pick<TournamentMatchFormData, 'attacker'|'fi
 
 export const autoFillValues = (
   values: TournamentMatchFormData,
-  reset: UseFormReset<TournamentMatchFormData>,
 ): AutoFillValuesReturn => {
   const {
     player_0_stance,

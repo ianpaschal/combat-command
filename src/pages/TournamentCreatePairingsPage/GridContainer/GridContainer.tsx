@@ -7,7 +7,7 @@ export interface Props {
   columns: number;
 }
 
-export function GridContainer({children, columns}: Props) {
+export function GridContainer({ children, columns }: Props) {
   return (
     <ul
       className={styles.GridContainer}

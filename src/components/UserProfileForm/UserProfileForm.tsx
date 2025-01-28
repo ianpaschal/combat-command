@@ -18,7 +18,7 @@ import {
   userProfileFormSchema,
 } from './UserProfileForm.utils';
 
-import styles from './ProfileSettings.module.scss';
+import styles from './UserProfileForm.module.scss';
 
 export const UserProfileForm = (): JSX.Element => {
   const { user } = useAuth();
