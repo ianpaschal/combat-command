@@ -135,6 +135,11 @@
       background-color: variables.$ghost-bg-hover;
     }
   }
+
+  &:disabled {
+    color: variables.$text-disabled;
+    background-color: variables.$ghost-bg;
+  }
 }
 
 @mixin skeleton {

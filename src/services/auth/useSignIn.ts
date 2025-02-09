@@ -2,7 +2,9 @@ import { useNavigate } from 'react-router-dom';
 import { AuthTokenResponsePassword } from '@supabase/supabase-js';
 import { useMutation } from '@tanstack/react-query';
 
+import { setToast, ToastSeverity } from '~/components/ToastProvider';
 import { SignInFormInput } from '~/pages/SignInPage/SignInPage';
+import { handleError } from '~/services/handleError';
 import { supabase } from '~/supabaseClient';
 
 type ResponseData = AuthTokenResponsePassword['data'];
@@ -13,7 +15,7 @@ const signIn = async ({ email, password }: SignInFormInput): Promise<ResponseDat
     password,
   });
   if (error) {
-    throw new Error(error.message); // Throw the error to trigger onError
+    throw error;
   }
   return data;
 };
@@ -24,10 +26,13 @@ export const useSignIn = () => {
   return useMutation({
     mutationFn: signIn,
     onSuccess: () => {
+      setToast({
+        title: 'Success!',
+        description: 'You are now signed in!',
+        severity: ToastSeverity.Success,
+      });
       navigate('/');
     },
-    onError: (error) => {
-      console.error('Error signing in:', error);
-    },
+    onError: handleError,
   });
 };

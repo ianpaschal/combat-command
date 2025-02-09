@@ -36,6 +36,7 @@ export const AuthProvider = ({
     };
     getUser();
     const { data } = supabase.auth.onAuthStateChange(async (event, session): Promise<void> => {
+      console.log(event);
       if (event === 'SIGNED_IN' && session?.user) {
         return setUser(session.user);
       }

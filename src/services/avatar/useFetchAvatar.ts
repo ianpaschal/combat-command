@@ -17,4 +17,5 @@ export const useFetchAvatar = (path?: string) => useQuery({
   queryKey: ['avatar', path],
   queryFn: () => fetchAvatar(path),
   enabled: !!path,
+  refetchOnMount: false,
 });

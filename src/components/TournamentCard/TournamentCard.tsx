@@ -56,6 +56,10 @@ export const TournamentCard = ({
     navigate(tournamentUrl);
   };
 
+  const handleClickRegister = (): void => {
+    navigate(`${tournamentUrl}/register`);
+  };
+
   const isTournamentDetailPage = location.pathname.includes(tournamentUrl);
 
   const showExpanded = expanded !== undefined ? expanded : isTournamentDetailPage;
@@ -125,7 +129,7 @@ export const TournamentCard = ({
       {showActionButtons && (
         <div className={cn('Actions')}>
           {showRegisterButton && (
-            <Button>
+            <Button onClick={handleClickRegister}>
               <UserPlus />
               Register
             </Button>

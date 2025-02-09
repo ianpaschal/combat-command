@@ -31,6 +31,13 @@ const severityClasses: Record<ToastSeverity, string> = {
   [ToastSeverity.Info]: styles.SeverityInfo,
 };
 
+const severityDurations: Record<ToastSeverity, number> = {
+  [ToastSeverity.Error]: 5000,
+  [ToastSeverity.Warning]: 3000,
+  [ToastSeverity.Success]: 2000,
+  [ToastSeverity.Info]: 5000,
+};
+
 export interface ToastProviderProps {
   children: ReactNode;
 }
@@ -47,10 +54,15 @@ export const ToastProvider = ({
   };
 
   return (
-    <Toast.Provider swipeDirection="up" duration={2000}>
+    <Toast.Provider swipeDirection="up">
       {children}
       {toast && (
-        <Toast.Root className={styles.Root} open={!!toast} onOpenChange={handleOpenChange}>
+        <Toast.Root
+          className={styles.Root}
+          open={!!toast}
+          onOpenChange={handleOpenChange}
+          duration={severityDurations[toast?.severity]}
+        >
           {cloneElement(severityIcons[toast.severity], {
             className: clsx(styles.Icon, severityClasses[toast.severity]),
           })}

@@ -1,6 +1,5 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { getNames } from 'i18n-iso-countries';
 
 import { useAuth } from '~/components/AuthProvider';
 import { AvatarEditable } from '~/components/AvatarEditable';
@@ -12,6 +11,7 @@ import { Separator } from '~/components/generic/Separator';
 import { useFetchUserProfile } from '~/services/userProfile/useFetchUserProfile';
 import { useUpdateUserProfile } from '~/services/userProfile/useUpdateUserProfile';
 import { userProfileNameVisibilityOptions } from '~/types/UserProfileNameVisibility';
+import { getCountryOptions } from '~/utils/common/getCountryOptions';
 import {
   defaultValues,
   UserProfileFormData,
@@ -36,11 +36,7 @@ export const UserProfileForm = (): JSX.Element => {
     updateProfile.mutate({ userId: user!.id, data });
   };
 
-  const countries = getNames('en', { select: 'alias' });
-  const countryOptions = Object.entries(countries).map(([key, value]) => ({
-    label: value,
-    value: key.toLowerCase(),
-  }));
+  const countryOptions = getCountryOptions();
 
   return (
     <Form form={form} onSubmit={onSubmit} className={styles.Form}>

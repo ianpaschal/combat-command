@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { setToast, ToastSeverity } from '~/components/ToastProvider';
+import { handleError } from '~/services/handleError';
 import { supabase } from '~/supabaseClient';
 import { UserProfileSecureRow } from '~/types/db';
 
@@ -28,13 +29,6 @@ export const useUpdateUserProfile = () => {
       });
       queryClient.invalidateQueries({ queryKey: ['user_profile', variables.userId] });
     },
-    onError: (error) => {
-      setToast({
-        title: error.name,
-        description: error.message,
-        severity: ToastSeverity.Error,
-      });
-      console.error('Error updating profile:', error);
-    },
+    onError: handleError,
   });
 };

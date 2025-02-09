@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import { handleError } from '~/services/handleError';
 import { supabase } from '~/supabaseClient';
 import { UserProfileSecureRow } from '~/types/db';
 import { NullConversion } from '~/utils/nullsToUndefined';
@@ -36,8 +37,6 @@ export const useDeleteAvatar = () => {
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['user_profile', variables.userProfile.user_id] });
     },
-    onError: (error) => {
-      console.error('Error deleting avatar:', error);
-    },
+    onError: handleError,
   });
 };

@@ -7,6 +7,7 @@
     "dev": "vite",
     "dev:noAuth": "VITE_DISABLE_AUTH=true vite",
     "build": "tsc -b && vite build",
+    "build:noEmit": "tsc --noEmit  --strict --project tsconfig.app.json",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:scss": "stylelint '**/*.scss'",
     "preview": "vite preview",
@@ -60,6 +61,7 @@
     "react-hook-form": "^7.53.0",
     "react-router-dom": "^6.25.1",
     "sonner": "^1.7.0",
+    "use-debounce": "^10.0.4",
     "uuid": "^11.0.3",
     "zod": "^3.23.8"
   },

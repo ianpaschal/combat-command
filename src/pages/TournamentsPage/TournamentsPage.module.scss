@@ -1,0 +1,32 @@
+@use "/src/style/flex";
+@use "/src/style/variants";
+@use "/src/style/shadows";
+@use "/src/style/animate";
+@use "/src/style/variables";
+
+.Filters {
+  @include flex.row;
+
+  margin-bottom: 1rem;
+}
+
+.FilterPopover {
+  @include variants.outlined($hover: false);
+  @include shadows.shadow;
+  @include animate.duration-quick;
+  @include animate.style-pop;
+
+  margin: 0.25rem 0;
+  padding: 1rem;
+  background-color: variables.$card-bg;
+  border-radius: variables.$corner-radius;
+}
+
+.List {
+  @include flex.stretchy;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  grid-template-rows: min-content;
+  gap: 1rem;
+}

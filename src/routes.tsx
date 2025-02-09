@@ -22,6 +22,7 @@ import { SignUpPage } from '~/pages/SignUpPage';
 import { StatisticsPage } from '~/pages/StatisticsPage';
 import { TournamentCreatePairingsPage } from '~/pages/TournamentCreatePairingsPage';
 import { TournamentDetailPage } from '~/pages/TournamentDetailPage';
+import { TournamentRegisterPage } from '~/pages/TournamentRegisterPage/TournamentRegisterPage';
 import { TournamentsPage } from '~/pages/TournamentsPage';
 import { UserProfilePage } from '~/pages/UserProfilePage';
 
@@ -64,6 +65,12 @@ export const routes: ExtendedRouteObject[] = [
     title: 'Check-In Match',
     visibility: [],
     element: <AddMatchPage />,
+  },
+  {
+    path: '/tournaments/:tournamentId/register',
+    title: 'Register for Tournament',
+    visibility: [],
+    element: <TournamentRegisterPage />,
   },
   {
     path: '/tournaments/:tournamentId/create-pairings',

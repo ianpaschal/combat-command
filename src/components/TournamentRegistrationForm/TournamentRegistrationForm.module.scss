@@ -1,0 +1,11 @@
+@use "/src/style/flex";
+
+.Root {
+  display: grid;
+}
+
+.TeamSection {
+  @include flex.column;
+
+  padding: 1rem 0;
+}

@@ -36,7 +36,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   muted,
   size: customSize,
   children,
-  disabled,
+  disabled = false,
   loading,
   intent,
   round,

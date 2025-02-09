@@ -38,7 +38,7 @@ export const Avatar = ({
   userId,
 }: AvatarProps): JSX.Element => {
   const { data: userProfile, isLoading: isUserProfileLoading } = useFetchUserProfile(userId);
-  const { data: avatar, isLoading: isAvatarLoading } = useFetchAvatar(userProfile?.avatar_url);
+  const { data: avatar, isFetching: isAvatarFetching } = useFetchAvatar(userProfile?.avatar_url);
   const badges = badgeConfigs?.map((config) => {
     const convertToPascalCase = (text: string): string => (
       text.replace(/(^\w|-\w)/g, (t) => t.replace(/-/, '').toUpperCase())
@@ -59,19 +59,17 @@ export const Avatar = ({
     );
   });
 
-  const isLoading = loading || isUserProfileLoading || isAvatarLoading || (userProfile?.avatar_url && !avatar);
+  if (!avatar) {
+    console.log('rendering without avatar');
+  }
 
-  const displayName = userProfile ? `${userProfile.given_name} ${userProfile.family_name}` : 'Unknown User';
+  const isLoading = loading || (!userProfile && isUserProfileLoading) || (!avatar && isAvatarFetching);
 
   return (
     <Root className={clsx(styles.Root, className)} style={{ width: size, height: size }}>
       <div className={clsx(styles.Content, { [styles.ContentLoading]: isLoading })}>
-        {(avatar && displayName) ? (
-          <Image
-            className={styles.Image}
-            src={avatar}
-            alt={displayName}
-          />
+        {avatar ? (
+          <Image className={styles.Image} src={avatar} />
         ) : (
           <User />
         )}

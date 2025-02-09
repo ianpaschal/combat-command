@@ -13,7 +13,7 @@ const changeEmailFormSchema = z.object({
   email: z.string().email(),
 });
 
-export type ChangeEmailFormInput = z.infer<typeof changeEmailFormSchema>;
+export type ChangeEmailFormData = z.infer<typeof changeEmailFormSchema>;
 
 export const ChangeEmailDialog = ({
   preventCancel,
@@ -22,7 +22,7 @@ export const ChangeEmailDialog = ({
   ...props
 }: DialogProps): JSX.Element => {
   const submitHook = useUpdateEmail();
-  const form = useForm<ChangeEmailFormInput>({
+  const form = useForm<ChangeEmailFormData>({
     resolver: zodResolver(changeEmailFormSchema),
     defaultValues: {
       email: '',

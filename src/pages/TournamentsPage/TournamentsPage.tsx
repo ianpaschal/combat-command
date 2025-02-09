@@ -14,11 +14,8 @@ import { PageWrapper } from '~/components/PageWrapper';
 import { TournamentCard } from '~/components/TournamentCard/TournamentCard';
 import { useGetTournamentsList } from '~/services/tournaments/getTournamentsList';
 import { MIN_WIDTH_TABLET } from '~/settings';
-import { bem } from '~/utils/componentLib/bem';
 
-import './TournamentsPage.scss';
-
-const cn = bem('TournamentsPage');
+import styles from './TournamentsPage.module.scss';
 
 export const TournamentsPage = (): JSX.Element => {
   const navigate = useNavigate();
@@ -32,7 +29,7 @@ export const TournamentsPage = (): JSX.Element => {
 
   return (
     <PageWrapper title="Tournaments">
-      <div className={cn('Filters')}>
+      <div className={styles.Filters}>
         <InputText slotBefore={<Search />} placeholder="Search..." />
         <Popover.Root>
           <Popover.Trigger asChild>
@@ -44,7 +41,7 @@ export const TournamentsPage = (): JSX.Element => {
             </Button>
           </Popover.Trigger>
           <Popover.Portal>
-            <Popover.Content className={cn('FilterPopover')} align="end">
+            <Popover.Content className={styles.FilterPopover} align="end">
               Coming soon!
             </Popover.Content>
           </Popover.Portal>
@@ -57,7 +54,7 @@ export const TournamentsPage = (): JSX.Element => {
         </Button>
       </div>
       {tournaments && (
-        <div className={cn('List')}>
+        <div className={styles.List}>
           {tournaments.map((tournament) => (
             <Card key={tournament.id} disablePadding>
               <TournamentCard tournament={tournament} />

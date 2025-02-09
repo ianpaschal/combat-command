@@ -160,9 +160,8 @@ export const TournamentForm = ({
             <InputText type="text" placeholder="http://" />
           </FormField>
           <FormField name="location" label="Location">
-            <InputText type="text" />
+            <InputLocation />
           </FormField>
-          <InputLocation />
           <Stack className={cn('_DateTimeSection')} orientation="horizontal">
             <div className={cn('_DateTimeStart')}>
               <FormField name="starts_at" label="Start Date">

@@ -28,8 +28,9 @@ export const AccountMenu = (): JSX.Element => {
     {
       icon: <LogOut />,
       label: 'Sign Out',
-      onClick: (): void => {
-        supabase.auth.signOut();
+      onClick: async (): Promise<void> => {
+        await supabase.auth.signOut();
+        navigate('/');
       },
     },
   ];
