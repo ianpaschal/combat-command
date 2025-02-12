@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { CircleAlert } from 'lucide-react';
-import { toast } from 'sonner';
 
+import { handleError } from '~/services/handleError';
 import { supabase } from '~/supabaseClient';
 import { TournamentRow } from '~/types/db';
 
@@ -25,11 +24,6 @@ export const useUpdateTournament = () => {
       queryClient.invalidateQueries({ queryKey: ['tournaments_list'] });
       queryClient.invalidateQueries({ queryKey: ['tournament_full', variables.id] });
     },
-    onError: (error) => {
-      toast.error('Error updating tournament', {
-        description: error.message,
-        icon: <CircleAlert />,
-      });
-    },
+    onError: handleError,
   });
 };

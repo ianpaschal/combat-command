@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { CircleAlert } from 'lucide-react';
-import { toast } from 'sonner';
 
+import { handleError } from '~/services/handleError';
 import { supabase } from '~/supabaseClient';
 
 export type CreateTournamentTimerInput = {
@@ -35,11 +34,6 @@ export const useCreateTournamentTimer = () => {
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['tournament_full', variables.tournament_id] });
     },
-    onError: (error) => {
-      toast.error('Error creating tournament timer', {
-        description: error.message,
-        icon: <CircleAlert />,
-      });
-    },
+    onError: handleError,
   });
 };

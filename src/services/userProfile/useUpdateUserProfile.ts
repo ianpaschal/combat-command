@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { setToast, ToastSeverity } from '~/components/ToastProvider';
+import { toast } from '~/components/ToastProvider';
 import { handleError } from '~/services/handleError';
 import { supabase } from '~/supabaseClient';
 import { UserProfileSecureRow } from '~/types/db';
@@ -22,11 +22,7 @@ export const useUpdateUserProfile = () => {
   return useMutation({
     mutationFn: updateUserProfile,
     onSuccess: (_data, variables) => {
-      setToast({
-        title: 'Success!',
-        description: 'User profile updated.',
-        severity: ToastSeverity.Success,
-      });
+      toast.success('User profile updated.');
       queryClient.invalidateQueries({ queryKey: ['user_profile', variables.userId] });
     },
     onError: handleError,

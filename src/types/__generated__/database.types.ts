@@ -4,109 +4,11 @@ export type Json =
   | boolean
   | null
   | { [key: string]: Json | undefined }
-  | Json[];
+  | Json[]
 
 export type Database = {
   public: {
     Tables: {
-      fow_v4_match_results: {
-        Row: {
-          attacker: number | null
-          created_at: string | null
-          first_turn: number | null
-          game_system_config_id: string
-          id: string
-          mission_id: string | null
-          player_0_id: string | null
-          player_0_stance:
-            | Database['public']['Enums']['fow_v4_player_stance']
-            | null
-          player_0_units_lost: number | null
-          player_1_id: string | null
-          player_1_stance:
-            | Database['public']['Enums']['fow_v4_player_stance']
-            | null
-          player_1_units_lost: number | null
-          tournament_pairing_id: string | null
-          turns_played: number | null
-          updated_at: string | null
-          winner: number | null
-        }
-        Insert: {
-          attacker?: number | null
-          created_at?: string | null
-          first_turn?: number | null
-          game_system_config_id: string
-          id?: string
-          mission_id?: string | null
-          player_0_id?: string | null
-          player_0_stance?:
-            | Database['public']['Enums']['fow_v4_player_stance']
-            | null
-          player_0_units_lost?: number | null
-          player_1_id?: string | null
-          player_1_stance?:
-            | Database['public']['Enums']['fow_v4_player_stance']
-            | null
-          player_1_units_lost?: number | null
-          tournament_pairing_id?: string | null
-          turns_played?: number | null
-          updated_at?: string | null
-          winner?: number | null
-        }
-        Update: {
-          attacker?: number | null
-          created_at?: string | null
-          first_turn?: number | null
-          game_system_config_id?: string
-          id?: string
-          mission_id?: string | null
-          player_0_id?: string | null
-          player_0_stance?:
-            | Database['public']['Enums']['fow_v4_player_stance']
-            | null
-          player_0_units_lost?: number | null
-          player_1_id?: string | null
-          player_1_stance?:
-            | Database['public']['Enums']['fow_v4_player_stance']
-            | null
-          player_1_units_lost?: number | null
-          tournament_pairing_id?: string | null
-          turns_played?: number | null
-          updated_at?: string | null
-          winner?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: 'match_results_game_system_config_fkey'
-            columns: ['game_system_config_id']
-            isOneToOne: false
-            referencedRelation: 'game_system_configs'
-            referencedColumns: ['id']
-          },
-          {
-            foreignKeyName: 'match_results_player_0_id_fkey'
-            columns: ['player_0_id']
-            isOneToOne: false
-            referencedRelation: 'players'
-            referencedColumns: ['id']
-          },
-          {
-            foreignKeyName: 'match_results_player_1_id_fkey'
-            columns: ['player_1_id']
-            isOneToOne: false
-            referencedRelation: 'players'
-            referencedColumns: ['id']
-          },
-          {
-            foreignKeyName: 'match_results_tournament_pairing_id_fkey'
-            columns: ['tournament_pairing_id']
-            isOneToOne: false
-            referencedRelation: 'tournament_pairings'
-            referencedColumns: ['id']
-          },
-        ]
-      }
       friendships: {
         Row: {
           confirmed: boolean | null
@@ -134,32 +36,32 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'friendships_user_0_id_fkey1'
-            columns: ['user_0_id']
+            foreignKeyName: "friendships_user_0_id_fkey1"
+            columns: ["user_0_id"]
             isOneToOne: false
-            referencedRelation: 'user_profiles'
-            referencedColumns: ['id']
+            referencedRelation: "user_profiles"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'friendships_user_0_id_fkey1'
-            columns: ['user_0_id']
+            foreignKeyName: "friendships_user_0_id_fkey1"
+            columns: ["user_0_id"]
             isOneToOne: false
-            referencedRelation: 'user_profiles_secure'
-            referencedColumns: ['id']
+            referencedRelation: "user_profiles_secure"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'friendships_user_1_id_fkey1'
-            columns: ['user_1_id']
+            foreignKeyName: "friendships_user_1_id_fkey1"
+            columns: ["user_1_id"]
             isOneToOne: false
-            referencedRelation: 'user_profiles'
-            referencedColumns: ['id']
+            referencedRelation: "user_profiles"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'friendships_user_1_id_fkey1'
-            columns: ['user_1_id']
+            foreignKeyName: "friendships_user_1_id_fkey1"
+            columns: ["user_1_id"]
             isOneToOne: false
-            referencedRelation: 'user_profiles_secure'
-            referencedColumns: ['id']
+            referencedRelation: "user_profiles_secure"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -187,11 +89,11 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'game_system_configs_game_system_id_fkey'
-            columns: ['game_system_id']
+            foreignKeyName: "game_system_configs_game_system_id_fkey"
+            columns: ["game_system_id"]
             isOneToOne: false
-            referencedRelation: 'game_systems'
-            referencedColumns: ['id']
+            referencedRelation: "game_systems"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -215,6 +117,68 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: []
+      }
+      match_results: {
+        Row: {
+          created_at: string | null
+          details: Json | null
+          game_system_config_id: string
+          id: string
+          player_0_id: string | null
+          player_1_id: string | null
+          tournament_pairing_id: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          details?: Json | null
+          game_system_config_id: string
+          id?: string
+          player_0_id?: string | null
+          player_1_id?: string | null
+          tournament_pairing_id?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          details?: Json | null
+          game_system_config_id?: string
+          id?: string
+          player_0_id?: string | null
+          player_1_id?: string | null
+          tournament_pairing_id?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "match_results_game_system_config_fkey"
+            columns: ["game_system_config_id"]
+            isOneToOne: false
+            referencedRelation: "game_system_configs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "match_results_player_0_id_fkey"
+            columns: ["player_0_id"]
+            isOneToOne: false
+            referencedRelation: "players"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "match_results_player_1_id_fkey"
+            columns: ["player_1_id"]
+            isOneToOne: false
+            referencedRelation: "players"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "match_results_tournament_pairing_id_fkey"
+            columns: ["tournament_pairing_id"]
+            isOneToOne: false
+            referencedRelation: "tournament_pairings"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       players: {
         Row: {
@@ -243,25 +207,25 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'players_profile_id_fkey'
-            columns: ['profile_id']
+            foreignKeyName: "players_profile_id_fkey"
+            columns: ["profile_id"]
             isOneToOne: false
-            referencedRelation: 'user_profiles'
-            referencedColumns: ['id']
+            referencedRelation: "user_profiles"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'players_profile_id_fkey'
-            columns: ['profile_id']
+            foreignKeyName: "players_profile_id_fkey"
+            columns: ["profile_id"]
             isOneToOne: false
-            referencedRelation: 'user_profiles_secure'
-            referencedColumns: ['id']
+            referencedRelation: "user_profiles_secure"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'tournament_registrations_tournament_competitor_id_fkey'
-            columns: ['tournament_competitor_id']
+            foreignKeyName: "tournament_registrations_tournament_competitor_id_fkey"
+            columns: ["tournament_competitor_id"]
             isOneToOne: false
-            referencedRelation: 'tournament_competitors'
-            referencedColumns: ['id']
+            referencedRelation: "tournament_competitors"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -292,11 +256,11 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'tournament_competitors_tournament_id_fkey'
-            columns: ['tournament_id']
+            foreignKeyName: "tournament_competitors_tournament_id_fkey"
+            columns: ["tournament_id"]
             isOneToOne: false
-            referencedRelation: 'tournaments'
-            referencedColumns: ['id']
+            referencedRelation: "tournaments"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -333,25 +297,25 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'tournament_pairings_competitor_0_id_fkey'
-            columns: ['competitor_0_id']
+            foreignKeyName: "tournament_pairings_competitor_0_id_fkey"
+            columns: ["competitor_0_id"]
             isOneToOne: false
-            referencedRelation: 'tournament_competitors'
-            referencedColumns: ['id']
+            referencedRelation: "tournament_competitors"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'tournament_pairings_competitor_1_id_fkey'
-            columns: ['competitor_1_id']
+            foreignKeyName: "tournament_pairings_competitor_1_id_fkey"
+            columns: ["competitor_1_id"]
             isOneToOne: false
-            referencedRelation: 'tournament_competitors'
-            referencedColumns: ['id']
+            referencedRelation: "tournament_competitors"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'tournament_pairings_tournament_id_fkey'
-            columns: ['tournament_id']
+            foreignKeyName: "tournament_pairings_tournament_id_fkey"
+            columns: ["tournament_id"]
             isOneToOne: false
-            referencedRelation: 'tournaments'
-            referencedColumns: ['id']
+            referencedRelation: "tournaments"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -385,11 +349,11 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'tournament_timers_tournament_id_fkey'
-            columns: ['tournament_id']
+            foreignKeyName: "tournament_timers_tournament_id_fkey"
+            columns: ["tournament_id"]
             isOneToOne: false
-            referencedRelation: 'tournaments'
-            referencedColumns: ['id']
+            referencedRelation: "tournaments"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -407,8 +371,8 @@ export type Database = {
           game_system_config_id: string
           game_system_id: string
           id: string
-          location: string | null
-          pairing_method: Database['public']['Enums']['pairing_method']
+          mapbox_place_id: string | null
+          pairing_method: Database["public"]["Enums"]["pairing_method"]
           ranking_factors: string[]
           registrations_close_at: string
           registrations_open: boolean
@@ -416,7 +380,7 @@ export type Database = {
           round_count: number
           rules_pack_url: string | null
           starts_at: string
-          status: Database['public']['Enums']['tournament_status']
+          status: Database["public"]["Enums"]["tournament_status"]
           title: string
           updated_at: string | null
           use_national_teams: boolean
@@ -434,8 +398,8 @@ export type Database = {
           game_system_config_id: string
           game_system_id: string
           id?: string
-          location?: string | null
-          pairing_method: Database['public']['Enums']['pairing_method']
+          mapbox_place_id?: string | null
+          pairing_method: Database["public"]["Enums"]["pairing_method"]
           ranking_factors: string[]
           registrations_close_at: string
           registrations_open: boolean
@@ -443,7 +407,7 @@ export type Database = {
           round_count: number
           rules_pack_url?: string | null
           starts_at: string
-          status: Database['public']['Enums']['tournament_status']
+          status: Database["public"]["Enums"]["tournament_status"]
           title: string
           updated_at?: string | null
           use_national_teams: boolean
@@ -461,8 +425,8 @@ export type Database = {
           game_system_config_id?: string
           game_system_id?: string
           id?: string
-          location?: string | null
-          pairing_method?: Database['public']['Enums']['pairing_method']
+          mapbox_place_id?: string | null
+          pairing_method?: Database["public"]["Enums"]["pairing_method"]
           ranking_factors?: string[]
           registrations_close_at?: string
           registrations_open?: boolean
@@ -470,39 +434,39 @@ export type Database = {
           round_count?: number
           rules_pack_url?: string | null
           starts_at?: string
-          status?: Database['public']['Enums']['tournament_status']
+          status?: Database["public"]["Enums"]["tournament_status"]
           title?: string
           updated_at?: string | null
           use_national_teams?: boolean
         }
         Relationships: [
           {
-            foreignKeyName: 'tournaments_creator_id_fkey1'
-            columns: ['creator_id']
+            foreignKeyName: "tournaments_creator_id_fkey1"
+            columns: ["creator_id"]
             isOneToOne: false
-            referencedRelation: 'user_profiles'
-            referencedColumns: ['id']
+            referencedRelation: "user_profiles"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'tournaments_creator_id_fkey1'
-            columns: ['creator_id']
+            foreignKeyName: "tournaments_creator_id_fkey1"
+            columns: ["creator_id"]
             isOneToOne: false
-            referencedRelation: 'user_profiles_secure'
-            referencedColumns: ['id']
+            referencedRelation: "user_profiles_secure"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'tournaments_game_system_config_id_fkey'
-            columns: ['game_system_config_id']
+            foreignKeyName: "tournaments_game_system_config_id_fkey"
+            columns: ["game_system_config_id"]
             isOneToOne: false
-            referencedRelation: 'game_system_configs'
-            referencedColumns: ['id']
+            referencedRelation: "game_system_configs"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'tournaments_game_system_id_fkey'
-            columns: ['game_system_id']
+            foreignKeyName: "tournaments_game_system_id_fkey"
+            columns: ["game_system_id"]
             isOneToOne: false
-            referencedRelation: 'game_systems'
-            referencedColumns: ['id']
+            referencedRelation: "game_systems"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -514,7 +478,7 @@ export type Database = {
           family_name: string
           given_name: string
           id: string
-          name_visibility: Database['public']['Enums']['user_data_visibility']
+          name_visibility: Database["public"]["Enums"]["user_data_visibility"]
           test_user: boolean
           updated_at: string | null
           user_id: string | null
@@ -527,7 +491,7 @@ export type Database = {
           family_name: string
           given_name: string
           id?: string
-          name_visibility?: Database['public']['Enums']['user_data_visibility']
+          name_visibility?: Database["public"]["Enums"]["user_data_visibility"]
           test_user?: boolean
           updated_at?: string | null
           user_id?: string | null
@@ -540,7 +504,7 @@ export type Database = {
           family_name?: string
           given_name?: string
           id?: string
-          name_visibility?: Database['public']['Enums']['user_data_visibility']
+          name_visibility?: Database["public"]["Enums"]["user_data_visibility"]
           test_user?: boolean
           updated_at?: string | null
           user_id?: string | null
@@ -612,119 +576,119 @@ export type Database = {
     }
     Enums: {
       fow_v4_match_outcome_type:
-        | 'objective_captured'
-        | 'attack_repelled'
-        | 'time_out'
-        | 'force_broken'
-      fow_v4_player_stance: 'attack' | 'maneuver' | 'defend'
-      pairing_method: 'random' | 'round_robin' | 'elimination' | 'swiss'
-      tournament_status: 'draft' | 'published' | 'active' | 'archived'
+        | "objective_captured"
+        | "attack_repelled"
+        | "time_out"
+        | "force_broken"
+      fow_v4_player_stance: "attack" | "maneuver" | "defend"
+      pairing_method: "random" | "round_robin" | "elimination" | "swiss"
+      tournament_status: "draft" | "published" | "active" | "archived"
       user_data_visibility:
-        | 'hidden'
-        | 'friends'
-        | 'clubs'
-        | 'tournaments'
-        | 'public'
+        | "hidden"
+        | "friends"
+        | "clubs"
+        | "tournaments"
+        | "public"
     }
     CompositeTypes: {
       [_ in never]: never
     }
   }
-};
+}
 
-type PublicSchema = Database[Extract<keyof Database, 'public'>];
+type PublicSchema = Database[Extract<keyof Database, "public">]
 
 export type Tables<
   PublicTableNameOrOptions extends
-    | keyof (PublicSchema['Tables'] & PublicSchema['Views'])
+    | keyof (PublicSchema["Tables"] & PublicSchema["Views"])
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof (Database[PublicTableNameOrOptions['schema']]['Tables'] &
-        Database[PublicTableNameOrOptions['schema']]['Views'])
+    ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+        Database[PublicTableNameOrOptions["schema"]]["Views"])
     : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? (Database[PublicTableNameOrOptions['schema']]['Tables'] &
-      Database[PublicTableNameOrOptions['schema']]['Views'])[TableName] extends {
-    Row: infer R
-  }
-    ? R
-    : never
-  : PublicTableNameOrOptions extends keyof (PublicSchema['Tables'] &
-        PublicSchema['Views'])
-    ? (PublicSchema['Tables'] &
-        PublicSchema['Views'])[PublicTableNameOrOptions] extends {
+  ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+      Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
       Row: infer R
     }
+    ? R
+    : never
+  : PublicTableNameOrOptions extends keyof (PublicSchema["Tables"] &
+        PublicSchema["Views"])
+    ? (PublicSchema["Tables"] &
+        PublicSchema["Views"])[PublicTableNameOrOptions] extends {
+        Row: infer R
+      }
       ? R
       : never
-    : never;
+    : never
 
 export type TablesInsert<
   PublicTableNameOrOptions extends
-    | keyof PublicSchema['Tables']
+    | keyof PublicSchema["Tables"]
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
     : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicTableNameOrOptions['schema']]['Tables'][TableName] extends {
-    Insert: infer I
-  }
-    ? I
-    : never
-  : PublicTableNameOrOptions extends keyof PublicSchema['Tables']
-    ? PublicSchema['Tables'][PublicTableNameOrOptions] extends {
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Insert: infer I
     }
+    ? I
+    : never
+  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+        Insert: infer I
+      }
       ? I
       : never
-    : never;
+    : never
 
 export type TablesUpdate<
   PublicTableNameOrOptions extends
-    | keyof PublicSchema['Tables']
+    | keyof PublicSchema["Tables"]
     | { schema: keyof Database },
   TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicTableNameOrOptions['schema']]['Tables']
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
     : never = never,
 > = PublicTableNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicTableNameOrOptions['schema']]['Tables'][TableName] extends {
-    Update: infer U
-  }
-    ? U
-    : never
-  : PublicTableNameOrOptions extends keyof PublicSchema['Tables']
-    ? PublicSchema['Tables'][PublicTableNameOrOptions] extends {
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Update: infer U
     }
+    ? U
+    : never
+  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+        Update: infer U
+      }
       ? U
       : never
-    : never;
+    : never
 
 export type Enums<
   PublicEnumNameOrOptions extends
-    | keyof PublicSchema['Enums']
+    | keyof PublicSchema["Enums"]
     | { schema: keyof Database },
   EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
-    ? keyof Database[PublicEnumNameOrOptions['schema']]['Enums']
+    ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
     : never = never,
 > = PublicEnumNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicEnumNameOrOptions['schema']]['Enums'][EnumName]
-  : PublicEnumNameOrOptions extends keyof PublicSchema['Enums']
-    ? PublicSchema['Enums'][PublicEnumNameOrOptions]
-    : never;
+  ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
+    ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+    : never
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
-    | keyof PublicSchema['CompositeTypes']
+    | keyof PublicSchema["CompositeTypes"]
     | { schema: keyof Database },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
     schema: keyof Database
   }
-    ? keyof Database[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes']
+    ? keyof Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
     : never = never,
 > = PublicCompositeTypeNameOrOptions extends { schema: keyof Database }
-  ? Database[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes'][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema['CompositeTypes']
-    ? PublicSchema['CompositeTypes'][PublicCompositeTypeNameOrOptions]
-    : never;
+  ? Database[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
+    ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
+    : never

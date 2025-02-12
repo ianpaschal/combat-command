@@ -1,6 +1,5 @@
 import { Outlet } from 'react-router-dom';
 import { useWindowWidth } from '@react-hook/window-size/throttled';
-import { Toaster } from 'sonner';
 
 import { AppBar } from '~/components/AppBar';
 import { useAuth } from '~/components/AuthProvider';
@@ -26,7 +25,6 @@ export const App = (): JSX.Element => {
         <AppBar navItems={links} maxWidth={MAX_WIDTH} />
       )}
       <Outlet />
-      <Toaster />
     </div>
   );
 };

@@ -32,7 +32,6 @@ import { Separator } from '~/components/generic/Separator';
 import { Stack } from '~/components/generic/Stack';
 import { Switch } from '~/components/generic/Switch';
 import { UnsavedChangesDialog } from '~/components/UnsavedChangesDialog';
-import { useLocationSearch } from '~/services/useLocationSearch';
 import { FowV4GameSystemConfig } from '~/types/fowV4/fowV4GameSystemConfigSchema';
 import { Tournament, tournamentResolver } from '~/types/Tournament';
 import { createCn } from '~/utils/componentLib/createCn';
@@ -57,7 +56,7 @@ const defaultValues: Partial<Tournament> = {
   use_national_teams: false,
   description: '',
   ends_at: '',
-  location: '',
+  mapbox_place_id: '',
   creator_id: '',
   rules_pack_url: '',
   starts_at: '',
@@ -126,9 +125,6 @@ export const TournamentForm = ({
   const competitorLabel = useTeams ? 'Teams' : 'Players';
   const totalPlayers = competitor_count * competitor_size;
 
-  const { data: location } = useLocationSearch('bastogne');
-  console.log(location);
-
   const game_system_options = [
     { value: '1e307db7-207b-4493-b563-8056535616cc', label: 'Flames of War (4th Ed.)' },
   ];
@@ -159,7 +155,7 @@ export const TournamentForm = ({
           <FormField name="rules_pack_url" label="Rules Pack URL">
             <InputText type="text" placeholder="http://" />
           </FormField>
-          <FormField name="location" label="Location">
+          <FormField name="mapbox_place_id" label="Location">
             <InputLocation />
           </FormField>
           <Stack className={cn('_DateTimeSection')} orientation="horizontal">

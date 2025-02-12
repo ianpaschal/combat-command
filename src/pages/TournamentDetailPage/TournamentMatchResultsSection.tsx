@@ -5,7 +5,7 @@ import { InputSelect } from '~/components/generic/InputSelect';
 import { Label } from '~/components/generic/Label';
 import { ScrollArea } from '~/components/generic/ScrollArea';
 import { MatchResultCard } from '~/components/MatchResultCard';
-import { useGetMatchesByTournamentId } from '~/services/matches/getMatches';
+import { useFetchMatchResultList } from '~/services/matchResults/useFetchMatchResultList';
 
 import styles from './TournamentMatchResultsSection.module.scss';
 
@@ -17,7 +17,7 @@ export const TournamentMatchResultsSection = ({
   tournamentId,
 }: TournamentMatchResultsSectionProps): JSX.Element => {
   const [round, setRound] = useState<number | undefined>(undefined);
-  const { data: matches } = useGetMatchesByTournamentId({ tournamentId, round });
+  const { data: matches } = useFetchMatchResultList({ tournamentId, round });
 
   const roundOptions = [...new Set(
     (matches || []).map(

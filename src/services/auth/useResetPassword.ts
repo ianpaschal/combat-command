@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 
-import { setToast, ToastSeverity } from '~/components/ToastProvider';
+import { toast } from '~/components/ToastProvider';
 import { ForgotPasswordFormInput } from '~/pages/ForgotPasswordPage/ForgotPasswordPage';
 import { handleError } from '~/services/handleError';
 import { supabase } from '~/supabaseClient';
@@ -19,10 +19,8 @@ export const useResetPassword = () => {
   return useMutation({
     mutationFn: resetPassword,
     onSuccess: () => {
-      setToast({
-        title: 'Check your email',
+      toast.info('Check your email', {
         description: 'A password reset link has been sent to your email.',
-        severity: ToastSeverity.Info,
       });
       navigate('/');
     },

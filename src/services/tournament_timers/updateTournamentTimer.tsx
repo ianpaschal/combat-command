@@ -1,13 +1,13 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { differenceInSeconds } from 'date-fns';
 import {
-  CircleAlert,
   CirclePause,
   CirclePlay,
   CircleSlash,
 } from 'lucide-react';
-import { toast } from 'sonner';
 
+import { toast } from '~/components/ToastProvider';
+import { handleError } from '~/services/handleError';
 import { supabase } from '~/supabaseClient';
 import { TournamentTimerRow } from '~/types/db';
 
@@ -58,22 +58,17 @@ export const useUpdateTournamentTimer = () => {
     mutationFn: updateTournamentTimer,
     onSuccess: (_data, variables) => {
       if (variables.action === 'pause') {
-        toast.success('Round paused!', { icon: <CirclePause /> });
+        toast.info('Round paused!', { icon: <CirclePause /> });
       }
       if (variables.action === 'resume') {
-        toast.success('Round resumed!', { icon: <CirclePlay /> });
+        toast.info('Round resumed!', { icon: <CirclePlay /> });
       }
       if (variables.action === 'reset') {
-        toast.success('Round reset!', { icon: <CircleSlash /> });
+        toast.info('Round reset!', { icon: <CircleSlash /> });
       }
       queryClient.invalidateQueries({ queryKey: ['tournament_full', variables.timer?.tournament_id] });
       queryClient.invalidateQueries({ queryKey: ['tournament_timer', { tournamentId: variables.timer?.tournament_id, roundIndex: variables.timer?.round_index }] });
     },
-    onError: (error) => {
-      toast.error('Error updating tournament timer', {
-        description: error.message,
-        icon: <CircleAlert />,
-      });
-    },
+    onError: handleError,
   });
 };

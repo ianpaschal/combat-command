@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { Dialog } from '~/components/generic/Dialog';
 import { ScrollArea } from '~/components/generic/ScrollArea';
-import { useGetMatchesByTournamentId } from '~/services/matches/getMatches';
+import { useFetchMatchResultList } from '~/services/matchResults/useFetchMatchResultList';
 import { useCreateTournamentPairingsBulk } from '~/services/tournamentPairings/createTournamentPairingsBulk';
 import { useFetchTournamentFull } from '~/services/tournaments/fetchTournamentFull';
 import { useUpdateTournament } from '~/services/tournaments/updateTournament';
@@ -27,7 +27,7 @@ export const AdvanceRoundDialog = ({
 }: AdvanceRoundDialogProps) => {
   // Fetch data
   const { data: tournament } = useFetchTournamentFull(tournamentId);
-  const { data: matches } = useGetMatchesByTournamentId({ tournamentId });
+  const { data: matches } = useFetchMatchResultList({ tournamentId });
 
   // Save data
   const updateTournament = useUpdateTournament();

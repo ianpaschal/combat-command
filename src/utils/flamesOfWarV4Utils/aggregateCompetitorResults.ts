@@ -1,6 +1,6 @@
 import { ZodLiteral } from 'zod';
 
-import { MatchDeep } from '~/types/db/Matches';
+import { FetchMatchResultResponse } from '~/services/matchResults/fetchMatchResultBaseQuery';
 import { FowV4RankingFactor, fowV4RankingFactorSchema } from '~/types/fowV4/fowV4RankingFactorSchema';
 import { AggregatorResult } from '~/utils/common/calculateTournamentRankings';
 import { getTotalPointsByProfileId } from './getTotalPointsByProfileId';
@@ -10,7 +10,7 @@ import { getTotalWinsByProfileId } from './getTotalWinsByProfileId';
 
 // TODO: This could be made more generic if paired with an array of keys and getter fns
 export const aggregateCompetitorResults = (
-  matches: MatchDeep[],
+  matchResults: FetchMatchResultResponse[],
   ownProfileIds: string[],
   opponentProfileIds: string[],
 ): AggregatorResult<FowV4RankingFactor> => {
@@ -23,7 +23,7 @@ export const aggregateCompetitorResults = (
     [key]: 0,
   }), {} as AggregatorResult<FowV4RankingFactor>);
 
-  if (!matches.length || !ownProfileIds.length || !opponentProfileIds.length) {
+  if (!matchResults.length || !ownProfileIds.length || !opponentProfileIds.length) {
     return results;
   }
 
@@ -36,14 +36,14 @@ export const aggregateCompetitorResults = (
     // TODO: Rounds should be number of rounds played by the player
     // TODO: Opponent results shouldn't include stuff against this player
 
-    const ownMatchResults = matches.filter(
-      (match) => [match.player_0.profile.id, match.player_1.profile.id].includes(id),
+    const ownMatchResults = matchResults.filter(
+      (match) => [match.player_0.user_profile.id, match.player_1.user_profile.id].includes(id),
     );
 
     // Don't include matches against this competitor:
     const opponentMatchResults = ownMatchResults.filter((match) => {
-      const player0BelongsToThisCompetitor = ownProfileIds.includes(match.player_0.profile.id);
-      const player1BelongsToThisCompetitor = ownProfileIds.includes(match.player_1.profile.id);
+      const player0BelongsToThisCompetitor = ownProfileIds.includes(match.player_0.user_profile.id);
+      const player1BelongsToThisCompetitor = ownProfileIds.includes(match.player_1.user_profile.id);
       return !player0BelongsToThisCompetitor && !player1BelongsToThisCompetitor;
     });
 

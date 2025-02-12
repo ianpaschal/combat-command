@@ -1,4 +1,4 @@
-import { MatchDeep } from '~/types/db/Matches';
+import { FetchMatchResultResponse } from '~/services/matchResults/fetchMatchResultBaseQuery';
 
 /**
  * Returns the total number of wins by a given profile within a set of match results.
@@ -8,12 +8,12 @@ import { MatchDeep } from '~/types/db/Matches';
  * @returns The total number of wins
  */
 export const getTotalWinsByProfileId = (
-  matches: MatchDeep[],
+  matchResults: FetchMatchResultResponse[],
   profileId: string,
 ): number => (
-  matches.reduce((acc, match) => {
-    const playerIndex = [match.player_0, match.player_1].findIndex((player) => player.profile.id === profileId);
-    if (match.outcome.winner === playerIndex) {
+  matchResults.reduce((acc, result) => {
+    const playerIndex = [result.player_0, result.player_1].findIndex((player) => player.user_profile.id === profileId);
+    if (result.details.winner === playerIndex) {
       acc += 1;
     }
     return acc;

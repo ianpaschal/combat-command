@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 
 import { ChangePasswordFormData } from '~/components/ChangePasswordDialog';
-import { setToast, ToastSeverity } from '~/components/ToastProvider';
+import { toast } from '~/components/ToastProvider';
 import { handleError } from '~/services/handleError';
 import { supabase } from '~/supabaseClient';
 
@@ -15,11 +15,7 @@ const updatePassword = async ({ password }: ChangePasswordFormData): Promise<voi
 export const useUpdatePassword = () => useMutation({
   mutationFn: updatePassword,
   onSuccess: (_data) => {
-    setToast({
-      title: 'Success!',
-      description: 'Password updated.',
-      severity: ToastSeverity.Success,
-    });
+    toast.success('Password updated.');
   },
   onError: handleError,
 });

@@ -1,4 +1,4 @@
-import { MatchDeep } from '~/types/db/Matches';
+import { FetchMatchResultResponse } from '~/services/matchResults/fetchMatchResultBaseQuery';
 
 /**
  * Returns the total number of units destroyed by a given profile within a set of match results.
@@ -8,15 +8,15 @@ import { MatchDeep } from '~/types/db/Matches';
  * @returns The total number of units destroyed
  */
 export const getTotalUnitsDestroyedByProfileId = (
-  matchResults: MatchDeep[],
+  matchResults: FetchMatchResultResponse[],
   profileId: string,
 ): number => (
   matchResults.reduce((acc, result) => {
-    if (result.player_0.profile.id === profileId) {
-      return acc += result.outcome.player_1_units_lost; // Opponent's losses
+    if (result.player_0.user_profile.id === profileId) {
+      return acc += result.details.player_1_units_lost; // Opponent's losses
     }
-    if (result.player_1.profile.id === profileId) {
-      return acc += result.outcome.player_0_units_lost; // Opponent's losses
+    if (result.player_1.user_profile.id === profileId) {
+      return acc += result.details.player_0_units_lost; // Opponent's losses
     }
     return acc;
   }, 0)

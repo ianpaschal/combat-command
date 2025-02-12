@@ -1,0 +1,14 @@
+@use "/src/style/flex";
+@use "/src/style/text";
+
+.Root {
+  @include flex.column;
+}
+
+.Name {
+  @include text.ui;
+}
+
+.Address {
+  @include text.small($muted: true);
+}

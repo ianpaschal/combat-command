@@ -1,4 +1,4 @@
-import { MatchDeep } from '~/types/db/Matches';
+import { FetchMatchResultResponse } from '~/services/matchResults/fetchMatchResultBaseQuery';
 
 /**
  * Returns all opponent profile UUIDs for a given profile within a set of match results.
@@ -8,11 +8,11 @@ import { MatchDeep } from '~/types/db/Matches';
  * @returns The opponent profile UUIDs
  */
 export const getOpponentsByProfileId = (
-  matchResults: MatchDeep[],
+  matchResults: FetchMatchResultResponse[],
   profileId: string,
 ): string[] => (
   matchResults.reduce((acc, match) => [
     ...acc,
-    ...[match.player_0.profile.id, match.player_1.profile.id].filter((id) => id !== profileId),
+    ...[match.player_0.user_profile.id, match.player_1.user_profile.id].filter((id) => id !== profileId),
   ], [] as string[])
 );

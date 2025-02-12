@@ -28,7 +28,7 @@ import { TournamentRegistrationsTable } from '~/components/TournamentRegistratio
 import { TournamentMatchResultsSection } from '~/pages/TournamentDetailPage/TournamentMatchResultsSection';
 import { TournamentPairingsSection } from '~/pages/TournamentDetailPage/TournamentPairingsSection';
 import { TournamentRoundTimer } from '~/pages/TournamentDetailPage/TournamentRoundTimer';
-import { useGetMatchesByTournamentId } from '~/services/matches/getMatches';
+import { useFetchMatchResultList } from '~/services/matchResults/useFetchMatchResultList';
 import { useFetchTournamentFull } from '~/services/tournaments/fetchTournamentFull';
 import { MIN_WIDTH_DESKTOP } from '~/settings';
 import { FowV4RankingFactor } from '~/types/fowV4/fowV4RankingFactorSchema';
@@ -46,7 +46,7 @@ export const TournamentDetailPage = (): JSX.Element => {
   const tournamentId = params.id!; // Must exist or else how did we get to this route?
 
   const { data: tournament } = useFetchTournamentFull(tournamentId);
-  const { data: matches } = useGetMatchesByTournamentId({ tournamentId });
+  const { data: matches } = useFetchMatchResultList({ tournamentId });
 
   const [tab, setTab] = useState<string>('rankings');
 

@@ -1,7 +1,6 @@
 import { getRolesByStances, missions } from '~/components/FowV4MatchResultForm/missions';
 import { InputSelectOption } from '~/components/generic/InputSelect';
 import { TournamentDeep } from '~/types/db';
-import { MatchDraft } from '~/types/db/Matches';
 import { TournamentPairingDeep } from '~/types/db/TournamentPairings';
 import { TournamentMatchFormData } from '~/types/Match';
 import { getCompetitorDisplay } from '~/utils/common/getCompetitorDisplay';
@@ -32,7 +31,7 @@ export const getSelectedPairing = (
 export const getDraftMatch = (
   data: TournamentMatchFormData,
   tournament?: Pick<TournamentDeep, 'pairings' | 'game_system_config' | 'game_system_config_id'>,
-): MatchDraft | null => {
+): any | null => {
   const { player_0_id, player_1_id, tournament_pairing_id } = data;
   if (!tournament) {
     return null;

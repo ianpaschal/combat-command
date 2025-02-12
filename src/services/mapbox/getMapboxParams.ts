@@ -9,4 +9,8 @@ export const getMapboxSessionToken = (): string => {
   return existingToken;
 };
 
-export const getMapboxAccessToken = (): string => import.meta.env.VITE_MAPBOX_TOKEN;
+export const getMapboxParams = (query?: string): string => new URLSearchParams({
+  ...(query ? { q: encodeURIComponent(query) } : {}),
+  session_token: getMapboxSessionToken(),
+  access_token: import.meta.env.VITE_MAPBOX_TOKEN,
+}).toString();

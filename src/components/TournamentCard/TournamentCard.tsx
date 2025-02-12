@@ -18,6 +18,7 @@ import {
 import { useAuth } from '~/components/AuthProvider';
 import { Button } from '~/components/generic/Button';
 import { Label } from '~/components/generic/Label';
+import { MapboxLocation } from '~/components/generic/MapboxLocation';
 import { ScrollArea } from '~/components/generic/ScrollArea';
 import { Tag } from '~/components/generic/Tag';
 import { ManageTournamentMenu } from '~/components/ManageTournamentMenu';
@@ -85,7 +86,7 @@ export const TournamentCard = ({
             </div>
             <div className={cn('Location')}>
               <MapPin />
-              {tournament.location}
+              <MapboxLocation id={tournament?.mapbox_place_id} />
             </div>
             <div className={cn('SeatsAvailable')}>
               <Users />

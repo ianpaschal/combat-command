@@ -8,6 +8,16 @@ export type GameSystemConfigRow = Omit<Database['public']['Tables']['game_system
   data: FowV4GameSystemConfig;
 };
 
+/**
+ * Raw Match row from the database
+ */
+export type MatchResultRow = Database['public']['Tables']['match_results']['Row'];
+
+/**
+ * Match result with NULL converted to undefined
+ */
+export type MatchResult = NullConversion<MatchResultRow>;
+
 // ...
 
 export type PlayerRow = Database['public']['Tables']['players']['Row'];

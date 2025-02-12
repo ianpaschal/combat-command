@@ -1,10 +1,6 @@
-import { setToast, ToastSeverity } from '~/components/ToastProvider';
+import { toast } from '~/components/ToastProvider';
 
 export const handleError = (error: Error): void => {
-  setToast({
-    title: error.name,
-    description: error.message,
-    severity: ToastSeverity.Error,
-  });
+  toast.error(error.name, { description: error.message });
   console.error(error);
 };

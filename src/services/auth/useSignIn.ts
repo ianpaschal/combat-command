@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthTokenResponsePassword } from '@supabase/supabase-js';
 import { useMutation } from '@tanstack/react-query';
 
-import { setToast, ToastSeverity } from '~/components/ToastProvider';
+import { toast } from '~/components/ToastProvider';
 import { SignInFormInput } from '~/pages/SignInPage/SignInPage';
 import { handleError } from '~/services/handleError';
 import { supabase } from '~/supabaseClient';
@@ -26,11 +26,7 @@ export const useSignIn = () => {
   return useMutation({
     mutationFn: signIn,
     onSuccess: () => {
-      setToast({
-        title: 'Success!',
-        description: 'You are now signed in!',
-        severity: ToastSeverity.Success,
-      });
+      toast.success('You are now signed in!');
       navigate('/');
     },
     onError: handleError,

@@ -53,6 +53,8 @@ export const ToastProvider = ({
     }
   };
 
+  const icon = toast ? toast.icon || severityIcons[toast.severity] : null;
+
   return (
     <Toast.Provider swipeDirection="up">
       {children}
@@ -63,15 +65,17 @@ export const ToastProvider = ({
           onOpenChange={handleOpenChange}
           duration={severityDurations[toast?.severity]}
         >
-          {cloneElement(severityIcons[toast.severity], {
+          {icon ? cloneElement(icon, {
             className: clsx(styles.Icon, severityClasses[toast.severity]),
-          })}
+          }) : null}
           <Toast.Title className={styles.Title}>
             {toast.title}
           </Toast.Title>
-          <Toast.Description className={styles.Description}>
-            {toast.description}
-          </Toast.Description>
+          {toast.description && (
+            <Toast.Description className={styles.Description}>
+              {toast.description}
+            </Toast.Description>
+          )}
         </Toast.Root>
       )}
       <Toast.Viewport className={styles.Viewport} />

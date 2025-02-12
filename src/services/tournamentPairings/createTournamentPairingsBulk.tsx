@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { CircleAlert } from 'lucide-react';
-import { toast } from 'sonner';
 
+import { handleError } from '~/services/handleError';
 import { supabase } from '~/supabaseClient';
 import { TournamentPairingInput } from '~/types/db/TournamentPairings';
 
@@ -29,11 +28,6 @@ export const useCreateTournamentPairingsBulk = () => {
       queryClient.invalidateQueries({ queryKey: ['tournaments_list'] });
       queryClient.invalidateQueries({ queryKey: ['tournament_full', variables.tournamentId] });
     },
-    onError: (error) => {
-      toast.error('Error creating tournament pairings', {
-        description: error.message,
-        icon: <CircleAlert />,
-      });
-    },
+    onError: handleError,
   });
 };

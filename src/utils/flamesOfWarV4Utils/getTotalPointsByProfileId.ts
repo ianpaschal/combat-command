@@ -1,4 +1,4 @@
-import { MatchDeep } from '~/types/db/Matches';
+import { FetchMatchResultResponse } from '~/services/matchResults/fetchMatchResultBaseQuery';
 import { calculateMatchScore } from './calculateMatchScore';
 
 /**
@@ -9,15 +9,15 @@ import { calculateMatchScore } from './calculateMatchScore';
  * @returns The total number of points
  */
 export const getTotalPointsByProfileId = (
-  matchResults: MatchDeep[],
+  matchResults: FetchMatchResultResponse[],
   profileId: string,
 ): number => (
   matchResults.reduce((acc, result) => {
     const points = calculateMatchScore(result);
-    if (result.player_0.profile.id === profileId) {
+    if (result.player_0.user_profile.id === profileId) {
       return acc += points[0];
     }
-    if (result.player_1.profile.id === profileId) {
+    if (result.player_1.user_profile.id === profileId) {
       return acc += points[1];
     }
     return acc;
