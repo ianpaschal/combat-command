@@ -3,22 +3,23 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from '~/components/ToastProvider';
 import { handleError } from '~/services/handleError';
 import { supabase } from '~/supabaseClient';
-import { MatchResult } from '~/types/db';
+import { MatchResultRow } from '~/types/db';
 
 /**
- * Input to create a new match result
+ * Input to create a new tournament match result.
  */
-export type CreateMatchResultInput = Omit<MatchResult, 'id' | 'created_at' | 'updated_at'>;
+export type UpdateMatchResultInput = Omit<MatchResultRow, 'id' | 'created_at' | 'updated_at'>;
 
 /**
- * Query hook to create a match result.
+ * Query hook to create a single match result.
  * 
- * @returns 
+ * This is kept separate from the hook to create a tournament match result because the latter
+ * doesn't require the creation of new player and game system config objects.
  */
-export const useCreateMatchResult = () => {
+export const useCreateSingleMatchResult = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (data: CreateMatchResultInput): Promise<void> => {
+    mutationFn: async (data: UpdateMatchResultInput): Promise<void> => {
       const { error } = await supabase.from('match_results').insert(data);
       if (error) {
         throw error;

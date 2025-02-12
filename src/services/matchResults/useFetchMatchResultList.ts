@@ -1,10 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 
+import { convertNulls } from '~/utils/nullsToUndefined';
 import { applySupabaseFilters } from '../utils/applySupabaseFilters';
 import { fetchMatchResultBaseQuery, FetchMatchResultResponse } from './fetchMatchResultBaseQuery';
 
 /**
- * Input params for useFetchMatchResultList
+ * Input params for useFetchMatchResultList.
  */
 export interface FetchMatchResultListParams {
   tournamentId?: string;
@@ -32,8 +33,7 @@ export type FetchMatchResultListResponse = FetchMatchResultResponse[];
  * Query hook to fetch list of match results.
  * 
  * @param params 
- * @param enabled 
- * @returns 
+ * @param enabled
  */
 export const useFetchMatchResultList = (
   params: FetchMatchResultListParams,
@@ -45,7 +45,7 @@ export const useFetchMatchResultList = (
     if (error) {
       throw error;
     }
-    return data;
+    return convertNulls(data);
   },
   enabled,
 });

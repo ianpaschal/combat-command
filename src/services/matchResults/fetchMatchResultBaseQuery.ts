@@ -1,7 +1,7 @@
 import { supabase } from '~/supabaseClient';
 import {
   GameSystemConfigRow,
-  MatchResult,
+  MatchResultRow,
   TournamentCompetitorRow,
   UserProfileSecureRow,
 } from '~/types/db';
@@ -9,9 +9,9 @@ import { FowV4MatchResultDetails } from '~/types/db/FowV4MatchResultDetails';
 import { TournamentPairingRow } from '~/types/db/TournamentPairings';
 
 /**
- * Response for a match result row with relevant tables adjoined
+ * Response for a match result row with relevant tables adjoined.
  */
-export interface FetchMatchResultResponse extends Omit<MatchResult, 'details'> {
+export interface FetchMatchResultResponse extends Omit<MatchResultRow, 'details'> {
   player_0: {
     user_profile: UserProfileSecureRow;
     tournament_competitor: TournamentCompetitorRow;
@@ -26,8 +26,8 @@ export interface FetchMatchResultResponse extends Omit<MatchResult, 'details'> {
 }
 
 /**
- * Base query used by useFetchMatchResult and useFetchMatchResultList
- * This MUST be manually kept in sync with the FetchMatchResultResponse type
+ * Base query used by useFetchMatchResult and useFetchMatchResultList.
+ * This MUST be manually kept in sync with the FetchMatchResultResponse type!
  */
 export const fetchMatchResultBaseQuery = supabase.from('match_results').select(`
   *,

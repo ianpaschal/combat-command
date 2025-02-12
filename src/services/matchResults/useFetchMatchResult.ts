@@ -1,13 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { fetchMatchResultBaseQuery, FetchMatchResultResponse } from '~/services/matchResults/fetchMatchResultBaseQuery';
+import { fetchMatchResultBaseQuery, FetchMatchResultResponse } from './fetchMatchResultBaseQuery';
 
 /**
  * Query hook to fetch list of match results.
  * 
  * @param id - The ID of the match result. 
- * @param enabled 
- * @returns 
+ * @param enabled
  */
 export const useFetchMatchResult = (
   id: string,

@@ -185,37 +185,37 @@ export type Database = {
           created_at: string | null
           id: string
           placeholder_name: string | null
-          profile_id: string
           tournament_competitor_id: string | null
           updated_at: string | null
+          user_profile_id: string
         }
         Insert: {
           created_at?: string | null
           id?: string
           placeholder_name?: string | null
-          profile_id: string
           tournament_competitor_id?: string | null
           updated_at?: string | null
+          user_profile_id: string
         }
         Update: {
           created_at?: string | null
           id?: string
           placeholder_name?: string | null
-          profile_id?: string
           tournament_competitor_id?: string | null
           updated_at?: string | null
+          user_profile_id?: string
         }
         Relationships: [
           {
             foreignKeyName: "players_profile_id_fkey"
-            columns: ["profile_id"]
+            columns: ["user_profile_id"]
             isOneToOne: false
             referencedRelation: "user_profiles"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "players_profile_id_fkey"
-            columns: ["profile_id"]
+            columns: ["user_profile_id"]
             isOneToOne: false
             referencedRelation: "user_profiles_secure"
             referencedColumns: ["id"]

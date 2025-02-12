@@ -19,7 +19,7 @@ import { InputSelect } from '~/components/generic/InputSelect';
 import { Separator } from '~/components/generic/Separator';
 import { MatchResultCard } from '~/components/MatchResultCard';
 import { getCompetitorPlayerOptions } from '~/components/PlayerSelect/PlayerSelect.utils';
-import { useCreateMatchResult } from '~/services/matchResults/useCreateMatchResult';
+import { useCreateSingleMatchResult } from '~/services/matchResults/useCreateSingleMatchResult';
 import { useFetchTournamentFull } from '~/services/tournaments/fetchTournamentFull';
 import { fowV4StanceOptions } from '~/types/fowV4/fowV4StanceSchema';
 import { TournamentMatchFormData, tournamentMatchFormSchema } from '~/types/Match';
@@ -41,7 +41,7 @@ export const FowV4MatchResultForm = ({
 }: FowV4MatchResultFormProps): JSX.Element => {
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
   const { data: tournament } = useFetchTournamentFull(tournamentId);
-  const addMatchResult = useCreateMatchResult();
+  const addMatchResult = useCreateSingleMatchResult();
 
   const form = useForm<TournamentMatchFormData>({
     resolver: zodResolver(tournamentMatchFormSchema),

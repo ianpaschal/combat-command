@@ -7,6 +7,7 @@
 ```
 VITE_SUPABASE_URL=[your_url]
 VITE_SUPABASE_ANON_KEY=[your_key]
+VITE_MAPBOX_TOKEN=[your_token]
 ```
 3. Run `npm ci` to install dependencies.
 4. Run `npm run dev` to run locally.

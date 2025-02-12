@@ -2,26 +2,31 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { toast } from '~/components/ToastProvider';
 import { handleError } from '~/services/handleError';
-import { CreateMatchResultInput } from '~/services/matchResults/useCreateMatchResult';
 import { supabase } from '~/supabaseClient';
+import { GameSystemConfigRow } from '~/types/db';
 
 /**
- * Query hook to create a match result.
+ * Input to create a new game system config.
+ */
+export type CreateGameSystemConfigInput = Omit<GameSystemConfigRow, 'id' | 'created_at' | 'updated_at'>;
+
+/**
+ * Query hook to create a game system config.
  * 
  * @returns 
  */
 export const useCreateGameSystemConfig = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (data: CreateMatchResultInput): Promise<void> => {
-      const { error } = await supabase.from('match_results').insert(data);
+    mutationFn: async (data: CreateGameSystemConfigInput): Promise<void> => {
+      const { error } = await supabase.from('game_system_configs').insert(data);
       if (error) {
         throw error;
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['match_results', 'list'] });
-      toast.success('Match result saved!');
+      queryClient.invalidateQueries({ queryKey: ['game_system_configs', 'list'] });
+      toast.success('Game system config saved!');
     },
     onError: handleError,
   });

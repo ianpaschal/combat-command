@@ -3,20 +3,20 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from '~/components/ToastProvider';
 import { handleError } from '~/services/handleError';
 import { supabase } from '~/supabaseClient';
-import { MatchResultRow } from '~/types/db';
+import { PlayerRow } from '~/types/db';
 
 /**
- * Input to update a match result.
+ * Input to update a player.
  */
-export type UpdateMatchResultInput = Omit<MatchResultRow, 'created_at' | 'updated_at'>;
+export type UpdatePlayerInput = Omit<PlayerRow, 'created_at' | 'updated_at'>;
 
 /**
- * Query hook to update a match result.
+ * Query hook to update a player.
  */
-export const useUpdateMatchResult = () => {
+export const useUpdatePlayer = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async ({ id, ...data }: UpdateMatchResultInput): Promise<void> => {
+    mutationFn: async ({ id, ...data }: UpdatePlayerInput): Promise<void> => {
       const { error } = await supabase.from('match_results').update(data).eq('id', id);
       if (error) {
         throw error;

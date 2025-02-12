@@ -1,7 +1,6 @@
 import { Database, Tables } from '~/types/__generated__/database.types';
 import { TournamentPairingDeep } from '~/types/db/TournamentPairings';
 import { FowV4GameSystemConfig } from '~/types/fowV4/fowV4GameSystemConfigSchema';
-import { NullConversion } from '~/utils/nullsToUndefined';
 
 export type TournamentRow = Database['public']['Tables']['tournaments']['Row'];
 export type GameSystemConfigRow = Omit<Database['public']['Tables']['game_system_configs']['Row'], 'data'> & {
@@ -9,28 +8,35 @@ export type GameSystemConfigRow = Omit<Database['public']['Tables']['game_system
 };
 
 /**
- * Raw Match row from the database
+ * Raw match result row from the database.
  */
 export type MatchResultRow = Database['public']['Tables']['match_results']['Row'];
 
 /**
- * Match result with NULL converted to undefined
+ * Raw player row from the database.
  */
-export type MatchResult = NullConversion<MatchResultRow>;
-
-// ...
-
 export type PlayerRow = Database['public']['Tables']['players']['Row'];
+
+/**
+ * Raw tournament competitor row from the database.
+ */
 export type TournamentCompetitorRow = Database['public']['Tables']['tournament_competitors']['Row'];
 
+/**
+ * Raw user profile row from the database.
+ */
+export type UserProfileRow = Tables<'user_profiles'>;
+
+/**
+ * Raw user profile (secure) row from the database.
+ */
 export type UserProfileSecureRow = Database['public']['Views']['user_profiles_secure']['Row'] & {
   id: string; // ID ALWAYS exists!
 };
+
+// ...
+
 export type TournamentTimerRow = Tables<'tournament_timers'>;
-
-export type UserProfileRow = Tables<'user_profiles'>;
-
-export type UserProfileSecure = NullConversion<UserProfileSecureRow>;
 
 // Deep nested results
 export interface PlayerDeep extends PlayerRow {
