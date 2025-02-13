@@ -4,6 +4,7 @@ import {
   useNavigate,
 } from 'react-router-dom';
 import clsx from 'clsx';
+import { format } from 'date-fns';
 import {
   ArrowRight,
   CalendarClock,
@@ -82,7 +83,7 @@ export const TournamentCard = ({
           <div className={cn('Overview')}>
             <div className={cn('DateTime')}>
               <CalendarClock />
-              {tournament.starts_at} - {tournament.ends_at}
+              {format(tournament.starts_at, 'd MMM yyyy')} - {format(tournament.ends_at, 'd MMM yyyy')}
             </div>
             <div className={cn('Location')}>
               <MapPin />

@@ -15,7 +15,6 @@ const resetPassword = async ({ email }: ForgotPasswordFormInput): Promise<void> 
 
 export const useResetPassword = () => {
   const navigate = useNavigate();
-
   return useMutation({
     mutationFn: resetPassword,
     onSuccess: () => {

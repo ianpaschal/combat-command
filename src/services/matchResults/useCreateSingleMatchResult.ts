@@ -1,7 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { toast } from '~/components/ToastProvider';
+import { CreateGameSystemConfigInput } from '~/services/gameSystemConfigs/useCreateGameSystemConfig';
 import { handleError } from '~/services/handleError';
+import { CreatePlayerInput } from '~/services/players/useCreatePlayer';
 import { supabase } from '~/supabaseClient';
 import { MatchResultRow } from '~/types/db';
 
@@ -9,18 +11,9 @@ import { MatchResultRow } from '~/types/db';
  * Input to create a new single match result.
  */
 export interface CreateSingleMatchResultInput {
-  player_0: {
-    profile_id: string;
-    placeholder_name?: string;
-  }
-  player_1: {
-    profile_id: string;
-    placeholder_name?: string;
-  }
-  game_system_config: {
-    game_system_id: string;
-    data: unknown;
-  }
+  player_0: CreatePlayerInput;
+  player_1: CreatePlayerInput;
+  game_system_config: CreateGameSystemConfigInput;
   details: Pick<MatchResultRow, 'details'>;
 }
 
@@ -33,16 +26,17 @@ export interface CreateSingleMatchResultInput {
 export const useCreateSingleMatchResult = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (data: CreateSingleMatchResultInput): Promise<void> => {
+    mutationFn: async (data: CreateSingleMatchResultInput): Promise<MatchResultRow> => {
 
       // Check if player_0_id and player_1_id exist. If not, create the player objects.
 
       // Check if game_system_config_id exists. If not, create it.
 
-      const { error } = await supabase.from('match_results').insert(data);
+      const { data: updatedRow, error } = await supabase.from('match_results').insert(data).select().single();
       if (error) {
         throw error;
       }
+      return updatedRow;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['match_results', 'list'] });

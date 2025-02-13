@@ -3,10 +3,10 @@ import { ZodLiteral } from 'zod';
 import { FetchMatchResultResponse } from '~/services/matchResults/fetchMatchResultBaseQuery';
 import { FowV4RankingFactor, fowV4RankingFactorSchema } from '~/types/fowV4/fowV4RankingFactorSchema';
 import { AggregatorResult } from '~/utils/common/calculateTournamentRankings';
-import { getTotalPointsByProfileId } from './getTotalPointsByProfileId';
+import { getTotalPointsByProfileId } from './getTotalPointsByUserProfileId';
 import { getTotalUnitsDestroyedByProfileId } from './getTotalUnitsDestroyedByProfileId';
 import { getTotalUnitsLostByProfileId } from './getTotalUnitsLostByProfileId';
-import { getTotalWinsByProfileId } from './getTotalWinsByProfileId';
+import { getTotalWinsByProfileId } from './getTotalWinsByUserProfileId';
 
 // TODO: This could be made more generic if paired with an array of keys and getter fns
 export const aggregateCompetitorResults = (

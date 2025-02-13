@@ -1,10 +1,10 @@
 import { aggregateCompetitorResults } from './aggregateCompetitorResults';
 import { calculateMatchScore } from './calculateMatchScore';
-import { getOpponentsByProfileId } from './getOpponentsByProfileId';
-import { getTotalPointsByProfileId } from './getTotalPointsByProfileId';
+import { getOpponentsByProfileId } from './getOpponentsByUserProfileId';
+import { getTotalPointsByProfileId } from './getTotalPointsByUserProfileId';
 import { getTotalUnitsDestroyedByProfileId } from './getTotalUnitsDestroyedByProfileId';
 import { getTotalUnitsLostByProfileId } from './getTotalUnitsLostByProfileId';
-import { getTotalWinsByProfileId } from './getTotalWinsByProfileId';
+import { getTotalWinsByProfileId } from './getTotalWinsByUserProfileId';
 
 const flamesOfWarV4Utils = {
   aggregateCompetitorResults,

@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchMatchResultBaseQuery, FetchMatchResultResponse } from './fetchMatchResultBaseQuery';
 
 /**
- * Query hook to fetch list of match results.
+ * Query hook to fetch a match result.
  * 
  * @param id - The ID of the match result. 
  * @param enabled

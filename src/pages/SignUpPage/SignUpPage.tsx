@@ -1,5 +1,5 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 
@@ -33,6 +33,7 @@ const signUpFormSchema = z.object({
 export type SignUpFormInput = z.infer<typeof signUpFormSchema>;
 
 export const SignUpPage = (): JSX.Element => {
+  const navigate = useNavigate();
   const signUp = useSignUp();
 
   const form = useForm<SignUpFormInput>({
@@ -49,7 +50,9 @@ export const SignUpPage = (): JSX.Element => {
   });
 
   const onSubmit: SubmitHandler<SignUpFormInput> = async (data: SignUpFormInput): Promise<void> => {
-    signUp.mutate(data);
+    signUp.mutate(data, {
+      onSuccess: () => navigate('/'),
+    });
   };
 
   const { isPending } = signUp;

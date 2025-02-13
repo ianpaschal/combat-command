@@ -31,7 +31,6 @@ const deleteAvatar = async ({ userProfile }: DeleteAvatarInput): Promise<void> =
 
 export const useDeleteAvatar = () => {
   const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: deleteAvatar,
     onSuccess: (_data, variables) => {
