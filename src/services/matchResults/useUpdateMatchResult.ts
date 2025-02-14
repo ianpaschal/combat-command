@@ -1,21 +1,18 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { toast } from '~/components/ToastProvider';
-import { CreateGameSystemConfigInput } from '~/services/gameSystemConfigs/useCreateGameSystemConfig';
 import { handleError } from '~/services/handleError';
-import { CreatePlayerInput } from '~/services/players/useCreatePlayer';
+import { CreateSingleMatchResultInput } from '~/services/matchResults/useCreateSingleMatchResult';
 import { supabase } from '~/supabaseClient';
 import { MatchResultRow } from '~/types/db';
 
 /**
  * Input to update a match result.
  * Can optionally include entirely new data for players and config which will overwrite old data.
+ * 
+ * ONLY single match results should supply updated player_0, player_1 or game_system_config data!
  */
-export type UpdateMatchResultInput = Omit<MatchResultRow, 'created_at' | 'updated_at'> & {
-  player_0?: CreatePlayerInput;
-  player_1?: CreatePlayerInput;
-  game_system_config?: CreateGameSystemConfigInput;
-};
+export type UpdateMatchResultInput = Omit<MatchResultRow, 'created_at' | 'updated_at'> & Partial<Omit<CreateSingleMatchResultInput, 'details'>>;
 
 /**
  * Query hook to update a match result.
@@ -24,6 +21,10 @@ export const useUpdateMatchResult = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async ({ id, ...data }: UpdateMatchResultInput): Promise<void> => {
+
+      /* If new player data exists, update the EXISTING player to match. Do not create a new player
+       * and avoid the need to update the player_x_id.
+       */
       if (data.player_0) {
         const { error: updatePlayer0Error } = await supabase.from('players').update(data.player_0).eq('id', data.player_0_id);
         if (updatePlayer0Error) {
@@ -38,6 +39,7 @@ export const useUpdateMatchResult = () => {
         }
       }
 
+      // The above also applies to the config. Update the 
       if (data.game_system_config) {
         const { error: updateGameSystemConfigError } = await supabase.from('game_system_configs').update(data.game_system_config).eq('id', data.game_system_config_id);
         if (updateGameSystemConfigError) {

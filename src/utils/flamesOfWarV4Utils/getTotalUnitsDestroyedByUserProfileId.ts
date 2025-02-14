@@ -1,13 +1,13 @@
 import { FetchMatchResultResponse } from '~/services/matchResults/fetchMatchResultBaseQuery';
 
 /**
- * Returns the total number of units destroyed by a given profile within a set of match results.
+ * Returns the total number of units destroyed by a given User Profile within a set of match results.
  *
  * @param matchResults - The array of match results to check
- * @param profileId - The profile UUID
+ * @param profileId - The User Profile UUID
  * @returns The total number of units destroyed
  */
-export const getTotalUnitsDestroyedByProfileId = (
+export const getTotalUnitsDestroyedByUserProfileId = (
   matchResults: FetchMatchResultResponse[],
   profileId: string,
 ): number => (

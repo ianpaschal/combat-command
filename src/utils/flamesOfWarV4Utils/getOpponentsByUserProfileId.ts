@@ -1,11 +1,11 @@
 import { FetchMatchResultResponse } from '~/services/matchResults/fetchMatchResultBaseQuery';
 
 /**
- * Returns all opponent profile UUIDs for a given user profile within a set of match results.
+ * Returns all opponent User Profile UUIDs for a given User Profile within a set of match results.
  *
  * @param matchResults - The array of match results to check
- * @param userProfileId - The user profile UUID
- * @returns The opponent profile UUIDs
+ * @param userProfileId - The User Profile UUID
+ * @returns The opponent User Profile UUIDs
  */
 export const getOpponentsByUserProfileId = (
   matchResults: FetchMatchResultResponse[],

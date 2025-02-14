@@ -2,25 +2,42 @@ import { Database, Tables } from '~/types/__generated__/database.types';
 import { TournamentPairingDeep } from '~/types/db/TournamentPairings';
 import { FowV4GameSystemConfig } from '~/types/fowV4/fowV4GameSystemConfigSchema';
 
-export type TournamentRow = Database['public']['Tables']['tournaments']['Row'];
-export type GameSystemConfigRow = Omit<Database['public']['Tables']['game_system_configs']['Row'], 'data'> & {
-  data: FowV4GameSystemConfig;
+/**
+ * Raw game system config row from the database.
+ */
+export type GameSystemConfigRow = Omit<Tables<'game_system_configs'>, 'data'> & {
+  data: FowV4GameSystemConfig; // Improve typing for JSONB field
 };
 
 /**
  * Raw match result row from the database.
  */
-export type MatchResultRow = Database['public']['Tables']['match_results']['Row'];
+export type MatchResultRow = Tables<'match_results'>;
 
 /**
  * Raw player row from the database.
  */
-export type PlayerRow = Database['public']['Tables']['players']['Row'];
+export type PlayerRow = Tables<'players'>;
+
+/**
+ * Raw tournament row from the database.
+ */
+export type TournamentRow = Tables<'tournaments'>;
 
 /**
  * Raw tournament competitor row from the database.
  */
-export type TournamentCompetitorRow = Database['public']['Tables']['tournament_competitors']['Row'];
+export type TournamentCompetitorRow = Tables<'tournament_competitors'>;
+
+/**
+ * Raw tournament pairing row from the database.
+ */
+export type TournamentPairingRow = Tables<'tournament_pairings'>;
+
+/**
+ * Raw tournament timer row from the database.
+ */
+export type TournamentTimerRow = Tables<'tournament_timers'>;
 
 /**
  * Raw user profile row from the database.
@@ -36,15 +53,11 @@ export type UserProfileSecureRow = Database['public']['Views']['user_profiles_se
 
 // ...
 
-export type TournamentTimerRow = Tables<'tournament_timers'>;
-
 // Deep nested results
-export interface PlayerDeep extends PlayerRow {
-  profile: UserProfileSecureRow;
-}
-
 export interface TournamentCompetitorDeep extends TournamentCompetitorRow {
-  players: PlayerDeep[];
+  players: (PlayerRow & {
+    profile: UserProfileSecureRow;
+  })[];
 }
 
 export interface TournamentDeep extends TournamentRow {

@@ -3,7 +3,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from '~/components/ToastProvider';
 import { CreateGameSystemConfigInput } from '~/services/gameSystemConfigs/useCreateGameSystemConfig';
 import { handleError } from '~/services/handleError';
-import { CreatePlayerInput } from '~/services/players/useCreatePlayer';
+import { createPlayer } from '~/services/players/createPlayer';
+import { CreatePlayerInput } from '~/services/players/createPlayer';
 import { supabase } from '~/supabaseClient';
 import { MatchResultRow } from '~/types/db';
 
@@ -29,10 +30,14 @@ export const useCreateSingleMatchResult = () => {
     mutationFn: async (data: CreateSingleMatchResultInput): Promise<MatchResultRow> => {
 
       // Check if player_0_id and player_1_id exist. If not, create the player objects.
+      const player0Row = await createPlayer(data.player_0);
 
       // Check if game_system_config_id exists. If not, create it.
 
-      const { data: updatedRow, error } = await supabase.from('match_results').insert(data).select().single();
+      const { data: updatedRow, error } = await supabase.from('match_results').insert({
+        ...data,
+        player_0_id: player0Row.id,
+      }).select().single();
       if (error) {
         throw error;
       }

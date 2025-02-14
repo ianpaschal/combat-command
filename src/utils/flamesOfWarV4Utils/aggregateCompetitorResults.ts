@@ -3,10 +3,10 @@ import { ZodLiteral } from 'zod';
 import { FetchMatchResultResponse } from '~/services/matchResults/fetchMatchResultBaseQuery';
 import { FowV4RankingFactor, fowV4RankingFactorSchema } from '~/types/fowV4/fowV4RankingFactorSchema';
 import { AggregatorResult } from '~/utils/common/calculateTournamentRankings';
-import { getTotalPointsByProfileId } from './getTotalPointsByUserProfileId';
-import { getTotalUnitsDestroyedByProfileId } from './getTotalUnitsDestroyedByProfileId';
-import { getTotalUnitsLostByProfileId } from './getTotalUnitsLostByProfileId';
-import { getTotalWinsByProfileId } from './getTotalWinsByUserProfileId';
+import { getTotalPointsByUserProfileId } from './getTotalPointsByUserProfileId';
+import { getTotalUnitsDestroyedByUserProfileId } from './getTotalUnitsDestroyedByUserProfileId';
+import { getTotalUnitsLostByUserProfileId } from './getTotalUnitsLostByUserProfileId';
+import { getTotalWinsByUserProfileId } from './getTotalWinsByUserProfileId';
 
 // TODO: This could be made more generic if paired with an array of keys and getter fns
 export const aggregateCompetitorResults = (
@@ -53,10 +53,10 @@ export const aggregateCompetitorResults = (
     const roundsIncluded = Math.max(searchMatches.length, 1);
 
     const profileResults = {
-      wins: getTotalWinsByProfileId(searchMatches, id),
-      points: getTotalPointsByProfileId(searchMatches, id),
-      units_destroyed: getTotalUnitsDestroyedByProfileId(searchMatches, id),
-      units_lost: getTotalUnitsLostByProfileId(searchMatches, id),
+      wins: getTotalWinsByUserProfileId(searchMatches, id),
+      points: getTotalPointsByUserProfileId(searchMatches, id),
+      units_destroyed: getTotalUnitsDestroyedByUserProfileId(searchMatches, id),
+      units_lost: getTotalUnitsLostByUserProfileId(searchMatches, id),
     };
     Object.entries(profileResults).forEach(([key, value]) => {
       const totalKey = (isOpponent ? `total_opponent_${key}` : `total_${key}`) as FowV4RankingFactor;

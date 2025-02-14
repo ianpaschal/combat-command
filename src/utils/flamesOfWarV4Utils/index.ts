@@ -1,19 +1,19 @@
 import { aggregateCompetitorResults } from './aggregateCompetitorResults';
 import { calculateMatchScore } from './calculateMatchScore';
-import { getOpponentsByProfileId } from './getOpponentsByUserProfileId';
-import { getTotalPointsByProfileId } from './getTotalPointsByUserProfileId';
-import { getTotalUnitsDestroyedByProfileId } from './getTotalUnitsDestroyedByProfileId';
-import { getTotalUnitsLostByProfileId } from './getTotalUnitsLostByProfileId';
-import { getTotalWinsByProfileId } from './getTotalWinsByUserProfileId';
+import { getOpponentsByUserProfileId } from './getOpponentsByUserProfileId';
+import { getTotalPointsByUserProfileId } from './getTotalPointsByUserProfileId';
+import { getTotalUnitsDestroyedByUserProfileId } from './getTotalUnitsDestroyedByUserProfileId';
+import { getTotalUnitsLostByUserProfileId } from './getTotalUnitsLostByUserProfileId';
+import { getTotalWinsByUserProfileId } from './getTotalWinsByUserProfileId';
 
 const flamesOfWarV4Utils = {
   aggregateCompetitorResults,
   calculateMatchScore,
-  getOpponentsByProfileId,
-  getTotalPointsByProfileId,
-  getTotalUnitsDestroyedByProfileId,
-  getTotalUnitsLostByProfileId,
-  getTotalWinsByProfileId,
+  getOpponentsByUserProfileId,
+  getTotalPointsByUserProfileId,
+  getTotalUnitsDestroyedByUserProfileId,
+  getTotalUnitsLostByUserProfileId,
+  getTotalWinsByUserProfileId,
 };
 
 export default flamesOfWarV4Utils;

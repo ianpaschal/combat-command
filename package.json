@@ -44,6 +44,7 @@
     "@tanstack/react-store": "^0.7.0",
     "@tanstack/store": "^0.7.0",
     "@types/iso-3166-2": "^1.0.3",
+    "change-case": "^5.4.4",
     "classnames": "^2.5.1",
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",

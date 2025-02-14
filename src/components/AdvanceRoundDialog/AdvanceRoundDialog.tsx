@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { Dialog } from '~/components/generic/Dialog';
 import { ScrollArea } from '~/components/generic/ScrollArea';
 import { useFetchMatchResultList } from '~/services/matchResults/useFetchMatchResultList';
-import { useCreateTournamentPairingsBulk } from '~/services/tournamentPairings/createTournamentPairingsBulk';
+import { useCreateTournamentPairing } from '~/services/tournamentPairings/createTournamentPairing';
 import { useFetchTournamentFull } from '~/services/tournaments/fetchTournamentFull';
 import { useUpdateTournament } from '~/services/tournaments/updateTournament';
 import { FowV4RankingFactor } from '~/types/fowV4/fowV4RankingFactorSchema';
@@ -31,7 +31,7 @@ export const AdvanceRoundDialog = ({
 
   // Save data
   const updateTournament = useUpdateTournament();
-  const createTournamentPairings = useCreateTournamentPairingsBulk();
+  const createTournamentPairings = useCreateTournamentPairing();
 
   // const thisRound = tournament?.current_round;
   const nextRound = typeof tournament?.current_round === 'number' ? tournament?.current_round + 1 : 0;
