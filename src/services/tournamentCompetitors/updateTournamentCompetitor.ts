@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { toast } from '~/components/ToastProvider';
-import { getUpdater } from '~/services/factory/getUpdater';
+import { getUpdateHandler } from '~/services/factory/getUpdateHandler';
 import { handleError } from '~/services/handleError';
 import { TournamentCompetitorRow } from '~/types/db';
 
@@ -15,7 +15,7 @@ export type UpdateTournamentCompetitorInput = Omit<TournamentCompetitorRow, 'cre
  * @param input - The updated tournament competitor.
  * @returns - The ID of the updated tournament competitor.
  */
-export const updateTournamentCompetitor = getUpdater<UpdateTournamentCompetitorInput>('tournament_competitors');
+export const updateTournamentCompetitor = getUpdateHandler<UpdateTournamentCompetitorInput>('tournament_competitors');
 
 /**
  * Mutation hook to update a tournament competitor.

@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { getFetcher, getListFetcher } from '~/services/factory/getFetcher';
+import { getFetcher, getListFetcher } from '~/services/factory/getFetchHandler';
 import { supabase } from '~/supabaseClient';
 import {
   PlayerRow,
@@ -25,10 +25,13 @@ const baseQuery = supabase.from('tournament_competitors').select(`
   *,
   players(
     *,
-    user_profile: user_profiles_secure!profile_id (*)
+    user_profile: user_profiles_secure!user_profile_id (*)
   )
 `);
 
+/**
+ * Fetches a single tournament competitor from the database.
+ */
 export const fetchTournamentCompetitor = getFetcher<FetchTournamentCompetitorResponse>(baseQuery);
 
 /**
@@ -49,9 +52,16 @@ export const useFetchTournamentCompetitor = (
 /**
  * Input params for fetching a tournament competitor list.
  */
-export interface FetchTournamentCompetitorListParams {}
+export interface FetchTournamentCompetitorListParams {
+  tournamentId?: string;
+}
 
-export const fetchTournamentCompetitorList = getListFetcher<FetchTournamentCompetitorListParams, FetchTournamentCompetitorResponse>(baseQuery, {});
+/**
+ * Fetches a list of tournament competitors from the database.
+ */
+export const fetchTournamentCompetitorList = getListFetcher<FetchTournamentCompetitorListParams, FetchTournamentCompetitorResponse>(baseQuery, {
+  tournamentId: 'tournament_id',
+});
 
 /**
  * Query hook to fetch list of tournament competitors.

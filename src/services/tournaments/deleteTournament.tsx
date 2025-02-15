@@ -1,32 +1,28 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import { toast } from '~/components/ToastProvider';
+import { getDeleteHandler } from '~/services/factory/getDeleteHandler';
 import { handleError } from '~/services/handleError';
-import { supabase } from '~/supabaseClient';
-import { TournamentRow } from '~/types/db';
-
-export type DeleteTournamentInput = Partial<TournamentRow> & { id: string };
-
-export const deleteTournament = async (id: string): Promise<void> => {
-  const { error } = await supabase
-    .from('tournaments')
-    .delete()
-    .eq('id', id);
-  if (error) {
-    throw error;
-  }
-};
 
 /**
- * Custom hook to create a deleteTournament function.
+ * Deletes a tournament in the database.
  * 
- * @returns - A function which deletes a tournament by ID
+ * @param input - The ID of the tournament to delete.
+ * @returns - The ID of the deleted tournament.
+ */
+export const deleteTournament = getDeleteHandler('tournaments');
+
+/**
+ * Mutation hook to delete a tournament.
  */
 export const useDeleteTournament = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: deleteTournament,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['tournaments_list'] });
+    onSuccess: (id) => {
+      queryClient.invalidateQueries({ queryKey: ['tournaments', 'list'] });
+      queryClient.invalidateQueries({ queryKey: ['tournaments', 'single', id] });
+      toast.success('Tournament deleted!');
     },
     onError: handleError,
   });

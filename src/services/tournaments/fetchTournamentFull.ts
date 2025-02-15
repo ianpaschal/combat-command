@@ -15,14 +15,14 @@ export const fetchTournamentFull = async (id: string): Promise<TournamentDeep> =
           *,
           players (
             *,
-            profile: user_profiles_secure!profile_id (*)
+            profile: user_profiles_secure!user_profile_id (*)
           )
         ),
         competitor_1: tournament_competitors!competitor_1_id (
           *,
           players (
             *,
-            profile: user_profiles_secure!profile_id (*)
+            profile: user_profiles_secure!user_profile_id (*)
           )
         )
       ),
@@ -30,7 +30,7 @@ export const fetchTournamentFull = async (id: string): Promise<TournamentDeep> =
         *,
         players (
           *,
-          profile: user_profiles_secure!profile_id (*)
+          profile: user_profiles_secure!user_profile_id (*)
         )
       ),
       timers: tournament_timers!left (*)

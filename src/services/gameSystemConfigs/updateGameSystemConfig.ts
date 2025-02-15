@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { toast } from '~/components/ToastProvider';
-import { getUpdater } from '~/services/factory/getUpdater';
+import { getUpdateHandler } from '~/services/factory/getUpdateHandler';
 import { handleError } from '~/services/handleError';
 import { GameSystemConfigRow } from '~/types/db';
 
@@ -16,7 +16,7 @@ export type UpdateGameSystemConfigInput = Omit<GameSystemConfigRow, 'created_at'
  * @param input - The updated game system config.
  * @returns - The ID of the updated game system config.
  */
-export const updateGameSystemConfig = getUpdater<UpdateGameSystemConfigInput>('game_system_configs');
+export const updateGameSystemConfig = getUpdateHandler<UpdateGameSystemConfigInput>('game_system_configs');
 
 /**
  * Mutation hook to update a game system config.

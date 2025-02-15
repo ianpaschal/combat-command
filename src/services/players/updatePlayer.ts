@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { toast } from '~/components/ToastProvider';
-import { getUpdater } from '~/services/factory/getUpdater';
+import { getUpdateHandler } from '~/services/factory/getUpdateHandler';
 import { handleError } from '~/services/handleError';
 import { PlayerRow } from '~/types/db';
 
@@ -16,7 +16,7 @@ export type UpdatePlayerInput = Omit<PlayerRow, 'created_at' | 'updated_at'>;
  * @param input - The updated player.
  * @returns - The ID of the updated player.
  */
-export const updatePlayer = getUpdater<UpdatePlayerInput>('players');
+export const updatePlayer = getUpdateHandler<UpdatePlayerInput>('players');
 
 /**
  * Mutation hook to update a player.

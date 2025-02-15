@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { toast } from '~/components/ToastProvider';
-import { getCreator } from '~/services/factory/getCreator';
+import { getCreateHandler } from '~/services/factory/getCreateHandler';
 import { handleError } from '~/services/handleError';
 import { createPlayer, CreatePlayerInput } from '~/services/players/createPlayer';
 import { TournamentCompetitorRow } from '~/types/db';
@@ -19,7 +19,7 @@ export type CreateTournamentCompetitorInput = Omit<TournamentCompetitorRow, 'id'
  * @param input - The tournament competitors to insert.
  * @returns - The newly created tournament competitors.
  */
-export const createTournamentCompetitor = getCreator<CreateTournamentCompetitorInput, TournamentCompetitorRow>('tournament_competitors');
+export const createTournamentCompetitor = getCreateHandler<CreateTournamentCompetitorInput, TournamentCompetitorRow>('tournament_competitors');
 
 /**
  * Mutation hook to create a tournament competitor.

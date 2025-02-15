@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { toast } from '~/components/ToastProvider';
-import { getCreator } from '~/services/factory/getCreator';
+import { getCreateHandler } from '~/services/factory/getCreateHandler';
 import { handleError } from '~/services/handleError';
 import { GameSystemConfigRow } from '~/types/db';
 
@@ -16,7 +16,7 @@ export type CreateGameSystemConfigInput = Omit<GameSystemConfigRow, 'id' | 'crea
  * @param input - The game system config(s) to insert.
  * @returns - The newly created game system config(s).
  */
-export const createGameSystemConfig = getCreator<CreateGameSystemConfigInput, GameSystemConfigRow>('game_system_configs');
+export const createGameSystemConfig = getCreateHandler<CreateGameSystemConfigInput, GameSystemConfigRow>('game_system_configs');
 
 /**
  * Mutation hook to create one or several game system configs.

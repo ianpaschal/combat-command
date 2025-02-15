@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { toast } from '~/components/ToastProvider';
-import { getCreator } from '~/services/factory/getCreator';
+import { getCreateHandler } from '~/services/factory/getCreateHandler';
 import { handleError } from '~/services/handleError';
 import { PlayerRow } from '~/types/db';
 
@@ -16,7 +16,7 @@ export type CreatePlayerInput = Omit<PlayerRow, 'id' | 'created_at' | 'updated_a
  * @param input - The player(s) to insert.
  * @returns - The newly created player(s).
  */
-export const createPlayer = getCreator<CreatePlayerInput, PlayerRow>('players');
+export const createPlayer = getCreateHandler<CreatePlayerInput, PlayerRow>('players');
 
 /**
  * Mutation hook to create one or several players.

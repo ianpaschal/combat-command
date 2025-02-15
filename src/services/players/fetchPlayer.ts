@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { getFetcher, getListFetcher } from '~/services/factory/getFetcher';
+import { getFetcher, getListFetcher } from '~/services/factory/getFetchHandler';
 import { supabase } from '~/supabaseClient';
 import {
   PlayerRow,
@@ -26,6 +26,9 @@ const baseQuery = supabase.from('players').select(`
   tournament_competitor: tournament_competitors!tournament_competitor_id (*)
 `);
 
+/**
+ * Fetches a single player from the database.
+ */
 export const fetchPlayer = getFetcher<FetchPlayerResponse>(baseQuery);
 
 /**
@@ -48,6 +51,9 @@ export const useFetchPlayer = (
  */
 export interface FetchPlayerListParams {}
 
+/**
+ * Fetches a list of players from the database.
+ */
 export const fetchPlayerList = getListFetcher<FetchPlayerListParams, FetchPlayerResponse>(baseQuery, {});
 
 /**

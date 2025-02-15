@@ -1,6 +1,6 @@
 import { supabase } from '~/supabaseClient';
 
-export const getCreator = <T extends object, V extends object>(tableName: string) => {
+export const getCreateHandler = <T extends object, V extends object>(tableName: string) => {
   async function create(input: T): Promise<V>;
   async function create(input: T[]): Promise<V[]>;
   async function create(input: T | T[]): Promise<V | V[]> {

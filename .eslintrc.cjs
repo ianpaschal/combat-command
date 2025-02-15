@@ -20,12 +20,13 @@ module.exports = {
     // Style
     '@stylistic/js/comma-dangle': ["error", "always-multiline"],
     '@stylistic/js/no-multi-spaces': "error",
-    '@stylistic/js/no-multiple-empty-lines': ['error', { max: 1, maxBOF: 0, maxEOF: 1 }],
+    '@stylistic/js/no-multiple-empty-lines': ['error', { max: 1, maxBOF: 0, maxEOF: 0 }],
     '@stylistic/ts/indent': ['error', 2],
     '@stylistic/ts/object-curly-spacing': ['error', 'always'],
     '@stylistic/ts/semi': 'error',
     '@stylistic/ts/quotes': ['error', 'single'],
     '@stylistic/js/jsx-quotes': ["error", "prefer-double"],
+    '@stylistic/js/eol-last': ["error", "always"],
 
     // Replace JS rules with TS rules:
     'quotes': 'off',

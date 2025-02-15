@@ -29,6 +29,7 @@ import { TournamentMatchResultsSection } from '~/pages/TournamentDetailPage/Tour
 import { TournamentPairingsSection } from '~/pages/TournamentDetailPage/TournamentPairingsSection';
 import { TournamentRoundTimer } from '~/pages/TournamentDetailPage/TournamentRoundTimer';
 import { useFetchMatchResultList } from '~/services/matchResults/useFetchMatchResultList';
+import { useFetchTournamentPairingList } from '~/services/tournamentPairings/fetchTournamentPairing';
 import { useFetchTournamentFull } from '~/services/tournaments/fetchTournamentFull';
 import { MIN_WIDTH_DESKTOP } from '~/settings';
 import { FowV4RankingFactor } from '~/types/fowV4/fowV4RankingFactorSchema';
@@ -47,6 +48,8 @@ export const TournamentDetailPage = (): JSX.Element => {
 
   const { data: tournament } = useFetchTournamentFull(tournamentId);
   const { data: matches } = useFetchMatchResultList({ tournamentId });
+
+  console.log(tournament);
 
   const [tab, setTab] = useState<string>('rankings');
 
@@ -76,6 +79,7 @@ export const TournamentDetailPage = (): JSX.Element => {
     matches || [],
     flamesOfWarV4Utils.aggregateCompetitorResults,
   ) : [];
+
   return (
     <PageWrapper title={tournament?.title} showBackButton fitToWindow>
       {tournament && (

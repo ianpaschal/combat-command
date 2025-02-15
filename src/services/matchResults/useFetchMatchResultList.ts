@@ -41,7 +41,7 @@ export const useFetchMatchResultList = (
 ) => useQuery({
   queryKey: ['match_results', 'list', params],
   queryFn: async (): Promise<FetchMatchResultListResponse> => {
-    const { data, error } = await applySupabaseFilters(fetchMatchResultBaseQuery, params, paramsColumnMap);
+    const { data, error } = await applySupabaseFilters(fetchMatchResultBaseQuery, paramsColumnMap, params);
     if (error) {
       throw error;
     }

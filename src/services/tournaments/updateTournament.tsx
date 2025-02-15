@@ -1,28 +1,34 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import { toast } from '~/components/ToastProvider';
+import { getUpdateHandler } from '~/services/factory/getUpdateHandler';
 import { handleError } from '~/services/handleError';
-import { supabase } from '~/supabaseClient';
 import { TournamentRow } from '~/types/db';
 
-export type UpdateTournamentInput = Partial<TournamentRow> & { id: string };
+/**
+ * Input to update a tournament.
+ */
+export type UpdateTournamentInput = Omit<TournamentRow, 'created_at' | 'updated_at'>;
 
-export const updateTournament = async ({ id, ...data }: UpdateTournamentInput): Promise<void> => {
-  const { error } = await supabase
-    .from('tournaments')
-    .update(data)
-    .eq('id', id);
-  if (error) {
-    throw error;
-  }
-};
+/**
+ * Updates a tournament in the database.
+ * 
+ * @param input - The updated tournament.
+ * @returns - The ID of the updated tournament.
+ */
+export const updateTournament = getUpdateHandler<UpdateTournamentInput>('tournaments');
 
+/**
+ * Mutation hook to update a tournament.
+ */
 export const useUpdateTournament = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: updateTournament,
-    onSuccess: (_data, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['tournaments_list'] });
-      queryClient.invalidateQueries({ queryKey: ['tournament_full', variables.id] });
+    onSuccess: (id) => {
+      queryClient.invalidateQueries({ queryKey: ['tournaments', 'list'] });
+      queryClient.invalidateQueries({ queryKey: ['tournaments', 'single', id] });
+      toast.success('Tournament updated!');
     },
     onError: handleError,
   });

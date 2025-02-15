@@ -9,8 +9,8 @@ import {
 import { InputSelect } from '~/components/generic/InputSelect';
 import { Label } from '~/components/generic/Label';
 import { PairingCell } from '~/components/PairingCell';
+import { useFetchTournamentPairingList } from '~/services/tournamentPairings/fetchTournamentPairing';
 import { TournamentPairingsResponse } from '~/services/tournaments/fetchTournamentPairings';
-import { useFetchTournamentParingsByTournamentId } from '~/services/tournaments/fetchTournamentPairingsByTournamentId';
 
 import styles from './TournamentPairingsSection.module.scss';
 
@@ -21,7 +21,7 @@ export interface TournamentPairingsSectionProps {
 export const TournamentPairingsSection = ({
   tournamentId,
 }: TournamentPairingsSectionProps): JSX.Element => {
-  const { data: pairings } = useFetchTournamentParingsByTournamentId(tournamentId);
+  const { data: pairings } = useFetchTournamentPairingList({ tournamentId });
 
   const [round, setRound] = useState<number>(0);
 

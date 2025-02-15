@@ -17,7 +17,7 @@ describe('applySupabaseFilters', () => {
     const filters = { status: 'active' };
     const mapping = { status: 'status_column' };
 
-    applySupabaseFilters(mockQuery, filters, mapping);
+    applySupabaseFilters(mockQuery, mapping, filters);
 
     expect(mockQuery.eq).toHaveBeenCalledWith('status_column', 'active');
   });
@@ -26,7 +26,7 @@ describe('applySupabaseFilters', () => {
     const filters = { status: ['active', 'inactive'] };
     const mapping = { status: 'status_column' };
 
-    applySupabaseFilters(mockQuery, filters, mapping);
+    applySupabaseFilters(mockQuery, mapping, filters);
 
     expect(mockQuery.in).toHaveBeenCalledWith('status_column', ['active', 'inactive']);
   });
@@ -35,7 +35,7 @@ describe('applySupabaseFilters', () => {
     const filters = { name: 'John' };
     const mapping = { name: ['first_name', 'last_name'] };
 
-    applySupabaseFilters(mockQuery, filters, mapping);
+    applySupabaseFilters(mockQuery, mapping, filters);
 
     expect(mockQuery.or).toHaveBeenCalledWith('first_name.eq.John,last_name.eq.John');
   });
@@ -44,7 +44,7 @@ describe('applySupabaseFilters', () => {
     const filters = { status: undefined };
     const mapping = { status: 'status_column' };
 
-    applySupabaseFilters(mockQuery, filters, mapping);
+    applySupabaseFilters(mockQuery, mapping, filters);
 
     expect(mockQuery.eq).not.toHaveBeenCalled();
     expect(mockQuery.in).not.toHaveBeenCalled();
@@ -53,6 +53,14 @@ describe('applySupabaseFilters', () => {
 
   it('handles an empty filter object', () => {
     applySupabaseFilters(mockQuery, {}, {});
+
+    expect(mockQuery.eq).not.toHaveBeenCalled();
+    expect(mockQuery.in).not.toHaveBeenCalled();
+    expect(mockQuery.or).not.toHaveBeenCalled();
+  });
+
+  it('handles a missing filter object', () => {
+    applySupabaseFilters(mockQuery, {});
 
     expect(mockQuery.eq).not.toHaveBeenCalled();
     expect(mockQuery.in).not.toHaveBeenCalled();

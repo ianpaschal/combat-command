@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { toast } from '~/components/ToastProvider';
-import { getCreator } from '~/services/factory/getCreator';
+import { getCreateHandler } from '~/services/factory/getCreateHandler';
 import { handleError } from '~/services/handleError';
 import { TournamentPairingRow } from '~/types/db';
 
@@ -16,7 +16,7 @@ export type CreateTournamentPairingInput = Omit<TournamentPairingRow, 'id' | 'cr
  * @param input - The tournament pairings to insert.
  * @returns - The newly created tournament pairings.
  */
-export const createTournamentPairing = getCreator<CreateTournamentPairingInput, TournamentPairingRow>('tournament_pairings');
+export const createTournamentPairing = getCreateHandler<CreateTournamentPairingInput, TournamentPairingRow>('tournament_pairings');
 
 /**
  * Mutation hook to create a tournament pairing.
