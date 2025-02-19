@@ -18,15 +18,16 @@ module.exports = {
   rules: {
 
     // Style
+    '@stylistic/js/brace-style': "error",
     '@stylistic/js/comma-dangle': ["error", "always-multiline"],
+    '@stylistic/js/eol-last': ["error", "always"],
+    '@stylistic/js/jsx-quotes': ["error", "prefer-double"],
     '@stylistic/js/no-multi-spaces': "error",
     '@stylistic/js/no-multiple-empty-lines': ['error', { max: 1, maxBOF: 0, maxEOF: 0 }],
     '@stylistic/ts/indent': ['error', 2],
     '@stylistic/ts/object-curly-spacing': ['error', 'always'],
-    '@stylistic/ts/semi': 'error',
     '@stylistic/ts/quotes': ['error', 'single'],
-    '@stylistic/js/jsx-quotes': ["error", "prefer-double"],
-    '@stylistic/js/eol-last': ["error", "always"],
+    '@stylistic/ts/semi': 'error',
 
     // Replace JS rules with TS rules:
     'quotes': 'off',
@@ -36,7 +37,6 @@ module.exports = {
 
     // Misc.
     "arrow-body-style": ["error", "as-needed"],
-
 
     // Plugin configurations
     'import-newlines/enforce': ['error', 2],

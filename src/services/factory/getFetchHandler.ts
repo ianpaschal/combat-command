@@ -1,12 +1,14 @@
-import {
-  applySupabaseFilters,
-  SupabaseFilterColumn,
-  SupabaseQuery,
-} from '~/services/utils/applySupabaseFilters';
+import { applySupabaseFilters, SupabaseFilterColumn } from '~/services/utils/applySupabaseFilters';
+import { supabase } from '~/supabaseClient';
 
-export const getFetcher = <T extends object>(baseQuery: SupabaseQuery) => (
-  async (id: string): Promise<T> => {
-    const { data, error } = await baseQuery.eq('id', id).single();
+/**
+ * T - the Row type
+ * @param baseQuery 
+ * @returns 
+ */
+export const getFetcher = <Row extends object>(tableName: string) => (
+  async (id: string): Promise<Row> => {
+    const { data, error } = await supabase.from(tableName).select('*').eq('id', id).single();
     if (error) {
       throw error;
     }
@@ -14,11 +16,21 @@ export const getFetcher = <T extends object>(baseQuery: SupabaseQuery) => (
   }
 );
 
+/**
+ * 
+ * @param baseQuery 
+ * @param paramsColumnMap 
+ * @returns 
+ * 
+ * T - the params type
+ * U - the row type
+ */
 export const getListFetcher = <T extends object, U extends object>(
-  baseQuery: SupabaseQuery,
-  paramsColumnMap: Record<keyof T, SupabaseFilterColumn>,
+  tableName: string,
+  paramsColumnMap: Record<keyof T, SupabaseFilterColumn<U>>,
 ) => (
   async (params?: T): Promise<U[]> => {
+    const baseQuery = supabase.from(tableName).select('*');
     const { data, error } = await applySupabaseFilters(baseQuery, paramsColumnMap, params);
     if (error) {
       throw error;

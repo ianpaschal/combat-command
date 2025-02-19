@@ -1,4 +1,4 @@
-import { FetchMatchResultResponse } from '~/services/matchResults/fetchMatchResultBaseQuery';
+import { MatchResultRowFilterableRow } from '~/services/matchResults/fetchMatchResultBaseQuery';
 import { calculateMatchScore } from './calculateMatchScore';
 
 describe('calculateMatchScore', () => {
@@ -9,7 +9,7 @@ describe('calculateMatchScore', () => {
         player_0_units_lost: 1,
         player_1_units_lost: 5,
       },
-    } as FetchMatchResultResponse;
+    } as MatchResultRowFilterableRow;
     expect(calculateMatchScore(matchResult)).toEqual([8, 1]);
   });
 
@@ -20,7 +20,7 @@ describe('calculateMatchScore', () => {
         player_0_units_lost: 2,
         player_1_units_lost: 5,
       },
-    } as FetchMatchResultResponse;
+    } as MatchResultRowFilterableRow;
     expect(calculateMatchScore(matchResult)).toEqual([7, 2]);
   });
 
@@ -31,7 +31,7 @@ describe('calculateMatchScore', () => {
         player_0_units_lost: 3,
         player_1_units_lost: 5,
       },
-    } as FetchMatchResultResponse;
+    } as MatchResultRowFilterableRow;
     expect(calculateMatchScore(matchResult)).toEqual([6, 3]);
   });
 
@@ -42,7 +42,7 @@ describe('calculateMatchScore', () => {
         player_1_units_lost: 1,
         player_0_units_lost: 5,
       },
-    } as FetchMatchResultResponse;
+    } as MatchResultRowFilterableRow;
     expect(calculateMatchScore(matchResult)).toEqual([1, 8]);
   });
 
@@ -53,7 +53,7 @@ describe('calculateMatchScore', () => {
         player_1_units_lost: 2,
         player_0_units_lost: 5,
       },
-    } as FetchMatchResultResponse;
+    } as MatchResultRowFilterableRow;
     expect(calculateMatchScore(matchResult)).toEqual([2, 7]);
   });
 
@@ -64,7 +64,7 @@ describe('calculateMatchScore', () => {
         player_1_units_lost: 3,
         player_0_units_lost: 5,
       },
-    } as FetchMatchResultResponse;
+    } as MatchResultRowFilterableRow;
     expect(calculateMatchScore(matchResult)).toEqual([3, 6]);
   });
 
@@ -75,7 +75,7 @@ describe('calculateMatchScore', () => {
         player_0_units_lost: 2,
         player_1_units_lost: 3,
       },
-    } as FetchMatchResultResponse;
+    } as MatchResultRowFilterableRow;
     expect(calculateMatchScore(matchResult)).toEqual([3, 2]);
   });
 
@@ -86,7 +86,7 @@ describe('calculateMatchScore', () => {
         player_0_units_lost: 5,
         player_1_units_lost: 4,
       },
-    } as FetchMatchResultResponse;
+    } as MatchResultRowFilterableRow;
     expect(calculateMatchScore(matchResult)).toEqual([3, 3]);
   });
 
@@ -97,7 +97,7 @@ describe('calculateMatchScore', () => {
         player_0_units_lost: 0,
         player_1_units_lost: -1,
       },
-    } as FetchMatchResultResponse;
+    } as MatchResultRowFilterableRow;
     expect(calculateMatchScore(matchResult)).toEqual([1, 1]);
   });
 });

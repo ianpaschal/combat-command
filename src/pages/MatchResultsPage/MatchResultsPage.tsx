@@ -10,16 +10,40 @@ import { useAuth } from '~/components/AuthProvider';
 import { CheckInMatchDialog } from '~/components/CheckInMatchDialog';
 import { FloatingActionButton } from '~/components/FloatingActionButton';
 import { Button } from '~/components/generic/Button';
+import { Card } from '~/components/generic/Card';
 import { InputText } from '~/components/generic/InputText';
 import { PageWrapper } from '~/components/PageWrapper';
+import { useFetchMatchResultList } from '~/services/matchResults';
+// import { useFetchMatchResultExp, useFetchMatchResultExpList } from '~/services/matchResults/useFetchMatchResultExp';
+import { useFetchPlayer, useFetchPlayerList } from '~/services/players';
 import { MIN_WIDTH_TABLET } from '~/settings';
 
 import styles from './MatchResultsPage.module.scss';
 
 export const MatchResultsPage = (): JSX.Element => {
-  const { user } = useAuth();
+  const { user, profileId } = useAuth();
   const showAddMatchResultButton = !!user;
   const showButtonText = useWindowWidth() > MIN_WIDTH_TABLET;
+
+  // const { data: matchResults } = useFetchMatchResultList({
+  //   userProfileId: profileId ? profileId : undefined,
+  // });
+
+  // const { data: match } = useFetchMatchResultExp('15584a68-c43a-42f0-9823-7f92c33f5b66');
+  // const { data: match } = useFetchMatchResultExp(1);
+  // const { data: match } = useFetchMatchResultExpList();
+  // console.log(match);
+
+  const { data: matchResults } = useFetchMatchResultList({
+    user_profile_id: profileId,
+  });
+  console.log('matchResultList', matchResults);
+
+  const { data: playerSingle } = useFetchPlayer('007639b8-2da0-44fb-a7d4-6b0a27668601');
+  console.log('playerSingle', playerSingle);
+
+  const { data: playerList } = useFetchPlayerList();
+  console.log('playerList', playerList);
 
   return (
     <PageWrapper title="Match Results">
@@ -41,15 +65,17 @@ export const MatchResultsPage = (): JSX.Element => {
           </Popover.Portal>
         </Popover.Root>
       </div>
-      {/* {tournaments && (
+      {matchResults && (
         <div className={styles.List}>
-          {tournaments.map((tournament) => (
-            <Card key={tournament.id} disablePadding>
-              <TournamentCard tournament={tournament} />
+          {matchResults.map((matchResult) => (
+            <Card key={matchResult.id}>
+              <pre>
+                {JSON.stringify(matchResult, null, 2)}
+              </pre>
             </Card>
           ))}
         </div>
-      )} */}
+      )}
       {showAddMatchResultButton && (
         <CheckInMatchDialog>
           <FloatingActionButton>

@@ -1,6 +1,11 @@
 import { Database, Tables } from '~/types/__generated__/database.types';
+import { FowV4MatchResultDetails } from '~/types/db/FowV4MatchResultDetails';
 import { TournamentPairingDeep } from '~/types/db/TournamentPairings';
 import { FowV4GameSystemConfig } from '~/types/fowV4/fowV4GameSystemConfigSchema';
+
+export type Views<T extends keyof Database['public']['Views']> = Database['public']['Views'][T]['Row'];
+
+type Override<Type, NewType extends { [key in keyof Type]?: NewType[key] }> = Omit<Type, keyof NewType> & NewType;
 
 /**
  * Raw game system config row from the database.
@@ -44,14 +49,81 @@ export type TournamentTimerRow = Tables<'tournament_timers'>;
  */
 export type UserProfileRow = Tables<'user_profiles'>;
 
+// VIEWS
+// -------------------------------------------------------------------------------------------------
+
 /**
- * Raw user profile (secure) row from the database.
+ * Match result (filterable) DB row with improved JSON columns and non-nullable fields.
  */
-export type UserProfileSecureRow = Database['public']['Views']['user_profiles_secure']['Row'] & {
-  id: string; // ID ALWAYS exists!
-};
+export type MatchResultFilterableRow = Override<Views<'match_results_filterable'>, {
+  id: string;
+  created_at: string;
+  player_0: {
+    id: string;
+    user_profile: UserProfileSecureRow;
+    tournament_competitor: TournamentCompetitorRow;
+  };
+  player_1: {
+    id: string;
+    user_profile: UserProfileSecureRow;
+    tournament_competitor: TournamentCompetitorRow;
+  };
+  game_system_config: GameSystemConfigRow;
+  details: FowV4MatchResultDetails;
+}>;
+
+/**
+ * Player (filterable) DB row with improved JSON columns and non-nullable fields.
+ */
+export type PlayerFilterableRow = Override<Views<'players_filterable'>, {
+  id: string;
+  created_at: string;
+  user_profile: UserProfileSecureRow;
+  tournament_competitor: TournamentCompetitorRow;
+}>;
+
+/**
+ * Tournament competitor (filterable) DB row with improved JSON columns and non-nullable fields.
+ */
+export type TournamentCompetitorFilterableRow = Override<Views<'tournament_competitors_filterable'>, {
+  id: string;
+  created_at: string;
+  players: ({
+    id: string;
+    user_profile: UserProfileSecureRow;
+  })[];
+}>;
+
+/**
+ * Tournament pairing (filterable) DB row with improved JSON columns and non-nullable fields.
+ */
+export type TournamentPairingFilterableRow = Override<Views<'tournament_pairings_filterable'>, {
+  id: string;
+  created_at: string;
+  tournament_competitor_0: Omit<TournamentCompetitorRow, 'tournament_id'> & {
+    players: ({
+      id: string;
+      user_profile: UserProfileSecureRow;
+    })[];
+  };
+  tournament_competitor_1: Omit<TournamentCompetitorRow, 'tournament_id'> & {
+    players: ({
+      id: string;
+      user_profile: UserProfileSecureRow;
+    })[];
+  };
+}>;
+
+/**
+ * User profile (secure) DB row with improved JSON columns and non-nullable fields.
+ */
+export type UserProfileSecureRow = Override<Views<'user_profiles_secure'>, {
+  id: string;
+  created_at: string;
+}>;
 
 // ...
+// -------------------------------------------------------------------------------------------------
 
 // Deep nested results
 export interface TournamentCompetitorDeep extends TournamentCompetitorRow {
@@ -66,4 +138,3 @@ export interface TournamentDeep extends TournamentRow {
   competitors: TournamentCompetitorDeep[];
   timers: TournamentTimerRow[];
 }
-

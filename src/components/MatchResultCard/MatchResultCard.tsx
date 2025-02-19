@@ -9,7 +9,7 @@ import { Avatar } from '~/components/generic/Avatar';
 import { BadgeConfig } from '~/components/generic/Avatar/Avatar';
 import { Card } from '~/components/generic/Card';
 import { UserPortrait } from '~/components/UserPortrait';
-import { FetchMatchResultResponse } from '~/services/matchResults/fetchMatchResultBaseQuery';
+import { MatchResultRowFilterableRow } from '~/services/matchResults/fetchMatchResultBaseQuery';
 import { fowV4MatchOutcomeTypeLabels } from '~/types/fowV4/fowV4MatchOutcomeTypeSchema';
 import { getUserDisplayName } from '~/utils/common/getUserDisplayName';
 import { createCn } from '~/utils/componentLib/createCn';
@@ -20,7 +20,7 @@ import './MatchResultCard.scss';
 
 const cn = createCn('MatchResultCard');
 
-export type MatchData = Omit<FetchMatchResultResponse, 'id' | 'created_at' | 'updated_at' | 'game_system_config' | 'game_system_config_id'> & {
+export type MatchData = Omit<MatchResultRowFilterableRow, 'id' | 'created_at' | 'updated_at' | 'game_system_config' | 'game_system_config_id'> & {
   id?: string;
 };
 

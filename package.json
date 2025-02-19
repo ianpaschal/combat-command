@@ -12,7 +12,9 @@
     "lint:scss": "stylelint '**/*.scss'",
     "test": "jest",
     "preview": "vite preview",
-    "gen:types": "npx supabase gen types --lang=typescript --project-id xvlbnnhmiwlmrrkercbn --schema public > ./src/types/__generated__/database.types.ts"
+    "gen:types": "npx supabase gen types --lang=typescript --project-id xvlbnnhmiwlmrrkercbn --schema public > ./src/types/__generated__/database.types.ts",
+    "gen:beTypes": "npx supabase gen types --lang=typescript --project-id xvlbnnhmiwlmrrkercbn --schema public > ./supabase/functions/_shared/__generated__/database.types.ts",
+    "deploy:api": "npx supabase functions deploy --project-ref xvlbnnhmiwlmrrkercbn"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
@@ -58,6 +60,7 @@
     "lucide-react": "^0.438.0",
     "nanoid": "^5.0.7",
     "pdfjs-dist": "^4.4.168",
+    "qs": "^6.14.0",
     "react": "^18.3.1",
     "react-day-picker": "^8.10.1",
     "react-dom": "^18.3.1",
@@ -76,6 +79,7 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "@types/jest": "^29.5.14",
+    "@types/qs": "^6.9.18",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^7.15.0",
@@ -94,7 +98,7 @@
     "stylelint-config-clean-order": "^6.1.0",
     "stylelint-config-standard": "^36.0.1",
     "stylelint-config-standard-scss": "^13.1.0",
-    "supabase": "^1.207.9",
+    "supabase": "^1.226.4",
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.2.2",

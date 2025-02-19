@@ -1,4 +1,4 @@
-import { FetchMatchResultResponse } from '~/services/matchResults/fetchMatchResultBaseQuery';
+import { MatchResultFilterableRow } from '~/types/db';
 
 /**
  * Returns all opponent User Profile UUIDs for a given User Profile within a set of match results.
@@ -8,7 +8,7 @@ import { FetchMatchResultResponse } from '~/services/matchResults/fetchMatchResu
  * @returns The opponent User Profile UUIDs
  */
 export const getOpponentsByUserProfileId = (
-  matchResults: FetchMatchResultResponse[],
+  matchResults: MatchResultFilterableRow[],
   userProfileId: string,
 ): string[] => (
   matchResults.reduce((acc, match) => [

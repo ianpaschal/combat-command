@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { fetchMatchResultBaseQuery, FetchMatchResultResponse } from './fetchMatchResultBaseQuery';
+import { fetchMatchResultBaseQuery, MatchResultRowFilterableRow } from './fetchMatchResultBaseQuery';
 
 /**
  * Query hook to fetch a match result.
@@ -13,7 +13,7 @@ export const useFetchMatchResult = (
   enabled?: boolean,
 ) => useQuery({
   queryKey: ['match_results', 'single', id],
-  queryFn: async (): Promise<FetchMatchResultResponse> => {
+  queryFn: async (): Promise<MatchResultRowFilterableRow> => {
     const { data, error } = await fetchMatchResultBaseQuery.eq('id', id).single();
     if (error) {
       throw error;

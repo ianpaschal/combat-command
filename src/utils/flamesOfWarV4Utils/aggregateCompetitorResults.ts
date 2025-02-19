@@ -1,6 +1,6 @@
 import { ZodLiteral } from 'zod';
 
-import { FetchMatchResultResponse } from '~/services/matchResults/fetchMatchResultBaseQuery';
+import { MatchResultRowFilterableRow } from '~/services/matchResults/fetchMatchResultBaseQuery';
 import { FowV4RankingFactor, fowV4RankingFactorSchema } from '~/types/fowV4/fowV4RankingFactorSchema';
 import { AggregatorResult } from '~/utils/common/calculateTournamentRankings';
 import { getTotalPointsByUserProfileId } from './getTotalPointsByUserProfileId';
@@ -10,7 +10,7 @@ import { getTotalWinsByUserProfileId } from './getTotalWinsByUserProfileId';
 
 // TODO: This could be made more generic if paired with an array of keys and getter fns
 export const aggregateCompetitorResults = (
-  matchResults: FetchMatchResultResponse[],
+  matchResults: MatchResultRowFilterableRow[],
   ownProfileIds: string[],
   opponentProfileIds: string[],
 ): AggregatorResult<FowV4RankingFactor> => {

@@ -8,24 +8,8 @@ export const fetchTournamentFull = async (id: string): Promise<TournamentDeep> =
     .from('tournaments')
     .select(`
       *,
-      game_system_config: game_system_configs (data),
-      pairings: tournament_pairings (
-        *,
-        competitor_0: tournament_competitors!competitor_0_id (
-          *,
-          players (
-            *,
-            profile: user_profiles_secure!user_profile_id (*)
-          )
-        ),
-        competitor_1: tournament_competitors!competitor_1_id (
-          *,
-          players (
-            *,
-            profile: user_profiles_secure!user_profile_id (*)
-          )
-        )
-      ),
+      game_system_config: game_system_configs (*),
+      pairings: tournament_pairings (*),
       competitors: tournament_competitors (
         *,
         players (
@@ -45,7 +29,7 @@ export const fetchTournamentFull = async (id: string): Promise<TournamentDeep> =
 };
 
 export const useFetchTournamentFull = (id?: string) => useQuery({
-  queryKey: ['tournament_full', id],
+  queryKey: ['tournaments', id],
   queryFn: id ? () => fetchTournamentFull(id) : undefined,
   enabled: !!id,
 });

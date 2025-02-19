@@ -1,4 +1,4 @@
-import { FetchMatchResultResponse } from '~/services/matchResults/fetchMatchResultBaseQuery';
+import { MatchResultRowFilterableRow } from '~/services/matchResults/fetchMatchResultBaseQuery';
 
 /**
  * Returns the total number of units destroyed by a given User Profile within a set of match results.
@@ -8,7 +8,7 @@ import { FetchMatchResultResponse } from '~/services/matchResults/fetchMatchResu
  * @returns The total number of units destroyed
  */
 export const getTotalUnitsDestroyedByUserProfileId = (
-  matchResults: FetchMatchResultResponse[],
+  matchResults: MatchResultRowFilterableRow[],
   profileId: string,
 ): number => (
   matchResults.reduce((acc, result) => {

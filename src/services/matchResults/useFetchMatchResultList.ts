@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { convertNulls } from '~/utils/nullsToUndefined';
-import { applySupabaseFilters } from '../utils/applySupabaseFilters';
-import { fetchMatchResultBaseQuery, FetchMatchResultResponse } from './fetchMatchResultBaseQuery';
+import { applySupabaseFilters, FilterColumnMapping } from '../utils/applySupabaseFilters';
+import { fetchMatchResultBaseQuery, MatchResultRowFilterableRow } from './fetchMatchResultBaseQuery';
 
 /**
  * Input params for useFetchMatchResultList.
@@ -14,7 +14,7 @@ export interface FetchMatchResultListParams {
   tournamentCompetitorId?: string;
 }
 
-const paramsColumnMap: Record<keyof FetchMatchResultListParams, string|string[]> = {
+const paramsColumnMap: FilterColumnMapping<FetchMatchResultListParams> = {
   tournamentId: 'pairing.tournament_id',
   round: 'pairing.round_index',
   userProfileId: [
@@ -27,7 +27,7 @@ const paramsColumnMap: Record<keyof FetchMatchResultListParams, string|string[]>
   ],
 };
 
-export type FetchMatchResultListResponse = FetchMatchResultResponse[];
+export type FetchMatchResultListResponse = MatchResultRowFilterableRow[];
 
 /**
  * Query hook to fetch list of match results.
@@ -36,7 +36,7 @@ export type FetchMatchResultListResponse = FetchMatchResultResponse[];
  * @param enabled
  */
 export const useFetchMatchResultList = (
-  params: FetchMatchResultListParams,
+  params?: FetchMatchResultListParams,
   enabled?: boolean,
 ) => useQuery({
   queryKey: ['match_results', 'list', params],

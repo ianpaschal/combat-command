@@ -1,4 +1,4 @@
-import { FetchMatchResultResponse } from '~/services/matchResults/fetchMatchResultBaseQuery';
+import { MatchResultRowFilterableRow } from '~/services/matchResults/fetchMatchResultBaseQuery';
 import { calculateMatchScore } from './calculateMatchScore';
 import { getTotalPointsByUserProfileId } from './getTotalPointsByUserProfileId';
 
@@ -13,7 +13,7 @@ describe('getTotalPointsByUserProfileId', () => {
     const matchResults = [
       { player_0: { user_profile: { id: 'user1' } }, player_1: { user_profile: { id: 'user2' } } },
       { player_0: { user_profile: { id: 'user1' } }, player_1: { user_profile: { id: 'user3' } } },
-    ] as FetchMatchResultResponse[];
+    ] as MatchResultRowFilterableRow[];
     
     (calculateMatchScore as jest.Mock).mockReturnValueOnce([8, 1]).mockReturnValueOnce([6, 3]);
 
@@ -24,7 +24,7 @@ describe('getTotalPointsByUserProfileId', () => {
     const matchResults = [
       { player_0: { user_profile: { id: 'user1' } }, player_1: { user_profile: { id: 'user2' } } },
       { player_0: { user_profile: { id: 'user3' } }, player_1: { user_profile: { id: 'user2' } } },
-    ] as FetchMatchResultResponse[];
+    ] as MatchResultRowFilterableRow[];
     
     (calculateMatchScore as jest.Mock).mockReturnValueOnce([8, 1]).mockReturnValueOnce([6, 3]);
 
@@ -38,7 +38,7 @@ describe('getTotalPointsByUserProfileId', () => {
   it('should return 0 when the profile is not found in any matches', () => {
     const matchResults = [
       { player_0: { user_profile: { id: 'user3' } }, player_1: { user_profile: { id: 'user4' } } },
-    ] as FetchMatchResultResponse[];
+    ] as MatchResultRowFilterableRow[];
     
     (calculateMatchScore as jest.Mock).mockReturnValueOnce([8, 1]);
     

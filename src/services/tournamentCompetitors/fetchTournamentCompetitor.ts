@@ -1,38 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { getFetcher, getListFetcher } from '~/services/factory/getFetchHandler';
-import { supabase } from '~/supabaseClient';
-import {
-  PlayerRow,
-  TournamentCompetitorRow,
-  UserProfileSecureRow,
-} from '~/types/db';
-
-/**
- * Response for a tournament competitor row with relevant tables adjoined.
- */
-export interface FetchTournamentCompetitorResponse extends TournamentCompetitorRow {
-  players: PlayerRow & {
-    user_profile: UserProfileSecureRow;
-  }[];
-}
-
-/**
- * Base query used to fetch a single tournament competitor as well as a list of tournament competitors.
- * This MUST be manually kept in sync with the FetchTournamentCompetitorResponse type!
- */
-const baseQuery = supabase.from('tournament_competitors').select(`
-  *,
-  players(
-    *,
-    user_profile: user_profiles_secure!user_profile_id (*)
-  )
-`);
+import { TournamentCompetitorFilterableRow } from '~/types/db';
 
 /**
  * Fetches a single tournament competitor from the database.
  */
-export const fetchTournamentCompetitor = getFetcher<FetchTournamentCompetitorResponse>(baseQuery);
+export const fetchTournamentCompetitor = getFetcher<TournamentCompetitorFilterableRow>('tournament_competitors_filterable');
 
 /**
  * Query hook to fetch a single tournament competitor.
@@ -59,9 +33,12 @@ export interface FetchTournamentCompetitorListParams {
 /**
  * Fetches a list of tournament competitors from the database.
  */
-export const fetchTournamentCompetitorList = getListFetcher<FetchTournamentCompetitorListParams, FetchTournamentCompetitorResponse>(baseQuery, {
-  tournamentId: 'tournament_id',
-});
+export const fetchTournamentCompetitorList = getListFetcher<FetchTournamentCompetitorListParams, TournamentCompetitorFilterableRow>(
+  'tournament_competitors_filterable',
+  {
+    tournamentId: ['tournament_id', 'equals'],
+  },
+);
 
 /**
  * Query hook to fetch list of tournament competitors.
@@ -70,7 +47,7 @@ export const fetchTournamentCompetitorList = getListFetcher<FetchTournamentCompe
  * @param enabled
  */
 export const useFetchTournamentCompetitorList = (
-  params: FetchTournamentCompetitorListParams,
+  params?: FetchTournamentCompetitorListParams,
   enabled?: boolean,
 ) => useQuery({
   queryKey: ['tournament_competitors', 'list', params],

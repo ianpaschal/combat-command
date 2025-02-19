@@ -1,4 +1,4 @@
-import { FetchMatchResultResponse } from '~/services/matchResults/fetchMatchResultBaseQuery';
+import { MatchResultRowFilterableRow } from '~/services/matchResults/fetchMatchResultBaseQuery';
 import { getTotalWinsByUserProfileId } from './getTotalWinsByUserProfileId';
 
 describe('getTotalWinsByUserProfileId', () => {
@@ -6,7 +6,7 @@ describe('getTotalWinsByUserProfileId', () => {
     const matchResults = [
       { player_0: { user_profile: { id: 'user1' } }, player_1: { user_profile: { id: 'user2' } }, details: { winner: 0 } },
       { player_0: { user_profile: { id: 'user1' } }, player_1: { user_profile: { id: 'user3' } }, details: { winner: 0 } },
-    ] as FetchMatchResultResponse[];
+    ] as MatchResultRowFilterableRow[];
     
     expect(getTotalWinsByUserProfileId(matchResults, 'user1')).toBe(2);
   });
@@ -15,7 +15,7 @@ describe('getTotalWinsByUserProfileId', () => {
     const matchResults = [
       { player_0: { user_profile: { id: 'user1' } }, player_1: { user_profile: { id: 'user2' } }, details: { winner: 1 } },
       { player_0: { user_profile: { id: 'user3' } }, player_1: { user_profile: { id: 'user2' } }, details: { winner: 1 } },
-    ] as FetchMatchResultResponse[];
+    ] as MatchResultRowFilterableRow[];
     
     expect(getTotalWinsByUserProfileId(matchResults, 'user2')).toBe(2);
   });
@@ -23,7 +23,7 @@ describe('getTotalWinsByUserProfileId', () => {
   it('should return 0 when the user has no wins.', () => {
     const matchResults = [
       { player_0: { user_profile: { id: 'user1' } }, player_1: { user_profile: { id: 'user2' } }, details: { winner: 0 } },
-    ] as FetchMatchResultResponse[];
+    ] as MatchResultRowFilterableRow[];
     
     expect(getTotalWinsByUserProfileId(matchResults, 'user2')).toBe(0);
   });
