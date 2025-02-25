@@ -5,7 +5,7 @@ import { InputSelect } from '~/components/generic/InputSelect';
 import { Label } from '~/components/generic/Label';
 import { ScrollArea } from '~/components/generic/ScrollArea';
 import { MatchResultCard } from '~/components/MatchResultCard';
-import { useFetchMatchResultList } from '~/services/matchResults/useFetchMatchResultList';
+import { useFetchMatchResultList } from '~/services/matchResults/hooks/useFetchMatchResultList';
 
 import styles from './TournamentMatchResultsSection.module.scss';
 

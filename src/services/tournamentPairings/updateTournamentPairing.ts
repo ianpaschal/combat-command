@@ -1,35 +1,16 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { supabase } from '~/supabaseClient';
+import { CreateTournamentPairingInput } from './createTournamentPairing';
 
-import { toast } from '~/components/ToastProvider';
-import { getUpdateHandler } from '~/services/factory/getUpdateHandler';
-import { handleError } from '~/services/handleError';
-import { TournamentPairingRow } from '~/types/db';
+const tableName = 'tournament_pairings' as const;
 
-/**
- * Input to update a tournament pairing.
- */
-export type UpdateTournamentPairingInput = Omit<TournamentPairingRow, 'created_at' | 'updated_at'>;
+export type UpdateTournamentPairingInput = Partial<CreateTournamentPairingInput> & {
+  id: string;
+};
 
-/**
- * Updates a tournament pairing in the database.
- * 
- * @param input - The updated tournament pairing.
- * @returns - The ID of the updated tournament pairing.
- */
-export const updateTournamentPairing = getUpdateHandler<UpdateTournamentPairingInput>('tournament_pairings');
-
-/**
- * Mutation hook to update a tournament pairing.
- */
-export const useUpdateTournamentPairing = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: updateTournamentPairing,
-    onSuccess: (id) => {
-      queryClient.invalidateQueries({ queryKey: ['tournament_pairings', 'list'] });
-      queryClient.invalidateQueries({ queryKey: ['tournament_pairings', 'single', id] });
-      toast.success('Tournament pairing updated!');
-    },
-    onError: handleError,
-  });
+export const updateTournamentPairing = async ({ id, ...input }: UpdateTournamentPairingInput) => {
+  const { data, error } = await supabase.from(tableName).update(input).eq('id', id).select().single();
+  if (error) {
+    throw error;
+  }
+  return data;
 };

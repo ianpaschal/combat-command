@@ -1,4 +1,4 @@
-import { MatchResultRowFilterableRow } from '~/services/matchResults/fetchMatchResultBaseQuery';
+import { FetchMatchResultItem } from '~/services/matchResults/fetchMatchResult';
 import { TournamentCompetitorDeep, TournamentDeep } from '~/types/db';
 import { getCompetitorOpponents } from '~/utils/common/getCompetitorOpponents';
 import { getCompetitorPlayedTables } from '~/utils/common/getCompetitorPlayedTables';
@@ -14,7 +14,7 @@ export type CompetitorResult<T extends (string | number | symbol)> = {
 export type AggregatorResult<T extends (string | number | symbol)> = Record<T, number>;
 
 export type Aggregator<T extends (string | number | symbol)> =(
-  matches: MatchResultRowFilterableRow[],
+  matches: FetchMatchResultItem[],
   ownProfileIds: string[],
   opponentProfileIds: string[],
 ) => AggregatorResult<T>;
@@ -31,7 +31,7 @@ export type Aggregator<T extends (string | number | symbol)> =(
  */
 export const calculateTournamentRankings = <T extends (string | number | symbol)>(
   tournament: TournamentDeep,
-  matches: MatchResultRowFilterableRow[],
+  matches: FetchMatchResultItem[],
   aggregator: Aggregator<T>,
 ): CompetitorResult<T>[] => {
 

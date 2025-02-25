@@ -1,11 +1,11 @@
 import { supabase } from '~/supabaseClient';
 import { Tables } from '~/types/__generated__/database.types';
 
-const tableName = 'tournament_pairings' as const;
+const tableName = 'game_system_configs' as const;
 
-export type CreateTournamentPairingInput = Omit<Tables<typeof tableName>, 'id'|'created_at'|'updated_at'>;
+export type CreateGameSystemConfigInput = Omit<Tables<typeof tableName>, 'id'|'created_at'|'updated_at'>;
 
-export const createTournamentPairing = async (input: CreateTournamentPairingInput|CreateTournamentPairingInput[]) => {
+export const createGameSystemConfig = async (input: CreateGameSystemConfigInput|CreateGameSystemConfigInput[]) => {
   const isBulk = Array.isArray(input);
   const query = supabase.from(tableName).insert(isBulk ? input : [input]).select();
   const { data, error } = await (isBulk ? query : query.single());

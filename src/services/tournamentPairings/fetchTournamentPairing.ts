@@ -1,56 +1,63 @@
-import { useQuery } from '@tanstack/react-query';
+import { supabase } from '~/supabaseClient';
+import {
+  Override,
+  UserProfileSecureRow,
+  Views,
+} from '~/types/db';
 
-import { getFetcher, getListFetcher } from '~/services/factory/getFetchHandler';
-import { TournamentPairingFilterableRow } from '~/types/db';
+const tableName = 'tournament_pairings' as const;
+const filterableViewName = `${tableName}_filterable` as const;
 
-/**
- * Fetches a single tournament pairing from the database.
- */
-export const fetchTournamentPairing = getFetcher<TournamentPairingFilterableRow>('tournament_pairings_filterable');
+export type FetchTournamentPairingItem = Override<Views<typeof filterableViewName>, {
+  id: string;
+  created_at: string;
+  updated_at: string | null;
+  round_index: number;
+  table_index: number;
+  tournament_competitor_0: {
+    id: string;
+    created_at: string;
+    updated_at: string | null;
+    team_name: string | null;
+    country_code: string | null;
+    players: {
+      id: string;
+      created_at: string;
+      updated_at: string | null;
+      placeholder_name: string | null;
+      user_profile: UserProfileSecureRow;
+    }[];
+  };
+  tournament_competitor_1: {
+    id: string;
+    created_at: string;
+    updated_at: string | null;
+    team_name: string | null;
+    country_code: string | null;
+    players: {
+      id: string;
+      created_at: string;
+      updated_at: string | null;
+      placeholder_name: string | null;
+      user_profile: UserProfileSecureRow;
+    }[];
+  };
+}>;
 
-/**
- * Query hook to fetch a single tournament pairing.
- * 
- * @param id - The ID of the tournament pairing.
- * @param enabled
- */
-export const useFetchTournamentPairing = (
-  id: string,
-  enabled?: boolean,
-) => useQuery({
-  queryKey: ['tournament_pairings', 'single', id],
-  queryFn: () => fetchTournamentPairing(id),
-  enabled,
-});
+export const fetchSelect = `
+  id,
+  created_at,
+  updated_at,
+  round_index,
+  table_index,
+  tournament_competitor_0,
+  tournament_competitor_1
+`;
 
-/**
- * Input params for fetching a tournament pairing list.
- */
-export interface FetchTournamentPairingListParams {
-  tournamentId?: string;
-}
-
-/**
- * Fetches a list of tournament pairings from the database.
- */
-export const fetchTournamentPairingList = getListFetcher<FetchTournamentPairingListParams, TournamentPairingFilterableRow>(
-  'tournament_pairings_filterable',
-  {
-    tournamentId: ['tournament_id', 'equals'],
-  },
-);
-
-/**
- * Query hook to fetch list of tournament pairings.
- * 
- * @param params 
- * @param enabled
- */
-export const useFetchTournamentPairingList = (
-  params?: FetchTournamentPairingListParams,
-  enabled?: boolean,
-) => useQuery({
-  queryKey: ['tournament_pairings', 'list', params],
-  queryFn: () => fetchTournamentPairingList(params),
-  enabled,
-});
+export const fetchTournamentPairing = async (id: string) => {
+  const { data, error } = await supabase.from(filterableViewName).select(fetchSelect).eq('id', id).single();
+  if (error) {
+    throw error;
+  }
+  return data as FetchTournamentPairingItem; // TODO: Figure out how to avoid this cast. Better type generation from Supabase?
+};

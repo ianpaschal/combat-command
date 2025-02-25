@@ -1,8 +1,8 @@
 import { supabase } from '~/supabaseClient';
 
-const tableName = 'tournament_competitors' as const;
+const tableName = 'game_system_configs' as const;
 
-export const deleteTournamentCompetitor = async (id: string) => {
+export const deleteGameSystemConfig = async (id: string) => {
   const { error } = await supabase.from(tableName).delete().eq('id', id);
   if (error) {
     throw error;

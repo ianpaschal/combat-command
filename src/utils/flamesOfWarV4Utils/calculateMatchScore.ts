@@ -1,4 +1,4 @@
-import { MatchResultRowFilterableRow } from '~/services/matchResults/fetchMatchResultBaseQuery';
+import { FetchMatchResultItem } from '~/services/matchResults/fetchMatchResult';
 
 /**
  * Calculate the Victory Points (i.e. score) for a given match result.
@@ -9,7 +9,7 @@ import { MatchResultRowFilterableRow } from '~/services/matchResults/fetchMatchR
  * @param matchResult - The match result to score
  * @returns - A tuple with the scores for player 0 and 1 respectively
  */
-export const calculateMatchScore = (matchResult: MatchResultRowFilterableRow): [number, number] => {
+export const calculateMatchScore = (matchResult: FetchMatchResultItem): [number, number] => {
 
   // Player 0 Wins
   if (matchResult.details.winner === 0) {

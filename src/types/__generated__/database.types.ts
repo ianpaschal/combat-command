@@ -294,7 +294,7 @@ export type Database = {
       }
       tournament_pairings: {
         Row: {
-          created_at: string
+          created_at: string | null
           id: string
           round_index: number
           table_index: number
@@ -304,7 +304,7 @@ export type Database = {
           updated_at: string | null
         }
         Insert: {
-          created_at: string
+          created_at?: string | null
           id?: string
           round_index?: number
           table_index?: number
@@ -314,7 +314,7 @@ export type Database = {
           updated_at?: string | null
         }
         Update: {
-          created_at?: string
+          created_at?: string | null
           id?: string
           round_index?: number
           table_index?: number
@@ -675,6 +675,38 @@ export type Database = {
           table_name: string
         }
         Returns: undefined
+      }
+      get_tournaments_by_user_profile_id: {
+        Args: {
+          id: string
+        }
+        Returns: {
+          banner_url: string | null
+          competitor_count: number
+          competitor_groups: Json
+          competitor_size: number
+          created_at: string | null
+          creator_id: string
+          current_round: number | null
+          description: string | null
+          ends_at: string
+          game_system_config_id: string
+          game_system_id: string
+          id: string
+          mapbox_place_id: string | null
+          pairing_method: Database["public"]["Enums"]["pairing_method"]
+          ranking_factors: string[]
+          registrations_close_at: string
+          registrations_open: boolean
+          require_real_names: boolean
+          round_count: number
+          rules_pack_url: string | null
+          starts_at: string
+          status: Database["public"]["Enums"]["tournament_status"]
+          title: string
+          updated_at: string | null
+          use_national_teams: boolean
+        }[]
       }
     }
     Enums: {

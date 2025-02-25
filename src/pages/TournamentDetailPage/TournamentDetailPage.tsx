@@ -28,7 +28,7 @@ import { TournamentRegistrationsTable } from '~/components/TournamentRegistratio
 import { TournamentMatchResultsSection } from '~/pages/TournamentDetailPage/TournamentMatchResultsSection';
 import { TournamentPairingsSection } from '~/pages/TournamentDetailPage/TournamentPairingsSection';
 import { TournamentRoundTimer } from '~/pages/TournamentDetailPage/TournamentRoundTimer';
-import { useFetchMatchResultList } from '~/services/matchResults/useFetchMatchResultList';
+import { useFetchMatchResultList } from '~/services/matchResults/hooks/useFetchMatchResultList';
 import { useFetchTournamentPairingList } from '~/services/tournamentPairings/fetchTournamentPairing';
 import { useFetchTournamentFull } from '~/services/tournaments/fetchTournamentFull';
 import { MIN_WIDTH_DESKTOP } from '~/settings';

@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 import { Dialog } from '~/components/generic/Dialog';
 import { ScrollArea } from '~/components/generic/ScrollArea';
-import { useFetchMatchResultList } from '~/services/matchResults/useFetchMatchResultList';
+import { useFetchMatchResultList } from '~/services/matchResults/hooks/useFetchMatchResultList';
 import { useCreateTournamentPairing } from '~/services/tournamentPairings/createTournamentPairing';
 import { useFetchTournamentFull } from '~/services/tournaments/fetchTournamentFull';
 import { useUpdateTournament } from '~/services/tournaments/updateTournament';

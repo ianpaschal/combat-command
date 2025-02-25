@@ -1,56 +1,30 @@
-import { useQuery } from '@tanstack/react-query';
+import { supabase } from '~/supabaseClient';
+import {
+  Override,
+  UserProfileSecureRow,
+  Views,
+} from '~/types/db';
 
-import { getFetcher, getListFetcher } from '~/services/factory/getFetchHandler';
-import { TournamentCompetitorFilterableRow } from '~/types/db';
+const tableName = 'tournament_competitors' as const;
+const filterableViewName = `${tableName}_filterable` as const;
 
-/**
- * Fetches a single tournament competitor from the database.
- */
-export const fetchTournamentCompetitor = getFetcher<TournamentCompetitorFilterableRow>('tournament_competitors_filterable');
+export type FetchTournamentCompetitorItem = Override<Views<typeof filterableViewName>, {
+  id: string;
+  created_at: string;
+  players: {
+    id: string;
+    created_at: string;
+    updated_at: string | null;
+    placeholder_name: string | null;
+    user_profile: UserProfileSecureRow;
+  }[];
+  user_profile_ids: string[];
+}>;
 
-/**
- * Query hook to fetch a single tournament competitor.
- * 
- * @param id - The ID of the tournament competitor.
- * @param enabled
- */
-export const useFetchTournamentCompetitor = (
-  id: string,
-  enabled?: boolean,
-) => useQuery({
-  queryKey: ['tournament_competitors', 'single', id],
-  queryFn: () => fetchTournamentCompetitor(id),
-  enabled,
-});
-
-/**
- * Input params for fetching a tournament competitor list.
- */
-export interface FetchTournamentCompetitorListParams {
-  tournamentId?: string;
-}
-
-/**
- * Fetches a list of tournament competitors from the database.
- */
-export const fetchTournamentCompetitorList = getListFetcher<FetchTournamentCompetitorListParams, TournamentCompetitorFilterableRow>(
-  'tournament_competitors_filterable',
-  {
-    tournamentId: ['tournament_id', 'equals'],
-  },
-);
-
-/**
- * Query hook to fetch list of tournament competitors.
- * 
- * @param params 
- * @param enabled
- */
-export const useFetchTournamentCompetitorList = (
-  params?: FetchTournamentCompetitorListParams,
-  enabled?: boolean,
-) => useQuery({
-  queryKey: ['tournament_competitors', 'list', params],
-  queryFn: () => fetchTournamentCompetitorList(params),
-  enabled,
-});
+export const fetchTournamentCompetitor = async (id: string) => {
+  const { data, error } = await supabase.from(filterableViewName).select('*').eq('id', id).single();
+  if (error) {
+    throw error;
+  }
+  return data as FetchTournamentCompetitorItem; // TODO: Figure out how to avoid this cast. Better type generation from Supabase?
+};

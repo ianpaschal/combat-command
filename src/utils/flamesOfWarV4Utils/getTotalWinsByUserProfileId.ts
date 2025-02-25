@@ -1,4 +1,4 @@
-import { MatchResultRowFilterableRow } from '~/services/matchResults/fetchMatchResultBaseQuery';
+import { FetchMatchResultItem } from '~/services/matchResults/fetchMatchResult';
 
 /**
  * Returns the total number of wins by a given user profile within a set of match results.
@@ -8,7 +8,7 @@ import { MatchResultRowFilterableRow } from '~/services/matchResults/fetchMatchR
  * @returns The total number of wins
  */
 export const getTotalWinsByUserProfileId = (
-  matchResults: MatchResultRowFilterableRow[],
+  matchResults: FetchMatchResultItem[],
   userProfileId: string,
 ): number => (
   matchResults.reduce((acc, result) => {

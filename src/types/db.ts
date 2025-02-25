@@ -1,11 +1,24 @@
+import { PostgrestError } from '@supabase/supabase-js';
+
 import { Database, Tables } from '~/types/__generated__/database.types';
 import { FowV4MatchResultDetails } from '~/types/db/FowV4MatchResultDetails';
 import { TournamentPairingDeep } from '~/types/db/TournamentPairings';
 import { FowV4GameSystemConfig } from '~/types/fowV4/fowV4GameSystemConfigSchema';
 
+export type TableName = keyof Database['public']['Tables'];
+
+export type ViewName = keyof Database['public']['Views'];
+
+export type QueryFrom = TableName | ViewName;
+
+export type SupabaseQueryResult<T> = {
+  data: T | null;
+  error: PostgrestError | null
+};
+
 export type Views<T extends keyof Database['public']['Views']> = Database['public']['Views'][T]['Row'];
 
-type Override<Type, NewType extends { [key in keyof Type]?: NewType[key] }> = Omit<Type, keyof NewType> & NewType;
+export type Override<Type, NewType extends { [key in keyof Type]?: NewType[key] }> = Omit<Type, keyof NewType> & NewType;
 
 /**
  * Raw game system config row from the database.
@@ -70,6 +83,7 @@ export type MatchResultFilterableRow = Override<Views<'match_results_filterable'
   };
   game_system_config: GameSystemConfigRow;
   details: FowV4MatchResultDetails;
+  tournament_pairing: TournamentPairingRow | null;
 }>;
 
 /**

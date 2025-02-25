@@ -13,9 +13,10 @@ import { Button } from '~/components/generic/Button';
 import { Card } from '~/components/generic/Card';
 import { InputText } from '~/components/generic/InputText';
 import { PageWrapper } from '~/components/PageWrapper';
-import { useFetchMatchResultList } from '~/services/matchResults';
+import { useFetchMatchResultList } from '~/services/matchResults/fetchMatchResult';
+import { useFetchPlayer } from '~/services/players';
 // import { useFetchMatchResultExp, useFetchMatchResultExpList } from '~/services/matchResults/useFetchMatchResultExp';
-import { useFetchPlayer, useFetchPlayerList } from '~/services/players';
+import { useFetchPlayerList } from '~/services/players/hooks';
 import { MIN_WIDTH_TABLET } from '~/settings';
 
 import styles from './MatchResultsPage.module.scss';
@@ -34,16 +35,20 @@ export const MatchResultsPage = (): JSX.Element => {
   // const { data: match } = useFetchMatchResultExpList();
   // console.log(match);
 
-  const { data: matchResults } = useFetchMatchResultList({
-    user_profile_id: profileId,
-  });
-  console.log('matchResultList', matchResults);
-
+  // const { data: playerSingle } = useFetchPlayer('007639b8-2da0-44fb-a7d4-6b0a27668601');
+  // console.log('playerSingle', playerSingle);
   const { data: playerSingle } = useFetchPlayer('007639b8-2da0-44fb-a7d4-6b0a27668601');
   console.log('playerSingle', playerSingle);
 
-  const { data: playerList } = useFetchPlayerList();
+  const { data: playerList } = useFetchPlayerList({
+    tournamentId: 'f3a0c527-481d-45ed-a253-ec04ec04af01',
+  });
   console.log('playerList', playerList);
+
+  const { data: matchResults } = useFetchMatchResultList({
+    userProfileId: profileId ?? undefined,
+  });
+  // console.log('NEW', matchResults);
 
   return (
     <PageWrapper title="Match Results">
@@ -65,7 +70,7 @@ export const MatchResultsPage = (): JSX.Element => {
           </Popover.Portal>
         </Popover.Root>
       </div>
-      {matchResults && (
+      {/* {matchResults && (
         <div className={styles.List}>
           {matchResults.map((matchResult) => (
             <Card key={matchResult.id}>
@@ -75,7 +80,7 @@ export const MatchResultsPage = (): JSX.Element => {
             </Card>
           ))}
         </div>
-      )}
+      )} */}
       {showAddMatchResultButton && (
         <CheckInMatchDialog>
           <FloatingActionButton>

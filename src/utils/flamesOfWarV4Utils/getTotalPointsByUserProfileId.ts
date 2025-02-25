@@ -1,4 +1,4 @@
-import { MatchResultRowFilterableRow } from '~/services/matchResults/fetchMatchResultBaseQuery';
+import { FetchMatchResultItem } from '~/services/matchResults/fetchMatchResult';
 import { calculateMatchScore } from './calculateMatchScore';
 
 /**
@@ -9,7 +9,7 @@ import { calculateMatchScore } from './calculateMatchScore';
  * @returns The total number of points
  */
 export const getTotalPointsByUserProfileId = (
-  matchResults: MatchResultRowFilterableRow[],
+  matchResults: FetchMatchResultItem[],
   userProfileId: string,
 ): number => (
   matchResults.reduce((acc, result) => {
