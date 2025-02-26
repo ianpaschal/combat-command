@@ -4,6 +4,14 @@ import { useMutation } from 'convex/react';
 
 import { api, UserId } from '~/api';
 
+const compressImage = async (file: File): Promise<File> => await imageCompression(file, {
+  maxSizeMB: 0.15,
+  maxIteration: 1,
+  fileType: 'image/jpeg',
+  maxWidthOrHeight: 256,
+  useWebWorker: true,
+}); 
+
 export const useUploadAvatar = () => {
   const [isLoading, setLoading] = useState(false);
 
@@ -19,16 +27,7 @@ export const useUploadAvatar = () => {
       setLoading(true);
 
       try {
-        const compressedFile = await imageCompression(file, {
-          maxSizeMB: 0.15,
-          maxIteration: 1,
-          fileType: 'image/jpeg',
-          maxWidthOrHeight: 256,
-          useWebWorker: true,
-        });
-
-        // TODO: Show a preview? Maybe not... maybe just upload it?
-        // setPreview(URL.createObjectURL(compressedFile));
+        const compressedFile = await compressImage(file);
    
         const uploadUrl = await generateUploadUrl();
         const uploadResponse = await fetch(uploadUrl, {
