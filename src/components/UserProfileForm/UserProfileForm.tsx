@@ -1,6 +1,8 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from 'convex/react';
 
+import { api } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
 import { AvatarEditable } from '~/components/AvatarEditable';
 import { Button } from '~/components/generic/Button';
@@ -8,8 +10,6 @@ import { Form, FormField } from '~/components/generic/Form';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { InputText } from '~/components/generic/InputText';
 import { Separator } from '~/components/generic/Separator';
-import { useFetchUserProfile } from '~/services/userProfile/useFetchUserProfile';
-import { useUpdateUserProfile } from '~/services/userProfile/useUpdateUserProfile';
 import { userProfileNameVisibilityOptions } from '~/types/UserProfileNameVisibility';
 import { getCountryOptions } from '~/utils/common/getCountryOptions';
 import {
@@ -21,19 +21,20 @@ import {
 import styles from './UserProfileForm.module.scss';
 
 export const UserProfileForm = (): JSX.Element => {
-  const { user } = useAuth();
+  const user = useAuth();
 
-  const { data: userProfile } = useFetchUserProfile(user?.id);
-  const updateProfile = useUpdateUserProfile();
+  const updateUser = useMutation(api.users.updateUser.updateUser);
 
   const form = useForm<UserProfileFormData>({
     resolver: zodResolver(userProfileFormSchema),
     defaultValues,
-    values: { ...defaultValues, ...userProfile },
+    values: { ...defaultValues, ...(user ?? {}) },
   });
 
+  console.log('FORM', form.watch());
+
   const onSubmit: SubmitHandler<UserProfileFormData> = (data) => {
-    updateProfile.mutate({ userId: user!.id, data });
+    updateUser({ id: user!._id, ...data });
   };
 
   const countryOptions = getCountryOptions();
@@ -46,14 +47,14 @@ export const UserProfileForm = (): JSX.Element => {
       </FormField>
       <Separator />
       <div className={styles.NameSection}>
-        <FormField name="given_name" label="Given Name" className={styles.GivenNameField}>
+        <FormField name="givenName" label="Given Name" className={styles.GivenNameField}>
           <InputText type="text" />
         </FormField>
-        <FormField name="family_name" label="Family Name" className={styles.FamilyNameField}>
+        <FormField name="familyName" label="Family Name" className={styles.FamilyNameField}>
           <InputText type="text" />
         </FormField>
       </div>
-      <FormField name="name_visibility" label="Name Visibility" className={styles.NameVisibilityField}>
+      <FormField name="nameVisibility" label="Name Visibility" className={styles.NameVisibilityField}>
         <InputSelect options={userProfileNameVisibilityOptions} />
       </FormField>
       {/* 
@@ -69,15 +70,10 @@ export const UserProfileForm = (): JSX.Element => {
       <p>Keep in mind, some tournaments (such as the European Team Championship) require players to use their full name. If you register for a tournament which requires this, you will be prompted to increase your setting to 'Tournament' if it is set to 'Hidden' or 'Friends'.</p>
       <Separator />
       */}
-      <FormField name="country_code" label="Country" description="Hidden, but required for some badges and some tournament organizers try to create initial pairings which avoid pairing players from the same local community if possible.">
+      <FormField name="countryCode" label="Country" description="Hidden, but required for some badges and some tournament organizers try to create initial pairings which avoid pairing players from the same local community if possible.">
         <InputSelect options={countryOptions} />
       </FormField>
-      <Button
-        className={styles.SubmitButton}
-        type="submit"
-        disabled={updateProfile.isPending}
-        loading={updateProfile.isPending}
-      >
+      <Button className={styles.SubmitButton} type="submit">
         Update Profile
       </Button>
     </Form>

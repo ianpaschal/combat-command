@@ -22,7 +22,7 @@ export const AppBar = ({
   maxWidth,
   navItems,
 }: AppBarProps): JSX.Element => {
-  const { user } = useAuth();
+  const user = useAuth();
   const width = useWindowWidth();
   const isMobile = width <= MIN_WIDTH_TABLET;
   return (
@@ -57,7 +57,7 @@ export const AppBar = ({
           ) : (
             <div className={styles.AuthLinks}>
               <Link to="/sign-in">Sign In</Link>
-              <Link to="/register">Register</Link>
+              <Link to="/sign-up">Register</Link>
             </div>
           )}
         </div>

@@ -36,72 +36,72 @@ export type ExtendedRouteObject = RouteDisplay & RouteObject & {
 };
 
 export const routes: ExtendedRouteObject[] = [
-  {
-    path: '/dialog-demo',
-    title: 'Dialog Demo',
-    visibility: [],
-    element: <DialogDemo />,
-  },
+  // {
+  //   path: '/dialog-demo',
+  //   title: 'Dialog Demo',
+  //   visibility: [],
+  //   element: <DialogDemo />,
+  // },
   {
     path: '/dashboard',
     title: 'Dashboard',
     visibility: ['main'],
     element: <DashboardPage />,
   },
-  {
-    path: '/tournaments',
-    title: 'Tournaments',
-    visibility: ['main'],
-    element: <TournamentsPage />,
-  },
-  {
-    path: '/tournaments/:id',
-    title: 'View Tournament',
-    visibility: [],
-    element: <TournamentDetailPage />,
-  },
-  {
-    path: '/tournaments/:tournamentId/add-match',
-    title: 'Check-In Match',
-    visibility: [],
-    element: <AddMatchPage />,
-  },
-  {
-    path: '/tournaments/:tournamentId/register',
-    title: 'Register for Tournament',
-    visibility: [],
-    element: <TournamentRegisterPage />,
-  },
-  {
-    path: '/tournaments/:tournamentId/create-pairings',
-    title: 'Check-In Match',
-    visibility: [],
-    element: <TournamentCreatePairingsPage />,
-  },
-  {
-    path: '/tournaments/create',
-    title: 'Create Tournament',
-    visibility: [],
-    element: <CreateTournamentPage />,
-  },
-  {
-    path: '/matches',
-    title: 'Match Results',
-    visibility: ['main'],
-    element: <MatchResultsPage />,
-  },
-  {
-    path: '/statistics',
-    title: 'Statistics',
-    visibility: [], // TODO: Add to 'main' later
-    element: <StatisticsPage />,
-  },
-  {
-    path: '/profiles/:id',
-    title: 'Uhhhhh', // FIXME: How to handle dynamic title?
-    visibility: [],
-    element: <UserProfilePage />,
-  },
+  // {
+  //   path: '/tournaments',
+  //   title: 'Tournaments',
+  //   visibility: ['main'],
+  //   element: <TournamentsPage />,
+  // },
+  // {
+  //   path: '/tournaments/:id',
+  //   title: 'View Tournament',
+  //   visibility: [],
+  //   element: <TournamentDetailPage />,
+  // },
+  // {
+  //   path: '/tournaments/:tournamentId/add-match',
+  //   title: 'Check-In Match',
+  //   visibility: [],
+  //   element: <AddMatchPage />,
+  // },
+  // {
+  //   path: '/tournaments/:tournamentId/register',
+  //   title: 'Register for Tournament',
+  //   visibility: [],
+  //   element: <TournamentRegisterPage />,
+  // },
+  // {
+  //   path: '/tournaments/:tournamentId/create-pairings',
+  //   title: 'Check-In Match',
+  //   visibility: [],
+  //   element: <TournamentCreatePairingsPage />,
+  // },
+  // {
+  //   path: '/tournaments/create',
+  //   title: 'Create Tournament',
+  //   visibility: [],
+  //   element: <CreateTournamentPage />,
+  // },
+  // {
+  //   path: '/matches',
+  //   title: 'Match Results',
+  //   visibility: ['main'],
+  //   element: <MatchResultsPage />,
+  // },
+  // {
+  //   path: '/statistics',
+  //   title: 'Statistics',
+  //   visibility: [], // TODO: Add to 'main' later
+  //   element: <StatisticsPage />,
+  // },
+  // {
+  //   path: '/profiles/:id',
+  //   title: 'Uhhhhh', // FIXME: How to handle dynamic title?
+  //   visibility: [],
+  //   element: <UserProfilePage />,
+  // },
   {
     path: '/settings',
     title: 'Settings',
@@ -141,18 +141,18 @@ export const routes: ExtendedRouteObject[] = [
     visibility: ['accountMenuExternal'],
     element: <SignUpPage />,
   },
-  {
-    path: '/forgot-password',
-    title: 'Forgot Password',
-    visibility: [],
-    element: <ForgotPasswordPage />,
-  },
-  {
-    path: '/test',
-    title: 'Test',
-    visibility: [],
-    element: <ComponentTestPage />,
-  },
+  // {
+  //   path: '/forgot-password',
+  //   title: 'Forgot Password',
+  //   visibility: [],
+  //   element: <ForgotPasswordPage />,
+  // },
+  // {
+  //   path: '/test',
+  //   title: 'Test',
+  //   visibility: [],
+  //   element: <ComponentTestPage />,
+  // },
 ];
 
 export const getNavLinksByVisibility = (visibility: Visibility): NavLink[] => (

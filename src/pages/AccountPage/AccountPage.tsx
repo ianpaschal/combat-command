@@ -29,7 +29,7 @@ export const AccountPage = (): JSX.Element => {
 
   // const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // const { user } = useAuth();
+  // const user = useAuth();
   // const [loading, setLoading] = useState(false);
 
   // const [username, setUsername] = useState<string>('');

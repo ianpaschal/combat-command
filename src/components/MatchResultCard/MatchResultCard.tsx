@@ -6,7 +6,6 @@ import {
 
 import { missions } from '~/components/FowV4MatchResultForm/missions';
 import { Avatar } from '~/components/generic/Avatar';
-import { BadgeConfig } from '~/components/generic/Avatar/Avatar';
 import { Card } from '~/components/generic/Card';
 import { UserPortrait } from '~/components/UserPortrait';
 import { FetchMatchResultItem } from '~/services/matchResults/fetchMatchResult';
@@ -49,7 +48,7 @@ export const MatchResultCard = ({
   }
 
   const score = flamesOfWarV4Utils.calculateMatchScore(data);
-  const player0Badges: BadgeConfig[] = [
+  const player0Badges = [
     {
       element: (
         <div className={cn('_StanceBadge')}>
@@ -65,7 +64,7 @@ export const MatchResultCard = ({
       position: 'bottom-left',
     });
   }
-  const player1Badges: BadgeConfig[] = [
+  const player1Badges = [
     {
       element: (
         <div className={cn('_StanceBadge')}>

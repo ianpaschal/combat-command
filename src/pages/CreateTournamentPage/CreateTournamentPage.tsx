@@ -3,7 +3,7 @@ import { PageWrapper } from '~/components/PageWrapper';
 import { TournamentForm } from '~/components/TournamentForm';
 
 export const CreateTournamentPage = (): JSX.Element => {
-  const { user } = useAuth();
+  const user = useAuth();
   return (
     <PageWrapper title="Create Tournament" showBackButton maxWidth={960}>
       <TournamentForm

@@ -1,24 +1,54 @@
-import { AuthTokenResponsePassword } from '@supabase/supabase-js';
-import { useMutation } from '@tanstack/react-query';
+import {
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuthActions } from '@convex-dev/auth/react';
 
+import { useAuth } from '~/components/AuthProvider';
 import { toast } from '~/components/ToastProvider';
-import { SignInFormInput } from '~/pages/SignInPage/SignInPage';
-import { handleError } from '~/services/handleError';
-import { supabase } from '~/supabaseClient';
 
-type ResponseData = AuthTokenResponsePassword['data'];
+type SignInInput = {
+  email: string;
+  password: string;
+};
 
-export const useSignIn = () => useMutation({
-  mutationFn: async ({ email, password }: SignInFormInput): Promise<ResponseData> => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    if (error) {
-      throw error;
+export const useSignIn = () => {
+  const { signIn } = useAuthActions();
+  const navigate = useNavigate();
+  const user = useAuth();
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const redirectPath = useRef<string>();
+
+  /*
+   * Throughout the app, we use the presence of a User as the method of determining if a user is
+   * logged in. Since the signIn() method doesn't actually set that user, we shouldn't consider the
+   * user ACTUALLY signed in until that User is actually set in the AuthProvider.
+   * 
+   * If this check is removed, the UI will flicker as the user is bounced back to the sign-in page.
+   */
+  useEffect(() => {
+    if (user) {
+      setLoading(false);
+      toast.success('Successfully signed in!');
+      if (redirectPath.current) {
+        navigate(redirectPath.current);
+      }
     }
-    return data;
-  },
-  onSuccess: () => toast.success('You are now signed in!'),
-  onError: handleError,
-});
+  }, [user, setLoading, navigate]);
+
+  return {
+    signIn: async (data: SignInInput, redirectTo: string): Promise<void> => {
+      setLoading(true);
+      redirectPath.current = redirectTo;
+      await signIn('password', {
+        ...data,
+        flow: 'signIn',
+      }).catch((error) => {
+        toast.error(error.message);
+      });
+    },
+    isLoading,
+  };
+};

@@ -8,7 +8,7 @@ import { UserPreferences, userPreferencesSchema } from '~/types/UserPreferences'
 import styles from './AppearanceForm.module.scss';
 
 export const AppearanceForm = (): JSX.Element => {
-  const { user } = useAuth();
+  const user = useAuth();
 
   const form = useForm<UserPreferences>({
     resolver: zodResolver(userPreferencesSchema),

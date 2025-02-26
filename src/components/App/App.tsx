@@ -9,7 +9,7 @@ import { MAX_WIDTH, MIN_WIDTH } from '~/settings';
 import styles from './App.module.scss';
 
 export const App = (): JSX.Element => {
-  const { user } = useAuth();
+  const user = useAuth();
   const links = getNavLinksByVisibility('main');
   const width = useWindowWidth();
   if (width < MIN_WIDTH) {
@@ -21,9 +21,7 @@ export const App = (): JSX.Element => {
   }
   return (
     <div className={styles.Root}>
-      {user && (
-        <AppBar navItems={links} maxWidth={MAX_WIDTH} />
-      )}
+      <AppBar navItems={links} maxWidth={MAX_WIDTH} />
       <Outlet />
     </div>
   );

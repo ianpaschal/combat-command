@@ -8,9 +8,9 @@ export interface PreventAuthProps {
 }
 
 export const PreventAuth = ({ children }: PreventAuthProps) => {
-  const { user, profileId } = useAuth();
+  const user = useAuth();
 
-  if (!!user && !!profileId) {
+  if (user) {
     return (
       <Navigate to={'/dashboard'} />
     );

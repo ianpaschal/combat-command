@@ -1,12 +1,5 @@
 import { createContext } from 'react';
-import { User } from '@supabase/supabase-js';
 
-export type AuthContextValue = {
-  user: User | null | undefined;
-  profileId: string | null | undefined;
-};
+import { User } from '~/api';
 
-export const AuthContext = createContext<AuthContextValue>({
-  user: undefined,
-  profileId: undefined,
-});
+export const AuthContext = createContext<User | null | undefined>(undefined);

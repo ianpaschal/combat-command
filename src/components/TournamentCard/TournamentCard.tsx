@@ -48,7 +48,7 @@ export const TournamentCard = ({
   expanded,
   orientation = 'vertical',
 }: TournamentCardProps) => {
-  const { user } = useAuth();
+  const user = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
