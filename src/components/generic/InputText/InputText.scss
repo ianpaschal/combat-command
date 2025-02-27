@@ -12,10 +12,9 @@
   @include flex.row;
   @include text.ui;
 
-  & {
-    width: 100%;
-    padding: 0 1rem;
-  }
+  width: 100%;
+  padding: 0 1rem;
+  text-align: left;
 
   &-slotBefore {
     padding-left: 2.25rem;

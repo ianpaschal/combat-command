@@ -12,6 +12,7 @@
     "Postgrest",
     "supabase",
     "tanstack",
+    "tzlookup",
     "waffen"
   ],
   "deno.enable": true,

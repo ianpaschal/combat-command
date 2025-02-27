@@ -42,6 +42,7 @@ import type * as tournamentCompetitors_index from "../tournamentCompetitors/inde
 import type * as tournamentCompetitors_updateTournamentCompetitor from "../tournamentCompetitors/updateTournamentCompetitor.js";
 import type * as tournamentPairings_fields from "../tournamentPairings/fields.js";
 import type * as tournaments_createTournament from "../tournaments/createTournament.js";
+import type * as tournaments_fetchTournament from "../tournaments/fetchTournament.js";
 import type * as tournaments_fetchTournamentList from "../tournaments/fetchTournamentList.js";
 import type * as tournaments_fetchTournamentUserIds from "../tournaments/fetchTournamentUserIds.js";
 import type * as tournaments_fields from "../tournaments/fields.js";
@@ -94,6 +95,7 @@ declare const fullApi: ApiFromModules<{
   "tournamentCompetitors/updateTournamentCompetitor": typeof tournamentCompetitors_updateTournamentCompetitor;
   "tournamentPairings/fields": typeof tournamentPairings_fields;
   "tournaments/createTournament": typeof tournaments_createTournament;
+  "tournaments/fetchTournament": typeof tournaments_fetchTournament;
   "tournaments/fetchTournamentList": typeof tournaments_fetchTournamentList;
   "tournaments/fetchTournamentUserIds": typeof tournaments_fetchTournamentUserIds;
   "tournaments/fields": typeof tournaments_fields;

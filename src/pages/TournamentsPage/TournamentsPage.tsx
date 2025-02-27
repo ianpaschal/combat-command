@@ -1,18 +1,19 @@
 import { useNavigate } from 'react-router-dom';
 import * as Popover from '@radix-ui/react-popover';
 import { useWindowWidth } from '@react-hook/window-size/throttled';
+import { useQuery } from 'convex/react';
 import {
   ListFilter,
   Plus,
   Search,
 } from 'lucide-react';
 
+import { api } from '~/api';
 import { Button } from '~/components/generic/Button';
 import { Card } from '~/components/generic/Card';
 import { InputText } from '~/components/generic/InputText';
 import { PageWrapper } from '~/components/PageWrapper';
 import { TournamentCard } from '~/components/TournamentCard/TournamentCard';
-import { useGetTournamentsList } from '~/services/tournaments/getTournamentsList';
 import { MIN_WIDTH_TABLET } from '~/settings';
 
 import styles from './TournamentsPage.module.scss';
@@ -25,7 +26,7 @@ export const TournamentsPage = (): JSX.Element => {
 
   const showButtonText = useWindowWidth() > MIN_WIDTH_TABLET;
 
-  const { data: tournaments } = useGetTournamentsList();
+  const tournaments = useQuery(api.tournaments.fetchTournamentList.fetchTournamentList);
 
   return (
     <PageWrapper title="Tournaments">
@@ -56,7 +57,7 @@ export const TournamentsPage = (): JSX.Element => {
       {tournaments && (
         <div className={styles.List}>
           {tournaments.map((tournament) => (
-            <Card key={tournament.id} disablePadding>
+            <Card key={tournament._id} disablePadding>
               <TournamentCard tournament={tournament} />
             </Card>
           ))}

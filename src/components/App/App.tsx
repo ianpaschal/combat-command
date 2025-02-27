@@ -2,15 +2,11 @@ import { Outlet } from 'react-router-dom';
 import { useWindowWidth } from '@react-hook/window-size/throttled';
 
 import { AppBar } from '~/components/AppBar';
-import { useAuth } from '~/components/AuthProvider';
-import { getNavLinksByVisibility } from '~/routes';
 import { MAX_WIDTH, MIN_WIDTH } from '~/settings';
 
 import styles from './App.module.scss';
 
 export const App = (): JSX.Element => {
-  const user = useAuth();
-  const links = getNavLinksByVisibility('main');
   const width = useWindowWidth();
   if (width < MIN_WIDTH) {
     return (
@@ -21,7 +17,7 @@ export const App = (): JSX.Element => {
   }
   return (
     <div className={styles.Root}>
-      <AppBar navItems={links} maxWidth={MAX_WIDTH} />
+      <AppBar maxWidth={MAX_WIDTH} />
       <Outlet />
     </div>
   );

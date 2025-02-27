@@ -3,7 +3,7 @@ import { v } from 'convex/values';
 import { query } from '../_generated/server';
 import { GameSystem, gameSystem } from '../common/gameSystem';
 
-export const fetchGameSystemConfigList = query({
+export const fetchTournamentList = query({
   args: {},
   handler: async (ctx) => await ctx.db.query('tournaments').collect(),
 });

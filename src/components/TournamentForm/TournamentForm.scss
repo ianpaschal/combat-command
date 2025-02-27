@@ -9,14 +9,22 @@
   @include flex.column(1rem);
   @include flex.stretchy;
 
-  &_DateTimeStart,
-  &_DateTimeEnd {
+  &_DateTimeSection {
     @include flex.stretchy;
 
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
     gap: 1rem;
   }
+
+  // &_DateTimeStart,
+  // &_DateTimeEnd {
+  //   @include flex.stretchy;
+
+  //   display: grid;
+  //   grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+  //   gap: 1rem;
+  // }
 
   &_GameSystemForm {
     @include flex.column;

@@ -16,6 +16,7 @@ import {
   Users,
 } from 'lucide-react';
 
+import { FetchTournamentListItem } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
 import { Button } from '~/components/generic/Button';
 import { Label } from '~/components/generic/Label';
@@ -23,7 +24,6 @@ import { MapboxLocation } from '~/components/generic/MapboxLocation';
 import { ScrollArea } from '~/components/generic/ScrollArea';
 import { Tag } from '~/components/generic/Tag';
 import { ManageTournamentMenu } from '~/components/ManageTournamentMenu';
-import { GetTournamentsListItem } from '~/services/tournaments/getTournamentsList';
 import { fowV4EraOptions } from '~/types/fowV4/fowV4EraSchema';
 import { bem } from '~/utils/componentLib/bem';
 
@@ -33,7 +33,7 @@ import './TournamentCard.scss';
 // In popups or drawers
 
 export interface TournamentCardProps {
-  tournament: GetTournamentsListItem;
+  tournament: FetchTournamentListItem;
   maxHeight?: number | string;
   className?: string;
   expanded?: boolean;
@@ -52,7 +52,7 @@ export const TournamentCard = ({
   const navigate = useNavigate();
   const location = useLocation();
 
-  const tournamentUrl = `/tournaments/${tournament.id}`;
+  const tournamentUrl = `/tournaments/${tournament._id}`;
 
   const handleClickView = (): void => {
     navigate(tournamentUrl);
@@ -68,7 +68,7 @@ export const TournamentCard = ({
   const showActionButtons = !isTournamentDetailPage;
 
   const showManageRegistrationButton = false;
-  const showManageTournamentButton = tournament.creator_id === user?.id;
+  const showManageTournamentButton = user?._id && tournament.organizerIds.includes(user._id);
   const showRegisterButton = user && !showManageTournamentButton && !showManageRegistrationButton;
 
   return (
@@ -83,26 +83,26 @@ export const TournamentCard = ({
           <div className={cn('Overview')}>
             <div className={cn('DateTime')}>
               <CalendarClock />
-              {format(tournament.starts_at, 'd MMM yyyy')} - {format(tournament.ends_at, 'd MMM yyyy')}
+              {format(tournament.startsAt, 'd MMM yyyy')} - {format(tournament.endsAt, 'd MMM yyyy')}
             </div>
             <div className={cn('Location')}>
               <MapPin />
-              <MapboxLocation id={tournament?.mapbox_place_id} />
+              <MapboxLocation id={tournament?.location} />
             </div>
             <div className={cn('SeatsAvailable')}>
               <Users />
               <span>10 / 20</span>
-              {tournament.competitor_size > 1 && (
-                <span>- Team Size: {tournament.competitor_size}</span>
+              {tournament.competitorSize > 1 && (
+                <span>- Team Size: {tournament.competitorSize}</span>
               )}
             </div>
             <div className={cn('GamePlay')}>
               <Dices />
-              <Tag>{`${tournament.game_system_config?.data?.points} pts`}</Tag>
-              <Tag>{fowV4EraOptions.find((option) => option.value === tournament.game_system_config?.data?.era)?.label}</Tag>
-              {tournament.game_system_config?.data?.era === 'mw' && (
+              <Tag>{`${tournament.gameSystemConfig?.points} pts`}</Tag>
+              <Tag>{fowV4EraOptions.find((option) => option.value === tournament.gameSystemConfig?.era)?.label}</Tag>
+              {tournament.gameSystemConfig?.era === 'mw' && (
                 <>
-                  <Label>Dynamic Points</Label><span>{tournament.game_system_config?.data?.era}</span>
+                  <Label>Dynamic Points</Label><span>{tournament.gameSystemConfig?.era}</span>
                 </>
               )}
             </div>
@@ -114,9 +114,9 @@ export const TournamentCard = ({
               <h3>Description</h3>
               <p>{tournament.description}</p>
             </div>
-            {tournament.rules_pack_url && (
+            {tournament.rulesPackUrl && (
               <div className={cn('RulesPack')}>
-                <Link to={tournament.rules_pack_url}>
+                <Link to={tournament.rulesPackUrl}>
                   Rules Pack<SquareArrowOutUpRight />
                 </Link>
               </div>
@@ -139,7 +139,7 @@ export const TournamentCard = ({
           {showManageRegistrationButton && (
             <Button>Manage Regs</Button>
           )}
-          {showManageTournamentButton && (
+          {/* {showManageTournamentButton && (
             <ManageTournamentMenu
               tournament={tournament}
               trigger={
@@ -149,7 +149,7 @@ export const TournamentCard = ({
                 </Button>
               }
             />
-          )}
+          )} */}
           {!isTournamentDetailPage && (
             <Button onClick={handleClickView}>
               View

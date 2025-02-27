@@ -1,8 +1,6 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from 'convex/react';
 
-import { api } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
 import { AvatarEditable } from '~/components/AvatarEditable';
 import { Button } from '~/components/generic/Button';
@@ -10,6 +8,7 @@ import { Form, FormField } from '~/components/generic/Form';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { InputText } from '~/components/generic/InputText';
 import { Separator } from '~/components/generic/Separator';
+import { useUpdateUser } from '~/services/users/useUpdateUser';
 import { userProfileNameVisibilityOptions } from '~/types/UserProfileNameVisibility';
 import { getCountryOptions } from '~/utils/common/getCountryOptions';
 import {
@@ -23,15 +22,13 @@ import styles from './UserProfileForm.module.scss';
 export const UserProfileForm = (): JSX.Element => {
   const user = useAuth();
 
-  const updateUser = useMutation(api.users.updateUser.updateUser);
+  const { updateUser } = useUpdateUser();
 
   const form = useForm<UserProfileFormData>({
     resolver: zodResolver(userProfileFormSchema),
     defaultValues,
     values: { ...defaultValues, ...(user ?? {}) },
   });
-
-  console.log('FORM', form.watch());
 
   const onSubmit: SubmitHandler<UserProfileFormData> = (data) => {
     updateUser({ id: user!._id, ...data });

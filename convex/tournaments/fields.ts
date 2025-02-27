@@ -14,7 +14,11 @@ export const tournamentFields = {
   currentRound: v.optional(v.number()),
   description: v.string(),
   endsAt: v.string(), // ISO date string
-  location: v.string(), // Mapbox Place ID
+  location: v.object({
+    placeId: v.string(), // Mapbox Place ID,
+    lat: v.number(),
+    lon: v.number(),
+  }),
   organizerIds: v.array(v.id('users')),
   pairingMethod: tournamentPairingMethod,
   rankingFactors: v.array(fowV4RankingFactor),
