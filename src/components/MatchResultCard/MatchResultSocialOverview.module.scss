@@ -1,0 +1,37 @@
+@use "/src/style/flex";
+@use "/src/style/variants";
+@use "/src/style/shadows";
+@use "/src/style/animate";
+@use "/src/style/variables";
+@use "/src/style/corners";
+@use "/src/style/borders";
+@use "/src/style/text";
+
+.Root {
+
+  @include text.small;
+  @include flex.row($gap: 0.5rem);
+
+  padding: 0.5rem;
+
+  .Likes {
+    @include text.small;
+    @include flex.row($gap: 0.025rem);
+  }
+
+  .Comments {
+    @include text.small;
+    @include flex.row($gap: 0.025rem);
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  .SocialActions {
+    @include flex.row($gap: 0.5rem);
+
+    margin-left: auto;
+  }
+}

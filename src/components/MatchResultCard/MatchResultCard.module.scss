@@ -1,0 +1,30 @@
+@use "/src/style/flex";
+@use "/src/style/variants";
+@use "/src/style/shadows";
+@use "/src/style/animate";
+@use "/src/style/variables";
+@use "/src/style/corners";
+@use "/src/style/borders";
+@use "/src/style/text";
+
+.Root {
+  position: relative;
+  overflow: hidden;
+
+  @include flex.column($gap: 0);
+
+  @include variants.outlined($hover: false);
+  @include shadows.surface-shadow;
+  @include corners.normal;
+}
+
+.Footer {
+  @include text.small($muted: true);
+  @include flex.row($gap: 0.5rem, $xAlign: right);
+
+  padding: 0.5rem 1rem;
+
+  .Date {
+    margin-right: auto;
+  }
+}

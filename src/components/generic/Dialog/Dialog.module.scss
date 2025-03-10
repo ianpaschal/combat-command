@@ -73,8 +73,7 @@
 .Footer {
   @include flex.row($xAlign: right);
 
-  height: 4.5rem;
-  padding: 1rem var(--modal-inner-gutter);
+  padding: var(--modal-inner-gutter);
 }
 
 .Close {

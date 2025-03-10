@@ -19,6 +19,11 @@ export const createMatchResult = mutation({
 
     // TODO: Validate: Check that details match game system config
 
-    return await ctx.db.insert('matchResults', args);
+    return await ctx.db.insert('matchResults', {
+      ...args,
+      player0Confirmed: true,
+      player1Confirmed: !!args.player1Placeholder,
+      likes: [],
+    });
   },
 });

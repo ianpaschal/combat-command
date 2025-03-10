@@ -12,12 +12,10 @@ export const fetchMatchResult = query({
     if (!matchResult) {
       return null;
     }
-    const player0User = await ctx.db.get(matchResult.player0UserId);
-    const player1User = matchResult?.player1UserId ? await ctx.db.get(matchResult?.player1UserId) : null;
     return {
       ...matchResult,
-      player0user: player0User ? await getLimitedUser(ctx, player0User) : null,
-      player1user: player1User ? await getLimitedUser(ctx, player1User) : null,
+      player0user: await getLimitedUser(ctx, matchResult?.player0UserId),
+      player1user: await getLimitedUser(ctx, matchResult?.player1UserId),
     };
   },
 });

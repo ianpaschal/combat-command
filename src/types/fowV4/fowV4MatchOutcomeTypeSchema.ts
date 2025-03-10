@@ -1,7 +1,7 @@
 import { z, ZodLiteral } from 'zod';
 
 export const fowV4MatchOutcomeTypeSchema = z.union([
-  z.literal('objective_captured'),
+  z.literal('objective_taken'),
   z.literal('attack_repelled'),
   z.literal('time_out'),
   z.literal('force_broken'),
@@ -10,7 +10,7 @@ export const fowV4MatchOutcomeTypeSchema = z.union([
 export type FowV4MatchOutcomeType = z.infer<typeof fowV4MatchOutcomeTypeSchema>;
 
 export const fowV4MatchOutcomeTypeLabels: Record<FowV4MatchOutcomeType, string> = {
-  objective_captured: 'Objective Captured',
+  objective_taken: 'Objective Captured',
   attack_repelled: 'Attack Repelled',
   time_out: 'Time Out / Draw',
   force_broken: 'Force Broken',

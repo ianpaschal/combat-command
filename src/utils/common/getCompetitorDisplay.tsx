@@ -4,7 +4,7 @@ import { Avatar } from '~/components/generic/Avatar';
 import { FlagCircle } from '~/components/generic/FlagCircle';
 import { TournamentCompetitorDeep } from '~/types/db';
 import { getCountryName } from '~/utils/common/getCountryName';
-import { getUserDisplayName } from '~/utils/common/getUserDisplayName';
+import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
 
 // TODO: Add to paring cell
 export const getCompetitorDisplay = (competitor: TournamentCompetitorDeep | undefined): [string, ReactNode] => {
@@ -33,7 +33,7 @@ export const getCompetitorDisplay = (competitor: TournamentCompetitorDeep | unde
 
   // Is single player:
   return [
-    getUserDisplayName(competitor.players[0].profile),
+    getUserDisplayNameString(competitor.players[0].profile),
     <Avatar avatarUrl={competitor.players[0].profile.avatar_url} />,
   ];
 };

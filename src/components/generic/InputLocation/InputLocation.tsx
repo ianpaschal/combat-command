@@ -16,9 +16,15 @@ import { LocationButton } from './LocationButton';
 
 import styles from './InputLocation.module.scss';
 
+type Location = {
+  lat: number;
+  lon: number;
+  placeId: string;
+};
+
 export interface InputLocationProps {
-  value?: string,
-  onChange?: (placeId?: string) => void;
+  value?: Location,
+  onChange?: (location?: Location) => void;
 }
 
 export const InputLocation = forwardRef<HTMLButtonElement, InputLocationProps>(({
@@ -26,21 +32,17 @@ export const InputLocation = forwardRef<HTMLButtonElement, InputLocationProps>((
   onChange,
   ...props
 }, ref): JSX.Element => {
-
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [debouncedSearch] = useDebounce(searchTerm, 500); // Delay by 500ms
-  const [selectedPlaceId, setSelectedPlaceId] = useState<string | undefined>(value);
+  const [selectedPlaceId, setSelectedPlaceId] = useState<string | undefined>(value?.placeId);
 
   const { data: suggestions } = useSuggestLocation(debouncedSearch);
   const { data: selectedPlace } = useRetrieveLocation(selectedPlaceId);
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>): void => setSearchTerm(e.target.value);
 
-  const handleSelect = (id: string): void => {
-    setSelectedPlaceId(id);
-    if (onChange) {
-      onChange(id);
-    }
+  const handleSelect = (placeId: string): void => {
+    setSelectedPlaceId(placeId);
   };
 
   const handleClear = (): void => {
@@ -51,10 +53,18 @@ export const InputLocation = forwardRef<HTMLButtonElement, InputLocationProps>((
   };
 
   useEffect(() => {
-    if (value && value !== selectedPlaceId) {
+    if (value && value.placeId !== selectedPlaceId) {
       setSelectedPlaceId(selectedPlaceId);
     }
   }, [selectedPlaceId, setSelectedPlaceId, value]);
+
+  useEffect(() => {
+    if (selectedPlace && onChange) {
+      const placeId = selectedPlace.properties.mapbox_id;
+      const [lat, lon] = selectedPlace.geometry.coordinates;
+      onChange({ placeId, lat, lon });
+    }
+  }, [selectedPlace, onChange]);
 
   return (
     <div className={styles.Root}>

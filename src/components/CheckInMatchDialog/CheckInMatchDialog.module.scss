@@ -1,6 +1,5 @@
 @use "/src/style/variables";
 
 .Form {
-  margin: var(--modal-inner-gutter);
-  margin-top: 0;
+  padding: 0 var(--modal-inner-gutter);
 }

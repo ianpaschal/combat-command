@@ -2,6 +2,7 @@ import {
   ElementRef,
   RefObject,
   UIEventHandler,
+  useEffect,
   useRef,
   useState,
 } from 'react';
@@ -14,7 +15,7 @@ type IndicatorProps = {
   bordered: boolean;
 };
 
-interface FourSidedState {
+export interface FourSidedState {
   top: boolean;
   bottom: boolean;
   left: boolean;
@@ -36,6 +37,7 @@ type UseScrollIndicatorsReturn = [
 
 export const useScrollIndicators = (indicatorBorder?: string | string[]): UseScrollIndicatorsReturn => {
   const ref = useRef<ElementRef<typeof Viewport>>(null);
+
   const [visible, setVisible] = useState<FourSidedState>({
     top: false,
     bottom: false,
@@ -44,7 +46,7 @@ export const useScrollIndicators = (indicatorBorder?: string | string[]): UseScr
   });
 
   const getIndicatorBorders = (): FourSidedState => {
-    const defaultState = { top: false,bottom: false,left: false,right: false };
+    const defaultState = { top: false, bottom: false, left: false, right: false };
     if (indicatorBorder) {
       if (Array.isArray(indicatorBorder)) {
         return indicatorBorder.reduce((acc, value) => ({
@@ -61,23 +63,48 @@ export const useScrollIndicators = (indicatorBorder?: string | string[]): UseScr
 
   const bordered = getIndicatorBorders();
 
-  const onScroll = (): void => {
+  const updateIndicatorVisibility = () => {
     if (!ref.current) {
       return;
     }
+
+    // Viewport size
     const { width, height } = ref.current.getBoundingClientRect();
+
+    // Scroll content offset and size
     const { scrollTop, scrollLeft, scrollHeight, scrollWidth } = ref.current;
+
+    // If the difference between the height and scrollHeight is less than 1px, the browser doesn't allow scrolling anyway.
     setVisible({
       top: scrollTop > 0,
-      bottom: scrollTop + height < scrollHeight,
+      bottom: scrollHeight - scrollTop > Math.ceil(height),
       left: scrollLeft > 0,
-      right: scrollLeft + width < scrollWidth,
+      right:  (scrollWidth - width > 1) && (scrollLeft + width < scrollWidth),
     });
+    console.log('height', height, 'scrollTop', scrollTop, 'scrollHeight', scrollHeight);
   };
+
+  // Set initial visibility
+  useEffect(() => {
+    if (!ref.current) {
+      return;
+    }
+
+    const observer = new ResizeObserver(() => {
+      console.log('resized!');
+      // const { inlineSize: width, blockSize: height } = entry.borderBoxSize[0];
+      // setSize({ width, height });
+      updateIndicatorVisibility();
+    });
+
+    observer.observe(ref.current);
+
+    return () => observer.disconnect();
+  }, []);
 
   return [
     ref,
-    onScroll,
+    updateIndicatorVisibility,
     {
       top: { visible: visible.top, bordered: bordered.top },
       bottom: { visible: visible.bottom, bordered: bordered.bottom },

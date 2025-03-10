@@ -6,7 +6,7 @@ import { Button } from '~/components/generic/Button';
 import { Card } from '~/components/generic/Card';
 import { PageWrapper } from '~/components/PageWrapper';
 import { UserProfileSecureRow } from '~/types/db';
-import { getUserDisplayName } from '~/utils/common/getUserDisplayName';
+import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
 
 export const UserProfilePage = (): JSX.Element => {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ export const UserProfilePage = (): JSX.Element => {
     user_id: '',
     username: 'Foober',
   };
-  const displayName = getUserDisplayName(userProfile);
+  const displayName = getUserDisplayNameString(userProfile);
   return (
     <PageWrapper>
       <Card>

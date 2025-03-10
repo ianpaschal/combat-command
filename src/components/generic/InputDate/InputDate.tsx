@@ -63,8 +63,6 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(({
   const [date, time] = input.substring(0, 16).split('T');
   const [hours, minutes] = (time || '00:00').split(':').map((t) => parseInt(t, 10));
 
-  console.log('INPUT', input);
-
   return (
     <Popover.Root>
       <Popover.Trigger asChild>

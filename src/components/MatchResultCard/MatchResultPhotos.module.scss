@@ -1,0 +1,16 @@
+@use "/src/style/flex";
+@use "/src/style/variants";
+@use "/src/style/shadows";
+@use "/src/style/animate";
+@use "/src/style/variables";
+@use "/src/style/corners";
+@use "/src/style/borders";
+@use "/src/style/text";
+
+.Root {
+  @include text.ui;
+  @include flex.centered;
+
+  aspect-ratio: 4/3;
+  background-color: grey;
+}

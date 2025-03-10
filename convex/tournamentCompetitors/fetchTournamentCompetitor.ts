@@ -1,7 +1,7 @@
 import { v } from 'convex/values';
 
 import { query } from '../_generated/server';
-import { getLimitedUser } from '../users/utils/getLimitedUser';
+import { redactUserInfo } from '../users/utils/redactUserInfo';
 
 export const fetchTournamentCompetitor = query({
   args: {
@@ -12,13 +12,13 @@ export const fetchTournamentCompetitor = query({
     if (!tournamentCompetitor) {
       return null;
     }
-    const players = tournamentCompetitor.players.map(async ({ active, userId }) => {
+    const players = await Promise.all(tournamentCompetitor.players.map(async ({ active, userId }) => {
       const user = await ctx.db.get(userId);
       return {
         active,
-        user: user ? await getLimitedUser(ctx, user) : null,
+        user: user ? await redactUserInfo(ctx, user) : null,
       };
-    });
+    }));
     return {
       ...tournamentCompetitor,
       players,

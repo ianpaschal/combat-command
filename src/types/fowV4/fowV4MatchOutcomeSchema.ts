@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
+import { fowV4stanceSchema } from '~/types/fowV4/fowV4BattlePlanSchema';
 import { fowV4MatchOutcomeTypeSchema } from '~/types/fowV4/fowV4MatchOutcomeTypeSchema';
-import { fowV4stanceSchema } from '~/types/fowV4/fowV4StanceSchema';
 
 export const fowV4MatchOutcomeSchema = z.object({
   attacker: z.number({ message: 'Please select an attacker' }).min(0).max(1),

@@ -1,0 +1,109 @@
+@use "/src/style/animate";
+@use "/src/style/borders";
+@use "/src/style/corners";
+@use "/src/style/flex";
+@use "/src/style/text";
+@use "/src/style/variables";
+@use "/src/style/variants";
+
+.Root {
+  @include flex.column;
+  @include flex.stretchy;
+
+  min-height: 0;
+  padding: 0 var(--modal-inner-gutter) var(--modal-inner-gutter);
+}
+
+.UserSelect {
+
+  @include flex.column($gap: 0);
+
+  min-height: 0;
+}
+
+.SearchBox {
+  border-radius: 0.375rem 0.375rem 0 0;
+}
+
+.ScrollArea {
+  @include borders.normal;
+
+  flex-shrink: 1;
+  border-top: unset;
+  border-radius: 0 0 0.375rem 0.375rem;
+}
+
+.UserList {
+  @include flex.column($gap: 0.25rem);
+
+  padding: calc(0.5rem - variables.$border-width);
+}
+
+.UserListItem {
+  @include flex.row($gap: 0.5rem);
+
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.UserSelectButton {
+  margin-left: auto;
+}
+
+.UserDisplayName {
+  @include text.ui;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.SelectedUserWrapper {
+  @include borders.normal;
+  @include corners.normal;
+
+  height: 4.5rem;
+  padding: calc(0.5rem - variables.$border-width);
+}
+
+.SelectedUser {
+  padding: 0.5rem;
+
+  @include flex.row($gap: 0.5rem);
+  @include text.ui;
+}
+
+.ClearButton {
+  margin-left: auto;
+}
+
+@mixin player-select-button {
+  @include flex.column($xAlign: center);
+  @include corners.normal;
+
+  position: relative;
+
+  flex: 1 0 auto;
+
+  width: 100%;
+  padding: 1rem;
+
+  color: inherit;
+  text-align: center;
+
+  background-color: transparent;
+  border: none;
+}
+
+.PlayerSelectButton {
+  @include player-select-button;
+}
+
+.PlayerSelectButtonActive {
+  @include player-select-button;
+  @include variants.outlined;
+}
+
+.PlaceholderInput {
+  @include flex.row;
+}

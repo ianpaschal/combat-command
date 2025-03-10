@@ -20,7 +20,10 @@ export const friendships = defineTable({
 
 export const matchResults = defineTable({
   ...matchResultFields,
-  confirmedAt: v.optional(v.number()),
+  // Social
+  likes: v.array(v.id('users')),
+  player0Confirmed: v.boolean(),
+  player1Confirmed: v.boolean(),
   modifiedAt: v.optional(v.number()),
 }).index(
   'by_user_id', ['player0UserId', 'player1UserId'],

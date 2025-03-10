@@ -6,7 +6,7 @@ import {
 } from '~/components/generic/DataTable';
 import { FowV4RankingFactor } from '~/types/fowV4/fowV4RankingFactorSchema';
 import { CompetitorResult } from '~/utils/common/calculateTournamentRankings';
-import { getUserDisplayName } from '~/utils/common/getUserDisplayName';
+import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
 
 export interface FowV4RankingsTableProps {
   results: CompetitorResult<FowV4RankingFactor>[];
@@ -29,7 +29,7 @@ export const FowV4RankingsTable = ({
           }
           return (<DefaultCell value="Unknown Team" />);
         }
-        return (<DefaultCell value={getUserDisplayName(competitor.players[0].profile)} />);
+        return (<DefaultCell value={getUserDisplayNameString(competitor.players[0].profile)} />);
       },
       width: '2fr',
     },

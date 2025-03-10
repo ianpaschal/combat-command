@@ -4,9 +4,9 @@
   --modal-inner-gutter: 1rem;
   --modal-outer-gutter: 0.5rem;
   --font-size-normal: 1rem;
-  --line-height-normal: 1.5rem;
+  --line-height-normal: 1.25rem;
   --font-size-small: 0.875rem;
-  --line-height-small: 1.25rem;
+  --line-height-small: 1.125rem;
 }
 
 @media (width >= 688px) {
@@ -19,7 +19,7 @@
 @media (width >= 480px) {
   :root {
     --font-size-normal: 0.875rem;
-    --line-height-normal: 1.25rem;
+    --line-height-normal: 1.125rem;
     --font-size-small: 0.75rem;
     --line-height-small: 1rem;
   }

@@ -2,7 +2,7 @@ import { FormField } from '~/components/generic/Form';
 import { InputNumber } from '~/components/generic/InputNumber';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { fowV4EraOptions } from '~/types/fowV4/fowV4EraSchema';
-import { fowV4LFTFVersionOptions } from '~/types/fowV4/fowV4LFTFVersionSchema';
+import { fowV4LessonsFromTheFrontVersionOptions } from '~/types/fowV4/fowV4LessonsFromTheFrontVersionSchema';
 import { fowV4MissionPackVersionOptions } from '~/types/fowV4/fowV4MissionPackVersionSchema';
 import { bem } from '~/utils/componentLib/bem';
 
@@ -34,7 +34,7 @@ export const FowV4TournamentGameConfigForm = ({
       <div className={cn('RuleAddOns')}>
         <FormField name={`${fieldName}.lessons_from_the_front_version`} label="Lessons from the Front Version">
           <InputSelect
-            options={fowV4LFTFVersionOptions}
+            options={fowV4LessonsFromTheFrontVersionOptions}
           />
         </FormField>
         <FormField name={`${fieldName}.mission_pack_version`} label="Mission Pack Version">

@@ -2,8 +2,8 @@ import { z } from 'zod';
 
 export const tournamentPairingMethodSchema = z.union([
   z.literal('swiss'),
-  z.literal('round_robin'),
-  z.literal('swiss_groups'),
+  z.literal('roundRobin'),
+  z.literal('swissGroups'),
   z.literal('random'),
   z.literal('elimination'),
 ]);

@@ -1,0 +1,16 @@
+@use "/src/style/variables";
+@use "/src/style/flex";
+
+.Root {
+  @include flex.column;
+}
+
+.CoreConfig {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
+  gap: 1rem;
+}
+
+.AdvancedOptions {
+  @include flex.column;
+}

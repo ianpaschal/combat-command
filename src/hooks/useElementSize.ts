@@ -5,26 +5,26 @@ import {
   useState,
 } from 'react';
 
-export const useElementSize = <T extends HTMLElement>(): [MutableRefObject<T | null>, number, number] => {
-  const [size, setSize] = useState<[number, number]>([0, 0]);
-  const ref = useRef<T | null>(null);
-
-  const updateWidth = () => {
-    if (ref.current) {
-      setSize([ref.current.offsetWidth, ref.current.offsetHeight]);
-    }
-  };
+export const useElementSize = <T extends HTMLDivElement>(): [MutableRefObject<T | null>, number, number] => {
+  const ref = useRef(null);
+  const [size, setSize] = useState<{ width: number, height: number }>({ width: 0, height: 0 });
 
   useEffect(() => {
-    updateWidth();
-    window.addEventListener('resize', updateWidth);
-    return () => {
-      window.removeEventListener('resize', updateWidth);
-    };
+    if (!ref.current) return;
+
+    const observer = new ResizeObserver(([entry]) => {
+      const { inlineSize: width, blockSize: height } = entry.borderBoxSize[0];
+      setSize({ width, height });
+    });
+
+    observer.observe(ref.current);
+
+    return () => observer.disconnect();
   }, []);
 
   return [
     ref,
-    ...size,
+    size.width,
+    size.height,
   ];
 };

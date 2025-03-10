@@ -49,11 +49,11 @@ export const mainRoutes: AppRoute[] = [
     title: 'Tournaments',
     element: <TournamentsPage />,
   },
-  // {
-  //   path: '/matches',
-  //   title: 'Match Results',
-  //   element: <MatchResultsPage />,
-  // },
+  {
+    path: '/matches',
+    title: 'Match Results',
+    element: <MatchResultsPage />,
+  },
   // {
   //   path: '/statistics',
   //   title: 'Statistics',

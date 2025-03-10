@@ -2,7 +2,7 @@ import { cloneElement, ReactElement } from 'react';
 import clsx from 'clsx';
 
 import { useFetchUserProfile } from '~/services/userProfile/useFetchUserProfile';
-import { getUserDisplayName } from '~/utils/common/getUserDisplayName';
+import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
 
 import './UserPortrait.scss';
 
@@ -31,7 +31,7 @@ export const UserPortrait = ({
       {cloneElement(children, { size: size || (orientation === 'horizontal' ? '2.5rem' : '4.5rem') })}
       {userProfile && (
         <div className="UserPortraitName" data-orientation={orientation}>
-          {getUserDisplayName(userProfile)}
+          {getUserDisplayNameString(userProfile)}
         </div>
       )}
       {displayName && (

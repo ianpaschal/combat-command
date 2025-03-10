@@ -2,39 +2,13 @@
 @use "/src/style/variables";
 @use "/src/style/flex";
 
-.FowV4MatchResultForm {
+.Root {
   @include flex.column;
-}
 
-.SubmitButton {
-  align-self: end;
+  flex: 1 auto;
+  max-width: 100%;
 }
 
 .ConfirmDialogMatchCard {
   margin: 1rem var(--modal-inner-gutter) 0;
-}
-
-.Root {
-  @include flex.column;
-}
-
-.OpponentsSection {
-  display: grid;
-  grid-template-columns: 1fr variables.$border-width 1fr;
-  gap: 1rem;
-}
-
-.Player0Section,
-.Player1Section {
-  @include flex.column($xAlign: center);
-}
-
-.ResultsSection {
-  @include flex.column;
-}
-
-.OutcomeSection {
-  display: grid;
-  grid-template-columns: minmax(6rem, 1fr) 3fr;
-  gap: 1rem;
 }

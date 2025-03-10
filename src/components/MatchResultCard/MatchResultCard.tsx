@@ -1,111 +1,70 @@
-import {
-  Map,
-  Shield,
-  Sword,
-} from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { sentenceCase } from 'change-case';
+import { formatDistance } from 'date-fns';
+import { ChevronRight, Ellipsis } from 'lucide-react';
 
-import { missions } from '~/components/FowV4MatchResultForm/missions';
-import { Avatar } from '~/components/generic/Avatar';
-import { Card } from '~/components/generic/Card';
-import { UserPortrait } from '~/components/UserPortrait';
-import { FetchMatchResultItem } from '~/services/matchResults/fetchMatchResult';
-import { fowV4MatchOutcomeTypeLabels } from '~/types/fowV4/fowV4MatchOutcomeTypeSchema';
-import { getUserDisplayName } from '~/utils/common/getUserDisplayName';
-import { createCn } from '~/utils/componentLib/createCn';
-import flamesOfWarV4Utils from '~/utils/flamesOfWarV4Utils';
-import { FlagCircle } from '../generic/FlagCircle';
+import { FetchMatchResultListResponseItem } from '~/api';
+import { Button } from '~/components/generic/Button';
+import { Separator } from '~/components/generic/Separator';
+import { MatchResultPhotos } from './MatchResultPhotos';
+import { MatchResultSocialsOverview } from './MatchResultSocialOverview';
+import { PlayersBlock } from './PlayersBlock';
 
-import './MatchResultCard.scss';
-
-const cn = createCn('MatchResultCard');
-
-export type MatchData = Omit<FetchMatchResultItem, 'id' | 'created_at' | 'updated_at' | 'game_system_config' | 'game_system_config_id'> & {
-  id?: string;
-};
+import styles from './MatchResultCard.module.scss';
 
 export interface MatchResultCardProps {
-  matchId?: string;
-  matchData?: MatchData
+  matchResult: FetchMatchResultListResponseItem;
 }
+
 export const MatchResultCard = ({
-  matchId,
-  matchData,
+  matchResult,
 }: MatchResultCardProps): JSX.Element => {
-  let data: MatchData | undefined;
-  if (matchId) {
-    // Fetch the match
-    data = {} as MatchData;
-  } else if (matchData) {
-    data = matchData;
-  }
+  const navigate = useNavigate();
 
-  if (!data) {
-    return (
-      <Card disablePadding className={cn()}>
-        Not found...
-      </Card>
-    );
-  }
+  // TODO: Replace with global feature flags
+  const usePhotos = false;
+  const useSocials = true;
 
-  const score = flamesOfWarV4Utils.calculateMatchScore(data);
-  const player0Badges = [
-    {
-      element: (
-        <div className={cn('_StanceBadge')}>
-          {data!.attacker === 0 ? <Sword /> : <Shield />}
-        </div>
-      ),
-      position: 'top-right',
-    },
-  ];
-  if (data.player_0.competitor.country_code) {
-    player0Badges.push({
-      element: <FlagCircle size="1.5rem" code={data.player_0.competitor.country_code} />,
-      position: 'bottom-left',
-    });
-  }
-  const player1Badges = [
-    {
-      element: (
-        <div className={cn('_StanceBadge')}>
-          {data!.attacker === 1 ? <Sword /> : <Shield />}
-        </div>
-      ),
-      position: 'top-right',
-    },
-  ];
-  if (data.player_1.competitor.country_code) {
-    player1Badges.push({
-      element: <FlagCircle size="1.5rem" code={data.player_1.competitor.country_code} />,
-      position: 'bottom-left',
-    });
-  }
+  const detailsPath = `/match-results/${matchResult._id}`;
+
+  const handleClickDetails = (): void => {
+    navigate(detailsPath);
+  };
+
+  // const handleClickLike = (): void => {
+  //   // Create a new like
+  // };
+
+  // const handleClickLikes = (): void => {
+  //   navigate(`${detailsPath}?focus="likes"`);
+  // };
+
+  // const handleClickComments = (): void => {
+  //   navigate(`${detailsPath}?focus="comments"`);
+  // };
+
   return (
-    <Card disablePadding className={cn()} id={matchData?.id || 'Unknown match'}>
-      <div className={cn('_MainSection')}>
-        <div className={cn('_Player0Profile')}>
-          <UserPortrait displayName={getUserDisplayName(data.player_0.profile)} orientation="vertical">
-            <Avatar badges={player0Badges} />
-          </UserPortrait>
-        </div>
-        <div className={cn('_Player1Profile')}>
-          <UserPortrait displayName={getUserDisplayName(data.player_1.profile)} orientation="vertical">
-            <Avatar className={cn('_Player1Avatar')} badges={player1Badges} />
-          </UserPortrait>
-        </div>
-        <div className={cn('_Score')}>
-          <span className={cn('_ScorePlayer0')}>{score[0]}</span>
-          <span className={cn('_ScoreSeparator')}>:</span>
-          <span className={cn('_ScorePlayer1')}>{score[1]}</span>
-        </div>
-        <div className={cn('_Turns')}>
-          {data.turns_played > 1 ? `${data.turns_played} Turns` : '1 Turn'}
-        </div>
+    <div className={styles.Root}>
+      {usePhotos && <MatchResultPhotos />}
+      <PlayersBlock matchResult={matchResult} />
+      <Separator />
+      {useSocials && <MatchResultSocialsOverview />}
+      <Separator />
+      <div className={styles.Footer}>
+        <span className={styles.Date}>
+          {sentenceCase(formatDistance(new Date(matchResult.playedAt), new Date(), {
+            addSuffix: true,
+          }))}
+        </span>
+        {/* TODO: Add actions */}
+        <Button size="small" muted>
+          <Ellipsis />
+        </Button>
+        <Button size="small" onClick={handleClickDetails}>
+          Details
+          <ChevronRight />
+        </Button>
       </div>
-      <div className={cn('_BottomSection')}>
-        <div className={cn('_MissionSection')}><Map /> {missions.find((mission) => mission.id === data.mission_id)?.label}</div>
-        <div className={cn('_OutcomeSection')}>{fowV4MatchOutcomeTypeLabels[data.outcome_type]}</div>
-      </div>
-    </Card>
+    </div>
   );
 };

@@ -1,9 +1,9 @@
 import { z } from 'zod';
 
 import { DbRecord } from '~/types/DbRecord';
+import { fowV4BattlePlanSchema } from '~/types/fowV4/fowV4BattlePlanSchema';
 import { fowV4MatchOutcomeSchema } from '~/types/fowV4/fowV4MatchOutcomeSchema';
 import { fowV4MatchOutcomeTypeSchema } from '~/types/fowV4/fowV4MatchOutcomeTypeSchema';
-import { fowV4stanceSchema } from '~/types/fowV4/fowV4StanceSchema';
 
 export const matchSchema = z.object({
   game_system_config_id: z.union([z.string().uuid(), z.null()]),
@@ -14,16 +14,16 @@ export const matchSchema = z.object({
 });
 
 export const tournamentMatchFormSchema = z.object({
-  tournament_pairing_id: z.union([z.string().uuid(), z.null()]),
+  tournamentPairingId: z.union([z.string().uuid(), z.null()]),
   player_0_id: z.string().uuid(),
   player_1_id: z.string().uuid(),
   attacker: z.union([z.literal(0), z.literal(1)], { message: 'Please select an attacker' }),
   first_turn: z.union([z.literal(0), z.literal(1)], { message: 'Please select who had first turn' }),
   mission_id: z.string({ message: 'Please select a mission' }),
   outcome_type: fowV4MatchOutcomeTypeSchema,
-  player_0_stance: fowV4stanceSchema,
+  player_0_stance: fowV4BattlePlanSchema,
   player_0_units_lost: z.number().min(0),
-  player_1_stance: fowV4stanceSchema,
+  player_1_stance: fowV4BattlePlanSchema,
   player_1_units_lost: z.number().min(0),
   turns_played: z.coerce.number().min(1),
   winner: z.union([z.literal(0), z.literal(1), z.null()]),

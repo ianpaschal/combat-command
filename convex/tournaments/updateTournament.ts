@@ -3,7 +3,7 @@ import { v } from 'convex/values';
 import { mutation } from '../_generated/server';
 import { tournamentFields } from './fields';
 
-export const updateCompetitor = mutation({
+export const updateTournament = mutation({
   args: {
     id: v.id('tournaments'),
     ...tournamentFields,

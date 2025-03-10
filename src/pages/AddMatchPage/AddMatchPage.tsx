@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { FowV4MatchResultForm } from '~/components/FowV4MatchResultForm';
+import { FowV4MatchResultForm } from '~/components/FowV4SingleMatchResultForm';
 import { Button } from '~/components/generic/Button';
 import { Card } from '~/components/generic/Card';
 import { PageWrapper } from '~/components/PageWrapper';

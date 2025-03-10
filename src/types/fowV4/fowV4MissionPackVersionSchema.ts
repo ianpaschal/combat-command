@@ -20,3 +20,18 @@ export const fowV4MissionPackVersionOptions = fowV4MissionPackVersionSchema.opti
 ).map(
   ({ value }) => ({ value, label: fowV4MissionPackVersionLabels[value] }),
 );
+
+export const fowV4MissionPackMatrixes: Record<FowV4MissionPackVersion, string | string[]> = {
+  mission_pack_2021_03: [
+    'mission_pack_2021_03',
+    'mission_pack_2021_03_extended',
+  ],
+  mission_pack_2022_06: [
+    'mission_pack_2022_06',
+    'mission_pack_2022_06_extended',
+  ],
+  mission_pack_2023_04: [
+    'mission_pack_2023_04',
+    'mission_pack_2023_04_extended',
+  ],
+};

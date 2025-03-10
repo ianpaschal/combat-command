@@ -1,0 +1,8 @@
+@use "/src/style/flex";
+
+.Root {
+  @include flex.row($xAlign: right);
+
+  height: 4.5rem;
+  padding: 1rem var(--modal-inner-gutter);
+}

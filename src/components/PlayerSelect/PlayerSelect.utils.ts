@@ -1,6 +1,6 @@
 import { PlayerOption } from '~/components/PlayerSelect/PlayerSelect';
 import { TournamentCompetitorDeep } from '~/types/db';
-import { getUserDisplayName } from '~/utils/common/getUserDisplayName';
+import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
 
 export const getCompetitorPlayerOptions = (
   competitor?: TournamentCompetitorDeep,
@@ -10,7 +10,7 @@ export const getCompetitorPlayerOptions = (
   }
   return competitor.players.map((player) => ({
     value: player.id,
-    label: getUserDisplayName(player.profile),
+    label: getUserDisplayNameString(player.profile),
     avatar_url: player.profile.avatar_url,
     username: player.profile.username,
   }));

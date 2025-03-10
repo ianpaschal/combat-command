@@ -30,6 +30,9 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const cn = createCn('Button');
 
+// TODO: Mobile hit-box is always 40 x 40 rather than width x 40
+// TODO: X padding too large when there is an icon. Maybe switch to a icon / label / icon format
+
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   className,
   variant = 'solid',
@@ -43,7 +46,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   ...props
 }, ref) => {
   const width = useWindowWidth();
-  const size = customSize || width <= MOBILE_BREAKPOINT ? 'large' : 'normal';
+  const size = customSize || (width <= MOBILE_BREAKPOINT ? 'large' : 'normal');
   const elements = Children.toArray(children);
   const classNames = clsx(
     cn(),

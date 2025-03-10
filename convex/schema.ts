@@ -1,9 +1,13 @@
 import { authTables } from '@convex-dev/auth/server';
 import { defineSchema } from 'convex/server';
 
+import { fowV4MissionMatrixes } from './fowV4/fowV4MissionMatrixes';
+import { fowV4MissionPacks } from './fowV4/fowV4MissionPacks';
+import { fowV4Missions } from './fowV4/fowV4Missions';
 import {
   friendships,
   matchResults,
+  tournamentPairings,
   tournaments,
   users,
 } from './tables';
@@ -11,9 +15,13 @@ import { tournamentCompetitors } from './tournamentCompetitors';
 
 export default defineSchema({
   ...authTables,
+  fowV4MissionMatrixes,
+  fowV4MissionPacks,
+  fowV4Missions,
   friendships,
   matchResults,
   tournamentCompetitors,
+  tournamentPairings,
   tournaments,
   users,
 });

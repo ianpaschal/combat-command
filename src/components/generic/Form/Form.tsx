@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { BaseSyntheticEvent, ReactNode } from 'react';
 import {
   FieldValues,
   FormProvider,
@@ -20,11 +20,16 @@ export const Form = <T extends FieldValues>({
   children,
   className,
   onSubmit,
-}: FormProps<T>) => (
-  // TODO: Add an additional provider with loading and disabled states
-  <FormProvider {...form}>
-    <form onSubmit={form.handleSubmit(onSubmit)} className={className} id={id}>
-      {children}
-    </form>
-  </FormProvider>
-);
+}: FormProps<T>) => {
+  const handleSubmit = (e: BaseSyntheticEvent) => {
+    e.stopPropagation();
+    return form.handleSubmit(onSubmit)(e);
+  };
+  return (
+    <FormProvider {...form}>
+      <form onSubmit={handleSubmit} className={className} id={id}>
+        {children}
+      </form>
+    </FormProvider>
+  );
+};

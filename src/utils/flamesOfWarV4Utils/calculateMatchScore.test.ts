@@ -1,4 +1,4 @@
-import { FetchMatchResultItem } from '~/services/matchResults/fetchMatchResult';
+import { FetchMatchResultListResponseItem } from '~/api';
 import { calculateMatchScore } from './calculateMatchScore';
 
 describe('calculateMatchScore', () => {
@@ -6,10 +6,10 @@ describe('calculateMatchScore', () => {
     const matchResult = {
       details: {
         winner: 0,
-        player_0_units_lost: 1,
-        player_1_units_lost: 5,
+        player0UnitsLost: 1,
+        player1UnitsLost: 5,
       },
-    } as FetchMatchResultItem;
+    } as FetchMatchResultListResponseItem;
     expect(calculateMatchScore(matchResult)).toEqual([8, 1]);
   });
 
@@ -17,10 +17,10 @@ describe('calculateMatchScore', () => {
     const matchResult = {
       details: {
         winner: 0,
-        player_0_units_lost: 2,
-        player_1_units_lost: 5,
+        player0UnitsLost: 2,
+        player1UnitsLost: 5,
       },
-    } as FetchMatchResultItem;
+    } as FetchMatchResultListResponseItem;
     expect(calculateMatchScore(matchResult)).toEqual([7, 2]);
   });
 
@@ -28,10 +28,10 @@ describe('calculateMatchScore', () => {
     const matchResult = {
       details: {
         winner: 0,
-        player_0_units_lost: 3,
-        player_1_units_lost: 5,
+        player0UnitsLost: 3,
+        player1UnitsLost: 5,
       },
-    } as FetchMatchResultItem;
+    } as FetchMatchResultListResponseItem;
     expect(calculateMatchScore(matchResult)).toEqual([6, 3]);
   });
 
@@ -39,10 +39,10 @@ describe('calculateMatchScore', () => {
     const matchResult = {
       details: {
         winner: 1,
-        player_1_units_lost: 1,
-        player_0_units_lost: 5,
+        player1UnitsLost: 1,
+        player0UnitsLost: 5,
       },
-    } as FetchMatchResultItem;
+    } as FetchMatchResultListResponseItem;
     expect(calculateMatchScore(matchResult)).toEqual([1, 8]);
   });
 
@@ -50,10 +50,10 @@ describe('calculateMatchScore', () => {
     const matchResult = {
       details: {
         winner: 1,
-        player_1_units_lost: 2,
-        player_0_units_lost: 5,
+        player1UnitsLost: 2,
+        player0UnitsLost: 5,
       },
-    } as FetchMatchResultItem;
+    } as FetchMatchResultListResponseItem;
     expect(calculateMatchScore(matchResult)).toEqual([2, 7]);
   });
 
@@ -61,10 +61,10 @@ describe('calculateMatchScore', () => {
     const matchResult = {
       details: {
         winner: 1,
-        player_1_units_lost: 3,
-        player_0_units_lost: 5,
+        player1UnitsLost: 3,
+        player0UnitsLost: 5,
       },
-    } as FetchMatchResultItem;
+    } as FetchMatchResultListResponseItem;
     expect(calculateMatchScore(matchResult)).toEqual([3, 6]);
   });
 
@@ -72,10 +72,10 @@ describe('calculateMatchScore', () => {
     const matchResult = {
       details: {
         winner: null,
-        player_0_units_lost: 2,
-        player_1_units_lost: 3,
+        player0UnitsLost: 2,
+        player1UnitsLost: 3,
       },
-    } as FetchMatchResultItem;
+    } as FetchMatchResultListResponseItem;
     expect(calculateMatchScore(matchResult)).toEqual([3, 2]);
   });
 
@@ -83,10 +83,10 @@ describe('calculateMatchScore', () => {
     const matchResult = {
       details: {
         winner: null,
-        player_0_units_lost: 5,
-        player_1_units_lost: 4,
+        player0UnitsLost: 5,
+        player1UnitsLost: 4,
       },
-    } as FetchMatchResultItem;
+    } as FetchMatchResultListResponseItem;
     expect(calculateMatchScore(matchResult)).toEqual([3, 3]);
   });
 
@@ -94,10 +94,10 @@ describe('calculateMatchScore', () => {
     const matchResult = {
       details: {
         winner: null,
-        player_0_units_lost: 0,
-        player_1_units_lost: -1,
+        player0UnitsLost: 0,
+        player1UnitsLost: -1,
       },
-    } as FetchMatchResultItem;
+    } as FetchMatchResultListResponseItem;
     expect(calculateMatchScore(matchResult)).toEqual([1, 1]);
   });
 });

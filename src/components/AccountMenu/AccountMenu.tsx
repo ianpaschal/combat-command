@@ -7,7 +7,7 @@ import { Avatar } from '~/components/generic/Avatar';
 import { Button } from '~/components/generic/Button';
 import { Separator } from '~/components/generic/Separator';
 import { useSignOut } from '~/services/auth/useSignOut';
-import { getUserDisplayName } from '~/utils/common/getUserDisplayName';
+import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
 
 import styles from './AccountMenu.module.scss';
 
@@ -15,7 +15,7 @@ export const AccountMenu = (): JSX.Element => {
   const user = useAuth();
   const { signOut } = useSignOut();
 
-  const displayName = user ? getUserDisplayName(user) : 'Unknown User';
+  const displayName = user ? getUserDisplayNameString(user) : 'Unknown User';
 
   const navigate = useNavigate();
   const items = [

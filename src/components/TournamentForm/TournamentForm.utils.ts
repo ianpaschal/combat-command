@@ -1,8 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { format } from 'date-fns-tz';
 import { z } from 'zod';
 
-import { createLocalDatetimeString, localTimeFormat } from '~/components/generic/InputDateTime';
+import { createLocalDatetimeString } from '~/components/generic/InputDateTime';
 import { fowV4GameSystemConfigSchema } from '~/types/fowV4/fowV4GameSystemConfigSchema';
 import { tournamentPairingMethodSchema } from '~/types/TournamentPairingMethod';
 
@@ -12,19 +11,22 @@ export const tournamentFormSchema = z.object({
   title: z.string()
     .min(5, 'Title must be at least 5 characters.')
     .max(40, 'Titles are limited to 40 characters.'),
-  description: z.optional(z.string().max(1000, 'Descriptions are limited to 1000 characters.')),
-  rulesPackUrl: z.union([z.string().url('Please provide a valid URL.'), z.literal(''), z.null()]),
-  locationId: z.string(),
+  description: z.string().min(10, 'Please add a description.').max(1000, 'Descriptions are limited to 1000 characters.'),
+  rulesPackUrl: z.union([z.string().url('Please provide a valid URL.'), z.literal('')]),
+  location: z.object({
+    placeId: z.string(),
+    lat: z.number(),
+    lon: z.number(),
+  }),
   // banner_url: z.union([z.string().url('Please provide a valid URL.'), z.literal(''), z.null()]),
 
   startsAtLocal: z.string(),
   endsAtLocal: z.string(),
-  registrationClosesDate: z.string(),
-  registrationClosesTimeLocal: z.string(),
+  registrationClosesAtLocal: z.string(),
 
   // Format Config
   competitorCount: z.coerce.number().min(2, 'Tournaments require at least two competitors.'),
-  // competitor_groups: z.array(z.object({
+  // competitorGroups: z.array(z.object({
   //   name: z.string().min(1).max(20),
   //   size: z.coerce.number().min(1),
   // })),
@@ -35,18 +37,18 @@ export const tournamentFormSchema = z.object({
   pairingMethod: tournamentPairingMethodSchema,
 
   // Game Config
-  gameSystem: z.string().uuid(),
+  gameSystem: z.literal('flames_of_war_4th_edition'),
   gameSystemConfig: fowV4GameSystemConfigSchema, // TODO: Replace with a union of other game systems
-  rankingFactors: z.array(z.string()),
+  rankingFactors: z.array(z.union([z.literal('total_wins'), z.literal('total_points')])),
 
 }).refine(data => {
-  if (data.gameSystem === 'flames_of_war_v4') {
+  if (data.gameSystem === 'flames_of_war_4th_edition') {
     return fowV4GameSystemConfigSchema.safeParse(data.gameSystemConfig).success;
   }
   return false; // Return false if no valid game_system_id matches
 }, {
   message: 'Invalid config for the selected game system.',
-  path: ['game_system_config'], // Highlight the game_system_config field in case of error
+  path: ['gameSystemConfig'], // Highlight the game_system_config field in case of error
 });
 
 export const tournamentFormResolver = zodResolver(tournamentFormSchema);
@@ -61,21 +63,27 @@ export const defaultValues: TournamentFormData = {
   requireRealNames: true,
   description: '',
   startsAtLocal: createLocalDatetimeString({ hours: 9 }),
-  registrationClosesDate: '',
-  registrationClosesTimeLocal: '',
+  registrationClosesAtLocal: new Date().toISOString(),
   endsAtLocal: createLocalDatetimeString({ hours: 18 }),
   roundCount: 3,
-  locationId: '',
+  location: {
+    placeId: '',
+    lat: 0,
+    lon: 0,
+  },
   rulesPackUrl: '',
   pairingMethod: 'swiss',
-  rankingFactors: ['foo'],
+  rankingFactors: [],
   title: '',
-  gameSystem: '1e307db7-207b-4493-b563-8056535616cc', // Flames of War 4th Ed.
+  gameSystem: 'flames_of_war_4th_edition',
   gameSystemConfig: {
     era: 'lw',
     points: 100,
-    lessons_from_the_front_version: '2024-03',
-    allow_mid_war_monsters: 'no',
-    mission_pack_version: '2023-04',
+    lessonsFromTheFrontVersion: '2024-03',
+    dynamicPointsVersion: '2025-01',
+    missionPackVersion: '2023-04',
+    additionalRules: {
+      allowMidWarMonsters: 'no',
+    },
   },
 };

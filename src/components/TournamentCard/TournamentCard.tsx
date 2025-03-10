@@ -87,7 +87,7 @@ export const TournamentCard = ({
             </div>
             <div className={cn('Location')}>
               <MapPin />
-              <MapboxLocation id={tournament?.location} />
+              <MapboxLocation id={tournament?.location.placeId} />
             </div>
             <div className={cn('SeatsAvailable')}>
               <Users />

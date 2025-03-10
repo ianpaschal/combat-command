@@ -1,4 +1,4 @@
-import { FetchMatchResultItem } from '~/services/matchResults/fetchMatchResult';
+import { FetchMatchResultListResponseItem } from '~/api';
 
 /**
  * Calculate the Victory Points (i.e. score) for a given match result.
@@ -9,14 +9,16 @@ import { FetchMatchResultItem } from '~/services/matchResults/fetchMatchResult';
  * @param matchResult - The match result to score
  * @returns - A tuple with the scores for player 0 and 1 respectively
  */
-export const calculateMatchScore = (matchResult: FetchMatchResultItem): [number, number] => {
+export const calculateMatchScore = (matchResult: FetchMatchResultListResponseItem): [number, number] => {
+
+  // TODO: Add some guards in case matchResult is not FowV4
 
   // Player 0 Wins
   if (matchResult.details.winner === 0) {
-    if (matchResult.details.player_0_units_lost < 2) {
+    if (matchResult.details.player0UnitsLost < 2) {
       return [8, 1];
     }
-    if (matchResult.details.player_0_units_lost < 3) {
+    if (matchResult.details.player0UnitsLost < 3) {
       return [7, 2];
     }
     return [6, 3];
@@ -24,10 +26,10 @@ export const calculateMatchScore = (matchResult: FetchMatchResultItem): [number,
 
   // Player 1 Wins
   if (matchResult.details.winner === 1) {
-    if (matchResult.details.player_1_units_lost < 2) {
+    if (matchResult.details.player1UnitsLost < 2) {
       return [1, 8];
     }
-    if (matchResult.details.player_1_units_lost < 3) {
+    if (matchResult.details.player1UnitsLost < 3) {
       return [2, 7];
     }
     return [3, 6];
@@ -35,7 +37,7 @@ export const calculateMatchScore = (matchResult: FetchMatchResultItem): [number,
 
   // Draw
   return [
-    Math.max(Math.min(matchResult.details.player_1_units_lost, 3), 1),
-    Math.max(Math.min(matchResult.details.player_0_units_lost, 3), 1),
+    Math.max(Math.min(matchResult.details.player1UnitsLost, 3), 1),
+    Math.max(Math.min(matchResult.details.player0UnitsLost, 3), 1),
   ];
 };

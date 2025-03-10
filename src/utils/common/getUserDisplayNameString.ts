@@ -1,6 +1,6 @@
 import { User } from '~/api';
 
-export const getUserDisplayName = (userProfile: User | undefined): string => {
+export const getUserDisplayNameString = (userProfile: User | undefined | null): string => {
   if (!userProfile) {
     return 'Unknown User';
   }

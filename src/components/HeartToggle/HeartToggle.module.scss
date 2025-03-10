@@ -1,0 +1,13 @@
+.Root {
+  svg {
+    stroke: currentcolor;
+  }
+
+  &[data-state="checked"] {
+    color: #fa5252;
+
+    svg {
+      fill: currentcolor;
+    }
+  }
+}
