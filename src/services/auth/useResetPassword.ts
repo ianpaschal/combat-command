@@ -2,15 +2,11 @@ import { useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 
 import { toast } from '~/components/ToastProvider';
-import { ForgotPasswordFormInput } from '~/pages/ForgotPasswordPage/ForgotPasswordPage';
+// import { ForgotPasswordFormInput } from '~/pages/ForgotPasswordPage/ForgotPasswordPage';
 import { handleError } from '~/services/handleError';
-import { supabase } from '~/supabaseClient';
 
-const resetPassword = async ({ email }: ForgotPasswordFormInput): Promise<void> => {
-  const { error } = await supabase.auth.resetPasswordForEmail(email);
-  if (error) {
-    throw error;
-  }
+const resetPassword = async (): Promise<void> => {
+  // TODO: Add Convex password resets
 };
 
 export const useResetPassword = () => {
