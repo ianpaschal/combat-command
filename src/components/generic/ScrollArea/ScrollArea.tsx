@@ -2,9 +2,6 @@ import {
   ComponentPropsWithoutRef,
   ElementRef,
   forwardRef,
-  useEffect,
-  useRef,
-  useState,
 } from 'react';
 import {
   Corner,
@@ -15,8 +12,7 @@ import {
 } from '@radix-ui/react-scroll-area';
 import clsx from 'clsx';
 
-import { FourSidedState, useScrollIndicators } from '~/components/generic/ScrollArea/ScrollArea.hooks';
-import { useElementSize } from '~/hooks/useElementSize';
+import { useScrollIndicators } from '~/components/generic/ScrollArea/ScrollArea.hooks';
 import { bem } from '~/utils/componentLib/bem';
 
 import './ScrollArea.scss';

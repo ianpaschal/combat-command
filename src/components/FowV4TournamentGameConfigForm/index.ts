@@ -1,1 +1,0 @@
-export { FowV4TournamentGameConfigForm } from './FowV4TournamentGameConfigForm';

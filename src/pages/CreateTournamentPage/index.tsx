@@ -1,1 +1,0 @@
-export { CreateTournamentPage } from './CreateTournamentPage';

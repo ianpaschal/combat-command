@@ -1,1 +1,0 @@
-export { TournamentCreatePairingsPage } from './TournamentCreatePairingsPage';

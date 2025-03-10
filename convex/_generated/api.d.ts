@@ -68,6 +68,7 @@ import type * as users_fields from "../users/fields.js";
 import type * as users_updateAvatar from "../users/updateAvatar.js";
 import type * as users_updateUser from "../users/updateUser.js";
 import type * as users_utils_checkUserTournamentRelationship from "../users/utils/checkUserTournamentRelationship.js";
+import type * as users_utils_getAvatarUrl from "../users/utils/getAvatarUrl.js";
 import type * as users_utils_getLimitedUser from "../users/utils/getLimitedUser.js";
 import type * as users_utils_redactUserInfo from "../users/utils/redactUserInfo.js";
 
@@ -135,6 +136,7 @@ declare const fullApi: ApiFromModules<{
   "users/updateAvatar": typeof users_updateAvatar;
   "users/updateUser": typeof users_updateUser;
   "users/utils/checkUserTournamentRelationship": typeof users_utils_checkUserTournamentRelationship;
+  "users/utils/getAvatarUrl": typeof users_utils_getAvatarUrl;
   "users/utils/getLimitedUser": typeof users_utils_getLimitedUser;
   "users/utils/redactUserInfo": typeof users_utils_redactUserInfo;
 }>;

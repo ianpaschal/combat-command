@@ -8,4 +8,3 @@ export const tournamentStatusSchema = z.union([
 ]);
 
 export type TournamentStatus = z.infer<typeof tournamentStatusSchema>;
-

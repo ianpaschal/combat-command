@@ -27,7 +27,6 @@ export const SingleMatchPlayersFields = (): JSX.Element => {
     }
     if (user?._id && !values.player0UserId && !values.player1UserId) {
       setEditingPlayer(0);
-      console.log('will set as player0');
       setValue('player0UserId', user._id);
     }
   }, [user, values, setValue]);

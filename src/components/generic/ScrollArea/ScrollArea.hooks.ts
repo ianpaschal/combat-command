@@ -81,7 +81,6 @@ export const useScrollIndicators = (indicatorBorder?: string | string[]): UseScr
       left: scrollLeft > 0,
       right:  (scrollWidth - width > 1) && (scrollLeft + width < scrollWidth),
     });
-    console.log('height', height, 'scrollTop', scrollTop, 'scrollHeight', scrollHeight);
   };
 
   // Set initial visibility
@@ -89,16 +88,10 @@ export const useScrollIndicators = (indicatorBorder?: string | string[]): UseScr
     if (!ref.current) {
       return;
     }
-
     const observer = new ResizeObserver(() => {
-      console.log('resized!');
-      // const { inlineSize: width, blockSize: height } = entry.borderBoxSize[0];
-      // setSize({ width, height });
       updateIndicatorVisibility();
     });
-
     observer.observe(ref.current);
-
     return () => observer.disconnect();
   }, []);
 

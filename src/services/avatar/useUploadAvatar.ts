@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import imageCompression from 'browser-image-compression';
 import { useMutation } from 'convex/react';
 import Pica from 'pica';
 

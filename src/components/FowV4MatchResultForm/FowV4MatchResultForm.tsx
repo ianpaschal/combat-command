@@ -86,8 +86,7 @@ export const FowV4MatchResultForm = ({
     }
   };
 
-  const onConfirmSubmit: SubmitHandler<FowV4MatchResultFormData> = async (data: FowV4MatchResultFormData): Promise<void> => {
-    console.log('onsubmit', data);
+  const onConfirmSubmit: SubmitHandler<FowV4MatchResultFormData> = async (_data: FowV4MatchResultFormData): Promise<void> => {
     // const { gameSystemConfig } = tournament;
     // addMatchResult.mutate({ match: { ...data, game_system_config_id }, tournamentId: tournament.id }, {
     //   onSuccess: () => {
@@ -113,8 +112,6 @@ export const FowV4MatchResultForm = ({
   //     setTournamentPairingId(value as TournamentPairingId);
   //   }
   // };
-
-  console.log(form.watch(), form.formState.errors);
 
   return (
     <Form id={id} form={form} onSubmit={onSubmit} className={className}>

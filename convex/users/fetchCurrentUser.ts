@@ -1,5 +1,6 @@
 import { getAuthUserId } from '@convex-dev/auth/server';
 
+import { getAvatarUrl } from './utils/getAvatarUrl';
 import { query } from '../_generated/server';
 
 export const fetchCurrentUser = query({
@@ -12,9 +13,10 @@ export const fetchCurrentUser = query({
     if (!user) {
       return null;
     }
+    const avatarUrl = await getAvatarUrl(ctx, user.avatarStorageId);
     return {
       ...user,
-      avatarUrl: user.avatarStorageId ? await ctx.storage.getUrl(user.avatarStorageId) : undefined,
+      avatarUrl,
     };
   },
 });

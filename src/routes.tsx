@@ -7,27 +7,17 @@ import {
 
 import { AccountSettings } from '~/components/AccountSettings';
 import { App } from '~/components/App';
-import { NavLink, Visibility } from '~/components/generic/NavLinks';
+import { NavLink } from '~/components/generic/NavLinks';
 import { PreventAuth } from '~/components/PreventAuth';
 import { RequireAuth } from '~/components/RequireAuth';
 import { UserProfileForm } from '~/components/UserProfileForm';
-import { AddMatchPage } from '~/pages/AddMatchPage';
-import { ComponentTestPage } from '~/pages/ComponentTestPage';
-import { CreateTournamentPage } from '~/pages/CreateTournamentPage';
 import { DashboardPage } from '~/pages/DashboardPage';
-import { DialogDemo } from '~/pages/DialogDemo/DialogDemo';
-import { ForgotPasswordPage } from '~/pages/ForgotPasswordPage';
+// import { ForgotPasswordPage } from '~/pages/ForgotPasswordPage';
 import { LandingPage } from '~/pages/LandingPage';
 import { MatchResultsPage } from '~/pages/MatchResultsPage';
 import { SettingsPage } from '~/pages/SettingsPage';
 import { SignInPage } from '~/pages/SignInPage';
 import { SignUpPage } from '~/pages/SignUpPage';
-import { StatisticsPage } from '~/pages/StatisticsPage';
-import { TournamentCreatePairingsPage } from '~/pages/TournamentCreatePairingsPage';
-import { TournamentDetailPage } from '~/pages/TournamentDetailPage';
-import { TournamentRegisterPage } from '~/pages/TournamentRegisterPage/TournamentRegisterPage';
-import { TournamentsPage } from '~/pages/TournamentsPage';
-import { UserProfilePage } from '~/pages/UserProfilePage';
 
 export interface AppRoute {
   path: string;
@@ -44,11 +34,11 @@ export const mainRoutes: AppRoute[] = [
     element: <DashboardPage />,
     zone: 'internal',
   },
-  {
-    path: '/tournaments',
-    title: 'Tournaments',
-    element: <TournamentsPage />,
-  },
+  // {
+  //   path: '/tournaments',
+  //   title: 'Tournaments',
+  //   element: <TournamentsPage />,
+  // },
   {
     path: '/matches',
     title: 'Match Results',
@@ -113,15 +103,15 @@ export const routes = [
   //   visibility: [],
   //   element: <TournamentCreatePairingsPage />,
   // },
-  {
-    path: '/tournaments/create',
-    title: 'Create Tournament',
-    element: (
-      <RequireAuth>
-        <CreateTournamentPage />
-      </RequireAuth>
-    ),
-  },
+  // {
+  //   path: '/tournaments/create',
+  //   title: 'Create Tournament',
+  //   element: (
+  //     <RequireAuth>
+  //       <CreateTournamentPage />
+  //     </RequireAuth>
+  //   ),
+  // },
 
   // {
   //   path: '/profiles/:id',
@@ -189,6 +179,21 @@ export const getNavLinksByPath = (path: string): NavLink[] => {
     return acc;
   }, [] as NavLink[]);
 };
+
+interface RouteInfo {
+  path: string;
+  title: string;
+}
+
+export const getRouteTitles = (routes: (AppRoute | RouteObject)[]): RouteInfo[] => routes.reduce((acc: RouteInfo[], route) => {
+  if ('title' in route && typeof route.title === 'string' && !!route.path) {
+    acc.push({ path: route.path, title: route.title });
+  }
+  if (route.children) {
+    acc.push(...getRouteTitles(route.children));
+  }
+  return acc;
+}, []);
 
 export const router = createBrowserRouter([{
   path: '/',

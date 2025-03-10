@@ -13,7 +13,7 @@ export interface MapboxLocationProps {
 export const MapboxLocation = ({
   id,
   className,
-  loading = false,
+  // loading = false,
 }: MapboxLocationProps): JSX.Element => {
 
   const { data: location } = useRetrieveLocation(id);

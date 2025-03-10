@@ -1,20 +1,6 @@
-import { getAuthUserId } from '@convex-dev/auth/server';
-import { v } from 'convex/values';
-
+import { getAvatarUrl } from './utils/getAvatarUrl';
 import { redactUserInfo } from './utils/redactUserInfo';
-import { Id } from '../_generated/dataModel';
-import { query, QueryCtx } from '../_generated/server';
-
-const getAvatarUrl = async (ctx: QueryCtx, storageId?: Id<'_storage'>): Promise<string | undefined> => {
-  if (!storageId) {
-    return undefined;
-  }
-  const avatarUrl = await ctx.storage.getUrl(storageId);
-  if (avatarUrl) {
-    return avatarUrl;
-  }
-  return undefined;
-};
+import { query } from '../_generated/server';
 
 export const fetchUserList = query({
   args: {

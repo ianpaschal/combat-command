@@ -13,14 +13,14 @@ export const AppearanceForm = (): JSX.Element => {
   const form = useForm<UserPreferences>({
     resolver: zodResolver(userPreferencesSchema),
     defaultValues: {
-      user_id: user!.id, // Page is wrapped in <RequireAuth/>
+      user_id: user!._id, // Page is wrapped in <RequireAuth/>
       language_code: 'en-US',
       color_scheme: 'default_light',
     },
   });
 
-  const onSubmit: SubmitHandler<UserPreferences> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<UserPreferences> = (_data) => {
+    // TODO: Handle form submission
   };
 
   return (

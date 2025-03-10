@@ -28,7 +28,6 @@ export const InputDateTime = forwardRef<HTMLInputElement, InputDateTimeProps>(({
 
   const onDateChange = (selectedDate?: Date) => {
     if (selectedDate && onChange) {
-      console.log('SELECTED', format(selectedDate, 'yyyy-MM-dd'));
       // onChange(`${format(selectedDate, 'yyyy-MM-dd')}T${hours}:${minutes}:00`);
       const updated = createLocalDatetimeString({ date: format(selectedDate, 'yyyy-MM-dd'), hours, minutes });
       onChange(updated);

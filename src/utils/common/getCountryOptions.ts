@@ -13,11 +13,6 @@ export const getCountryOptions = (): InputSelectOption<string>[] => {
   }, [] as InputSelectOption<string>[]);
 
   const britishCountries = ['gb-eng', 'gb-wls', 'gb-sct', 'gb-nir'].map((code) => ({ label: getCountryName(code) || 'Unknown Country', value: code }));
-
-  console.log('foo', [
-    ...isoCountriesWithoutBritain,
-    ...britishCountries,
-  ].sort((a, b) => a.label.localeCompare(b.label)));
   
   return [
     ...isoCountriesWithoutBritain,

@@ -16,4 +16,3 @@ export const TabsTrigger = forwardRef<TabsTriggerRef, TabsTriggerProps>(({
 }, ref): JSX.Element => (
   <Trigger ref={ref} className={clsx('TabsTrigger', className)} {...props} />
 ));
-

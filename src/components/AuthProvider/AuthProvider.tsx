@@ -25,9 +25,7 @@ export const AuthProvider = ({
 
   useEffect(() => {
     if (user !== undefined) {
-      console.log(user);
       setLoading(false);
-      console.log(user ? 'Signed in!' : 'No user signed in!');
     }
   }, [user]);
 

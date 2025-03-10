@@ -1,12 +1,13 @@
 import { getAuthUserId } from '@convex-dev/auth/server';
 
-import { Doc, Id } from '../../_generated/dataModel';
+import { Doc } from '../../_generated/dataModel';
 import { QueryCtx } from '../../_generated/server';
 import { checkUserTournamentRelationship } from './checkUserTournamentRelationship';
 
 export const redactUserInfo = async (ctx: QueryCtx, user: Doc<'users'>) => {
   const queryingUserId = await getAuthUserId(ctx);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { givenName, familyName, countryCode, ...restFields } = user;
 
   const limitedUser: Doc<'users'> = restFields;

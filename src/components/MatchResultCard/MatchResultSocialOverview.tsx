@@ -10,10 +10,7 @@ import { HeartToggle } from '~/components/HeartToggle';
 import styles from './MatchResultSocialOverview.module.scss';
 
 export const MatchResultSocialsOverview = (): JSX.Element => {
-  console.log('foo');
-
   const likeCount = 0;
-
   return (
     <div className={styles.Root}>
       <div className={styles.Likes}>

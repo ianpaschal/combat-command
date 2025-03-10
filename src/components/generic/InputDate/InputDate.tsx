@@ -1,10 +1,4 @@
-import {
-  ChangeEvent,
-  forwardRef,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { forwardRef } from 'react';
 import * as Popover from '@radix-ui/react-popover';
 import { format } from 'date-fns';
 import { CalendarIcon, Clock } from 'lucide-react';
@@ -14,8 +8,6 @@ import { Calendar } from '~/components/generic/Calendar';
 import { createLocalDatetimeString } from '~/components/generic/InputDateTime/InputDateTime.utils';
 import { TimeSubSelect } from '~/components/generic/InputDateTime/TimeSubSelect';
 import { getMinuteOptions, hourOptions } from '~/components/generic/InputDateTime/TimeSubSelect.utils';
-import { InputSelect } from '~/components/generic/InputSelect';
-import { SelectValue } from '~/components/generic/InputSelect/InputSelect.types';
 import { InputText } from '~/components/generic/InputText';
 import { Separator } from '~/components/generic/Separator';
 
@@ -36,7 +28,6 @@ export const InputDate = forwardRef<HTMLInputElement, InputDateProps>(({
 
   const onDateChange = (selectedDate?: Date) => {
     if (selectedDate && onChange) {
-      console.log('SELECTED', format(selectedDate, 'yyyy-MM-dd'));
       // onChange(`${format(selectedDate, 'yyyy-MM-dd')}T${hours}:${minutes}:00`);
       const updated = createLocalDatetimeString({ date: format(selectedDate, 'yyyy-MM-dd'), hours, minutes });
       onChange(updated);

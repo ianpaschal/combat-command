@@ -1,1 +1,0 @@
-export { PairingCell } from './PairingCell';
