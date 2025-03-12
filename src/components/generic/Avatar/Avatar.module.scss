@@ -20,9 +20,13 @@
   @include corners.round;
   @include flex.centered;
 
+  position: relative;
+
   overflow: hidden;
+
   width: 100%;
   height: 100%;
+
   background-color: variables.$solid-muted-bg;
 
   svg {
@@ -40,6 +44,7 @@
   pointer-events: none;
   user-select: none;
 
+  position: absolute;
   inset: 0;
 
   width: 100%;

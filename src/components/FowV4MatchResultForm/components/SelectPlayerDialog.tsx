@@ -52,7 +52,7 @@ export const SelectPlayerDialog = ({
       onCloseComplete={handleCloseComplete}
       trigger={
         <button className={disabled ? styles.PlayerSelectButton : styles.PlayerSelectButtonActive} disabled={disabled}>
-          <Avatar url={existingUser?.avatarUrl} />
+          <Avatar url={existingUser?.avatarUrl} className={styles.UserAvatar} />
           <div className={styles.UserDisplayName}>
             {existingPlaceholder}
             {existingUser && (
@@ -70,7 +70,7 @@ export const SelectPlayerDialog = ({
             <div className={styles.UserList}>
               {selectableUsers.map((user, i) => (
                 <div className={styles.UserListItem} key={i} >
-                  <Avatar url={user.avatarUrl} />
+                  <Avatar url={user.avatarUrl} className={styles.UserAvatar} />
                   <div className={styles.UserDisplayName}>
                     {getUserDisplayNameReact(user)}
                   </div>

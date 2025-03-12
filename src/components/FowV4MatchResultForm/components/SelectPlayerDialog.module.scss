@@ -44,6 +44,11 @@
 
   padding: 0.5rem;
   text-align: left;
+
+  .UserAvatar {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
 }
 
 .UserSelectButton {
@@ -86,22 +91,30 @@
   flex: 1 0 auto;
 
   width: 100%;
-  padding: 1rem;
 
   color: inherit;
   text-align: center;
 
   background-color: transparent;
   border: none;
+
+  .UserAvatar {
+    width: 6rem;
+    height: 6rem;
+  }
 }
 
 .PlayerSelectButton {
   @include player-select-button;
+
+  padding: 1rem;
 }
 
 .PlayerSelectButtonActive {
   @include player-select-button;
   @include variants.outlined;
+
+  padding: calc(1rem - var(--border-width));
 }
 
 .PlaceholderInput {

@@ -51,7 +51,7 @@ export const MatchResultCommentForm = ({
   }
   return (
     <form className={clsx(styles.MatchResultCommentForm, className)} onSubmit={form.handleSubmit(onSubmit)}>
-      <Avatar url={user.avatarUrl} />
+      <Avatar url={user.avatarUrl} className={styles.Avatar} />
       <InputTextArea className={styles.TextArea} {...form.register('body')} />
       <Button type="submit">
         <SendHorizonal />
