@@ -1,1 +1,0 @@
-export { TournamentDetailPage } from './TournamentDetailPage';

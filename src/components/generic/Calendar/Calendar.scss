@@ -9,7 +9,7 @@
 
   & {
     position: relative;
-    height: 1.75rem;
+    height: 2.5rem;
     margin-bottom: 0.5rem;
     font-weight: 500;
   }
@@ -20,8 +20,8 @@
   @include corners.normal;
 
   & {
-    width: 2.25rem;
-    height: 2.25rem;
+    width: 2.5rem;
+    height: 2.5rem;
   }
 }
 
@@ -31,16 +31,15 @@
 
 .CalendarNavButton {
   @include variants.outlined-muted;
+  @include flex.centered;
 
-  & {
-    position: absolute;
-    top: 0;
+  position: absolute;
+  top: 0;
 
-    width: 1.75rem;
-    height: 1.75rem;
+  width: 2.5rem;
+  height: 2.5rem;
 
-    border-radius: 6px;
-  }
+  border-radius: 6px;
 }
 
 .CalendarNavButtonPrevious {

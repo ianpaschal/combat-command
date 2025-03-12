@@ -19,6 +19,25 @@
   }
 }
 
+@mixin small($bold: false, $muted: false, $link: false) {
+  font-size: var(--font-size-small);
+  font-weight: 400;
+  line-height: var(--line-height-small);
+  color: variables.$text-base;
+
+  @if $bold == true {
+    font-weight: 500;
+  }
+
+  @if $muted == true {
+    color: variables.$text-muted;
+  }
+
+  @if $link == true {
+    color: variables.$text-link;
+  }
+}
+
 // - `text.uiBold` 0.875rem x 1.25rem, 700
 // - `text.uiMuted` 0.875rem x 1.25rem, 700
 // - `text.normal` 0.875rem, muted color

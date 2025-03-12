@@ -5,19 +5,26 @@ import {
   useState,
 } from 'react';
 import * as Popover from '@radix-ui/react-popover';
-import { Search } from 'lucide-react';
+import { Search, X } from 'lucide-react';
+import { useDebounce } from 'use-debounce';
 
 import { Button } from '~/components/generic/Button';
 import { InputText } from '~/components/generic/InputText';
-import { useDebounce } from '~/hooks/useDebounce';
-import { useFetchLocation } from '~/services/useFetchLocation';
-import { useLocationSearch } from '~/services/useLocationSearch';
+import { useRetrieveLocation } from '~/services/mapbox/useRetrieveLocation';
+import { useSuggestLocation } from '~/services/mapbox/useSuggestLocation';
+import { LocationButton } from './LocationButton';
 
-import './InputDate.scss';
+import styles from './InputLocation.module.scss';
+
+type Location = {
+  lat: number;
+  lon: number;
+  placeId: string;
+};
 
 export interface InputLocationProps {
-  value?: string,
-  onChange?: (placeId?: string) => void;
+  value?: Location,
+  onChange?: (location?: Location) => void;
 }
 
 export const InputLocation = forwardRef<HTMLButtonElement, InputLocationProps>(({
@@ -25,46 +32,76 @@ export const InputLocation = forwardRef<HTMLButtonElement, InputLocationProps>((
   onChange,
   ...props
 }, ref): JSX.Element => {
-
   const [searchTerm, setSearchTerm] = useState<string>('');
+  const [debouncedSearch] = useDebounce(searchTerm, 500); // Delay by 500ms
+  const [selectedPlaceId, setSelectedPlaceId] = useState<string | undefined>(value?.placeId);
 
-  const [selectedPlaceId, setSelectedPlaceId] = useState<string | undefined>(value);
+  const { data: suggestions } = useSuggestLocation(debouncedSearch);
+  const { data: selectedPlace } = useRetrieveLocation(selectedPlaceId);
 
-  const { data: locations } = useLocationSearch(searchTerm);
-  const { data: selectedPlace } = useFetchLocation(selectedPlaceId);
+  const handleSearch = (e: ChangeEvent<HTMLInputElement>): void => setSearchTerm(e.target.value);
 
-  const handleSearch = useDebounce((e: ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value));
+  const handleSelect = (placeId: string): void => {
+    setSelectedPlaceId(placeId);
+  };
+
+  const handleClear = (): void => {
+    setSelectedPlaceId(undefined);
+    if (onChange) {
+      onChange(undefined);
+    }
+  };
 
   useEffect(() => {
-    if (onChange && selectedPlaceId) {
-      onChange(selectedPlaceId);
+    if (value && value.placeId !== selectedPlaceId) {
+      setSelectedPlaceId(selectedPlaceId);
     }
-  }, [onChange, selectedPlaceId]);
+  }, [selectedPlaceId, setSelectedPlaceId, value]);
+
+  useEffect(() => {
+    if (selectedPlace && onChange) {
+      const placeId = selectedPlace.properties.mapbox_id;
+      const [lat, lon] = selectedPlace.geometry.coordinates;
+      onChange({ placeId, lat, lon });
+    }
+  }, [selectedPlace, onChange]);
 
   return (
-    <Popover.Root>
-      <Popover.Trigger asChild>
-        <Button ref={ref} variant="outlined" {...props}>
-          {selectedPlace?.length ? selectedPlace[0].display_name : 'Search...'}
-        </Button>
-      </Popover.Trigger>
-      <Popover.Portal>
-        <Popover.Content className="InputDatePopoverContent" align="start">
-          <InputText
-            slotBefore={<Search />}
-            // value={searchTerm}
-            onChange={handleSearch}
+    <div className={styles.Root}>
+      <Popover.Root>
+        <Popover.Trigger asChild>
+          <LocationButton
+            ref={ref}
+            place={selectedPlace?.properties}
+            placeholder="Search..."
+            {...props}
           />
-          {locations && locations.slice(0, 10).map((location) => (
-            <Popover.Close key={location.place_id} asChild >
-              <Button variant="outlined" onClick={() => setSelectedPlaceId(`${location.osm_type.substring(0, 1).toUpperCase()}${location.osm_id}`)}>
-                {location.display_name}
-              </Button>
-            </Popover.Close>
-          ))}
-        </Popover.Content>
-      </Popover.Portal>
-    </Popover.Root>
+        </Popover.Trigger>
+        <Popover.Portal>
+          <Popover.Content className={styles.InputDatePopoverContent} align="start">
+            <InputText
+              slotBefore={<Search />}
+              value={searchTerm}
+              onChange={handleSearch}
+            />
+            {(suggestions || []).map((location) => (
+              <Popover.Close key={location.mapbox_id} asChild>
+                <LocationButton place={location} onClick={() => handleSelect(location.mapbox_id)} />
+              </Popover.Close>
+            ))}
+          </Popover.Content>
+        </Popover.Portal>
+      </Popover.Root>
+      {selectedPlaceId && (
+        <Button
+          onClick={handleClear}
+          variant="ghost"
+          className={styles.ClearButton}
+        >
+          <X />
+        </Button>
+      )}
+    </div>
   );
 });
 InputLocation.displayName = 'InputLocation';

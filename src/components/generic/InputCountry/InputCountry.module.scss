@@ -1,0 +1,114 @@
+@use "/src/style/variables";
+@use "/src/style/animate";
+@use "/src/style/flex";
+@use "/src/style/variants";
+@use "/src/style/borders";
+@use "/src/style/shadows";
+@use "/src/style/sizes";
+@use "/src/style/corners";
+@use "/src/style/text";
+
+.Trigger {
+  @include variants.outlined;
+  @include sizes.normal;
+  @include corners.normal;
+  @include flex.row;
+  @include text.ui;
+
+  width: 100%;
+  padding: 0 1rem;
+}
+
+.TriggerDisabled {
+  @include variants.outlined-disabled;
+}
+
+.TriggerHasError {
+  border-color: variables.$red;
+}
+
+.Icon {
+  pointer-events: none;
+
+  width: 1rem;
+  height: 1rem;
+  margin-left: auto;
+
+  color: inherit;
+
+  @include flex.centered;
+}
+
+.Content {
+  @include borders.normal;
+  @include shadows.shadow;
+  @include animate.duration-quick;
+  @include animate.style-pop;
+
+  overflow: hidden;
+  padding: 0.5rem 0.25rem;
+  background-color: variables.$white;
+  border-radius: variables.$corner-radius;
+}
+
+.Viewport {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.Value {
+  @include flex.row($gap: 0.5rem);
+  @include text.ui;
+}
+
+.Item {
+  @include flex.row($gap: 0.5rem);
+  @include text.ui;
+  @include corners.tight;
+
+  position: relative;
+
+  flex-shrink: 0;
+
+  height: 2rem;
+  margin: 2px; // For the focus outline
+  padding-left: 2rem; // For the check mark icon
+}
+
+.Item[data-disabled] {
+  color: variables.$text-disabled;
+
+  // pointer-events: none;
+}
+
+.Item[data-highlighted] {
+  background-color: variables.$ghost-bg-hover;
+}
+
+.Item[data-state="checked"] {
+  @include variants.solid;
+}
+
+.ItemIndicator {
+  pointer-events: none;
+
+  position: absolute;
+  top: calc(0.5rem + 1px); // Looks better 1px further down
+  left: 0.5rem;
+
+  width: 1rem;
+  height: 1rem;
+
+  color: inherit;
+
+  @include flex.centered;
+}
+
+.ScrollButton {
+  @include flex.centered;
+
+  cursor: default;
+  height: 25px;
+  background-color: white;
+}

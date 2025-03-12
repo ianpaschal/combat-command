@@ -51,4 +51,3 @@ export const ScrollArea = forwardRef<ScrollAreaRef, ScrollAreaProps>(({
     </Root>
   );
 });
-

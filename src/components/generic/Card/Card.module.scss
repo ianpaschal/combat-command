@@ -1,0 +1,18 @@
+@use "/src/style/flex";
+@use "/src/style/variables";
+@use "/src/style/variants";
+@use "/src/style/corners";
+@use "/src/style/shadows";
+@use "/src/style/text";
+
+.Card {
+  @include flex.column($gap: 0);
+  @include variants.outlined($hover: false);
+  @include shadows.surface-shadow;
+  @include corners.normal;
+  @include flex.stretchy;
+
+  min-height: 0;
+  max-height: 100%;
+  background-color: variables.$card-bg;
+}

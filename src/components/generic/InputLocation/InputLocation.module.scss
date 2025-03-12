@@ -1,0 +1,73 @@
+@use "/src/style/variables";
+@use "/src/style/animate";
+@use "/src/style/variants";
+@use "/src/style/shadows";
+@use "/src/style/text";
+@use "/src/style/flex";
+
+.InputDatePopoverContent {
+  @include variants.outlined($hover: false);
+  @include shadows.shadow;
+  @include animate.duration-quick;
+  @include animate.style-pop;
+
+  @include flex.column($gap: 0.5rem);
+
+  margin: 0.25rem 0;
+  padding: 1rem;
+  background-color: variables.$card-bg;
+  border-radius: variables.$corner-radius;
+}
+
+.Root {
+  position: relative;
+}
+
+.Location {
+  @include text.ui;
+
+  display: grid;
+  grid-template-columns: 1rem 1fr;
+  grid-template-rows: 1.25rem 1rem;
+  gap: 0 0.5rem;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 100%;
+  height: min-content;
+  padding: 0.5rem 0.75rem;
+
+  text-align: left;
+}
+
+.LocationName {
+  grid-column: 2/3;
+  grid-row: 1/2;
+}
+
+.LocationIcon {
+  grid-column: 1/2;
+  grid-row: 1/3;
+}
+
+.LocationAddress {
+  grid-column: 2/3;
+  grid-row: 2/3;
+
+  @include text.small($muted: true);
+}
+
+.LocationPlaceholder {
+  grid-column: 2/3;
+  grid-row: 1/3;
+}
+
+.Suggestions {
+  @include flex.column($gap: 0.25rem);
+}
+
+.ClearButton {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+}

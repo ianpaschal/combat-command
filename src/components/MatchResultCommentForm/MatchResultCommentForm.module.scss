@@ -1,0 +1,9 @@
+@use "/src/style/flex";
+
+.MatchResultCommentForm {
+  @include flex.row($gap: 0.5rem, $yAlign: top);
+}
+
+.TextArea {
+  min-height: 4.5rem;
+}

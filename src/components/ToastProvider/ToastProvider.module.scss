@@ -1,0 +1,129 @@
+@use "/src/style/corners";
+@use "/src/style/variables";
+@use "/src/style/variants";
+@use "/src/style/text";
+
+.Viewport {
+  position: fixed;
+  z-index: 2147483647;
+  top: 0;
+  right: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  width: 20rem;
+  margin: 0;
+  padding: 4.5rem var(--modal-outer-gutter) 1rem;
+
+  list-style: none;
+
+  outline: none;
+}
+
+.Root {
+  @include corners.wide;
+  @include variants.outlined($hover: false);
+
+  display: grid;
+  grid-template-columns: 1.25rem auto;
+  grid-template-rows: 1.25rem auto;
+  gap: 0.25rem 0.5rem;
+  align-items: center;
+
+  padding: 0.75rem 1rem;
+
+  background-color: variables.$card-bg;
+  box-shadow:
+    hsl(206deg 22% 7% / 35%) 0 10px 38px -10px,
+    hsl(206deg 22% 7% / 20%) 0 10px 20px -15px;
+
+  &[data-state="open"] {
+    animation: slide-in 500ms cubic-bezier(0, 0.32, 0.37, 1);
+  }
+
+  &[data-state="closed"] {
+    animation: hide 200ms ease-in;
+  }
+
+  &[data-swipe="move"] {
+    transform: translateX(var(--radix-toast-swipe-move-x));
+  }
+
+  &[data-swipe="cancel"] {
+    transform: translateX(0);
+    transition: transform 200ms ease-out;
+  }
+
+  &[data-swipe="end"] {
+    animation: swipe-out 100ms ease-out;
+  }
+}
+
+@keyframes hide {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateY(-4.5rem);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes swipe-out {
+  from {
+    transform: translateX(var(--radix-toast-swipe-end-x));
+  }
+
+  to {
+    transform: translateX(calc(100% + var(--viewport-padding)));
+  }
+}
+
+.Icon {
+  grid-column: 1/2;
+  grid-row: 1/2;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.Title {
+  @include text.ui($bold: true);
+
+  grid-column: 2/3;
+  grid-row: 1/2;
+}
+
+.Description {
+  @include text.ui($muted: true);
+
+  grid-column: 2/3;
+  grid-row: 2/3;
+}
+
+.SeverityError {
+  color: variables.$red;
+}
+
+.SeverityWarning {
+  color: variables.$orange;
+}
+
+.SeveritySuccess {
+  color: variables.$green;
+}
+
+.SeverityInfo {
+  color: variables.$blue;
+}

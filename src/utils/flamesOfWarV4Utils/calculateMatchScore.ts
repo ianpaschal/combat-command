@@ -1,6 +1,4 @@
-import { MatchResultDeep } from '~/types/db';
-
-type MatchScoreInput = Pick<MatchResultDeep, 'outcome'>;
+import { FetchMatchResultListResponseItem } from '~/api';
 
 /**
  * Calculate the Victory Points (i.e. score) for a given match result.
@@ -11,25 +9,27 @@ type MatchScoreInput = Pick<MatchResultDeep, 'outcome'>;
  * @param matchResult - The match result to score
  * @returns - A tuple with the scores for player 0 and 1 respectively
  */
-export const calculateMatchScore = (match: MatchScoreInput): [number, number] => {
+export const calculateMatchScore = (matchResult: FetchMatchResultListResponseItem): [number, number] => {
+
+  // TODO: Add some guards in case matchResult is not FowV4
 
   // Player 0 Wins
-  if (match.outcome.winner === 0) {
-    if (match.outcome.player_0_units_lost < 2) {
+  if (matchResult.details.winner === 0) {
+    if (matchResult.details.player0UnitsLost < 2) {
       return [8, 1];
     }
-    if (match.outcome.player_0_units_lost < 3) {
+    if (matchResult.details.player0UnitsLost < 3) {
       return [7, 2];
     }
     return [6, 3];
   }
 
   // Player 1 Wins
-  if (match.outcome.winner === 1) {
-    if (match.outcome.player_1_units_lost < 2) {
+  if (matchResult.details.winner === 1) {
+    if (matchResult.details.player1UnitsLost < 2) {
       return [1, 8];
     }
-    if (match.outcome.player_1_units_lost < 3) {
+    if (matchResult.details.player1UnitsLost < 3) {
       return [2, 7];
     }
     return [3, 6];
@@ -37,7 +37,7 @@ export const calculateMatchScore = (match: MatchScoreInput): [number, number] =>
 
   // Draw
   return [
-    Math.max(Math.min(match.outcome.player_1_units_lost, 3), 1),
-    Math.max(Math.min(match.outcome.player_0_units_lost, 3), 1),
+    Math.max(Math.min(matchResult.details.player1UnitsLost, 3), 1),
+    Math.max(Math.min(matchResult.details.player0UnitsLost, 3), 1),
   ];
 };

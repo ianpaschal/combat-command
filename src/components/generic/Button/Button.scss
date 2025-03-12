@@ -9,6 +9,7 @@
   @include corners.normal;
   @include text.ui($bold: true);
 
+  position: relative;
   flex-shrink: 0;
 
   svg {
@@ -32,10 +33,17 @@
   // Size
   &-size-tiny {
     @include sizes.tiny;
+
+    svg {
+      width: 0.75rem;
+      height: 0.75rem;
+    }
   }
 
   &-size-small {
     @include sizes.small;
+
+    padding: 0.5rem;
   }
 
   &-size-normal {
@@ -46,8 +54,8 @@
     @include sizes.large;
 
     svg {
-      width: 1.5rem;
-      height: 1.5rem;
+      width: 1.25rem;
+      height: 1.25rem;
     }
   }
 

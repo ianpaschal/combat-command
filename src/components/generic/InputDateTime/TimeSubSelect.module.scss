@@ -1,0 +1,76 @@
+@use "/src/style/variables";
+@use "/src/style/animate";
+@use "/src/style/flex";
+@use "/src/style/variants";
+@use "/src/style/borders";
+@use "/src/style/shadows";
+@use "/src/style/sizes";
+@use "/src/style/corners";
+@use "/src/style/text";
+
+.Trigger {
+  @include variants.outlined;
+  @include sizes.normal;
+  @include corners.normal;
+  @include flex.centered;
+  @include text.ui;
+
+  width: 2.5rem;
+}
+
+.Content {
+  @include borders.normal;
+  @include shadows.shadow;
+  @include animate.duration-quick;
+  @include animate.style-pop;
+
+  & {
+    overflow: hidden;
+    padding: 0.5rem 0.25rem;
+    background-color: variables.$white;
+    border-radius: variables.$corner-radius;
+  }
+}
+
+.Viewport {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.Item {
+  @include text.ui;
+  @include flex.centered;
+
+  position: relative;
+
+  display: flex;
+  flex-shrink: 0;
+
+  width: 3rem;
+  height: 2.5rem;
+
+  border-radius: 0.25rem;
+}
+
+// .Item[data-disabled] {
+//   color: variables.$text-disabled;
+
+//   // pointer-events: none;
+// }
+
+.Item[data-highlighted] {
+  background-color: variables.$ghost-bg-hover;
+}
+
+.Item[data-state="checked"] {
+  @include variants.solid;
+}
+
+.ScrollButton {
+  @include flex.centered;
+
+  cursor: default;
+  height: 1.5rem;
+  background-color: white;
+}

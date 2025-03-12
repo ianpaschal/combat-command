@@ -1,1 +1,0 @@
-export { TournamentForm } from './TournamentForm';

@@ -21,7 +21,7 @@ const signInFormSchema = z.object({
 export type SignInFormInput = z.infer<typeof signInFormSchema>;
 
 export const SignInPage = (): JSX.Element => {
-  const signUp = useSignIn();
+  const { signIn, isLoading } = useSignIn();
 
   const form = useForm<SignInFormInput>({
     resolver: zodResolver(signInFormSchema),
@@ -33,10 +33,8 @@ export const SignInPage = (): JSX.Element => {
   });
 
   const onSubmit: SubmitHandler<SignInFormInput> = async (data: SignInFormInput): Promise<void> => {
-    signUp.mutate(data);
+    signIn(data, '/dashboard');
   };
-
-  const { isPending } = signUp;
 
   return (
     <PreventAuth>
@@ -46,14 +44,14 @@ export const SignInPage = (): JSX.Element => {
           <p>Sign in to your account</p>
         </div>
         <Form className={styles.Form} form={form} onSubmit={onSubmit}>
-          <FormField name="email" label="Email" disabled={isPending}>
+          <FormField name="email" label="Email" disabled={isLoading}>
             <InputText type="text" /* Not email, to avoid browser validation */ />
           </FormField>
-          <FormField name="password" label="Password" disabled={isPending}>
+          <FormField name="password" label="Password" disabled={isLoading}>
             <InputText type="password" />
           </FormField>
           <Link to="/forgot-password">Forgot Password</Link>
-          <Button type="submit" loading={isPending}>Sign In</Button>
+          <Button type="submit" loading={isLoading}>Sign In</Button>
         </Form>
         <Separator />
         <p>Don't have an account yet? <Link to="/sign-up">Sign Up</Link></p>

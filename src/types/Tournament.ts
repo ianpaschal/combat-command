@@ -13,7 +13,7 @@ const tournamentSchema = z.object({
     .min(5, 'Title must be at least 5 characters.')
     .max(40, 'Titles are limited to 40 characters.'),
   description: z.optional(z.string().max(1000, 'Descriptions are limited to 1000 characters.')),
-  location: z.string(),
+  mapbox_place_id: z.string(),
   banner_url: z.union([z.string().url('Please provide a valid URL.'), z.literal(''), z.null()]),
   starts_at: z.string(),
   ends_at: z.string(),

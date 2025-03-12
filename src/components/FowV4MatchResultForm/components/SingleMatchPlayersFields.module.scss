@@ -1,0 +1,66 @@
+@use "/src/style/animate";
+@use "/src/style/variables";
+@use "/src/style/flex";
+@use "/src/style/borders";
+@use "/src/style/corners";
+@use "/src/style/variants";
+
+.Root {
+  display: grid;
+  grid-template-areas: "player0 separator player1";
+  grid-template-columns: 1fr variables.$border-width 1fr;
+  gap: 1rem;
+}
+
+.Player0Section {
+  @include flex.column($xAlign: center);
+
+  grid-area: player0;
+}
+
+.Player1Section {
+  @include flex.column($xAlign: center);
+
+  grid-area: player1;
+}
+
+.Separator {
+  grid-area: separator;
+}
+
+.PlayerSelectForm {
+  @include flex.column;
+
+  overflow: hidden;
+  padding: 0 var(--modal-inner-gutter);
+}
+
+.UserList {
+  @include borders.normal;
+  @include corners.normal;
+}
+
+.PlayerSelectButton {
+  position: relative;
+
+  flex: 1 0 auto;
+
+  width: 100%;
+  padding: 1rem;
+
+  background-color: transparent;
+  border: none;
+
+  @include flex.column($xAlign: center);
+}
+
+.PlayerSelectButtonActive {
+  @include corners.normal;
+  @include flex.column($xAlign: center);
+  @include variants.outlined;
+
+  position: relative;
+  flex: 1 0 auto;
+  width: 100%;
+  padding: 1rem;
+}

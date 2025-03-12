@@ -1,1 +1,0 @@
-export { ManageTournamentMenu } from './ManageTournamentMenu';

@@ -6,16 +6,17 @@ import { useAuth } from '~/components/AuthProvider';
 import { Avatar } from '~/components/generic/Avatar';
 import { Button } from '~/components/generic/Button';
 import { Separator } from '~/components/generic/Separator';
-import { useFetchUserProfile } from '~/services/userProfile/useFetchUserProfile';
-import { supabase } from '~/supabaseClient';
-import { getUserDisplayName } from '~/utils/getUserDisplayName';
+import { useSignOut } from '~/services/auth/useSignOut';
+import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
 
 import styles from './AccountMenu.module.scss';
 
 export const AccountMenu = (): JSX.Element => {
-  const { user } = useAuth();
-  const { data: userProfile } = useFetchUserProfile(user?.id);
-  const displayName = userProfile ? getUserDisplayName(userProfile) : 'Unknown User';
+  const user = useAuth();
+  const { signOut } = useSignOut();
+
+  const displayName = user ? getUserDisplayNameString(user) : 'Unknown User';
+
   const navigate = useNavigate();
   const items = [
     {
@@ -28,21 +29,18 @@ export const AccountMenu = (): JSX.Element => {
     {
       icon: <LogOut />,
       label: 'Sign Out',
-      onClick: (): void => {
-        supabase.auth.signOut();
-      },
+      onClick: () => signOut('/'),
     },
   ];
   return (
     <Popover.Root >
       <Popover.Trigger className={styles.Trigger}>
-        <Avatar displayName="Ian" />
+        <Avatar url={user?.avatarUrl} />
       </Popover.Trigger>
       <Popover.Content className={styles.Content} align="end">
         <span className={styles.UserDisplayName}>
           {displayName}
         </span>
-
         <Separator />
         {items.map((item, i) => (
           <Popover.Close key={i} asChild>

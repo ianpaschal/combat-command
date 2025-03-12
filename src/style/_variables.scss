@@ -4,9 +4,13 @@
   --modal-inner-gutter: 1rem;
   --modal-outer-gutter: 0.5rem;
   --font-size-normal: 1rem;
-  --line-height-normal: 1.5rem;
+  --line-height-normal: 1.25rem;
   --font-size-small: 0.875rem;
-  --line-height-small: 1.25rem;
+  --line-height-small: 1.125rem;
+  --border-width: 1px;
+  --container-padding-x: calc(var(--modal-inner-gutter) - var(--border-width));
+  --container-padding-y: calc(var(--modal-inner-gutter) - var(--border-width));
+  --button-padding-x: 0.5rem;
 }
 
 @media (width >= 688px) {
@@ -19,7 +23,7 @@
 @media (width >= 480px) {
   :root {
     --font-size-normal: 0.875rem;
-    --line-height-normal: 1.25rem;
+    --line-height-normal: 1.125rem;
     --font-size-small: 0.75rem;
     --line-height-small: 1rem;
   }
@@ -34,6 +38,8 @@ $icon-button-icon-size: 1.25rem;
 // BASE COLORS
 $white: hsl(0deg 0% 100%);
 $red: hsl(0deg 85% 60%);
+$orange: #f59f00;
+$green: #51cf66;
 $blue: hsl(205deg 100% 50%);
 
 // APPLIED
@@ -99,3 +105,7 @@ $outlined-danger-border: $red;
 $ghost-bg: transparent;
 $ghost-bg-hover: color.adjust($text-base, $alpha: -0.975);
 $ghost-text: $text-base;
+
+// Skeleton
+$skeleton-bg: color.adjust($text-base, $alpha: -0.975);
+$skeleton-bg-alt: color.adjust($text-base, $alpha: -0.9);

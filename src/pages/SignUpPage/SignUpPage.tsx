@@ -18,8 +18,8 @@ const signUpFormSchema = z.object({
   password: z.string().min(8, 'Password must be at least 8 characters.'),
   passwordRepeat: z.string(),
   username: z.string().min(3, 'Must be at least 3 characters.').max(24, 'Cannot be longer than 24 characters.'),
-  given_name: z.string().min(2, 'Must be at least 2 characters.').max(64, 'Cannot be longer than 64 characters.'),
-  family_name: z.string().min(2, 'Must be at least 2 characters.').max(64, 'Cannot be longer than 64 characters.'),
+  givenName: z.string().min(2, 'Must be at least 2 characters.').max(64, 'Cannot be longer than 64 characters.'),
+  familyName: z.string().min(2, 'Must be at least 2 characters.').max(64, 'Cannot be longer than 64 characters.'),
 }).superRefine((values, ctx) => {
   if (values.password !== values.passwordRepeat) {
     ctx.addIssue({
@@ -33,15 +33,15 @@ const signUpFormSchema = z.object({
 export type SignUpFormInput = z.infer<typeof signUpFormSchema>;
 
 export const SignUpPage = (): JSX.Element => {
-  const signUp = useSignUp();
+  const { signUp, loading } = useSignUp();
 
   const form = useForm<SignUpFormInput>({
     resolver: zodResolver(signUpFormSchema),
     defaultValues: {
       email: '',
       password: '',
-      given_name: '',
-      family_name: '',
+      givenName: '',
+      familyName: '',
       passwordRepeat: '',
       username: '',
     },
@@ -49,10 +49,8 @@ export const SignUpPage = (): JSX.Element => {
   });
 
   const onSubmit: SubmitHandler<SignUpFormInput> = async (data: SignUpFormInput): Promise<void> => {
-    signUp.mutate(data);
+    signUp(data, '/dashboard');
   };
-
-  const { isPending } = signUp;
 
   return (
     <PreventAuth>
@@ -62,27 +60,27 @@ export const SignUpPage = (): JSX.Element => {
           <p>Create a new account</p>
         </div>
         <Form className={styles.Form} id="sign-up-form" form={form} onSubmit={onSubmit}>
-          <FormField name="username" label="Username" description="Your public display name" disabled={isPending}>
+          <FormField name="username" label="Username" description="Your public display name" disabled={loading}>
             <InputText type="text" />
           </FormField>
           <Separator />
-          <FormField name="given_name" label="Given Name" description="Hidden by default" disabled={isPending}>
+          <FormField name="givenName" label="Given Name" description="Hidden by default" disabled={loading}>
             <InputText type="text" />
           </FormField>
-          <FormField name="family_name" label="Family Name" description="Hidden by default" disabled={isPending}>
+          <FormField name="familyName" label="Family Name" description="Hidden by default" disabled={loading}>
             <InputText type="text" />
           </FormField>
           <Separator />
-          <FormField name="email" label="Email" disabled={isPending}>
+          <FormField name="email" label="Email" disabled={loading}>
             <InputText type="text" /* Not email, to avoid browser validation */ />
           </FormField>
-          <FormField name="password" label="Password" disabled={isPending}>
+          <FormField name="password" label="Password" disabled={loading}>
             <InputText type="password" />
           </FormField>
-          <FormField name="passwordRepeat" label="Password (Repeat)" disabled={isPending}>
+          <FormField name="passwordRepeat" label="Password (Repeat)" disabled={loading}>
             <InputText type="password" />
           </FormField>
-          <Button type="submit" loading={isPending}>Sign Up</Button>
+          <Button type="submit" loading={loading}>Sign Up</Button>
         </Form>
         <Separator />
         <p>Already have an account? <Link to="/sign-in">Sign In</Link></p>

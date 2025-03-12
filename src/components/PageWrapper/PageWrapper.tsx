@@ -30,7 +30,13 @@ export const PageWrapper = ({
 }: PageWrapperProps): JSX.Element => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const handleClickBack = (): void => navigate(`${pathname.split('/').slice(0, -1).join('/')}`);
+  const handleClickBack = (): void => {
+    if (window.history.length > 1) {
+      navigate(-1);
+    } else {
+      navigate(`${pathname.split('/').slice(0, -1).join('/')}`);
+    }
+  };
   return (
     <ScrollArea className={clsx(cn(), { 'PageWrapper-hasAppBar': appBarPadding })}>
       <div className={cn('Content', { fitToWindow })} style={{ maxWidth }}>

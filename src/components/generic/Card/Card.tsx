@@ -1,48 +1,22 @@
-import { HTMLAttributes } from 'react';
+import {
+  ElementRef,
+  forwardRef,
+  HTMLAttributes,
+} from 'react';
 import clsx from 'clsx';
 
-import { createCn } from '~/utils/componentLib/createCn';
+import styles from './Card.module.scss';
 
-import './Card.scss';
+type CardRef = ElementRef<'div'>;
 
-export interface CardProps extends HTMLAttributes<HTMLDivElement> {
-  disablePadding?: boolean;
-  description?: string;
-  intent?: 'danger' | 'success';
-}
+export interface CardProps extends HTMLAttributes<HTMLDivElement> { }
 
-const cn = createCn('Card');
-
-export const Card = ({
+export const Card = forwardRef<CardRef, CardProps>(({
   children,
-  disablePadding = false,
-  title,
-  description,
-  intent,
   className,
   ...props
-}: CardProps): JSX.Element => {
-  const hasHeader = title || description;
-  return (
-    <div className={clsx(cn(), intent && cn(`-${intent}`), className)} {...props}>
-      {hasHeader && (
-        <div className={clsx(cn('_Header'), intent && cn(`_Header-${intent}`))}>
-          {title && (
-            <h2>{title}</h2>
-          )}
-          {description && (
-            <p className={cn('_Description')}>{description}</p>
-          )}
-        </div>
-      )}
-      <div
-        className={clsx(cn('_Body'), {
-          [`${cn('_Body')}-noPadding`]: disablePadding,
-          [`${cn('_Body')}-hasHeader`]: hasHeader,
-        })}
-      >
-        {children}
-      </div>
-    </div>
-  );
-};
+}, ref): JSX.Element => (
+  <div className={clsx(styles.Card, className)} ref={ref} {...props}>
+    {children}
+  </div>
+));

@@ -1,0 +1,1 @@
+export { AvatarEditable } from './AvatarEditable';

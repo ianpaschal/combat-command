@@ -1,5 +1,6 @@
 import {
   ComponentPropsWithoutRef,
+  CSSProperties,
   ReactNode,
   useEffect,
   useState,
@@ -28,6 +29,7 @@ export interface DrawerProps extends ComponentPropsWithoutRef<typeof Root> {
   side: 'left' | 'right' | 'top' | 'bottom';
   rounded?: boolean; // TODO: Maybe remove... Pick a style and that's enough.
   closeOnRouteChange?: boolean;
+  size?: CSSProperties['width'];
 
   // Standard elements
   title?: string;
@@ -45,6 +47,7 @@ export const Drawer = ({
   closeOnRouteChange = true,
   description,
   footer,
+  size,
   header,
   rounded,
   side,
@@ -74,6 +77,7 @@ export const Drawer = ({
             styles[`Content-${side}`],
             { [`DrawerContent-${side}-rounded`]: rounded },
           )}
+          style={['top', 'bottom'].includes(side) ? { height: size } : { width: size }}
         >
           <Close className={styles.Close}>
             <X />

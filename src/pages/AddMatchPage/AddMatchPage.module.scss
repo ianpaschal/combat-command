@@ -1,7 +1,0 @@
-@use "/src/style/flex";
-
-.FormActions {
-  @include flex.row($xAlign: right);
-
-  margin-top: 2rem;
-}

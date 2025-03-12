@@ -3,11 +3,11 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { User } from '@supabase/supabase-js';
+import { useQuery } from 'convex/react';
 import { LoaderCircle } from 'lucide-react';
 
+import { api } from '~/api';
 import { ChangePasswordDialog } from '~/components/ChangePasswordDialog';
-import { supabase } from '~/supabaseClient';
 import { AuthContext } from './AuthProvider.context';
 
 import styles from './AuthProvider.module.scss';
@@ -19,58 +19,15 @@ export interface AuthProviderProps {
 export const AuthProvider = ({
   children,
 }: AuthProviderProps) => {
-  const [user, setUser] = useState<User | null | undefined>(undefined);
-  const [profileId, setProfileId] = useState<string | null | undefined>(undefined);
+  const user = useQuery(api.users.fetchCurrentUser.fetchCurrentUser);
   const [loading, setLoading] = useState<boolean>(true);
   const [updatePasswordDialogOpen, setUpdatePasswordDialogOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    const getUser = async () => {
-      const { data: auth } = await supabase.auth.getUser();
-      if (auth.user) {
-        setUser(auth.user);
-      } else {
-        setUser(null);
-        setProfileId(null);
-      }
-    };
-    getUser();
-    const { data } = supabase.auth.onAuthStateChange(async (event, session): Promise<void> => {
-      if (event === 'SIGNED_IN' && session?.user) {
-        return setUser(session.user);
-      }
-      if (event === 'PASSWORD_RECOVERY' && session?.user) {
-        setUpdatePasswordDialogOpen(true);
-        return setUser(session.user);
-      }
-      if (event === 'SIGNED_OUT') {
-        return setUser(null);
-      }
-    });
-    return () => {
-      data.subscription.unsubscribe();
-    };
-  }, []);
-
-  useEffect(() => {
-    const getUserProfile = async () => {
-      const { data: profile } = await supabase
-        .from('user_profiles')
-        .select('id')
-        .eq('user_id', user?.id)
-        .single();
-      setProfileId(profile?.id as string || null);
-    };
-    if (user) {
-      getUserProfile();
-    }
-  }, [user]);
-
-  useEffect(() => {
-    if (user !== undefined && profileId !== undefined) {
+    if (user !== undefined) {
       setLoading(false);
     }
-  }, [user, profileId]);
+  }, [user]);
 
   if (loading) {
     return (
@@ -81,7 +38,7 @@ export const AuthProvider = ({
   }
 
   return (
-    <AuthContext.Provider value={{ user, profileId }}>
+    <AuthContext.Provider value={user}>
       {children}
       <ChangePasswordDialog
         open={updatePasswordDialogOpen}

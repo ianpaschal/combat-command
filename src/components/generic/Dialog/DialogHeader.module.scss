@@ -1,0 +1,36 @@
+@use "/src/style/animate";
+@use "/src/style/corners";
+@use "/src/style/flex";
+@use "/src/style/sizes";
+@use "/src/style/text";
+@use "/src/style/utils";
+@use "/src/style/variables";
+@use "/src/style/variants";
+
+.DialogHeader {
+  @include flex.row;
+
+  min-height: 4rem;
+  padding: 1rem var(--modal-inner-gutter);
+
+  h2 {
+    line-height: 2rem;
+  }
+}
+
+.Close {
+  @include variants.ghost;
+  @include corners.normal;
+  @include flex.centered;
+  @include sizes.small;
+
+  position: absolute;
+  z-index: 1; // TODO: Figure out why this is needed for absolute positioned elements...
+  top: 1rem;
+  right: 1rem;
+
+  svg {
+    width: variables.$icon-button-icon-size;
+    height: variables.$icon-button-icon-size;
+  }
+}

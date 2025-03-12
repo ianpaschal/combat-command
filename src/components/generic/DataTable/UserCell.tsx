@@ -10,10 +10,10 @@ export const UserCell = ({
   userId,
 }: UserCellProps): JSX.Element => {
   // TODO: Fetch user
-  const user = { id: userId, name: 'Foo' };
+  const user = { id: userId, name: 'Foo', avatarUrl: 'foo' };
   return (
     <div className={styles.Root}>
-      <Avatar displayName={user.name} size={24} />
+      <Avatar url={user.avatarUrl} />
       <span>
         {user.name}
       </span>

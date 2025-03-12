@@ -1,151 +1,143 @@
 import { useEffect, useState } from 'react';
-import {
-  Controller,
-  get,
-  SubmitHandler,
-  useForm,
-} from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import clsx from 'clsx';
 
-import { FowV4MatchOutcomeFormSection } from '~/components/FowV4MatchOutcomeFormSection/FowV4MatchOutcomeFormSection';
-import {
-  getDraftMatch,
-  getPairingOptions,
-  getSelectedPairing,
-} from '~/components/FowV4MatchResultForm/FowV4MatchResultForm.utils';
+import { TournamentId, TournamentPairingId } from '~/api';
 import { Dialog } from '~/components/generic/Dialog';
-import { Form, FormField } from '~/components/generic/Form';
-import { InputSelect } from '~/components/generic/InputSelect';
+import { Form } from '~/components/generic/Form';
 import { Separator } from '~/components/generic/Separator';
-import { MatchResultCard } from '~/components/MatchResultCard';
-import { PlayerSelect } from '~/components/PlayerSelect';
-import { getCompetitorPlayerOptions } from '~/components/PlayerSelect/PlayerSelect.utils';
-import { useAddMatchResult } from '~/services/matchResults/addMatchResult';
-import { useFetchTournamentFull } from '~/services/tournaments/fetchTournamentFull';
-import { TournamentMatchFormData, tournamentMatchFormSchema } from '~/types/Match';
+import { useCreateMatchResult } from '~/services/matchResults/useCreateMatchResult';
+import { CommonFields } from './components/CommonFields';
+import { GameConfigFields } from './components/GameConfigFields';
+import { SingleMatchPlayersFields } from './components/SingleMatchPlayersFields';
+import { TournamentPlayersFields } from './components/TournamentPlayersFields';
+import {
+  defaultValues,
+  FowV4MatchResultFormData,
+  fowV4MatchResultFormSchema,
+} from './FowV4MatchResultForm.schema';
 
-import './FowV4MatchResultForm.scss';
+import styles from './FowV4MatchResultForm.module.scss';
 
 export interface FowV4MatchResultFormProps {
   id: string;
   className?: string;
-  tournamentId?: string;
+  tournamentId?: TournamentId;
   onSuccess?: () => void;
 }
 
 export const FowV4MatchResultForm = ({
   id,
   className,
-  tournamentId,
+  // tournamentId,
   onSuccess,
 }: FowV4MatchResultFormProps): JSX.Element => {
+  const [tournamentPairingId] = useState<TournamentPairingId | 'single'>('single');
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
-  const { data: tournament } = useFetchTournamentFull(tournamentId);
-  const addMatchResult = useAddMatchResult();
 
-  const form = useForm<TournamentMatchFormData>({
-    resolver: zodResolver(tournamentMatchFormSchema),
-    defaultValues: {
-      tournament_pairing_id: null,
-      player_0_id: '',
-      player_1_id: '',
-      outcome: {
-        mission_id: undefined,
-        outcome_type: undefined,
-        winner: undefined,
-        turns_played: 1,
-        attacker: undefined,
-        firstTurn: undefined,
-        player_0_stance: undefined,
-        player_0_units_lost: 0,
-        player_1_stance: undefined,
-        player_1_units_lost: 0,
-      },
-    },
+  const { createMatchResult } = useCreateMatchResult({
+    onSuccess,
+  });
+
+  const form = useForm<FowV4MatchResultFormData>({
+    resolver: zodResolver(fowV4MatchResultFormSchema),
+    defaultValues,
     mode: 'onSubmit',
   });
-  const { watch, handleSubmit, reset } = form;
+  const { handleSubmit, reset } = form;
 
-  const onSubmit: SubmitHandler<TournamentMatchFormData> = (): void => {
-    setConfirmDialogOpen(true);
-  };
-
-  const onConfirmSubmit: SubmitHandler<TournamentMatchFormData> = async (data: TournamentMatchFormData): Promise<void> => {
-    console.log('onsubmit', data);
-    if (!tournament) {
-      return;
-    }
-    const { game_system_config_id } = tournament;
-    addMatchResult.mutate({ ...data, game_system_config_id, tournament_id: tournament.id }, {
-      onSuccess: () => {
-        setConfirmDialogOpen(false);
-        if (onSuccess) {
-          onSuccess();
-        }
-      },
-    });
-  };
-
-  const { player_0_id, player_1_id, tournament_pairing_id } = watch();
-
-  const selectedPairing = getSelectedPairing(tournament_pairing_id, tournament?.pairings || []);
-
-  // Reset player values if pairing is changed
+  // TODO: If the tournament pairing changes, auto-fill the game config fields
   useEffect(() => {
-    reset((prev) => ({ ...prev, player_0_id: '', player_1_id: '' }));
-  }, [reset, tournament_pairing_id]);
 
-  const pairingOptions = getPairingOptions(tournament?.pairings || [], tournament?.current_round || 0);
-  const player0Options = getCompetitorPlayerOptions(selectedPairing?.competitor_0);
-  const player1Options = getCompetitorPlayerOptions(selectedPairing?.competitor_1);
-  const playerLabels = [
-    ...player0Options.filter((option) => option.value === player_0_id),
-    ...player1Options.filter((option) => option.value === player_1_id),
-  ].map(({ label }) => label);
+  }, [tournamentPairingId, reset]);
 
-  const draftMatch = getDraftMatch(watch(), tournament);
+  const onSubmit: SubmitHandler<FowV4MatchResultFormData> = (data: FowV4MatchResultFormData): void => {
+    if (tournamentPairingId === 'single') {
+      createMatchResult({
+        player0Placeholder: data.player0Placeholder,
+        player0UserId: data.player0UserId,
+        player1Placeholder: data.player1Placeholder,
+        player1UserId: data.player1UserId,
+        playedAt: new Date().toISOString(),
+        details: {
+          attacker: data.attacker,
+          firstTurn: data.firstTurn,
+          missionId: data.missionId,
+          outcomeType: data.outcomeType,
+          player0BattlePlan: data.player0BattlePlan,
+          player0UnitsLost: data.player0UnitsLost,
+          player1BattlePlan: data.player1BattlePlan,
+          player1UnitsLost: data.player1UnitsLost,
+          turnsPlayed: data.turnsPlayed,
+          winner: data.winner,
+        },
+        gameSystemConfig: {
+          era: data.era,
+          points: data.points,
+          dynamicPointsVersion: data.dynamicPointsVersion,
+          lessonsFromTheFrontVersion: data.lessonsFromTheFrontVersion,
+          missionPackId: data.missionPackId,
+          missionMatrixId: data.missionMatrixId,
+        },
+        gameSystem: data.gameSystem,
+      });
+    } else {
+      setConfirmDialogOpen(true);
+    }
+  };
+
+  const onConfirmSubmit: SubmitHandler<FowV4MatchResultFormData> = async (_data: FowV4MatchResultFormData): Promise<void> => {
+    // const { gameSystemConfig } = tournament;
+    // addMatchResult.mutate({ match: { ...data, game_system_config_id }, tournamentId: tournament.id }, {
+    //   onSuccess: () => {
+    //     setConfirmDialogOpen(false);
+    //     if (onSuccess) {
+    //       onSuccess();
+    //     }
+    //   },
+    // });
+    if (onSuccess) {
+      onSuccess();
+    }
+  };
+
+  // const resultForOptions = [
+  //   { value: 'single', label: 'Single Match' },
+  //   // { value: 'foo', label: 'Belgian Nationals | Ian vs Rob' },
+  // ];
+
+  // const handleChangeResultFor = (value?: SelectValue): void => {
+  //   if (value) {
+  //     // TODO: Remove cast
+  //     setTournamentPairingId(value as TournamentPairingId);
+  //   }
+  // };
 
   return (
-    <Form id={id} form={form} onSubmit={onSubmit} className={clsx('FowV4MatchResultForm', className)}>
-      <div className="GameMetaSection">
-        <FormField name="tournament_pairing_id" label="Result for">
-          <InputSelect options={pairingOptions} />
+    <Form id={id} form={form} onSubmit={onSubmit} className={className}>
+      <div className={styles.Root}>
+        {/* TODO: Enable for tournaments eventually */}
+        {/* <FormField label="Result For">
+          <InputSelect
+            options={resultForOptions}
+            value={tournamentPairingId}
+            onChange={handleChangeResultFor}
+          />
         </FormField>
+        <Separator /> */}
+        {tournamentPairingId !== 'single' ? (
+          <TournamentPlayersFields tournamentPairingId={tournamentPairingId} />
+        ) : (
+          <>
+            <SingleMatchPlayersFields />
+            <Separator />
+            <GameConfigFields />
+          </>
+        )}
+        <Separator />
+        <CommonFields />
       </div>
-      <Separator />
-      {/* TODO: Improve the player selects so they have an edit button */}
-      <FowV4MatchOutcomeFormSection
-        playerLabels={playerLabels}
-        player0Select={
-          <Controller
-            control={form.control}
-            name={'player_0_id'}
-            render={({ field }) => (
-              <PlayerSelect
-                value={field.value}
-                options={player0Options}
-                onChange={field.onChange}
-                hasError={!!get(form.formState.errors, 'player_0_id')}
-              />
-            )}
-          />
-        }
-        player1Select={
-          <Controller
-            control={form.control}
-            name={'player_1_id'}
-            render={({ field }) => (
-              <PlayerSelect
-                value={field.value}
-                options={player1Options}
-                onChange={field.onChange}
-                hasError={!!get(form.formState.errors, 'player_1_id')}
-              />
-            )}
-          />
-        }
-      />
+
       <Dialog
         title="Are all details correct?"
         description="After you submit the match you will still be able to add notes and photos, but the game configuration and outcome can no longer be changed!"
@@ -157,11 +149,9 @@ export const FowV4MatchResultForm = ({
           { label: 'Submit Match', onClick: handleSubmit(onConfirmSubmit) },
         ]}
       >
-        <div className={'ConfirmDialogMatchCard'}>
-          {draftMatch && (
-            <MatchResultCard matchData={draftMatch} />
-          )}
-        </div>
+        <pre>
+          {JSON.stringify(form.watch(), null, 2)}
+        </pre>
       </Dialog>
     </Form>
   );

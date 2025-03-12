@@ -1,0 +1,120 @@
+@use "/src/style/flex";
+@use "/src/style/variants";
+@use "/src/style/shadows";
+@use "/src/style/animate";
+@use "/src/style/variables";
+@use "/src/style/corners";
+@use "/src/style/borders";
+@use "/src/style/text";
+
+@mixin player-name {
+  @include text.ui;
+
+  place-self: center start;
+  font-size: 0.875rem;
+  line-height: 1.125rem;
+}
+
+@mixin score {
+  @include text.ui;
+
+  place-self: center center;
+  font-size: 2rem;
+  font-weight: 300;
+}
+
+@mixin faction {
+  align-self: center;
+}
+
+.Player0Name {
+  @include player-name;
+
+  grid-area: player0name;
+}
+
+.Root {
+  --vertical-spacing: 1.5rem;
+
+  display: grid;
+  padding: var(--vertical-spacing) var(--container-padding-x);
+
+  &[data-orientation="horizontal"] {
+    /* stylelint-disable-next-line @stylistic/max-line-length */
+    grid-template-areas: "player0name player0avatar player0faction player0score separator player1score player1faction player1avatar player1name";
+    grid-template-columns: 1fr 3rem 2rem 2rem variables.$border-width 2rem 2rem 3rem 1fr;
+    grid-template-rows: auto;
+    gap: 1rem;
+
+    .Player0Name {
+      justify-self: flex-end;
+      text-align: right;
+    }
+  }
+
+  &[data-orientation="vertical"] {
+    grid-template-areas:
+      "player0avatar player0name player0faction player0score"
+      "separator separator separator ."
+      "player1avatar player1name player1faction player1score";
+    grid-template-columns: 3rem 1fr 2rem 3rem;
+    grid-template-rows: auto variables.$border-width auto;
+    row-gap: var(--vertical-spacing);
+    column-gap: 1rem;
+  }
+}
+
+.Player0Avatar {
+  grid-area: player0avatar;
+}
+
+.Player0Faction {
+  @include faction;
+
+  grid-area: player0faction;
+}
+
+.Player0Score {
+  @include score;
+
+  grid-area: player0score;
+}
+
+.Separator {
+  grid-area: separator;
+  background-color: variables.$outlined-border;
+}
+
+.Player1Avatar {
+  grid-area: player1avatar;
+}
+
+.Player1Name {
+  @include player-name;
+
+  grid-area: player1name;
+}
+
+.Player1Faction {
+  @include faction;
+
+  grid-area: player1faction;
+}
+
+.Player1Score {
+  @include score;
+
+  grid-area: player1score;
+}
+
+.FactionDetails {
+  @include variants.outlined($hover: false);
+  @include shadows.shadow;
+  @include animate.duration-quick;
+  @include animate.style-pop;
+  @include flex.column($gap: 0);
+
+  margin: 0.25rem 0;
+  background-color: variables.$card-bg;
+  border-radius: variables.$corner-radius;
+}

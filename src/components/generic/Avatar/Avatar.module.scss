@@ -1,0 +1,91 @@
+@use "/src/style/variables";
+@use "/src/style/flex";
+@use "/src/style/borders";
+@use "/src/style/corners";
+@use "/src/style/variants";
+
+.Root {
+  position: relative;
+
+  display: flex;
+  flex-shrink: 0;
+
+  aspect-ratio: 1 / 1;
+  max-height: 100%;
+
+  background-color: transparent;
+}
+
+.Content {
+  @include corners.round;
+  @include flex.centered;
+
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  background-color: variables.$solid-muted-bg;
+
+  svg {
+    width: min(60%, 48px);
+    height: min(60%, 48px);
+  }
+}
+
+.ContentLoading {
+  @include variants.skeleton;
+}
+
+.Image,
+.Fallback {
+  pointer-events: none;
+  user-select: none;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+}
+
+.Image {
+  object-fit: cover;
+}
+
+.Fallback {
+  @include flex.centered;
+
+  color: variables.$text-base;
+  background-color: variables.$solid-muted-bg;
+}
+
+.Flag {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  outline: variables.$white solid 2px;
+}
+
+.Badge {
+  position: absolute;
+  border-radius: 100%;
+  outline: 2px solid white;
+
+  &TopLeft {
+    top: 0;
+    left: 0;
+  }
+
+  &TopRight {
+    top: 0;
+    right: 0;
+  }
+
+  &BottomLeft {
+    bottom: 0;
+    left: 0;
+  }
+
+  &BottomRight {
+    right: 0;
+    bottom: 0;
+  }
+}

@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import {
   createBrowserRouter,
   Navigate,
@@ -6,92 +7,122 @@ import {
 
 import { AccountSettings } from '~/components/AccountSettings';
 import { App } from '~/components/App';
-import { NavLink, Visibility } from '~/components/generic/NavLinks';
-import { ProfileSettings } from '~/components/ProfileSettings';
-import { AddMatchPage } from '~/pages/AddMatchPage';
-import { ComponentTestPage } from '~/pages/ComponentTestPage';
-import { CreateTournamentPage } from '~/pages/CreateTournamentPage';
+import { NavLink } from '~/components/generic/NavLinks';
+import { PreventAuth } from '~/components/PreventAuth';
+import { RequireAuth } from '~/components/RequireAuth';
+import { UserProfileForm } from '~/components/UserProfileForm';
 import { DashboardPage } from '~/pages/DashboardPage';
-import { DialogDemo } from '~/pages/DialogDemo/DialogDemo';
-import { ForgotPasswordPage } from '~/pages/ForgotPasswordPage';
+// import { ForgotPasswordPage } from '~/pages/ForgotPasswordPage';
 import { LandingPage } from '~/pages/LandingPage';
+import { MatchResultDetailPage } from '~/pages/MatchResultDetailPage';
 import { MatchResultsPage } from '~/pages/MatchResultsPage';
 import { SettingsPage } from '~/pages/SettingsPage';
 import { SignInPage } from '~/pages/SignInPage';
 import { SignUpPage } from '~/pages/SignUpPage';
-import { StatisticsPage } from '~/pages/StatisticsPage';
-import { TournamentDetailPage } from '~/pages/TournamentDetailPage';
-import { TournamentsPage } from '~/pages/TournamentsPage';
-import { UserProfilePage } from '~/pages/UserProfilePage';
 
-export interface RouteDisplay {
-  visibility?: Visibility[];
-  title?: string;
+export interface AppRoute {
+  path: string;
+  element: ReactNode;
+  title: string;
+  zone?: 'external' | 'internal';
+  children?: AppRoute[];
 }
 
-export type ExtendedRouteObject = RouteDisplay & RouteObject & {
-  children?: ExtendedRouteObject[];
-};
-
-export const routes: ExtendedRouteObject[] = [
-  {
-    path: '/dialog-demo',
-    title: 'Dialog Demo',
-    visibility: [],
-    element: <DialogDemo />,
-  },
+export const mainRoutes: AppRoute[] = [
   {
     path: '/dashboard',
     title: 'Dashboard',
-    visibility: ['main'],
     element: <DashboardPage />,
+    zone: 'internal',
   },
-  {
-    path: '/tournaments',
-    title: 'Tournaments',
-    visibility: ['main'],
-    element: <TournamentsPage />,
-  },
-  {
-    path: '/tournaments/:id',
-    title: 'View Tournament',
-    visibility: [],
-    element: <TournamentDetailPage />,
-  },
-  {
-    path: '/tournaments/:tournamentId/add-match',
-    title: 'Check-In Match',
-    visibility: [],
-    element: <AddMatchPage />,
-  },
-  {
-    path: '/tournaments/create',
-    title: 'Create Tournament',
-    visibility: [],
-    element: <CreateTournamentPage />,
-  },
+  // {
+  //   path: '/tournaments',
+  //   title: 'Tournaments',
+  //   element: <TournamentsPage />,
+  // },
   {
     path: '/matches',
     title: 'Match Results',
-    visibility: ['main'],
     element: <MatchResultsPage />,
   },
+  // {
+  //   path: '/statistics',
+  //   title: 'Statistics',
+  //   element: <StatisticsPage />,
+  //   zone: 'internal',
+  // },
+];
+
+export const getVisibleAppRoutes = (
+  items: AppRoute[],
+  authenticated: boolean,
+): AppRoute[] => items.filter((item) => {
+  if (!item.zone) {
+    return true;
+  }
+  if (authenticated) {
+    return item.zone === 'internal';
+  }
+  return item.zone === 'external';
+});
+
+const protectRoutes = (routes: AppRoute[]): AppRoute[] => routes.map((route) => {
+  let element = route.element;
+  if (route.zone === 'external') {
+    element = <PreventAuth>{element}</PreventAuth>;
+  }
+  if (route.zone === 'internal') {
+    element = <RequireAuth>{element}</RequireAuth>;
+  }
+  return { ...route, element };
+});
+
+export const routes = [
+  ...protectRoutes(mainRoutes),
+
+  // {
+  //   path: '/tournaments/:id',
+  //   title: 'View Tournament',
+  //   visibility: [],
+  //   element: <TournamentDetailPage />,
+  // },
+  // {
+  //   path: '/tournaments/:tournamentId/add-match',
+  //   title: 'Check-In Match',
+  //   visibility: [],
+  //   element: <AddMatchPage />,
+  // },
+  // {
+  //   path: '/tournaments/:tournamentId/register',
+  //   title: 'Register for Tournament',
+  //   visibility: [],
+  //   element: <TournamentRegisterPage />,
+  // },
+  // {
+  //   path: '/tournaments/:tournamentId/create-pairings',
+  //   title: 'Check-In Match',
+  //   visibility: [],
+  //   element: <TournamentCreatePairingsPage />,
+  // },
+  // {
+  //   path: '/tournaments/create',
+  //   title: 'Create Tournament',
+  //   element: (
+  //     <RequireAuth>
+  //       <CreateTournamentPage />
+  //     </RequireAuth>
+  //   ),
+  // },
+
   {
-    path: '/statistics',
-    title: 'Statistics',
-    visibility: [], // TODO: Add to 'main' later
-    element: <StatisticsPage />,
-  },
-  {
-    path: '/profiles/:id',
-    title: 'Uhhhhh', // FIXME: How to handle dynamic title?
+    path: '/match-results/:id',
     visibility: [],
-    element: <UserProfilePage />,
+    element: <MatchResultDetailPage />,
   },
   {
     path: '/settings',
     title: 'Settings',
-    visibility: ['accountMenu'],
+    location: 'accountMenu',
     element: <SettingsPage />,
     children: [
       {
@@ -101,7 +132,7 @@ export const routes: ExtendedRouteObject[] = [
       {
         path: '/settings/profile',
         title: 'Profile',
-        element: <ProfileSettings />,
+        element: <UserProfileForm />,
       },
       {
         path: '/settings/account',
@@ -118,38 +149,20 @@ export const routes: ExtendedRouteObject[] = [
   {
     path: '/sign-in',
     title: 'Sign In',
-    visibility: ['accountMenuExternal'],
     element: <SignInPage />,
   },
   {
     path: '/sign-up',
     title: 'Sign Up',
-    visibility: ['accountMenuExternal'],
     element: <SignUpPage />,
   },
-  {
-    path: '/forgot-password',
-    title: 'Forgot Password',
-    visibility: [],
-    element: <ForgotPasswordPage />,
-  },
-  {
-    path: '/test',
-    title: 'Test',
-    visibility: [],
-    element: <ComponentTestPage />,
-  },
+  // {
+  //   path: '/forgot-password',
+  //   title: 'Forgot Password',
+  //   visibility: [],
+  //   element: <ForgotPasswordPage />,
+  // },
 ];
-
-export const getNavLinksByVisibility = (visibility: Visibility): NavLink[] => (
-  // Reduce functions as filter-and-map-in-1
-  routes.reduce((acc, route) => {
-    if (route.visibility?.includes(visibility) && !!route.title && !!route.path) {
-      acc.push({ path: route.path, title: route.title });
-    }
-    return acc;
-  }, [] as NavLink[])
-);
 
 export const getNavLinksByPath = (path: string): NavLink[] => {
   const route = routes.find((route) => (
@@ -166,6 +179,21 @@ export const getNavLinksByPath = (path: string): NavLink[] => {
     return acc;
   }, [] as NavLink[]);
 };
+
+interface RouteInfo {
+  path: string;
+  title: string;
+}
+
+export const getRouteTitles = (routes: (AppRoute | RouteObject)[]): RouteInfo[] => routes.reduce((acc: RouteInfo[], route) => {
+  if ('title' in route && typeof route.title === 'string' && !!route.path) {
+    acc.push({ path: route.path, title: route.title });
+  }
+  if (route.children) {
+    acc.push(...getRouteTitles(route.children));
+  }
+  return acc;
+}, []);
 
 export const router = createBrowserRouter([{
   path: '/',

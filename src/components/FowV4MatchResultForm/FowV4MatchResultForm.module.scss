@@ -1,0 +1,14 @@
+@use "/src/style/animate";
+@use "/src/style/variables";
+@use "/src/style/flex";
+
+.Root {
+  @include flex.column;
+
+  flex: 1 auto;
+  max-width: 100%;
+}
+
+.ConfirmDialogMatchCard {
+  margin: 1rem var(--modal-inner-gutter) 0;
+}

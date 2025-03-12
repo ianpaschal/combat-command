@@ -1,0 +1,12 @@
+.Root {
+  svg {
+    stroke: currentcolor;
+  }
+}
+
+.Icon {
+  &[data-state="checked"] {
+    color: #fa5252;
+    fill: currentcolor;
+  }
+}

@@ -4,12 +4,16 @@
     "Avanti",
     "bagration",
     "clsx",
+    "Embla",
+    "figtree",
     "hookform",
     "Korps",
     "LFTF",
-    "sonner",
-    "supabase",
+    "Mapbox",
+    "merc",
+    "Postgrest",
     "tanstack",
+    "tzlookup",
     "waffen"
   ],
   "editor.codeActionsOnSave": {

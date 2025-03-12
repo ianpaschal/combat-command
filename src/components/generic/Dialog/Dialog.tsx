@@ -30,6 +30,7 @@ export interface DialogProps extends ComponentPropsWithoutRef<typeof Root> {
   height?: number;
   preventCancel?: boolean;
   onCancel?: () => void;
+  onCloseComplete?: () => void;
 
   // Standard elements
   title?: string;
@@ -56,6 +57,7 @@ export const Dialog = ({
   trigger,
   open: controlledOpen = false,
   onOpenChange,
+  onCloseComplete,
   ...props
 }: DialogProps): JSX.Element => {
   /**
@@ -78,6 +80,11 @@ export const Dialog = ({
   useEffect(() => {
     setOpen(controlledOpen);
   }, [controlledOpen]);
+  const handleCloseComplete = () => {
+    if (onCloseComplete) {
+      onCloseComplete();
+    }
+  };
   return (
     <Root open={open} onOpenChange={handleOpen} {...props}>
       {trigger && (
@@ -85,7 +92,7 @@ export const Dialog = ({
           {trigger}
         </Trigger>
       )}
-      <AnimatePresence>
+      <AnimatePresence onExitComplete={handleCloseComplete}>
         {open && (
           <Portal forceMount>
             <Overlay forceMount className={styles.Overlay} onClick={!preventCancel && onCancel ? onCancel : undefined} />

@@ -8,10 +8,11 @@ export interface RequireAuthProps {
 }
 
 export const RequireAuth = ({ children }: RequireAuthProps) => {
-  const { user, profileId } = useAuth();
+  const user = useAuth();
   const location = useLocation();
 
-  if (user === null || profileId === null) {
+  if (user === null) {
+    console.info('Not signed in, will redirect to sign in page.');
     return (
       <Navigate to={'/sign-in'} replace state={{ path: location.pathname }} />
     );

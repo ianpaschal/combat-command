@@ -15,7 +15,7 @@ const changePasswordFormSchema = z.object({
   password_repeat: z.string(),
 }).superRefine(passwordValidator);
 
-export type ChangePasswordFormInput = z.infer<typeof changePasswordFormSchema>;
+export type ChangePasswordFormData = z.infer<typeof changePasswordFormSchema>;
 
 export const ChangePasswordDialog = ({
   preventCancel,
@@ -24,7 +24,7 @@ export const ChangePasswordDialog = ({
   ...props
 }: DialogProps): JSX.Element => {
   const submitHook = useUpdatePassword();
-  const form = useForm<ChangePasswordFormInput>({
+  const form = useForm<ChangePasswordFormData>({
     resolver: zodResolver(changePasswordFormSchema),
     defaultValues: {
       password: '',

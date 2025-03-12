@@ -31,8 +31,8 @@ export const ForgotPasswordPage = (): JSX.Element => {
     mode: 'onSubmit',
   });
 
-  const onSubmit: SubmitHandler<ForgotPasswordFormInput> = async (data: ForgotPasswordFormInput): Promise<void> => {
-    resetPassword.mutate(data);
+  const onSubmit: SubmitHandler<ForgotPasswordFormInput> = async (_data: ForgotPasswordFormInput): Promise<void> => {
+    resetPassword.mutate();
   };
 
   const { isPending } = resetPassword;

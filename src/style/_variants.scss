@@ -9,7 +9,7 @@
 
 @mixin variant-defaults {
   transition-timing-function: ease-in-out;
-  transition-duration: 150ms;
+  transition-duration: 250ms;
   transition-property: color, background-color;
 }
 
@@ -134,5 +134,25 @@
     &:hover {
       background-color: variables.$ghost-bg-hover;
     }
+  }
+
+  &:disabled {
+    color: variables.$text-disabled;
+    background-color: variables.$ghost-bg;
+  }
+}
+
+@mixin skeleton {
+  border: none;
+  animation: skeleton-loading 1s linear infinite alternate;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: variables.$skeleton-bg;
+  }
+
+  100% {
+    background-color: variables.$skeleton-bg-alt;
   }
 }
