@@ -7,24 +7,27 @@
 @use "/src/style/borders";
 @use "/src/style/text";
 
-.Root {
-  position: relative;
-  overflow: hidden;
-
+.MatchResultCard {
   @include flex.column($gap: 0);
-
   @include variants.outlined($hover: false);
   @include shadows.surface-shadow;
   @include corners.normal;
+
+  position: relative;
+  overflow: hidden;
+}
+
+.Socials {
+  padding: 0.75rem var(--container-padding-x);
 }
 
 .Footer {
   @include text.small($muted: true);
   @include flex.row($gap: 0.5rem, $xAlign: right);
 
-  padding: 0.5rem 1rem;
+  padding: 1rem var(--container-padding-x);
 
-  .Date {
+  .Timestamp {
     margin-right: auto;
   }
 }

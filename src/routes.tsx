@@ -14,6 +14,7 @@ import { UserProfileForm } from '~/components/UserProfileForm';
 import { DashboardPage } from '~/pages/DashboardPage';
 // import { ForgotPasswordPage } from '~/pages/ForgotPasswordPage';
 import { LandingPage } from '~/pages/LandingPage';
+import { MatchResultDetailPage } from '~/pages/MatchResultDetailPage';
 import { MatchResultsPage } from '~/pages/MatchResultsPage';
 import { SettingsPage } from '~/pages/SettingsPage';
 import { SignInPage } from '~/pages/SignInPage';
@@ -113,12 +114,11 @@ export const routes = [
   //   ),
   // },
 
-  // {
-  //   path: '/profiles/:id',
-  //   title: 'Uhhhhh', // FIXME: How to handle dynamic title? make an optional prop on page wrapper for a specific title, otherwise use the route title
-  //   visibility: [],
-  //   element: <UserProfilePage />,
-  // },
+  {
+    path: '/match-results/:id',
+    visibility: [],
+    element: <MatchResultDetailPage />,
+  },
   {
     path: '/settings',
     title: 'Settings',

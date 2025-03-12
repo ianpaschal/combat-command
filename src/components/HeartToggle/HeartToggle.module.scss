@@ -2,12 +2,11 @@
   svg {
     stroke: currentcolor;
   }
+}
 
+.Icon {
   &[data-state="checked"] {
     color: #fa5252;
-
-    svg {
-      fill: currentcolor;
-    }
+    fill: currentcolor;
   }
 }

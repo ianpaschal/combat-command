@@ -1,0 +1,80 @@
+@use "/src/style/flex";
+@use "/src/style/text";
+@use "/src/style/variables";
+@use "/src/style/corners";
+@use "/src/style/shadows";
+
+.Root {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.Photos {
+  grid-area: photos;
+  aspect-ratio: 4 / 3;
+
+  @include shadows.surface-shadow;
+  @include corners.normal;
+
+  background-color: grey;
+}
+
+.PhotosEmpty {
+  background-color: pink;
+}
+
+.Players {
+  grid-area: players;
+  height: min-content;
+}
+
+.DetailsCard {
+  grid-area: details;
+}
+
+.Details {
+  @include flex.stretchy;
+
+  padding: 1rem var(--container-padding-x);
+}
+
+.DetailsFooter {
+  @include text.small($muted: true);
+  @include flex.row($gap: 0.5rem);
+
+  padding: 1rem var(--container-padding-x);
+}
+
+.Socials {
+  padding: 0.75rem var(--container-padding-x);
+}
+
+// 2 x 320px + 3 x 16px
+@media (width >= 688px) {
+  .Photos {
+    aspect-ratio: 5 / 3;
+  }
+}
+
+// 3 x 320px + 4 x 16px
+@media (width >= 1024px) {
+  .Root {
+    height: 100%;
+
+    &[data-hasPhotos="true"] {
+      display: grid;
+      grid-template-areas: "players players details" "photos photos details";
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: min-content 1fr;
+    }
+  }
+
+  .Photos {
+    aspect-ratio: unset;
+  }
+}
+
+.DetailsScrollArea {
+  @include flex.stretchy;
+}

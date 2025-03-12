@@ -6,9 +6,10 @@ import { ChevronRight, Ellipsis } from 'lucide-react';
 import { FetchMatchResultListResponseItem } from '~/api';
 import { Button } from '~/components/generic/Button';
 import { Separator } from '~/components/generic/Separator';
+import { Timestamp } from '~/components/generic/Timestamp';
+import { MatchResultPlayers } from '~/components/MatchResultPlayers';
+import { MatchResultSocials } from '~/components/MatchResultSocials';
 import { MatchResultPhotos } from './MatchResultPhotos';
-import { MatchResultSocialsOverview } from './MatchResultSocialOverview';
-import { PlayersBlock } from './PlayersBlock';
 
 import styles from './MatchResultCard.module.scss';
 
@@ -20,47 +21,26 @@ export const MatchResultCard = ({
   matchResult,
 }: MatchResultCardProps): JSX.Element => {
   const navigate = useNavigate();
-
   // TODO: Replace with global feature flags
   const usePhotos = false;
-  const useSocials = true;
-
   const detailsPath = `/match-results/${matchResult._id}`;
-
   const handleClickDetails = (): void => {
     navigate(detailsPath);
   };
-
-  // const handleClickLike = (): void => {
-  //   // Create a new like
-  // };
-
-  // const handleClickLikes = (): void => {
-  //   navigate(`${detailsPath}?focus="likes"`);
-  // };
-
-  // const handleClickComments = (): void => {
-  //   navigate(`${detailsPath}?focus="comments"`);
-  // };
-
   return (
-    <div className={styles.Root}>
+    <div className={styles.MatchResultCard}>
       {usePhotos && <MatchResultPhotos />}
-      <PlayersBlock matchResult={matchResult} />
+      <MatchResultPlayers matchResult={matchResult} />
       <Separator />
-      {useSocials && <MatchResultSocialsOverview />}
+      <MatchResultSocials matchResult={matchResult} className={styles.Socials} />
       <Separator />
       <div className={styles.Footer}>
-        <span className={styles.Date}>
-          {sentenceCase(formatDistance(new Date(matchResult.playedAt), new Date(), {
-            addSuffix: true,
-          }))}
-        </span>
+        <Timestamp date={new Date(matchResult.playedAt)} className={styles.Timestamp} />
         {/* TODO: Add actions */}
-        <Button size="small" muted>
+        <Button muted>
           <Ellipsis />
         </Button>
-        <Button size="small" onClick={handleClickDetails}>
+        <Button onClick={handleClickDetails}>
           Details
           <ChevronRight />
         </Button>

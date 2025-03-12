@@ -1,0 +1,1 @@
+export { MatchResultSocials } from './MatchResultSocials';

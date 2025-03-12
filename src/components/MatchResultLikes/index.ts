@@ -1,0 +1,1 @@
+export { MatchResultLikes } from './MatchResultLikes';

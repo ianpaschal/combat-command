@@ -12,10 +12,25 @@ export const fetchMatchResult = query({
     if (!matchResult) {
       return null;
     }
+    const mission = await ctx.db.get(matchResult.details.missionId);
+    const comments = await ctx.db.query('matchResultComments').withIndex(
+      'by_match_result_id',
+      ((q) => q.eq('matchResultId', args.id)),
+    ).collect();
+    const likes = await ctx.db.query('matchResultLikes').withIndex(
+      'by_match_result_id',
+      ((q) => q.eq('matchResultId', args.id)),
+    ).collect();
     return {
       ...matchResult,
-      player0user: await getLimitedUser(ctx, matchResult?.player0UserId),
-      player1user: await getLimitedUser(ctx, matchResult?.player1UserId),
+      player0User: await getLimitedUser(ctx, matchResult?.player0UserId),
+      player1User: await getLimitedUser(ctx, matchResult?.player1UserId),
+      details: {
+        ...matchResult.details,
+        missionName: mission?.displayName,
+      },
+      likedByUserIds: likes.map((like) => like.userId),
+      commentCount: comments.length,
     };
   },
 });

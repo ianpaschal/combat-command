@@ -32,7 +32,7 @@ export const AvatarEditable = (): JSX.Element => {
 
   return (
     <div className={styles.Root}>
-      <Avatar url={user?.avatarUrl} size={128} loading={isLoading} />
+      <Avatar className={styles.Avatar} url={user?.avatarUrl} loading={isLoading} />
       <Popover.Root>
         <Popover.Trigger asChild>
           <Button className={styles.EditButton} round disabled={isLoading}><Pencil /></Button>

@@ -23,7 +23,6 @@ export const createMatchResult = mutation({
       ...args,
       player0Confirmed: true,
       player1Confirmed: !!args.player1Placeholder,
-      likes: [],
     });
   },
 });

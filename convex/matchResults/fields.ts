@@ -23,6 +23,5 @@ export const matchResultFields = {
   gameSystemConfig: v.union(fowV4GameSystemConfig),
   gameSystem,
 
-  // TODO: Comments
   // TODO: Photos
 };

@@ -1,4 +1,3 @@
-import { CSSProperties } from 'react';
 import { Image, Root } from '@radix-ui/react-avatar';
 import clsx from 'clsx';
 import { User } from 'lucide-react';
@@ -12,7 +11,6 @@ export interface AvatarProps {
   className?: string;
   countryCode?: string;
   loading?: boolean;
-  size?: CSSProperties['width'];
   userId?: string;
 }
 
@@ -21,7 +19,6 @@ export const Avatar = ({
   className,
   countryCode,
   loading,
-  size = 40,
 }: AvatarProps): JSX.Element => {
   const getInnerContent = (): JSX.Element | null => {
     if (loading) {
@@ -33,12 +30,12 @@ export const Avatar = ({
     return <User />;
   };
   return (
-    <Root className={clsx(styles.Root, className)} style={{ width: size, height: size }}>
+    <Root className={clsx(styles.Root, className)}>
       <div className={clsx(styles.Content, { [styles.ContentLoading]: loading })}>
         {getInnerContent()}
       </div>
       {countryCode && (
-        <FlagCircle className={styles.Flag} code={countryCode} size={`calc(${size} / 3`} />
+        <FlagCircle className={styles.Flag} code={countryCode} size={'1rem'} />
       )}
     </Root>
   );

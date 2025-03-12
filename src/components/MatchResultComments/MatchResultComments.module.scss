@@ -1,0 +1,40 @@
+@use "/src/style/flex";
+@use "/src/style/variables";
+@use "/src/style/text";
+
+.MatchResultComments {
+  @include flex.column;
+
+  flex-direction: column-reverse;
+}
+
+.Comment {
+  display: grid;
+  grid-template-areas: "avatar name timestamp" ". body body";
+  grid-template-columns: 1.5rem auto 1fr;
+  grid-template-rows: 1.5rem 1fr;
+  row-gap: 0;
+  column-gap: 0.5rem;
+}
+
+.Avatar {
+  grid-area: avatar;
+}
+
+.Name {
+  @include flex.row($gap: 0.5rem);
+  @include text.ui;
+
+  grid-area: name;
+  align-self: center;
+
+  .Timestamp {
+    @include text.small($muted: true);
+  }
+}
+
+.Body {
+  @include text.ui;
+
+  grid-area: body;
+}

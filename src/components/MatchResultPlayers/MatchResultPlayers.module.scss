@@ -37,7 +37,7 @@
   --vertical-spacing: 1.5rem;
 
   display: grid;
-  padding: var(--vertical-spacing) 1rem;
+  padding: var(--vertical-spacing) var(--container-padding-x);
 
   &[data-orientation="horizontal"] {
     /* stylelint-disable-next-line @stylistic/max-line-length */

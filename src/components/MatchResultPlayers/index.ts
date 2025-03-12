@@ -1,0 +1,1 @@
+export { MatchResultPlayers } from './MatchResultPlayers';

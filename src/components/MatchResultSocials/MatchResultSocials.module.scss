@@ -1,0 +1,35 @@
+@use "/src/style/flex";
+@use "/src/style/variables";
+
+.MatchResultSocials {
+  width: calc(100% + 2 * var(--button-padding-x));
+  margin-left: calc(-1 * var(--button-padding-x));
+
+  @include flex.row($gap: 0.5rem);
+}
+
+.Share {
+  margin-left: auto;
+}
+
+.LikesButton {
+  margin-left: calc(-2 * var(--button-padding-x));
+}
+
+.LikesList {
+  padding: 1rem var(--modal-inner-gutter) var(--modal-inner-gutter);
+}
+
+.CommentListScrollArea {
+  @include flex.stretchy;
+
+  width: 100%;
+}
+
+.CommentList {
+  margin: 1rem var(--modal-inner-gutter);
+}
+
+.CommentForm {
+  padding: 1rem var(--modal-inner-gutter);
+}

@@ -4,9 +4,11 @@ import { defineSchema } from 'convex/server';
 import { fowV4MissionMatrixes } from './fowV4/fowV4MissionMatrixes';
 import { fowV4MissionPacks } from './fowV4/fowV4MissionPacks';
 import { fowV4Missions } from './fowV4/fowV4Missions';
+import { matchResultComments } from './matchResultComments';
+import { matchResultLikes } from './matchResultLikes';
+import { matchResults } from './matchResults';
 import {
   friendships,
-  matchResults,
   tournamentPairings,
   tournaments,
   users,
@@ -19,6 +21,8 @@ export default defineSchema({
   fowV4MissionPacks,
   fowV4Missions,
   friendships,
+  matchResultComments,
+  matchResultLikes,
   matchResults,
   tournamentCompetitors,
   tournamentPairings,

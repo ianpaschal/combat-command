@@ -2,7 +2,6 @@ import { defineTable } from 'convex/server';
 import { v } from 'convex/values';
 
 import { friendshipFields } from './friendships/fields';
-import { matchResultFields } from './matchResults/fields';
 import { tournamentPairingFields } from './tournamentPairings/fields';
 import { tournamentFields } from './tournaments/fields';
 import { userFields } from './users/fields';
@@ -16,19 +15,6 @@ export const friendships = defineTable({
   'by_recipient_user_id', ['recipientUserId', 'confirmedAt'],
 ).index(
   'by_confirmation', ['confirmedAt'],
-);
-
-export const matchResults = defineTable({
-  ...matchResultFields,
-  // Social
-  likes: v.array(v.id('users')),
-  player0Confirmed: v.boolean(),
-  player1Confirmed: v.boolean(),
-  modifiedAt: v.optional(v.number()),
-}).index(
-  'by_user_id', ['player0UserId', 'player1UserId'],
-).index(
-  'by_game_system', ['gameSystem'],
 );
 
 export const tournamentPairings = defineTable({

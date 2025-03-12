@@ -61,7 +61,7 @@ export const AppBar = ({
             </div>
           )}
         </div>
-      </div >
+      </div>
     </Portal.Root>
   );
 };

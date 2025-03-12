@@ -41,7 +41,6 @@ export const AccountMenu = (): JSX.Element => {
         <span className={styles.UserDisplayName}>
           {displayName}
         </span>
-
         <Separator />
         {items.map((item, i) => (
           <Popover.Close key={i} asChild>

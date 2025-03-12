@@ -9,6 +9,9 @@
 .Trigger {
   @include corners.round;
   @include variants.reset;
+
+  width: 2.5rem;
+  height: 2.5rem;
 }
 
 .Content {

@@ -6,8 +6,13 @@
 
 .Root {
   position: relative;
+
   display: flex;
   flex-shrink: 0;
+
+  aspect-ratio: 1 / 1;
+  max-height: 100%;
+
   background-color: transparent;
 }
 

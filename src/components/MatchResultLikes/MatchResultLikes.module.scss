@@ -1,0 +1,13 @@
+@use "/src/style/flex";
+@use "/src/style/text";
+
+.MatchResultLikes {
+  @include flex.column($gap: 0.5rem);
+
+  &__Like {
+    @include flex.row($gap: 0.5rem);
+    @include text.ui;
+
+    height: 2rem;
+  }
+}

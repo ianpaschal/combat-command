@@ -1,0 +1,42 @@
+import { sentenceCase } from 'change-case';
+import clsx from 'clsx';
+import { useQuery } from 'convex/react';
+import { formatDistance } from 'date-fns';
+
+import { api, MatchResultId } from '~/api';
+import { Avatar } from '~/components/generic/Avatar';
+import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
+
+import styles from './MatchResultComments.module.scss';
+
+export interface MatchResultCommentsProps {
+  className?: string;
+  matchResultId: MatchResultId;
+}
+
+export const MatchResultComments = ({
+  className,
+  matchResultId,
+}: MatchResultCommentsProps): JSX.Element => {
+  const comments = useQuery(api.matchResultComments.queries.getMatchResultCommentsByMatchResultId, {
+    matchResultId,
+  });
+  return (
+    <div className={clsx(styles.MatchResultComments, className)}>
+      {(comments || []).map((comment) => (
+        <div key={comment._id} className={styles.Comment}>
+          <Avatar url={comment.user.avatarUrl} className={styles.Avatar} />
+          <div className={styles.Name}>
+            <span>{getUserDisplayNameString(comment.user)}</span>
+            <span className={styles.Timestamp}>{sentenceCase(formatDistance(new Date(comment._creationTime), new Date(), {
+              addSuffix: true,
+            }))}</span>
+          </div>
+          <div className={styles.Body}>
+            {comment.body}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};

@@ -14,8 +14,11 @@ import type {
   FunctionReference,
 } from "convex/server";
 import type * as auth from "../auth.js";
+import type * as common_faction from "../common/faction.js";
+import type * as common_fowV4_fowV4Alignment from "../common/fowV4/fowV4Alignment.js";
 import type * as common_fowV4_fowV4BattlePlan from "../common/fowV4/fowV4BattlePlan.js";
 import type * as common_fowV4_fowV4Era from "../common/fowV4/fowV4Era.js";
+import type * as common_fowV4_fowV4Faction from "../common/fowV4/fowV4Faction.js";
 import type * as common_fowV4_fowV4GameSystemConfig from "../common/fowV4/fowV4GameSystemConfig.js";
 import type * as common_fowV4_fowV4LessonsFromTheFrontVersion from "../common/fowV4/fowV4LessonsFromTheFrontVersion.js";
 import type * as common_fowV4_fowV4MatchOutcomeType from "../common/fowV4/fowV4MatchOutcomeType.js";
@@ -41,10 +44,17 @@ import type * as friendships_fetchFriendshipUserIdsByUserId from "../friendships
 import type * as friendships_fields from "../friendships/fields.js";
 import type * as generateFileUploadUrl from "../generateFileUploadUrl.js";
 import type * as http from "../http.js";
+import type * as matchResultComments_index from "../matchResultComments/index.js";
+import type * as matchResultComments_mutations from "../matchResultComments/mutations.js";
+import type * as matchResultComments_queries from "../matchResultComments/queries.js";
+import type * as matchResultLikes_index from "../matchResultLikes/index.js";
+import type * as matchResultLikes_mutations from "../matchResultLikes/mutations.js";
+import type * as matchResultLikes_queries from "../matchResultLikes/queries.js";
 import type * as matchResults_createMatchResult from "../matchResults/createMatchResult.js";
 import type * as matchResults_fetchMatchResult from "../matchResults/fetchMatchResult.js";
 import type * as matchResults_fetchMatchResultList from "../matchResults/fetchMatchResultList.js";
 import type * as matchResults_fields from "../matchResults/fields.js";
+import type * as matchResults_index from "../matchResults/index.js";
 import type * as matchResults_updateMatchResult from "../matchResults/updateMatchResult.js";
 import type * as tables from "../tables.js";
 import type * as tournamentCompetitors_createTournamentCompetitor from "../tournamentCompetitors/createTournamentCompetitor.js";
@@ -82,8 +92,11 @@ import type * as users_utils_redactUserInfo from "../users/utils/redactUserInfo.
  */
 declare const fullApi: ApiFromModules<{
   auth: typeof auth;
+  "common/faction": typeof common_faction;
+  "common/fowV4/fowV4Alignment": typeof common_fowV4_fowV4Alignment;
   "common/fowV4/fowV4BattlePlan": typeof common_fowV4_fowV4BattlePlan;
   "common/fowV4/fowV4Era": typeof common_fowV4_fowV4Era;
+  "common/fowV4/fowV4Faction": typeof common_fowV4_fowV4Faction;
   "common/fowV4/fowV4GameSystemConfig": typeof common_fowV4_fowV4GameSystemConfig;
   "common/fowV4/fowV4LessonsFromTheFrontVersion": typeof common_fowV4_fowV4LessonsFromTheFrontVersion;
   "common/fowV4/fowV4MatchOutcomeType": typeof common_fowV4_fowV4MatchOutcomeType;
@@ -109,10 +122,17 @@ declare const fullApi: ApiFromModules<{
   "friendships/fields": typeof friendships_fields;
   generateFileUploadUrl: typeof generateFileUploadUrl;
   http: typeof http;
+  "matchResultComments/index": typeof matchResultComments_index;
+  "matchResultComments/mutations": typeof matchResultComments_mutations;
+  "matchResultComments/queries": typeof matchResultComments_queries;
+  "matchResultLikes/index": typeof matchResultLikes_index;
+  "matchResultLikes/mutations": typeof matchResultLikes_mutations;
+  "matchResultLikes/queries": typeof matchResultLikes_queries;
   "matchResults/createMatchResult": typeof matchResults_createMatchResult;
   "matchResults/fetchMatchResult": typeof matchResults_fetchMatchResult;
   "matchResults/fetchMatchResultList": typeof matchResults_fetchMatchResultList;
   "matchResults/fields": typeof matchResults_fields;
+  "matchResults/index": typeof matchResults_index;
   "matchResults/updateMatchResult": typeof matchResults_updateMatchResult;
   tables: typeof tables;
   "tournamentCompetitors/createTournamentCompetitor": typeof tournamentCompetitors_createTournamentCompetitor;
