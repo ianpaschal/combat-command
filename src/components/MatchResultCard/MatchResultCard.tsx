@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom';
-import { sentenceCase } from 'change-case';
-import { formatDistance } from 'date-fns';
-import { ChevronRight, Ellipsis } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 
 import { FetchMatchResultListResponseItem } from '~/api';
 import { Button } from '~/components/generic/Button';
 import { Separator } from '~/components/generic/Separator';
 import { Timestamp } from '~/components/generic/Timestamp';
+import { MatchResultContextMenu } from '~/components/MatchResultContextMenu';
 import { MatchResultPlayers } from '~/components/MatchResultPlayers';
+import { MatchResultProvider } from '~/components/MatchResultProvider';
 import { MatchResultSocials } from '~/components/MatchResultSocials';
 import { MatchResultPhotos } from './MatchResultPhotos';
 
@@ -28,23 +28,22 @@ export const MatchResultCard = ({
     navigate(detailsPath);
   };
   return (
-    <div className={styles.MatchResultCard}>
-      {usePhotos && <MatchResultPhotos />}
-      <MatchResultPlayers matchResult={matchResult} />
-      <Separator />
-      <MatchResultSocials matchResult={matchResult} className={styles.Socials} />
-      <Separator />
-      <div className={styles.Footer}>
-        <Timestamp date={new Date(matchResult.playedAt)} className={styles.Timestamp} />
-        {/* TODO: Add actions */}
-        <Button muted>
-          <Ellipsis />
-        </Button>
-        <Button onClick={handleClickDetails}>
-          Details
-          <ChevronRight />
-        </Button>
+    <MatchResultProvider matchResult={matchResult}>
+      <div className={styles.MatchResultCard}>
+        {usePhotos && <MatchResultPhotos />}
+        <MatchResultPlayers />
+        <Separator />
+        <MatchResultSocials className={styles.Socials} />
+        <Separator />
+        <div className={styles.Footer}>
+          <Timestamp date={new Date(matchResult.playedAt)} className={styles.Timestamp} />
+          <MatchResultContextMenu />
+          <Button onClick={handleClickDetails}>
+            Details
+            <ChevronRight />
+          </Button>
+        </div>
       </div>
-    </div>
+    </MatchResultProvider>
   );
 };

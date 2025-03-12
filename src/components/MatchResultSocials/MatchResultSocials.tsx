@@ -1,7 +1,6 @@
 import clsx from 'clsx';
 import { MessageCircle } from 'lucide-react';
 
-import { MatchResult } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
 import { Animate } from '~/components/generic/Animate';
 import { Button } from '~/components/generic/Button';
@@ -13,20 +12,20 @@ import { HeartToggle } from '~/components/HeartToggle';
 import { MatchResultCommentForm } from '~/components/MatchResultCommentForm';
 import { MatchResultComments } from '~/components/MatchResultComments';
 import { MatchResultLikes } from '~/components/MatchResultLikes';
+import { useMatchResult } from '~/components/MatchResultProvider';
 import { useToggleMatchResultLike } from '~/services/matchResultLikes/useToggleMatchResultLike';
 
 import styles from './MatchResultSocials.module.scss';
 
 export interface MatchResultSocialsProps {
   className?: string;
-  matchResult: MatchResult;
 }
 
 export const MatchResultSocials = ({
   className,
-  matchResult,
 }: MatchResultSocialsProps): JSX.Element => {
   const user = useAuth();
+  const matchResult = useMatchResult();
   const likeCount = matchResult.likedByUserIds.length;
   const isLiked = !!(user && matchResult.likedByUserIds.includes(user._id));
   const toggleMatchResultLike = useToggleMatchResultLike();

@@ -25,7 +25,8 @@
   @include text.small($muted: true);
   @include flex.row($gap: 0.5rem, $xAlign: right);
 
-  padding: 1rem var(--container-padding-x);
+  padding: 0.5rem;
+  padding-left: var(--container-padding-x);
 
   .Timestamp {
     margin-right: auto;

@@ -1,23 +1,20 @@
-import { match } from 'assert';
 import clsx from 'clsx';
 
-import { FetchMatchResultListResponseItem } from '~/api';
+import { useMatchResult } from '~/components/MatchResultProvider';
 import { useElementSize } from '~/hooks/useElementSize';
 import { formatOutcome } from '~/pages/MatchResultDetailPage/components/MatchResultDetails.utils';
 import { fowV4BattlePlanOptions } from '~/types/fowV4/fowV4BattlePlanSchema';
-import { fowV4OutcomeTypeOptions } from '~/types/fowV4/fowV4MatchOutcomeTypeSchema';
 
 import styles from './MatchResultDetails.module.scss';
 
 export interface MatchResultDetailsProps {
   className?: string;
-  matchResult: FetchMatchResultListResponseItem;
 }
 
 export const MatchResultDetails = ({
   className,
-  matchResult,
 }: MatchResultDetailsProps): JSX.Element => {
+  const matchResult = useMatchResult();
   const [ref, width] = useElementSize();
   const orientation = Math.ceil(width) < 640 ? 'vertical' : 'horizontal'; // 2 x 320 + 1rem - 2x border
 

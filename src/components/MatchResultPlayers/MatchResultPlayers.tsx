@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 
-import { FetchMatchResultListResponseItem } from '~/api';
 import { Avatar } from '~/components/generic/Avatar';
+import { useMatchResult } from '~/components/MatchResultProvider';
 import { useElementSize } from '~/hooks/useElementSize';
 import { getUserDisplayNameReact } from '~/utils/common/getUserDisplayNameReact';
 import { calculateMatchScore } from '~/utils/flamesOfWarV4Utils/calculateMatchScore';
@@ -10,13 +10,12 @@ import styles from './MatchResultPlayers.module.scss';
 
 export interface MatchResultPlayersProps {
   className?: string;
-  matchResult: FetchMatchResultListResponseItem;
 }
 
 export const MatchResultPlayers = ({
   className,
-  matchResult,
 }: MatchResultPlayersProps): JSX.Element => {
+  const matchResult = useMatchResult();
   const [ref, width] = useElementSize();
   const orientation = Math.ceil(width) < 640 ? 'vertical' : 'horizontal'; // 2 x 320 + 1rem - 2x border
 
