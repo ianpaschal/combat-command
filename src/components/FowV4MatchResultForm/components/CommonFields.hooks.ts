@@ -38,13 +38,17 @@ export const usePlayerDisplayNames = (): [string, string] => {
 
 export const useMissionOptions = () => {
   const { watch } = useFormContext();
+  
+  const { details, gameSystemConfig } = watch();
+  const {
+    player0BattlePlan,
+    player1BattlePlan,
+  } = details;
   const {
     missionMatrixId,
     missionPackId,
-    player0BattlePlan,
-    player1BattlePlan,
     useExperimentalMissions,
-  } = watch();
+  } = gameSystemConfig;
   const missions = useQuery(api.fowV4.fowV4Missions.queries.getMissionsByBattlePlans, missionPackId ? {
     player0BattlePlan,
     player1BattlePlan,
@@ -65,7 +69,7 @@ export const useAttackerOptions = (autoSet = true) => {
     missionId,
     player0BattlePlan,
     player1BattlePlan,
-  } = watch();
+  } = watch().details;
 
   const playerDisplayNames = usePlayerDisplayNames();
 
@@ -82,7 +86,7 @@ export const useAttackerOptions = (autoSet = true) => {
 
   useEffect(() => {
     if (autoSet && attackerOptions && attackerOptions.length === 1 && attacker !== attackerOptions[0].value) {
-      setValue('attacker', attackerOptions[0].value);
+      setValue('details.attacker', attackerOptions[0].value);
     }
   }, [autoSet, attackerOptions, attacker, setValue]);
 
@@ -96,7 +100,7 @@ export const useFirstTurnOptions = (autoSet = true) => {
     missionId,
     player0BattlePlan,
     player1BattlePlan,
-  } = watch();
+  } = watch().details;
 
   const playerDisplayNames = usePlayerDisplayNames();
 
@@ -113,7 +117,7 @@ export const useFirstTurnOptions = (autoSet = true) => {
 
   useEffect(() => {
     if (autoSet && firstTurnOptions && firstTurnOptions.length === 1 && firstTurn !== firstTurnOptions[0].value) {
-      setValue('firstTurn', firstTurnOptions[0].value);
+      setValue('details.firstTurn', firstTurnOptions[0].value);
     }
   }, [autoSet, firstTurnOptions, firstTurn, setValue]);
 
@@ -124,7 +128,7 @@ export const useOutcomeTypeOptions = () => {
   const { watch } = useFormContext();
   const {
     missionId,
-  } = watch();
+  } = watch().details;
 
   const mission = useQuery(api.fowV4.fowV4Missions.queries.getMission, missionId ? {
     id: missionId,
@@ -151,7 +155,7 @@ export const useWinnerOptions = (autoSet = true) => {
     player0BattlePlan,
     player1BattlePlan,
     winner,
-  } = watch();
+  } = watch().details;
 
   const playerDisplayNames = usePlayerDisplayNames();
 
@@ -170,7 +174,7 @@ export const useWinnerOptions = (autoSet = true) => {
 
   useEffect(() => {
     if (autoSet && winnerOptions && winnerOptions.length === 1 && winner !== winnerOptions[0].value) {
-      setValue('winner', winnerOptions[0].value);
+      setValue('details.winner', winnerOptions[0].value);
     }
   }, [autoSet, winnerOptions, winner, setValue]);
   

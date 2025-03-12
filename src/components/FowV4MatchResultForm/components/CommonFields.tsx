@@ -19,24 +19,24 @@ export const CommonFields = (): JSX.Element => {
   const winnerOptions = useWinnerOptions();
   return (
     <div className={styles.Root}>
-      <FormField name="missionId" label="Mission">
+      <FormField name="details.missionId" label="Mission">
         <InputSelect options={missionOptions} />
       </FormField>
-      <FormField name="attacker" label="Attacker" disabled={attackerOptions.length < 2}>
+      <FormField name="details.attacker" label="Attacker" disabled={attackerOptions.length < 2}>
         <InputSelect options={attackerOptions} />
       </FormField>
-      <FormField name="firstTurn" label="First Turn" disabled={firstTurnOptions.length < 2}>
+      <FormField name="details.firstTurn" label="First Turn" disabled={firstTurnOptions.length < 2}>
         <InputSelect options={firstTurnOptions} />
       </FormField>
       <div className={styles.OutcomeSection}>
-        <FormField name="turnsPlayed" label="Rounds" >
+        <FormField name="details.turnsPlayed" label="Rounds" >
           <InputNumber min={0} />
         </FormField>
-        <FormField name="outcomeType" label="Outcome Type" disabled={outcomeTypeOptions.length < 2}>
+        <FormField name="details.outcomeType" label="Outcome Type" disabled={outcomeTypeOptions.length < 2}>
           <InputSelect options={outcomeTypeOptions} />
         </FormField>
       </div>
-      <FormField name="winner" label="Winner" disabled={winnerOptions.length < 2}>
+      <FormField name="details.winner" label="Winner" disabled={winnerOptions.length < 2}>
         <InputSelect options={winnerOptions} />
       </FormField>
     </div>

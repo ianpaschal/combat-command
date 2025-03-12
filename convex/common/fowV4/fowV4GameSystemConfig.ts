@@ -11,6 +11,7 @@ export const fowV4GameSystemConfig = v.object({
   missionMatrixId: v.id('fowV4MissionMatrixes'),
   points: v.number(),
   // TODO: Add allowed/disallowed books/formations
+  useExperimentalMissions: v.optional(v.boolean()),
 });
 
 export type FowV4GameSystemConfig = Infer<typeof fowV4GameSystemConfig>;

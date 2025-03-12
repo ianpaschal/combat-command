@@ -54,32 +54,8 @@ export const FowV4MatchResultForm = ({
   const onSubmit: SubmitHandler<FowV4MatchResultFormData> = (data: FowV4MatchResultFormData): void => {
     if (tournamentPairingId === 'single') {
       createMatchResult({
-        player0Placeholder: data.player0Placeholder,
-        player0UserId: data.player0UserId,
-        player1Placeholder: data.player1Placeholder,
-        player1UserId: data.player1UserId,
+        ...data,
         playedAt: new Date().toISOString(),
-        details: {
-          attacker: data.attacker,
-          firstTurn: data.firstTurn,
-          missionId: data.missionId,
-          outcomeType: data.outcomeType,
-          player0BattlePlan: data.player0BattlePlan,
-          player0UnitsLost: data.player0UnitsLost,
-          player1BattlePlan: data.player1BattlePlan,
-          player1UnitsLost: data.player1UnitsLost,
-          turnsPlayed: data.turnsPlayed,
-          winner: data.winner,
-        },
-        gameSystemConfig: {
-          era: data.era,
-          points: data.points,
-          dynamicPointsVersion: data.dynamicPointsVersion,
-          lessonsFromTheFrontVersion: data.lessonsFromTheFrontVersion,
-          missionPackId: data.missionPackId,
-          missionMatrixId: data.missionMatrixId,
-        },
-        gameSystem: data.gameSystem,
       });
     } else {
       setConfirmDialogOpen(true);

@@ -17,10 +17,10 @@ export const GameConfigFields = (): JSX.Element => {
   return (
     <div className={styles.Root}>
       <div className={styles.CoreConfig}>
-        <FormField name="points" label="Points">
+        <FormField name="gameSystemConfig.points" label="Points">
           <InputNumber min={0} />
         </FormField>
-        <FormField name="era" label="Era">
+        <FormField name="gameSystemConfig.era" label="Era">
           <InputSelect options={fowV4EraOptions} />
         </FormField>
       </div>
@@ -30,10 +30,10 @@ export const GameConfigFields = (): JSX.Element => {
       <Animate show={advancedOptionsVisible}>
         <div className={styles.AdvancedOptions}>
           <Separator />
-          <FormField name="lessonsFromTheFrontVersion" label="Lessons from the Front Version">
+          <FormField name="gameSystemConfig.lessonsFromTheFrontVersion" label="Lessons from the Front Version">
             <InputSelect options={fowV4LessonsFromTheFrontVersionOptions} />
           </FormField>
-          <FormField name="missionPackVersion" label="Dynamic Points Version">
+          <FormField name="gameSystemConfig.missionPackVersion" label="Dynamic Points Version">
             <InputSelect options={fowV4MissionPackVersionOptions} />
           </FormField>
           {/*  TODO: When there are new mission matrix options available someday, add this in. */}

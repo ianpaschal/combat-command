@@ -51,10 +51,10 @@ export const TournamentPlayersFields = ({
         <FormField name="player0UserId" label="Player 1" disabled={player0Options.length < 2}>
           <InputSelect options={player0Options} />
         </FormField>
-        <FormField name="player0BattlePlan" label="Battle Plan">
+        <FormField name="details.player0BattlePlan" label="Battle Plan">
           <InputSelect options={fowV4BattlePlanOptions} />
         </FormField>
-        <FormField name="player0UnitsLost" label="Units Lost">
+        <FormField name="details.player0UnitsLost" label="Units Lost">
           <InputNumber min={0} />
         </FormField>
       </div>
@@ -63,10 +63,10 @@ export const TournamentPlayersFields = ({
         <FormField name="player1UserId" label="Player 2" disabled={player1Options.length < 2}>
           <InputSelect options={player1Options} />
         </FormField>
-        <FormField name="player1BattlePlan" label="Battle Plan">
+        <FormField name="details.player1BattlePlan" label="Battle Plan">
           <InputSelect options={fowV4BattlePlanOptions} />
         </FormField>
-        <FormField name="player1UnitsLost" label="Units Lost">
+        <FormField name="details.player1UnitsLost" label="Units Lost">
           <InputNumber min={0} />
         </FormField>
       </div>
