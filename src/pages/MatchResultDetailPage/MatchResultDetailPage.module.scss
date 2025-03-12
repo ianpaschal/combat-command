@@ -11,13 +11,24 @@
 }
 
 .Photos {
-  grid-area: photos;
-  aspect-ratio: 4 / 3;
-
   @include shadows.surface-shadow;
   @include corners.normal;
 
+  position: relative;
+
+  overflow: hidden;
+  grid-area: photos;
+
+  aspect-ratio: 4 / 3;
+
   background-color: grey;
+}
+
+.UploadPhotoButton {
+  position: absolute;
+  z-index: 1;
+  top: 1rem;
+  right: 1rem;
 }
 
 .PhotosEmpty {
@@ -62,7 +73,7 @@
   .Root {
     height: 100%;
 
-    &[data-hasPhotos="true"] {
+    &[data-photos="true"] {
       display: grid;
       grid-template-areas: "players players details" "photos photos details";
       grid-template-columns: 1fr 1fr 1fr;

@@ -11,6 +11,8 @@
 
 .Content {
   @include flex.stretchy;
+
+  padding: var(--container-padding-x);
 }
 
 @media (width >= 480px) {

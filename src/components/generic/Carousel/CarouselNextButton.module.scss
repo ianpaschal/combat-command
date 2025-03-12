@@ -1,0 +1,15 @@
+.CarouselNextButton {
+  position: absolute;
+
+  &[data-orientation="horizontal"] {
+    top: 50%;
+    right: 0.5rem;
+    transform: translateY(-50%);
+  }
+
+  &[data-orientation="vertical"] {
+    bottom: 0.5rem;
+    left: 50%;
+    transform: translateX(-50%) rotate(90deg);
+  }
+}
