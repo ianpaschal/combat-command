@@ -52,7 +52,7 @@ export const SelectPlayerDialog = ({
       onCloseComplete={handleCloseComplete}
       trigger={
         <button className={disabled ? styles.PlayerSelectButton : styles.PlayerSelectButtonActive} disabled={disabled}>
-          <Avatar size="6rem" url={existingUser?.avatarUrl} />
+          <Avatar url={existingUser?.avatarUrl} />
           <div className={styles.UserDisplayName}>
             {existingPlaceholder}
             {existingUser && (

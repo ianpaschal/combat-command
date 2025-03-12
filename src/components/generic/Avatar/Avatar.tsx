@@ -35,7 +35,7 @@ export const Avatar = ({
         {getInnerContent()}
       </div>
       {countryCode && (
-        <FlagCircle className={styles.Flag} code={countryCode} size={'1rem'} />
+        <FlagCircle className={styles.Flag} code={countryCode} size="1rem" />
       )}
     </Root>
   );

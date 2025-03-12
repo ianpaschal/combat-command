@@ -13,7 +13,7 @@ export const UserCell = ({
   const user = { id: userId, name: 'Foo', avatarUrl: 'foo' };
   return (
     <div className={styles.Root}>
-      <Avatar url={user.avatarUrl} size={24} />
+      <Avatar url={user.avatarUrl} />
       <span>
         {user.name}
       </span>
