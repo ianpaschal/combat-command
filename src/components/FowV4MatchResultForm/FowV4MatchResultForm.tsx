@@ -1,10 +1,8 @@
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useQuery } from 'convex/react';
 
 import {
-  api,
   MatchResultId,
   TournamentId,
   TournamentPairingId,
@@ -13,6 +11,7 @@ import { Dialog } from '~/components/generic/Dialog';
 import { Form } from '~/components/generic/Form';
 import { Separator } from '~/components/generic/Separator';
 import { useCreateMatchResult } from '~/services/matchResults/useCreateMatchResult';
+import { useFetchMatchResult } from '~/services/matchResults/useFetchMatchResult';
 import { useUpdateMatchResult } from '~/services/matchResults/useUpdateMatchResult';
 import { CommonFields } from './components/CommonFields';
 import { GameConfigFields } from './components/GameConfigFields';
@@ -44,8 +43,7 @@ export const FowV4MatchResultForm = ({
   const [tournamentPairingId] = useState<TournamentPairingId | 'single'>('single');
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
 
-  const matchResult = useQuery(api.matchResults.fetchMatchResult.fetchMatchResult, matchResultId ? { id: matchResultId } : 'skip');
-
+  const { data: matchResult, loading } = useFetchMatchResult(matchResultId);
   const { createMatchResult } = useCreateMatchResult({
     onSuccess,
   });
@@ -105,7 +103,9 @@ export const FowV4MatchResultForm = ({
   //     setTournamentPairingId(value as TournamentPairingId);
   //   }
   // };
-
+  if (loading) {
+    return <div>Loading...</div>;
+  }
   return (
     <Form id={id} form={form} onSubmit={onSubmit} className={className}>
       <div className={styles.Root}>
