@@ -1,4 +1,4 @@
-import { FetchMatchResultListResponseItem } from '~/api';
+import { MatchResult } from '~/api';
 import { calculateMatchScore } from './calculateMatchScore';
 
 describe('calculateMatchScore', () => {
@@ -9,7 +9,7 @@ describe('calculateMatchScore', () => {
         player0UnitsLost: 1,
         player1UnitsLost: 5,
       },
-    } as FetchMatchResultListResponseItem;
+    } as MatchResult;
     expect(calculateMatchScore(matchResult)).toEqual([8, 1]);
   });
 
@@ -20,7 +20,7 @@ describe('calculateMatchScore', () => {
         player0UnitsLost: 2,
         player1UnitsLost: 5,
       },
-    } as FetchMatchResultListResponseItem;
+    } as MatchResult;
     expect(calculateMatchScore(matchResult)).toEqual([7, 2]);
   });
 
@@ -31,7 +31,7 @@ describe('calculateMatchScore', () => {
         player0UnitsLost: 3,
         player1UnitsLost: 5,
       },
-    } as FetchMatchResultListResponseItem;
+    } as MatchResult;
     expect(calculateMatchScore(matchResult)).toEqual([6, 3]);
   });
 
@@ -42,7 +42,7 @@ describe('calculateMatchScore', () => {
         player1UnitsLost: 1,
         player0UnitsLost: 5,
       },
-    } as FetchMatchResultListResponseItem;
+    } as MatchResult;
     expect(calculateMatchScore(matchResult)).toEqual([1, 8]);
   });
 
@@ -53,7 +53,7 @@ describe('calculateMatchScore', () => {
         player1UnitsLost: 2,
         player0UnitsLost: 5,
       },
-    } as FetchMatchResultListResponseItem;
+    } as MatchResult;
     expect(calculateMatchScore(matchResult)).toEqual([2, 7]);
   });
 
@@ -64,40 +64,40 @@ describe('calculateMatchScore', () => {
         player1UnitsLost: 3,
         player0UnitsLost: 5,
       },
-    } as FetchMatchResultListResponseItem;
+    } as MatchResult;
     expect(calculateMatchScore(matchResult)).toEqual([3, 6]);
   });
 
   it('should return a draw score based on units lost', () => {
     const matchResult = {
       details: {
-        winner: null,
+        winner: -1,
         player0UnitsLost: 2,
         player1UnitsLost: 3,
       },
-    } as FetchMatchResultListResponseItem;
+    } as MatchResult;
     expect(calculateMatchScore(matchResult)).toEqual([3, 2]);
   });
 
   it('should cap the draw score at 3 for units lost greater than 3', () => {
     const matchResult = {
       details: {
-        winner: null,
+        winner: -1,
         player0UnitsLost: 5,
         player1UnitsLost: 4,
       },
-    } as FetchMatchResultListResponseItem;
+    } as MatchResult;
     expect(calculateMatchScore(matchResult)).toEqual([3, 3]);
   });
 
   it('should floor the draw score at 1 for units lost less than 1', () => {
     const matchResult = {
       details: {
-        winner: null,
+        winner: -1,
         player0UnitsLost: 0,
         player1UnitsLost: -1,
       },
-    } as FetchMatchResultListResponseItem;
+    } as MatchResult;
     expect(calculateMatchScore(matchResult)).toEqual([1, 1]);
   });
 });

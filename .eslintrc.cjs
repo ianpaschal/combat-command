@@ -37,7 +37,7 @@ module.exports = {
 
     // Misc.
     "arrow-body-style": ["error", "as-needed"],
-    "no-console": ["warn", { allow: ["warn", "error"] }],
+    "no-console": ["warn", { allow: ["warn", "error", "info"] }],
 
     // Plugin configurations
     'import-newlines/enforce': ['error', 2],

@@ -6,7 +6,6 @@ import {
   Portal,
   Root,
 } from '@radix-ui/react-dialog';
-import { useStore } from '@tanstack/react-store';
 import clsx from 'clsx';
 import {
   AnimatePresence,
@@ -15,13 +14,7 @@ import {
 } from 'framer-motion';
 import { X } from 'lucide-react';
 
-import {
-  closeModal,
-  openModal,
-  openModals,
-  useModal,
-  useModalVisible,
-} from '~/modals';
+import { closeModal, useModalVisible } from '~/modals';
 
 import styles from './Dialog.module.scss';
 
