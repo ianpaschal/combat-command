@@ -10,7 +10,7 @@ export const useFetchMatchResult = (id?: MatchResultId) => {
     stored.current = data;
   }
   return {
-    data,
+    data: stored.current,
     loading: stored.current === undefined,
   };
 };

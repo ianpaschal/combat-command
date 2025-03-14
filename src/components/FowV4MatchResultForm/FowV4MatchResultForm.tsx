@@ -103,7 +103,7 @@ export const FowV4MatchResultForm = ({
   //     setTournamentPairingId(value as TournamentPairingId);
   //   }
   // };
-  if (loading) {
+  if (matchResultId && loading) {
     return <div>Loading...</div>;
   }
   return (
