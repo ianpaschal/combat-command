@@ -1,5 +1,5 @@
 import { query } from '../_generated/server';
-import { getMission } from '../fowV4/fowV4Missions/queries';
+import { getMission } from '../common/fowV4/getMission';
 import { getLimitedUser } from '../users/utils/getLimitedUser';
 
 export const fetchMatchResultList = query({
@@ -9,7 +9,7 @@ export const fetchMatchResultList = query({
     return Promise.all(matchResults.map(async (matchResult) => {
       const player0User = await getLimitedUser(ctx, matchResult?.player0UserId);
       const player1User = await getLimitedUser(ctx, matchResult?.player1UserId);
-      const mission = await getMission(ctx, { id: matchResult.details.missionId });
+      const mission = getMission(matchResult.details.missionId);
       const comments = await ctx.db.query('matchResultComments').withIndex(
         'by_match_result_id',
         ((q) => q.eq('matchResultId', matchResult._id)),

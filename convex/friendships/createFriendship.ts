@@ -1,10 +1,12 @@
 import { getAuthUserId } from '@convex-dev/auth/server';
 
 import { mutation } from '../_generated/server';
-import { friendshipFields } from './fields';
+import { fields } from '.';
 
 export const createFriendship = mutation({
-  args: friendshipFields,
+  args: {
+    ...fields,
+  },
   handler: async (ctx, args) => {
     const userId = await getAuthUserId(ctx);
 

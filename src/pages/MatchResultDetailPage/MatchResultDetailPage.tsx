@@ -1,9 +1,8 @@
 import { useParams } from 'react-router-dom';
 import { useWindowWidth } from '@react-hook/window-size/throttled';
-import { useQuery } from 'convex/react';
 import { ImagePlus } from 'lucide-react';
 
-import { api, MatchResultId } from '~/api';
+import { MatchResultId } from '~/api';
 import { Button } from '~/components/generic/Button';
 import { Card } from '~/components/generic/Card';
 import {
@@ -20,6 +19,7 @@ import { MatchResultPlayers } from '~/components/MatchResultPlayers';
 import { MatchResultProvider } from '~/components/MatchResultProvider';
 import { MatchResultSocials } from '~/components/MatchResultSocials';
 import { PageWrapper } from '~/components/PageWrapper';
+import { useFetchMatchResult } from '~/services/matchResults/useFetchMatchResult';
 import { MIN_WIDTH_DESKTOP } from '~/settings';
 import { MatchResultDetails } from './components/MatchResultDetails';
 
@@ -28,11 +28,9 @@ import styles from './MatchResultDetailPage.module.scss';
 export const MatchResultDetailPage = (): JSX.Element => {
   const windowWidth = useWindowWidth();
   const params = useParams();
-  const matchResultId = params.id!; // Must exist or else how did we get to this route?
+  const matchResultId = params.id! as MatchResultId; // Must exist or else how did we get to this route?
 
-  const matchResult = useQuery(api.matchResults.fetchMatchResult.fetchMatchResult, {
-    id: matchResultId as MatchResultId,
-  });
+  const { data: matchResult } = useFetchMatchResult(matchResultId);
 
   const photos = ['foo'];
 

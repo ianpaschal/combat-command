@@ -1,3 +1,4 @@
+import { defineTable } from 'convex/server';
 import { v } from 'convex/values';
 
 import { fowV4GameSystemConfig } from '../common/fowV4/fowV4GameSystemConfig';
@@ -6,7 +7,7 @@ import { gameSystem } from '../common/gameSystem';
 import { tournamentPairingMethod } from '../common/tournamentPairingMethod';
 import { tournamentStatus } from '../common/tournamentStatus';
 
-export const tournamentFields = {
+export const fields = {
 
   // TODO: Add competitor groups
   bannerUrl: v.optional(v.string()),
@@ -36,4 +37,16 @@ export const tournamentFields = {
   title: v.string(),
   useNationalTeams: v.boolean(),
 
+};
+
+export const table = defineTable({
+  ...fields,
+  modifiedAt: v.optional(v.number()),
+}).index(
+  'by_game_system', ['gameSystem'],
+);
+
+export {
+  fields as tournamentFields,
+  table as tournaments,
 };

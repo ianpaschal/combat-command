@@ -1,6 +1,7 @@
 import { v } from 'convex/values';
 
 import { query } from '../_generated/server';
+import { getMission } from '../common/fowV4/getMission';
 import { getLimitedUser } from '../users/utils/getLimitedUser';
 
 export const fetchMatchResult = query({
@@ -12,7 +13,7 @@ export const fetchMatchResult = query({
     if (!matchResult) {
       return null;
     }
-    const mission = await ctx.db.get(matchResult.details.missionId);
+    const mission = getMission(matchResult.details.missionId);
     const comments = await ctx.db.query('matchResultComments').withIndex(
       'by_match_result_id',
       ((q) => q.eq('matchResultId', args.id)),

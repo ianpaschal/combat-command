@@ -2,11 +2,11 @@ import { getAuthUserId } from '@convex-dev/auth/server';
 import { v } from 'convex/values';
 
 import { mutation } from '../_generated/server';
-import { userFields } from './fields';
+import { fields } from '.';
 
 export const updateUser = mutation({
   args: {
-    ...userFields,
+    ...fields,
     id: v.id('users'),
   },
   handler: async (ctx, { id, ...args }) => {

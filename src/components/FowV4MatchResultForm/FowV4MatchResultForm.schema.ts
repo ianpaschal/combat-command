@@ -1,9 +1,11 @@
-import { Id } from 'convex/_generated/dataModel';
 import { DeepPartial } from 'tsdef';
 import { z } from 'zod';
 
 import {
   fowV4MatchOutcomeTypeValues,
+  FowV4MissionId,
+  FowV4MissionMatrixId,
+  FowV4MissionPackId,
   GameSystem,
   MatchResult,
   UserId,
@@ -28,7 +30,7 @@ export const fowV4MatchResultFormSchema = z.object({
     // Handled by <CommonForm />
     attacker: z.union([z.literal(0), z.literal(1)], { message: 'Please select an attacker.' }),
     firstTurn: z.union([z.literal(0), z.literal(1)], { message: 'Please who had the first turn.' }),
-    missionId: z.string({ message: 'Please select a mission.' }).transform((val) => val as Id<'fowV4Missions'>),
+    missionId: z.string({ message: 'Please select a mission.' }).transform((val) => val as FowV4MissionId),
     outcomeType: z.enum(fowV4MatchOutcomeTypeValues, { message: 'Please select an outcome type.' }),
     turnsPlayed: z.number().min(1),
     winner: z.union([z.literal(-1), z.literal(0), z.literal(1)], { message: 'Please a winner.' }),
@@ -44,8 +46,8 @@ export const fowV4MatchResultFormSchema = z.object({
     lessonsFromTheFrontVersion: z.string(),
 
     // Non-editable
-    missionMatrixId: z.string().transform((val) => val as Id<'fowV4MissionMatrixes'>),
-    missionPackId: z.string().transform((val) => val as Id<'fowV4MissionPacks'>),
+    missionMatrixId: z.string().transform((val) => val as FowV4MissionMatrixId),
+    missionPackId: z.string().transform((val) => val as FowV4MissionPackId),
     useExperimentalMissions: z.optional(z.boolean()),
   }),
 
@@ -89,8 +91,8 @@ export const defaultValues: DeepPartial<MatchResult> = {
     points: 100,
     dynamicPointsVersion: 'dynamic_points_2025_01',
     lessonsFromTheFrontVersion: 'lessons_from_the_front_2024_03',
-    missionMatrixId: 'm57dw693qe6pk69b796e8jdgh57bpwsq' as Id<'fowV4MissionMatrixes'>, // April 2023 (Extended)
-    missionPackId: 'm977z1d2dpedgqzgtx1jw7q7p17bqk5a' as Id<'fowV4MissionPacks'>, // April 2023
+    missionMatrixId: 'm57dw693qe6pk69b796e8jdgh57bpwsq' as FowV4MissionMatrixId, // April 2023 (Extended)
+    missionPackId: 'm977z1d2dpedgqzgtx1jw7q7p17bqk5a' as FowV4MissionPackId, // April 2023
     // useExperimentalMissions: true,
   },
 };

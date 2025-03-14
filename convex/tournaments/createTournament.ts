@@ -1,9 +1,9 @@
 import { mutation } from '../_generated/server';
-import { tournamentFields } from './fields';
+import { fields } from '.';
 
 export const createTournament = mutation({
   args: {
-    ...tournamentFields,
+    ...fields,
   },
   handler: async (ctx, args) => await ctx.db.insert('tournaments', args),
 });

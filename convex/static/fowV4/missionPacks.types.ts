@@ -5,26 +5,30 @@ export type FowV4MissionPack = {
   displayName: string;
   publishedAt: string;
   missions: FowV4Mission[];
-  matrixes: FowV4MissionPackMatrix[];
+  matrixes: FowV4MissionMatrix[];
 };
+
+export type FowV4MissionAttacker = 'roll' | 'battle_plan';
+
+export type FowV4MissionFirstTurn = 'roll' | 'attacker' | 'defender';
 
 export type FowV4Mission = {
   id: string;
   displayName: string;
-  attacker: 'roll' | 'battle_plan';
-  firstTurn: 'roll' | 'attacker' | 'defender';
+  attacker: FowV4MissionAttacker;
+  firstTurn: FowV4MissionFirstTurn;
   victoryConditions: FowV4MatchOutcomeType[];
 };
 
-export type FowV4MissionPackMatrix = {
+export type FowV4MissionMatrix = {
   id: string;
   displayName: string;
-  entries: FowV4MissionPackMatrixEntry[];
+  entries: FowV4MissionMatrixEntry[];
 };
 
 export type FowV4MissionMatrixEntryOption = [string, string] | string;
 
-export type FowV4MissionPackMatrixEntry = {
+export type FowV4MissionMatrixEntry = {
   battlePlans: [string, string];
   missions: [
     FowV4MissionMatrixEntryOption,
