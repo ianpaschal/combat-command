@@ -1,7 +1,9 @@
 @use "/src/style/flex";
 
-.Root {
-  @include flex.row($xAlign: right);
+.MatchResultEditDialog {
+  @include flex.column($gap: 0);
+}
 
+.Form {
   padding: 1rem var(--modal-inner-gutter);
 }

@@ -7,6 +7,7 @@ import { fowV4Missions } from './fowV4/fowV4Missions';
 import { matchResultComments } from './matchResultComments';
 import { matchResultLikes } from './matchResultLikes';
 import { matchResults } from './matchResults';
+import { photos } from './photos';
 import {
   friendships,
   tournamentPairings,
@@ -28,4 +29,5 @@ export default defineSchema({
   tournamentPairings,
   tournaments,
   users,
+  photos,
 });

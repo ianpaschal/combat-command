@@ -40,7 +40,6 @@ export const MatchResultCommentForm = ({
     },
   });
   const onSubmit: SubmitHandler<MatchResultCommentFormData> = (data) => {
-    console.log(data);
     addMatchResultComment({
       matchResultId,
       ...data,

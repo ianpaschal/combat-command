@@ -54,6 +54,7 @@ export type MatchResultLike = GetMatchResultLikeResponse | GetMatchResultLikesBy
 // Match Results
 export type MatchResultId = Id<'matchResults'>;
 export type CreateMatchResultInput = typeof api.matchResults.createMatchResult.createMatchResult._args;
+export type UpdateMatchResultInput = typeof api.matchResults.updateMatchResult.updateMatchResult._args;
 export type FetchMatchResultResponse = typeof api.matchResults.fetchMatchResult.fetchMatchResult._returnType;
 export type FetchMatchResultListResponse = typeof api.matchResults.fetchMatchResultList.fetchMatchResultList._returnType;
 export type FetchMatchResultListResponseItem = FetchMatchResultListResponse[number];
@@ -68,3 +69,10 @@ export type FetchTournamentCompetitorResponse = typeof api.tournamentCompetitors
 // Tournament Pairings
 export type FetchTournamentPairingListResponse = typeof api.tournamentPairings.fetchTournamentPairingList.fetchTournamentPairingList._returnType;
 export type FetchTournamentPairingListResponseItem = FetchTournamentPairingListResponse[number];
+
+// Static Data
+export type { FowV4MatchOutcomeType } from '../convex/common/fowV4/fowV4MatchOutcomeType';
+export { fowV4MatchOutcomeTypeValues } from '../convex/common/fowV4/fowV4MatchOutcomeType';
+export { missionPacks } from '../convex/static/fowV4/missionPacks';
+export type { FowV4Mission } from '../convex/static/fowV4/missionPacks.types';
+export { getMission, getMissionPack } from '../convex/static/fowV4/missionPacks.utils';

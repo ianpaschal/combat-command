@@ -13,7 +13,7 @@ export const fowV4MatchResultDetails = v.object({
   player1BattlePlan: fowV4BattlePlan,
   player1UnitsLost: v.number(),
   turnsPlayed: v.number(),
-  winner: v.union(v.literal(0), v.literal(1), v.null()),
+  winner: v.union(v.literal(0), v.literal(1), v.literal(-1)),
 });
 
 export type FowV4MatchResultDetails = Infer<typeof fowV4MatchResultDetails>;

@@ -1,43 +1,35 @@
-import { ReactNode, useState } from 'react';
-
-// import { TournamentId } from '~/api';
 import { FowV4MatchResultForm } from '~/components/FowV4MatchResultForm';
-import { Dialog } from '~/components/generic/Dialog';
+import { Button } from '~/components/generic/Button';
+import { DialogHeader } from '~/components/generic/Dialog';
+import { ControlledDialog } from '~/components/generic/Dialog/ControlledDialog';
+import { DialogActions } from '~/components/generic/Dialog/DialogActions';
 import { ScrollArea } from '~/components/generic/ScrollArea';
+import { Separator } from '~/components/generic/Separator';
+import { useMatchResult } from '~/components/MatchResultProvider';
+import { useMatchResultEditDialog } from './MatchResultEditDialog.hooks';
 
-import styles from './CheckInMatchDialog.module.scss';
+import styles from './MatchResultEditDialog.module.scss';
 
-export interface MatchResultEditDialogProps {
-  children?: ReactNode;
-  trigger?: ReactNode;
-  // tournamentId?: TournamentId;
-}
-
-export const MatchResultEditDialog = ({
-  children,
-  trigger,
-  // tournamentId,
-}: MatchResultEditDialogProps): JSX.Element => {
-  const [open, setOpen] = useState<boolean>(false);
+export const MatchResultEditDialog = (): JSX.Element => {
+  const matchResult = useMatchResult();
+  const { id, close } = useMatchResultEditDialog(matchResult._id);
   return (
-    <Dialog
-      open={open}
-      onOpenChange={setOpen}
-      trigger={trigger || children}
-      title="Edit Match Result"
-      actions={[
-        { label: 'Cancel', muted: true, onClick: () => setOpen(false), cancel: true },
-        { label: 'Check In Match', type: 'submit', form: 'fow-v4-match-result-form' },
-      ]}
-    >
+    <ControlledDialog id={id} className={styles.MatchResultEditDialog}>
+      <DialogHeader title="Edit Match Result" onCancel={close} />
+      <Separator />
       <ScrollArea type="scroll" indicatorBorder={['top', 'bottom']}>
         <FowV4MatchResultForm
           id="fow-v4-match-result-form"
+          matchResultId={matchResult._id}
           className={styles.Form}
-          // tournamentId={tournamentId}
-          onSuccess={() => setOpen(false)}
+          onSuccess={close}
         />
       </ScrollArea>
-    </Dialog>
+      <Separator />
+      <DialogActions>
+        <Button muted onClick={close}>Cancel</Button>
+        <Button type="submit" form="fow-v4-match-result-form">Save</Button>
+      </DialogActions>
+    </ControlledDialog>
   );
 };

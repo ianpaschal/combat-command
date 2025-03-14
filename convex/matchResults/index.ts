@@ -24,7 +24,7 @@ export const fields = {
   gameSystemConfig: v.union(fowV4GameSystemConfig),
   gameSystem,
 
-  // TODO: Photos
+  photoIds: v.optional(v.array(v.id('photos'))),
 };
 
 const table = defineTable({

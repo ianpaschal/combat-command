@@ -1,12 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQuery } from 'convex/react';
 
-import { TournamentId, TournamentPairingId } from '~/api';
+import {
+  api,
+  MatchResultId,
+  TournamentId,
+  TournamentPairingId,
+} from '~/api';
 import { Dialog } from '~/components/generic/Dialog';
 import { Form } from '~/components/generic/Form';
 import { Separator } from '~/components/generic/Separator';
 import { useCreateMatchResult } from '~/services/matchResults/useCreateMatchResult';
+import { useUpdateMatchResult } from '~/services/matchResults/useUpdateMatchResult';
 import { CommonFields } from './components/CommonFields';
 import { GameConfigFields } from './components/GameConfigFields';
 import { SingleMatchPlayersFields } from './components/SingleMatchPlayersFields';
@@ -23,6 +30,7 @@ export interface FowV4MatchResultFormProps {
   id: string;
   className?: string;
   tournamentId?: TournamentId;
+  matchResultId?: MatchResultId;
   onSuccess?: () => void;
 }
 
@@ -30,33 +38,42 @@ export const FowV4MatchResultForm = ({
   id,
   className,
   // tournamentId,
+  matchResultId,
   onSuccess,
 }: FowV4MatchResultFormProps): JSX.Element => {
   const [tournamentPairingId] = useState<TournamentPairingId | 'single'>('single');
   const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
 
+  const matchResult = useQuery(api.matchResults.fetchMatchResult.fetchMatchResult, matchResultId ? { id: matchResultId } : 'skip');
+
   const { createMatchResult } = useCreateMatchResult({
+    onSuccess,
+  });
+  const { updateMatchResult } = useUpdateMatchResult({
     onSuccess,
   });
 
   const form = useForm<FowV4MatchResultFormData>({
     resolver: zodResolver(fowV4MatchResultFormSchema),
     defaultValues,
+    values: !matchResult ? undefined : matchResult,
     mode: 'onSubmit',
   });
-  const { handleSubmit, reset } = form;
+  const { handleSubmit } = form;
 
   // TODO: If the tournament pairing changes, auto-fill the game config fields
-  useEffect(() => {
+  // useEffect(() => {
 
-  }, [tournamentPairingId, reset]);
+  // }, [tournamentPairingId, reset]);
 
   const onSubmit: SubmitHandler<FowV4MatchResultFormData> = (data: FowV4MatchResultFormData): void => {
+    const playedAt = new Date().toISOString();
     if (tournamentPairingId === 'single') {
-      createMatchResult({
-        ...data,
-        playedAt: new Date().toISOString(),
-      });
+      if (matchResult) {
+        updateMatchResult({ ...data, _id: matchResult._id, playedAt });
+      } else {
+        createMatchResult({ ...data, playedAt });
+      }
     } else {
       setConfirmDialogOpen(true);
     }

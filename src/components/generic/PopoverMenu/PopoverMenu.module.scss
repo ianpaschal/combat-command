@@ -13,6 +13,7 @@
   @include shadows.shadow;
   @include variants.outlined($hover: false);
 
+  z-index: 1;
   margin: 0.25rem 0;
   padding: 0.25rem;
   background-color: variables.$card-bg;

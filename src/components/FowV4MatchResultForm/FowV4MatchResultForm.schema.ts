@@ -3,12 +3,12 @@ import { DeepPartial } from 'tsdef';
 import { z } from 'zod';
 
 import {
+  fowV4MatchOutcomeTypeValues,
   GameSystem,
   MatchResult,
   UserId,
 } from '~/api';
 import { fowV4BattlePlanSchema } from '~/types/fowV4/fowV4BattlePlanSchema';
-import { fowV4MatchOutcomeTypeSchema } from '~/types/fowV4/fowV4MatchOutcomeTypeSchema';
 
 export const fowV4MatchResultFormSchema = z.object({
 
@@ -29,9 +29,9 @@ export const fowV4MatchResultFormSchema = z.object({
     attacker: z.union([z.literal(0), z.literal(1)], { message: 'Please select an attacker.' }),
     firstTurn: z.union([z.literal(0), z.literal(1)], { message: 'Please who had the first turn.' }),
     missionId: z.string({ message: 'Please select a mission.' }).transform((val) => val as Id<'fowV4Missions'>),
-    outcomeType: fowV4MatchOutcomeTypeSchema,
+    outcomeType: z.enum(fowV4MatchOutcomeTypeValues, { message: 'Please select an outcome type.' }),
     turnsPlayed: z.number().min(1),
-    winner: z.union([z.literal(0), z.literal(1), z.null()], { message: 'Please a winner.' }),
+    winner: z.union([z.literal(-1), z.literal(0), z.literal(1)], { message: 'Please a winner.' }),
   }),
 
   gameSystemConfig: z.object({
@@ -70,6 +70,14 @@ export const defaultValues: DeepPartial<MatchResult> = {
   details: {
     player0UnitsLost: 0,
     player1UnitsLost: 0,
+    attacker: undefined,
+    firstTurn: undefined,
+    missionId: undefined,
+    outcomeType: undefined,
+    turnsPlayed: 1,
+    winner: undefined,
+    player0BattlePlan: undefined,
+    player1BattlePlan: undefined,
   },
   player0Placeholder: '',
   player0UserId: '' as UserId,

@@ -2,14 +2,14 @@ import { getAuthUserId } from '@convex-dev/auth/server';
 import { v } from 'convex/values';
 
 import { mutation } from '../_generated/server';
-import { matchResultFields } from './fields';
+import { fields } from '.';
 
 export const updateMatchResult = mutation({
   args: {
-    id: v.id('matchResults'),
-    ...matchResultFields,
+    _id: v.id('matchResults'),
+    ...fields,
   },
-  handler: async (ctx, { id, ...args }) => {
+  handler: async (ctx, { _id, ...args }) => {
     
     const userId = await getAuthUserId(ctx);
 
@@ -25,7 +25,7 @@ export const updateMatchResult = mutation({
       confirmations.player1Confirmed = true;
     }
     
-    return await ctx.db.patch(id, {
+    return await ctx.db.patch(_id, {
       ...args,
       ...confirmations,
       modifiedAt: Date.now(),

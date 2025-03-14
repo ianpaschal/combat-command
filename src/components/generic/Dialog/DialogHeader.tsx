@@ -6,14 +6,14 @@ import styles from './DialogHeader.module.scss';
 
 export interface DialogHeaderProps {
   className?: string;
-  preventCancel?: boolean;
+  canCancel?: boolean;
   title: string;
   onCancel?: () => void;
 }
 
 export const DialogHeader = ({
   className,
-  preventCancel = false,
+  canCancel = true,
   title,
   onCancel,
 }: DialogHeaderProps): JSX.Element => (
@@ -21,7 +21,7 @@ export const DialogHeader = ({
     <Title>
       {title}
     </Title>
-    {!preventCancel && (
+    {canCancel && (
       <Close className={styles.Close} onClick={onCancel}>
         <X />
       </Close>

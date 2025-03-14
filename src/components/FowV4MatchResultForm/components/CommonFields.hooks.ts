@@ -1,9 +1,13 @@
-import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { FowV4MatchOutcomeType } from 'convex/common/fowV4/fowV4MatchOutcomeType';
 import { useQuery } from 'convex/react';
 
-import { api, UserId } from '~/api';
+import {
+  api,
+  FowV4MatchOutcomeType,
+  getMission,
+  getMissionPack,
+  UserId,
+} from '~/api';
 import { useAuth } from '~/components/AuthProvider';
 import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
 
@@ -22,7 +26,7 @@ export const usePlayerDisplayName = ({ userId, placeholder }: { userId: UserId, 
   return 'Unknown Player';
 };
 
-export const usePlayerDisplayNames = (): [string, string] => {
+export const usePlayerOptions = (): { value: number, label: string }[] => {
   const { watch } = useFormContext();
   const {
     player0UserId,
@@ -30,15 +34,17 @@ export const usePlayerDisplayNames = (): [string, string] => {
     player0Placeholder,
     player1Placeholder,
   } = watch();
-  return [
+  const playerNames = [
     usePlayerDisplayName({ userId: player0UserId, placeholder: player0Placeholder }),
     usePlayerDisplayName({ userId: player1UserId, placeholder: player1Placeholder }),
   ];
+  return playerNames.map((label, value) => ({ label, value })); // Will be coerced back to number by Zod
 };
+
+import { useMemo } from 'react';
 
 export const useMissionOptions = () => {
   const { watch } = useFormContext();
-  
   const { details, gameSystemConfig } = watch();
   const {
     player0BattlePlan,
@@ -49,134 +55,126 @@ export const useMissionOptions = () => {
     missionPackId,
     useExperimentalMissions,
   } = gameSystemConfig;
-  const missions = useQuery(api.fowV4.fowV4Missions.queries.getMissionsByBattlePlans, missionPackId ? {
-    player0BattlePlan,
-    player1BattlePlan,
-    missionPackId,
-    missionMatrixId,
-    useAlternates: useExperimentalMissions,
-  } : 'skip');
-  return (missions || []).map((mission) => ({
-    label: mission.displayName,
-    value: mission._id,
-  }));
-};
-
-export const useAttackerOptions = (autoSet = true) => {
-  const { setValue, watch } = useFormContext();
-  const {
-    attacker,
-    missionId,
-    player0BattlePlan,
-    player1BattlePlan,
-  } = watch().details;
-
-  const playerDisplayNames = usePlayerDisplayNames();
-
-  const missionAttacker = useQuery(api.fowV4.fowV4Missions.queries.getMissionAttacker, missionId ? {
-    player0BattlePlan,
-    player1BattlePlan,
-    missionId,
-  } : 'skip');
-
-  const attackerOptions = (missionAttacker || []).map((playerIndex) => ({
-    label: playerDisplayNames[playerIndex],
-    value: playerIndex,
-  }));
-
-  useEffect(() => {
-    if (autoSet && attackerOptions && attackerOptions.length === 1 && attacker !== attackerOptions[0].value) {
-      setValue('details.attacker', attackerOptions[0].value);
+  return useMemo(() => {
+    const missionPack = getMissionPack(missionPackId);
+    const missionsOptions = (missionPack?.missions || []).map((mission) => ({
+      label: mission.displayName,
+      value: mission.id,
+    }));
+    const activeMatrix = missionPack?.matrixes.find((matrix) => matrix.id === missionMatrixId);
+        
+    if (!player0BattlePlan || !player1BattlePlan || !missionMatrixId ) {
+      return missionsOptions;
     }
-  }, [autoSet, attackerOptions, attacker, setValue]);
-
-  return attackerOptions;
-};
-
-export const useFirstTurnOptions = (autoSet = true) => {
-  const { setValue, watch } = useFormContext();
-  const {
-    firstTurn,
-    missionId,
-    player0BattlePlan,
-    player1BattlePlan,
-  } = watch().details;
-
-  const playerDisplayNames = usePlayerDisplayNames();
-
-  const missionFirstTurn = useQuery(api.fowV4.fowV4Missions.queries.getMissionFirstTurn, missionId ? {
-    player0BattlePlan,
-    player1BattlePlan,
-    missionId,
-  } : 'skip');
-
-  const firstTurnOptions = (missionFirstTurn || []).map((playerIndex) => ({
-    label: playerDisplayNames[playerIndex],
-    value: playerIndex,
-  }));
-
-  useEffect(() => {
-    if (autoSet && firstTurnOptions && firstTurnOptions.length === 1 && firstTurn !== firstTurnOptions[0].value) {
-      setValue('details.firstTurn', firstTurnOptions[0].value);
+    
+    if (!activeMatrix) {
+      throw Error('Could not find a mission matrix with that ID!');
     }
-  }, [autoSet, firstTurnOptions, firstTurn, setValue]);
-
-  return firstTurnOptions;
+    
+    const matrixEntry = activeMatrix.entries.find(({ battlePlans }) => (
+      (player0BattlePlan === battlePlans[0] && player1BattlePlan === battlePlans[1])
+      || (player1BattlePlan === battlePlans[0] && player0BattlePlan === battlePlans[1])
+    ))!;
+    
+    const matrixEntryMissionIds = matrixEntry.missions.reduce((acc: string[], item) => {
+      if (Array.isArray(item)) {
+        if (item[1] && useExperimentalMissions) {
+          return [...acc, item[1]];
+        }
+        return [ ...acc, ...item];
+      }
+      return [ ...acc,item];
+    }, []);
+    return missionsOptions.filter((option) => matrixEntryMissionIds.includes(option.value));
+  }, [player0BattlePlan, player1BattlePlan, missionPackId, missionMatrixId, useExperimentalMissions]);
 };
 
 export const useOutcomeTypeOptions = () => {
   const { watch } = useFormContext();
-  const {
-    missionId,
-  } = watch().details;
-
-  const mission = useQuery(api.fowV4.fowV4Missions.queries.getMission, missionId ? {
-    id: missionId,
-  } : 'skip');
-
-  const outcomeTypeNames: Record<FowV4MatchOutcomeType, string> = {
-    ['force_broken']: 'Force Broken',
-    ['objective_taken']: 'Objective Captured',
-    ['attack_repelled']: 'Attack Repelled',
-    ['time_out']: 'Time Out / Draw',   
-  };
-
-  return (mission?.outcomeTypes || []).map((outcomeType) => ({
-    label: outcomeTypeNames[outcomeType], value: outcomeType,
-  }));
+  const data = watch();
+  const missionPack = getMissionPack(data.gameSystemConfig.missionPackId);
+  const mission = missionPack ? getMission(data.details.missionId) : null;
+  const options: { value: FowV4MatchOutcomeType, label: string }[] = [
+    { label: 'Force Broken', value: 'force_broken' },
+    { label: 'Time Out / Draw', value: 'time_out' },
+  ];
+  if (mission?.victoryConditions.includes('objective_taken')) {
+    options.push({ label: 'Objective Captured', value: 'objective_taken' });
+  }
+  if (mission?.victoryConditions.includes('attack_repelled')) {
+    options.push({ label: 'Attack Repelled', value: 'attack_repelled' });
+  }
+  return options;
 };
 
-export const useWinnerOptions = (autoSet = true) => {
-  const { setValue, watch } = useFormContext();
-  const {
-    missionId,
-    attacker,
-    outcomeType,
-    player0BattlePlan,
-    player1BattlePlan,
-    winner,
-  } = watch().details;
+export const computeAttacker = (missionId?: string, player0BattlePlan?: string, player1BattlePlan?: string): 0 | 1 | undefined => {
+  if (!missionId || !player0BattlePlan || !player1BattlePlan) {
+    return undefined;
+  }
+  const mission = getMission(missionId);
+  if (!mission) {
+    return undefined;
+  }
+  if (mission.attacker === 'roll' || player0BattlePlan === player1BattlePlan) {
+    return undefined;
+  }
+  if (player0BattlePlan === 'attack' && player1BattlePlan === 'maneuver') {
+    return 0;
+  }
+  if (player0BattlePlan === 'attack' && player1BattlePlan === 'defend') {
+    return 0;
+  }
+  if (player0BattlePlan === 'maneuver' && player1BattlePlan === 'defend') {
+    return 0;
+  }
+  if (player0BattlePlan === 'maneuver' && player1BattlePlan === 'attack') {
+    return 1;
+  }
+  if (player0BattlePlan === 'defend' && player1BattlePlan === 'attack') {
+    return 1;
+  }
+  if (player0BattlePlan === 'defend' && player1BattlePlan === 'maneuver') {
+    return 1;
+  }
+};
 
-  const playerDisplayNames = usePlayerDisplayNames();
-
-  const missionWinner = useQuery(api.fowV4.fowV4Missions.queries.getMissionWinner, missionId ? {
-    player0BattlePlan,
-    player1BattlePlan,
-    missionId,
-    attacker,
-    outcomeType,
-  } : 'skip');
-
-  const winnerOptions = (missionWinner || []).map((playerIndex) => ({
-    label: playerIndex === null ? 'None' : playerDisplayNames[playerIndex],
-    value: playerIndex,
-  }));
-
-  useEffect(() => {
-    if (autoSet && winnerOptions && winnerOptions.length === 1 && winner !== winnerOptions[0].value) {
-      setValue('details.winner', winnerOptions[0].value);
+export const computeFirstTurn = (missionId?: string, attacker?: 0 | 1): 0 | 1 | undefined => {
+  if (!missionId || attacker === undefined) {
+    return undefined;
+  }
+  const mission = getMission(missionId);
+  if (!mission) {
+    return undefined;
+  }
+  if (mission.firstTurn === 'roll') {
+    return undefined;
+  }
+  if (mission.firstTurn === 'attacker') {
+    return attacker;
+  }
+  if (mission.firstTurn === 'defender') {
+    if (attacker === 0) {
+      return 1;
     }
-  }, [autoSet, winnerOptions, winner, setValue]);
-  
-  return winnerOptions;
+    return 0;
+  }
+};
+
+export const computeWinner = (missionId?: string, attacker?: 0 | 1, outcomeType?: FowV4MatchOutcomeType): -1 | 0 | 1 | undefined => {
+  if (!missionId || attacker === undefined || !outcomeType) {
+    return undefined;
+  }
+  const mission = getMission(missionId);
+  if (!mission) {
+    return undefined;
+  }
+  if (outcomeType === 'time_out') {
+    return -1;
+  }
+  if (outcomeType === 'objective_taken' && attacker !== undefined && mission?.victoryConditions.includes('attack_repelled')) {
+    return attacker;
+  }
+  if (outcomeType === 'attack_repelled' && attacker !== undefined) {
+    return attacker === 0 ? 1 : 0; // Defender
+  }
 };

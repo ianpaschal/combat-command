@@ -1,11 +1,11 @@
 import { getAuthUserId } from '@convex-dev/auth/server';
 
 import { mutation } from '../_generated/server';
-import { matchResultFields } from './fields';
+import { fields } from '.';
 
 export const createMatchResult = mutation({
   args: {
-    ...matchResultFields,
+    ...fields,
   },
   handler: async (ctx, args) => {
 
