@@ -9,6 +9,12 @@ export const useFetchMatchResult = (id?: MatchResultId) => {
   if (data !== undefined) {
     stored.current = data;
   }
+  if (!id) {
+    return {
+      data: undefined,
+      loading: false,
+    };
+  }
   return {
     data: stored.current,
     loading: stored.current === undefined,
