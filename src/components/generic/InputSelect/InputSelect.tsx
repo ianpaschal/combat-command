@@ -2,21 +2,17 @@ import {
   ComponentPropsWithoutRef,
   ElementRef,
   forwardRef,
-  useEffect,
 } from 'react';
 import {
   Content,
-  Group,
   Icon,
   Item,
   ItemIndicator,
   ItemText,
-  Label,
   Portal,
   Root,
   ScrollDownButton,
   ScrollUpButton,
-  Separator,
   Trigger,
   Value,
   Viewport,
@@ -29,23 +25,20 @@ import {
   ChevronUpIcon,
 } from 'lucide-react';
 
-import { useStringSelect } from '~/components/generic/InputSelect/InputSelect.hooks';
-import { InputSelectItem, SelectValue } from '~/components/generic/InputSelect/InputSelect.types';
-
 import './InputSelect.scss';
 
-export interface InputSelectProps {
+export interface InputSelectProps<T extends number | string> {
   className?: string;
-  options: InputSelectItem<SelectValue>[];
+  options: { value: T, label: string }[];
   hasError?: boolean;
   placeholder?: string;
-  onChange?: (value?: SelectValue) => void;
-  value?: SelectValue;
+  onChange?: (value?: T) => void;
+  value?: T;
 }
 
 type SelectRef = ElementRef<typeof Root>;
-type SelectProps = Omit<ComponentPropsWithoutRef<typeof Root>, 'value'> & InputSelectProps;
-export const InputSelect = forwardRef<SelectRef, SelectProps>(({
+type SelectProps<T extends number | string> = Omit<ComponentPropsWithoutRef<typeof Root>, 'value'> & InputSelectProps<T>;
+export const InputSelect = forwardRef<SelectRef, SelectProps<number | string>>(({
   options,
   placeholder,
   onChange,
@@ -54,16 +47,19 @@ export const InputSelect = forwardRef<SelectRef, SelectProps>(({
   value,
   ...props
 }, ref): JSX.Element => {
-  const [stringValue, stringOptions, handleValueChange] = useStringSelect(value, options, onChange);
-  useEffect(() => {
-    if (value && !options.find((option) => typeof option === 'object' && 'value' in option && option.value === value)) {
-      if (onChange) {
-        onChange(undefined);
+  const handleChange = (selected: string): void => {
+    if (onChange) {
+      if (!isNaN(+selected)) {
+        onChange(+selected);
+      } else {
+        onChange(selected);
       }
     }
-  }, [value, options, onChange]);
+  };
+  const stringValue: string | undefined = value !== undefined && typeof value === 'number' ? value.toString() : value;
+  const stringOptions = options.map((item) => ({ value: typeof item.value === 'number' ? item.value.toString() : item.value, label: item.label }));
   return (
-    <Root onValueChange={handleValueChange} disabled={disabled} value={stringValue} {...props}>
+    <Root onValueChange={handleChange} disabled={disabled} value={stringValue} {...props}>
       <Trigger className={clsx('InputSelectTrigger', { 'InputSelectTrigger--hasError': hasError, 'InputSelectTrigger--disabled': disabled })}>
         <Value ref={ref} placeholder={placeholder} />
         <Icon className="SelectIcon">
@@ -76,28 +72,9 @@ export const InputSelect = forwardRef<SelectRef, SelectProps>(({
             <ChevronUpIcon />
           </ScrollUpButton>
           <Viewport className="SelectViewport">
-            {stringOptions.map((item, i) => {
-              if (typeof item === 'string' && item === '-') {
-                return (
-                  <Separator key={`${i}_separator`} className="SelectSeparator" />
-                );
-              } else if ('options' in item) {
-                return (
-                  <Group key={item.label} className="SelectGroup">
-                    <Label className="SelectGroupLabel">{item.label}</Label>
-                    {item.options.map((subItem) => (
-                      <SelectItem key={subItem.value} value={subItem.value}>
-                        {subItem.label}
-                      </SelectItem>
-                    ))}
-                  </Group>
-                );
-              } else {
-                return (
-                  <SelectItem key={item.value} value={item.value}>{item.label}</SelectItem>
-                );
-              }
-            })}
+            {stringOptions.map((item) => (
+              <SelectItem key={item.value} value={item.value}>{item.label}</SelectItem>
+            ))}
           </Viewport>
           <ScrollDownButton className="SelectScrollButton">
             <ChevronDownIcon />
