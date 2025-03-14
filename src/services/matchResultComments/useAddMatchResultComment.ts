@@ -20,11 +20,12 @@ export const useAddMatchResultComment = (config?: UseAddMatchResultCommentConfig
         console.error(error);
         toast.error(error as string);
         setIsLoading(true);
-      }
-      toast.success('Comment added!');
-      setIsLoading(true);
-      if (config?.onSuccess) {
-        config.onSuccess();
+      } finally {
+        toast.success('Comment added!');
+        setIsLoading(false);
+        if (config?.onSuccess) {
+          config.onSuccess();
+        }
       }
     },
     isLoading,

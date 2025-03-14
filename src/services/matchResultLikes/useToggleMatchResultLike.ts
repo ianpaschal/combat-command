@@ -20,10 +20,11 @@ export const useToggleMatchResultLike = (config?: UseToggleMatchResultLikeConfig
         console.error(error);
         toast.error(error as string);
         setIsLoading(true);
-      }
-      setIsLoading(true);
-      if (config?.onSuccess) {
-        config.onSuccess();
+      } finally {
+        setIsLoading(true);
+        if (config?.onSuccess) {
+          config.onSuccess();
+        }
       }
     },
     isLoading,
