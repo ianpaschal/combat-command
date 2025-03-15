@@ -10,7 +10,7 @@ import { Button } from '~/components/generic/Button';
 import { Drawer } from '~/components/generic/Drawer';
 import { NavLinks } from '~/components/generic/NavLinks';
 import { getVisibleAppRoutes, mainRoutes } from '~/routes';
-import { MIN_WIDTH_TABLET } from '~/settings';
+import { MIN_WIDTH_TABLET, PATHS } from '~/settings';
 
 import styles from './AppBar.module.scss';
 
@@ -56,8 +56,8 @@ export const AppBar = ({
             <AccountMenu />
           ) : (
             <div className={styles.AuthLinks}>
-              <Link to="/sign-in">Sign In</Link>
-              <Link to="/sign-up">Register</Link>
+              <Link to={PATHS.authSignIn}>Sign In</Link>
+              <Link to={PATHS.authSignUp}>Sign Up</Link>
             </div>
           )}
         </div>

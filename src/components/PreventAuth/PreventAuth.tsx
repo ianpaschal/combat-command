@@ -2,6 +2,7 @@ import { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 
 import { useAuth } from '~/components/AuthProvider';
+import { PATHS } from '~/settings';
 
 export interface PreventAuthProps {
   children: ReactNode;
@@ -12,7 +13,7 @@ export const PreventAuth = ({ children }: PreventAuthProps) => {
 
   if (user) {
     return (
-      <Navigate to={'/dashboard'} />
+      <Navigate to={PATHS.dashboard} />
     );
   }
 

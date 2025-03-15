@@ -1,0 +1,13 @@
+@use "/src/style/flex";
+
+.SignInForm {
+  @include flex.column($xAlign: left);
+
+  &__Header {
+    @include flex.column($gap: 0.5rem);
+  }
+
+  button {
+    align-self: end;
+  }
+}

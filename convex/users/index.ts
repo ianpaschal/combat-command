@@ -16,6 +16,7 @@ export const fields = {
 export const table = defineTable({
   ...fields,
   email: v.string(),
+  emailVerificationTime: v.optional(v.number()),
   modifiedAt: v.optional(v.number()),
 }).index(
   'by_country_code', ['countryCode'],

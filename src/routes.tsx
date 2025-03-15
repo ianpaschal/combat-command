@@ -5,20 +5,27 @@ import {
   RouteObject,
 } from 'react-router-dom';
 
-import { AccountSettings } from '~/components/AccountSettings';
 import { App } from '~/components/App';
 import { NavLink } from '~/components/generic/NavLinks';
 import { PreventAuth } from '~/components/PreventAuth';
 import { RequireAuth } from '~/components/RequireAuth';
-import { UserProfileForm } from '~/components/UserProfileForm';
+import {
+  AuthPage,
+  ForgotPasswordForm,
+  ResetPasswordForm,
+  SignInForm,
+  SignUpForm,
+} from '~/pages/AuthPage';
 import { DashboardPage } from '~/pages/DashboardPage';
-// import { ForgotPasswordPage } from '~/pages/ForgotPasswordPage';
 import { LandingPage } from '~/pages/LandingPage';
 import { MatchResultDetailPage } from '~/pages/MatchResultDetailPage';
 import { MatchResultsPage } from '~/pages/MatchResultsPage';
-import { SettingsPage } from '~/pages/SettingsPage';
-import { SignInPage } from '~/pages/SignInPage';
-import { SignUpPage } from '~/pages/SignUpPage';
+import {
+  AccountSettings,
+  SettingsPage,
+  UserProfileForm,
+} from '~/pages/SettingsPage';
+import { PATHS } from '~/settings';
 
 export interface AppRoute {
   path: string;
@@ -147,21 +154,36 @@ export const routes = [
     ],
   },
   {
-    path: '/sign-in',
-    title: 'Sign In',
-    element: <SignInPage />,
+    path: PATHS.auth,
+    title: 'Authentication',
+    element: <AuthPage />,
+    children: [
+      {
+        index: true, // This will match "/auth"
+        element: <Navigate to="sign-in" replace />, // Redirect to "/auth/sign-in"
+      },
+      {
+        path: PATHS.authSignIn,
+        title: 'Sign In',
+        element: <SignInForm />,
+      },
+      {
+        path: PATHS.authSignUp,
+        title: 'Sign Up',
+        element: <SignUpForm />,
+      },
+      {
+        path: PATHS.authForgotPassword,
+        title: 'Forgot Password',
+        element: <ForgotPasswordForm />,
+      },
+      {
+        path: PATHS.authResetPassword,
+        title: 'Reset Password',
+        element: <ResetPasswordForm />,
+      },
+    ],
   },
-  {
-    path: '/sign-up',
-    title: 'Sign Up',
-    element: <SignUpPage />,
-  },
-  // {
-  //   path: '/forgot-password',
-  //   title: 'Forgot Password',
-  //   visibility: [],
-  //   element: <ForgotPasswordPage />,
-  // },
 ];
 
 export const getNavLinksByPath = (path: string): NavLink[] => {

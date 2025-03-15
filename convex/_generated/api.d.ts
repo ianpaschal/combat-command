@@ -13,6 +13,8 @@ import type {
   FilterApi,
   FunctionReference,
 } from "convex/server";
+import type * as auth_ResendOtpPasswordReset from "../auth/ResendOtpPasswordReset.js";
+import type * as auth_ResendOtpVerification from "../auth/ResendOtpVerification.js";
 import type * as auth from "../auth.js";
 import type * as common_faction from "../common/faction.js";
 import type * as common_fowV4_fowV4Alignment from "../common/fowV4/fowV4Alignment.js";
@@ -92,6 +94,8 @@ import type * as users_utils_redactUserInfo from "../users/utils/redactUserInfo.
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  "auth/ResendOtpPasswordReset": typeof auth_ResendOtpPasswordReset;
+  "auth/ResendOtpVerification": typeof auth_ResendOtpVerification;
   auth: typeof auth;
   "common/faction": typeof common_faction;
   "common/fowV4/fowV4Alignment": typeof common_fowV4_fowV4Alignment;

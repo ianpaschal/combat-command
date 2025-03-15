@@ -56,8 +56,9 @@ export const useSignUp = () => {
         ...data,
         flow: 'signUp',
       }).catch((error) => {
-        toast.error(error.message);
         setLoading(false);
+        console.error(error);
+        toast.error(error.message);
       });
     },
     loading,

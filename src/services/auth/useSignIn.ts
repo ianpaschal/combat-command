@@ -18,7 +18,7 @@ export const useSignIn = () => {
   const { signIn } = useAuthActions();
   const navigate = useNavigate();
   const user = useAuth();
-  const [isLoading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const redirectPath = useRef<string>();
 
   /*
@@ -46,9 +46,11 @@ export const useSignIn = () => {
         ...data,
         flow: 'signIn',
       }).catch((error) => {
+        setLoading(false);
+        console.error(error);
         toast.error(error.message);
       });
     },
-    isLoading,
+    loading,
   };
 };
