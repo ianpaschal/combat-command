@@ -11,7 +11,7 @@ import {
 import { useAuth } from '~/components/AuthProvider';
 import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
 
-export const usePlayerDisplayName = ({ userId, placeholder }: { userId: UserId, placeholder: string }): string => {
+export const usePlayerDisplayName = ({ userId, placeholder }: { userId?: UserId, placeholder?: string }): string => {
   const currentUser = useAuth();
   const user = useQuery(api.users.fetchUser.fetchUser, userId ? { id: userId } : 'skip');
   if (!userId && placeholder) {

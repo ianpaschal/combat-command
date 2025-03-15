@@ -1,0 +1,12 @@
+@use "/src/style/animate";
+@use "/src/style/corners";
+@use "/src/style/flex";
+@use "/src/style/sizes";
+@use "/src/style/text";
+@use "/src/style/utils";
+@use "/src/style/variables";
+@use "/src/style/variants";
+
+.DialogDescription {
+  padding: 1rem var(--modal-inner-gutter);
+}

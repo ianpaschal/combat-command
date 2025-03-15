@@ -24,13 +24,11 @@ export type MatchResultLikeId = Id<'matchResultLikes'>;
 export type ToggleMatchResultLikeInput = typeof api.matchResultLikes.mutations.toggleMatchResultLike._args;
 
 // Match Results
-export type CreateMatchResultInput = typeof api.matchResults.createMatchResult.createMatchResult._args;
 export type FetchMatchResultListResponse = typeof api.matchResults.fetchMatchResultList.fetchMatchResultList._returnType;
 export type FetchMatchResultListResponseItem = FetchMatchResultListResponse[number];
 export type FetchMatchResultResponse = typeof api.matchResults.fetchMatchResult.fetchMatchResult._returnType;
 export type MatchResult = FetchMatchResultListResponse[number];
 export type MatchResultId = Id<'matchResults'>;
-export type UpdateMatchResultInput = typeof api.matchResults.updateMatchResult.updateMatchResult._args;
 
 // Tournament Competitors
 export type FetchTournamentCompetitorResponse = typeof api.tournamentCompetitors.fetchTournamentCompetitor.fetchTournamentCompetitor._returnType;

@@ -21,29 +21,32 @@ import styles from './MatchResultsPage.module.scss';
 
 export const MatchResultsPage = (): JSX.Element => {
   const user = useAuth();
+  const showFilters = false;
   const showAddMatchResultButton = !!user;
   const showButtonText = useWindowWidth() > MIN_WIDTH_TABLET;
   const matchResults = useQuery(api.matchResults.fetchMatchResultList.fetchMatchResultList);
   return (
     <PageWrapper title="Match Results">
-      <div className={styles.Filters}>
-        <InputText slotBefore={<Search />} placeholder="Search..." />
-        <Popover.Root>
-          <Popover.Trigger asChild>
-            <Button variant="outlined">
-              <ListFilter />
-              {showButtonText && (
-                <span>Filter</span>
-              )}
-            </Button>
-          </Popover.Trigger>
-          <Popover.Portal>
-            <Popover.Content className={styles.FilterPopover} align="end">
-              Coming soon!
-            </Popover.Content>
-          </Popover.Portal>
-        </Popover.Root>
-      </div>
+      {showFilters && (
+        <div className={styles.Filters}>
+          <InputText slotBefore={<Search />} placeholder="Search..." />
+          <Popover.Root>
+            <Popover.Trigger asChild>
+              <Button variant="outlined">
+                <ListFilter />
+                {showButtonText && (
+                  <span>Filter</span>
+                )}
+              </Button>
+            </Popover.Trigger>
+            <Popover.Portal>
+              <Popover.Content className={styles.FilterPopover} align="end">
+                Coming soon!
+              </Popover.Content>
+            </Popover.Portal>
+          </Popover.Root>
+        </div>
+      )}
       <div className={styles.List}>
         {(matchResults || []).map((matchResult) => (
           <MatchResultCard key={matchResult._id} matchResult={matchResult} />

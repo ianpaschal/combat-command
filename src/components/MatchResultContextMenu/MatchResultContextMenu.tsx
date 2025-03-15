@@ -3,6 +3,7 @@ import { Ellipsis } from 'lucide-react';
 import { useAuth } from '~/components/AuthProvider';
 import { Button } from '~/components/generic/Button';
 import { PopoverMenu } from '~/components/generic/PopoverMenu';
+import { MatchResultDeleteDialog, useMatchResultDeleteDialog } from '~/components/MatchResultDeleteDialog';
 import { MatchResultEditDialog, useMatchResultEditDialog } from '~/components/MatchResultEditDialog';
 import { useMatchResult } from '~/components/MatchResultProvider';
 
@@ -16,13 +17,13 @@ export const MatchResultContextMenu = ({
   const user = useAuth();
   const matchResult = useMatchResult();
   const { open: openEditDialog } = useMatchResultEditDialog(matchResult._id);
+  const { open: openDeleteDialog } = useMatchResultDeleteDialog(matchResult._id);
 
   // TODO: Make better check for showing context menu
   const showContextMenu = user && !matchResult.tournamentPairingId && [matchResult.player0UserId, matchResult.player1UserId].includes(user._id);
   const contextMenuItems = [
     { label: 'Edit', onClick: openEditDialog },
-    // TODO: Implement delete
-    // { label: 'Delete', onClick: () => console.log('Delete') },
+    { label: 'Delete', onClick: openDeleteDialog },
   ];
 
   if (!showContextMenu) {
@@ -36,6 +37,7 @@ export const MatchResultContextMenu = ({
         </Button>
       </PopoverMenu>
       <MatchResultEditDialog />
+      <MatchResultDeleteDialog />
     </>
   );
 };

@@ -1,8 +1,10 @@
 import { FowV4MatchResultForm } from '~/components/FowV4MatchResultForm';
 import { Button } from '~/components/generic/Button';
-import { DialogHeader } from '~/components/generic/Dialog';
-import { ControlledDialog } from '~/components/generic/Dialog/ControlledDialog';
-import { DialogActions } from '~/components/generic/Dialog/DialogActions';
+import {
+  ControlledDialog,
+  DialogActions,
+  DialogHeader,
+} from '~/components/generic/Dialog';
 import { ScrollArea } from '~/components/generic/ScrollArea';
 import { Separator } from '~/components/generic/Separator';
 import { useMatchResult } from '~/components/MatchResultProvider';

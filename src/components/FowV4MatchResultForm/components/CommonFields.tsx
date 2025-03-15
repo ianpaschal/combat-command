@@ -17,19 +17,20 @@ import styles from './CommonFields.module.scss';
 
 export const CommonFields = (): JSX.Element => {
   const { watch, setValue } = useFormContext();
-  const missionOptions = useMissionOptions();
-  const outcomeTypeOptions = useOutcomeTypeOptions();
-  const playerOptions = usePlayerOptions();
-  const winnerOptions = [...playerOptions, { value: '-1', label: 'None' }];
-
   const {
     missionId,
     player0BattlePlan,
     player1BattlePlan,
     attacker,
     firstTurn,
+    outcomeType,
     winner,
   } = watch('details');
+
+  const missionOptions = useMissionOptions();
+  const outcomeTypeOptions = useOutcomeTypeOptions();
+  const playerOptions = usePlayerOptions();
+  const winnerOptions = [...playerOptions, { label: 'None', value: -1 }];
 
   // Auto-fill attacker, if possible
   const autoAttacker = computeAttacker(missionId, player0BattlePlan, player1BattlePlan);
@@ -50,7 +51,7 @@ export const CommonFields = (): JSX.Element => {
   }, [firstTurn, autoFirstTurn, setValue]);
 
   // Auto-fill winner, if possible
-  const autoWinner = computeWinner(missionId, attacker);
+  const autoWinner = computeWinner(missionId, attacker, outcomeType);
   const disableWinner = autoWinner !== undefined;
   useEffect(() => {
     if (winner !== autoWinner) {

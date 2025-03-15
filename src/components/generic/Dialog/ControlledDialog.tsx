@@ -30,6 +30,7 @@ export interface ControlledDialogProps {
   canCancel?: boolean;
   children: ReactNode;
   className?: string;
+  disabled?: boolean;
   onCancel?: () => void;
   onCloseComplete?: () => void;
   width?: 'small' | 'normal' | 'large';
@@ -40,12 +41,16 @@ export const ControlledDialog = ({
   canCancel = true,
   children,
   className,
+  disabled = false,
   onCancel,
   onCloseComplete,
   width = 'normal',
 }: ControlledDialogProps): JSX.Element => {
   const open = useModalVisible(id);
   const handleCancel = () => {
+    if (disabled) {
+      return;
+    }
     if (onCancel) {
       onCancel();
     }
@@ -57,7 +62,7 @@ export const ControlledDialog = ({
     }
   };
   const handleInteractOutside = (e: Event | MouseEvent<HTMLDivElement>) => {
-    if (!canCancel) {
+    if (!canCancel || disabled) {
       e.preventDefault();
     }
     handleCancel();

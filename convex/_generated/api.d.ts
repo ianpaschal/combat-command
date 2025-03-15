@@ -51,12 +51,10 @@ import type * as matchResultComments_queries from "../matchResultComments/querie
 import type * as matchResultLikes_index from "../matchResultLikes/index.js";
 import type * as matchResultLikes_mutations from "../matchResultLikes/mutations.js";
 import type * as matchResultLikes_queries from "../matchResultLikes/queries.js";
-import type * as matchResults_createMatchResult from "../matchResults/createMatchResult.js";
 import type * as matchResults_fetchMatchResult from "../matchResults/fetchMatchResult.js";
 import type * as matchResults_fetchMatchResultList from "../matchResults/fetchMatchResultList.js";
 import type * as matchResults_index from "../matchResults/index.js";
 import type * as matchResults_mutations from "../matchResults/mutations.js";
-import type * as matchResults_updateMatchResult from "../matchResults/updateMatchResult.js";
 import type * as photos_index from "../photos/index.js";
 import type * as photos_mutations from "../photos/mutations.js";
 import type * as static_fowV4_missionPacks from "../static/fowV4/missionPacks.js";
@@ -132,12 +130,10 @@ declare const fullApi: ApiFromModules<{
   "matchResultLikes/index": typeof matchResultLikes_index;
   "matchResultLikes/mutations": typeof matchResultLikes_mutations;
   "matchResultLikes/queries": typeof matchResultLikes_queries;
-  "matchResults/createMatchResult": typeof matchResults_createMatchResult;
   "matchResults/fetchMatchResult": typeof matchResults_fetchMatchResult;
   "matchResults/fetchMatchResultList": typeof matchResults_fetchMatchResultList;
   "matchResults/index": typeof matchResults_index;
   "matchResults/mutations": typeof matchResults_mutations;
-  "matchResults/updateMatchResult": typeof matchResults_updateMatchResult;
   "photos/index": typeof photos_index;
   "photos/mutations": typeof photos_mutations;
   "static/fowV4/missionPacks": typeof static_fowV4_missionPacks;

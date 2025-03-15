@@ -5,12 +5,12 @@ import { api } from '~/api';
 import { toast } from '~/components/ToastProvider';
 import { MutationHookConfig } from '~/services/MutationHookConfig';
 
-export const useUpdateMatchResult = (config?: MutationHookConfig) => {
-  const mutation = api.matchResults.mutations.updateMatchResult;
+export const useRemoveUserFromMatchResult = (config?: MutationHookConfig) => {
+  const mutation = api.matchResults.mutations.removeUserFromMatchResult;
   const handler = useMutation(mutation);
   const [loading, setIsLoading] = useState<boolean>(false);
   return {
-    updateMatchResult: async (args: typeof mutation._args) => {
+    removeUserFromMatchResult: async (args: typeof mutation._args) => {
       setIsLoading(true);
       try {
         await handler(args);

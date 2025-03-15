@@ -33,7 +33,7 @@ export const fowV4MatchResultFormSchema = z.object({
     missionId: z.string({ message: 'Please select a mission.' }).transform((val) => val as FowV4MissionId),
     outcomeType: z.enum(fowV4MatchOutcomeTypeValues, { message: 'Please select an outcome type.' }),
     turnsPlayed: z.number().min(1),
-    winner: z.union([z.literal(-1), z.literal(0), z.literal(1)], { message: 'Please a winner.' }),
+    winner: z.union([z.literal(-1), z.literal(0), z.literal(1)], { message: 'Please select a winner.' }),
   }),
 
   gameSystemConfig: z.object({
@@ -93,6 +93,6 @@ export const defaultValues: DeepPartial<MatchResult> = {
     lessonsFromTheFrontVersion: 'lessons_from_the_front_2024_03',
     missionMatrixId: 'm57dw693qe6pk69b796e8jdgh57bpwsq' as FowV4MissionMatrixId, // April 2023 (Extended)
     missionPackId: 'm977z1d2dpedgqzgtx1jw7q7p17bqk5a' as FowV4MissionPackId, // April 2023
-    // useExperimentalMissions: true,
+    useExperimentalMissions: true,
   },
 };
