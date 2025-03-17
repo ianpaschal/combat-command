@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
+import { fowV4FactionOptions } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
 import { FormField } from '~/components/generic/Form';
 import { InputNumber } from '~/components/generic/InputNumber';
@@ -59,6 +60,9 @@ export const SingleMatchPlayersFields = (): JSX.Element => {
               onConfirm={(data) => handleConfirmPlayer(i, data)}
               disabled={editingPlayer === i}
             />
+            <FormField name={`details.player${i}FactionId`} label="Faction">
+              <InputSelect options={fowV4FactionOptions} />
+            </FormField>
             <FormField name={`details.player${i}BattlePlan`} label="Battle Plan">
               <InputSelect options={fowV4BattlePlanOptions} />
             </FormField>

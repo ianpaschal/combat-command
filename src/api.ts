@@ -55,6 +55,13 @@ export type { GameSystem } from '../convex/common/gameSystem';
 
 // Static Data & Interfaces (Flames of War 4th Edition)
 
+// Factions
+export {
+  type FowV4Faction,
+  type FowV4FactionId,
+  fowV4FactionOptions,
+} from '../convex/static/fowV4/factions';
+
 // Lessons From the Front Versions
 export { fowV4LessonsFromTheFrontVersionOptions } from '../convex/static/fowV4/lessonsFromTheFrontVersions';
 

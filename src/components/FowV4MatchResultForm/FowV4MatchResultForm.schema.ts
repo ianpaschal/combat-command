@@ -22,10 +22,12 @@ export const fowV4MatchResultFormSchema = z.object({
 
   details: z.object({
     // Handled by <TournamentPlayersForm /> or <SingleMatchPlayersForm />
-    player1BattlePlan: fowV4BattlePlanSchema,
-    player1UnitsLost: z.number(),
-    player0UnitsLost: z.number(),
     player0BattlePlan: fowV4BattlePlanSchema,
+    player0FactionId: z.string({ message: 'Please select a faction.' }).transform((val) => val as FowV4MissionId),
+    player0UnitsLost: z.number(),
+    player1BattlePlan: fowV4BattlePlanSchema,
+    player1FactionId: z.string({ message: 'Please select a faction.' }).transform((val) => val as FowV4MissionId),
+    player1UnitsLost: z.number(),
 
     // Handled by <CommonForm />
     attacker: z.union([z.literal(0), z.literal(1)], { message: 'Please select an attacker.' }),
