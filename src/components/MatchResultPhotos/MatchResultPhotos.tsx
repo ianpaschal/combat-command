@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import { ImagePlus } from 'lucide-react';
 
+import { useAuth } from '~/components/AuthProvider';
 import { Button } from '~/components/generic/Button';
 import {
   Carousel,
@@ -22,9 +23,14 @@ export interface MatchResultPhotosProps {
 export const MatchResultPhotos = ({
   className,
 }: MatchResultPhotosProps): JSX.Element => {
+  const user = useAuth();
   const matchResult = useMatchResult();
   const { photoIds } = useMatchResult();
   const { open: openUploadPhotoDialog } = useMatchResultPhotoUploadDialog(matchResult._id);
+  const userInMatch = matchResult && user && [
+    matchResult.player0UserId,
+    matchResult.player1UserId,
+  ].includes(user._id);
   return (
     <div className={clsx(styles.MatchResultPhotos, className)}>
       <Carousel>
@@ -35,12 +41,18 @@ export const MatchResultPhotos = ({
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPreviousButton />
-        <CarouselNextButton />
+        {(photoIds || []).length > 1 && (
+          <>
+            <CarouselPreviousButton />
+            <CarouselNextButton />
+          </>
+        )}
       </Carousel>
-      <Button className={styles.UploadPhotoButton} round onClick={openUploadPhotoDialog}>
-        <ImagePlus />
-      </Button>
+      {userInMatch && (
+        <Button className={styles.UploadPhotoButton} round onClick={openUploadPhotoDialog}>
+          <ImagePlus />
+        </Button>
+      )}
     </div>
   );
 };
