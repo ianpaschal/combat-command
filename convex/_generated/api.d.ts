@@ -57,6 +57,7 @@ import type * as matchResults_mutations from "../matchResults/mutations.js";
 import type * as photos_index from "../photos/index.js";
 import type * as photos_mutations from "../photos/mutations.js";
 import type * as photos_queries from "../photos/queries.js";
+import type * as static_fowV4_factions from "../static/fowV4/factions.js";
 import type * as static_fowV4_lessonsFromTheFrontVersions from "../static/fowV4/lessonsFromTheFrontVersions.js";
 import type * as static_fowV4_missionPacks from "../static/fowV4/missionPacks.js";
 import type * as tournamentCompetitors_createTournamentCompetitor from "../tournamentCompetitors/createTournamentCompetitor.js";
@@ -137,6 +138,7 @@ declare const fullApi: ApiFromModules<{
   "photos/index": typeof photos_index;
   "photos/mutations": typeof photos_mutations;
   "photos/queries": typeof photos_queries;
+  "static/fowV4/factions": typeof static_fowV4_factions;
   "static/fowV4/lessonsFromTheFrontVersions": typeof static_fowV4_lessonsFromTheFrontVersions;
   "static/fowV4/missionPacks": typeof static_fowV4_missionPacks;
   "tournamentCompetitors/createTournamentCompetitor": typeof tournamentCompetitors_createTournamentCompetitor;
