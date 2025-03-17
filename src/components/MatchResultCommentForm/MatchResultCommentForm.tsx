@@ -9,7 +9,11 @@ import { Avatar } from '~/components/generic/Avatar';
 import { Button } from '~/components/generic/Button';
 import { InputTextArea } from '~/components/generic/InputTextArea';
 import { useAddMatchResultComment } from '~/services/matchResultComments/useAddMatchResultComment';
-import { MatchResultCommentFormData, matchResultCommentFormSchema } from './MatchResultCommentForm.schema';
+import {
+  defaultValues,
+  MatchResultCommentFormData,
+  matchResultCommentFormSchema,
+} from './MatchResultCommentForm.schema';
 
 import styles from './MatchResultCommentForm.module.scss';
 
@@ -35,9 +39,7 @@ export const MatchResultCommentForm = ({
   });
   const form = useForm<MatchResultCommentFormData>({
     resolver: zodResolver(matchResultCommentFormSchema),
-    defaultValues: {
-      body: '',
-    },
+    defaultValues,
   });
   const onSubmit: SubmitHandler<MatchResultCommentFormData> = (data) => {
     addMatchResultComment({

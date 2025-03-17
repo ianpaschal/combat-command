@@ -26,6 +26,7 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: ElementSize;
   round?: boolean;
   loading?: boolean;
+  inverted?: boolean;
 }
 
 const cn = createCn('Button');
@@ -37,6 +38,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   className,
   variant = 'solid',
   muted,
+  inverted = false,
   size: customSize,
   children,
   disabled = false,
@@ -50,7 +52,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   const elements = Children.toArray(children);
   const classNames = clsx(
     cn(),
-    cn(mod({ variant, intent, muted })),
+    cn(mod({ variant, intent, muted, inverted })),
     size !== null ? cn(`-size-${size}`) : undefined,
     {
       [cn('-round')]: round,

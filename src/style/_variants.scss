@@ -137,7 +137,26 @@
   }
 
   &:disabled {
-    color: variables.$text-disabled;
+    color: variables.$ghost-text-disabled;
+    background-color: variables.$ghost-bg;
+  }
+}
+
+@mixin ghost-inverted($hover: true) {
+  @include variant-defaults;
+
+  color: variables.$ghost-inverted-text;
+  background-color: variables.$ghost-inverted-bg;
+  border: none;
+
+  @if $hover {
+    &:hover {
+      background-color: variables.$ghost-inverted-bg-hover;
+    }
+  }
+
+  &:disabled {
+    color: variables.$ghost-inverted-text-disabled;
     background-color: variables.$ghost-bg;
   }
 }

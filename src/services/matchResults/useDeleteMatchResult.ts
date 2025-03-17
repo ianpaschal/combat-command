@@ -14,17 +14,20 @@ export const useDeleteMatchResult = (config?: MutationHookConfig) => {
       setIsLoading(true);
       try {
         await handler(args);
+        if (config?.successMessage) {
+          toast.success(config.successMessage);
+        }
+        if (config?.onSuccess) {
+          config.onSuccess();
+        }
       } catch (error) {
         console.error(error);
         toast.error(error as string);
+        if (config?.onError) {
+          config.onError(error);
+        }
       }
       setIsLoading(false);
-      if (config?.successMessage) {
-        toast.success(config.successMessage);
-      }
-      if (config?.onSuccess) {
-        config.onSuccess();
-      }
     },
     loading,
   };

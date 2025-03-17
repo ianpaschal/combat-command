@@ -2,12 +2,12 @@ import { FowV4MissionPack } from './missionPacks.types';
 
 export const missionPacks: FowV4MissionPack[] = [
   {
-    id: 'm977z1d2dpedgqzgtx1jw7q7p17bqk5a',
+    id: '6824a95b-c582-4c6b-b518-29e9ee0577af',
     displayName: 'April 2023',
     publishedAt: '2023-04-01T13:00:00+13:00',
     missions: [
       {
-        id: 'md7dr337dzhfxh371b4mvcb9es7bpwwn',
+        id: '0be913c2-d8db-4e20-a547-149960da67ec',
         attacker: 'roll',
         displayName: 'Vanguard',
         firstTurn: 'roll',
@@ -16,7 +16,7 @@ export const missionPacks: FowV4MissionPack[] = [
         ],
       },
       {
-        id: 'md753e7mbaabmz2n71ed14b0zn7bqgqg',
+        id: '43dc7af7-232e-4d8b-90e7-abc6d68f2dbc',
         attacker: 'battle_plan',
         displayName: 'Valley of Death',
         firstTurn: 'attacker',
@@ -26,7 +26,7 @@ export const missionPacks: FowV4MissionPack[] = [
         ],
       },
       {
-        id: 'md79c9938d0khy6hbmbxdr1g997bp0ez',
+        id: '3f27d7c4-28dc-481e-b14e-9064aeb9d805',
         attacker: 'battle_plan',
         displayName: 'Spearpoint',
         firstTurn: 'defender',
@@ -35,7 +35,7 @@ export const missionPacks: FowV4MissionPack[] = [
         ],
       },
       {
-        id: 'md79q9cqewww4wcnds86d8mpe17bp592',
+        id: '846d8b58-3b4b-4d53-b0c7-165e2199a9aa',
         attacker: 'roll',
         displayName: 'Scouts Out',
         firstTurn: 'roll',
@@ -44,7 +44,7 @@ export const missionPacks: FowV4MissionPack[] = [
         ],
       },
       {
-        id: 'md78w3xc0hr39q0hxy7nre90517bpcx3',
+        id: '466094ff-af2b-4a27-aa4d-4d7d06ade098',
         attacker: 'battle_plan',
         displayName: 'Probe',
         firstTurn: 'attacker',
@@ -53,7 +53,7 @@ export const missionPacks: FowV4MissionPack[] = [
         ],
       },
       {
-        id: 'md7eexmqga498c4xe90ch1g42n7bpwhz',
+        id: 'eb85e221-3d2c-4d3f-bea0-b8193528e2e4',
         attacker: 'battle_plan',
         displayName: 'Outmaneuvered',
         firstTurn: 'defender',
@@ -63,7 +63,7 @@ export const missionPacks: FowV4MissionPack[] = [
         ],
       },
       {
-        id: 'md70bp7nzfv14tyrqsw8yk6q4h7bp7g2',
+        id: '0be913c2-d8db-4e20-a547-149960da67ec',
         attacker: 'battle_plan',
         displayName: 'Outflanked',
         firstTurn: 'attacker',
@@ -73,7 +73,7 @@ export const missionPacks: FowV4MissionPack[] = [
         ],
       },
       {
-        id: 'md77jw1c62yw58skyxb80sn3md7bp3ek',
+        id: '6c5f9e97-2b9b-4450-995c-42f3bb596400',
         attacker: 'battle_plan',
         displayName: 'No Retreat',
         firstTurn: 'attacker',
@@ -83,7 +83,7 @@ export const missionPacks: FowV4MissionPack[] = [
         ],
       },
       {
-        id: 'md781xa4skyxt4q0m4vk5gx2ss7bq26f',
+        id: '0d6f8b01-bcef-456e-9c8b-b583a67104e5',
         attacker: 'battle_plan',
         displayName: 'Killing Ground',
         firstTurn: 'attacker',
@@ -93,7 +93,7 @@ export const missionPacks: FowV4MissionPack[] = [
         ],
       },
       { 
-        id: 'md7cdm5g2xggkd31mw3mwws3p17bp66e',
+        id: 'a5994b88-2e2c-44a8-9a7f-1a525187d76c',
         attacker: 'battle_plan',
         displayName: 'It’s a Trap',
         firstTurn: 'attacker',
@@ -103,7 +103,7 @@ export const missionPacks: FowV4MissionPack[] = [
         ],
       },
       {
-        id: 'md74myza7pda7skj2fevwesyg17bp8n2',
+        id: '9ba572f5-2de3-4876-91f2-782021db9f9e',
         attacker: 'battle_plan',
         displayName: 'Hold the Pocket',
         firstTurn: 'attacker',
@@ -113,7 +113,7 @@ export const missionPacks: FowV4MissionPack[] = [
         ],
       },
       {
-        id: 'md75s7dtebcd8zjzxk1n1kqstd7bpgav',
+        id: '07fc317d-a623-4352-9c26-b1cba0f1fa45',
         attacker: 'battle_plan',
         displayName: 'Gauntlet',
         firstTurn: 'attacker',
@@ -123,7 +123,7 @@ export const missionPacks: FowV4MissionPack[] = [
         ],
       },
       {
-        id: 'md797k4rxmx054neg8hrf7zpz57bp515',
+        id: 'c5217a24-73f6-4298-af4f-7d2715db98aa',
         attacker: 'roll',
         displayName: 'Free for All',
         firstTurn: 'roll',
@@ -132,7 +132,7 @@ export const missionPacks: FowV4MissionPack[] = [
         ],
       },
       {
-        id: 'md7ckd7trekkdfktkdbjn5xyj97bpk2w',
+        id: 'dc0ddc04-0812-444a-accc-b006bf7aff91',
         attacker: 'battle_plan',
         displayName: 'Fighting Withdrawal',
         firstTurn: 'attacker',
@@ -142,7 +142,7 @@ export const missionPacks: FowV4MissionPack[] = [
         ],
       },
       {
-        id: 'md75mmvg5cyb09garpamgs1etn7bpsrk',
+        id: '746d845a-2682-40a4-8579-7658eb0c5519',
         attacker: 'battle_plan',
         displayName: 'Escape',
         firstTurn: 'defender',
@@ -152,7 +152,7 @@ export const missionPacks: FowV4MissionPack[] = [
         ],
       },
       {
-        id: 'md7fswdvxry5j4qszxt1w1wz3x7bq1gp',
+        id: '5d1ab1f3-75fc-4b29-bc4e-72c431a36eee',
         attacker: 'roll',
         displayName: 'Encounter',
         firstTurn: 'roll',
@@ -161,7 +161,7 @@ export const missionPacks: FowV4MissionPack[] = [
         ],
       },
       {
-        id: 'md7e0jj7stt3y1fkza7gxcn83x7bpd0f',
+        id: 'a4c798c7-dafa-4795-a3c2-a81e6552fef5',
         attacker: 'battle_plan',
         displayName: 'Encirclement',
         firstTurn: 'attacker',
@@ -171,7 +171,7 @@ export const missionPacks: FowV4MissionPack[] = [
         ],
       },
       {
-        id: 'md7195t3g9cr6msv5f8yqeyvsn7bp7m1',
+        id: '8395eaa4-4b34-437f-b678-fe288f0ceeaa',
         attacker: 'roll',
         displayName: 'Dust-Up',
         firstTurn: 'roll',
@@ -180,7 +180,7 @@ export const missionPacks: FowV4MissionPack[] = [
         ],
       },
       {
-        id: 'md7cewrn4s9bpmbtdb4z7905sd7bqrdv',
+        id: '5b874d9e-769f-4e73-ae2b-705b9a65cdc2',
         attacker: 'battle_plan',
         displayName: 'Dogfight',
         firstTurn: 'attacker',
@@ -190,7 +190,7 @@ export const missionPacks: FowV4MissionPack[] = [
         ],
       },
       {
-        id: 'md710mp4q9fbjm3tmk574m1gth7bqvyp',
+        id: 'ad2d0f45-ea14-41fc-a756-c2c49e7628e2',
         attacker: 'battle_plan',
         displayName: 'Covering Force',
         firstTurn: 'attacker',
@@ -200,7 +200,7 @@ export const missionPacks: FowV4MissionPack[] = [
         ],
       },
       {
-        id: 'md7fqzfddj1t2k3gepswrt1yhs7bpmz6',
+        id: 'fc9266b9-16b0-4ef1-b19a-3bd254a266a0',
         attacker: 'battle_plan',
         displayName: 'Counterstrike',
         firstTurn: 'defender',
@@ -210,7 +210,7 @@ export const missionPacks: FowV4MissionPack[] = [
         ],
       },
       {
-        id: 'md779e1nrhtssp7me33pw1kbg97bq576',
+        id: '98b743de-cfdc-4913-ab00-f288ab02edbd',
         attacker: 'battle_plan',
         displayName: 'Counterattack',
         firstTurn: 'attacker',
@@ -220,7 +220,7 @@ export const missionPacks: FowV4MissionPack[] = [
         ],
       },
       {
-        id: 'md73kxcvszz3cs4far2nb837j17bp029',
+        id: 'f42aa0df-0df2-49a4-aecf-ab748c10ba88',
         attacker: 'battle_plan',
         displayName: 'Cornered',
         firstTurn: 'attacker',
@@ -230,7 +230,7 @@ export const missionPacks: FowV4MissionPack[] = [
         ],
       },
       {
-        id: 'md71wre6n4xk7dwrshxgyqvb0h7bqj8g',
+        id: '8a4566c3-4fba-4ef2-b0d5-800507d602e9',
         attacker: 'battle_plan',
         displayName: 'Bypass',
         firstTurn: 'attacker',
@@ -239,7 +239,7 @@ export const missionPacks: FowV4MissionPack[] = [
         ],
       },
       {
-        id: 'md7dd2fv22b33xyh0xs5jxpejs7bq7y2',
+        id: 'a0339401-0fec-4bbd-88b3-8705ac35a86f',
         attacker: 'battle_plan',
         displayName: 'Bridgehead',
         firstTurn: 'attacker',
@@ -249,7 +249,7 @@ export const missionPacks: FowV4MissionPack[] = [
         ],
       },
       {
-        id: 'md71zn1jqc3dmsye9xpy1xrnvh7bpwza',
+        id: 'c58747eb-3a50-417e-9d05-a6faa0f92f12',
         attacker: 'battle_plan',
         displayName: 'Breakthrough',
         firstTurn: 'attacker',
@@ -259,7 +259,7 @@ export const missionPacks: FowV4MissionPack[] = [
         ],
       },
       {
-        id: 'md75f99n5d61xsebxngcbbgvfh7bqhr6',
+        id: 'c292dbac-e1d5-4f5b-b745-83a9232e8411',
         attacker: 'roll',
         displayName: 'Annihilation',
         firstTurn: 'roll',
@@ -268,130 +268,104 @@ export const missionPacks: FowV4MissionPack[] = [
     ],
     matrixes: [
       {
-        id: 'm57dw693qe6pk69b796e8jdgh57bpwsq',
+        id: '00e2a46a-8959-46bd-b468-736bc47945f5',
         displayName: 'Extended Battle Plans',
         entries: [
           {
             battlePlans: ['attack', 'attack'],
             missions: [
-              ['md779e1nrhtssp7me33pw1kbg97bq576', 'md7fqzfddj1t2k3gepswrt1yhs7bpmz6'],
-              'md7195t3g9cr6msv5f8yqeyvsn7bp7m1',
-              'md7fswdvxry5j4qszxt1w1wz3x7bq1gp',
-              'md797k4rxmx054neg8hrf7zpz57bp515',
-              'md78w3xc0hr39q0hxy7nre90517bpcx3',
-              'md79q9cqewww4wcnds86d8mpe17bp592',
+              ['98b743de-cfdc-4913-ab00-f288ab02edbd', 'fc9266b9-16b0-4ef1-b19a-3bd254a266a0'],
+              '8395eaa4-4b34-437f-b678-fe288f0ceeaa',
+              '5d1ab1f3-75fc-4b29-bc4e-72c431a36eee',
+              'c5217a24-73f6-4298-af4f-7d2715db98aa',
+              '466094ff-af2b-4a27-aa4d-4d7d06ade098',
+              '846d8b58-3b4b-4d53-b0c7-165e2199a9aa',
             ],
           },
           {
-            battlePlans: ['attack','maneuver'],
+            battlePlans: ['attack', 'maneuver'],
             missions: [
-              'md71zn1jqc3dmsye9xpy1xrnvh7bpwza',
-              [ 'md779e1nrhtssp7me33pw1kbg97bq576', 'md7fqzfddj1t2k3gepswrt1yhs7bpmz6'],
-              'md75mmvg5cyb09garpamgs1etn7bpsrk',
-              [
-                'md7ckd7trekkdfktkdbjn5xyj97bpk2w',
-                'md710mp4q9fbjm3tmk574m1gth7bqvyp',
-              ],
-              [
-                'md79c9938d0khy6hbmbxdr1g997bp0ez',
-                'md71wre6n4xk7dwrshxgyqvb0h7bqj8g',
-              ],
-              'md753e7mbaabmz2n71ed14b0zn7bqgqg',
+              'c58747eb-3a50-417e-9d05-a6faa0f92f12',
+              ['98b743de-cfdc-4913-ab00-f288ab02edbd', 'fc9266b9-16b0-4ef1-b19a-3bd254a266a0'],
+              '746d845a-2682-40a4-8579-7658eb0c5519',
+              ['dc0ddc04-0812-444a-accc-b006bf7aff91', 'ad2d0f45-ea14-41fc-a756-c2c49e7628e2'],
+              ['3f27d7c4-28dc-481e-b14e-9064aeb9d805', '8a4566c3-4fba-4ef2-b0d5-800507d602e9'],
+              '43dc7af7-232e-4d8b-90e7-abc6d68f2dbc',
             ],
           },
           {
-            battlePlans: ['attack',
-              'defend'],
+            battlePlans: ['attack', 'defend'],
             missions: [
-              'md7dd2fv22b33xyh0xs5jxpejs7bq7y2',
-              'md7cewrn4s9bpmbtdb4z7905sd7bqrdv',
-              [
-                'md7e0jj7stt3y1fkza7gxcn83x7bpd0f',
-                'md74myza7pda7skj2fevwesyg17bp8n2',
-              ],
-              [
-                'md7ckd7trekkdfktkdbjn5xyj97bpk2w',
-                'md710mp4q9fbjm3tmk574m1gth7bqvyp',
-              ],
-              [
-                'md781xa4skyxt4q0m4vk5gx2ss7bq26f',
-                'md7cdm5g2xggkd31mw3mwws3p17bp66e',
-              ],
-              'md77jw1c62yw58skyxb80sn3md7bp3ek',
+              'a0339401-0fec-4bbd-88b3-8705ac35a86f',
+              '5b874d9e-769f-4e73-ae2b-705b9a65cdc2',
+              ['a4c798c7-dafa-4795-a3c2-a81e6552fef5', '9ba572f5-2de3-4876-91f2-782021db9f9e'],
+              ['dc0ddc04-0812-444a-accc-b006bf7aff91', 'ad2d0f45-ea14-41fc-a756-c2c49e7628e2'],
+              ['0d6f8b01-bcef-456e-9c8b-b583a67104e5', 'a5994b88-2e2c-44a8-9a7f-1a525187d76c'],
+              '6c5f9e97-2b9b-4450-995c-42f3bb596400',
             ],
           },
           {
-            battlePlans: ['maneuver',
-              'maneuver'],
+            battlePlans: ['maneuver', 'maneuver'],
             missions: [
-              [
-                'md779e1nrhtssp7me33pw1kbg97bq576',
-                'md7fqzfddj1t2k3gepswrt1yhs7bpmz6',
-              ],
-              'md7195t3g9cr6msv5f8yqeyvsn7bp7m1',
-              'md7fswdvxry5j4qszxt1w1wz3x7bq1gp',
-              [
-                'md70bp7nzfv14tyrqsw8yk6q4h7bp7g2',
-                'md7eexmqga498c4xe90ch1g42n7bpwhz',
-              ],
-              'md78w3xc0hr39q0hxy7nre90517bpcx3',
-              'md79q9cqewww4wcnds86d8mpe17bp592',
+              ['98b743de-cfdc-4913-ab00-f288ab02edbd', 'fc9266b9-16b0-4ef1-b19a-3bd254a266a0'],
+              '8395eaa4-4b34-437f-b678-fe288f0ceeaa',
+              '5d1ab1f3-75fc-4b29-bc4e-72c431a36eee',
+              ['0be913c2-d8db-4e20-a547-149960da67ec', 'eb85e221-3d2c-4d3f-bea0-b8193528e2e4'],
+              '466094ff-af2b-4a27-aa4d-4d7d06ade098',
+              '846d8b58-3b4b-4d53-b0c7-165e2199a9aa',
             ],
           },
           {
-            battlePlans: ['maneuver',
-              'defend'],
+            battlePlans: ['maneuver','defend'],
             missions: [
-              'md71zn1jqc3dmsye9xpy1xrnvh7bpwza',
-              'md73kxcvszz3cs4far2nb837j17bp029',
-              'md77jw1c62yw58skyxb80sn3md7bp3ek',
-              [
-                'md70bp7nzfv14tyrqsw8yk6q4h7bp7g2',
-                'md7eexmqga498c4xe90ch1g42n7bpwhz',
-              ],
-              [
-                'md79c9938d0khy6hbmbxdr1g997bp0ez',
-                'md71wre6n4xk7dwrshxgyqvb0h7bqj8g',
-              ],
-              'md753e7mbaabmz2n71ed14b0zn7bqgqg',
+              'c58747eb-3a50-417e-9d05-a6faa0f92f12',
+              'f42aa0df-0df2-49a4-aecf-ab748c10ba88',
+              '6c5f9e97-2b9b-4450-995c-42f3bb596400',
+              ['0be913c2-d8db-4e20-a547-149960da67ec', 'eb85e221-3d2c-4d3f-bea0-b8193528e2e4'],
+              ['3f27d7c4-28dc-481e-b14e-9064aeb9d805', '8a4566c3-4fba-4ef2-b0d5-800507d602e9'],
+              '43dc7af7-232e-4d8b-90e7-abc6d68f2dbc',
             ],
           },
           {
-            battlePlans: ['defend',
-              'defend'],
+            battlePlans: ['defend','defend'],
             missions: [
-              'md71zn1jqc3dmsye9xpy1xrnvh7bpwza',
-              'md7195t3g9cr6msv5f8yqeyvsn7bp7m1',
-              'md7fswdvxry5j4qszxt1w1wz3x7bq1gp',
-              'md797k4rxmx054neg8hrf7zpz57bp515',
-              'md78w3xc0hr39q0hxy7nre90517bpcx3',
-              'md79q9cqewww4wcnds86d8mpe17bp592',
+              'c58747eb-3a50-417e-9d05-a6faa0f92f12',
+              '8395eaa4-4b34-437f-b678-fe288f0ceeaa',
+              '5d1ab1f3-75fc-4b29-bc4e-72c431a36eee',
+              'c5217a24-73f6-4298-af4f-7d2715db98aa',
+              '466094ff-af2b-4a27-aa4d-4d7d06ade098',
+              '846d8b58-3b4b-4d53-b0c7-165e2199a9aa',
             ],
           },
         ],
       },
     ],
   },
-  {
-    id: 'flames_of_war_4th_edition_mission_pack_2022-06',
-    displayName: 'June 2022',
-    publishedAt: '2022-06-01T13:00:00+13:00',
-    missions: [
+  // {
+  //   id: 'flames_of_war_4th_edition_mission_pack_2022-06',
+  //   displayName: 'June 2022',
+  //   publishedAt: '2022-06-01T13:00:00+13:00',
+  //   missions: [
 
-    ],
-    matrixes: [
+  //   ],
+  //   matrixes: [
       
-    ],
-  },
-  {
-    id: 'flames_of_war_4th_edition_mission_pack_2021-03',
-    displayName: 'March 2021',
-    publishedAt: '2021-03-01T13:00:00+13:00',
-    missions: [
+  //   ],
+  // },
+  // {
+  //   id: 'flames_of_war_4th_edition_mission_pack_2021-03',
+  //   displayName: 'March 2021',
+  //   publishedAt: '2021-03-01T13:00:00+13:00',
+  //   missions: [
 
-    ],
-    matrixes: [
+  //   ],
+  //   matrixes: [
       
-    ],
-  },
+  //   ],
+  // },
 ] as const;
+
+export const fowV4MissionPackOptions = missionPacks.map((version) => ({
+  value: version.id,
+  label: version.displayName,
+}));

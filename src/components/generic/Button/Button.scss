@@ -91,4 +91,8 @@
   &-ghost {
     @include variants.ghost;
   }
+
+  &-ghost-inverted {
+    @include variants.ghost-inverted;
+  }
 }

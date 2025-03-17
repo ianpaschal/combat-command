@@ -3,6 +3,7 @@
 @use "/src/style/variables";
 @use "/src/style/corners";
 @use "/src/style/shadows";
+@use "/src/style/borders";
 
 .Root {
   display: flex;
@@ -14,25 +15,17 @@
   @include shadows.surface-shadow;
   @include corners.normal;
 
-  position: relative;
-
-  overflow: hidden;
   grid-area: photos;
-
   aspect-ratio: 4 / 3;
-
-  background-color: grey;
-}
-
-.UploadPhotoButton {
-  position: absolute;
-  z-index: 1;
-  top: 1rem;
-  right: 1rem;
 }
 
 .PhotosEmpty {
-  background-color: pink;
+  @include flex.column($gap: 0.25rem, $yAlign: center);
+  @include borders.normal;
+
+  flex-grow: 1;
+  min-height: 6rem;
+  border-style: dashed;
 }
 
 .Players {
