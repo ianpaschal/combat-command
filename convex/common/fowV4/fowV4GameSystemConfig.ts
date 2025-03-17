@@ -8,7 +8,8 @@ export const fowV4GameSystemConfig = v.object({
     allowMidWarMonsters: v.optional(v.union(v.literal('yes'), v.literal('combat'), v.literal('no'))),
   })),
   dynamicPointsVersion: v.optional(v.string()),
-  era: v.string(),
+  era: v.optional(v.string()), // TODO: Enforce FowV4Era
+  eraId: v.optional(v.string()), // TODO: Enforce FowV4Era
   lessonsFromTheFrontVersion: v.string(),
   missionPackId: fowV4MissionPackId,
   missionMatrixId: fowV4MissionMatrixId,

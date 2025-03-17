@@ -51,7 +51,7 @@ export type UpdateUserInput = typeof api.users.updateUser.updateUser._args;
 export type UpdateUserResponse = typeof api.users.updateUser.updateUser._returnType;
 
 // Static Data & Interfaces (Common)
-export type { GameSystem } from '../convex/common/gameSystem';
+export type { GameSystemId } from '../convex/static/gameSystems';
 
 // Static Data & Interfaces (Flames of War 4th Edition)
 

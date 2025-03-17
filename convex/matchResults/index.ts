@@ -3,7 +3,7 @@ import { v } from 'convex/values';
 
 import { fowV4GameSystemConfig } from '../common/fowV4/fowV4GameSystemConfig';
 import { fowV4MatchResultDetails } from '../common/fowV4/fowV4MatchResultDetails';
-import { gameSystem } from '../common/gameSystem';
+import { gameSystemId } from '../static/gameSystems';
 
 export const fields = {
   tournamentPairingId: v.optional(v.id('tournamentPairings')),
@@ -22,7 +22,8 @@ export const fields = {
   // Denormalized so that we can filter tournaments by game system, and all related fields.
   // The duplicate data is worth the efficiency in querying.
   gameSystemConfig: v.union(fowV4GameSystemConfig),
-  gameSystem,
+  gameSystem: v.optional(gameSystemId),
+  gameSystemId: v.optional(gameSystemId),
 
   photoIds: v.optional(v.array(v.id('photos'))),
 };
@@ -36,6 +37,8 @@ const table = defineTable({
   'by_user_id', ['player0UserId', 'player1UserId'],
 ).index(
   'by_game_system', ['gameSystem'],
+).index(
+  'by_game_system_id', ['gameSystemId'],
 );
 
 export {

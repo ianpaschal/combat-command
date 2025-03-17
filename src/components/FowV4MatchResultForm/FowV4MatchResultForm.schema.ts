@@ -6,7 +6,7 @@ import {
   FowV4MissionId,
   FowV4MissionMatrixId,
   FowV4MissionPackId,
-  GameSystem,
+  GameSystemId,
   MatchResult,
   UserId,
 } from '~/api';
@@ -41,6 +41,7 @@ export const fowV4MatchResultFormSchema = z.object({
   gameSystemConfig: z.object({
     // Handled by <GameConfigForm />
     era: z.string(),
+    eraId: z.optional(z.string()),
     points: z.number(),
 
     // Advanced option (hidden by default)
@@ -55,7 +56,8 @@ export const fowV4MatchResultFormSchema = z.object({
   }),
 
   // Non-editable
-  gameSystem: z.string().transform((val) => val as GameSystem),
+  gameSystem: z.string().transform((val) => val as GameSystemId),
+  gameSystemId: z.string().transform((val) => val as GameSystemId),
 }).superRefine((values, ctx) => {
   if (values.details.outcomeType !== 'time_out' && values.details.winner === undefined) {
     ctx.addIssue({
@@ -89,8 +91,10 @@ export const defaultValues: DeepPartial<MatchResult> = {
   player1Placeholder: '',
   player1UserId: '' as UserId,
   gameSystem: 'flames_of_war_4th_edition',
+  gameSystemId: 'flames_of_war_4th_edition',
   gameSystemConfig: {
     era: 'lw',
+    eraId: 'flames_of_war_4th_edition::era::lw',
     points: 100,
     dynamicPointsVersion: '6cb1a1a6-9f8d-44f3-8423-2f896ee372f6',
     lessonsFromTheFrontVersion: 'b8d046fa-8040-4c22-891a-b1a33c94fd87',
