@@ -16,11 +16,9 @@ import type {
 import type * as auth_ResendOtpPasswordReset from "../auth/ResendOtpPasswordReset.js";
 import type * as auth_ResendOtpVerification from "../auth/ResendOtpVerification.js";
 import type * as auth from "../auth.js";
-import type * as common_faction from "../common/faction.js";
 import type * as common_fowV4_fowV4Alignment from "../common/fowV4/fowV4Alignment.js";
 import type * as common_fowV4_fowV4BattlePlan from "../common/fowV4/fowV4BattlePlan.js";
 import type * as common_fowV4_fowV4Era from "../common/fowV4/fowV4Era.js";
-import type * as common_fowV4_fowV4Faction from "../common/fowV4/fowV4Faction.js";
 import type * as common_fowV4_fowV4GameSystemConfig from "../common/fowV4/fowV4GameSystemConfig.js";
 import type * as common_fowV4_fowV4LessonsFromTheFrontVersion from "../common/fowV4/fowV4LessonsFromTheFrontVersion.js";
 import type * as common_fowV4_fowV4MatchOutcomeType from "../common/fowV4/fowV4MatchOutcomeType.js";
@@ -97,11 +95,9 @@ declare const fullApi: ApiFromModules<{
   "auth/ResendOtpPasswordReset": typeof auth_ResendOtpPasswordReset;
   "auth/ResendOtpVerification": typeof auth_ResendOtpVerification;
   auth: typeof auth;
-  "common/faction": typeof common_faction;
   "common/fowV4/fowV4Alignment": typeof common_fowV4_fowV4Alignment;
   "common/fowV4/fowV4BattlePlan": typeof common_fowV4_fowV4BattlePlan;
   "common/fowV4/fowV4Era": typeof common_fowV4_fowV4Era;
-  "common/fowV4/fowV4Faction": typeof common_fowV4_fowV4Faction;
   "common/fowV4/fowV4GameSystemConfig": typeof common_fowV4_fowV4GameSystemConfig;
   "common/fowV4/fowV4LessonsFromTheFrontVersion": typeof common_fowV4_fowV4LessonsFromTheFrontVersion;
   "common/fowV4/fowV4MatchOutcomeType": typeof common_fowV4_fowV4MatchOutcomeType;

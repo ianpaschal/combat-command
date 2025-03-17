@@ -53,7 +53,8 @@ export const FowV4MatchResultForm = ({
   const form = useForm<FowV4MatchResultFormData>({
     resolver: zodResolver(fowV4MatchResultFormSchema),
     defaultValues,
-    values: !matchResult ? undefined : matchResult,
+    // React-Hook-Form is stupid and doesn't allow applying a partial record to the form values
+    values: { ...matchResult as FowV4MatchResultFormData },
     mode: 'onSubmit',
   });
   // const { handleSubmit } = form;
