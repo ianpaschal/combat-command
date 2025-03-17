@@ -5,16 +5,11 @@ import { ImagePlus } from 'lucide-react';
 import { MatchResultId } from '~/api';
 import { Button } from '~/components/generic/Button';
 import { Card } from '~/components/generic/Card';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNextButton,
-  CarouselPreviousButton,
-} from '~/components/generic/Carousel';
 import { ScrollArea } from '~/components/generic/ScrollArea';
 import { Separator } from '~/components/generic/Separator';
 import { Timestamp } from '~/components/generic/Timestamp';
+import { MatchResultPhotos } from '~/components/MatchResultPhotos';
+import { MatchResultPhotoUploadDialog } from '~/components/MatchResultPhotoUploadDialog';
 import { MatchResultPlayers } from '~/components/MatchResultPlayers';
 import { MatchResultProvider } from '~/components/MatchResultProvider';
 import { MatchResultSocials } from '~/components/MatchResultSocials';
@@ -32,13 +27,13 @@ export const MatchResultDetailPage = (): JSX.Element => {
 
   const { data: matchResult } = useFetchMatchResult(matchResultId);
 
-  const photos = ['foo'];
+  const hasPhotos = !!matchResult?.photoIds?.length;
 
-  const hasPhotos = photos.length > 0;
+  const fitToWindow = hasPhotos && windowWidth >= MIN_WIDTH_DESKTOP;
 
   // TODO: Use context to prevent drilling of matchResult
   return (
-    <PageWrapper showBackButton maxWidth={!hasPhotos ? 688 : undefined} fitToWindow={windowWidth >= MIN_WIDTH_DESKTOP}>
+    <PageWrapper showBackButton maxWidth={!hasPhotos ? 688 : undefined} fitToWindow={fitToWindow}>
       {matchResult && (
         <MatchResultProvider matchResult={matchResult}>
           <div className={styles.Root} data-photos={hasPhotos}>
@@ -46,34 +41,12 @@ export const MatchResultDetailPage = (): JSX.Element => {
               <MatchResultPlayers />
             </Card>
             {hasPhotos ? (
-              <div className={styles.Photos}>
-                <Button className={styles.UploadPhotoButton} round><ImagePlus /></Button>
-                <Carousel>
-                  <CarouselContent>
-                    {Array.from({ length: 5 }).map((_, index) => (
-                      <CarouselItem key={index}>
-                        <div style={{
-                          fontSize: '2.5rem', fontWeight: '600', display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          padding: '1.5rem',
-                          width: '100%',
-                          height: '100%',
-                          backgroundColor: 'orange',
-                        }}>
-                          {index + 1}
-                        </div>
-                      </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                  <CarouselPreviousButton />
-                  <CarouselNextButton />
-                </Carousel>
-              </div>
+              <MatchResultPhotos className={styles.Photos} />
             ) : (
-              <div className={styles.PhotosEmpty}>
-                Upload
-              </div>
+              <Button className={styles.PhotosEmpty} variant="ghost">
+                <ImagePlus />
+                Add Photos
+              </Button>
             )}
             <Card className={styles.DetailsCard}>
               <MatchResultSocials className={styles.Socials} />
@@ -87,8 +60,10 @@ export const MatchResultDetailPage = (): JSX.Element => {
               </div>
             </Card>
           </div>
+          <MatchResultPhotoUploadDialog />
         </MatchResultProvider>
-      )}
-    </PageWrapper>
+      )
+      }
+    </PageWrapper >
   );
 };

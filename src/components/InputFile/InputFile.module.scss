@@ -1,0 +1,84 @@
+@use "sass:color";
+@use "/src/style/text";
+@use "/src/style/variables";
+@use "/src/style/flex";
+@use "/src/style/corners";
+@use "/src/style/borders";
+@use "/src/style/variants";
+@use "/src/style/shadows";
+
+.InputFile {
+  @include flex.column;
+}
+
+.Dropzone {
+  @include variants.outlined;
+
+  @include corners.normal;
+  @include text.ui($muted: true);
+
+  // @include borders.normal;
+  @include flex.column($xAlign: center, $yAlign: center, $gap: 0.5rem);
+
+  width: 100%;
+  padding: 1rem;
+
+  border-style: dashed;
+
+  transition-timing-function: ease-in-out;
+  transition-duration: 250ms;
+  transition-property: color, background-color, border-color;
+
+  &[data-active="true"] {
+    color: variables.$blue;
+    background-color: color.adjust(variables.$blue, $alpha: -0.9);
+    border-color: variables.$blue;
+  }
+}
+
+.FilePreviewList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
+  gap: 0.5rem;
+  max-width: 100%;
+}
+
+.FilePreview {
+  @include flex.centered;
+
+  aspect-ratio: 1 / 1;
+  width: 100%;
+
+  img {
+    @include corners.normal;
+    @include shadows.surface-shadow;
+
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+}
+
+.Error {
+  @include text.ui;
+
+  grid-area: description;
+  font-weight: 300;
+  line-height: 1rem;
+  color: variables.$text-error;
+
+  &:empty {
+    display: none;
+  }
+}
+
+.Description {
+  @include text.ui($muted: true);
+
+  grid-area: description;
+  font-weight: 300;
+
+  &:empty {
+    display: none;
+  }
+}

@@ -28,7 +28,6 @@ import type * as common_fowV4_fowV4MatchResultDetails from "../common/fowV4/fowV
 import type * as common_fowV4_fowV4MissionId from "../common/fowV4/fowV4MissionId.js";
 import type * as common_fowV4_fowV4MissionMatrixId from "../common/fowV4/fowV4MissionMatrixId.js";
 import type * as common_fowV4_fowV4MissionPackId from "../common/fowV4/fowV4MissionPackId.js";
-import type * as common_fowV4_fowV4MissionPackVersion from "../common/fowV4/fowV4MissionPackVersion.js";
 import type * as common_fowV4_fowV4RankingFactor from "../common/fowV4/fowV4RankingFactor.js";
 import type * as common_fowV4_getMission from "../common/fowV4/getMission.js";
 import type * as common_fowV4_getMissionPack from "../common/fowV4/getMissionPack.js";
@@ -57,6 +56,8 @@ import type * as matchResults_index from "../matchResults/index.js";
 import type * as matchResults_mutations from "../matchResults/mutations.js";
 import type * as photos_index from "../photos/index.js";
 import type * as photos_mutations from "../photos/mutations.js";
+import type * as photos_queries from "../photos/queries.js";
+import type * as static_fowV4_lessonsFromTheFrontVersions from "../static/fowV4/lessonsFromTheFrontVersions.js";
 import type * as static_fowV4_missionPacks from "../static/fowV4/missionPacks.js";
 import type * as tournamentCompetitors_createTournamentCompetitor from "../tournamentCompetitors/createTournamentCompetitor.js";
 import type * as tournamentCompetitors_fetchTournamentCompetitor from "../tournamentCompetitors/fetchTournamentCompetitor.js";
@@ -107,7 +108,6 @@ declare const fullApi: ApiFromModules<{
   "common/fowV4/fowV4MissionId": typeof common_fowV4_fowV4MissionId;
   "common/fowV4/fowV4MissionMatrixId": typeof common_fowV4_fowV4MissionMatrixId;
   "common/fowV4/fowV4MissionPackId": typeof common_fowV4_fowV4MissionPackId;
-  "common/fowV4/fowV4MissionPackVersion": typeof common_fowV4_fowV4MissionPackVersion;
   "common/fowV4/fowV4RankingFactor": typeof common_fowV4_fowV4RankingFactor;
   "common/fowV4/getMission": typeof common_fowV4_getMission;
   "common/fowV4/getMissionPack": typeof common_fowV4_getMissionPack;
@@ -136,6 +136,8 @@ declare const fullApi: ApiFromModules<{
   "matchResults/mutations": typeof matchResults_mutations;
   "photos/index": typeof photos_index;
   "photos/mutations": typeof photos_mutations;
+  "photos/queries": typeof photos_queries;
+  "static/fowV4/lessonsFromTheFrontVersions": typeof static_fowV4_lessonsFromTheFrontVersions;
   "static/fowV4/missionPacks": typeof static_fowV4_missionPacks;
   "tournamentCompetitors/createTournamentCompetitor": typeof tournamentCompetitors_createTournamentCompetitor;
   "tournamentCompetitors/fetchTournamentCompetitor": typeof tournamentCompetitors_fetchTournamentCompetitor;

@@ -30,6 +30,9 @@ export type FetchMatchResultResponse = typeof api.matchResults.fetchMatchResult.
 export type MatchResult = FetchMatchResultListResponse[number];
 export type MatchResultId = Id<'matchResults'>;
 
+// Photos
+export type PhotoId = Id<'photos'>;
+
 // Tournament Competitors
 export type FetchTournamentCompetitorResponse = typeof api.tournamentCompetitors.fetchTournamentCompetitor.fetchTournamentCompetitor._returnType;
 
@@ -52,6 +55,9 @@ export type { GameSystem } from '../convex/common/gameSystem';
 
 // Static Data & Interfaces (Flames of War 4th Edition)
 
+// Lessons From the Front Versions
+export { fowV4LessonsFromTheFrontVersionOptions } from '../convex/static/fowV4/lessonsFromTheFrontVersions';
+
 // Match Outcome Types
 export type { FowV4MatchOutcomeType } from '../convex/common/fowV4/fowV4MatchOutcomeType';
 export { fowV4MatchOutcomeTypeValues } from '../convex/common/fowV4/fowV4MatchOutcomeType';
@@ -64,6 +70,7 @@ export type { FowV4Mission } from '../convex/static/fowV4/missionPacks.types';
 // Mission Packs
 export type { FowV4MissionPackId } from '../convex/common/fowV4/fowV4MissionPackId';
 export { getMissionPack } from '../convex/common/fowV4/getMissionPack';
+export { fowV4MissionPackOptions } from '../convex/static/fowV4/missionPacks';
 export type { FowV4MissionPack } from '../convex/static/fowV4/missionPacks.types';
 
 // Mission Matrixes

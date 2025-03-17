@@ -42,10 +42,11 @@ export const fowV4MatchResultFormSchema = z.object({
     points: z.number(),
 
     // Advanced option (hidden by default)
-    dynamicPointsVersion: z.optional(z.string()),
+    
     lessonsFromTheFrontVersion: z.string(),
 
     // Non-editable
+    dynamicPointsVersion: z.optional(z.string()),
     missionMatrixId: z.string().transform((val) => val as FowV4MissionMatrixId),
     missionPackId: z.string().transform((val) => val as FowV4MissionPackId),
     useExperimentalMissions: z.optional(z.boolean()),
@@ -89,10 +90,10 @@ export const defaultValues: DeepPartial<MatchResult> = {
   gameSystemConfig: {
     era: 'lw',
     points: 100,
-    dynamicPointsVersion: 'dynamic_points_2025_01',
-    lessonsFromTheFrontVersion: 'lessons_from_the_front_2024_03',
-    missionMatrixId: 'm57dw693qe6pk69b796e8jdgh57bpwsq' as FowV4MissionMatrixId, // April 2023 (Extended)
-    missionPackId: 'm977z1d2dpedgqzgtx1jw7q7p17bqk5a' as FowV4MissionPackId, // April 2023
+    dynamicPointsVersion: '6cb1a1a6-9f8d-44f3-8423-2f896ee372f6',
+    lessonsFromTheFrontVersion: 'b8d046fa-8040-4c22-891a-b1a33c94fd87',
+    missionMatrixId: '00e2a46a-8959-46bd-b468-736bc47945f5' as FowV4MissionMatrixId, // April 2023 (Extended)
+    missionPackId: '6824a95b-c582-4c6b-b518-29e9ee0577af' as FowV4MissionPackId, // April 2023
     useExperimentalMissions: true,
   },
 };

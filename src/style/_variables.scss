@@ -105,6 +105,13 @@ $outlined-danger-border: $red;
 $ghost-bg: transparent;
 $ghost-bg-hover: color.adjust($text-base, $alpha: -0.975);
 $ghost-text: $text-base;
+$ghost-text-disabled: color.adjust($text-base, $alpha: -0.6);
+
+// Ghost (Inverted)
+$ghost-inverted-bg: transparent;
+$ghost-inverted-bg-hover: color.adjust($white, $alpha: -0.975);
+$ghost-inverted-text: $white;
+$ghost-inverted-text-disabled: color.adjust($white, $alpha: -0.6);
 
 // Skeleton
 $skeleton-bg: color.adjust($text-base, $alpha: -0.975);

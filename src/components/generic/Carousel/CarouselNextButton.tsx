@@ -21,7 +21,7 @@ export const CarouselNextButton = forwardRef<HTMLButtonElement, ComponentProps<t
       ref={ref}
       round
       size="large"
-      variant="ghost"
+      variant="solid"
       {...props}
     >
       <ArrowRight />

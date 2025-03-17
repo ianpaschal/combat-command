@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import { fowV4LessonsFromTheFrontVersionOptions } from '~/api';
 import { Animate } from '~/components/generic/Animate';
 import { FormField } from '~/components/generic/Form';
 import { InputNumber } from '~/components/generic/InputNumber';
@@ -7,8 +8,6 @@ import { InputSelect } from '~/components/generic/InputSelect';
 import { Separator } from '~/components/generic/Separator';
 import { Switch } from '~/components/generic/Switch';
 import { fowV4EraOptions } from '~/types/fowV4/fowV4EraSchema';
-import { fowV4LessonsFromTheFrontVersionOptions } from '~/types/fowV4/fowV4LessonsFromTheFrontVersionSchema';
-import { fowV4MissionPackVersionOptions } from '~/types/fowV4/fowV4MissionPackVersionSchema';
 
 import styles from './GameConfigFields.module.scss';
 
@@ -33,9 +32,9 @@ export const GameConfigFields = (): JSX.Element => {
           <FormField name="gameSystemConfig.lessonsFromTheFrontVersion" label="Lessons from the Front Version">
             <InputSelect options={fowV4LessonsFromTheFrontVersionOptions} />
           </FormField>
-          <FormField name="gameSystemConfig.missionPackVersion" label="Dynamic Points Version">
-            <InputSelect options={fowV4MissionPackVersionOptions} />
-          </FormField>
+          {/* <FormField name="gameSystemConfig.missionPackId" label="Mission Pack">
+            <InputSelect options={fowV4MissionPackOptions} />
+          </FormField> */}
           {/*  TODO: When there are new mission matrix options available someday, add this in. */}
           {/* <FormField name="missionMatrix" label="Mission Pack Version">
             <InputSelect options={missionMatrixOptions} />

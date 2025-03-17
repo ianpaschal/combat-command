@@ -24,10 +24,10 @@ export const CheckInMatchDialog = ({
       open={open}
       onOpenChange={setOpen}
       trigger={trigger || children}
-      title="Check In Match Result"
+      title="Add Match Result"
       actions={[
         { label: 'Cancel', muted: true, onClick: () => setOpen(false), cancel: true },
-        { label: 'Check In Match', type: 'submit', form: 'fow-v4-match-result-form' },
+        { label: 'Save Match', type: 'submit', form: 'fow-v4-match-result-form' },
       ]}
     >
       <ScrollArea type="scroll" indicatorBorder={['top', 'bottom']}>
