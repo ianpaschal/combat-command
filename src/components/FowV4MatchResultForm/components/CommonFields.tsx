@@ -36,7 +36,7 @@ export const CommonFields = (): JSX.Element => {
   const autoAttacker = computeAttacker(missionId, player0BattlePlan, player1BattlePlan);
   const disableAttackerField = autoAttacker !== undefined;
   useEffect(() => {
-    if (attacker !== autoAttacker) {
+    if (autoAttacker !== undefined && attacker !== autoAttacker) {
       setValue('details.attacker', autoAttacker);
     }
   }, [attacker, autoAttacker, setValue]);
@@ -45,7 +45,7 @@ export const CommonFields = (): JSX.Element => {
   const autoFirstTurn = computeFirstTurn(missionId, attacker);
   const disableFirstTurnField = autoFirstTurn !== undefined;
   useEffect(() => {
-    if (firstTurn !== autoFirstTurn) {
+    if (autoFirstTurn !== undefined && firstTurn !== autoFirstTurn) {
       setValue('details.firstTurn', autoFirstTurn);
     }
   }, [firstTurn, autoFirstTurn, setValue]);
@@ -54,7 +54,7 @@ export const CommonFields = (): JSX.Element => {
   const autoWinner = computeWinner(missionId, attacker, outcomeType);
   const disableWinner = autoWinner !== undefined;
   useEffect(() => {
-    if (winner !== autoWinner) {
+    if (autoWinner !== undefined && winner !== autoWinner) {
       setValue('details.winner', autoWinner);
     }
   }, [winner, autoWinner, setValue]);
