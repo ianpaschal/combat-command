@@ -7,43 +7,43 @@ export type FowV4Faction = {
 
 export const fowV4Factions: FowV4Faction[] = [
   {
-    id: 'flames_of_war_4th_edition::faction::germany',
+    id: 'flames_of_war_v4::faction::germany',
     displayName: 'Germany',
   },
   {
-    id: 'flames_of_war_4th_edition::faction::soviet_union',
+    id: 'flames_of_war_v4::faction::soviet_union',
     displayName: 'Soviet Union',
   },
   {
-    id: 'flames_of_war_4th_edition::faction::united_states',
+    id: 'flames_of_war_v4::faction::united_states',
     displayName: 'United States',
   },
   {
-    id: 'flames_of_war_4th_edition::faction::great_britain',
+    id: 'flames_of_war_v4::faction::great_britain',
     displayName: 'Great Britain & Commonwealth',
   },
   {
-    id: 'flames_of_war_4th_edition::faction::italy',
+    id: 'flames_of_war_v4::faction::italy',
     displayName: 'Italy',
   },
   {
-    id: 'flames_of_war_4th_edition::faction::finland',
+    id: 'flames_of_war_v4::faction::finland',
     displayName: 'Finland',
   },
   {
-    id: 'flames_of_war_4th_edition::faction::hungary',
+    id: 'flames_of_war_v4::faction::hungary',
     displayName: 'Hungary',
   },
   {
-    id: 'flames_of_war_4th_edition::faction::romania',
+    id: 'flames_of_war_v4::faction::romania',
     displayName: 'Romania',
   },
   {
-    id: 'flames_of_war_4th_edition::faction::japan',
+    id: 'flames_of_war_v4::faction::japan',
     displayName: 'Japan',
   },
   {
-    id: 'flames_of_war_4th_edition::faction::france',
+    id: 'flames_of_war_v4::faction::france',
     displayName: 'France',
   },
 ] as const;

@@ -90,16 +90,16 @@ export const defaultValues: DeepPartial<MatchResult> = {
   player0UserId: '' as UserId,
   player1Placeholder: '',
   player1UserId: '' as UserId,
-  gameSystem: 'flames_of_war_4th_edition',
-  gameSystemId: 'flames_of_war_4th_edition',
+  gameSystem: 'flames_of_war_v4',
+  gameSystemId: 'flames_of_war_v4',
   gameSystemConfig: {
     era: 'lw',
-    eraId: 'flames_of_war_4th_edition::era::lw',
+    eraId: 'flames_of_war_v4::era::lw',
     points: 100,
-    dynamicPointsVersion: '6cb1a1a6-9f8d-44f3-8423-2f896ee372f6',
-    lessonsFromTheFrontVersion: 'b8d046fa-8040-4c22-891a-b1a33c94fd87',
-    missionMatrixId: '00e2a46a-8959-46bd-b468-736bc47945f5' as FowV4MissionMatrixId, // April 2023 (Extended)
-    missionPackId: '6824a95b-c582-4c6b-b518-29e9ee0577af' as FowV4MissionPackId, // April 2023
+    lessonsFromTheFrontVersion: 'flames_of_war_v4::lessons_from_the_front::2024_03',
+    lessonsFromTheFrontVersionId: 'flames_of_war_v4::lessons_from_the_front::2024_03',
+    missionMatrixId: 'flames_of_war_v4::mission_matrix::2023_04_extended' as FowV4MissionMatrixId, // April 2023 (Extended)
+    missionPackId: 'flames_of_war_v4::mission_pack::2023_04' as FowV4MissionPackId, // April 2023
     useExperimentalMissions: true,
   },
 };

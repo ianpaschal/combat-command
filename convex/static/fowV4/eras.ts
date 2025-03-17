@@ -7,28 +7,18 @@ export type FowV4Era = {
 };
 
 export const fowV4Eras: FowV4Era[] = [
-  // {
-  //   id: 'f2687103-654b-41e5-9fe1-7c14eabdf2a4',
-  //   displayName: 'Early War',
-  //   shortName: 'EW',
-  // },
   {
-    id: 'flames_of_war_4th_edition::era::mw',
+    id: 'flames_of_war_v4::era::mid_war',
     displayName: 'Mid-War',
     shortName: 'MW',
   },
   {
-    id: 'flames_of_war_4th_edition::era::lw',
+    id: 'flames_of_war_v4::era::late_war',
     displayName: 'Late War',
     shortName: 'LW',
   },
-  // {
-  //   id: '',
-  //   displayName: '',
-  //   shortName: 'P',
-  // },
   {
-    id: 'flames_of_war_4th_edition::era::lwl',
+    id: 'flames_of_war_v4::era::late_war_leviathans',
     displayName: 'Late War: Leviathans',
     shortName: 'LWL',
   },

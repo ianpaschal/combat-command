@@ -70,16 +70,16 @@ export type { FowV4MatchOutcomeType } from '../convex/common/fowV4/fowV4MatchOut
 export { fowV4MatchOutcomeTypeValues } from '../convex/common/fowV4/fowV4MatchOutcomeType';
 
 // Missions
-export type { FowV4MissionId } from '../convex/common/fowV4/fowV4MissionId';
 export { getMission } from '../convex/common/fowV4/getMission';
+export type { FowV4MissionId } from '../convex/static/fowV4/missionPacks';
 export type { FowV4Mission } from '../convex/static/fowV4/missionPacks.types';
 
 // Mission Packs
-export type { FowV4MissionPackId } from '../convex/common/fowV4/fowV4MissionPackId';
 export { getMissionPack } from '../convex/common/fowV4/getMissionPack';
+export type { FowV4MissionPackId } from '../convex/static/fowV4/missionPacks';
 export { fowV4MissionPackOptions } from '../convex/static/fowV4/missionPacks';
 export type { FowV4MissionPack } from '../convex/static/fowV4/missionPacks.types';
 
 // Mission Matrixes
-export type { FowV4MissionMatrixId } from '../convex/common/fowV4/fowV4MissionMatrixId';
+export type { FowV4MissionMatrixId } from '../convex/static/fowV4/missionPacks';
 export type { FowV4MissionMatrix } from '../convex/static/fowV4/missionPacks.types';

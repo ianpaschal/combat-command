@@ -22,8 +22,8 @@ export const fields = {
   // Denormalized so that we can filter tournaments by game system, and all related fields.
   // The duplicate data is worth the efficiency in querying.
   gameSystemConfig: v.union(fowV4GameSystemConfig),
-  gameSystem: v.optional(gameSystemId),
-  gameSystemId: v.optional(gameSystemId),
+  gameSystem: v.optional(v.union(gameSystemId, v.string())),
+  gameSystemId: v.optional(v.union(gameSystemId, v.string())),
 
   photoIds: v.optional(v.array(v.id('photos'))),
 };
