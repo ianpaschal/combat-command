@@ -3,13 +3,14 @@ import { useWindowWidth } from '@react-hook/window-size/throttled';
 import { ImagePlus } from 'lucide-react';
 
 import { MatchResultId } from '~/api';
+import { useAuth } from '~/components/AuthProvider';
 import { Button } from '~/components/generic/Button';
 import { Card } from '~/components/generic/Card';
 import { ScrollArea } from '~/components/generic/ScrollArea';
 import { Separator } from '~/components/generic/Separator';
 import { Timestamp } from '~/components/generic/Timestamp';
 import { MatchResultPhotos } from '~/components/MatchResultPhotos';
-import { MatchResultPhotoUploadDialog } from '~/components/MatchResultPhotoUploadDialog';
+import { MatchResultPhotoUploadDialog, useMatchResultPhotoUploadDialog } from '~/components/MatchResultPhotoUploadDialog';
 import { MatchResultPlayers } from '~/components/MatchResultPlayers';
 import { MatchResultProvider } from '~/components/MatchResultProvider';
 import { MatchResultSocials } from '~/components/MatchResultSocials';
@@ -21,14 +22,19 @@ import { MatchResultDetails } from './components/MatchResultDetails';
 import styles from './MatchResultDetailPage.module.scss';
 
 export const MatchResultDetailPage = (): JSX.Element => {
+  const user = useAuth();
   const windowWidth = useWindowWidth();
   const params = useParams();
   const matchResultId = params.id! as MatchResultId; // Must exist or else how did we get to this route?
+  const { open } = useMatchResultPhotoUploadDialog(matchResultId);
 
   const { data: matchResult } = useFetchMatchResult(matchResultId);
 
   const hasPhotos = !!matchResult?.photoIds?.length;
-
+  const userInMatch = matchResult && user && [
+    matchResult.player0UserId,
+    matchResult.player1UserId,
+  ].includes(user._id);
   const fitToWindow = hasPhotos && windowWidth >= MIN_WIDTH_DESKTOP;
 
   // TODO: Use context to prevent drilling of matchResult
@@ -40,10 +46,11 @@ export const MatchResultDetailPage = (): JSX.Element => {
             <Card className={styles.Players}>
               <MatchResultPlayers />
             </Card>
-            {hasPhotos ? (
+            {hasPhotos && (
               <MatchResultPhotos className={styles.Photos} />
-            ) : (
-              <Button className={styles.PhotosEmpty} variant="ghost">
+            )}
+            {!hasPhotos && userInMatch && (
+              <Button className={styles.PhotosEmpty} variant="ghost" onClick={open}>
                 <ImagePlus />
                 Add Photos
               </Button>
