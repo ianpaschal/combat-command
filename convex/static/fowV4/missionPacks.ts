@@ -7,7 +7,7 @@ export const missionPacks: FowV4MissionPack[] = [
     publishedAt: '2023-04-01T13:00:00+13:00',
     missions: [
       {
-        id: '0be913c2-d8db-4e20-a547-149960da67ec',
+        id: '3e962109-c384-46af-aa94-9d6dc7472510',
         attacker: 'roll',
         displayName: 'Vanguard',
         firstTurn: 'roll',
