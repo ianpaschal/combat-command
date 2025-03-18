@@ -3,9 +3,9 @@ import { v } from 'convex/values';
 
 import { fowV4GameSystemConfig } from '../common/fowV4/fowV4GameSystemConfig';
 import { fowV4RankingFactor } from '../common/fowV4/fowV4RankingFactor';
-import { gameSystem } from '../common/gameSystem';
 import { tournamentPairingMethod } from '../common/tournamentPairingMethod';
 import { tournamentStatus } from '../common/tournamentStatus';
+import { gameSystemId } from '../static/gameSystems';
 
 export const fields = {
 
@@ -19,7 +19,8 @@ export const fields = {
   // Denormalized so that we can filter tournaments by game system, and all related fields.
   // The duplicate data is worth the efficiency in querying.
   gameSystemConfig: v.union(fowV4GameSystemConfig),
-  gameSystem,
+  gameSystem: v.optional(gameSystemId),
+  gameSystemId: v.optional(gameSystemId),
   location: v.object({
     placeId: v.string(), // Mapbox Place ID,
     lat: v.number(),
@@ -44,6 +45,8 @@ export const table = defineTable({
   modifiedAt: v.optional(v.number()),
 }).index(
   'by_game_system', ['gameSystem'],
+).index(
+  'by_game_system_id', ['gameSystemId'],
 );
 
 export {

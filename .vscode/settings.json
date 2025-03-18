@@ -12,6 +12,7 @@
     "Mapbox",
     "merc",
     "Postgrest",
+    "spearpoint",
     "tanstack",
     "tsdef",
     "tzlookup",
