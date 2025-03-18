@@ -1,13 +1,12 @@
 import { useState } from 'react';
 
-import { fowV4LessonsFromTheFrontVersionOptions } from '~/api';
+import { fowV4EraOptions, fowV4LessonsFromTheFrontVersionOptions } from '~/api';
 import { Animate } from '~/components/generic/Animate';
 import { FormField } from '~/components/generic/Form';
 import { InputNumber } from '~/components/generic/InputNumber';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { Separator } from '~/components/generic/Separator';
 import { Switch } from '~/components/generic/Switch';
-import { fowV4EraOptions } from '~/types/fowV4/fowV4EraSchema';
 
 import styles from './GameConfigFields.module.scss';
 
@@ -19,7 +18,7 @@ export const GameConfigFields = (): JSX.Element => {
         <FormField name="gameSystemConfig.points" label="Points">
           <InputNumber min={0} />
         </FormField>
-        <FormField name="gameSystemConfig.era" label="Era">
+        <FormField name="gameSystemConfig.eraId" label="Era">
           <InputSelect options={fowV4EraOptions} />
         </FormField>
       </div>
@@ -29,7 +28,7 @@ export const GameConfigFields = (): JSX.Element => {
       <Animate show={advancedOptionsVisible}>
         <div className={styles.AdvancedOptions}>
           <Separator />
-          <FormField name="gameSystemConfig.lessonsFromTheFrontVersion" label="Lessons from the Front Version">
+          <FormField name="gameSystemConfig.lessonsFromTheFrontVersionId" label="Lessons from the Front Version">
             <InputSelect options={fowV4LessonsFromTheFrontVersionOptions} />
           </FormField>
           {/* <FormField name="gameSystemConfig.missionPackId" label="Mission Pack">

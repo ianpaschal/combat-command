@@ -2,12 +2,15 @@ import { useEffect, useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useQuery } from 'convex/react';
 
-import { api, TournamentPairingId } from '~/api';
+import {
+  api,
+  fowV4BattlePlanOptions,
+  TournamentPairingId,
+} from '~/api';
 import { FormField } from '~/components/generic/Form';
 import { InputNumber } from '~/components/generic/InputNumber';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { Separator } from '~/components/generic/Separator';
-import { fowV4BattlePlanOptions } from '~/types/fowV4/fowV4BattlePlanSchema';
 import { getCompetitorPlayerOptions } from './TournamentPlayersFields.utils';
 
 import styles from './TournamentPlayersFields.module.scss';

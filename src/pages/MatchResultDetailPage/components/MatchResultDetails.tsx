@@ -1,9 +1,9 @@
 import clsx from 'clsx';
 
+import { fowV4BattlePlanOptions } from '~/api';
 import { useMatchResult } from '~/components/MatchResultProvider';
 import { useElementSize } from '~/hooks/useElementSize';
 import { formatOutcome } from '~/pages/MatchResultDetailPage/components/MatchResultDetails.utils';
-import { fowV4BattlePlanOptions } from '~/types/fowV4/fowV4BattlePlanSchema';
 
 import styles from './MatchResultDetails.module.scss';
 
@@ -29,7 +29,7 @@ export const MatchResultDetails = ({
         <h3>Meta</h3>
         <div>
           <span className={styles.DetailLabel}>Ruleset:</span>
-          <span className={styles.DetailValue}>{matchResult.gameSystem} (More Info)</span>
+          <span className={styles.DetailValue}>{matchResult.gameSystemId} (More Info)</span>
         </div>
         <div>
           <span className={styles.DetailLabel}>Points:</span>
@@ -37,7 +37,7 @@ export const MatchResultDetails = ({
         </div>
         <div>
           <span className={styles.DetailLabel}>Era:</span>
-          <span className={styles.DetailValue}>{matchResult.gameSystemConfig.era}</span>
+          <span className={styles.DetailValue}>{matchResult.gameSystemConfig.eraId}</span>
         </div>
       </div>
       <div className={styles.SetUpSection}>

@@ -22,8 +22,7 @@ export const fields = {
   // Denormalized so that we can filter tournaments by game system, and all related fields.
   // The duplicate data is worth the efficiency in querying.
   gameSystemConfig: v.union(fowV4GameSystemConfig),
-  gameSystem: v.optional(v.union(gameSystemId, v.string())),
-  gameSystemId: v.optional(v.union(gameSystemId, v.string())),
+  gameSystemId: gameSystemId,
 
   photoIds: v.optional(v.array(v.id('photos'))),
 };
@@ -35,8 +34,6 @@ const table = defineTable({
   modifiedAt: v.optional(v.number()),
 }).index(
   'by_user_id', ['player0UserId', 'player1UserId'],
-).index(
-  'by_game_system', ['gameSystem'],
 ).index(
   'by_game_system_id', ['gameSystemId'],
 );

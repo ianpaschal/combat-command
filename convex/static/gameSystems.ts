@@ -7,7 +7,7 @@ export type GameSystem = {
 
 export const gameSystems = [
   {
-    id: 'flames_of_war_4th_edition',
+    id: 'flames_of_war_v4',
     displayName: 'Flames of War (4th Edition)',
   },
   // {
