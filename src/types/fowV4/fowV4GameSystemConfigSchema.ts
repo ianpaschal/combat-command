@@ -1,17 +1,40 @@
 import { z } from 'zod';
 
-import { fowV4EraSchema } from '~/types/fowV4/fowV4EraSchema';
+import {
+  FowV4DynamicPointsVersionId,
+  FowV4EraId,
+  FowV4LessonsFromTheFrontVersionId,
+  FowV4MissionMatrixId,
+  FowV4MissionPackId,
+} from '~/api';
 
 export const fowV4GameSystemConfigSchema = z.object({
-  additionalRules: z.object({
+  // Tournament restrictions
+  additionalRules: z.optional(z.object({
     allowMidWarMonsters: z.optional(z.union([z.literal('yes'), z.literal('combat'), z.literal('no')])),
-  }),
-  dynamicPointsVersion: z.string(), // Empty = not used, 'current' = version from time of match // mw_2023_2023-02-09 or mw_2024_2023-12-20
-  era: fowV4EraSchema,
-  lessonsFromTheFrontVersion: z.string(),
-  missionPackVersion: z.string(),
-  points: z.number({ message: 'Please enter a number.' }).min(5, { message: 'Matches must be played with at least 5 points.' }),
-  // TODO: Add allowed/disallowed books/formations
-});
+  })),
 
-export type FowV4GameSystemConfig = z.infer<typeof fowV4GameSystemConfigSchema>;
+  // Basic options
+  eraId: z.string().transform((val) => val as FowV4EraId),
+  points: z.number(),
+
+  // Advanced option (hidden by default)
+  lessonsFromTheFrontVersionId: z.string().transform((val) => val as FowV4LessonsFromTheFrontVersionId),
+
+  // Non-editable
+  dynamicPointsVersionId: z.optional(z.string().transform((val) => val as FowV4DynamicPointsVersionId)),
+  missionMatrixId: z.string().transform((val) => val as FowV4MissionMatrixId),
+  missionPackId: z.string().transform((val) => val as FowV4MissionPackId),
+  useExperimentalMissions: z.optional(z.boolean()),
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+}).superRefine((values, ctx) => {
+  // TODO: Verify that matrix ID matches pack ID
+  // TODO: Verify that dynamic points version is compatible with era
+  // if (values.details.outcomeType !== 'time_out' && values.details.winner === undefined) {
+  //   ctx.addIssue({
+  //     message: 'Please select a winner',
+  //     code: z.ZodIssueCode.custom,
+  //     path: ['winner'],
+  //   });
+  // }
+});

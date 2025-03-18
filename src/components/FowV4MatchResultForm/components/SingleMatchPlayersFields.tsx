@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { fowV4FactionOptions } from '~/api';
+import { fowV4BattlePlanOptions, fowV4FactionOptions } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
 import { FormField } from '~/components/generic/Form';
 import { InputNumber } from '~/components/generic/InputNumber';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { Separator } from '~/components/generic/Separator';
-import { fowV4BattlePlanOptions } from '~/types/fowV4/fowV4BattlePlanSchema';
 import { SelectPlayerDialog } from './SelectPlayerDialog';
 
 import styles from './SingleMatchPlayersFields.module.scss';

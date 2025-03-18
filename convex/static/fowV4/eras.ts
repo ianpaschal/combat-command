@@ -8,6 +8,11 @@ export type FowV4Era = {
 
 export const fowV4Eras: FowV4Era[] = [
   {
+    id: 'flames_of_war_v4::era::early_war',
+    displayName: 'Early War',
+    shortName: 'EW',
+  },
+  {
     id: 'flames_of_war_v4::era::mid_war',
     displayName: 'Mid-War',
     shortName: 'MW',

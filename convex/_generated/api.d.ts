@@ -16,7 +16,6 @@ import type {
 import type * as auth_ResendOtpPasswordReset from "../auth/ResendOtpPasswordReset.js";
 import type * as auth_ResendOtpVerification from "../auth/ResendOtpVerification.js";
 import type * as auth from "../auth.js";
-import type * as common_fowV4_fowV4BattlePlan from "../common/fowV4/fowV4BattlePlan.js";
 import type * as common_fowV4_fowV4GameSystemConfig from "../common/fowV4/fowV4GameSystemConfig.js";
 import type * as common_fowV4_fowV4MatchOutcomeType from "../common/fowV4/fowV4MatchOutcomeType.js";
 import type * as common_fowV4_fowV4MatchResultDetails from "../common/fowV4/fowV4MatchResultDetails.js";
@@ -48,8 +47,10 @@ import type * as matchResults_mutations from "../matchResults/mutations.js";
 import type * as photos_index from "../photos/index.js";
 import type * as photos_mutations from "../photos/mutations.js";
 import type * as photos_queries from "../photos/queries.js";
+import type * as static_fowV4_dynamicPointsVersions from "../static/fowV4/dynamicPointsVersions.js";
 import type * as static_fowV4_eras from "../static/fowV4/eras.js";
 import type * as static_fowV4_factions from "../static/fowV4/factions.js";
+import type * as static_fowV4_fowV4BattlePlan from "../static/fowV4/fowV4BattlePlan.js";
 import type * as static_fowV4_lessonsFromTheFrontVersions from "../static/fowV4/lessonsFromTheFrontVersions.js";
 import type * as static_fowV4_missionPacks from "../static/fowV4/missionPacks.js";
 import type * as static_gameSystems from "../static/gameSystems.js";
@@ -90,7 +91,6 @@ declare const fullApi: ApiFromModules<{
   "auth/ResendOtpPasswordReset": typeof auth_ResendOtpPasswordReset;
   "auth/ResendOtpVerification": typeof auth_ResendOtpVerification;
   auth: typeof auth;
-  "common/fowV4/fowV4BattlePlan": typeof common_fowV4_fowV4BattlePlan;
   "common/fowV4/fowV4GameSystemConfig": typeof common_fowV4_fowV4GameSystemConfig;
   "common/fowV4/fowV4MatchOutcomeType": typeof common_fowV4_fowV4MatchOutcomeType;
   "common/fowV4/fowV4MatchResultDetails": typeof common_fowV4_fowV4MatchResultDetails;
@@ -122,8 +122,10 @@ declare const fullApi: ApiFromModules<{
   "photos/index": typeof photos_index;
   "photos/mutations": typeof photos_mutations;
   "photos/queries": typeof photos_queries;
+  "static/fowV4/dynamicPointsVersions": typeof static_fowV4_dynamicPointsVersions;
   "static/fowV4/eras": typeof static_fowV4_eras;
   "static/fowV4/factions": typeof static_fowV4_factions;
+  "static/fowV4/fowV4BattlePlan": typeof static_fowV4_fowV4BattlePlan;
   "static/fowV4/lessonsFromTheFrontVersions": typeof static_fowV4_lessonsFromTheFrontVersions;
   "static/fowV4/missionPacks": typeof static_fowV4_missionPacks;
   "static/gameSystems": typeof static_gameSystems;

@@ -55,6 +55,26 @@ export type { GameSystemId } from '../convex/static/gameSystems';
 
 // Static Data & Interfaces (Flames of War 4th Edition)
 
+// Battle Plans
+export {
+  type FowV4BattlePlan,
+  fowV4BattlePlanOptions,
+} from '../convex/static/fowV4/fowV4BattlePlan';
+
+// Dynamic Points Versions
+export {
+  type FowV4DynamicPointsVersion,
+  type FowV4DynamicPointsVersionId,
+  fowV4DynamicPointsVersionOptions,
+} from '../convex/static/fowV4/dynamicPointsVersions';
+
+// Eras
+export {
+  type FowV4Era,
+  type FowV4EraId,
+  fowV4EraOptions,
+} from '../convex/static/fowV4/eras';
+
 // Factions
 export {
   type FowV4Faction,
@@ -63,7 +83,11 @@ export {
 } from '../convex/static/fowV4/factions';
 
 // Lessons From the Front Versions
-export { fowV4LessonsFromTheFrontVersionOptions } from '../convex/static/fowV4/lessonsFromTheFrontVersions';
+export {
+  type FowV4LessonsFromTheFrontVersion,
+  type FowV4LessonsFromTheFrontVersionId,
+  fowV4LessonsFromTheFrontVersionOptions,
+} from '../convex/static/fowV4/lessonsFromTheFrontVersions';
 
 // Match Outcome Types
 export type { FowV4MatchOutcomeType } from '../convex/common/fowV4/fowV4MatchOutcomeType';

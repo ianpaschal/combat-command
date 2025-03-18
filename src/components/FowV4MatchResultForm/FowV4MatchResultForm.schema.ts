@@ -2,15 +2,15 @@ import { DeepPartial } from 'tsdef';
 import { z } from 'zod';
 
 import {
+  FowV4BattlePlan,
+  FowV4FactionId,
   fowV4MatchOutcomeTypeValues,
   FowV4MissionId,
-  FowV4MissionMatrixId,
-  FowV4MissionPackId,
   GameSystemId,
   MatchResult,
   UserId,
 } from '~/api';
-import { fowV4BattlePlanSchema } from '~/types/fowV4/fowV4BattlePlanSchema';
+import { fowV4GameSystemConfigSchema } from '~/types/fowV4/fowV4GameSystemConfigSchema';
 
 export const fowV4MatchResultFormSchema = z.object({
 
@@ -22,11 +22,11 @@ export const fowV4MatchResultFormSchema = z.object({
 
   details: z.object({
     // Handled by <TournamentPlayersForm /> or <SingleMatchPlayersForm />
-    player0BattlePlan: fowV4BattlePlanSchema,
-    player0FactionId: z.string({ message: 'Please select a faction.' }).transform((val) => val as FowV4MissionId),
+    player0BattlePlan: z.string({ message: 'Please select a battle plan.' }).transform((val) => val as FowV4BattlePlan),
+    player0FactionId: z.string({ message: 'Please select a faction.' }).transform((val) => val as FowV4FactionId),
     player0UnitsLost: z.number(),
-    player1BattlePlan: fowV4BattlePlanSchema,
-    player1FactionId: z.string({ message: 'Please select a faction.' }).transform((val) => val as FowV4MissionId),
+    player1BattlePlan: z.string({ message: 'Please select a battle plan.' }).transform((val) => val as FowV4BattlePlan),
+    player1FactionId: z.string({ message: 'Please select a faction.' }).transform((val) => val as FowV4FactionId),
     player1UnitsLost: z.number(),
 
     // Handled by <CommonForm />
@@ -38,25 +38,9 @@ export const fowV4MatchResultFormSchema = z.object({
     winner: z.union([z.literal(-1), z.literal(0), z.literal(1)], { message: 'Please select a winner.' }),
   }),
 
-  gameSystemConfig: z.object({
-    // Handled by <GameConfigForm />
-    era: z.string(),
-    eraId: z.optional(z.string()),
-    points: z.number(),
-
-    // Advanced option (hidden by default)
-    
-    lessonsFromTheFrontVersion: z.string(),
-
-    // Non-editable
-    dynamicPointsVersion: z.optional(z.string()),
-    missionMatrixId: z.string().transform((val) => val as FowV4MissionMatrixId),
-    missionPackId: z.string().transform((val) => val as FowV4MissionPackId),
-    useExperimentalMissions: z.optional(z.boolean()),
-  }),
+  gameSystemConfig: fowV4GameSystemConfigSchema,
 
   // Non-editable
-  gameSystem: z.string().transform((val) => val as GameSystemId),
   gameSystemId: z.string().transform((val) => val as GameSystemId),
 }).superRefine((values, ctx) => {
   if (values.details.outcomeType !== 'time_out' && values.details.winner === undefined) {
@@ -90,16 +74,14 @@ export const defaultValues: DeepPartial<MatchResult> = {
   player0UserId: '' as UserId,
   player1Placeholder: '',
   player1UserId: '' as UserId,
-  gameSystem: 'flames_of_war_v4',
   gameSystemId: 'flames_of_war_v4',
   gameSystemConfig: {
-    era: 'lw',
-    eraId: 'flames_of_war_v4::era::lw',
+    dynamicPointsVersionId: undefined,
+    eraId: 'flames_of_war_v4::era::late_war',
     points: 100,
-    lessonsFromTheFrontVersion: 'flames_of_war_v4::lessons_from_the_front::2024_03',
-    lessonsFromTheFrontVersionId: 'flames_of_war_v4::lessons_from_the_front::2024_03',
-    missionMatrixId: 'flames_of_war_v4::mission_matrix::2023_04_extended' as FowV4MissionMatrixId, // April 2023 (Extended)
-    missionPackId: 'flames_of_war_v4::mission_pack::2023_04' as FowV4MissionPackId, // April 2023
+    lessonsFromTheFrontVersionId: 'flames_of_war_v4::lessons_from_the_front_version::2024_03',
+    missionMatrixId: 'flames_of_war_v4::mission_matrix::2023_04_extended',
+    missionPackId: 'flames_of_war_v4::mission_pack::2023_04',
     useExperimentalMissions: true,
   },
 };
