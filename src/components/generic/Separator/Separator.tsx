@@ -18,7 +18,7 @@ export const Separator = forwardRef<SeparatorRef, SeparatorProps>(({
   orientation,
   ...props
 }, ref) => (
-  <div className={clsx(styles.Root, { [styles.RootWithText]: !!text })} data-orientation={orientation}>
+  <div className={clsx(styles.Root, { [styles.RootWithText]: !!text }, className)} data-orientation={orientation}>
     <Root ref={ref} className={clsx(styles.Separator, className)} orientation={orientation} {...props} />
     {text && (
       <>

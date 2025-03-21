@@ -1,48 +1,83 @@
 import { useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 
-import { fowV4EraOptions, fowV4LessonsFromTheFrontVersionOptions } from '~/api';
+import {
+  fowV4EraOptions,
+  fowV4LessonsFromTheFrontVersionOptions,
+  fowV4MissionPackOptions,
+  getFowV4MissionMatrixOptionsByMissionPackId,
+} from '~/api';
 import { Animate } from '~/components/generic/Animate';
 import { FormField } from '~/components/generic/Form';
-import { InputNumber } from '~/components/generic/InputNumber';
 import { InputSelect } from '~/components/generic/InputSelect';
+import { InputText } from '~/components/generic/InputText';
 import { Separator } from '~/components/generic/Separator';
 import { Switch } from '~/components/generic/Switch';
 
 import styles from './GameConfigFields.module.scss';
 
-export const GameConfigFields = (): JSX.Element => {
-  const [advancedOptionsVisible, setAdvancedOptionsVisible] = useState<boolean>(false);
+export interface GameConfigFieldsProps {
+  formPath?: string;
+  showAdvancedOptions?: boolean;
+  showAdditionalRules?: boolean;
+}
+
+export const GameConfigFields = ({
+  formPath = 'gameSystemConfig',
+  showAdvancedOptions = false,
+  showAdditionalRules = false,
+}: GameConfigFieldsProps): JSX.Element => {
+  const { watch } = useFormContext();
+  const [advancedOptionsVisible, setAdvancedOptionsVisible] = useState<boolean>(showAdvancedOptions);
+  // TODO: get dynamic points version for era
+  // const dynamicPointsVersionOptions = getDynamicPointsVersionOptions(era);
+  // Show the drop down if options are available
+
+  const missionPackId = watch(`${formPath}.missionPackId`);
+
+  const matrixOptions = getFowV4MissionMatrixOptionsByMissionPackId(missionPackId);
   return (
     <div className={styles.Root}>
       <div className={styles.CoreConfig}>
-        <FormField name="gameSystemConfig.points" label="Points">
-          <InputNumber min={0} />
+        <FormField name={`${formPath}.points`} label="Points">
+          <InputText type="number" />
         </FormField>
-        <FormField name="gameSystemConfig.eraId" label="Era">
+        <FormField name={`${formPath}.eraId`} label="Era">
           <InputSelect options={fowV4EraOptions} />
         </FormField>
       </div>
-      <FormField label="Show advanced options">
-        <Switch checked={advancedOptionsVisible} onCheckedChange={setAdvancedOptionsVisible} />
-      </FormField>
+      {!showAdvancedOptions && (
+        <FormField label="Show advanced options">
+          <Switch checked={advancedOptionsVisible} onCheckedChange={setAdvancedOptionsVisible} />
+        </FormField>
+      )}
       <Animate show={advancedOptionsVisible}>
         <div className={styles.AdvancedOptions}>
           <Separator />
-          <FormField name="gameSystemConfig.lessonsFromTheFrontVersionId" label="Lessons from the Front Version">
-            <InputSelect options={fowV4LessonsFromTheFrontVersionOptions} />
-          </FormField>
-          {/* <FormField name="gameSystemConfig.missionPackId" label="Mission Pack">
-            <InputSelect options={fowV4MissionPackOptions} />
-          </FormField> */}
-          {/*  TODO: When there are new mission matrix options available someday, add this in. */}
-          {/* <FormField name="missionMatrix" label="Mission Pack Version">
-            <InputSelect options={missionMatrixOptions} />
-          </FormField>
-          <FormField name="missionMatrix" label="Mission Matrix">
-            <InputSelect options={missionMatrixOptions} />
-          </FormField> */}
+          <div className={styles.Rules}>
+            <FormField name={`${formPath}.lessonsFromTheFrontVersionId`} label="Lessons from the Front Version" disabled={fowV4LessonsFromTheFrontVersionOptions.length < 2}>
+              <InputSelect options={fowV4LessonsFromTheFrontVersionOptions} />
+            </FormField>
+          </div>
+          <div className={styles.Missions}>
+            <FormField name={`${formPath}.missionPackId`} label="Mission Pack" disabled={fowV4MissionPackOptions.length < 2}>
+              <InputSelect options={fowV4MissionPackOptions} />
+            </FormField>
+            <FormField name={`${formPath}.missionMatrixId`} label="Mission Matrix" disabled={matrixOptions.length < 2}>
+              <InputSelect options={matrixOptions} />
+            </FormField>
+            <FormField name={`${formPath}.useExperimentalMissions`} label="Prefer experimental missions">
+              <Switch />
+            </FormField>
+          </div>
         </div>
       </Animate>
+      {showAdditionalRules && (
+        <>
+          <Separator />
+          Additional Rules
+        </>
+      )}
     </div>
   );
 };

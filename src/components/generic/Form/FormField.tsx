@@ -54,7 +54,10 @@ export const FormField = ({
                 ...field,
                 ...props,
                 id: name,
-                ...(nonTextual ? { onCheckedChange: field.onChange } : {}),
+                ...(nonTextual ? {
+                  onCheckedChange: field.onChange,
+                  checked: !!field.value,
+                } : {}),
                 className: styles.Input,
                 hasError: showErrorState,
                 disabled,

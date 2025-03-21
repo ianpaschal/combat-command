@@ -14,15 +14,11 @@ export const AccountSettings = (): JSX.Element => {
       <Label>Email</Label>
       <div className={styles.EmailLine}>
         {user?.email}
-        {/* {user?.email_confirmed_at ? <Tag><Check />Verified</Tag> : <Tag><X />Unverified</Tag>} */}
       </div>
       <ChangeEmailDialog trigger={<Button muted>Change Email</Button>} />
       <Separator />
       <Label>Password</Label>
       <ChangePasswordDialog trigger={<Button muted>Change Password</Button>} />
-      {/* TODO: Re-enable */}
-      {/* <Separator />
-      <Button intent="danger" muted>Delete Account</Button> */}
     </div>
   );
 };

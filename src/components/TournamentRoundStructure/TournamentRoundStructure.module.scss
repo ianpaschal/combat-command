@@ -1,0 +1,79 @@
+@use "/src/style/flex";
+@use "/src/style/corners";
+@use "/src/style/text";
+@use "/src/style/borders";
+@use "/src/style/variables";
+@use "/src/style/shadows";
+
+@import "@radix-ui/colors/crimson.css";
+@import "@radix-ui/colors/plum.css";
+@import "@radix-ui/colors/iris.css";
+
+.TournamentRoundStructure {
+  @include flex.column($gap: 0.5rem);
+
+  &_Bar {
+    overflow: hidden;
+    display: flex;
+    gap: var(--border-width);
+    height: 1.5rem;
+  }
+
+  &_Legend {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 0.5rem;
+    margin-top: 0.5rem;
+
+    &_Item {
+      @include flex.row($gap: 0.5rem);
+      @include text.small($muted: true);
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-wrap: nowrap;
+
+      span {
+        @include shadows.surface-shadow;
+
+        display: block;
+        aspect-ratio: 1;
+        height: var(--line-height-small);
+        border-radius: 100%;
+      }
+    }
+
+    @media (width >= 480px) {
+      & {
+        @include flex.column($gap: 0.5rem);
+      }
+    }
+  }
+
+  &_PairingTime {
+    @include corners.tight;
+    @include shadows.surface-shadow;
+
+    background-color: var(--crimson-9);
+  }
+
+  &_SetUpTime {
+    @include corners.tight;
+    @include shadows.surface-shadow;
+
+    background-color: var(--plum-9);
+  }
+
+  &_PlayingTime {
+    @include corners.tight;
+    @include shadows.surface-shadow;
+
+    background-color: var(--iris-9);
+  }
+}
+
+@media (width >= 480px) {
+  .TournamentRoundStructure_Legend {
+    @include flex.column($gap: 0.5rem);
+  }
+}

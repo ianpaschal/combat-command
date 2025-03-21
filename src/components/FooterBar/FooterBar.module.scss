@@ -1,0 +1,17 @@
+@use "/src/style/variables";
+@use "/src/style/flex";
+@use "/src/style/borders";
+
+.Root {
+  @include borders.normal($side: top);
+
+  background-color: variables.$card-bg;
+}
+
+.Content {
+  @include flex.row($xAlign: right);
+  @include flex.stretchy;
+
+  margin: 0 auto;
+  padding: 0.5rem var(--modal-outer-gutter);
+}

@@ -1,12 +1,11 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Button } from '~/components/generic/Button';
 import { Form, FormField } from '~/components/generic/Form';
 import { InputText } from '~/components/generic/InputText';
 import { Separator } from '~/components/generic/Separator';
-import { useAuthFlow } from '~/pages/AuthPage/AuthPage.hooks';
 import { useResetPassword } from '~/services/auth/useResetPassword';
 import { PATHS } from '~/settings';
 import {
@@ -18,15 +17,19 @@ import {
 import styles from './ResetPasswordForm.module.scss';
 
 export const ResetPasswordForm = (): JSX.Element => {
-  const { email } = useAuthFlow();
+  const [searchParams] = useSearchParams();
+  const email = searchParams.get('email');
   const { resetPassword, loading } = useResetPassword();
   const form = useForm<ResetPasswordFormData>({
     resolver: zodResolver(resetPasswordFormSchema),
-    defaultValues,
+    defaultValues: {
+      ...defaultValues,
+      email: email ?? '',
+    },
     mode: 'onSubmit',
   });
   const onSubmit: SubmitHandler<ResetPasswordFormData> = async (data: ResetPasswordFormData): Promise<void> => {
-    resetPassword({ ...data, email }, PATHS.dashboard);
+    resetPassword(data, PATHS.dashboard);
   };
   return (
     <Form className={styles.ResetPasswordForm} form={form} onSubmit={onSubmit}>
@@ -36,6 +39,9 @@ export const ResetPasswordForm = (): JSX.Element => {
       </div>
       <FormField name="code" label="Code" disabled={loading}>
         <InputText type="text" />
+      </FormField>
+      <FormField name="email" label="Email" disabled>
+        <InputText type="email" />
       </FormField>
       <FormField name="newPassword" label="Password" disabled={loading}>
         <InputText type="password" />

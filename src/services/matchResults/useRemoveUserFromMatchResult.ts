@@ -18,7 +18,7 @@ export const useRemoveUserFromMatchResult = (config?: MutationHookConfig) => {
           toast.success(config.successMessage);
         }
         if (config?.onSuccess) {
-          config.onSuccess();
+          config.onSuccess(args.userId);
         }
       } catch (error) {
         console.error(error);

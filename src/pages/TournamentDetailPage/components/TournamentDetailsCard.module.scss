@@ -1,0 +1,23 @@
+@use "/src/style/variables";
+@use "/src/style/flex";
+@use "/src/style/text";
+@use "/src/style/corners";
+@use "/src/style/shadows";
+@use "/src/style/borders";
+@use "/src/style/backgrounds";
+
+.TournamentDetailsCard {
+  @include flex.column($gap: 0);
+
+  &_ScrollArea {
+    @include flex.stretchy;
+  }
+}
+
+// 3 x 320px + 4 x 16px
+@media (width >= 1024px) {
+  .TournamentDetailsCard {
+    position: absolute;
+    inset: 0;
+  }
+}

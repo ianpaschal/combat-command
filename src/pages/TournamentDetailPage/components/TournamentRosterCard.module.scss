@@ -1,0 +1,14 @@
+@use "/src/style/flex";
+@use "/src/style/variables";
+@use "/src/style/text";
+
+.TournamentRoster {
+  &_EmptyState {
+    @include flex.centered;
+    @include flex.stretchy;
+  }
+
+  &_CompetitorList {
+    padding: 1rem var(--container-padding-x);
+  }
+}

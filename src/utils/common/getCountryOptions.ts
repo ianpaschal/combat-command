@@ -19,3 +19,34 @@ export const getCountryOptions = (): InputSelectOption<string>[] => {
     ...britishCountries,
   ].sort((a, b) => a.label.localeCompare(b.label));
 };
+
+export const getEtcCountryOptions = (): InputSelectOption<string>[] => [
+  'at',
+  'au',
+  'be',
+  'ca',
+  'ch',
+  'de',
+  'dk',
+  'es',
+  'fi',
+  'fr',
+  'gb-eng',
+  'gb-nir',
+  'gb-sct',
+  'gb-wls',
+  'gr',
+  'is',
+  'it',
+  'nl',
+  'nz',
+  'pl',
+  'pt',
+  'ro',
+  'se',
+  'us',
+].map(
+  (code) => ({ label: getCountryName(code) || 'Unknown Country', value: code }),
+).sort(
+  (a, b) => a.label.localeCompare(b.label),
+);

@@ -68,14 +68,17 @@ export const ToastProvider = ({
           {icon ? cloneElement(icon, {
             className: clsx(styles.Icon, severityClasses[toast.severity]),
           }) : null}
-          <Toast.Title className={styles.Title}>
-            {toast.title}
-          </Toast.Title>
-          {toast.description && (
-            <Toast.Description className={styles.Description}>
-              {toast.description}
-            </Toast.Description>
-          )}
+          <div className={styles.Content}>
+            <Toast.Title className={styles.Title}>
+              {toast.title}
+            </Toast.Title>
+            {toast.description && (
+              <Toast.Description className={styles.Description}>
+                {toast.description}
+              </Toast.Description>
+            )}
+          </div>
+
         </Toast.Root>
       )}
       <Toast.Viewport className={styles.Viewport} />

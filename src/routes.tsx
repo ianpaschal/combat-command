@@ -25,6 +25,11 @@ import {
   SettingsPage,
   UserProfileForm,
 } from '~/pages/SettingsPage';
+import { TournamentCreatePage } from '~/pages/TournamentCreatePage';
+import { TournamentDetailPage } from '~/pages/TournamentDetailPage/TournamentDetailPage';
+import { TournamentEditPage } from '~/pages/TournamentEditPage/TournamentEditPage';
+// import { TournamentDetailPage } from '~/pages/TournamentDetailPage';
+import { TournamentsPage } from '~/pages/TournamentsPage';
 import { PATHS } from '~/settings';
 
 export interface AppRoute {
@@ -42,11 +47,11 @@ export const mainRoutes: AppRoute[] = [
     element: <DashboardPage />,
     zone: 'internal',
   },
-  // {
-  //   path: '/tournaments',
-  //   title: 'Tournaments',
-  //   element: <TournamentsPage />,
-  // },
+  {
+    path: '/tournaments',
+    title: 'Tournaments',
+    element: <TournamentsPage />,
+  },
   {
     path: '/matches',
     title: 'Match Results',
@@ -58,6 +63,15 @@ export const mainRoutes: AppRoute[] = [
   //   element: <StatisticsPage />,
   //   zone: 'internal',
   // },
+];
+
+export const additionalRoutes: AppRoute[] = [
+  {
+    path: PATHS.tournamentCreate,
+    title: 'Create Tournament',
+    element: <TournamentCreatePage />,
+    zone: 'internal',
+  },
 ];
 
 export const getVisibleAppRoutes = (
@@ -85,14 +99,11 @@ const protectRoutes = (routes: AppRoute[]): AppRoute[] => routes.map((route) => 
 });
 
 export const routes = [
-  ...protectRoutes(mainRoutes),
+  ...protectRoutes([
+    ...mainRoutes,
+    ...additionalRoutes,
+  ]),
 
-  // {
-  //   path: '/tournaments/:id',
-  //   title: 'View Tournament',
-  //   visibility: [],
-  //   element: <TournamentDetailPage />,
-  // },
   // {
   //   path: '/tournaments/:tournamentId/add-match',
   //   title: 'Check-In Match',
@@ -111,20 +122,20 @@ export const routes = [
   //   visibility: [],
   //   element: <TournamentCreatePairingsPage />,
   // },
-  // {
-  //   path: '/tournaments/create',
-  //   title: 'Create Tournament',
-  //   element: (
-  //     <RequireAuth>
-  //       <CreateTournamentPage />
-  //     </RequireAuth>
-  //   ),
-  // },
-
   {
-    path: '/match-results/:id',
+    path: PATHS.matchResultDetails,
     visibility: [],
     element: <MatchResultDetailPage />,
+  },
+  {
+    path: PATHS.tournamentDetails,
+    visibility: [],
+    element: <TournamentDetailPage />,
+  },
+  {
+    path: PATHS.tournamentEdit,
+    visibility: [],
+    element: <TournamentEditPage />,
   },
   {
     path: '/settings',

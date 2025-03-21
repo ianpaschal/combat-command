@@ -1,4 +1,4 @@
-import { DeepPartial } from 'tsdef';
+import { DeepPartial } from 'react-hook-form';
 import { z } from 'zod';
 
 import {
@@ -10,7 +10,7 @@ import {
   MatchResult,
   UserId,
 } from '~/api';
-import { fowV4GameSystemConfigSchema } from '~/types/fowV4/fowV4GameSystemConfigSchema';
+import { fowV4GameSystemConfigDefaultValues, fowV4GameSystemConfigFormSchema } from './components/GameConfigFields.schema';
 
 export const fowV4MatchResultFormSchema = z.object({
 
@@ -24,21 +24,21 @@ export const fowV4MatchResultFormSchema = z.object({
     // Handled by <TournamentPlayersForm /> or <SingleMatchPlayersForm />
     player0BattlePlan: z.string({ message: 'Please select a battle plan.' }).transform((val) => val as FowV4BattlePlan),
     player0FactionId: z.string({ message: 'Please select a faction.' }).transform((val) => val as FowV4FactionId),
-    player0UnitsLost: z.number(),
+    player0UnitsLost: z.coerce.number(),
     player1BattlePlan: z.string({ message: 'Please select a battle plan.' }).transform((val) => val as FowV4BattlePlan),
     player1FactionId: z.string({ message: 'Please select a faction.' }).transform((val) => val as FowV4FactionId),
-    player1UnitsLost: z.number(),
+    player1UnitsLost: z.coerce.number(),
 
     // Handled by <CommonForm />
     attacker: z.union([z.literal(0), z.literal(1)], { message: 'Please select an attacker.' }),
     firstTurn: z.union([z.literal(0), z.literal(1)], { message: 'Please who had the first turn.' }),
     missionId: z.string({ message: 'Please select a mission.' }).transform((val) => val as FowV4MissionId),
     outcomeType: z.enum(fowV4MatchOutcomeTypeValues, { message: 'Please select an outcome type.' }),
-    turnsPlayed: z.number().min(1),
+    turnsPlayed: z.coerce.number().min(1),
     winner: z.union([z.literal(-1), z.literal(0), z.literal(1)], { message: 'Please select a winner.' }),
   }),
 
-  gameSystemConfig: fowV4GameSystemConfigSchema,
+  gameSystemConfig: fowV4GameSystemConfigFormSchema,
 
   // Non-editable
   gameSystemId: z.string().transform((val) => val as GameSystemId),
@@ -75,13 +75,5 @@ export const defaultValues: DeepPartial<MatchResult> = {
   player1Placeholder: '',
   player1UserId: '' as UserId,
   gameSystemId: 'flames_of_war_v4',
-  gameSystemConfig: {
-    dynamicPointsVersionId: undefined,
-    eraId: 'flames_of_war_v4::era::late_war',
-    points: 100,
-    lessonsFromTheFrontVersionId: 'flames_of_war_v4::lessons_from_the_front_version::2024_03',
-    missionMatrixId: 'flames_of_war_v4::mission_matrix::2023_04_extended',
-    missionPackId: 'flames_of_war_v4::mission_pack::2023_04',
-    useExperimentalMissions: true,
-  },
+  gameSystemConfig: fowV4GameSystemConfigDefaultValues,
 };

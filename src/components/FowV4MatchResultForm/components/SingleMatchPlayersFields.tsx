@@ -4,8 +4,8 @@ import { useFormContext } from 'react-hook-form';
 import { fowV4BattlePlanOptions, fowV4FactionOptions } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
 import { FormField } from '~/components/generic/Form';
-import { InputNumber } from '~/components/generic/InputNumber';
 import { InputSelect } from '~/components/generic/InputSelect';
+import { InputText } from '~/components/generic/InputText';
 import { Separator } from '~/components/generic/Separator';
 import { SelectPlayerDialog } from './SelectPlayerDialog';
 
@@ -66,7 +66,7 @@ export const SingleMatchPlayersFields = (): JSX.Element => {
               <InputSelect options={fowV4BattlePlanOptions} />
             </FormField>
             <FormField name={`details.player${i}UnitsLost`} label="Units Lost">
-              <InputNumber min={0} />
+              <InputText type="number" />
             </FormField>
           </div>
         ))}

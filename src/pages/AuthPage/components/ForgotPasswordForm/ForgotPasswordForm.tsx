@@ -1,12 +1,11 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { createSearchParams, Link } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Button } from '~/components/generic/Button';
 import { Form, FormField } from '~/components/generic/Form';
 import { InputText } from '~/components/generic/InputText';
 import { Separator } from '~/components/generic/Separator';
-import { useAuthFlow } from '~/pages/AuthPage/AuthPage.hooks';
 import { useRequestPasswordReset } from '~/services/auth/useRequestPasswordReset';
 import { PATHS } from '~/settings';
 import {
@@ -18,7 +17,6 @@ import {
 import styles from './ForgotPasswordForm.module.scss';
 
 export const ForgotPasswordForm = (): JSX.Element => {
-  const { setEmail } = useAuthFlow();
   const { requestPasswordReset, loading } = useRequestPasswordReset();
   const form = useForm<ForgotPasswordFormData>({
     resolver: zodResolver(forgotPasswordFormSchema),
@@ -26,8 +24,10 @@ export const ForgotPasswordForm = (): JSX.Element => {
     mode: 'onSubmit',
   });
   const onSubmit: SubmitHandler<ForgotPasswordFormData> = async (data: ForgotPasswordFormData): Promise<void> => {
-    setEmail(data.email);
-    requestPasswordReset(data, PATHS.authResetPassword);
+    requestPasswordReset(
+      data,
+      `${PATHS.authResetPassword}?${createSearchParams({ email: data.email }).toString()}`,
+    );
   };
   return (
     <Form className={styles.ForgotPasswordForm} form={form} onSubmit={onSubmit}>

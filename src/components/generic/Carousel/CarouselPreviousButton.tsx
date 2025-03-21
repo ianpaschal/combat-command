@@ -2,6 +2,7 @@ import { ComponentProps, forwardRef } from 'react';
 import clsx from 'clsx';
 import { ArrowLeft } from 'lucide-react';
 
+import { Animate } from '~/components/generic/Animate';
 import { Button } from '~/components/generic/Button';
 import { useCarousel } from './Carousel.hooks';
 
@@ -13,18 +14,19 @@ export const CarouselPreviousButton = forwardRef<HTMLButtonElement, ComponentPro
 }, ref) => {
   const { orientation, scrollPrev, canScrollPrev } = useCarousel();
   return (
-    <Button
-      className={clsx(styles.CarouselPreviousButton, className)}
-      data-orientation={orientation}
-      disabled={!canScrollPrev}
-      onClick={scrollPrev}
-      ref={ref}
-      round
-      size="large"
-      variant="solid"
-      {...props}
-    >
-      <ArrowLeft />
-    </Button>
+    <Animate show={canScrollPrev}>
+      <Button
+        className={clsx(styles.CarouselPreviousButton, className)}
+        data-orientation={orientation}
+        onClick={scrollPrev}
+        ref={ref}
+        round
+        size="large"
+        variant="solid"
+        {...props}
+      >
+        <ArrowLeft />
+      </Button>
+    </Animate>
   );
 });

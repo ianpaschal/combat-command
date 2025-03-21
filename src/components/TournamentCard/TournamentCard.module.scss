@@ -1,0 +1,137 @@
+@use "/src/style/flex";
+@use "/src/style/variants";
+@use "/src/style/shadows";
+@use "/src/style/animate";
+@use "/src/style/variables";
+@use "/src/style/corners";
+@use "/src/style/borders";
+@use "/src/style/text";
+@use "/src/style/backgrounds";
+
+.TournamentCard {
+  --banner-wide-size: 14rem;
+
+  @include variants.outlined($hover: false);
+  @include shadows.surface-shadow;
+  @include corners.normal;
+  @include text.ui;
+
+  position: relative;
+  overflow: hidden;
+  display: grid;
+
+  &_Banner {
+    @include flex.centered;
+    @include backgrounds.topography;
+  }
+
+  &_Title {
+    @include flex.row;
+    @include borders.normal($side: bottom);
+
+    padding: 0.5rem 1rem;
+
+    h2 {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-wrap: nowrap;
+    }
+  }
+
+  &_Buttons {
+    @include flex.row;
+
+    margin-right: -0.5rem;
+    margin-left: auto;
+  }
+
+  &[data-layout="narrow"] {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 8rem 3.5rem 1fr;
+
+    .TournamentCard_Banner {
+      grid-column: 1/-1;
+      grid-row: 1/2;
+
+      img {
+        width: 6rem;
+        height: 6rem;
+      }
+    }
+
+    .TournamentCard_Title {
+      grid-column: 1 / -1;
+    }
+
+    .TournamentCard_Description {
+      grid-column: 1 / -1;
+    }
+  }
+
+  &[data-layout="wide"] {
+    grid-template-columns: var(--banner-wide-size) 1fr 1fr;
+    grid-template-rows: 3.5rem 1fr;
+  }
+
+  &[data-layout="extra-wide"] {
+    grid-template-columns: var(--banner-wide-size) 16rem 16rem 1fr;
+    grid-template-rows: 3.5rem 1fr;
+  }
+
+  &[data-layout="wide"],
+  &[data-layout="extra-wide"] {
+    .TournamentCard_Banner {
+      grid-column: 1/2;
+      grid-row: 1/-1;
+      height: var(--banner-wide-size);
+
+      img {
+        width: 10rem;
+        height: 10rem;
+      }
+    }
+
+    .TournamentCard_Title {
+      grid-column: 2 / -1;
+    }
+  }
+}
+
+.InfoBlock {
+  @include borders.normal($side: right);
+
+  padding: 1rem;
+
+  &:last-child {
+    border: none !important;
+  }
+}
+
+@media (width <= 480px) {
+  .TournamentCard[data-layout="narrow"] {
+    grid-template-columns: 1fr;
+  }
+
+  .InfoBlock {
+    @include borders.normal($side: bottom);
+  }
+}
+
+.Registrations {
+  grid-column: 4 /-1;
+  padding: 1rem;
+  background-color: pink;
+}
+
+.Avatars {
+  overflow: hidden;
+  display: grid;
+  grid-column: 4 /-1;
+  grid-template-columns: repeat(auto-fill, 2rem);
+  grid-template-rows: repeat(2, 2rem);
+  gap: 0.5rem;
+
+  max-height: 7rem;
+
+  background-color: orange;
+}

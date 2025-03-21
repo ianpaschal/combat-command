@@ -37,7 +37,6 @@ export const MatchResultDetailPage = (): JSX.Element => {
   ].includes(user._id);
   const fitToWindow = hasPhotos && windowWidth >= MIN_WIDTH_DESKTOP;
 
-  // TODO: Use context to prevent drilling of matchResult
   return (
     <PageWrapper showBackButton maxWidth={!hasPhotos ? 688 : undefined} fitToWindow={fitToWindow}>
       {matchResult && (
@@ -69,8 +68,7 @@ export const MatchResultDetailPage = (): JSX.Element => {
           </div>
           <MatchResultPhotoUploadDialog />
         </MatchResultProvider>
-      )
-      }
+      )}
     </PageWrapper >
   );
 };

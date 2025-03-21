@@ -1,0 +1,40 @@
+@use "/src/style/flex";
+@use "/src/style/variants";
+@use "/src/style/shadows";
+@use "/src/style/animate";
+@use "/src/style/variables";
+@use "/src/style/corners";
+@use "/src/style/borders";
+@use "/src/style/text";
+
+.TournamentInfoBlock {
+  @include flex.column($gap: 0.5rem);
+
+  overflow: hidden;
+
+  &_InfoLine {
+    @include flex.row($yAlign: top, $gap: 0.5rem);
+    @include text.ui;
+
+    min-width: 0;
+
+    a {
+      font-size: inherit;
+      line-height: inherit;
+    }
+
+    span {
+      overflow: hidden;
+      display: block;
+      text-overflow: ellipsis;
+      text-wrap: nowrap;
+    }
+
+    svg {
+      flex-shrink: 0;
+      width: 1rem;
+      height: 1rem;
+      margin: calc((var(--line-height-normal) - 1rem) / 2);
+    }
+  }
+}

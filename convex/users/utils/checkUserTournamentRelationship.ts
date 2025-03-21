@@ -1,6 +1,6 @@
 import { Id } from '../../_generated/dataModel';
 import { QueryCtx } from '../../_generated/server';
-import { fetchTournamentUserIds } from '../../tournaments/fetchTournamentUserIds';
+import { getTournamentUserIds } from '../../_model/tournaments/helpers';
 
 type CheckUserTournamentRelationshipArgs = {
   queryingUserId: Id<'users'>;
@@ -16,11 +16,11 @@ export const checkUserTournamentRelationship = async (
   // Check each tournament for a relationship, return true if one is found
   return tournaments.some(async (tournament) => {
 
-    const competitorUserIds = await fetchTournamentUserIds(ctx, { id: tournament._id });
+    const competitorUserIds = await getTournamentUserIds(ctx, tournament._id);
 
     // Merge all organizer IDs and player IDs into one set
     const allTournamentUserIds = new Set([
-      ...tournament.organizerIds,
+      ...tournament.organizerUserIds,
       ...competitorUserIds,
     ]);
 

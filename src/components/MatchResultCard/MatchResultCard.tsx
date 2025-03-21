@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { generatePath, useNavigate } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 
 import { FetchMatchResultListResponseItem } from '~/api';
@@ -9,6 +9,7 @@ import { MatchResultContextMenu } from '~/components/MatchResultContextMenu';
 import { MatchResultPlayers } from '~/components/MatchResultPlayers';
 import { MatchResultProvider } from '~/components/MatchResultProvider';
 import { MatchResultSocials } from '~/components/MatchResultSocials';
+import { PATHS } from '~/settings';
 import { MatchResultPhotos } from './MatchResultPhotos';
 
 import styles from './MatchResultCard.module.scss';
@@ -23,7 +24,7 @@ export const MatchResultCard = ({
   const navigate = useNavigate();
   // TODO: Replace with global feature flags
   const usePhotos = false;
-  const detailsPath = `/match-results/${matchResult._id}`;
+  const detailsPath = generatePath(PATHS.matchResultDetails, { id: matchResult._id });
   const handleClickDetails = (): void => {
     navigate(detailsPath);
   };

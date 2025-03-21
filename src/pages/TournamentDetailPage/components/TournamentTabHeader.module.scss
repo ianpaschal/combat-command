@@ -1,0 +1,20 @@
+@use "/src/style/variables";
+@use "/src/style/flex";
+@use "/src/style/text";
+@use "/src/style/corners";
+@use "/src/style/shadows";
+@use "/src/style/borders";
+@use "/src/style/backgrounds";
+
+.TournamentTabHeader {
+  @include flex.row($gap: 0.5rem, $yAlign: center);
+
+  position: relative;
+  padding: 1rem var(--container-padding-x) 0;
+
+  &_Actions {
+    @include flex.row($gap: 0.5rem, $xAlign: center);
+
+    margin-left: auto;
+  }
+}

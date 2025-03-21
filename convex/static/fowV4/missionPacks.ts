@@ -397,3 +397,23 @@ export const fowV4MissionId = v.union(
 );
 
 export type FowV4MissionId = Infer<typeof fowV4MissionId>;
+
+export const getFowV4MissionMatrixesByMissionPackId = (id: string): FowV4MissionMatrix[] | undefined => (
+  missionPacks.find((missionPack) => missionPack.id === id)?.matrixes
+);
+
+export const getFowV4MissionMatrixOptionsByMissionPackId = (
+  id?: string,
+) => {
+  if (!id) {
+    return [];
+  }
+  const matrixes = getFowV4MissionMatrixesByMissionPackId(id);
+  if (!matrixes?.length) {
+    return [];
+  }
+  return matrixes.map((matrix) => ({
+    value: matrix.id,
+    label: matrix.displayName,
+  }));
+};

@@ -2,15 +2,14 @@ import { forwardRef } from 'react';
 import clsx from 'clsx';
 import { MapPin } from 'lucide-react';
 
-import { Button, ButtonProps } from '~/components/generic/Button';
+import { ButtonProps } from '~/components/generic/Button';
 
-import styles from './InputLocation.module.scss';
+import styles from './LocationButton.module.scss';
 
 export interface LocationButtonProps extends ButtonProps {
   place?: {
-    mapbox_id: string;
     name: string;
-    place_formatted: string;
+    placeFormatted: string;
   }
   placeholder?: string;
 }
@@ -21,16 +20,18 @@ export const LocationButton = forwardRef<HTMLButtonElement, LocationButtonProps>
   placeholder,
   ...props
 }, ref): JSX.Element => (
-  <Button ref={ref} className={clsx(styles.Location, className)} variant="outlined" {...props}>
-    <MapPin className={styles.LocationIcon} />
-    {place && (
-      <>
-        <div className={styles.LocationName}>{place?.name}</div>
-        <div className={styles.LocationAddress}>{place?.place_formatted}</div>
-      </>
-    )}
-    {!place && placeholder && (
-      <div className={styles.LocationPlaceholder}>{placeholder}</div>
-    )}
-  </Button>
+  <button ref={ref} className={clsx(styles.LocationButton, className)} {...props}>
+    <MapPin className={styles.LocationButton_Icon} />
+    <div className={styles.LocationButton_Body}>
+      {place && (
+        <>
+          <div className={styles.LocationButton_Name}>{place?.name}</div>
+          <div className={styles.LocationButton_Place}>{place?.placeFormatted}</div>
+        </>
+      )}
+      {!place && placeholder && (
+        <div className={styles.LocationButton_Placeholder}>{placeholder}</div>
+      )}
+    </div>
+  </button>
 ));

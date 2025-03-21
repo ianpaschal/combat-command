@@ -29,10 +29,10 @@ export const useAddPhotoToMatchResult = (config?: MutationHookConfig) => {
           });
         }
         if (singleConfig?.onSuccess) {
-          singleConfig.onSuccess();
+          singleConfig.onSuccess(file.name);
         }
         if (config?.onSuccess) {
-          config.onSuccess();
+          config.onSuccess(file.name);
         }
       } catch (error) {
         if (singleConfig?.onError) {
