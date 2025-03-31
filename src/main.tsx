@@ -8,6 +8,7 @@ import { registerLocale } from 'i18n-iso-countries';
 import countriesEn from 'i18n-iso-countries/langs/en.json';
 
 import { AuthProvider } from '~/components/AuthProvider';
+import { ThemeProvider } from '~/components/ThemeProvider';
 import { ToastProvider } from '~/components/ToastProvider';
 import { router } from '~/routes';
 
@@ -29,11 +30,13 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ConvexAuthProvider client={convex}>
       <QueryClientProvider client={queryClient}>
-        <ToastProvider>
-          <AuthProvider>
-            <RouterProvider router={router} future={{ v7_startTransition: true }} />
-          </AuthProvider>
-        </ToastProvider>
+        <ThemeProvider>
+          <ToastProvider>
+            <AuthProvider>
+              <RouterProvider router={router} future={{ v7_startTransition: true }} />
+            </AuthProvider>
+          </ToastProvider>
+        </ThemeProvider>
       </QueryClientProvider>
     </ConvexAuthProvider>
   </React.StrictMode>,

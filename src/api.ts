@@ -74,6 +74,11 @@ export {
   type LimitedUser as User,
   type UserId,
 } from '../convex/_model/users';
+export {
+  themeOptions,
+  type ThemePreference,
+  themePreference,
+} from '../convex/static/themes';
 
 // TODO: Move around...
 export type {
