@@ -1,0 +1,68 @@
+@use "/src/style/variables";
+@use "/src/style/flex";
+@use "/src/style/variants";
+@use "/src/style/corners";
+@use "/src/style/sizes";
+@use "/src/style/text";
+@use "/src/style/borders";
+
+.InputCurrency {
+  --input-padding-x: 1rem;
+
+  position: relative;
+  max-width: 16rem;
+  height: 2.5rem;
+
+  &_Inputs {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    background-color: transparent;
+
+    button {
+      flex-shrink: 0;
+      width: min-content;
+      border-radius: 0.375rem 0 0 0.375rem;
+    }
+
+    input {
+      flex: 1 auto;
+
+      min-width: 0;
+      padding: 0 var(--input-padding-x);
+
+      text-align: end;
+
+      background-color: transparent;
+      border: none;
+      border-radius: 0 0.375rem 0.375rem 0;
+    }
+  }
+
+  &_Mask {
+    @include variants.outlined($hover: false);
+    @include sizes.normal;
+    @include corners.normal;
+    @include flex.row($gap: 0);
+    @include text.ui;
+
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    justify-content: end;
+
+    padding: 0 var(--input-padding-x);
+
+    background-color: white;
+
+    span {
+      width: 0.625rem;
+      text-align: center;
+    }
+  }
+
+  &_PadDigit {
+    color: variables.$text-disabled;
+  }
+}

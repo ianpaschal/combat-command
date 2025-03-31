@@ -3,29 +3,30 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import { ArrowLeft } from 'lucide-react';
 
+import { FooterBar } from '~/components/FooterBar';
 import { Button } from '~/components/generic/Button';
 import { ScrollArea } from '~/components/generic/ScrollArea';
-import { bem } from '~/utils/componentLib/bem';
+import { MAX_WIDTH } from '~/settings';
 
-import './PageWrapper.scss';
+import styles from './PageWrapper.module.scss';
 
 export interface PageWrapperProps {
-  appBarPadding?: boolean;
+  footer?: ReactNode;
   children: ReactNode;
   fitToWindow?: boolean;
-  maxWidth?: number | string;
+  maxWidth?: number;
   showBackButton?: boolean;
   title?: string;
+  removeAppBarPadding?: boolean;
 }
 
-const cn = bem('PageWrapper');
-
 export const PageWrapper = ({
-  appBarPadding = true,
+  footer: footerChildren,
   children,
-  fitToWindow = false,
-  maxWidth,
+  fitToWindow = false, // WARNING! Can't be used with footer
+  maxWidth = MAX_WIDTH,
   showBackButton = false,
+  removeAppBarPadding = false,
   title,
 }: PageWrapperProps): JSX.Element => {
   const navigate = useNavigate();
@@ -37,25 +38,36 @@ export const PageWrapper = ({
       navigate(`${pathname.split('/').slice(0, -1).join('/')}`);
     }
   };
+  if (fitToWindow && footerChildren) {
+    console.warn('PageWrapper: fitToWindow can\'t be used with footer!');
+  }
   return (
-    <ScrollArea className={clsx(cn(), { 'PageWrapper-hasAppBar': appBarPadding })}>
-      <div className={cn('Content', { fitToWindow })} style={{ maxWidth }}>
-        {(showBackButton || title) && (
-          <div className={cn('Header')}>
-            {showBackButton && (
-              <Button onClick={handleClickBack} variant="outlined">
-                <ArrowLeft />
-              </Button>
-            )}
-            {title && (
-              <h1>{title}</h1>
-            )}
+    <div className={clsx(styles.PageWrapper, { [styles.AppBarPadding]: !removeAppBarPadding })} data-fitted={fitToWindow}>
+      <ScrollArea className={styles.PageWrapper_ScrollArea}>
+        <div className={styles.PageWrapper_Content} style={{ maxWidth }}>
+          {(showBackButton || title) && (
+            <div className={styles.PageWrapper_Header}>
+              {showBackButton && (
+                <Button onClick={handleClickBack} variant="outlined">
+                  <ArrowLeft />
+                </Button>
+              )}
+              {title && (
+                <h1>{title}</h1>
+              )}
+            </div>
+          )}
+          <div className={styles.PageWrapper_Body}>
+            {children}
+
           </div>
-        )}
-        <div className={cn('Body', { fitToWindow })}>
-          {children}
         </div>
-      </div>
-    </ScrollArea >
+      </ScrollArea>
+      {footerChildren && (
+        <FooterBar maxWidth={maxWidth}>
+          {footerChildren}
+        </FooterBar>
+      )}
+    </div>
   );
 };

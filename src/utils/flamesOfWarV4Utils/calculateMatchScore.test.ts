@@ -1,3 +1,9 @@
+import {
+  describe,
+  expect,
+  it,
+} from 'vitest';
+
 import { MatchResult } from '~/api';
 import { calculateMatchScore } from './calculateMatchScore';
 

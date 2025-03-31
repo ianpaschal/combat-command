@@ -1,0 +1,9 @@
+@use "/src/style/flex";
+
+.CompetitorFields {
+  @include flex.column;
+}
+
+.Stackable {
+  @include flex.stackable;
+}

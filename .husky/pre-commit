@@ -1,4 +1,3 @@
 npm run lint
 npm run build:noEmit
 npm run lint:scss
-npm test

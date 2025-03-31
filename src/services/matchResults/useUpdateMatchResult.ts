@@ -18,7 +18,7 @@ export const useUpdateMatchResult = (config?: MutationHookConfig) => {
           toast.success(config.successMessage);
         }
         if (config?.onSuccess) {
-          config.onSuccess();
+          config.onSuccess(args.id);
         }
       } catch (error) {
         console.error(error);

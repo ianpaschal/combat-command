@@ -1,0 +1,1 @@
+export { TournamentEditPage } from './TournamentEditPage';

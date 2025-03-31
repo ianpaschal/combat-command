@@ -1,0 +1,56 @@
+@use "/src/style/variables";
+@use "/src/style/flex";
+
+$header-height: 2.5rem;
+
+.PageWrapper {
+  @include flex.column($gap: 0);
+
+  flex-grow: 1;
+  min-height: 0;
+
+  &_ScrollArea {
+    position: relative;
+
+    flex: 1 auto;
+
+    max-width: 100vw;
+    min-height: 0;
+
+    background-color: transparent;
+  }
+
+  &_Content {
+    @include flex.column;
+
+    height: inherit;
+    margin: 0 auto;
+    padding: 1rem var(--modal-outer-gutter);
+  }
+
+  &_Header {
+    @include flex.row;
+
+    height: $header-height;
+  }
+
+  &_Body {
+    @include flex.stretchy;
+    @include flex.column;
+  }
+
+  &[data-fitted="true"] {
+    .PageWrapper_Content {
+      position: absolute;
+      inset: 0;
+    }
+
+    .PageWrapper_Body {
+      overflow: hidden;
+    }
+  }
+}
+
+.AppBarPadding {
+  padding-top: variables.$app-bar-height;
+}

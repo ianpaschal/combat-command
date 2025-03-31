@@ -1,0 +1,9 @@
+@use "/src/style/flex";
+
+.GeneralFields {
+  @include flex.column;
+}
+
+.Stackable {
+  @include flex.stackable;
+}

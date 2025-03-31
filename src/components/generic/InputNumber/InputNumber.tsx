@@ -27,7 +27,7 @@ export const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(({
   onChange,
   ...props
 }, ref) => {
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     if (onChange) {
       onChange(safelyConvertStringToNumber(e.target.value));
     }
@@ -38,7 +38,7 @@ export const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(({
         className={clsx('Input', { 'Input-slotAfter': !!slotAfter, 'Input-slotBefore': !!slotBefore })}
         ref={ref}
         {...props}
-        type="number"
+        type="decimal"
         value={safetyConvertNumberToString(value)}
         onChange={handleChange}
       />

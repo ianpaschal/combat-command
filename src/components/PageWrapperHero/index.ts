@@ -1,0 +1,1 @@
+export { PageWrapperHero } from './PageWrapperHero';

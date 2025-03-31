@@ -1,70 +1,77 @@
 import {
   ChangeEvent,
   forwardRef,
-  useEffect,
   useState,
 } from 'react';
 import * as Popover from '@radix-ui/react-popover';
 import { Search, X } from 'lucide-react';
+import tzLookup from 'tz-lookup';
 import { useDebounce } from 'use-debounce';
 
+import { Location } from '~/api';
 import { Button } from '~/components/generic/Button';
 import { InputText } from '~/components/generic/InputText';
-import { useRetrieveLocation } from '~/services/mapbox/useRetrieveLocation';
+import { retrieveLocation } from '~/services/mapbox/useRetrieveLocation';
 import { useSuggestLocation } from '~/services/mapbox/useSuggestLocation';
 import { LocationButton } from './LocationButton';
 
 import styles from './InputLocation.module.scss';
 
-type Location = {
-  lat: number;
-  lon: number;
-  placeId: string;
-};
-
 export interface InputLocationProps {
   value?: Location,
+  hasError?: boolean;
   onChange?: (location?: Location) => void;
 }
 
 export const InputLocation = forwardRef<HTMLButtonElement, InputLocationProps>(({
   value,
   onChange,
+  // hasError = false,
   ...props
 }, ref): JSX.Element => {
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [debouncedSearch] = useDebounce(searchTerm, 500); // Delay by 500ms
-  const [selectedPlaceId, setSelectedPlaceId] = useState<string | undefined>(value?.placeId);
 
   const { data: suggestions } = useSuggestLocation(debouncedSearch);
-  const { data: selectedPlace } = useRetrieveLocation(selectedPlaceId);
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>): void => setSearchTerm(e.target.value);
 
-  const handleSelect = (placeId: string): void => {
-    setSelectedPlaceId(placeId);
+  const handleSelect = async (mapboxPlaceId: string): Promise<void> => {
+    const place = await retrieveLocation(mapboxPlaceId);
+    if (place) {
+      const [lon, lat] = place.geometry.coordinates;
+      if (onChange) {
+        onChange({
+          mapboxId: place.properties.mapbox_id,
+
+          name: place.properties.name,
+          placeFormatted: place.properties.place_formatted,
+
+          // This information could be retrieved later, but putting it in the model makes us backwards
+          // compatible if we eventually look up address info differently, or want to let the user edit it
+          address: place.properties.context.address?.name ?? '',
+          locality: place.properties.context.locality?.name,
+          district: place.properties.context.district?.name,
+          city: place.properties.context.place?.name,
+          postcode: place.properties.context.postcode?.name,
+          region: place.properties.context.region ? { // US state
+            code: place.properties.context.region.region_code.toLowerCase(),
+            name: place.properties.context.region.name,
+          } : undefined,
+          countryCode: place.properties.context.country?.country_code.toLowerCase() ?? '',
+
+          coordinates: { lat, lon },
+          timeZone: tzLookup(lat, lon),
+        });
+      }
+    }
   };
 
   const handleClear = (): void => {
-    setSelectedPlaceId(undefined);
     if (onChange) {
       onChange(undefined);
     }
   };
-
-  useEffect(() => {
-    if (value && value.placeId !== selectedPlaceId) {
-      setSelectedPlaceId(selectedPlaceId);
-    }
-  }, [selectedPlaceId, setSelectedPlaceId, value]);
-
-  useEffect(() => {
-    if (selectedPlace && onChange) {
-      const placeId = selectedPlace.properties.mapbox_id;
-      const [lat, lon] = selectedPlace.geometry.coordinates;
-      onChange({ placeId, lat, lon });
-    }
-  }, [selectedPlace, onChange]);
 
   return (
     <div className={styles.Root}>
@@ -72,7 +79,7 @@ export const InputLocation = forwardRef<HTMLButtonElement, InputLocationProps>((
         <Popover.Trigger asChild>
           <LocationButton
             ref={ref}
-            place={selectedPlace?.properties}
+            place={value}
             placeholder="Search..."
             {...props}
           />
@@ -86,13 +93,16 @@ export const InputLocation = forwardRef<HTMLButtonElement, InputLocationProps>((
             />
             {(suggestions || []).map((location) => (
               <Popover.Close key={location.mapbox_id} asChild>
-                <LocationButton place={location} onClick={() => handleSelect(location.mapbox_id)} />
+                <LocationButton place={{
+                  name: location.name,
+                  placeFormatted: location.place_formatted,
+                }} onClick={() => handleSelect(location.mapbox_id)} />
               </Popover.Close>
             ))}
           </Popover.Content>
         </Popover.Portal>
       </Popover.Root>
-      {selectedPlaceId && (
+      {value && (
         <Button
           onClick={handleClear}
           variant="ghost"

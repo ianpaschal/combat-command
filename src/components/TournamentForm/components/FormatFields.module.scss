@@ -1,0 +1,140 @@
+@use "/src/style/flex";
+@use "/src/style/corners";
+@use "/src/style/text";
+@use "/src/style/borders";
+@use "/src/style/variables";
+@use "/src/style/shadows";
+
+@import "@radix-ui/colors/crimson.css";
+@import "@radix-ui/colors/plum.css";
+@import "@radix-ui/colors/iris.css";
+
+.FormatFields {
+  @include flex.column;
+
+  &_RoundsSection {
+    @include flex.column;
+  }
+
+  &_RoundsOverview {
+    @include flex.column;
+  }
+
+  &_RoundStructureFields {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 0.5rem;
+  }
+
+  &_RoundStructureDisplay {
+    @include flex.column($gap: 0.5rem);
+
+    margin-bottom: 1rem;
+
+    &_PairingTime {
+      @include corners.tight;
+      @include shadows.surface-shadow;
+
+      background-color: var(--crimson-9);
+    }
+
+    &_SetUpTime {
+      @include corners.tight;
+      @include shadows.surface-shadow;
+
+      background-color: var(--plum-9);
+    }
+
+    &_PlayingTime {
+      @include corners.tight;
+      @include shadows.surface-shadow;
+
+      background-color: var(--iris-9);
+    }
+  }
+
+  &_RoundStructureBar {
+    overflow: hidden;
+    display: flex;
+    gap: var(--border-width);
+    height: 1.5rem;
+  }
+
+  &_RoundStructureLegend {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+
+  &_RoundStructureLegendItem {
+    @include flex.row($gap: 0.5rem);
+    @include text.small($muted: true);
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-wrap: nowrap;
+
+    span {
+      @include shadows.surface-shadow;
+
+      display: block;
+      aspect-ratio: 1;
+      height: var(--line-height-small);
+      border-radius: 100%;
+    }
+  }
+
+  &_PairingSection {
+    @include flex.column;
+  }
+
+  &_PairingMethod {
+    @include flex.column;
+
+    p {
+      @include text.small($muted: true);
+
+      font-weight: 300;
+    }
+  }
+
+  &_RankingFactors {
+    @include flex.column($gap: 0.5rem);
+  }
+
+  &_RankingFactorSelector {
+    @include flex.row($gap: 0.5rem);
+
+    &_Index {
+      @include text.ui($muted: true);
+
+      width: 1rem;
+      text-align: center;
+    }
+  }
+}
+
+@media (width >= 480px) {
+  .FormatFields_RoundStructureFields {
+    @include flex.column;
+  }
+
+  .FormatFields_RoundStructureLegend {
+    @include flex.column($gap: 0.5rem);
+  }
+
+  .FormatFields_RoundsSection {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+}
+
+@media (width >= 688px) {
+  .FormatFields_PairingSection {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+}

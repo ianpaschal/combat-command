@@ -1,0 +1,13 @@
+@use "/src/style/variables";
+@use "/src/style/flex";
+@use "/src/style/text";
+@use "/src/style/corners";
+@use "/src/style/shadows";
+@use "/src/style/borders";
+@use "/src/style/backgrounds";
+
+.TournamentInfoCard {
+  &_InfoBlock {
+    padding: 1rem var(--container-padding-x);
+  }
+}

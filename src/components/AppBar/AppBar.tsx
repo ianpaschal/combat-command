@@ -10,7 +10,11 @@ import { Button } from '~/components/generic/Button';
 import { Drawer } from '~/components/generic/Drawer';
 import { NavLinks } from '~/components/generic/NavLinks';
 import { getVisibleAppRoutes, mainRoutes } from '~/routes';
-import { MIN_WIDTH_TABLET, PATHS } from '~/settings';
+import {
+  MAX_WIDTH,
+  MIN_WIDTH_TABLET,
+  PATHS,
+} from '~/settings';
 
 import styles from './AppBar.module.scss';
 
@@ -19,7 +23,7 @@ export interface AppBarProps {
 }
 
 export const AppBar = ({
-  maxWidth,
+  maxWidth = MAX_WIDTH,
 }: AppBarProps): JSX.Element => {
   const user = useAuth();
   const width = useWindowWidth();

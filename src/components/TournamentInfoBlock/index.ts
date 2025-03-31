@@ -1,0 +1,1 @@
+export { TournamentInfoBlock } from './TournamentInfoBlock';

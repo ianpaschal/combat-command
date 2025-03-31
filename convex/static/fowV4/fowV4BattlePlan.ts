@@ -4,7 +4,7 @@ export const battlePlans = [
   'attack',
   'maneuver',
   'defend',
-];
+] as const;
 
 export const fowV4BattlePlan = v.union(...battlePlans.map(v.literal));
 

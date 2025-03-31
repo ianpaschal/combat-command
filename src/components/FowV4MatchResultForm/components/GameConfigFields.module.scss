@@ -6,11 +6,17 @@
 }
 
 .CoreConfig {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
-  gap: 1rem;
+  @include flex.stackable;
 }
 
 .AdvancedOptions {
+  @include flex.column;
+}
+
+.Missions {
+  @include flex.stackable;
+}
+
+.Rules {
   @include flex.column;
 }

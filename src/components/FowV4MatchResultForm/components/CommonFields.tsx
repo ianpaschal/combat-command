@@ -2,8 +2,8 @@ import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { FormField } from '~/components/generic/Form';
-import { InputNumber } from '~/components/generic/InputNumber';
 import { InputSelect } from '~/components/generic/InputSelect';
+import { InputText } from '~/components/generic/InputText';
 import {
   computeAttacker,
   computeFirstTurn,
@@ -72,7 +72,7 @@ export const CommonFields = (): JSX.Element => {
       </FormField>
       <div className={styles.OutcomeSection}>
         <FormField name="details.turnsPlayed" label="Rounds" >
-          <InputNumber min={0} />
+          <InputText type="number" />
         </FormField>
         <FormField name="details.outcomeType" label="Outcome Type">
           <InputSelect options={outcomeTypeOptions} />

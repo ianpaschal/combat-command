@@ -31,6 +31,10 @@ $thumb-offset: calc($switch-width - ($thumb-inset + $thumb-size));
     @include variants.solid;
   }
 
+  &-disabled {
+    opacity: 0.4; // TODO: THIS IS SUPER HACKY
+  }
+
   &_Thumb {
     @include shadows.surface-shadow;
 

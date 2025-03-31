@@ -1,0 +1,51 @@
+@use "/src/style/variants";
+@use "/src/style/variables";
+@use "/src/style/corners";
+@use "/src/style/text";
+@use "/src/style/flex";
+
+.LocationButton {
+  --min-height: 2.5rem;
+  --icon-size: 1rem;
+
+  @include variants.outlined;
+  @include corners.normal;
+  @include flex.row($yAlign: top, $gap: 0);
+
+  width: 100%;
+  min-height: var(--min-height);
+
+  &_Icon {
+    @include flex.centered;
+
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: calc(((var(--min-height) - var(--icon-size)) / 2) - var(--border-width));
+
+    svg {
+      width: var(--icon-size);
+      height: var(--icon-size);
+    }
+  }
+
+  &_Body {
+    --padding-y: calc(((var(--min-height) - var(--line-height-normal)) / 2) - var(--border-width));
+
+    padding: var(--padding-y) 1rem var(--padding-y) 0;
+    text-align: left;
+
+    @include flex.column($gap: 0.25rem);
+  }
+
+  &_Name {
+    @include text.ui;
+  }
+
+  &_Place {
+    @include text.ui($muted: true);
+  }
+
+  &_Placeholder {
+    @include text.ui($muted: true);
+  }
+}

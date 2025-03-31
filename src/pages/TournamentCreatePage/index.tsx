@@ -1,0 +1,1 @@
+export { TournamentCreatePage } from './TournamentCreatePage';

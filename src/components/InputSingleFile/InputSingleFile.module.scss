@@ -1,0 +1,71 @@
+@use "sass:color";
+@use "/src/style/text";
+@use "/src/style/variables";
+@use "/src/style/flex";
+@use "/src/style/corners";
+@use "/src/style/borders";
+@use "/src/style/variants";
+@use "/src/style/shadows";
+
+.InputSingleFile {
+  --height: 8rem;
+  --image-height: calc(var(--height) - (2 * var(--border-width)));
+
+  position: relative;
+
+  overflow: hidden;
+  display: flex;
+  flex: 1 0 auto;
+  gap: 0.5rem;
+
+  width: 100%;
+  height: var(--height);
+
+  &_Dropzone {
+    @include flex.centered($gap: 0.5rem);
+    @include variants.outlined;
+    @include corners.normal;
+    @include text.small($muted: true);
+
+    position: relative;
+    width: 100%;
+    padding: 0 1.5rem;
+    text-align: center;
+  }
+
+  &_Preview {
+    @include flex.centered;
+    @include corners.normal;
+    @include borders.normal;
+
+    position: relative;
+
+    overflow: hidden;
+    flex: 0 auto;
+
+    min-width: var(--image-height);
+    max-width: var(--image-height);
+    height: var(--image-height);
+
+    background-image:
+      linear-gradient(45deg, #ccc 25%, transparent 25%),
+      linear-gradient(135deg, #ccc 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #ccc 75%),
+      linear-gradient(135deg, transparent 75%, #ccc 75%);
+    background-position: 0 0, 0.5rem 0, 0.5rem -0.5rem, 0 0.5rem; /* Must be half of one side of the square */
+    background-size: 1rem 1rem; /* Must be a square */
+
+    img {
+      display: block;
+      max-width: var(--image-height);
+      max-height: var(--image-height);
+      object-fit: contain;
+    }
+  }
+
+  &_ClearButton {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+}

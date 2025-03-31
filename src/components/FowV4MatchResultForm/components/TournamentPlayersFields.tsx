@@ -8,8 +8,8 @@ import {
   TournamentPairingId,
 } from '~/api';
 import { FormField } from '~/components/generic/Form';
-import { InputNumber } from '~/components/generic/InputNumber';
 import { InputSelect } from '~/components/generic/InputSelect';
+import { InputText } from '~/components/generic/InputText';
 import { Separator } from '~/components/generic/Separator';
 import { getCompetitorPlayerOptions } from './TournamentPlayersFields.utils';
 
@@ -26,7 +26,7 @@ export const TournamentPlayersFields = ({
   const { player0UserId, player1UserId } = watch();
 
   // TODO: Handle loading state...
-  const selectedPairing = useQuery(api.tournamentPairings.fetchTournamentPairing.fetchTournamentPairing, { id: tournamentPairingId });
+  const selectedPairing = useQuery(api.tournamentPairings.getTournamentPairing, { id: tournamentPairingId });
 
   // Automatically set "Player 1" if possible
   const player0Options = useMemo(() => (
@@ -58,7 +58,7 @@ export const TournamentPlayersFields = ({
           <InputSelect options={fowV4BattlePlanOptions} />
         </FormField>
         <FormField name="details.player0UnitsLost" label="Units Lost">
-          <InputNumber min={0} />
+          <InputText type="number" />
         </FormField>
       </div>
       <Separator orientation="vertical" />
@@ -70,7 +70,7 @@ export const TournamentPlayersFields = ({
           <InputSelect options={fowV4BattlePlanOptions} />
         </FormField>
         <FormField name="details.player1UnitsLost" label="Units Lost">
-          <InputNumber min={0} />
+          <InputText type="number" />
         </FormField>
       </div>
     </div>

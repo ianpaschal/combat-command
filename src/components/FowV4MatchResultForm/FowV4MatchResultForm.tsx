@@ -64,7 +64,11 @@ export const FowV4MatchResultForm = ({
 
   // }, [tournamentPairingId, reset]);
 
-  const onSubmit: SubmitHandler<FowV4MatchResultFormData> = (data: FowV4MatchResultFormData): void => {
+  const onSubmit: SubmitHandler<FowV4MatchResultFormData> = (formData): void => {
+    const { data } = fowV4MatchResultFormSchema.safeParse(formData);
+    if (!data) {
+      throw new Error('Failed to parse form schema!');
+    }
     const playedAt = new Date().toISOString();
     if (tournamentPairingId === 'single') {
       if (matchResult) {

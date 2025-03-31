@@ -25,7 +25,6 @@
 .Content {
   @include corners.normal;
   @include flex.column($gap: 0);
-  @include flex.stretchy;
 
   pointer-events: none;
   position: relative;

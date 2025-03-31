@@ -32,3 +32,11 @@ export const gameSystemOptions = gameSystems.map((gameSystem) => ({
 export const gameSystemId = v.union(...gameSystems.map(({ id }) => v.literal(id)));
 
 export type GameSystemId = Infer<typeof gameSystemId>;
+
+export const getGameSystemDisplayName = (id: GameSystemId): string => {
+  const system = gameSystems.find((gameSystem) => gameSystem.id === id);
+  if (system) {
+    return system.displayName;
+  }
+  return 'Unknown Game System';
+};

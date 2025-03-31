@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 export const resetPasswordFormSchema = z.object({
   code: z.string().min(1).max(8),
+  email: z.string().email(),
   newPassword: z.string().min(8, 'Password must be at least 8 characters.'),
   newPasswordRepeat: z.string(),
 }).superRefine((values, ctx) => {
@@ -18,6 +19,7 @@ export type ResetPasswordFormData = z.infer<typeof resetPasswordFormSchema>;
 
 export const defaultValues = {
   code: '',
+  email: '',
   newPassword: '',
   newPasswordRepeat: '',
 };

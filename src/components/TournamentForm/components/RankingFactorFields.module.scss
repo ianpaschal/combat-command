@@ -1,0 +1,25 @@
+@use "/src/style/flex";
+@use "/src/style/corners";
+@use "/src/style/text";
+@use "/src/style/borders";
+@use "/src/style/variables";
+@use "/src/style/shadows";
+
+@import "@radix-ui/colors/crimson.css";
+@import "@radix-ui/colors/plum.css";
+@import "@radix-ui/colors/iris.css";
+
+.RankingFactorFields {
+  @include flex.column($gap: 0.5rem);
+
+  &_Selector {
+    display: grid;
+    grid-template-columns: 1rem 1fr 2.5rem;
+    gap: 0.5rem;
+
+    &_Index {
+      @include flex.centered;
+      @include text.ui($muted: true);
+    }
+  }
+}

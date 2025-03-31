@@ -1,5 +1,5 @@
 export type MutationHookConfig = {
-  onSuccess?: () => void;
+  onSuccess?: (id: string) => void;
   onError?: (error: unknown) => void;
   successMessage?: string;
 };

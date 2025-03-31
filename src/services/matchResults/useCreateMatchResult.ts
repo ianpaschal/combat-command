@@ -13,12 +13,12 @@ export const useCreateMatchResult = (config?: MutationHookConfig) => {
     createMatchResult: async (args: typeof mutation._args) => {
       setIsLoading(true);
       try {
-        await handler(args);
+        const id = await handler(args);
         if (config?.successMessage) {
           toast.success(config.successMessage);
         }
         if (config?.onSuccess) {
-          config.onSuccess();
+          config.onSuccess(id);
         }
       } catch (error) {
         console.error(error);

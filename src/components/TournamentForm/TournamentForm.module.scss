@@ -1,0 +1,17 @@
+@use "/src/style/animate";
+@use "/src/style/flex";
+
+@use "/src/style/shadows";
+@use "/src/style/variables";
+@use "/src/style/variants";
+
+.TournamentForm {
+  @include flex.column;
+  @include flex.stretchy;
+
+  &_SectionCard {
+    @include flex.column;
+
+    padding: var(--container-padding-x) var(--container-padding-y);
+  }
+}

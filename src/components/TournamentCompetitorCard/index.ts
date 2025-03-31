@@ -1,0 +1,1 @@
+export { TournamentCompetitorCard } from './TournamentCompetitorCard';

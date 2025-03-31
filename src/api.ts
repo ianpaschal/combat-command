@@ -34,13 +34,24 @@ export type MatchResultId = Id<'matchResults'>;
 export type PhotoId = Id<'photos'>;
 
 // Tournament Competitors
-export type FetchTournamentCompetitorResponse = typeof api.tournamentCompetitors.fetchTournamentCompetitor.fetchTournamentCompetitor._returnType;
+export type FetchTournamentCompetitorListResponse = typeof api.tournamentCompetitors.getTournamentCompetitorList._returnType;
+export type FetchTournamentCompetitorListResponseItem = FetchTournamentCompetitorListResponse[number];
+export type FetchTournamentCompetitorResponse = typeof api.tournamentCompetitors.getTournamentCompetitor._returnType;
+export type TournamentCompetitor = FetchTournamentCompetitorListResponseItem;
+export type TournamentCompetitorId = Id<'tournamentCompetitors'>;
 
 // Tournament Pairings
 export type TournamentPairingId = Id<'tournamentPairings'>;
 
 // Tournaments
+export type CreateTournamentArgs = typeof api.tournaments.createTournament._args;
+export type FetchTournamentListResponse = typeof api.tournaments.getTournamentList._returnType;
+export type FetchTournamentListResponseItem = FetchTournamentListResponse[number];
+export type FetchTournamentResponse = typeof api.tournaments.getTournament._returnType;
+export type Tournament = FetchTournamentListResponseItem;
 export type TournamentId = Id<'tournaments'>;
+
+export type Location = Tournament['location'];
 
 // Users
 export type User = Doc<'users'> & {
@@ -51,7 +62,21 @@ export type UpdateUserInput = typeof api.users.updateUser.updateUser._args;
 export type UpdateUserResponse = typeof api.users.updateUser.updateUser._returnType;
 
 // Static Data & Interfaces (Common)
-export type { GameSystemId } from '../convex/static/gameSystems';
+export {
+  type CurrencyCode,
+  currencyCodeOptions,
+} from '../convex/static/currencyCodes';
+export {
+  type GameSystemId,
+  gameSystemOptions,
+  gameSystems,
+  getGameSystemDisplayName,
+} from '../convex/static/gameSystems';
+export {
+  type TournamentPairingMethod,
+  tournamentPairingMethodDisplayNames,
+  tournamentPairingMethodOptions,
+} from '../convex/static/tournamentPairingMethods';
 
 // Static Data & Interfaces (Flames of War 4th Edition)
 
@@ -93,6 +118,12 @@ export {
 export type { FowV4MatchOutcomeType } from '../convex/common/fowV4/fowV4MatchOutcomeType';
 export { fowV4MatchOutcomeTypeValues } from '../convex/common/fowV4/fowV4MatchOutcomeType';
 
+// Ranking Factors
+export {
+  type FowV4RankingFactor,
+  fowV4RankingFactorOptions,
+} from '../convex/static/fowV4/fowV4RankingFactors';
+
 // Missions
 export { getMission } from '../convex/common/fowV4/getMission';
 export type { FowV4MissionId } from '../convex/static/fowV4/missionPacks';
@@ -106,4 +137,8 @@ export type { FowV4MissionPack } from '../convex/static/fowV4/missionPacks.types
 
 // Mission Matrixes
 export type { FowV4MissionMatrixId } from '../convex/static/fowV4/missionPacks';
+export {
+  getFowV4MissionMatrixesByMissionPackId,
+  getFowV4MissionMatrixOptionsByMissionPackId,
+} from '../convex/static/fowV4/missionPacks';
 export type { FowV4MissionMatrix } from '../convex/static/fowV4/missionPacks.types';
