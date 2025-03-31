@@ -5,7 +5,7 @@
 
 $scrollbar-size: 1rem;
 $scrollbar-padding: 0.25rem;
-$indicator-gradient-start-color: var(--black-a3);
+$indicator-gradient-start-color: var(--black-a1);
 $indicator-gradient-end-color: rgb(0 0 0 / 0%);
 
 .ScrollArea {
@@ -112,7 +112,7 @@ $indicator-gradient-end-color: rgb(0 0 0 / 0%);
     flex: 1;
 
     opacity: 0.25;
-    background: variables.$text-base;
+    background: var(--text-color-default);
     border-radius: calc(($scrollbar-size - (2 * $scrollbar-padding)) / 2);
 
     /* increase target size for touch devices https://www.w3.org/WAI/WCAG21/Understanding/target-size.html */

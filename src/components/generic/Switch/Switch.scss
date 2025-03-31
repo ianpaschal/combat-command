@@ -26,7 +26,6 @@ $thumb-offset: calc($switch-width - ($thumb-inset + $thumb-size));
   //   box-shadow: 0 0 0 2px blue;
   // }
   &[data-state="checked"] {
-    // background-color: variables.$text-base;
     @include variants.primary;
   }
 

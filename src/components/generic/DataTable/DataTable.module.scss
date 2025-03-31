@@ -87,7 +87,7 @@ $row-height: 3rem;
 .IndexCell {
   @include flex.centered;
 
-  color: variables.$text-muted;
+  color: var(--text-color-muted);
 }
 
 .CountryCell {

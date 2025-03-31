@@ -54,7 +54,7 @@
 }
 
 // .Item[data-disabled] {
-//   color: variables.$text-disabled;
+//   color: var(--text-color-disabled);
 
 //   // pointer-events: none;
 // }

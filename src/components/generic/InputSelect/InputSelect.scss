@@ -81,7 +81,7 @@
 }
 
 .SelectItem[data-disabled] {
-  color: variables.$text-disabled;
+  color: var(--text-color-disabled);
 
   // pointer-events: none;
 }
@@ -101,7 +101,7 @@
 
   font-size: var(--font-size-small);
   line-height: 1.5rem;
-  color: variables.$text-muted;
+  color: var(--text-color-muted);
 }
 
 .SelectSeparator {

@@ -25,7 +25,7 @@
 
 .Text {
   font-size: 0.75rem;
-  color: variables.$text-disabled;
+  color: var(--text-color-disabled);
   text-transform: uppercase;
 }
 

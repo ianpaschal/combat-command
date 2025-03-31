@@ -55,7 +55,7 @@ h3 {
 p,
 li {
   font-weight: 300;
-  color: variables.$text-muted;
+  color: var(--text-color-muted);
 }
 
 a {

@@ -19,7 +19,7 @@
 .Overlay {
   @include utils.modal-overlay;
 
-  background-color: variables.$modal-overlay-bg-color;
+  background-color: var(--modal-overlay-color);
 }
 
 .Content {

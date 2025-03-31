@@ -66,6 +66,6 @@
 
 input::placeholder,
 textarea::placeholder {
-  color: variables.$text-muted;
+  color: var(--text-color-muted);
   opacity: 1;
 }
