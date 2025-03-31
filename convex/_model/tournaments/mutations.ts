@@ -47,10 +47,14 @@ export const updateTournament = async (
     if (args.competitorSize !== tournament.competitorSize) {
       // TODO: Throw
     }
+    if (args.maxCompetitors !== tournament.maxCompetitors) {
+      // TODO: Throw
+    }
     if (args.useNationalTeams !== tournament.useNationalTeams) {
       // TODO: Throw
     }
   }
+  // TODO: Add checks for active tournament and ranking factors
 
   return await ctx.db.patch(id, {
     ...args,

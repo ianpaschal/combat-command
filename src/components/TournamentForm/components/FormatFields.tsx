@@ -8,19 +8,25 @@ import { InputText } from '~/components/generic/InputText';
 import { Label } from '~/components/generic/Label';
 import { Separator } from '~/components/generic/Separator';
 import { RankingFactorFields } from '~/components/TournamentForm/components/RankingFactorFields';
+import { TournamentFormData } from '~/components/TournamentForm/TournamentForm.schema';
 import { TournamentRoundStructure } from '~/components/TournamentRoundStructure';
 
 import styles from './FormatFields.module.scss';
 
 export const FormatFields = (): JSX.Element => {
-  const { watch } = useFormContext();
-  const { roundStructure, competitorSize } = watch();
+  const { watch } = useFormContext<TournamentFormData>();
+  const { roundStructure, competitorSize, status } = watch();
   const isTeam = competitorSize > 1;
+
+  // Once a tournament is active, lock some fields
+  const allowedEditStatuses = ['draft', 'published'];
+  const disableFields = !allowedEditStatuses.includes(status);
+
   return (
     <div className={styles.FormatFields}>
       <div className={styles.FormatFields_RoundsSection}>
         <div className={styles.FormatFields_RoundsOverview}>
-          <FormField name="roundCount" label="Rounds">
+          <FormField name="roundCount" label="Rounds" disabled={disableFields}>
             <InputText type="number" />
           </FormField>
           <TournamentRoundStructure structure={{
@@ -45,7 +51,7 @@ export const FormatFields = (): JSX.Element => {
       <Separator />
       <div className={styles.FormatFields_PairingSection}>
         <div className={styles.FormatFields_PairingMethod}>
-          <FormField name="pairingMethod" label="Pairing Method">
+          <FormField name="pairingMethod" label="Pairing Method" disabled={disableFields}>
             <InputSelect options={tournamentPairingMethodOptions} />
           </FormField>
           <p>Combat Command uses a system of progressive tie breakers. Competitors are ranked according to the first ranking factor. If they are tied, the next ranking factor is compared until the tie is broken.</p>

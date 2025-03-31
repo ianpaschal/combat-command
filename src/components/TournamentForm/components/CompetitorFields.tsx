@@ -8,6 +8,7 @@ import { InputDateTime } from '~/components/generic/InputDateTime';
 import { InputText } from '~/components/generic/InputText';
 import { Separator } from '~/components/generic/Separator';
 import { Switch } from '~/components/generic/Switch';
+import { TournamentFormData } from '~/components/TournamentForm/TournamentForm.schema';
 
 import styles from './CompetitorFields.module.scss';
 
@@ -18,7 +19,7 @@ export interface CompetitorFieldsProps {
 export const CompetitorFields = ({
   className,
 }: CompetitorFieldsProps): JSX.Element => {
-  const { reset, watch } = useFormContext();
+  const { reset, watch } = useFormContext<TournamentFormData>();
   const { maxCompetitors, competitorSize, status } = watch();
 
   // TODO: Implement later
@@ -66,7 +67,8 @@ export const CompetitorFields = ({
   };
 
   // Once a tournament is published, lock some fields
-  const disableFields = status !== 'draft';
+  const allowedEditStatuses = ['draft'];
+  const disableFields = !allowedEditStatuses.includes(status);
 
   return (
     <div className={clsx(styles.CompetitorFields, className)}>

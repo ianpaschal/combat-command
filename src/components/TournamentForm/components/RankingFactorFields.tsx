@@ -12,7 +12,7 @@ const isValidFactor = (factor: string | number | undefined): factor is FowV4Rank
 
 export const RankingFactorFields = () => {
   const { watch, setValue } = useFormContext<TournamentFormData>();
-  const rankingFactors = watch('rankingFactors');
+  const { rankingFactors, status } = watch();
 
   // TODO: Get different options depending on game system
   const options = fowV4RankingFactorOptions;
@@ -34,6 +34,10 @@ export const RankingFactorFields = () => {
     ]);
   };
 
+  // Once a tournament is active, lock some fields
+  const allowedEditStatuses = ['draft', 'published'];
+  const disableFields = !allowedEditStatuses.includes(status);
+
   return (
     <div className={styles.RankingFactorFields}>
       {[...rankingFactors, ''].map((factor, i) => (
@@ -45,9 +49,10 @@ export const RankingFactorFields = () => {
             options={options}
             value={factor}
             onChange={(value) => handleChange(i, value)}
+            disabled={disableFields}
           />
           {rankingFactors.length > 1 && (
-            <Button variant="ghost" onClick={(e) => {
+            <Button variant="ghost" disabled={disableFields} onClick={(e) => {
               e.preventDefault();
               handleRemove(i);
             }}>
