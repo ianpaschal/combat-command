@@ -18,9 +18,9 @@ export const TournamentRoundStructure = ({
   className,
   structure,
 }: TournamentRoundStructureProps): JSX.Element => {
-  let totalRoundTime = structure.setUpTime + structure.playingTime;
+  let totalRoundTime = +structure.setUpTime + +structure.playingTime;
   if (structure.pairingTime) {
-    totalRoundTime += structure.pairingTime ?? 0;
+    totalRoundTime += +structure.pairingTime;
   }
   const hours = Math.floor(totalRoundTime / 60);
   const minutes = totalRoundTime % 60;
