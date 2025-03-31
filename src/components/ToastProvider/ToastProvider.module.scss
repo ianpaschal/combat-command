@@ -27,7 +27,7 @@
   --icon-size: 1.25rem;
 
   @include corners.wide;
-  @include variants.outlined($hover: false);
+  @include variants.card;
   @include text.small;
 
   display: flex;

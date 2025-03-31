@@ -11,7 +11,7 @@
 }
 
 .FilterPopover {
-  @include variants.outlined($hover: false);
+  @include variants.card;
   @include shadows.shadow;
   @include animate.duration-quick;
   @include animate.style-pop;

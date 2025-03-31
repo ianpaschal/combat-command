@@ -19,7 +19,7 @@
   @include animate.duration-quick;
   @include corners.normal;
   @include shadows.shadow;
-  @include variants.outlined($hover: false);
+  @include variants.card;
 
   margin: 0.25rem 0;
   padding: 0.25rem;

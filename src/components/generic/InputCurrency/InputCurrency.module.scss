@@ -40,7 +40,7 @@
   }
 
   &_Mask {
-    @include variants.outlined($hover: false);
+    @include borders.normal;
     @include sizes.normal;
     @include corners.normal;
     @include flex.row($gap: 0);

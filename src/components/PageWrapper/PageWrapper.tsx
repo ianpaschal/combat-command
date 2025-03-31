@@ -59,7 +59,6 @@ export const PageWrapper = ({
           )}
           <div className={styles.PageWrapper_Body}>
             {children}
-
           </div>
         </div>
       </ScrollArea>

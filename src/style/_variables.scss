@@ -1,5 +1,10 @@
 @use "sass:color";
 
+@use "@radix-ui/colors/gray.css";
+@use "@radix-ui/colors/tomato.css";
+@use "@radix-ui/colors/gray-alpha.css";
+@use "@radix-ui/colors/tomato-alpha.css";
+
 :root {
   --modal-inner-gutter: 1rem;
   --modal-outer-gutter: 0.5rem;
@@ -11,6 +16,73 @@
   --container-padding-x: calc(var(--modal-inner-gutter) - var(--border-width));
   --container-padding-y: calc(var(--modal-inner-gutter) - var(--border-width));
   --button-padding-x: 0.5rem;
+
+  // New Color Scheme
+
+  // GENERAL
+  --border-color: var(--gray-a4);
+  --text: var(--gray-12);
+  --text-muted: var(--gray-11);
+  --text-disabled: var(--gray-7);
+  --text-error: var(--tomato-9);
+  --card-bg: var(--gray-1);
+  --page-bg: var(--gray-2);
+
+  // VARIANTS
+
+  // Primary - Default
+  --primary-default-bg-active: var(--gray-10);
+  --primary-default-bg-hover: var(--gray-11);
+  --primary-default-bg: var(--gray-12);
+  --primary-default-text: var(--gray-1);
+
+  // Primary - Danger
+  --primary-danger-bg-active: var(--tomato-11);
+  --primary-danger-bg-hover: var(--tomato-10);
+  --primary-danger-bg: var(--tomato-9);
+  --primary-danger-text: var(--tomato-1);
+
+  // Secondary - Default
+  --secondary-default-bg-active: var(--gray-5);
+  --secondary-default-bg-hover: var(--gray-4);
+  --secondary-default-bg: var(--gray-3);
+  --secondary-default-text: var(--gray-11);
+
+  // Secondary - Danger
+  --secondary-danger-bg-active: var(--tomato-5);
+  --secondary-danger-bg-hover: var(--tomato-4);
+  --secondary-danger-bg: var(--tomato-3);
+  --secondary-danger-text: var(--tomato-11);
+
+  // Outlined - Default
+  --outlined-default-bg-active: var(--gray-a3);
+  --outlined-default-bg-hover: var(--gray-a2);
+  --outlined-default-bg: var(--card-bg);
+  --outlined-default-border-active: var(--gray-6);
+  --outlined-default-border-hover: var(--gray-5);
+  --outlined-default-border: var(--gray-4);
+  --outlined-default-text: var(--gray-11);
+
+  // Outlined - Danger
+  --outlined-danger-bg-active: var(--tomato-a3);
+  --outlined-danger-bg-hover: var(--tomato-a2);
+  --outlined-danger-bg: var(--card-bg);
+  --outlined-danger-border-active: var(--tomato-8);
+  --outlined-danger-border-hover: var(--tomato-7);
+  --outlined-danger-border: var(--tomato-6);
+  --outlined-danger-text: var(--tomato-11);
+
+  // Ghost - Default
+  --ghost-default-bg-active: var(--gray-a4);
+  --ghost-default-bg-hover: var(--gray-a3);
+  --ghost-default-bg: transparent;
+  --ghost-default-text: var(--gray-11);
+
+  // Ghost - Danger
+  --ghost-danger-bg-active: var(--tomato-a4);
+  --ghost-danger-bg-hover: var(--tomato-a3);
+  --ghost-danger-bg: transparent;
+  --ghost-danger-text: var(--tomato-11);
 }
 
 @media (width >= 688px) {

@@ -75,7 +75,7 @@ export const TournamentRosterCard = ({
   const getPrimaryButton = (): JSX.Element | undefined => {
     if (userIsPlayer) {
       return (
-        <Button muted>
+        <Button variant="secondary">
           <UserMinus />Leave
         </Button>
       );

@@ -29,7 +29,7 @@ $row-height: 3rem;
 .PopoverContent {
   @include shadows.shadow;
   @include animate.duration-quick;
-  @include variants.outlined($hover: false);
+  @include variants.card;
 
   margin: 0.25rem 0;
   padding: 1rem;

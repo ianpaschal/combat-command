@@ -19,10 +19,6 @@
   padding: 0 1rem;
 }
 
-.TriggerDisabled {
-  @include variants.outlined-disabled;
-}
-
 .TriggerHasError {
   border-color: variables.$red;
 }
@@ -87,7 +83,7 @@
 }
 
 .Item[data-state="checked"] {
-  @include variants.solid;
+  @include variants.primary;
 }
 
 .ItemIndicator {

@@ -19,10 +19,6 @@
   padding: 0 0.75rem 0 1rem;
   text-wrap: nowrap;
 
-  &--disabled {
-    @include variants.outlined-disabled;
-  }
-
   &--hasError {
     border-color: variables.$red;
   }
@@ -69,6 +65,7 @@
 }
 
 .SelectItem {
+  @include variants.ghost;
   @include text.ui;
 
   position: relative;
@@ -94,7 +91,7 @@
 }
 
 .SelectItem[data-state="checked"] {
-  @include variants.solid;
+  @include variants.primary;
 }
 
 .SelectGroupLabel {

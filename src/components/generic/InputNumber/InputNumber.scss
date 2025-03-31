@@ -5,7 +5,7 @@
 @use "/src/style/sizes";
 
 .Input {
-  @include variants.outlined($hover: false);
+  @include variants.outlined;
   @include sizes.normal;
   @include corners.normal;
   @include flex.row;

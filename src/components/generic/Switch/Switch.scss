@@ -10,7 +10,7 @@ $thumb-size: calc($switch-height - (2 * $thumb-inset));
 $thumb-offset: calc($switch-width - ($thumb-inset + $thumb-size));
 
 .Switch {
-  @include variants.solid-muted;
+  @include variants.secondary;
 
   position: relative;
 
@@ -28,7 +28,7 @@ $thumb-offset: calc($switch-width - ($thumb-inset + $thumb-size));
   // }
   &[data-state="checked"] {
     // background-color: variables.$text-base;
-    @include variants.solid;
+    @include variants.primary;
   }
 
   &-disabled {

@@ -53,7 +53,7 @@ export const TournamentCreateTeamDialog = (): JSX.Element => {
         {/* TODO: Add competitor group select */}
       </Form>
       <DialogActions>
-        <Button muted onClick={close} disabled={loading}>Cancel</Button>
+        <Button variant="secondary" onClick={close} disabled={loading}>Cancel</Button>
         <Button type="submit" form="tournament-create-team-form" loading={loading}>Save</Button>
       </DialogActions>
     </ControlledDialog>

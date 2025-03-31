@@ -10,7 +10,7 @@
   @include flex.row($gap: 0.5rem);
   @include flex.stretchy;
   @include text.ui;
-  @include variants.solid-muted;
+  @include variants.secondary;
 
   flex-grow: 0;
 

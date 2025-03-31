@@ -4,9 +4,10 @@
 @use "/src/style/corners";
 @use "/src/style/sizes";
 @use "/src/style/text";
+@use "/src/style/borders";
 
 .InputTextArea {
-  @include variants.outlined($hover: false);
+  @include borders.normal;
   @include sizes.normal;
   @include corners.normal;
   @include flex.row;

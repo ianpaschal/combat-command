@@ -44,7 +44,6 @@ export type TournamentCompetitorId = Id<'tournamentCompetitors'>;
 export type TournamentPairingId = Id<'tournamentPairings'>;
 
 // Tournaments
-export type CreateTournamentArgs = typeof api.tournaments.createTournament._args;
 export type FetchTournamentListResponse = typeof api.tournaments.getTournamentList._returnType;
 export type FetchTournamentListResponseItem = FetchTournamentListResponse[number];
 export type FetchTournamentResponse = typeof api.tournaments.getTournament._returnType;

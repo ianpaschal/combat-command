@@ -8,10 +8,11 @@
 .Checkbox {
   @include variants.reset;
   @include flex.centered;
-  @include variants.solid-muted;
+
+  @include variants.secondary;
 
   &[data-state="checked"] {
-    @include variants.solid;
+    @include variants.primary;
   }
 
   & {
