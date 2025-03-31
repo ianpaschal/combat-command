@@ -132,6 +132,10 @@ import type * as _model_tournaments_queries_getTournamentRankings from "../_mode
 import type * as _model_tournaments_queries_getTournaments from "../_model/tournaments/queries/getTournaments.js";
 import type * as _model_tournaments_queries_getTournamentsByStatus from "../_model/tournaments/queries/getTournamentsByStatus.js";
 import type * as _model_tournaments_queries_getTournamentsByUser from "../_model/tournaments/queries/getTournamentsByUser.js";
+import type * as _model_userPreferences_fields from "../_model/userPreferences/fields.js";
+import type * as _model_userPreferences_index from "../_model/userPreferences/index.js";
+import type * as _model_userPreferences_mutations from "../_model/userPreferences/mutations.js";
+import type * as _model_userPreferences_queries from "../_model/userPreferences/queries.js";
 import type * as _model_users__helpers_checkUserAuth from "../_model/users/_helpers/checkUserAuth.js";
 import type * as _model_users__helpers_checkUserRelationshipLevel from "../_model/users/_helpers/checkUserRelationshipLevel.js";
 import type * as _model_users__helpers_checkUserTournamentRelationship from "../_model/users/_helpers/checkUserTournamentRelationship.js";
@@ -180,10 +184,12 @@ import type * as photos_index from "../photos/index.js";
 import type * as photos_mutations from "../photos/mutations.js";
 import type * as photos_queries from "../photos/queries.js";
 import type * as scheduledTasks from "../scheduledTasks.js";
+import type * as static_themes from "../static/themes.js";
 import type * as tournamentCompetitors from "../tournamentCompetitors.js";
 import type * as tournamentPairings from "../tournamentPairings.js";
 import type * as tournamentTimers from "../tournamentTimers.js";
 import type * as tournaments from "../tournaments.js";
+import type * as userPreferences from "../userPreferences.js";
 import type * as users from "../users.js";
 import type * as utils from "../utils.js";
 
@@ -326,6 +332,10 @@ declare const fullApi: ApiFromModules<{
   "_model/tournaments/queries/getTournaments": typeof _model_tournaments_queries_getTournaments;
   "_model/tournaments/queries/getTournamentsByStatus": typeof _model_tournaments_queries_getTournamentsByStatus;
   "_model/tournaments/queries/getTournamentsByUser": typeof _model_tournaments_queries_getTournamentsByUser;
+  "_model/userPreferences/fields": typeof _model_userPreferences_fields;
+  "_model/userPreferences/index": typeof _model_userPreferences_index;
+  "_model/userPreferences/mutations": typeof _model_userPreferences_mutations;
+  "_model/userPreferences/queries": typeof _model_userPreferences_queries;
   "_model/users/_helpers/checkUserAuth": typeof _model_users__helpers_checkUserAuth;
   "_model/users/_helpers/checkUserRelationshipLevel": typeof _model_users__helpers_checkUserRelationshipLevel;
   "_model/users/_helpers/checkUserTournamentRelationship": typeof _model_users__helpers_checkUserTournamentRelationship;
@@ -374,10 +384,12 @@ declare const fullApi: ApiFromModules<{
   "photos/mutations": typeof photos_mutations;
   "photos/queries": typeof photos_queries;
   scheduledTasks: typeof scheduledTasks;
+  "static/themes": typeof static_themes;
   tournamentCompetitors: typeof tournamentCompetitors;
   tournamentPairings: typeof tournamentPairings;
   tournamentTimers: typeof tournamentTimers;
   tournaments: typeof tournaments;
+  userPreferences: typeof userPreferences;
   users: typeof users;
   utils: typeof utils;
 }>;

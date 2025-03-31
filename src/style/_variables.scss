@@ -6,7 +6,14 @@
 @use "@radix-ui/colors/amber-dark.css";
 @use "@radix-ui/colors/amber.css";
 
+// Overlay
 @use "@radix-ui/colors/black-alpha.css";
+
+// Info
+@use "@radix-ui/colors/blue-alpha.css";
+@use "@radix-ui/colors/blue-dark-alpha.css";
+@use "@radix-ui/colors/blue-dark.css";
+@use "@radix-ui/colors/blue.css";
 
 // Success
 @use "@radix-ui/colors/grass-alpha.css";
@@ -20,17 +27,11 @@
 @use "@radix-ui/colors/gray-dark.css";
 @use "@radix-ui/colors/gray.css";
 
-// Danger
+// Danger / Error
 @use "@radix-ui/colors/tomato-alpha.css";
 @use "@radix-ui/colors/tomato-dark-alpha.css";
 @use "@radix-ui/colors/tomato-dark.css";
 @use "@radix-ui/colors/tomato.css";
-
-// Info
-@use "@radix-ui/colors/blue-alpha.css";
-@use "@radix-ui/colors/blue-dark-alpha.css";
-@use "@radix-ui/colors/blue-dark.css";
-@use "@radix-ui/colors/blue.css";
 
 :root {
   --modal-inner-gutter: 1rem;
@@ -49,7 +50,9 @@
   --container-padding-x: calc(var(--modal-inner-gutter) - var(--border-width));
   --container-padding-y: calc(var(--modal-inner-gutter) - var(--border-width));
   --button-padding-x: 0.5rem;
+}
 
+body {
   // GENERAL COLORS
   --border-color-default: var(--gray-a4);
   --border-color-muted: var(--gray-a3);
@@ -135,6 +138,17 @@
   --ghost-danger-bg-hover: var(--tomato-a2);
   --ghost-danger-bg: transparent;
   --ghost-danger-text: var(--tomato-11);
+}
+
+.dark {
+  --outlined-default-border-active: var(--gray-8);
+  --outlined-default-border-hover: var(--gray-7);
+  --outlined-default-border: var(--gray-6);
+  --secondary-default-bg-active: var(--gray-7);
+  --secondary-default-bg-hover: var(--gray-6);
+  --secondary-default-bg: var(--gray-5);
+  --card-bg: var(--gray-3);
+  --page-bg: var(--gray-2);
 }
 
 @media (width >= 688px) {

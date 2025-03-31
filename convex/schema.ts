@@ -9,9 +9,10 @@ import { tournamentCompetitorsTable } from './_model/tournamentCompetitors';
 import { tournamentPairingsTable } from './_model/tournamentPairings';
 import { tournamentsTable } from './_model/tournaments';
 import { tournamentTimersTable } from './_model/tournamentTimers';
+import { userPreferencesTable } from './_model/userPreferences';
 import { usersTable } from './_model/users';
 import { friendships } from './friendships';
-import { photos } from './photos';
+import { photosTable } from './photos';
 
 export default defineSchema({
   ...authTables,
@@ -20,7 +21,8 @@ export default defineSchema({
   matchResultComments: matchResultCommentsTable,
   matchResultLikes: matchResultLikesTable,
   matchResults: matchResultsTable,
-  photos,
+  userPreferences: userPreferencesTable,
+  photos: photosTable,
   tournamentCompetitors: tournamentCompetitorsTable,
   tournamentPairings: tournamentPairingsTable,
   tournaments: tournamentsTable,

@@ -7,7 +7,7 @@
 @use "/src/style/borders";
 
 .InputTextArea {
-  @include borders.normal;
+  @include variants.outlined;
   @include sizes.normal;
   @include corners.normal;
   @include flex.row;

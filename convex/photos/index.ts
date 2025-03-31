@@ -5,7 +5,7 @@ export const fields = {
   storageId: v.id('_storage'),
 };
 
-const table = defineTable({
+export const photosTable = defineTable({
   ...fields,
   ownerUserId: v.id('users'),
 }).index(
@@ -14,5 +14,4 @@ const table = defineTable({
 
 export {
   fields as photoFields,
-  table as photos,
 };

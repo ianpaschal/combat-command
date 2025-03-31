@@ -79,7 +79,7 @@
 .Badge {
   position: absolute;
   border-radius: 100%;
-  outline: 2px solid white;
+  outline: 2px solid var(--card-bg);
 
   &TopLeft {
     top: 0;

@@ -1,0 +1,10 @@
+@use "/src/style/flex";
+
+.Form {
+  @include flex.column;
+}
+
+.SubmitButton {
+  align-self: end;
+  margin-top: 1rem;
+}
