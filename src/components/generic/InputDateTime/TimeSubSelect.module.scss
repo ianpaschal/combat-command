@@ -54,17 +54,17 @@
 }
 
 // .Item[data-disabled] {
-//   color: variables.$text-disabled;
+//   color: var(--text-color-disabled);
 
 //   // pointer-events: none;
 // }
 
 .Item[data-highlighted] {
-  background-color: variables.$ghost-bg-hover;
+  background-color: var(--ghost-default-bg-hover);
 }
 
 .Item[data-state="checked"] {
-  @include variants.solid;
+  @include variants.primary;
 }
 
 .ScrollButton {

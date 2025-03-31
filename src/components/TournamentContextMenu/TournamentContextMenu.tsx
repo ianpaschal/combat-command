@@ -33,7 +33,7 @@ export const TournamentContextMenu = ({
   }
   return (
     <PopoverMenu menuItems={contextMenuItems}>
-      <Button muted size={size} className={className}>
+      <Button variant="secondary" size={size} className={className}>
         <Ellipsis />
       </Button>
     </PopoverMenu>

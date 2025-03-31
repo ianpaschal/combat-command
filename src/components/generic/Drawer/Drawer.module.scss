@@ -12,7 +12,7 @@
   @include animate.duration-slow;
   @include animate.style-fade;
 
-  background-color: variables.$modal-overlay-bg-color;
+  background-color: var(--modal-overlay-color);
 }
 
 .Content {
@@ -21,7 +21,7 @@
   @include animate.duration-slow;
 
   position: absolute;
-  background-color: variables.$card-bg;
+  background-color: var(--card-bg);
 
   &-left,
   &-right {

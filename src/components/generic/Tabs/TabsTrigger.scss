@@ -10,7 +10,7 @@
   @include flex.row($gap: 0.5rem);
   @include flex.stretchy;
   @include text.ui;
-  @include variants.solid-muted;
+  @include variants.secondary;
 
   flex-grow: 0;
 
@@ -28,7 +28,7 @@
 
   &[data-state="inactive"] {
     &:hover {
-      background-color: variables.$solid-muted-bg-hover;
+      background-color: var(--secondary-default-bg-hover);
     }
   }
 

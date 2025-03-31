@@ -4,14 +4,14 @@
   font-size: var(--font-size-normal);
   font-weight: 400;
   line-height: var(--line-height-normal);
-  color: variables.$text-base;
+  color: var(--text-color-default);
 
   @if $bold == true {
     font-weight: 500;
   }
 
   @if $muted == true {
-    color: variables.$text-muted;
+    color: var(--text-color-muted);
   }
 
   @if $link == true {
@@ -23,14 +23,14 @@
   font-size: var(--font-size-small);
   font-weight: 400;
   line-height: var(--line-height-small);
-  color: variables.$text-base;
+  color: var(--text-color-default);
 
   @if $bold == true {
     font-weight: 500;
   }
 
   @if $muted == true {
-    color: variables.$text-muted;
+    color: var(--text-color-muted);
   }
 
   @if $link == true {

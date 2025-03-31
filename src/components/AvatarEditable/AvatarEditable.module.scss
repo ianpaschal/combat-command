@@ -27,12 +27,12 @@
   @include animate.duration-quick;
   @include corners.normal;
   @include shadows.shadow;
-  @include variants.outlined($hover: false);
+  @include variants.card;
 
   z-index: 10000;
   margin: 0.25rem 0;
   padding: 0.25rem;
-  background-color: variables.$card-bg;
+  background-color: var(--card-bg);
 
   @include animate.style-pop; // Must list last because it contains nested declarations
 }

@@ -23,7 +23,7 @@ body {
   font-size: 16px;
   line-height: 1.5rem;
 
-  background-color: variables.$page-bg;
+  background-color: var(--page-bg);
 }
 
 // Sizes
@@ -55,7 +55,7 @@ h3 {
 p,
 li {
   font-weight: 300;
-  color: variables.$text-muted;
+  color: var(--text-color-muted);
 }
 
 a {

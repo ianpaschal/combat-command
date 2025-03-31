@@ -147,7 +147,7 @@ export const FormDialog = <T extends FieldValues>({
                   <div className={styles.Footer}>
                     {!preventCancel && (
                       <Close asChild>
-                        <Button muted disabled={isPending}>Cancel</Button>
+                        <Button variant="secondary" disabled={isPending}>Cancel</Button>
                       </Close>
                     )}
                     <Button disabled={isPending} loading={isPending} type="submit" form={id}>

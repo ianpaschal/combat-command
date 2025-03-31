@@ -1,10 +1,11 @@
 @use "sass:color";
 @use "/src/style/variables";
 @use "/src/style/flex";
+@use "@radix-ui/colors/black-alpha.css";
 
 $scrollbar-size: 1rem;
 $scrollbar-padding: 0.25rem;
-$indicator-gradient-start-color: color.adjust(variables.$border-color, $alpha: -0.05);
+$indicator-gradient-start-color: var(--black-a1);
 $indicator-gradient-end-color: rgb(0 0 0 / 0%);
 
 .ScrollArea {
@@ -52,7 +53,7 @@ $indicator-gradient-end-color: rgb(0 0 0 / 0%);
       background-image: linear-gradient($indicator-gradient-start-color, $indicator-gradient-end-color);
 
       &-bordered {
-        border-top: variables.$border-width solid variables.$border-color;
+        border-top: variables.$border-width solid var(--border-color);
       }
     }
 
@@ -61,7 +62,7 @@ $indicator-gradient-end-color: rgb(0 0 0 / 0%);
       background-image: linear-gradient($indicator-gradient-end-color, $indicator-gradient-start-color);
 
       &-bordered {
-        border-bottom: variables.$border-width solid variables.$border-color;
+        border-bottom: variables.$border-width solid var(--border-color);
       }
     }
   }
@@ -101,7 +102,7 @@ $indicator-gradient-end-color: rgb(0 0 0 / 0%);
     }
 
     &:hover {
-      background-color: variables.$ghost-bg-hover;
+      background-color: var(--ghost-default-bg-hover);
     }
   }
 
@@ -111,7 +112,7 @@ $indicator-gradient-end-color: rgb(0 0 0 / 0%);
     flex: 1;
 
     opacity: 0.25;
-    background: variables.$text-base;
+    background: var(--text-color-default);
     border-radius: calc(($scrollbar-size - (2 * $scrollbar-padding)) / 2);
 
     /* increase target size for touch devices https://www.w3.org/WAI/WCAG21/Understanding/target-size.html */

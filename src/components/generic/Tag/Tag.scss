@@ -19,10 +19,10 @@
   padding: 0 5px;
 
   line-height: calc(1.5rem - (2 * variables.$border-width));
-  color: variables.$solid-muted-text;
+  color: var(--secondary-default-text);
   text-wrap: nowrap;
 
-  background-color: variables.$solid-muted-bg;
+  background-color: var(--secondary-default-bg);
 
   svg {
     width: 1rem;

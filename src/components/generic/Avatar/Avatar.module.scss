@@ -27,7 +27,7 @@
   width: 100%;
   height: 100%;
 
-  background-color: variables.$solid-muted-bg;
+  background-color: var(--secondary-default-bg);
 
   svg {
     width: min(60%, 48px);
@@ -58,8 +58,8 @@
 .Fallback {
   @include flex.centered;
 
-  color: variables.$text-base;
-  background-color: variables.$solid-muted-bg;
+  color: var(--text-color-default);
+  background-color: var(--secondary-default-bg);
 }
 
 .Flag {

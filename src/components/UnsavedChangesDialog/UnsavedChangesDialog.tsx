@@ -30,7 +30,7 @@ export const UnsavedChangesDialog = ({
       // },
       //   muted: true,
       // },
-      { label: 'Continue', onClick: blocker.proceed, variant: 'solid', intent: 'danger' },
+      { label: 'Continue', onClick: blocker.proceed, variant: 'primary', intent: 'danger' },
     ]}
   />
 );

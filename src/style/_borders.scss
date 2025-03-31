@@ -1,8 +1,8 @@
 @use "variables";
 
 @mixin normal($side: all) {
-  border-color: variables.$outlined-border;
-  border-width: variables.$border-width;
+  border-color: var(--border-color);
+  border-width: var(--border-width);
 
   @if $side == all {
     border-style: solid;
@@ -29,26 +29,14 @@
   }
 }
 
-@mixin muted {
-  border-color: variables.$outlined-muted-border;
-  border-style: solid;
-  border-width: variables.$border-width;
-}
-
 @mixin danger {
-  border-color: variables.$outlined-danger-border;
+  border-color: var(--outlined-danger-border);
   border-style: solid;
-  border-width: variables.$border-width;
-}
-
-@mixin disabled {
-  border-color: variables.$outlined-disabled-border;
-  border-style: solid;
-  border-width: variables.$border-width;
+  border-width: var(--border-width);
 }
 
 @mixin dashed {
-  border-color: variables.$outlined-border;
+  border-color: var(--border-color);
   border-style: dashed;
-  border-width: variables.$border-width;
+  border-width: var(--border-width);
 }

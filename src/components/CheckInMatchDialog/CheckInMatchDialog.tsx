@@ -26,7 +26,7 @@ export const CheckInMatchDialog = ({
       trigger={trigger || children}
       title="Add Match Result"
       actions={[
-        { label: 'Cancel', muted: true, onClick: () => setOpen(false), cancel: true },
+        { label: 'Cancel', variant: 'secondary', onClick: () => setOpen(false), cancel: true },
         { label: 'Save Match', type: 'submit', form: 'fow-v4-match-result-form' },
       ]}
     >

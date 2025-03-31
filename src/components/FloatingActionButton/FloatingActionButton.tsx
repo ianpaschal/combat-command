@@ -16,7 +16,7 @@ export const FloatingActionButton = forwardRef<FloatingActionButtonRef, Floating
   children,
   className,
   size = 'large',
-  variant = 'solid',
+  variant = 'primary',
   ...props
 }, ref): JSX.Element => (
   <PortalRoot asChild>

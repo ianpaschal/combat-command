@@ -11,6 +11,7 @@
 
   position: relative;
   flex-shrink: 0;
+  padding: 0 1rem;
 
   svg {
     flex-shrink: 0;
@@ -18,16 +19,12 @@
     height: 1rem;
   }
 
-  & {
-    padding: 0 1rem;
-  }
-
   &-round {
     @include corners.round;
   }
 
   // Size
-  &-size-tiny {
+  &-tiny {
     @include sizes.tiny;
 
     svg {
@@ -36,17 +33,17 @@
     }
   }
 
-  &-size-small {
+  &-small {
     @include sizes.small;
 
     padding: 0.75rem;
   }
 
-  &-size-normal {
+  &-normal {
     @include sizes.normal;
   }
 
-  &-size-large {
+  &-large {
     @include sizes.large;
 
     svg {
@@ -59,40 +56,39 @@
     padding: 0.5rem;
   }
 
-  // Variant+Intent
-  &-solid {
-    @include variants.solid;
+  // Primary buttons
+  &-primary-default {
+    @include variants.primary;
   }
 
-  &-solid-muted {
-    @include variants.solid-muted;
+  &-primary-danger {
+    @include variants.primary-danger;
   }
 
-  &-solid-danger {
-    @include variants.solid-danger;
+  // Secondary buttons
+  &-secondary-default {
+    @include variants.secondary;
   }
 
-  &-solid-danger-muted {
-    @include variants.solid-danger-muted;
+  &-secondary-danger {
+    @include variants.secondary-danger;
   }
 
-  &-outlined {
+  // Outlined buttons
+  &-outlined-default {
     @include variants.outlined;
-  }
-
-  &-outlined-muted {
-    @include variants.outlined-muted;
   }
 
   &-outlined-danger {
     @include variants.outlined-danger;
   }
 
-  &-ghost {
+  // Ghost buttons
+  &-ghost-default {
     @include variants.ghost;
   }
 
-  &-ghost-inverted {
-    @include variants.ghost-inverted;
+  &-ghost-danger {
+    @include variants.ghost-danger;
   }
 }

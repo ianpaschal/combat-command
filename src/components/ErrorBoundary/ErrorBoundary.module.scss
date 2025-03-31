@@ -17,6 +17,6 @@
 
     max-width: 480px;
     padding: 2rem calc(var(--container-padding-x) + 1rem);
-    background-color: variables.$card-bg;
+    background-color: var(--card-bg);
   }
 }

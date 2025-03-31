@@ -8,7 +8,7 @@
 
   flex-shrink: 0;
   padding: 0.25rem;
-  background-color: variables.$solid-muted-bg;
+  background-color: var(--secondary-default-bg);
 
   &-min {
     width: min-content;
