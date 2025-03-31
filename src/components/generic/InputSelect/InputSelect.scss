@@ -87,7 +87,7 @@
 }
 
 .SelectItem[data-highlighted] {
-  background-color: variables.$ghost-bg-hover;
+  background-color: var(--ghost-default-bg-hover);
 }
 
 .SelectItem[data-state="checked"] {
@@ -107,7 +107,7 @@
 .SelectSeparator {
   height: variables.$border-width;
   margin: 0.25rem 0;
-  background-color: variables.$outlined-border;
+  background-color: var(--border-color);
 }
 
 .SelectItemIndicator {

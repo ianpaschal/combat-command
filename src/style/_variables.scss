@@ -17,9 +17,7 @@
   --container-padding-y: calc(var(--modal-inner-gutter) - var(--border-width));
   --button-padding-x: 0.5rem;
 
-  // New Color Scheme
-
-  // GENERAL
+  // GENERAL COLORS
   --border-color: var(--gray-a4);
   --text: var(--gray-12);
   --text-muted: var(--gray-11);
@@ -118,72 +116,8 @@ $blue: hsl(205deg 100% 50%);
 $text-base: hsl(220deg 5% 10%);
 $text-muted: color.adjust($text-base, $lightness: 40%);
 $text-disabled: color.adjust($text-base, $lightness: 60%);
-$text-error: $red;
 $text-link: $blue;
-$page-bg: hsl(220deg 5% 97.5%);
-$card-bg: $white;
-$border-color: color.adjust($text-base, $alpha: -0.9);
 $modal-overlay-bg-color: rgb(0 0 0 / 80%);
-
-// Solid
-$solid-bg: $text-base;
-$solid-bg-hover: color.adjust($solid-bg, $lightness: 20%);
-$solid-bg-disabled: color.adjust($solid-bg, $lightness: 30%);
-$solid-text: $white;
-
-// Solid (Muted)
-$solid-muted-bg: color.adjust($solid-bg, $lightness: 85%);
-$solid-muted-bg-hover: color.adjust($solid-muted-bg, $lightness: 2.5%);
-$solid-muted-bg-disabled: color.adjust($solid-bg, $lightness: 10%);
-$solid-muted-text: $text-base;
-
-// Solid (Danger)
-$solid-danger-bg: $red;
-$solid-danger-bg-hover: color.adjust($solid-danger-bg, $lightness: 10%);
-$solid-danger-bg-disabled: color.adjust($solid-bg, $lightness: 10%);
-$solid-danger-text: $solid-text;
-
-// Solid (Danger, Muted)
-$solid-danger-muted-bg: color.adjust($solid-danger-bg, $lightness: 35%);
-$solid-danger-muted-bg-hover: color.adjust($solid-danger-muted-bg, $lightness: 2.5%);
-$solid-danger-muted-bg-disabled: color.adjust($solid-bg, $lightness: 10%);
-$solid-danger-muted-text: $red;
-
-// Outlined
-$outlined-bg: $white;
-$outlined-bg-hover: color.adjust($outlined-bg, $lightness: -2.5%);
-$outlined-text: $text-base;
-$outlined-border: $border-color;
-
-// Outlined (Disabled)
-$outlined-disabled-bg: $white;
-$outlined-disabled-bg-hover: $outlined-bg;
-$outlined-disabled-text: $text-disabled;
-$outlined-disabled-border: color.adjust($border-color, $alpha: -0.025);
-
-// Outlined (Muted)
-$outlined-muted-bg: $outlined-bg;
-$outlined-muted-bg-hover: $outlined-bg-hover;
-$outlined-muted-text: $text-muted;
-$outlined-muted-border: color.adjust($outlined-border, $lightness: 20%);
-
-// Outlined (Danger)
-$outlined-danger-bg: $white;
-$outlined-danger-bg-hover: color.adjust($red, $lightness: 35%);
-$outlined-danger-text: $red;
-$outlined-danger-border: $red;
-
-// Ghost
-$ghost-bg: transparent;
-$ghost-bg-hover: color.adjust($text-base, $alpha: -0.975);
-$ghost-text: $text-base;
-$ghost-text-disabled: color.adjust($text-base, $alpha: -0.6);
-
-// Ghost (Inverted)
-$ghost-inverted-bg: transparent;
-$ghost-inverted-bg-hover: color.adjust($white, $alpha: -0.975);
-$ghost-inverted-text: $white;
-$ghost-inverted-text-disabled: color.adjust($white, $alpha: -0.6);
 
 // Skeleton
 $skeleton-bg: color.adjust($text-base, $alpha: -0.975);

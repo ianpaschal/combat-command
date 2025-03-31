@@ -31,7 +31,7 @@
 
 .Separator {
   flex-grow: 1;
-  background-color: variables.$outlined-border;
+  background-color: var(--border-color);
 
   &[data-orientation="horizontal"] {
     height: 1px;

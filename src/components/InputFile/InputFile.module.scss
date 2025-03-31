@@ -65,7 +65,7 @@
   grid-area: description;
   font-weight: 300;
   line-height: 1rem;
-  color: variables.$text-error;
+  color: var(--text-error);
 
   &:empty {
     display: none;

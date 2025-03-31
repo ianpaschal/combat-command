@@ -62,15 +62,6 @@
       border-color: variables.$red;
     }
   }
-
-  &-disabled {
-    color: variables.$text-disabled;
-
-    input {
-      color: variables.$text-disabled;
-      border-color: variables.$outlined-disabled-border;
-    }
-  }
 }
 
 input::placeholder,

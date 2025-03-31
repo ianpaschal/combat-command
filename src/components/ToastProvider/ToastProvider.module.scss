@@ -35,7 +35,7 @@
 
   padding: 1rem;
 
-  background-color: variables.$card-bg;
+  background-color: var(--card-bg);
   box-shadow:
     hsl(206deg 22% 7% / 35%) 0 10px 38px -10px,
     hsl(206deg 22% 7% / 20%) 0 10px 20px -15px;

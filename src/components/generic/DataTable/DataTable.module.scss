@@ -33,7 +33,7 @@ $row-height: 3rem;
 
   margin: 0.25rem 0;
   padding: 1rem;
-  background-color: variables.$card-bg;
+  background-color: var(--card-bg);
   border-radius: variables.$corner-radius;
 
   @include animate.style-pop; // Must list last because it contains nested declarations
@@ -81,7 +81,7 @@ $row-height: 3rem;
 }
 
 .Row:not(:last-child) {
-  border-bottom: variables.$border-width solid variables.$border-color;
+  border-bottom: variables.$border-width solid var(--border-color);
 }
 
 .IndexCell {

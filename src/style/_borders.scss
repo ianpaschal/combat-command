@@ -29,26 +29,14 @@
   }
 }
 
-@mixin muted {
-  border-color: variables.$outlined-muted-border;
-  border-style: solid;
-  border-width: var(--border-width);
-}
-
 @mixin danger {
-  border-color: variables.$outlined-danger-border;
-  border-style: solid;
-  border-width: var(--border-width);
-}
-
-@mixin disabled {
-  border-color: variables.$outlined-disabled-border;
+  border-color: var(--outlined-danger-border);
   border-style: solid;
   border-width: var(--border-width);
 }
 
 @mixin dashed {
-  border-color: variables.$outlined-border;
+  border-color: var(--border-color);
   border-style: dashed;
   border-width: var(--border-width);
 }

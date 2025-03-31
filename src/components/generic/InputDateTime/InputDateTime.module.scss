@@ -28,7 +28,7 @@
 
   & {
     margin: 0.25rem 0;
-    background-color: variables.$card-bg;
+    background-color: var(--card-bg);
     border-radius: variables.$corner-radius;
   }
 }

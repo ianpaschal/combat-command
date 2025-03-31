@@ -47,6 +47,6 @@
 
   &_Indicator {
     margin-top: 3px; // Looks better
-    color: variables.$solid-text;
+    color: var(--primary-default-text);
   }
 }

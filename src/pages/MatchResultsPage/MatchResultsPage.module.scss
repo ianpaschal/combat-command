@@ -18,7 +18,7 @@
 
   margin: 0.25rem 0;
   padding: 1rem;
-  background-color: variables.$card-bg;
+  background-color: var(--card-bg);
   border-radius: variables.$corner-radius;
 }
 

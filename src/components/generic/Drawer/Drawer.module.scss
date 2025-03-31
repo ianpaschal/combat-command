@@ -21,7 +21,7 @@
   @include animate.duration-slow;
 
   position: absolute;
-  background-color: variables.$card-bg;
+  background-color: var(--card-bg);
 
   &-left,
   &-right {

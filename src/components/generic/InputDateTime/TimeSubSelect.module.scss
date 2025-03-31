@@ -60,7 +60,7 @@
 // }
 
 .Item[data-highlighted] {
-  background-color: variables.$ghost-bg-hover;
+  background-color: var(--ghost-default-bg-hover);
 }
 
 .Item[data-state="checked"] {

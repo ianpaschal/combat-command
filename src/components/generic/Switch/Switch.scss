@@ -17,7 +17,6 @@ $thumb-offset: calc($switch-width - ($thumb-inset + $thumb-size));
   width: $switch-width;
   height: $switch-height;
 
-  // background-color: variables.$solid-muted-bg;
   border-radius: calc($switch-height / 2);
 
   transition-property: background-color;

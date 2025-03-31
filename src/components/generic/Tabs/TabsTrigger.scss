@@ -28,7 +28,7 @@
 
   &[data-state="inactive"] {
     &:hover {
-      background-color: variables.$solid-muted-bg-hover;
+      background-color: var(--secondary-default-bg-hover);
     }
   }
 
