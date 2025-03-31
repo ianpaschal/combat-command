@@ -114,7 +114,7 @@ export const TournamentForm = ({
       <UnsavedChangesDialog blocker={blocker} />
       <Card className={styles.TournamentForm_SectionCard}>
         <h2>General</h2>
-        <GeneralFields />
+        <GeneralFields status={tournament?.status} />
       </Card>
       <Card className={styles.TournamentForm_SectionCard}>
         <h2>Game System Configuration</h2>
@@ -123,11 +123,11 @@ export const TournamentForm = ({
       </Card>
       <Card className={styles.TournamentForm_SectionCard}>
         <h2>Competitors</h2>
-        <CompetitorFields />
+        <CompetitorFields status={tournament?.status} />
       </Card>
       <Card className={styles.TournamentForm_SectionCard}>
         <h2>Format</h2>
-        <FormatFields />
+        <FormatFields status={tournament?.status} />
       </Card>
     </Form >
   );

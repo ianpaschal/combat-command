@@ -10,9 +10,15 @@ import styles from './RankingFactorFields.module.scss';
 
 const isValidFactor = (factor: string | number | undefined): factor is FowV4RankingFactor => (factor as FowV4RankingFactor) !== undefined;
 
-export const RankingFactorFields = () => {
+export interface RankingFactorFieldsProps {
+  status?: 'draft' | 'published' | 'active' | 'archived';
+}
+
+export const RankingFactorFields = ({
+  status = 'draft',
+}) => {
   const { watch, setValue } = useFormContext<TournamentFormData>();
-  const { rankingFactors, status } = watch();
+  const rankingFactors = watch('rankingFactors');
 
   // TODO: Get different options depending on game system
   const options = fowV4RankingFactorOptions;

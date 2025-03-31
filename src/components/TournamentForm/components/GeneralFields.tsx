@@ -1,4 +1,3 @@
-import { useFormContext } from 'react-hook-form';
 import clsx from 'clsx';
 
 import { FormField } from '~/components/generic/Form';
@@ -8,19 +7,18 @@ import { InputText } from '~/components/generic/InputText';
 import { InputTextArea } from '~/components/generic/InputTextArea';
 import { Separator } from '~/components/generic/Separator';
 import { InputSingleFile } from '~/components/InputSingleFile/InputSingleFile';
-import { TournamentFormData } from '~/components/TournamentForm/TournamentForm.schema';
 
 import styles from './GeneralFields.module.scss';
 
 export interface GeneralFieldsProps {
   className?: string;
+  status?: 'draft' | 'published' | 'active' | 'archived';
 }
 
 export const GeneralFields = ({
   className,
+  status = 'draft',
 }: GeneralFieldsProps): JSX.Element => {
-  const { watch } = useFormContext<TournamentFormData>();
-  const status = watch('status');
 
   // Once a tournament is active, lock some fields
   const allowedEditStatuses = ['draft', 'published'];

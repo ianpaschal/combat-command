@@ -76,7 +76,6 @@ export const tournamentFormSchema = z.object({
   // Non-editable
   gameSystemId: z.string().transform((val) => val as GameSystemId),
   organizerUserIds: z.array(z.string().transform((val) => val as UserId)),
-  status: z.string(),
 }).refine(data => {
   if (data.gameSystemId === 'flames_of_war_v4') {
     return fowV4GameSystemConfigFormSchema.safeParse(data.gameSystemConfig).success;
@@ -109,6 +108,5 @@ export const defaultValues: DeepPartial<TournamentFormData> = {
     setUpTime: 30,
     playingTime: 120,
   },
-  status: 'draft',
   rankingFactors: ['total_wins'],
 };

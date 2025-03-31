@@ -13,9 +13,15 @@ import { TournamentRoundStructure } from '~/components/TournamentRoundStructure'
 
 import styles from './FormatFields.module.scss';
 
-export const FormatFields = (): JSX.Element => {
+export interface FormatFieldsProps {
+  status?: 'draft' | 'published' | 'active' | 'archived';
+}
+
+export const FormatFields = ({
+  status = 'draft',
+}: FormatFieldsProps): JSX.Element => {
   const { watch } = useFormContext<TournamentFormData>();
-  const { roundStructure, competitorSize, status } = watch();
+  const { roundStructure, competitorSize } = watch();
   const isTeam = competitorSize > 1;
 
   // Once a tournament is active, lock some fields

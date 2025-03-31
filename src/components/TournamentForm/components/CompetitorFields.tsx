@@ -14,13 +14,15 @@ import styles from './CompetitorFields.module.scss';
 
 export interface CompetitorFieldsProps {
   className?: string;
+  status?: 'draft' | 'published' | 'active' | 'archived';
 }
 
 export const CompetitorFields = ({
   className,
+  status = 'draft',
 }: CompetitorFieldsProps): JSX.Element => {
   const { reset, watch } = useFormContext<TournamentFormData>();
-  const { maxCompetitors, competitorSize, status } = watch();
+  const { maxCompetitors, competitorSize } = watch();
 
   // TODO: Implement later
   // const { fields: competitorGroupFields, append, remove } = useFieldArray({
