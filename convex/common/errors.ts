@@ -23,9 +23,6 @@ export const errors = {
   USER_ALREADY_IN_TOURNAMENT: 'A user with that ID is already registered.',
   USER_NOT_TOURNAMENT_ORGANIZER: 'User is not an organizer for this tournament.',
   USER_NOT_TOURNAMENT_PLAYER: 'User is not a player in this tournament.',
-  TEAM_ALREADY_IN_TOURNAMENT: 'A team with that name is already registered.',
-  USER_ALREADY_IN_TOURNAMENT: 'A user with that ID is already registered.',
-  TOURNAMENT_HAS_MAX_COMPETITORS: 'This tournament cannot field more competitors.',
 
   // Missing docs
   TOURNAMENT_COMPETITOR_NOT_FOUND: 'Could not find a competitor with that ID.',

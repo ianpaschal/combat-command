@@ -46,7 +46,7 @@ export const TournamentAdvanceRoundPage = (): JSX.Element => {
       title={title}
       footer={
         <>
-          <Button muted onClick={handleCancel} key={0}>Cancel</Button>
+          <Button variant="secondary" onClick={handleCancel} key={0}>Cancel</Button>
           {view === 'roster' && (
             <Button key={1} onClick={handleProceed}>Proceed</Button>
           )}
