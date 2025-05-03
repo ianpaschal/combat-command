@@ -6,7 +6,7 @@
 @use "/src/style/text";
 
 .Input {
-  @include variants.outlined($hover: false);
+  @include variants.outlined;
   @include sizes.normal;
   @include corners.normal;
   @include flex.row;
@@ -62,19 +62,10 @@
       border-color: variables.$red;
     }
   }
-
-  &-disabled {
-    color: variables.$text-disabled;
-
-    input {
-      color: variables.$text-disabled;
-      border-color: variables.$outlined-disabled-border;
-    }
-  }
 }
 
 input::placeholder,
 textarea::placeholder {
-  color: variables.$text-muted;
+  color: var(--text-color-muted);
   opacity: 1;
 }

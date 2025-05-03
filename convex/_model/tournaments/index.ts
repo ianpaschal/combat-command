@@ -14,16 +14,14 @@ export {
   checkInPlayerArgs,
 } from './actions/checkInPlayer';
 export {
-  startTournament,
-  startTournamentArgs,
-} from './actions/startTournament';
-export {
   createTournament,
   createTournamentArgs,
   deleteTournament,
   deleteTournamentArgs,
   publishTournament,
   publishTournamentArgs,
+  startTournament,
+  startTournamentArgs,
   updateTournament,
   updateTournamentArgs,
 } from './mutations';

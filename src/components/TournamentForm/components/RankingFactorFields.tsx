@@ -10,7 +10,13 @@ import styles from './RankingFactorFields.module.scss';
 
 const isValidFactor = (factor: string | number | undefined): factor is FowV4RankingFactor => (factor as FowV4RankingFactor) !== undefined;
 
-export const RankingFactorFields = () => {
+export interface RankingFactorFieldsProps {
+  status?: 'draft' | 'published' | 'active' | 'archived';
+}
+
+export const RankingFactorFields = ({
+  status = 'draft',
+}) => {
   const { watch, setValue } = useFormContext<TournamentFormData>();
   const rankingFactors = watch('rankingFactors');
 
@@ -34,6 +40,10 @@ export const RankingFactorFields = () => {
     ]);
   };
 
+  // Once a tournament is active, lock some fields
+  const allowedEditStatuses = ['draft', 'published'];
+  const disableFields = !allowedEditStatuses.includes(status);
+
   return (
     <div className={styles.RankingFactorFields}>
       {[...rankingFactors, ''].map((factor, i) => (
@@ -45,9 +55,10 @@ export const RankingFactorFields = () => {
             options={options}
             value={factor}
             onChange={(value) => handleChange(i, value)}
+            disabled={disableFields}
           />
           {rankingFactors.length > 1 && (
-            <Button variant="ghost" onClick={(e) => {
+            <Button variant="ghost" disabled={disableFields} onClick={(e) => {
               e.preventDefault();
               handleRemove(i);
             }}>

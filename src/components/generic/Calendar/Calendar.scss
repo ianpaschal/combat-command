@@ -26,11 +26,11 @@
 }
 
 .DayButtonSelected {
-  @include variants.solid;
+  @include variants.primary;
 }
 
 .CalendarNavButton {
-  @include variants.outlined-muted;
+  @include variants.outlined;
   @include flex.centered;
 
   position: absolute;

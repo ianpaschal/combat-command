@@ -5,7 +5,7 @@
 .Root {
   @include borders.normal($side: top);
 
-  background-color: variables.$card-bg;
+  background-color: var(--card-bg);
 }
 
 .Content {

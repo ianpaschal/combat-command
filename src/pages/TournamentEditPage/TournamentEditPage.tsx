@@ -10,7 +10,10 @@ import { Button } from '~/components/generic/Button';
 import { PageWrapper } from '~/components/PageWrapper';
 import { toast } from '~/components/ToastProvider';
 import { TournamentForm } from '~/components/TournamentForm';
+import { TournamentForm, TournamentFormSubmitData } from '~/components/TournamentForm';
 import { useFetchTournament } from '~/services/tournaments/useFetchTournament';
+import { useFetchTournament } from '~/services/tournaments/useFetchTournament';
+import { useUpdateTournament } from '~/services/tournaments/useUpdateTournament';
 import { PATHS } from '~/settings';
 
 const WIDTH = 960;
@@ -23,10 +26,12 @@ export const TournamentEditPage = (): JSX.Element => {
   const { data: tournament } = useFetchTournament(tournamentId);
   const navigate = useNavigate();
 
-  const handleSuccess = (id: string): void => {
-    toast.success('Changes saved!');
-    navigate(generatePath(PATHS.tournamentDetails, { id }));
-  };
+  const { mutation: updateTournament, loading } = useUpdateTournament({
+    onSuccess: (id: string): void => {
+      toast.success('Changes saved!');
+      navigate(generatePath(PATHS.tournamentDetails, { id }));
+    },
+  });
 
   const handleCancel = (): void => {
     if (window.history.length > 1) {
@@ -34,6 +39,13 @@ export const TournamentEditPage = (): JSX.Element => {
     } else {
       navigate(`${pathname.split('/').slice(0, -1).join('/')}`);
     }
+  };
+
+  const handleUpdate = (data: TournamentFormSubmitData): void => {
+    updateTournament({
+      id: tournamentId,
+      ...data,
+    });
   };
 
   if (!tournament) {
@@ -46,12 +58,12 @@ export const TournamentEditPage = (): JSX.Element => {
       maxWidth={WIDTH}
       footer={
         <>
-          <Button muted onClick={handleCancel} key={0}>Cancel</Button>
-          <Button type="submit" form={FORM_ID} key={0}>Save</Button>
+          <Button variant="secondary" onClick={handleCancel} key={0} disabled={loading}>Cancel</Button>
+          <Button type="submit" form={FORM_ID} key={1} disabled={loading}>Save</Button>
         </>
       }
     >
-      <TournamentForm id={FORM_ID} onSuccess={handleSuccess} tournamentId={tournamentId} />
+      <TournamentForm id={FORM_ID} onSubmit={handleUpdate} tournamentId={tournamentId} />
     </PageWrapper>
   );
 };

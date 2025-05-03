@@ -4,16 +4,13 @@ import { useBlocker } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import clsx from 'clsx';
 
-import { TournamentId } from '~/api';
-import { useAuth } from '~/components/AuthProvider';
+import { StorageId, TournamentId } from '~/api';
 import { GameConfigFields } from '~/components/FowV4MatchResultForm/components/GameConfigFields';
 import { Card } from '~/components/generic/Card';
 import { Form } from '~/components/generic/Form';
 import { UnsavedChangesDialog } from '~/components/UnsavedChangesDialog';
 import { useFileFromUrl } from '~/hooks/useFileFromUrl';
-import { useCreateTournament } from '~/services/tournaments/useCreateTournament';
 import { useFetchTournament } from '~/services/tournaments/useFetchTournament';
-import { useUpdateTournament } from '~/services/tournaments/useUpdateTournament';
 import { useUploadConvexImage } from '~/services/useUploadConvexFile';
 import { CompetitorFields } from './components/CompetitorFields';
 import { FormatFields } from './components/FormatFields';
@@ -26,23 +23,26 @@ import {
 
 import styles from './TournamentForm.module.scss';
 
+export type TournamentFormSubmitData = Omit<TournamentFormData, 'logoFile' | 'bannerFile'> & {
+  logoStorageId?: StorageId | null;
+  bannerStorageId?: StorageId | null;
+};
+
 export interface TournamentFormProps {
   id: string;
   className?: string;
   tournamentId?: TournamentId;
-  onSuccess?: (id: string) => void;
+  onSubmit: (data: TournamentFormSubmitData) => void;
 }
 
 export const TournamentForm = ({
   id,
   className,
-  onSuccess,
+  onSubmit: handleSubmit,
   tournamentId,
 }: TournamentFormProps): JSX.Element => {
-  const user = useAuth();
   const { data: tournament } = useFetchTournament(tournamentId);
-  const { mutation: createTournament } = useCreateTournament({ onSuccess });
-  const { mutation: updateTournament } = useUpdateTournament({ onSuccess });
+
   const { mutation: uploadConvexImage } = useUploadConvexImage();
 
   const form = useForm<TournamentFormData>({
@@ -92,21 +92,11 @@ export const TournamentForm = ({
         bannerStorageId = null;
       }
     }
-    if (tournament) {
-      updateTournament({
-        id: tournament._id,
-        ...restData,
-        logoStorageId,
-        bannerStorageId,
-      });
-    } else {
-      createTournament({
-        ...restData,
-        logoStorageId,
-        bannerStorageId,
-        organizerUserIds: [user!._id],
-      });
-    }
+    handleSubmit({
+      ...restData,
+      logoStorageId,
+      bannerStorageId,
+    });
   };
 
   return (
@@ -114,7 +104,7 @@ export const TournamentForm = ({
       <UnsavedChangesDialog blocker={blocker} />
       <Card className={styles.TournamentForm_SectionCard}>
         <h2>General</h2>
-        <GeneralFields />
+        <GeneralFields status={tournament?.status} />
       </Card>
       <Card className={styles.TournamentForm_SectionCard}>
         <h2>Game System Configuration</h2>
@@ -123,11 +113,11 @@ export const TournamentForm = ({
       </Card>
       <Card className={styles.TournamentForm_SectionCard}>
         <h2>Competitors</h2>
-        <CompetitorFields />
+        <CompetitorFields status={tournament?.status} />
       </Card>
       <Card className={styles.TournamentForm_SectionCard}>
         <h2>Format</h2>
-        <FormatFields />
+        <FormatFields status={tournament?.status} />
       </Card>
     </Form >
   );

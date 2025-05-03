@@ -84,7 +84,7 @@
 
 .Separator {
   grid-area: separator;
-  background-color: variables.$outlined-border;
+  background-color: var(--border-color);
 }
 
 .Player1Avatar {
@@ -110,13 +110,13 @@
 }
 
 .FactionDetails {
-  @include variants.outlined($hover: false);
+  @include variants.card;
   @include shadows.shadow;
   @include animate.duration-quick;
   @include animate.style-pop;
   @include flex.column($gap: 0);
 
   margin: 0.25rem 0;
-  background-color: variables.$card-bg;
+  background-color: var(--card-bg);
   border-radius: variables.$corner-radius;
 }

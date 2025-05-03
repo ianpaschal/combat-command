@@ -12,12 +12,12 @@
     "build:noEmit": "tsc --noEmit  --strict --project tsconfig.app.json",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:scss": "stylelint '**/*.scss'",
-    "test": "vitest run --reporter verbose",
-    "test:debug": "vitest --inspect-brk --no-file-parallelism",
-    "test:coverage": "vitest run --coverage --coverage.reporter=text",
-    "test:convex": "vitest run --dir=convex",
+    "prepare": "husky",
     "test:convex:debug": "vitest convex --inspect-brk --no-file-parallelism",
-    "prepare": "husky"
+    "test:convex": "vitest run --dir=convex",
+    "test:coverage": "vitest run --coverage --coverage.reporter=text",
+    "test:debug": "vitest --inspect-brk --no-file-parallelism",
+    "test": "vitest run --reporter verbose"
   },
   "dependencies": {
     "@convex-dev/auth": "^0.0.80",

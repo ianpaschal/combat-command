@@ -6,7 +6,7 @@
 @use "/src/style/flex";
 
 .InputDatePopoverContent {
-  @include variants.outlined($hover: false);
+  @include variants.card;
   @include shadows.shadow;
   @include animate.duration-quick;
   @include animate.style-pop;
@@ -15,7 +15,7 @@
 
   margin: 0.25rem 0;
   padding: 1rem;
-  background-color: variables.$card-bg;
+  background-color: var(--card-bg);
   border-radius: variables.$corner-radius;
 }
 

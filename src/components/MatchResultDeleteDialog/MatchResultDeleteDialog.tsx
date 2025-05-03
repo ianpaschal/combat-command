@@ -28,7 +28,7 @@ export const MatchResultDeleteDialog = (): JSX.Element => {
         <p><strong>This cannot be undone!</strong></p>
       </DialogDescription>
       <DialogActions>
-        <Button muted onClick={close} disabled={loading}>Cancel</Button>
+        <Button variant="secondary" onClick={close} disabled={loading}>Cancel</Button>
         <Button intent="danger" onClick={handleDelete} disabled={loading}>Delete</Button>
       </DialogActions>
     </ControlledDialog>

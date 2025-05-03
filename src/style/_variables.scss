@@ -1,8 +1,15 @@
 @use "sass:color";
 
+@use "@radix-ui/colors/gray.css";
+@use "@radix-ui/colors/tomato.css";
+@use "@radix-ui/colors/gray-alpha.css";
+@use "@radix-ui/colors/tomato-alpha.css";
+@use "@radix-ui/colors/black-alpha.css";
+
 :root {
   --modal-inner-gutter: 1rem;
   --modal-outer-gutter: 0.5rem;
+  --modal-overlay-color: var(--black-a10);
   --font-size-normal: 1rem;
   --line-height-normal: 1.25rem;
   --font-size-small: 0.875rem;
@@ -11,6 +18,71 @@
   --container-padding-x: calc(var(--modal-inner-gutter) - var(--border-width));
   --container-padding-y: calc(var(--modal-inner-gutter) - var(--border-width));
   --button-padding-x: 0.5rem;
+
+  // GENERAL COLORS
+  --border-color: var(--gray-a4);
+  --text-color-default: var(--gray-12);
+  --text-color-muted: var(--gray-11);
+  --text-color-disabled: var(--gray-7);
+  --text-color-error: var(--tomato-9);
+  --card-bg: var(--gray-1);
+  --page-bg: var(--gray-2);
+
+  // VARIANTS
+
+  // Primary - Default
+  --primary-default-bg-active: var(--gray-10);
+  --primary-default-bg-hover: var(--gray-11);
+  --primary-default-bg: var(--gray-12);
+  --primary-default-text: var(--gray-1);
+
+  // Primary - Danger
+  --primary-danger-bg-active: var(--tomato-11);
+  --primary-danger-bg-hover: var(--tomato-10);
+  --primary-danger-bg: var(--tomato-9);
+  --primary-danger-text: var(--tomato-1);
+
+  // Secondary - Default
+  --secondary-default-bg-active: var(--gray-5);
+  --secondary-default-bg-hover: var(--gray-4);
+  --secondary-default-bg: var(--gray-3);
+  --secondary-default-text: var(--gray-11);
+
+  // Secondary - Danger
+  --secondary-danger-bg-active: var(--tomato-5);
+  --secondary-danger-bg-hover: var(--tomato-4);
+  --secondary-danger-bg: var(--tomato-3);
+  --secondary-danger-text: var(--tomato-11);
+
+  // Outlined - Default
+  --outlined-default-bg-active: var(--gray-a3);
+  --outlined-default-bg-hover: var(--gray-a2);
+  --outlined-default-bg: var(--card-bg);
+  --outlined-default-border-active: var(--gray-6);
+  --outlined-default-border-hover: var(--gray-5);
+  --outlined-default-border: var(--gray-4);
+  --outlined-default-text: var(--gray-11);
+
+  // Outlined - Danger
+  --outlined-danger-bg-active: var(--tomato-a3);
+  --outlined-danger-bg-hover: var(--tomato-a2);
+  --outlined-danger-bg: var(--card-bg);
+  --outlined-danger-border-active: var(--tomato-8);
+  --outlined-danger-border-hover: var(--tomato-7);
+  --outlined-danger-border: var(--tomato-6);
+  --outlined-danger-text: var(--tomato-11);
+
+  // Ghost - Default
+  --ghost-default-bg-active: var(--gray-a4);
+  --ghost-default-bg-hover: var(--gray-a3);
+  --ghost-default-bg: transparent;
+  --ghost-default-text: var(--gray-11);
+
+  // Ghost - Danger
+  --ghost-danger-bg-active: var(--tomato-a4);
+  --ghost-danger-bg-hover: var(--tomato-a3);
+  --ghost-danger-bg: transparent;
+  --ghost-danger-text: var(--tomato-11);
 }
 
 @media (width >= 688px) {
@@ -46,72 +118,7 @@ $blue: hsl(205deg 100% 50%);
 $text-base: hsl(220deg 5% 10%);
 $text-muted: color.adjust($text-base, $lightness: 40%);
 $text-disabled: color.adjust($text-base, $lightness: 60%);
-$text-error: $red;
 $text-link: $blue;
-$page-bg: hsl(220deg 5% 97.5%);
-$card-bg: $white;
-$border-color: color.adjust($text-base, $alpha: -0.9);
-$modal-overlay-bg-color: rgb(0 0 0 / 80%);
-
-// Solid
-$solid-bg: $text-base;
-$solid-bg-hover: color.adjust($solid-bg, $lightness: 20%);
-$solid-bg-disabled: color.adjust($solid-bg, $lightness: 30%);
-$solid-text: $white;
-
-// Solid (Muted)
-$solid-muted-bg: color.adjust($solid-bg, $lightness: 85%);
-$solid-muted-bg-hover: color.adjust($solid-muted-bg, $lightness: 2.5%);
-$solid-muted-bg-disabled: color.adjust($solid-bg, $lightness: 10%);
-$solid-muted-text: $text-base;
-
-// Solid (Danger)
-$solid-danger-bg: $red;
-$solid-danger-bg-hover: color.adjust($solid-danger-bg, $lightness: 10%);
-$solid-danger-bg-disabled: color.adjust($solid-bg, $lightness: 10%);
-$solid-danger-text: $solid-text;
-
-// Solid (Danger, Muted)
-$solid-danger-muted-bg: color.adjust($solid-danger-bg, $lightness: 35%);
-$solid-danger-muted-bg-hover: color.adjust($solid-danger-muted-bg, $lightness: 2.5%);
-$solid-danger-muted-bg-disabled: color.adjust($solid-bg, $lightness: 10%);
-$solid-danger-muted-text: $red;
-
-// Outlined
-$outlined-bg: $white;
-$outlined-bg-hover: color.adjust($outlined-bg, $lightness: -2.5%);
-$outlined-text: $text-base;
-$outlined-border: $border-color;
-
-// Outlined (Disabled)
-$outlined-disabled-bg: $white;
-$outlined-disabled-bg-hover: $outlined-bg;
-$outlined-disabled-text: $text-disabled;
-$outlined-disabled-border: color.adjust($border-color, $alpha: -0.025);
-
-// Outlined (Muted)
-$outlined-muted-bg: $outlined-bg;
-$outlined-muted-bg-hover: $outlined-bg-hover;
-$outlined-muted-text: $text-muted;
-$outlined-muted-border: color.adjust($outlined-border, $lightness: 20%);
-
-// Outlined (Danger)
-$outlined-danger-bg: $white;
-$outlined-danger-bg-hover: color.adjust($red, $lightness: 35%);
-$outlined-danger-text: $red;
-$outlined-danger-border: $red;
-
-// Ghost
-$ghost-bg: transparent;
-$ghost-bg-hover: color.adjust($text-base, $alpha: -0.975);
-$ghost-text: $text-base;
-$ghost-text-disabled: color.adjust($text-base, $alpha: -0.6);
-
-// Ghost (Inverted)
-$ghost-inverted-bg: transparent;
-$ghost-inverted-bg-hover: color.adjust($white, $alpha: -0.975);
-$ghost-inverted-text: $white;
-$ghost-inverted-text-disabled: color.adjust($white, $alpha: -0.6);
 
 // Skeleton
 $skeleton-bg: color.adjust($text-base, $alpha: -0.975);

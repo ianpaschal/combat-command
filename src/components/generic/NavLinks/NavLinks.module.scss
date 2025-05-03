@@ -50,7 +50,7 @@
   position: absolute;
 
   opacity: 0;
-  background-color: variables.$text-base;
+  background-color: var(--text-color-default);
   border-radius: 2px;
 
   &[data-state="visible"] {

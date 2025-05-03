@@ -12,49 +12,40 @@ import {
   ElementSize,
   ElementVariant,
 } from '~/types/componentLib';
-import { createCn } from '~/utils/componentLib/createCn';
-import { mod } from '~/utils/componentLib/mod';
 
-import './Button.scss';
+import styles from './Button.module.scss';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ElementVariant;
   intent?: ElementIntent;
-  muted?: boolean;
   size?: ElementSize;
   round?: boolean;
   loading?: boolean;
-  inverted?: boolean;
 }
-
-const cn = createCn('Button');
 
 // TODO: Mobile hit-box is always 40 x 40 rather than width x 40
 // TODO: X padding too large when there is an icon. Maybe switch to a icon / label / icon format
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   className,
-  variant = 'solid',
-  muted,
-  inverted = false,
+  variant = 'primary',
   size: customSize,
   children,
   disabled = false,
-  loading,
-  intent,
+  loading = false,
+  intent = 'default',
   round,
   ...props
 }, ref) => {
   const size = customSize || 'normal';
   const elements = Children.toArray(children);
   const classNames = clsx(
-    cn(),
-    cn(mod({ variant, intent, muted, inverted })),
-    size !== null ? cn(`-size-${size}`) : undefined,
+    styles.Button,
+    styles[`Button-${variant}-${intent}`],
+    styles[`Button-${size}`],
     {
-      [cn('-round')]: round,
-      [cn('-iconOnly')]: elements.length === 1 && isValidElement(elements[0]),
-      [cn('-disabled')]: disabled,
+      [styles['Button-round']]: round,
+      [styles['Button-iconOnly']]: elements.length === 1 && isValidElement(elements[0]),
     },
     className,
   );

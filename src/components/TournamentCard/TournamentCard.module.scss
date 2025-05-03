@@ -11,7 +11,7 @@
 .TournamentCard {
   --banner-wide-size: 14rem;
 
-  @include variants.outlined($hover: false);
+  @include variants.card;
   @include shadows.surface-shadow;
   @include corners.normal;
   @include text.ui;

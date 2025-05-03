@@ -1,6 +1,5 @@
 import { ReactNode } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useWindowWidth } from '@react-hook/window-size/throttled';
 import clsx from 'clsx';
 import { ArrowLeft } from 'lucide-react';
 
@@ -31,7 +30,6 @@ export const PageWrapper = ({
   title,
 }: PageWrapperProps): JSX.Element => {
   const navigate = useNavigate();
-  const windowWidth = useWindowWidth();
   const { pathname } = useLocation();
   const handleClickBack = (): void => {
     if (window.history.length > 1) {
@@ -45,8 +43,8 @@ export const PageWrapper = ({
   }
   return (
     <div className={clsx(styles.PageWrapper, { [styles.AppBarPadding]: !removeAppBarPadding })} data-fitted={fitToWindow}>
-      <ScrollArea className={styles.PageWrapper_ScrollArea} style={{ overflow: 'hidden' }}>
-        <div className={styles.PageWrapper_Content} style={{ maxWidth: Math.min(windowWidth, maxWidth) }}>
+      <ScrollArea className={styles.PageWrapper_ScrollArea}>
+        <div className={styles.PageWrapper_Content} style={{ maxWidth }}>
           {(showBackButton || title) && (
             <div className={styles.PageWrapper_Header}>
               {showBackButton && (

@@ -29,7 +29,7 @@ export const MatchResultEditDialog = (): JSX.Element => {
       </ScrollArea>
       <Separator />
       <DialogActions>
-        <Button muted onClick={close}>Cancel</Button>
+        <Button variant="secondary" onClick={close}>Cancel</Button>
         <Button type="submit" form="fow-v4-match-result-form">Save</Button>
       </DialogActions>
     </ControlledDialog>

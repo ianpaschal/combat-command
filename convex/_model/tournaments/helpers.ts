@@ -28,6 +28,7 @@ export const getDeepTournament = async (
   const maxPlayers = tournament.maxCompetitors * tournament.competitorSize;
 
   // const organizerUsers = [];
+
   // Restrict visibility of draft tournaments:
   const userId = await getAuthUserId(ctx);
   if (tournament.status === 'draft' && (!userId || !tournament.organizerUserIds.includes(userId))) {

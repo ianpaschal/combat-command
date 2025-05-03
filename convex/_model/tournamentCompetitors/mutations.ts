@@ -26,7 +26,7 @@ export const createTournamentCompetitor = async (
   const tournament = await ctx.db.get(args.tournamentId);
   const competitors = await ctx.db.query('tournamentCompetitors').withIndex('by_tournament_id').collect();
   const registeredUserIds = await getTournamentUserIds(ctx, args.tournamentId);
-  const players = args.players.length ? args.players : [{ userId, active: false }];
+  const players = args.players.length ? args.players : [{ userId, active: true }];
   const unregisteredUserIds = players.map((player) => player.userId);
 
   if (!tournament) {
@@ -106,7 +106,7 @@ export const addPlayerToTournamentCompetitor = async (
       ...tournamentCompetitor.players,
       {
         userId: args.playerUserId,
-        active: false,
+        active: true,
       },
     ],
   });

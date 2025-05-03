@@ -49,7 +49,7 @@ export const MatchResultPhotoUploadDialog = (): JSX.Element => {
         <InputFile name="files" />
       </Form>
       <DialogActions>
-        <Button muted onClick={close} disabled={loading}>Cancel</Button>
+        <Button variant="secondary" onClick={close} disabled={loading}>Cancel</Button>
         <Button type="submit" form="match-result-photo-form" loading={loading}>Save</Button>
       </DialogActions>
     </ControlledDialog>

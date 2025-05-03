@@ -7,12 +7,12 @@
 
 .Card {
   @include flex.column($gap: 0);
-  @include variants.outlined($hover: false);
+  @include variants.card;
   @include shadows.surface-shadow;
   @include corners.normal;
   @include flex.stretchy;
 
   min-height: 0;
   max-height: 100%;
-  background-color: variables.$card-bg;
+  background-color: var(--card-bg);
 }

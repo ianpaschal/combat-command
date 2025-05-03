@@ -65,12 +65,12 @@ export const TournamentCompetitorCard = ({
       <div className={styles.TournamentCompetitorCard_TeamName}>
         <h3>{displayName}</h3>
         {(isTeamTournament && user && !userIsOrganizer) && (!userIsPlayer ? (
-          <Button size="small" muted className={styles.TournamentCompetitorCard_JoinButton} onClick={handleClickJoin}>
+          <Button size="small" variant="secondary" className={styles.TournamentCompetitorCard_JoinButton} onClick={handleClickJoin}>
             <UserPlus />
             Join
           </Button>
         ) : (
-          <Button size="small" muted className={styles.TournamentCompetitorCard_JoinButton} onClick={handleClickLeave}>
+          <Button size="small" variant="secondary" className={styles.TournamentCompetitorCard_JoinButton} onClick={handleClickLeave}>
             <UserMinus />
             Leave
           </Button>

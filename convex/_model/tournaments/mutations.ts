@@ -47,10 +47,14 @@ export const updateTournament = async (
     if (args.competitorSize !== tournament.competitorSize) {
       // TODO: Throw
     }
+    if (args.maxCompetitors !== tournament.maxCompetitors) {
+      // TODO: Throw
+    }
     if (args.useNationalTeams !== tournament.useNationalTeams) {
       // TODO: Throw
     }
   }
+  // TODO: Add checks for active tournament and ranking factors
 
   return await ctx.db.patch(id, {
     ...args,
@@ -102,4 +106,15 @@ export const publishTournament = async (
   { id }: Infer<typeof publishTournamentArgs>,
 ) => await ctx.db.patch(id, {
   status: 'published',
+});
+
+export const startTournamentArgs = v.object({
+  id: v.id('tournaments'),
+});
+
+export const startTournament = async (
+  ctx: MutationCtx,
+  { id }: Infer<typeof startTournamentArgs>,
+) => await ctx.db.patch(id, {
+  status: 'active',
 });

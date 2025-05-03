@@ -23,5 +23,5 @@
 
 .MenuItem-disabled {
   pointer-events: none;
-  color: variables.$text-disabled;
+  color: var(--text-color-disabled);
 }

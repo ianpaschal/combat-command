@@ -4,6 +4,7 @@
 @use "/src/style/shadows";
 @use "/src/style/text";
 @use "/src/style/flex";
+@use "/src/style/borders";
 
 .Trigger {
   width: 100%;
@@ -20,7 +21,7 @@
 }
 
 .Content {
-  @include variants.outlined($hover: false);
+  @include borders.normal;
   @include shadows.shadow;
   @include animate.duration-quick;
   @include animate.style-pop;
@@ -28,7 +29,7 @@
 
   & {
     margin: 0.25rem 0;
-    background-color: variables.$card-bg;
+    background-color: var(--card-bg);
     border-radius: variables.$corner-radius;
   }
 }

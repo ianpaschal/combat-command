@@ -15,7 +15,7 @@
 
   width: min(100vw, 480px);
   height: 100%;
-  background-color: variables.$card-bg;
+  background-color: var(--card-bg);
 }
 
 .Header {

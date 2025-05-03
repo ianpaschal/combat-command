@@ -5,7 +5,7 @@
 @use "/src/style/sizes";
 
 .Input {
-  @include variants.outlined($hover: false);
+  @include variants.outlined;
   @include sizes.normal;
   @include corners.normal;
   @include flex.row;
@@ -65,6 +65,6 @@
 
 input::placeholder,
 textarea::placeholder {
-  color: variables.$text-muted;
+  color: var(--text-color-muted);
   opacity: 1;
 }

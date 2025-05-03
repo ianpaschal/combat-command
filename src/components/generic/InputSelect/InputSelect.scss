@@ -19,10 +19,6 @@
   padding: 0 0.75rem 0 1rem;
   text-wrap: nowrap;
 
-  &--disabled {
-    @include variants.outlined-disabled;
-  }
-
   &--hasError {
     border-color: variables.$red;
   }
@@ -69,6 +65,7 @@
 }
 
 .SelectItem {
+  @include variants.ghost;
   @include text.ui;
 
   position: relative;
@@ -84,17 +81,17 @@
 }
 
 .SelectItem[data-disabled] {
-  color: variables.$text-disabled;
+  color: var(--text-color-disabled);
 
   // pointer-events: none;
 }
 
 .SelectItem[data-highlighted] {
-  background-color: variables.$ghost-bg-hover;
+  background-color: var(--ghost-default-bg-hover);
 }
 
 .SelectItem[data-state="checked"] {
-  @include variants.solid;
+  @include variants.primary;
 }
 
 .SelectGroupLabel {
@@ -104,13 +101,13 @@
 
   font-size: var(--font-size-small);
   line-height: 1.5rem;
-  color: variables.$text-muted;
+  color: var(--text-color-muted);
 }
 
 .SelectSeparator {
   height: variables.$border-width;
   margin: 0.25rem 0;
-  background-color: variables.$outlined-border;
+  background-color: var(--border-color);
 }
 
 .SelectItemIndicator {

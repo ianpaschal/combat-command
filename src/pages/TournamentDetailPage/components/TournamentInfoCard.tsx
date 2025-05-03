@@ -29,7 +29,7 @@ export const TournamentInfoCard = ({
   const showManageButton = user && tournament.organizerUserIds.includes(user._id);
   return (
     <TournamentDetailsCard className={clsx(className)} title="Info" buttons={showManageButton ? [
-      <Button key={0} onClick={handleClickManage} muted>
+      <Button key={0} onClick={handleClickManage} variant="secondary">
         <Pencil />Edit
       </Button>,
     ] : undefined}>

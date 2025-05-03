@@ -9,7 +9,8 @@
 
 .MatchResultCard {
   @include flex.column($gap: 0);
-  @include variants.outlined($hover: false);
+
+  @include variants.card;
   @include shadows.surface-shadow;
   @include corners.normal;
 

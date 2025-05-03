@@ -32,7 +32,7 @@ export const MatchResultContextMenu = ({
   return (
     <>
       <PopoverMenu menuItems={contextMenuItems}>
-        <Button muted size={size}>
+        <Button variant="secondary" size={size}>
           <Ellipsis />
         </Button>
       </PopoverMenu>
