@@ -1,4 +1,4 @@
-import { Doc } from '../../_generated/dataModel';
+import { Doc, Id } from '../../_generated/dataModel';
 import { QueryCtx } from '../../_generated/server';
 import { redactUserInfo } from '../../users/utils/redactUserInfo';
 import { getStorageUrl } from '../_helpers/getStorageUrl';
@@ -24,3 +24,10 @@ export const getDeepTournamentCompetitor = async (
     players,
   };
 };
+
+export const getTournamentCompetitorsByTournamentId = async (
+  ctx: QueryCtx,
+  id: Id<'tournaments'>,
+) => await ctx.db.query('tournamentCompetitors')
+  .withIndex('by_tournament_id', (q) => q.eq('tournamentId', id))
+  .collect();

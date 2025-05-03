@@ -103,14 +103,3 @@ export const publishTournament = async (
 ) => await ctx.db.patch(id, {
   status: 'published',
 });
-
-export const startTournamentArgs = v.object({
-  id: v.id('tournaments'),
-});
-
-export const startTournament = async (
-  ctx: MutationCtx,
-  { id }: Infer<typeof startTournamentArgs>,
-) => await ctx.db.patch(id, {
-  status: 'active',
-});

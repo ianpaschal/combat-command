@@ -36,6 +36,8 @@ const table = defineTable({
   'by_user_id', ['player0UserId', 'player1UserId'],
 ).index(
   'by_game_system_id', ['gameSystemId'],
+).index(
+  'by_tournament_pairing_id', ['tournamentPairingId'],
 );
 
 export {

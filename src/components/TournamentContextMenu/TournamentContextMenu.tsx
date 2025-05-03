@@ -5,6 +5,7 @@ import { useAuth } from '~/components/AuthProvider';
 import { Button } from '~/components/generic/Button';
 import { PopoverMenu } from '~/components/generic/PopoverMenu';
 import { useTournament } from '~/components/TournamentProvider';
+import { usePublishTournament } from '~/services/tournaments/usePublishTournament';
 import { PATHS } from '~/settings';
 
 export interface TournamentContextMenuProps {
@@ -19,9 +20,10 @@ export const TournamentContextMenu = ({
   const user = useAuth();
   const tournament = useTournament();
   const navigate = useNavigate();
+  const { mutation: publishTournament } = usePublishTournament();
 
   const contextMenuItems = [
-    // { label: 'Publish', onClick: () => console.warn('pub') },
+    { label: 'Publish', onClick: () => publishTournament({ id: tournament._id }) },
     { label: 'Edit', onClick: () => navigate(generatePath(PATHS.tournamentEdit, { id: tournament._id })) },
     // { label: 'Delete', onClick: () => console.warn('delete') },
   ];

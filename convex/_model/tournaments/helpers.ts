@@ -3,6 +3,7 @@ import { getAuthUserId } from '@convex-dev/auth/server';
 import { Doc, Id } from '../../_generated/dataModel';
 import { QueryCtx } from '../../_generated/server';
 import { getStorageUrl } from '../_helpers/getStorageUrl';
+import { getTournamentCompetitorsByTournamentId } from '../tournamentCompetitors/helpers';
 
 export const getDeepTournament = async (
   ctx: QueryCtx,
@@ -27,7 +28,6 @@ export const getDeepTournament = async (
   const maxPlayers = tournament.maxCompetitors * tournament.competitorSize;
 
   // const organizerUsers = [];
-
   // Restrict visibility of draft tournaments:
   const userId = await getAuthUserId(ctx);
   if (tournament.status === 'draft' && (!userId || !tournament.organizerUserIds.includes(userId))) {
@@ -49,7 +49,7 @@ export const getTournamentUserIds = async (
   ctx: QueryCtx,
   id: Id<'tournaments'>,
 ) => {
-  const tournamentCompetitors = await ctx.db.query('tournamentCompetitors').withIndex('by_tournament_id', (q) => q.eq('tournamentId', id)).collect();
+  const tournamentCompetitors = await getTournamentCompetitorsByTournamentId(ctx, id);
   return new Set(tournamentCompetitors.reduce((acc, c) => [
     ...acc,
     ...c.players.map((p) => p.userId),

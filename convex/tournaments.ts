@@ -1,5 +1,7 @@
 import { mutation, query } from './_generated/server';
 import {
+  checkInPlayer as checkInPlayerHandler,
+  checkInPlayerArgs,
   createTournament as createTournamentHandler,
   createTournamentArgs,
   deleteTournament as deleteTournamentHandler,
@@ -50,4 +52,9 @@ export const publishTournament = mutation({
 export const startTournament = mutation({
   args: startTournamentArgs,
   handler: startTournamentHandler,
+});
+
+export const checkInPlayer = mutation({
+  args: checkInPlayerArgs,
+  handler: checkInPlayerHandler,
 });

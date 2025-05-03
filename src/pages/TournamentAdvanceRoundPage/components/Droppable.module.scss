@@ -1,0 +1,42 @@
+@use "/src/style/flex";
+@use "/src/style/variables";
+@use "/src/style/variants";
+@use "/src/style/corners";
+@use "/src/style/shadows";
+@use "/src/style/text";
+
+// TODO: Move to proper variables
+@import "@radix-ui/colors/gray.css";
+@import "@radix-ui/colors/gray-dark.css";
+@import "@radix-ui/colors/red.css";
+@import "@radix-ui/colors/red-dark.css";
+
+.Droppable {
+  @include corners.normal;
+  @include flex.stretchy;
+
+  /* stylelint-disable-next-line property-no-vendor-prefix */
+  -webkit-user-select: none;
+  user-select: none;
+
+  padding: 0.25rem;
+
+  background-color: palegoldenrod;
+  outline: none;
+
+  transition: background-color 250ms cubic-bezier(0.18, 0.67, 0.6, 1.22);
+
+  -webkit-touch-callout: none;
+
+  &[data-isOver="true"] {
+    background-color: goldenrod;
+  }
+
+  &[data-invalid="true"] {
+    background-color: pink;
+
+    &[data-isOver="true"] {
+      background-color: red;
+    }
+  }
+}

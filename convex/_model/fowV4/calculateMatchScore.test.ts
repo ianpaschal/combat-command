@@ -4,7 +4,7 @@ import {
   it,
 } from 'vitest';
 
-import { MatchResult } from '~/api';
+import { Doc } from '../../_generated/dataModel';
 import { calculateMatchScore } from './calculateMatchScore';
 
 describe('calculateMatchScore', () => {
@@ -15,7 +15,7 @@ describe('calculateMatchScore', () => {
         player0UnitsLost: 1,
         player1UnitsLost: 5,
       },
-    } as MatchResult;
+    } as Doc<'matchResults'>;
     expect(calculateMatchScore(matchResult)).toEqual([8, 1]);
   });
 
@@ -26,7 +26,7 @@ describe('calculateMatchScore', () => {
         player0UnitsLost: 2,
         player1UnitsLost: 5,
       },
-    } as MatchResult;
+    } as Doc<'matchResults'>;
     expect(calculateMatchScore(matchResult)).toEqual([7, 2]);
   });
 
@@ -37,7 +37,7 @@ describe('calculateMatchScore', () => {
         player0UnitsLost: 3,
         player1UnitsLost: 5,
       },
-    } as MatchResult;
+    } as Doc<'matchResults'>;
     expect(calculateMatchScore(matchResult)).toEqual([6, 3]);
   });
 
@@ -48,7 +48,7 @@ describe('calculateMatchScore', () => {
         player1UnitsLost: 1,
         player0UnitsLost: 5,
       },
-    } as MatchResult;
+    } as Doc<'matchResults'>;
     expect(calculateMatchScore(matchResult)).toEqual([1, 8]);
   });
 
@@ -59,7 +59,7 @@ describe('calculateMatchScore', () => {
         player1UnitsLost: 2,
         player0UnitsLost: 5,
       },
-    } as MatchResult;
+    } as Doc<'matchResults'>;
     expect(calculateMatchScore(matchResult)).toEqual([2, 7]);
   });
 
@@ -70,7 +70,7 @@ describe('calculateMatchScore', () => {
         player1UnitsLost: 3,
         player0UnitsLost: 5,
       },
-    } as MatchResult;
+    } as Doc<'matchResults'>;
     expect(calculateMatchScore(matchResult)).toEqual([3, 6]);
   });
 
@@ -81,7 +81,7 @@ describe('calculateMatchScore', () => {
         player0UnitsLost: 2,
         player1UnitsLost: 3,
       },
-    } as MatchResult;
+    } as Doc<'matchResults'>;
     expect(calculateMatchScore(matchResult)).toEqual([3, 2]);
   });
 
@@ -92,7 +92,7 @@ describe('calculateMatchScore', () => {
         player0UnitsLost: 5,
         player1UnitsLost: 4,
       },
-    } as MatchResult;
+    } as Doc<'matchResults'>;
     expect(calculateMatchScore(matchResult)).toEqual([3, 3]);
   });
 
@@ -103,7 +103,7 @@ describe('calculateMatchScore', () => {
         player0UnitsLost: 0,
         player1UnitsLost: -1,
       },
-    } as MatchResult;
+    } as Doc<'matchResults'>;
     expect(calculateMatchScore(matchResult)).toEqual([1, 1]);
   });
 });

@@ -78,6 +78,13 @@ export {
   tournamentPairingMethodOptions,
 } from '../convex/static/tournamentPairingMethods';
 
+// TODO: Move around...
+export {
+  type DraftPairing,
+  type PairingResult,
+  type RankedCompetitor,
+} from '../convex/_model/tournamentPairings/helpers/pairingTypes';
+
 // Static Data & Interfaces (Flames of War 4th Edition)
 
 // Battle Plans
