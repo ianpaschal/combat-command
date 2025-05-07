@@ -26,7 +26,7 @@
   @include flex.column($gap: 0.25rem);
   @include animate.duration-quick;
   @include corners.normal;
-  @include shadows.shadow;
+  @include shadows.elevated;
   @include variants.card;
 
   z-index: 10000;

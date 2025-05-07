@@ -1,18 +1,19 @@
 @use "/src/style/flex";
 @use "/src/style/variables";
-@use "/src/style/variants";
+@use "/src/style/borders";
 @use "/src/style/corners";
 @use "/src/style/shadows";
 @use "/src/style/text";
 
 .PairingStep {
   @include flex.column;
-  @include variants.outlined($hover: false);
-  @include shadows.surface-shadow;
+  @include borders.normal;
+  @include shadows.surface;
   @include corners.normal;
   @include flex.stretchy;
 
-  padding: var(--container-padding-x);
+  padding: var(--container-padding-y) var(--container-padding-x);
+  background: var(--card-bg);
 
   &_PairingMethodSection {
     @include flex.row;
@@ -38,8 +39,8 @@
 }
 
 .DragContent {
-  @include variants.outlined($hover: false);
-  @include shadows.surface-shadow;
+  @include borders.normal;
+  @include shadows.surface;
   @include corners.normal;
   @include flex.stretchy;
 

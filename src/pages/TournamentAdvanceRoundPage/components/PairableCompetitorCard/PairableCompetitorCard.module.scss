@@ -9,7 +9,7 @@
   --rank-size: 2.5rem;
 
   @include variants.outlined($hover: false);
-  @include shadows.surface-shadow;
+  @include shadows.surface;
   @include corners.normal;
 
   display: grid;

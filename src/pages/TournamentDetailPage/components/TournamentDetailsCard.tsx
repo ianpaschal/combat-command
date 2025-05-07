@@ -1,4 +1,4 @@
-import { HTMLAttributes, ReactNode } from 'react';
+import { HTMLAttributes, ReactElement } from 'react';
 import clsx from 'clsx';
 
 import { Card } from '~/components/generic/Card';
@@ -8,7 +8,7 @@ import styles from './TournamentDetailsCard.module.scss';
 
 export interface TournamentDetailsCardProps extends HTMLAttributes<HTMLDivElement> {
   title?: string;
-  buttons?: ReactNode[];
+  buttons?: ReactElement[];
 }
 
 export const TournamentDetailsCard = ({

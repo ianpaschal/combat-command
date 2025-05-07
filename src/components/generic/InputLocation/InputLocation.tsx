@@ -26,7 +26,8 @@ export interface InputLocationProps {
 export const InputLocation = forwardRef<HTMLButtonElement, InputLocationProps>(({
   value,
   onChange,
-  // hasError = false,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  hasError = false,
   ...props
 }, ref): JSX.Element => {
   const [searchTerm, setSearchTerm] = useState<string>('');

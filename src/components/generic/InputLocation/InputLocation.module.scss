@@ -7,7 +7,7 @@
 
 .InputDatePopoverContent {
   @include variants.card;
-  @include shadows.shadow;
+  @include shadows.elevated;
   @include animate.duration-quick;
   @include animate.style-pop;
 

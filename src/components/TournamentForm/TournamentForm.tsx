@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useBlocker } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import clsx from 'clsx';
 
@@ -8,7 +7,6 @@ import { StorageId, TournamentId } from '~/api';
 import { GameConfigFields } from '~/components/FowV4MatchResultForm/components/GameConfigFields';
 import { Card } from '~/components/generic/Card';
 import { Form } from '~/components/generic/Form';
-import { UnsavedChangesDialog } from '~/components/UnsavedChangesDialog';
 import { useFileFromUrl } from '~/hooks/useFileFromUrl';
 import { useFetchTournament } from '~/services/tournaments/useFetchTournament';
 import { useUploadConvexImage } from '~/services/useUploadConvexFile';
@@ -53,7 +51,6 @@ export const TournamentForm = ({
     },
     mode: 'onSubmit',
   });
-  const blocker = useBlocker(() => form.formState.isDirty); // FIXME: This is broken in RHF
 
   // Async load images as files
   const existingLogoFile = useFileFromUrl(tournament?.logoUrl);
@@ -101,7 +98,6 @@ export const TournamentForm = ({
 
   return (
     <Form id={id} form={form} onSubmit={onSubmit} className={clsx(styles.TournamentForm, className)}>
-      <UnsavedChangesDialog blocker={blocker} />
       <Card className={styles.TournamentForm_SectionCard}>
         <h2>General</h2>
         <GeneralFields status={tournament?.status} />
@@ -119,6 +115,6 @@ export const TournamentForm = ({
         <h2>Format</h2>
         <FormatFields status={tournament?.status} />
       </Card>
-    </Form >
+    </Form>
   );
 };

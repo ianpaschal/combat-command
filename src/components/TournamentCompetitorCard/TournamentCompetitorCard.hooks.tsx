@@ -23,7 +23,6 @@ export const useCompetitorAvatar = (tournamentCompetitor: TournamentCompetitor) 
   }, [competitorSize, useNationalTeams, tournamentCompetitor]);
 };
 
-// TODO: Convert to hook to use useTournament?
 export const useCompetitorDisplayName = (tournamentCompetitor: TournamentCompetitor) => {
   const { competitorSize, useNationalTeams } = useTournament();
   return useMemo(() => {

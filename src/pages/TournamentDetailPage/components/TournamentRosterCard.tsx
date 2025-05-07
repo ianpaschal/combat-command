@@ -1,3 +1,4 @@
+import { ReactElement } from 'react';
 import { generatePath } from 'react-router-dom';
 import { ScrollArea } from '@radix-ui/react-scroll-area';
 import clsx from 'clsx';
@@ -72,27 +73,27 @@ export const TournamentRosterCard = ({
 
   };
 
-  const getPrimaryButton = (): JSX.Element | undefined => {
+  const getPrimaryButtons = (): ReactElement[] | undefined => {
     if (userIsPlayer) {
-      return (
+      return [
         <Button variant="secondary">
           <UserMinus />Leave
-        </Button>
-      );
+        </Button>,
+      ];
     }
     if (!isTeamTournament && user && !userIsOrganizer && !userIsPlayer) {
-      return (
+      return [
         <Button onClick={handleRegister}>
           <UserPlus />Register
-        </Button>
-      );
+        </Button>,
+      ];
     }
     if (isTeamTournament && user && !userIsOrganizer && !userIsPlayer) {
-      return (
+      return [
         <Button onClick={openTournamentCreateTeamDialog}>
           <UserPlus />New Team
-        </Button>
-      );
+        </Button>,
+      ];
     }
   };
 
@@ -100,7 +101,7 @@ export const TournamentRosterCard = ({
     <TournamentDetailsCard
       className={clsx(className)}
       title="Roster"
-      buttons={[getPrimaryButton()]}
+      buttons={getPrimaryButtons()}
     >
       {showEmptyState ? (
         <div className={styles.TournamentRoster_EmptyState}>

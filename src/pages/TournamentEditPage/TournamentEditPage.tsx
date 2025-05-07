@@ -15,7 +15,7 @@ import { useUpdateTournament } from '~/services/tournaments/useUpdateTournament'
 import { PATHS } from '~/settings';
 
 const WIDTH = 960;
-const FORM_ID = 'tournament-create-form';
+const FORM_ID = 'tournament-edit-form';
 
 export const TournamentEditPage = (): JSX.Element => {
   const { pathname } = useLocation();

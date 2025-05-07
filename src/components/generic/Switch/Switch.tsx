@@ -13,13 +13,16 @@ import './Switch.scss';
 const cn = createCn('Switch');
 
 type SwitchRef = ElementRef<typeof Root>;
-type SwitchProps = ComponentPropsWithoutRef<typeof Root>;
+type SwitchProps = ComponentPropsWithoutRef<typeof Root> & {
+  hasError?: boolean;
+};
 export const Switch = forwardRef<SwitchRef, SwitchProps>(({
   className,
   disabled,
+  hasError = false,
   ...props
 }, ref) => (
-  <Root ref={ref} className={clsx(cn(), { [cn('-disabled')]: disabled }, className)} disabled={disabled} {...props}>
+  <Root ref={ref} className={clsx(cn(), { [cn('-disabled')]: disabled, [cn('-hasError')]: hasError }, className)} disabled={disabled} {...props}>
     <Thumb className={cn('_Thumb')} />
   </Root>
 ));

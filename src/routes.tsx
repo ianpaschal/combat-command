@@ -241,4 +241,8 @@ export const router = createBrowserRouter([{
     { path: '', element: <LandingPage /> },
     ...routes,
   ],
-}]);
+}], {
+  future: {
+    v7_relativeSplatPath: true,
+  },
+});

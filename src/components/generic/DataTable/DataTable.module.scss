@@ -27,7 +27,7 @@ $row-height: 3rem;
 }
 
 .PopoverContent {
-  @include shadows.shadow;
+  @include shadows.elevated;
   @include animate.duration-quick;
   @include variants.card;
 
