@@ -12,7 +12,7 @@ import {
 } from 'react-hook-form';
 import { useBlocker, useNavigation } from 'react-router-dom';
 
-import { UnsavedChangesDialog } from '~/components/UnsavedChangesDialog';
+import { Dialog } from '~/components/generic/Dialog';
 
 export interface FormProps<T extends FieldValues> {
   id?: string;
@@ -45,7 +45,17 @@ export const Form = <T extends FieldValues>({
   }, [navigation.state]);
   return (
     <FormProvider {...form}>
-      <UnsavedChangesDialog blocker={blocker} />
+      <Dialog
+        open={blocker.state === 'blocked'}
+        title="You have unsaved changes"
+        description="Are you sure you want to navigate away? Unsaved changes will be lost."
+        width="small"
+        onCancel={blocker.reset}
+        actions={[
+          { label: 'Cancel', onClick: blocker.reset, variant: 'secondary' },
+          { label: 'Continue', onClick: blocker.proceed, variant: 'primary', intent: 'danger' },
+        ]}
+      />
       <form onSubmit={handleSubmit} className={className} id={id}>
         {children}
       </form>
