@@ -9,9 +9,9 @@ import { TournamentId } from '~/api';
 import { Button } from '~/components/generic/Button';
 import { PageWrapper } from '~/components/PageWrapper';
 import { TournamentProvider } from '~/components/TournamentProvider';
-import { PairingsStep } from '~/pages/TournamentAdvanceRoundPage/components/PairingsStep';
-import { RosterStep } from '~/pages/TournamentAdvanceRoundPage/components/RosterStep';
 import { useFetchTournament } from '~/services/tournaments/useFetchTournament';
+import { PairingsStep } from './components/PairingsStep';
+import { RosterStep } from './components/RosterStep';
 
 export const TournamentAdvanceRoundPage = (): JSX.Element => {
   const navigate = useNavigate();

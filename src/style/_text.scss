@@ -41,3 +41,11 @@
 // - `text.uiBold` 0.875rem x 1.25rem, 700
 // - `text.uiMuted` 0.875rem x 1.25rem, 700
 // - `text.normal` 0.875rem, muted color
+
+@mixin max-lines($lines: 1) {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $lines;
+  line-clamp: $lines;
+}

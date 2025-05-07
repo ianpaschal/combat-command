@@ -6,14 +6,15 @@
 @use "/src/style/text";
 
 // TODO: Move to proper variables
-@import "@radix-ui/colors/gray.css";
+@import "@radix-ui/colors/gray-alpha.css";
 @import "@radix-ui/colors/gray-dark.css";
-@import "@radix-ui/colors/red.css";
-@import "@radix-ui/colors/red-dark.css";
+@import "@radix-ui/colors/tomato-alpha.css";
+@import "@radix-ui/colors/tomato-dark.css";
 
 .Droppable {
   @include corners.normal;
-  @include flex.stretchy;
+
+  // @include flex.stretchy;
 
   /* stylelint-disable-next-line property-no-vendor-prefix */
   -webkit-user-select: none;
@@ -21,22 +22,22 @@
 
   padding: 0.25rem;
 
-  background-color: palegoldenrod;
+  background-color: var(--gray-a2);
   outline: none;
 
   transition: background-color 250ms cubic-bezier(0.18, 0.67, 0.6, 1.22);
 
   -webkit-touch-callout: none;
 
-  &[data-isOver="true"] {
-    background-color: goldenrod;
+  &[data-over="true"] {
+    background-color: var(--gray-a3);
   }
 
   &[data-invalid="true"] {
-    background-color: pink;
+    background-color: var(--tomato-a4);
 
-    &[data-isOver="true"] {
-      background-color: red;
+    &[data-over="true"] {
+      background-color: var(--tomato-a6);
     }
   }
 }

@@ -1,0 +1,52 @@
+@use "/src/style/flex";
+@use "/src/style/variables";
+@use "/src/style/variants";
+@use "/src/style/corners";
+@use "/src/style/shadows";
+@use "/src/style/text";
+
+.PairingStep {
+  @include flex.column;
+  @include variants.outlined($hover: false);
+  @include shadows.surface-shadow;
+  @include corners.normal;
+  @include flex.stretchy;
+
+  padding: var(--container-padding-x);
+
+  &_PairingMethodSection {
+    @include flex.row;
+  }
+}
+
+.PairingsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1.5rem 1fr 1fr;
+  gap: 1rem;
+}
+
+.PairedSection {
+  @include flex.column($gap: 0.5rem);
+
+  grid-column: 1 / 4;
+}
+
+.UnpairedSection {
+  @include flex.column($gap: 0.5rem);
+
+  grid-column: 4 / 5;
+}
+
+.DragContent {
+  @include variants.outlined($hover: false);
+  @include shadows.surface-shadow;
+  @include corners.normal;
+  @include flex.stretchy;
+
+  height: 5rem;
+  padding: calc(1rem - 1px);
+}
+
+.UnpairedPool {
+  @include flex.column($gap: 0.5rem);
+}

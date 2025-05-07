@@ -15,6 +15,7 @@
 .Player0Section {
   @include flex.column($xAlign: center);
 
+  overflow: hidden;
   grid-area: player0;
 }
 

@@ -1,0 +1,1 @@
+export { PairableCompetitorCard } from './PairableCompetitorCard';

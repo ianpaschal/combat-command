@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { UniqueIdentifier, useDraggable } from '@dnd-kit/core';
+import { CSS } from '@dnd-kit/utilities';
 
 import styles from './Draggable.module.scss';
 
@@ -20,17 +21,16 @@ export const Draggable = ({
     transform,
     isDragging,
   } = useDraggable({ id });
-
+  const style = {
+    transform: CSS.Translate.toString(transform),
+    opacity: isDragging ? 0 : 1,
+    // cursor: isDragging ? 'grabbing' : 'grab',
+  };
   return (
     <div
       ref={setNodeRef}
       className={styles.Draggable}
-      style={{
-        transform: transform
-          ? `translate(${transform.x}px, ${transform.y}px)`
-          : undefined,
-        opacity: isDragging ? 0 : 1,
-      }}
+      style={style}
       {...listeners}
       {...attributes}
     >

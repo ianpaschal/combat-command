@@ -80,6 +80,9 @@ export {
 
 // TODO: Move around...
 export {
+  checkPairingIsValid,
+} from '../convex/_model/tournamentPairings/helpers/checkPairingIsValid';
+export {
   type DraftPairing,
   type PairingResult,
   type RankedCompetitor,

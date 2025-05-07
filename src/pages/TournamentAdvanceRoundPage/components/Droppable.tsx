@@ -24,7 +24,7 @@ export const Droppable = ({
     <div
       ref={setNodeRef}
       className={clsx(styles.Droppable, className)}
-      data-isOver={isOver}
+      data-over={isOver}
       data-invalid={invalid}
       style={style}
     >

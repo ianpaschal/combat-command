@@ -1,31 +1,37 @@
+import { ReactElement } from 'react';
 import { Image, Root } from '@radix-ui/react-avatar';
 import clsx from 'clsx';
-import { User } from 'lucide-react';
+import { User, Users } from 'lucide-react';
 
 import { FlagCircle } from '~/components/generic/FlagCircle';
 
 import styles from './Avatar.module.scss';
 
 export interface AvatarProps {
-  url?: string;
   className?: string;
   countryCode?: string;
+  isTeam?: boolean;
   loading?: boolean;
+  url?: string;
   userId?: string;
 }
 
 export const Avatar = ({
-  url,
   className,
   countryCode,
-  loading,
+  isTeam = false,
+  loading = false,
+  url,
 }: AvatarProps): JSX.Element => {
-  const getInnerContent = (): JSX.Element | null => {
+  const getInnerContent = (): ReactElement | null => {
     if (loading) {
       return null;
     }
     if (url) {
       return <Image className={styles.Image} src={url} />;
+    }
+    if (isTeam) {
+      return <Users />;
     }
     return <User />;
   };
@@ -35,7 +41,7 @@ export const Avatar = ({
         {getInnerContent()}
       </div>
       {countryCode && (
-        <FlagCircle className={styles.Flag} code={countryCode} size="1rem" />
+        <FlagCircle className={styles.Flag} code={countryCode} />
       )}
     </Root>
   );

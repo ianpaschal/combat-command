@@ -38,8 +38,6 @@ export interface InputCountryProps {
   onChange?: (value?: SelectValue) => void;
 }
 
-const FLAG_SIZE = '1.25rem';
-
 type SelectRef = ElementRef<typeof Root>;
 type SelectProps = ComponentPropsWithoutRef<typeof Root> & InputCountryProps;
 export const InputCountry = forwardRef<SelectRef, SelectProps>(({
@@ -57,7 +55,7 @@ export const InputCountry = forwardRef<SelectRef, SelectProps>(({
         <Value ref={ref} placeholder={placeholder}>
           {value && (
             <div className={styles.Value}>
-              <FlagCircle code={value} size={FLAG_SIZE} />
+              <FlagCircle code={value} />
               {options.find((option) => option.value === value)?.label}
             </div>
           )}
@@ -74,7 +72,7 @@ export const InputCountry = forwardRef<SelectRef, SelectProps>(({
           <Viewport className={styles.Viewport}>
             {options.map((option) => (
               <Item className={styles.Item} value={option.value}>
-                <FlagCircle code={option.value} size={FLAG_SIZE} />
+                <FlagCircle code={option.value} />
                 <ItemText>{option.label}</ItemText>
                 <ItemIndicator className={styles.ItemIndicator}>
                   <CheckIcon />

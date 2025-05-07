@@ -1,7 +1,10 @@
 import { Id } from '../../../_generated/dataModel';
 import { DraftPairing } from './pairingTypes';
 
-export function checkPairingIsValid(pairing: DraftPairing): boolean {
+export function checkPairingIsValid(pairing: Partial<DraftPairing>): boolean {
+  if (!pairing || !pairing[0] || !pairing[1]) {
+    return false;
+  }
   if (pairing[0].id === pairing[1].id) {
     return false;
   }
@@ -20,10 +23,15 @@ export function checkAllPairingsValidity(pairings: DraftPairing[]): boolean {
     if (!checkPairingIsValid(pairing)) {
       return false;
     }
-    if (pairedCompetitorIds.includes(pairing[0].id) || pairedCompetitorIds.includes(pairing[0].id) ) {
-      return false;
+    for (let i = 0; i < 2; i++) {
+      const competitor = pairing[i];
+      if (competitor) {
+        if (pairedCompetitorIds.includes(competitor.id)) {
+          return false;
+        }
+        pairedCompetitorIds.push(competitor.id);
+      }
     }
-    pairedCompetitorIds.push(pairing[0].id, pairing[1].id);
   }
   return true;
 }

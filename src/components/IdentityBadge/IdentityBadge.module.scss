@@ -1,0 +1,45 @@
+@use "/src/style/flex";
+@use "/src/style/text";
+
+.IdentityBadge {
+  --avatar-size: 2.5rem;
+
+  @include flex.row;
+
+  &_Avatar {
+    place-self: center center;
+    width: var(--avatar-size);
+  }
+
+  &_Name {
+    @include text.ui;
+
+    overflow: hidden;
+    display: -webkit-box;
+    grid-column: 2/3;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; /* number of lines to show */
+    line-clamp: 2;
+    place-self: center start;
+
+    line-height: calc(var(--line-height-normal) - 2px);
+  }
+
+  &-small {
+    --avatar-size: 2rem;
+
+    .IdentityBadge_Name {
+      -webkit-line-clamp: 1; /* number of lines to show */
+      line-clamp: 1;
+    }
+  }
+
+  &-large {
+    --avatar-size: 3rem;
+
+    .IdentityBadge_Name {
+      font-size: var(--font-size-large);
+      line-height: calc(var(--line-height-large) - 2px);
+    }
+  }
+}
