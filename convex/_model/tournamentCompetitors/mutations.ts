@@ -51,7 +51,8 @@ export const createTournamentCompetitor = async (
 
   return await ctx.db.insert('tournamentCompetitors', {
     ...args,
-    players, 
+    active: false,
+    players,
   });
 };
 
@@ -145,5 +146,78 @@ export const removePlayerFromTournamentCompetitor = async (
   // Otherwise remove the player
   return await ctx.db.patch(args.tournamentCompetitorId, {
     players: tournamentCompetitor.players.filter((player) => player.userId === args.playerUserId),
+  });
+};
+
+export const toggleTournamentCompetitorActiveArgs = v.object({
+  id: v.id('tournamentCompetitors'),
+});
+
+export const toggleTournamentCompetitorActive = async (
+  ctx: MutationCtx,
+  args: Infer<typeof toggleTournamentCompetitorActiveArgs>,
+) => {
+  const userId = await getAuthUserId(ctx);
+  if (!userId) {
+    throw new ConvexError(getErrorMessage('USER_NOT_AUTHENTICATED'));
+  }
+  const tournamentCompetitor = await ctx.db.get(args.id);
+  if (!tournamentCompetitor) {
+    throw new ConvexError(getErrorMessage('TOURNAMENT_COMPETITOR_NOT_FOUND'));
+  }
+  const tournament = await ctx.db.get(tournamentCompetitor.tournamentId);
+  if (!tournament) {
+    throw new ConvexError(getErrorMessage('TOURNAMENT_CONTAINING_COMPETITOR_NOT_FOUND'));
+  }
+  if (!tournament?.organizerUserIds.includes(userId)) {
+    throw new ConvexError(getErrorMessage('ONLY_ORGANIZER_CAN_TOGGLE_COMPETITOR_ACTIVE'));
+  }
+  return await ctx.db.patch(args.id, {
+    active: !tournamentCompetitor.active,
+  });
+};
+
+export const substituteTournamentCompetitorPlayerArgs = v.object({
+  activeUserId: v.id('users'),
+  inactiveUserId: v.id('users'),
+  tournamentCompetitorId: v.id('tournamentCompetitors'),
+});
+
+export const substituteTournamentCompetitorPlayer = async (
+  ctx: MutationCtx,
+  args: Infer<typeof substituteTournamentCompetitorPlayerArgs>,
+) => {
+  const userId = await getAuthUserId(ctx);
+  if (!userId) {
+    throw new ConvexError(getErrorMessage('USER_NOT_AUTHENTICATED'));
+  }
+  const tournamentCompetitor = await ctx.db.get(args.tournamentCompetitorId);
+  if (!tournamentCompetitor) {
+    throw new ConvexError(getErrorMessage('TOURNAMENT_COMPETITOR_NOT_FOUND'));
+  }
+  const tournament = await ctx.db.get(tournamentCompetitor.tournamentId);
+  if (!tournament) {
+    throw new ConvexError(getErrorMessage('TOURNAMENT_CONTAINING_COMPETITOR_NOT_FOUND'));
+  }
+  if (!tournament?.organizerUserIds.includes(userId)) {
+    throw new ConvexError(getErrorMessage('ONLY_ORGANIZER_CAN_TOGGLE_COMPETITOR_ACTIVE'));
+  }
+  if (!args.activeUserId || !args.inactiveUserId) {
+    throw new ConvexError(getErrorMessage('CANNOT_SUBSTITUTE_ONLY_ONE_PLAYER'));
+  }
+  const index = tournamentCompetitor.players.findIndex((p) => p.userId === args.inactiveUserId);
+  return await ctx.db.patch(args.tournamentCompetitorId, {
+    players: [
+      ...tournamentCompetitor.players.slice(0, index),
+      {
+        active: false,
+        userId: args.inactiveUserId,
+      },
+      ...tournamentCompetitor.players.slice(index + 1, tournamentCompetitor.players.length),
+      {
+        active: true,
+        userId: args.activeUserId,
+      },
+    ],
   });
 };

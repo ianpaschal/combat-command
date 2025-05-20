@@ -3,6 +3,7 @@ export const errors = {
   // Tournament (general)
   CANNOT_ADD_ANOTHER_PLAYER: 'Cannot add another player.',
   CANNOT_ADD_COMPETITOR_TO_ACTIVE_TOURNAMENT: 'Cannot add a competitor to an on-going tournament.',
+  ONLY_ORGANIZER_CAN_TOGGLE_COMPETITOR_ACTIVE: 'Only a tournament organizer can change a competitor\'s check-in status.',
   CANNOT_DELETE_ACTIVE_TOURNAMENT: 'Cannot delete an active tournament.',
   CANNOT_DELETE_ARCHIVED_TOURNAMENT: 'Cannot delete an archived tournament.',
   CANNOT_MODIFY_ACTIVE_TOURNAMENT_COMPETITORS: 'Cannot modify competitor format for an active tournament.',
@@ -23,12 +24,20 @@ export const errors = {
   USER_ALREADY_IN_TOURNAMENT: 'A user with that ID is already registered.',
   USER_NOT_TOURNAMENT_ORGANIZER: 'User is not an organizer for this tournament.',
   USER_NOT_TOURNAMENT_PLAYER: 'User is not a player in this tournament.',
+  INACTIVE_TOURNAMENT_CANNOT_USE_TIMERS: 'Tournament is not active or does not have a current round.',
+  CANNOT_ADVANCE_INACTIVE_TOURNAMENT: 'Cannot advance tournament which is not active to the next round.',
+  TOURNAMENT_TIMER_ALREADY_PAUSED: 'Tournament timer is already paused.',
+  TOURNAMENT_TIMER_ALREADY_RUNNING: 'Tournament timer is already running.',
+  TOURNAMENT_TIMER_ALREADY_EXISTS: 'Tournament already has a timer for this round.',
+  CANNOT_SUBSTITUTE_ONLY_ONE_PLAYER: 'Cannot substitute only one player.',
 
   // Missing docs
   TOURNAMENT_COMPETITOR_NOT_FOUND: 'Could not find a competitor with that ID.',
   TOURNAMENT_CONTAINING_COMPETITOR_NOT_FOUND: 'Could not find a tournament containing this competitor.',
   TOURNAMENT_NOT_FOUND: 'Could not find a tournament with that ID.',
   TOURNAMENT_PAIRING_NOT_FOUND: 'Could not find a pairing with that ID.',
+  TOURNAMENT_TIMER_NOT_FOUND: 'Could not find a tournament timer for that tournament and round.',
+  USER_NOT_FOUND: 'Could not find a user with that ID.',
 
   // General
   USER_NOT_AUTHENTICATED: 'Authentication required!',

@@ -8,7 +8,7 @@ import { TournamentCompetitor, User } from '~/api';
 import { Avatar } from '~/components/generic/Avatar';
 import { FlagCircle } from '~/components/generic/FlagCircle';
 import { getCountryName } from '~/utils/common/getCountryName';
-import { getUserDisplayNameReact } from '~/utils/common/getUserDisplayNameReact';
+import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
 
 export type GetDisplayNameInput = {
   user?: User;
@@ -26,11 +26,11 @@ export const useDisplayName = ({
     throw new Error('Please supply only a user or a tournament competitor to <IdentityBadge/>!');
   }
   if (user) {
-    return getUserDisplayNameReact(user);
+    return getUserDisplayNameString(user);
   }
   if (competitor) {
     if (competitor.players.length === 1 && competitor.players[0].user) {
-      return getUserDisplayNameReact(competitor.players[0].user);
+      return getUserDisplayNameString(competitor.players[0].user);
     }
     if (competitor.teamName) {
       const countryName = getCountryName(competitor.teamName);

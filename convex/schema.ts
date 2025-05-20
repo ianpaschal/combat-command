@@ -4,6 +4,7 @@ import { defineSchema } from 'convex/server';
 import { tournamentCompetitors } from './_model/tournamentCompetitors';
 import { tournamentPairings } from './_model/tournamentPairings';
 import { tournaments } from './_model/tournaments';
+import { tournamentTimers } from './_model/tournamentTimers';
 import { friendships } from './friendships';
 import { matchResultComments } from './matchResultComments';
 import { matchResultLikes } from './matchResultLikes';
@@ -17,9 +18,10 @@ export default defineSchema({
   matchResultComments,
   matchResultLikes,
   matchResults,
+  photos,
   tournamentCompetitors,
   tournamentPairings,
   tournaments,
+  tournamentTimers,
   users,
-  photos,
 });

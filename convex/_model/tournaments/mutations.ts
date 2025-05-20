@@ -101,6 +101,7 @@ export const publishTournamentArgs = v.object({
   id: v.id('tournaments'),
 });
 
+// TODO: Throw error if status is not draft
 export const publishTournament = async (
   ctx: MutationCtx,
   { id }: Infer<typeof publishTournamentArgs>,
@@ -112,9 +113,28 @@ export const startTournamentArgs = v.object({
   id: v.id('tournaments'),
 });
 
+// TODO: Throw error if status is not published
 export const startTournament = async (
   ctx: MutationCtx,
   { id }: Infer<typeof startTournamentArgs>,
 ) => await ctx.db.patch(id, {
   status: 'active',
+  currentRound: 0,
 });
+
+export const advanceTournament = async (
+  ctx: MutationCtx,
+  { id }: Infer<typeof startTournamentArgs>,
+) => {
+  const tournament = await ctx.db.get(id);
+  if (!tournament) {
+    throw new ConvexError(getErrorMessage('TOURNAMENT_NOT_FOUND'));
+  }
+  if (tournament.status !== 'active') {
+    throw new ConvexError(getErrorMessage('CANNOT_ADVANCE_INACTIVE_TOURNAMENT'));
+  }
+  await ctx.db.patch(id, {
+    currentRound: tournament.currentRound ?? 0 + 1,
+  });
+  // TODO: Clean up old timer
+};

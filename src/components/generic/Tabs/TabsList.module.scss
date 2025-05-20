@@ -6,7 +6,8 @@
 .Root {
   @include corners.normal;
 
-  flex-shrink: 0;
+  // flex-shrink: 0;
+  min-width: min-content;
   padding: 0.25rem;
   background-color: var(--secondary-default-bg);
 

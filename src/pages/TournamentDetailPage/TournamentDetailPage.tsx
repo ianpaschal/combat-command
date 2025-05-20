@@ -2,10 +2,8 @@ import { useCallback, useEffect } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useWindowWidth } from '@react-hook/window-size/throttled';
 
-// import { UserPlus } from 'lucide-react';
 import { TournamentId } from '~/api';
 import { Animate } from '~/components/generic/Animate';
-// import { Button } from '~/components/generic/Button';
 import { Separator } from '~/components/generic/Separator';
 import {
   Tabs,
@@ -14,8 +12,7 @@ import {
   TabsTrigger,
 } from '~/components/generic/Tabs';
 import { PageWrapper } from '~/components/PageWrapper';
-// import { TournamentCreateTeamDialog, useTournamentCreateTeamDialog } from '~/components/TournamentCreateTeamDialog';
-// import { TournamentInfoBlock } from '~/components/TournamentInfoBlock';
+import { TournamentContextMenu } from '~/components/TournamentContextMenu';
 import { TournamentProvider } from '~/components/TournamentProvider';
 import { useFetchTournament } from '~/services/tournaments/useFetchTournament';
 import { MAX_WIDTH, MIN_WIDTH_DESKTOP } from '~/settings';
@@ -31,8 +28,6 @@ export const TournamentDetailPage = (): JSX.Element => {
   const params = useParams();
   const tournamentId = params.id! as TournamentId; // Must exist or else how did we get to this route?
   const { data: tournament } = useFetchTournament(tournamentId);
-
-  // const { open: openTournamentCreateTeamDialog } = useTournamentCreateTeamDialog(tournamentId);
 
   const fitToWindow = windowWidth >= MIN_WIDTH_DESKTOP;
 
@@ -94,25 +89,28 @@ export const TournamentDetailPage = (): JSX.Element => {
               </div>
             )}
             <Tabs className={styles.TournamentDetailPage_Tabs} value={activeTab} onValueChange={handleTabChange}>
-              {visibleTabs.length > 1 && (
-                <TabsList>
-                  <Animate show={visibleTabs.includes('info')}>
-                    <TabsTrigger value="info">Info</TabsTrigger>
-                  </Animate>
-                  <Animate show={visibleTabs.includes('activeRound')}>
-                    <TabsTrigger value="activeRound">Active Round</TabsTrigger>
-                  </Animate>
-                  <Animate show={visibleTabs.includes('rankings')}>
-                    <TabsTrigger value="rankings">Rankings</TabsTrigger>
-                  </Animate>
-                  <Animate show={visibleTabs.includes('matchResults')}>
-                    <TabsTrigger value="matchResults">Match Results</TabsTrigger>
-                  </Animate>
-                  <Animate show={visibleTabs.includes('roster')}>
-                    <TabsTrigger value="roster">Roster</TabsTrigger>
-                  </Animate>
-                </TabsList>
-              )}
+              <div className={styles.TournamentDetailPage_TabBar}>
+                {visibleTabs.length > 1 && (
+                  <TabsList>
+                    <Animate show={visibleTabs.includes('info')}>
+                      <TabsTrigger value="info">Info</TabsTrigger>
+                    </Animate>
+                    <Animate show={visibleTabs.includes('activeRound')}>
+                      <TabsTrigger value="activeRound">Active Round</TabsTrigger>
+                    </Animate>
+                    <Animate show={visibleTabs.includes('rankings')}>
+                      <TabsTrigger value="rankings">Rankings</TabsTrigger>
+                    </Animate>
+                    <Animate show={visibleTabs.includes('matchResults')}>
+                      <TabsTrigger value="matchResults">Match Results</TabsTrigger>
+                    </Animate>
+                    <Animate show={visibleTabs.includes('roster')}>
+                      <TabsTrigger value="roster">Roster</TabsTrigger>
+                    </Animate>
+                  </TabsList>
+                )}
+                <TournamentContextMenu variant="primary" />
+              </div>
               <TabsContent className={styles.TournamentDetailPage_TabsContent} value="info">
                 <TournamentInfoCard />
               </TabsContent>

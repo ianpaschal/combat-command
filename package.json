@@ -79,6 +79,7 @@
     "react-error-boundary": "^5.0.0",
     "react-hook-form": "^7.53.0",
     "react-router-dom": "^6.25.1",
+    "react-use-measure": "^2.1.7",
     "resend": "^3.2.0",
     "tz-lookup": "^6.1.25",
     "use-debounce": "^10.0.4",

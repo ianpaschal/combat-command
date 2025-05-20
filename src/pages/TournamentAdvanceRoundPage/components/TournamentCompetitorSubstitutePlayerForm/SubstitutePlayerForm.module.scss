@@ -1,0 +1,10 @@
+@use "/src/style/flex";
+@use "/src/style/variables";
+
+.SubstitutePlayerForm {
+  @include flex.column;
+
+  &_ReplacementPlayerField {
+    @include flex.column($gap: 0.375rem);
+  }
+}

@@ -1,6 +1,8 @@
 import { Infer, v } from 'convex/values';
 
 import { fowV4DynamicPointsVersionId } from '../../static/fowV4/dynamicPointsVersions';
+import { fowV4EraId } from '../../static/fowV4/eras';
+import { fowV4LessonsFromTheFrontVersionId } from '../../static/fowV4/lessonsFromTheFrontVersions';
 import { fowV4MissionMatrixId, fowV4MissionPackId } from '../../static/fowV4/missionPacks';
 
 export const fowV4GameSystemConfig = v.object({
@@ -9,8 +11,8 @@ export const fowV4GameSystemConfig = v.object({
   })),
   dynamicPointsVersionId: v.optional(fowV4DynamicPointsVersionId),
   points: v.number(),
-  eraId: v.string(), // TODO: Enforce FowV4EraId
-  lessonsFromTheFrontVersionId: v.string(), // Enforce FowV4LessonsFromTheFrontVersionId
+  eraId: fowV4EraId,
+  lessonsFromTheFrontVersionId: fowV4LessonsFromTheFrontVersionId,
   missionPackId: fowV4MissionPackId,
   missionMatrixId: fowV4MissionMatrixId,
   // TODO: Add allowed/disallowed books/formations

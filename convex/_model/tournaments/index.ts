@@ -27,6 +27,8 @@ export {
 } from './mutations';
 export {
   getTournament,
+  getTournamentActiveRound,
+  getTournamentActiveRoundArgs,
   getTournamentArgs,
   getTournamentList,
 } from './queries';

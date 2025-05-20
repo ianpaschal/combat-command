@@ -8,5 +8,7 @@
 @use "/src/style/variants";
 
 .DialogDescription {
-  padding: 1rem var(--modal-inner-gutter);
+  @include flex.column($gap: 0.5rem);
+
+  padding: 0 var(--modal-inner-gutter);
 }

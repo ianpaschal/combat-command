@@ -45,6 +45,7 @@ describe('aggregateResults', async () => {
       const id = await ctx.db.insert('tournamentCompetitors', {
         tournamentId,
         teamName: `Team ${i + 1}`,
+        active: true,
         players: playerUserIds.map((userId) => ({ userId, active: true })),
       });
       tournamentCompetitorIds.push(id);

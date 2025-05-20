@@ -62,6 +62,7 @@ export const ControlledDialog = ({
     }
   };
   const handleInteractOutside = (e: Event | MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
     if (!canCancel || disabled) {
       e.preventDefault();
     }
@@ -77,7 +78,6 @@ export const ControlledDialog = ({
               <Content
                 className={clsx(styles.Content, className, { [styles[`Content-${width}`]]: true })}
                 aria-describedby={undefined}
-                onInteractOutside={handleInteractOutside}
                 tabIndex={-1}
                 asChild
                 forceMount

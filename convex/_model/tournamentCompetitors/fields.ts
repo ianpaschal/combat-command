@@ -11,4 +11,5 @@ export const editableFields = {
 
 export const computedFields = {
   modifiedAt: v.optional(v.number()),
+  active: v.boolean(),
 };

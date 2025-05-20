@@ -11,6 +11,10 @@ import {
   getTournamentCompetitorListByTournamentIdArgs,
   removePlayerFromTournamentCompetitor as removePlayerFromTournamentCompetitorHandler,
   removePlayerFromTournamentCompetitorArgs,
+  substituteTournamentCompetitorPlayer as substituteTournamentCompetitorPlayerHandler,
+  substituteTournamentCompetitorPlayerArgs,
+  toggleTournamentCompetitorActive as toggleTournamentCompetitorActiveHandler,
+  toggleTournamentCompetitorActiveArgs,
   updateTournamentCompetitor as updateTournamentCompetitorHandler,
   updateTournamentCompetitorArgs,
 } from './_model/tournamentCompetitors';
@@ -50,4 +54,14 @@ export const addPlayerToTournamentCompetitor = mutation({
 export const removePlayerFromTournamentCompetitor = mutation({
   args: removePlayerFromTournamentCompetitorArgs,
   handler: removePlayerFromTournamentCompetitorHandler,
+});
+
+export const toggleTournamentCompetitorActive = mutation({
+  args: toggleTournamentCompetitorActiveArgs,
+  handler: toggleTournamentCompetitorActiveHandler,
+});
+
+export const substituteTournamentCompetitorPlayer = mutation({
+  args: substituteTournamentCompetitorPlayerArgs,
+  handler: substituteTournamentCompetitorPlayerHandler,
 });

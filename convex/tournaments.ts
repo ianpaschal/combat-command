@@ -7,6 +7,8 @@ import {
   deleteTournament as deleteTournamentHandler,
   deleteTournamentArgs,
   getTournament as getTournamentHandler,
+  getTournamentActiveRound as getTournamentActiveRoundHandler,
+  getTournamentActiveRoundArgs,
   getTournamentArgs,
   getTournamentList as getTournamentListHandler,
   publishTournament as publishTournamentHandler,
@@ -25,6 +27,11 @@ export const getTournament = query({
 export const getTournamentList = query({
   args: {},
   handler: getTournamentListHandler,
+});
+
+export const getTournamentActiveRound = query({
+  args: getTournamentActiveRoundArgs,
+  handler: getTournamentActiveRoundHandler,
 });
 
 // CRUD Operations
@@ -54,6 +61,7 @@ export const startTournament = mutation({
   handler: startTournamentHandler,
 });
 
+// TODO: Deprecated, replace with check in competitor
 export const checkInPlayer = mutation({
   args: checkInPlayerArgs,
   handler: checkInPlayerHandler,

@@ -17,6 +17,7 @@ import type * as _fixtures_createFakeMatchResultData from "../_fixtures/createFa
 import type * as _fixtures_createFakeUserData from "../_fixtures/createFakeUserData.js";
 import type * as _fixtures_defaultSinglesTournament from "../_fixtures/defaultSinglesTournament.js";
 import type * as _fixtures_defaultTeamTournament from "../_fixtures/defaultTeamTournament.js";
+import type * as _model__helpers_filterWithSearchTerm from "../_model/_helpers/filterWithSearchTerm.js";
 import type * as _model__helpers_getStorageUrl from "../_model/_helpers/getStorageUrl.js";
 import type * as _model__helpers_notNullOrUndefined from "../_model/_helpers/notNullOrUndefined.js";
 import type * as _model_fowV4_calculateMatchScore from "../_model/fowV4/calculateMatchScore.js";
@@ -51,6 +52,12 @@ import type * as _model_tournamentRankings_helpers_sumResults from "../_model/to
 import type * as _model_tournamentRankings_index from "../_model/tournamentRankings/index.js";
 import type * as _model_tournamentRankings_queries from "../_model/tournamentRankings/queries.js";
 import type * as _model_tournamentRankings_types from "../_model/tournamentRankings/types.js";
+import type * as _model_tournamentTimers__helpers_getTournamentStrict from "../_model/tournamentTimers/_helpers/getTournamentStrict.js";
+import type * as _model_tournamentTimers__helpers_getTournamentTimerStrict from "../_model/tournamentTimers/_helpers/getTournamentTimerStrict.js";
+import type * as _model_tournamentTimers_fields from "../_model/tournamentTimers/fields.js";
+import type * as _model_tournamentTimers_helpers from "../_model/tournamentTimers/helpers.js";
+import type * as _model_tournamentTimers_index from "../_model/tournamentTimers/index.js";
+import type * as _model_tournamentTimers_mutations from "../_model/tournamentTimers/mutations.js";
 import type * as _model_tournaments_actions_checkInPlayer from "../_model/tournaments/actions/checkInPlayer.js";
 import type * as _model_tournaments_actions_startTournament from "../_model/tournaments/actions/startTournament.js";
 import type * as _model_tournaments_fields from "../_model/tournaments/fields.js";
@@ -58,6 +65,12 @@ import type * as _model_tournaments_helpers from "../_model/tournaments/helpers.
 import type * as _model_tournaments_index from "../_model/tournaments/index.js";
 import type * as _model_tournaments_mutations from "../_model/tournaments/mutations.js";
 import type * as _model_tournaments_queries from "../_model/tournaments/queries.js";
+import type * as _model_utils__helpers_mockData from "../_model/utils/_helpers/mockData.js";
+import type * as _model_utils__helpers_testUsers from "../_model/utils/_helpers/testUsers.js";
+import type * as _model_utils_createTestTournament from "../_model/utils/createTestTournament.js";
+import type * as _model_utils_createTestTournamentRoundResults from "../_model/utils/createTestTournamentRoundResults.js";
+import type * as _model_utils_deleteTestTournament from "../_model/utils/deleteTestTournament.js";
+import type * as _model_utils_index from "../_model/utils/index.js";
 import type * as auth_ResendOtpPasswordReset from "../auth/ResendOtpPasswordReset.js";
 import type * as auth_ResendOtpVerification from "../auth/ResendOtpVerification.js";
 import type * as auth from "../auth.js";
@@ -68,7 +81,6 @@ import type * as common_fowV4_fowV4MatchResultDetails from "../common/fowV4/fowV
 import type * as common_fowV4_getMission from "../common/fowV4/getMission.js";
 import type * as common_fowV4_getMissionPack from "../common/fowV4/getMissionPack.js";
 import type * as common_location from "../common/location.js";
-import type * as common_tournamentPairingMethod from "../common/tournamentPairingMethod.js";
 import type * as common_tournamentStatus from "../common/tournamentStatus.js";
 import type * as common_userDataVisibilityLevel from "../common/userDataVisibilityLevel.js";
 import type * as friendships_confirmFriendship from "../friendships/confirmFriendship.js";
@@ -118,6 +130,7 @@ import type * as users_utils_checkUserTournamentRelationship from "../users/util
 import type * as users_utils_getAvatarUrl from "../users/utils/getAvatarUrl.js";
 import type * as users_utils_getLimitedUser from "../users/utils/getLimitedUser.js";
 import type * as users_utils_redactUserInfo from "../users/utils/redactUserInfo.js";
+import type * as utils from "../utils.js";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -132,6 +145,7 @@ declare const fullApi: ApiFromModules<{
   "_fixtures/createFakeUserData": typeof _fixtures_createFakeUserData;
   "_fixtures/defaultSinglesTournament": typeof _fixtures_defaultSinglesTournament;
   "_fixtures/defaultTeamTournament": typeof _fixtures_defaultTeamTournament;
+  "_model/_helpers/filterWithSearchTerm": typeof _model__helpers_filterWithSearchTerm;
   "_model/_helpers/getStorageUrl": typeof _model__helpers_getStorageUrl;
   "_model/_helpers/notNullOrUndefined": typeof _model__helpers_notNullOrUndefined;
   "_model/fowV4/calculateMatchScore": typeof _model_fowV4_calculateMatchScore;
@@ -166,6 +180,12 @@ declare const fullApi: ApiFromModules<{
   "_model/tournamentRankings/index": typeof _model_tournamentRankings_index;
   "_model/tournamentRankings/queries": typeof _model_tournamentRankings_queries;
   "_model/tournamentRankings/types": typeof _model_tournamentRankings_types;
+  "_model/tournamentTimers/_helpers/getTournamentStrict": typeof _model_tournamentTimers__helpers_getTournamentStrict;
+  "_model/tournamentTimers/_helpers/getTournamentTimerStrict": typeof _model_tournamentTimers__helpers_getTournamentTimerStrict;
+  "_model/tournamentTimers/fields": typeof _model_tournamentTimers_fields;
+  "_model/tournamentTimers/helpers": typeof _model_tournamentTimers_helpers;
+  "_model/tournamentTimers/index": typeof _model_tournamentTimers_index;
+  "_model/tournamentTimers/mutations": typeof _model_tournamentTimers_mutations;
   "_model/tournaments/actions/checkInPlayer": typeof _model_tournaments_actions_checkInPlayer;
   "_model/tournaments/actions/startTournament": typeof _model_tournaments_actions_startTournament;
   "_model/tournaments/fields": typeof _model_tournaments_fields;
@@ -173,6 +193,12 @@ declare const fullApi: ApiFromModules<{
   "_model/tournaments/index": typeof _model_tournaments_index;
   "_model/tournaments/mutations": typeof _model_tournaments_mutations;
   "_model/tournaments/queries": typeof _model_tournaments_queries;
+  "_model/utils/_helpers/mockData": typeof _model_utils__helpers_mockData;
+  "_model/utils/_helpers/testUsers": typeof _model_utils__helpers_testUsers;
+  "_model/utils/createTestTournament": typeof _model_utils_createTestTournament;
+  "_model/utils/createTestTournamentRoundResults": typeof _model_utils_createTestTournamentRoundResults;
+  "_model/utils/deleteTestTournament": typeof _model_utils_deleteTestTournament;
+  "_model/utils/index": typeof _model_utils_index;
   "auth/ResendOtpPasswordReset": typeof auth_ResendOtpPasswordReset;
   "auth/ResendOtpVerification": typeof auth_ResendOtpVerification;
   auth: typeof auth;
@@ -183,7 +209,6 @@ declare const fullApi: ApiFromModules<{
   "common/fowV4/getMission": typeof common_fowV4_getMission;
   "common/fowV4/getMissionPack": typeof common_fowV4_getMissionPack;
   "common/location": typeof common_location;
-  "common/tournamentPairingMethod": typeof common_tournamentPairingMethod;
   "common/tournamentStatus": typeof common_tournamentStatus;
   "common/userDataVisibilityLevel": typeof common_userDataVisibilityLevel;
   "friendships/confirmFriendship": typeof friendships_confirmFriendship;
@@ -233,6 +258,7 @@ declare const fullApi: ApiFromModules<{
   "users/utils/getAvatarUrl": typeof users_utils_getAvatarUrl;
   "users/utils/getLimitedUser": typeof users_utils_getLimitedUser;
   "users/utils/redactUserInfo": typeof users_utils_redactUserInfo;
+  utils: typeof utils;
 }>;
 export declare const api: FilterApi<
   typeof fullApi,

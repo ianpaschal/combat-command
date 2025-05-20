@@ -1,0 +1,20 @@
+@use "/src/style/flex";
+@use "/src/style/variables";
+@use "/src/style/variants";
+@use "/src/style/borders";
+@use "/src/style/corners";
+@use "/src/style/shadows";
+@use "/src/style/text";
+
+.RosterHeader {
+  @include flex.row;
+
+  width: 100%;
+  padding: calc(1rem - var(--border-width));
+
+  &_Actions {
+    @include flex.row;
+
+    margin-left: auto;
+  }
+}

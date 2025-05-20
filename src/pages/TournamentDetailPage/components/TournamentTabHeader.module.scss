@@ -10,7 +10,7 @@
   @include flex.row($gap: 0.5rem, $yAlign: center);
 
   position: relative;
-  padding: 1rem var(--container-padding-x) 0;
+  padding: 1rem var(--container-padding-x) 1rem;
 
   &_Actions {
     @include flex.row($gap: 0.5rem, $xAlign: center);

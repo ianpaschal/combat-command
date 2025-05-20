@@ -80,14 +80,14 @@
   --outlined-danger-text: var(--tomato-11);
 
   // Ghost - Default
-  --ghost-default-bg-active: var(--gray-a4);
-  --ghost-default-bg-hover: var(--gray-a3);
+  --ghost-default-bg-active: var(--gray-a3);
+  --ghost-default-bg-hover: var(--gray-a2);
   --ghost-default-bg: transparent;
   --ghost-default-text: var(--gray-11);
 
   // Ghost - Danger
-  --ghost-danger-bg-active: var(--tomato-a4);
-  --ghost-danger-bg-hover: var(--tomato-a3);
+  --ghost-danger-bg-active: var(--tomato-a3);
+  --ghost-danger-bg-hover: var(--tomato-a2);
   --ghost-danger-bg: transparent;
   --ghost-danger-text: var(--tomato-11);
 }

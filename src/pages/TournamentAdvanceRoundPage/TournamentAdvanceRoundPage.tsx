@@ -9,6 +9,7 @@ import { TournamentId } from '~/api';
 import { Button } from '~/components/generic/Button';
 import { PageWrapper } from '~/components/PageWrapper';
 import { TournamentProvider } from '~/components/TournamentProvider';
+import { RosterConfirmDialog, useRosterConfirmDialog } from '~/pages/TournamentAdvanceRoundPage/components/RosterConfirmDialog';
 import { useFetchTournament } from '~/services/tournaments/useFetchTournament';
 import { PairingsStep } from './components/PairingsStep';
 import { RosterStep } from './components/RosterStep';
@@ -19,7 +20,7 @@ export const TournamentAdvanceRoundPage = (): JSX.Element => {
   const params = useParams();
   const tournamentId = params.id! as TournamentId; // Must exist or else how did we get to this route?
   const { data: tournament } = useFetchTournament(tournamentId);
-
+  const { open } = useRosterConfirmDialog();
   const [view, setView] = useState<'roster' | 'pairings'>('roster');
 
   const handleCancel = (): void => {
@@ -30,8 +31,24 @@ export const TournamentAdvanceRoundPage = (): JSX.Element => {
     }
   };
 
+  const handleBack = (): void => {
+    setView('roster');
+  };
+
   const handleProceed = (): void => {
     // TODO: Handle if proceeding is not possible
+    // If some deactive competitors
+    // or if number is odd
+
+    const proceed = true;
+    if (proceed) {
+      open();
+    } else {
+      handleConfirmRoster();
+    }
+  };
+
+  const handleConfirmRoster = (): void => {
     setView('pairings');
   };
 
@@ -39,19 +56,22 @@ export const TournamentAdvanceRoundPage = (): JSX.Element => {
     return <div>Loading...</div>;
   }
 
-  const title = view === 'roster' ? 'Round 2 Players' : 'Round 2 Pairings';
+  const roundIndex = 1;
 
   return (
     <PageWrapper
-      title={title}
+      title={`Advance to Round ${roundIndex + 1}`}
       footer={
         <>
-          <Button variant="secondary" onClick={handleCancel} key={0}>Cancel</Button>
+          <Button variant="secondary" onClick={handleCancel} key={0} style={{ marginRight: 'auto' }}>Cancel</Button>
           {view === 'roster' && (
             <Button key={1} onClick={handleProceed}>Proceed</Button>
           )}
           {view === 'pairings' && (
-            <Button type="submit" key={2}>Save Pairings</Button>
+            <>
+              <Button variant="secondary" key="back" onClick={handleBack}>Back</Button>
+              <Button type="submit" key="submit">Save Pairings</Button>
+            </>
           )}
         </>
       }
@@ -63,6 +83,7 @@ export const TournamentAdvanceRoundPage = (): JSX.Element => {
         {view === 'pairings' && (
           <PairingsStep />
         )}
+        <RosterConfirmDialog onConfirm={handleConfirmRoster} />
       </TournamentProvider>
     </PageWrapper>
   );

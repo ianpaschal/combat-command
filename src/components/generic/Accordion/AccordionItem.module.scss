@@ -1,0 +1,32 @@
+@use "/src/style/flex";
+@use "/src/style/variables";
+@use "/src/style/variants";
+@use "/src/style/borders";
+@use "/src/style/corners";
+@use "/src/style/shadows";
+@use "/src/style/text";
+
+.AccordionItem {
+  @include borders.normal;
+  @include corners.normal;
+
+  overflow: hidden;
+
+  &_Header {
+    @include flex.row($gap: 0);
+    @include variants.ghost;
+
+    cursor: pointer;
+
+    &_Chevron {
+      place-self: center;
+      width: 1.5rem;
+      height: 1.5rem;
+      margin: 1rem;
+    }
+  }
+
+  &_Content {
+    @include borders.normal($side: top);
+  }
+}

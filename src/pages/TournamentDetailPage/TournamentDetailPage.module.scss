@@ -49,6 +49,13 @@
     @include flex.column;
   }
 
+  &_TabBar {
+    @include flex.row;
+
+    overflow: hidden;
+    max-width: 100%;
+  }
+
   &_TabsContent {
     position: relative;
     flex-grow: 1;

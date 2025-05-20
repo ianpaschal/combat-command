@@ -29,7 +29,6 @@ export const TournamentInfoBlock = ({
   // compact = false,
 }: TournamentInfoBlockProps): JSX.Element | null => {
   const tournament = useTournament();
-  const isTeam = tournament.competitorSize > 1;
   return (
     <div className={clsx(styles.TournamentInfoBlock, className)}>
       {type === 'practical' && (
@@ -51,7 +50,7 @@ export const TournamentInfoBlock = ({
           <div className={styles.TournamentInfoBlock_InfoLine}>
             <Users />
             <span>{`${tournament.playerCount} / ${tournament.maxPlayers}`}</span>
-            {isTeam && (
+            {tournament.useTeams && (
               <span>{`(${tournament.competitorCount} / ${tournament.maxCompetitors} teams)`}</span>
             )}
           </div>

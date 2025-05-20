@@ -37,3 +37,32 @@ export const getTournamentList = async (
   // TODO: Add pagination
   return deepResults.filter(notNullOrUndefined);
 };
+
+export const getTournamentActiveRoundArgs = v.object({
+  id: v.id('tournaments'),
+});
+
+export const getTournamentActiveRound = async (
+  ctx: QueryCtx,
+  { id }: Infer<typeof getTournamentActiveRoundArgs>,
+) => {
+  const tournament = await ctx.db.get(id);
+  if (!tournament) {
+    throw new ConvexError(getErrorMessage('TOURNAMENT_NOT_FOUND'));
+  }
+  if (tournament.status !== 'active' || tournament.currentRound === undefined) {
+    return null;
+  }
+
+  const pairings = await ctx.db.query('tournamentPairings')
+    .withIndex('by_tournament_id', (q) => q.eq('tournamentId', id))
+    .filter((q) => q.eq(q.field('round'), tournament.currentRound))
+    .collect();
+
+  return {
+    round: tournament.currentRound,
+    pairings,
+  };
+  // Get pairings
+  // Get timer
+};

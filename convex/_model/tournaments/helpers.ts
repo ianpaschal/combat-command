@@ -23,9 +23,15 @@ export const getDeepTournament = async (
     ...acc,
     ...c.players.map((p) => p.userId),
   ], [] as Id<'users'>[]);
+  const activePlayerUserIds = tournamentCompetitors.reduce((acc, c) => [
+    ...acc,
+    ...c.players.filter((p) => p.active).map((p) => p.userId),
+  ], [] as Id<'users'>[]);
 
+  // Computed properties (easy to do, but used so frequently, it's nice to include them by default)
   const playerCount = playerUserIds.length;
   const maxPlayers = tournament.maxCompetitors * tournament.competitorSize;
+  const useTeams = tournament.competitorSize > 1;
 
   // const organizerUsers = [];
 
@@ -42,7 +48,9 @@ export const getDeepTournament = async (
     competitorCount,
     playerCount,
     playerUserIds,
+    activePlayerUserIds,
     maxPlayers,
+    useTeams,
   };
 };
 
