@@ -81,7 +81,7 @@ $row-height: 3rem;
 }
 
 .Row:not(:last-child) {
-  border-bottom: variables.$border-width solid var(--border-color);
+  border-bottom: variables.$border-width solid var(--border-color-default);
 }
 
 .IndexCell {

@@ -53,7 +53,7 @@ $indicator-gradient-end-color: rgb(0 0 0 / 0%);
       background-image: linear-gradient($indicator-gradient-start-color, $indicator-gradient-end-color);
 
       &-bordered {
-        border-top: variables.$border-width solid var(--border-color);
+        border-top: variables.$border-width solid var(--border-color-default);
       }
     }
 
@@ -62,7 +62,7 @@ $indicator-gradient-end-color: rgb(0 0 0 / 0%);
       background-image: linear-gradient($indicator-gradient-end-color, $indicator-gradient-start-color);
 
       &-bordered {
-        border-bottom: variables.$border-width solid var(--border-color);
+        border-bottom: variables.$border-width solid var(--border-color-default);
       }
     }
   }

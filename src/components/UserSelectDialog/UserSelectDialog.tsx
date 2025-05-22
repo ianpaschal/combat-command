@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from 'react';
-import { Search } from 'lucide-react';
+import { Search, X } from 'lucide-react';
 
 import { UserId } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
@@ -20,18 +20,18 @@ import { useFetchUserList } from '~/services/users/useFetchUserList';
 import styles from './UserSelectDialog.module.scss';
 
 export interface UserSelectDialogProps {
-  id?: string;
-  placeholder?: string;
   allowPlaceholder?: boolean;
-  onConfirm: (data: { userId?: UserId, placeholder?: string }) => void,
   disabled?: boolean;
   excludeUserIds?: UserId[];
+  id: string;
+  onConfirm: (data: { userId?: UserId, placeholder?: string }) => void,
+  placeholder?: string;
 }
 
 export const UserSelectDialog = ({
-  id: key,
   allowPlaceholder = true,
   excludeUserIds = [],
+  id: key,
   onConfirm,
 }: UserSelectDialogProps): JSX.Element => {
   const user = useAuth();
@@ -61,6 +61,7 @@ export const UserSelectDialog = ({
     const isExcluded = excludeUserIds.includes(u._id);
     return !isSelf && !isSelected && !isExcluded;
   });
+  const selectedUser = (userList || []).find((u) => u._id === data?.userId);
 
   const handleSelect = (userId: UserId): void => {
     onConfirm({ userId });
@@ -82,10 +83,29 @@ export const UserSelectDialog = ({
             onChange={handleChangeSearch}
             value={search}
           />
+          {selectedUser && (
+            <div className={styles.UserSelectDialog_SelectedUser}>
+              {/* <Label className={styles.UserSelectDialog_SelectedUser_Label}>
+                Selected
+              </Label> */}
+              <IdentityBadge
+                className={styles.UserSelectDialog_SelectedUser_Badge}
+                user={selectedUser}
+                size="small"
+              />
+              <Button
+                className={styles.UserSelectDialog_SelectedUser_Clear}
+                size="small"
+                variant="ghost"
+              >
+                <X />
+              </Button>
+            </div>
+          )}
           <ScrollArea className={styles.UserSelectDialog_ScrollArea}>
             <div className={styles.UserSelectDialog_UserList}>
               {selectableUsers.map((user, i) => (
-                <div className={styles.UserSelectDialog_UserListItem} key={i} >
+                <div className={styles.UserSelectDialog_UserListItem} key={i}>
                   <IdentityBadge user={user} size="small" />
                   <Button onClick={() => handleSelect(user?._id)}>
                     Select

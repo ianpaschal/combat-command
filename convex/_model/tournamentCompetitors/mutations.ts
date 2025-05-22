@@ -37,10 +37,6 @@ export const createTournamentCompetitor = async (
     throw new ConvexError(getErrorMessage('CANNOT_MODIFY_ARCHIVED_TOURNAMENT'));
   }
 
-  if (tournament.maxCompetitors === competitors.length) {
-    throw new ConvexError(getErrorMessage('TOURNAMENT_HAS_MAX_COMPETITORS'));
-  }
-
   if (args.teamName && competitors.map((c) => c.teamName).includes(args.teamName)) {
     throw new ConvexError(getErrorMessage('TEAM_ALREADY_IN_TOURNAMENT'));
   }

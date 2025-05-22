@@ -144,7 +144,7 @@ export const FowV4MatchResultForm = ({
           { label: 'Cancel', muted: true, onClick: () => setConfirmDialogOpen(false) },
           { label: 'Submit Match', onClick: handleSubmit(onConfirmSubmit) },
         ]}
-      >
+     >
         <pre>
           {JSON.stringify(form.watch(), null, 2)}
         </pre>

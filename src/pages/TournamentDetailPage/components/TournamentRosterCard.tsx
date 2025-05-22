@@ -136,6 +136,6 @@ export const TournamentRosterCard = ({
         </ScrollArea>
       )}
       <TournamentCreateTeamDialog />
-    </TournamentDetailsCard >
+    </TournamentDetailsCard>
   );
 };

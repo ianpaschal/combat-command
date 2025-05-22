@@ -1,14 +1,30 @@
 @use "sass:color";
 
-@use "@radix-ui/colors/gray.css";
-@use "@radix-ui/colors/tomato.css";
-@use "@radix-ui/colors/gray-alpha.css";
-@use "@radix-ui/colors/tomato-alpha.css";
+// Warning
+@use "@radix-ui/colors/amber-alpha.css";
+@use "@radix-ui/colors/amber-dark-alpha.css";
+@use "@radix-ui/colors/amber-dark.css";
+@use "@radix-ui/colors/amber.css";
+
 @use "@radix-ui/colors/black-alpha.css";
 
-@use "@radix-ui/colors/grass.css";
+// Success
+@use "@radix-ui/colors/grass-alpha.css";
+@use "@radix-ui/colors/grass-dark-alpha.css";
 @use "@radix-ui/colors/grass-dark.css";
+@use "@radix-ui/colors/grass.css";
+
+// Default
+@use "@radix-ui/colors/gray-alpha.css";
+@use "@radix-ui/colors/gray-dark-alpha.css";
+@use "@radix-ui/colors/gray-dark.css";
+@use "@radix-ui/colors/gray.css";
+
+// Danger
+@use "@radix-ui/colors/tomato-alpha.css";
+@use "@radix-ui/colors/tomato-dark-alpha.css";
 @use "@radix-ui/colors/tomato-dark.css";
+@use "@radix-ui/colors/tomato.css";
 
 :root {
   --modal-inner-gutter: 1rem;
@@ -26,14 +42,26 @@
   --button-padding-x: 0.5rem;
 
   // GENERAL COLORS
-  --border-color: var(--gray-a4);
+  --border-color-default: var(--gray-a4);
+  --border-color-danger: var(--tomato-a4);
+  --border-color-success: var(--grass-a4);
+  --border-color-warning: var(--amber-a4);
+
+  // Backgrounds
+  --card-bg-warning: var(--amber-2);
+  --card-bg-danger: var(--tomato-2);
   --card-bg: white;
   --page-bg: var(--gray-2);
+
+  // Core text colors
   --text-color-default: var(--gray-12);
-  --text-color-disabled: var(--gray-7);
-  --text-color-error: var(--tomato-9);
   --text-color-muted: var(--gray-11);
+  --text-color-disabled: var(--gray-7);
+
+  // Special text colors
+  --text-color-danger: var(--tomato-9);
   --text-color-success: var(--grass-9);
+  --text-color-warning: var(--amber-11);
 
   // VARIANTS
 

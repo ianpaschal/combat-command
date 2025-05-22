@@ -1,10 +1,3 @@
-import { closeModal, openModal } from '~/modals';
+import { useModal } from '~/modals';
 
-export const useRosterAddCompetitorDialog = () => {
-  const id = 'roster-add-competitor-dialog';
-  return {
-    id,
-    open: () => openModal(id),
-    close: () => closeModal(id),
-  };
-};
+export const useRosterAddCompetitorDialog = () => useModal('roster-add-competitor-dialog');

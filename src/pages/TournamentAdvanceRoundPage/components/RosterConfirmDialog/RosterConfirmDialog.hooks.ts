@@ -1,10 +1,9 @@
-import { closeModal, openModal } from '~/modals';
+import { TournamentCompetitor } from '~/api';
+import { useModal } from '~/modals';
 
-export const useRosterConfirmDialog = () => {
-  const id = 'roster-confirm-dialog';
-  return {
-    id,
-    open: () => openModal(id),
-    close: () => closeModal(id),
-  };
+export type UseRosterConfirmDialogData = {
+  inactive: TournamentCompetitor[];
+  active: TournamentCompetitor[];
 };
+
+export const useRosterConfirmDialog = () => useModal<UseRosterConfirmDialogData>('roster-confirm-dialog');

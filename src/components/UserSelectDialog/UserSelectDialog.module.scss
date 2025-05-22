@@ -1,6 +1,7 @@
 @use "/src/style/flex";
 @use "/src/style/borders";
 @use "/src/style/variables";
+@use "@radix-ui/colors/gray.css";
 
 .UserSelectDialog {
   @include flex.column($gap: 0.375rem);
@@ -22,11 +23,34 @@
   }
 
   &_SelectedUser {
+    --padding-y: 0.75rem;
+
     @include flex.row;
     @include borders.normal;
 
-    padding: 0.5rem calc(1rem - var(--border-width)) 0.5rem calc(0.75em - var(--border-width));
+    // display: grid;
+    // grid-template-areas:
+    //   "label label"
+    //   "badge clear";
+    // grid-template-columns: 1fr auto;
+    // row-gap: 0.375rem;
+
+    padding: var(--padding-y) calc(1rem - var(--border-width)) var(--padding-y) calc(0.75em - var(--border-width));
+    background-color: var(--gray-2);
     border-top: unset;
+
+    &_Label {
+      grid-area: label;
+    }
+
+    &_Badge {
+      grid-area: badge;
+    }
+
+    &_Clear {
+      // grid-area: clear;
+      margin-left: auto;
+    }
   }
 
   &_ScrollArea {

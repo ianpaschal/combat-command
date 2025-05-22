@@ -14,7 +14,7 @@
   height: variables.$app-bar-height;
 
   background-color: var(--card-bg);
-  border-bottom: variables.$border-width solid var(--border-color);
+  border-bottom: variables.$border-width solid var(--border-color-default);
 
   @include flex.row;
 }

@@ -1,5 +1,52 @@
 @use "/src/style/flex";
+@use "/src/style/corners";
+@use "/src/style/borders";
+@use "/src/style/text";
+@use "/src/style/variables";
 
 .RosterConfirmDialog {
-  @include flex.column($gap: 0);
+  @include flex.column($gap: 1rem);
+
+  padding: 0 var(--container-padding-x);
+
+  &_WarningBlurb {
+    @include text.ui;
+    @include corners.normal;
+    @include borders.warning;
+
+    display: grid;
+    grid-template-areas:
+      "icon header"
+      ". body";
+    grid-template-columns: 1rem 1fr;
+    grid-template-rows: auto auto;
+    row-gap: 0.25rem;
+    column-gap: 0.5rem;
+
+    padding: 1rem;
+
+    color: var(--text-color-warning);
+
+    background-color: var(--card-bg-warning);
+
+    &_Icon {
+      grid-area: icon;
+      width: 1rem;
+      height: 1rem;
+    }
+
+    &_Header {
+      grid-area: header;
+    }
+
+    &_Body {
+      @include flex.column($gap: 0.5rem);
+
+      grid-area: body;
+
+      p {
+        color: inherit;
+      }
+    }
+  }
 }

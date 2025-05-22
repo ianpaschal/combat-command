@@ -19,6 +19,7 @@ export interface InputUserProps {
   className?: string;
   disabled?: boolean;
   excludedUserIds?: UserId[];
+  allowPlaceholder?: boolean;
   loading?: boolean;
   name: string;
   onChange: (value: InputUserValue) => void;
@@ -29,6 +30,7 @@ export const InputUser = forwardRef<HTMLButtonElement, InputUserProps>(({
   className,
   disabled = false,
   excludedUserIds = [],
+  allowPlaceholder = true,
   loading = false,
   name,
   onChange,
@@ -54,47 +56,8 @@ export const InputUser = forwardRef<HTMLButtonElement, InputUserProps>(({
         ) : (
           'Select'
         )}
-
       </Button>
-      <UserSelectDialog id={name} onConfirm={onChange} excludeUserIds={excludedUserIds} />
+      <UserSelectDialog id={name} onConfirm={onChange} excludeUserIds={excludedUserIds} allowPlaceholder={allowPlaceholder} />
     </>
   );
 });
-
-/*
-{replacementUser ? (
-          <>
-            <IdentityBadge user={replacementUser} size="small" />
-            <div className={styles.InputUser_Buttons}>
-              <Button
-                variant="ghost"
-                onClick={() => onChange({ userId: '' as UserId })}
-                disabled={loading}
-              >
-                <X />
-              </Button>
-              <Button
-                variant="ghost"
-                onClick={(e: MouseEvent) => {
-                  e.preventDefault();
-                  openUserSelectDialog({ userId: replacementUser._id });
-                }}
-                disabled={loading}
-              >
-                <Pen />
-              </Button>
-            </div>
-          </>
-        ) : (
-          <Button
-            variant="secondary"
-            onClick={(e: MouseEvent) => {
-              e.preventDefault();
-              openUserSelectDialog({ userId, placeholder });
-            }}
-            disabled={loading}
-          >
-            Select
-          </Button>
-        )}
-          */

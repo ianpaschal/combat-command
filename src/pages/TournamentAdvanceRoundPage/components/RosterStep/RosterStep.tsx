@@ -4,9 +4,9 @@ import { Accordion, AccordionItem } from '~/components/generic/Accordion';
 import { Button } from '~/components/generic/Button';
 import { Separator } from '~/components/generic/Separator';
 import { IdentityBadge } from '~/components/IdentityBadge';
+import { TournamentCompetitorEditDialog } from '~/components/TournamentCompetitorEditDialog/TournamentCompetitorEditDialog';
 import { useTournament } from '~/components/TournamentProvider';
 import { RosterAddCompetitorDialog, useRosterAddCompetitorDialog } from '~/pages/TournamentAdvanceRoundPage/components/RosterAddCompetitorDialog';
-import { RosterEditCompetitorPlayersDialog } from '~/pages/TournamentAdvanceRoundPage/components/RosterEditCompetitorPlayersDialog';
 import { useGetTournamentCompetitorsByTournamentId } from '~/services/tournamentCompetitors';
 import { RosterHeader } from '../RosterHeader';
 
@@ -24,7 +24,7 @@ export const RosterStep = (): JSX.Element => {
             {`Adjust ${useTeams ? 'Teams' : 'Players'}`}
           </h2>
           <div className={styles.RosterStep_Actions}>
-            <Button variant="secondary" onClick={openRosterAddCompetitorDialog} >
+            <Button variant="secondary" onClick={openRosterAddCompetitorDialog}>
               <Plus />
               {`Add ${useTeams ? 'Team' : 'Player'}`}
             </Button>
@@ -34,7 +34,7 @@ export const RosterStep = (): JSX.Element => {
         <Accordion>
           {(competitors || []).map((competitor) => (
             <AccordionItem id={competitor._id} disabled={!useTeams} key={competitor._id}>
-              <RosterHeader competitor={competitor} />
+              <RosterHeader tournamentCompetitor={competitor} />
               <div className={styles.RosterStep_CompetitorContent}>
                 {competitor.players.filter((player) => player.active).map((player) => (
                   <IdentityBadge key={player.user?._id} user={player.user} size="small" />
@@ -45,7 +45,7 @@ export const RosterStep = (): JSX.Element => {
         </Accordion>
       </div>
       <RosterAddCompetitorDialog />
-      <RosterEditCompetitorPlayersDialog />
+      <TournamentCompetitorEditDialog />
     </>
   );
 };

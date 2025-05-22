@@ -5,11 +5,12 @@ import {
   useParams,
 } from 'react-router-dom';
 
-import { TournamentId } from '~/api';
+import { TournamentCompetitor, TournamentId } from '~/api';
 import { Button } from '~/components/generic/Button';
 import { PageWrapper } from '~/components/PageWrapper';
 import { TournamentProvider } from '~/components/TournamentProvider';
 import { RosterConfirmDialog, useRosterConfirmDialog } from '~/pages/TournamentAdvanceRoundPage/components/RosterConfirmDialog';
+import { useGetTournamentCompetitorsByTournamentId } from '~/services/tournamentCompetitors';
 import { useFetchTournament } from '~/services/tournaments/useFetchTournament';
 import { PairingsStep } from './components/PairingsStep';
 import { RosterStep } from './components/RosterStep';
@@ -22,6 +23,7 @@ export const TournamentAdvanceRoundPage = (): JSX.Element => {
   const { data: tournament } = useFetchTournament(tournamentId);
   const { open } = useRosterConfirmDialog();
   const [view, setView] = useState<'roster' | 'pairings'>('roster');
+  const { data: tournamentCompetitors } = useGetTournamentCompetitorsByTournamentId(tournamentId);
 
   const handleCancel = (): void => {
     if (window.history.length > 1) {
@@ -36,13 +38,28 @@ export const TournamentAdvanceRoundPage = (): JSX.Element => {
   };
 
   const handleProceed = (): void => {
-    // TODO: Handle if proceeding is not possible
-    // If some deactive competitors
-    // or if number is odd
+    if (!tournament) {
+      throw new Error('Tournament missing');
+    }
 
-    const proceed = true;
-    if (proceed) {
-      open();
+    const sortedCompetitors = (tournamentCompetitors || []).reduce((acc, c) => {
+      const key = c.active ? 'active' : 'inactive';
+      acc[key].push(c);
+      return acc;
+    }, { active: [] as TournamentCompetitor[], inactive: [] as TournamentCompetitor[] });
+
+    if (!sortedCompetitors.active.length) {
+      throw new Error('No competitors');
+    }
+    if (sortedCompetitors.active.length > tournament.maxCompetitors) {
+      throw new Error('Too many competitors!');
+    }
+
+    const showInactiveCompetitorsWarning = sortedCompetitors.inactive.length > 0;
+    const showOddCompetitorCountWarning = sortedCompetitors.active.length % 2;
+
+    if (showInactiveCompetitorsWarning || showOddCompetitorCountWarning) {
+      open(sortedCompetitors);
     } else {
       handleConfirmRoster();
     }

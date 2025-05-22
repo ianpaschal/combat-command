@@ -1,7 +1,7 @@
 @use "variables";
 
 @mixin normal($side: all) {
-  border-color: var(--border-color);
+  border-color: var(--border-color-default);
   border-width: var(--border-width);
 
   @if $side == all {
@@ -30,13 +30,19 @@
 }
 
 @mixin danger {
-  border-color: var(--outlined-danger-border);
+  border-color: var(--border-color-danger);
+  border-style: solid;
+  border-width: var(--border-width);
+}
+
+@mixin warning {
+  border-color: var(--border-color-warning);
   border-style: solid;
   border-width: var(--border-width);
 }
 
 @mixin dashed {
-  border-color: var(--border-color);
+  border-color: var(--border-color-default);
   border-style: dashed;
   border-width: var(--border-width);
 }

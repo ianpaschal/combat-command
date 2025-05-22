@@ -1,3 +1,4 @@
+import { Fragment } from 'react/jsx-runtime';
 import {
   SubmitHandler,
   useFieldArray,
@@ -8,7 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import clsx from 'clsx';
 
 import {
-  TournamentCompetitorId,
+  TournamentCompetitor,
   TournamentId,
   UserId,
 } from '~/api';
@@ -20,6 +21,7 @@ import { Switch } from '~/components/generic/Switch';
 import { InputUser } from '~/components/InputUser';
 import { useTournament } from '~/components/TournamentProvider';
 import { useGetTournamentCompetitorsByTournamentId } from '~/services/tournamentCompetitors';
+import { getEtcCountryOptions } from '~/utils/common/getCountryOptions';
 import {
   createSchema,
   FormData,
@@ -37,7 +39,7 @@ export interface TournamentCompetitorFormProps {
   id: string;
   loading?: boolean;
   onSubmit: (data: SubmitData) => void;
-  tournamentCompetitorId?: TournamentCompetitorId;
+  tournamentCompetitor?: TournamentCompetitor;
 }
 
 export const TournamentCompetitorForm = ({
@@ -45,7 +47,7 @@ export const TournamentCompetitorForm = ({
   id,
   loading = false,
   onSubmit,
-  tournamentCompetitorId,
+  tournamentCompetitor,
 }: TournamentCompetitorFormProps): JSX.Element => {
   const {
     _id: tournamentId,
@@ -55,14 +57,10 @@ export const TournamentCompetitorForm = ({
     playerUserIds,
   } = useTournament();
   const { data: tournamentCompetitors } = useGetTournamentCompetitorsByTournamentId(tournamentId);
-  const existingCompetitor = (tournamentCompetitors || []).find((c) => c._id === tournamentCompetitorId);
 
   const form = useForm<FormData>({
     resolver: zodResolver(createSchema(competitorSize, tournamentCompetitors)),
-    defaultValues: {
-      ...getDefaultValues(competitorSize),
-      ...(existingCompetitor ?? {}),
-    },
+    defaultValues: getDefaultValues(competitorSize, tournamentCompetitor),
     mode: 'onSubmit',
   });
   const { fields } = useFieldArray({
@@ -77,6 +75,10 @@ export const TournamentCompetitorForm = ({
     name: 'players',
   });
 
+  const nationalTeamOptions = getEtcCountryOptions().filter(({ value }) => (
+    !(tournamentCompetitors || []).find((c) => c.teamName === value)
+  ));
+
   const handleChangeUser = (i: number, { userId }: { userId?: UserId, placeholder?: string }): void => {
     if (userId) {
       form.setValue(`players.${i}.userId`, userId);
@@ -85,16 +87,16 @@ export const TournamentCompetitorForm = ({
   const handleChangePlayerActive = (i: number, active: boolean): void => {
     form.setValue(`players.${i}.active`, active);
   };
-  const handleSubmit: SubmitHandler<FormData> = async (formData) => {
+  const handleSubmit: SubmitHandler<FormData> = async (formData): Promise<void> => {
     onSubmit({ tournamentId, ...formData });
   };
 
   return (
     <Form id={id} form={form} onSubmit={handleSubmit} className={clsx(styles.TournamentCompetitorForm, className)}>
       {useTeams && (
-        <FormField name="teamName" label="Team Name">
+        <FormField name="teamName" label={useNationalTeams ? 'Country' : 'Team Name'}>
           {useNationalTeams ? (
-            <InputSelect options={[]} />
+            <InputSelect options={nationalTeamOptions} />
           ) : (
             <InputText />
           )}
@@ -104,24 +106,23 @@ export const TournamentCompetitorForm = ({
         <div className={styles.TournamentCompetitorForm_TeamPlayers}>
           <Label>Active</Label>
           <Label>User</Label>
-          {fields.map((_, i) => (
-            <>
+          {fields.map((field, i) => (
+            <Fragment key={field.id}>
               <Switch
-                key={`input-active-${i}`}
                 name={`players.${i}.active`}
                 checked={players[i].active}
                 onCheckedChange={(value) => handleChangePlayerActive(i, value)}
                 disabled={loading}
               />
               <InputUser
-                key={`input-user-${i}`}
                 name={`players.${i}.userId`}
                 value={{ userId: players[i].userId }}
                 onChange={(value) => handleChangeUser(i, value)}
                 excludedUserIds={playerUserIds}
                 disabled={loading}
+                allowPlaceholder={false}
               />
-            </>
+            </Fragment>
           ))}
         </div>
       ) : (
@@ -133,14 +134,17 @@ export const TournamentCompetitorForm = ({
             value={{ userId: players[0].userId }}
             excludedUserIds={playerUserIds}
             disabled={loading}
+            allowPlaceholder={false}
           />
         </>
       )}
-      {form.formState.errors['players'] && (
-        <span className={styles.TournamentCompetitorForm_PlayerErrors}>
-          {form.formState.errors['players'].message}
-        </span>
-      )}
+      {
+        form.formState.errors['players'] && (
+          <span className={styles.TournamentCompetitorForm_PlayerErrors}>
+            {form.formState.errors['players'].message}
+          </span>
+        )
+      }
     </Form>
   );
 };
