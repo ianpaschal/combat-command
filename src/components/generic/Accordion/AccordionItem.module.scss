@@ -13,16 +13,16 @@
   overflow: hidden;
 
   &_Header {
-    @include flex.row($gap: 0);
+    @include flex.row($gap: 1rem);
     @include variants.ghost;
 
     cursor: pointer;
+    padding: calc(1rem - var(--border-width));
 
     &_Chevron {
       place-self: center;
       width: 1.5rem;
       height: 1.5rem;
-      margin: 1rem;
     }
   }
 

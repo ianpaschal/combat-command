@@ -26,10 +26,12 @@ export const errors = {
   USER_NOT_TOURNAMENT_PLAYER: 'User is not a player in this tournament.',
   INACTIVE_TOURNAMENT_CANNOT_USE_TIMERS: 'Tournament is not active or does not have a current round.',
   CANNOT_ADVANCE_INACTIVE_TOURNAMENT: 'Cannot advance tournament which is not active to the next round.',
+  CANNOT_END_NON_EXISTENT_TOURNAMENT_ROUND: 'Cannot end tournament round which is not ongoing.',
   TOURNAMENT_TIMER_ALREADY_PAUSED: 'Tournament timer is already paused.',
   TOURNAMENT_TIMER_ALREADY_RUNNING: 'Tournament timer is already running.',
   TOURNAMENT_TIMER_ALREADY_EXISTS: 'Tournament already has a timer for this round.',
   CANNOT_SUBSTITUTE_ONLY_ONE_PLAYER: 'Cannot substitute only one player.',
+  INVALID_PAIRING_LENGTH: 'foo',
 
   // Missing docs
   TOURNAMENT_COMPETITOR_NOT_FOUND: 'Could not find a competitor with that ID.',
@@ -50,10 +52,6 @@ export const errors = {
   TOURNAMENT_RANKINGS_MATCH_RESULT_MISSING_PLAYER: {
     message: 'Cannot calculate tournament rankings!',
     additionalInfo: 'One or more match results are missing a player!',
-  },
-  TOURNAMENT_RANKINGS_AVERAGE_0_DENOMINATOR: {
-    message: 'Cannot calculate tournament rankings!',
-    additionalInfo: 'Attempted to average results by 0!',
   },
 };
 

@@ -15,7 +15,7 @@ export const isValidOpponent = (
   }
   // Already paired elsewhere
   const alreadyPaired = !!pairings.find((pairing) => {
-    const pairingIds = pairing.map((c) => c.id);
+    const pairingIds = pairing.filter((c) => !!c).map((c) => c.id);
     return pairingIds.includes(a.id) || pairingIds.includes(b.id);
   });
   if (alreadyPaired) {

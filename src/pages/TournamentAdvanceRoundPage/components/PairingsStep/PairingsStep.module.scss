@@ -19,35 +19,3 @@
     @include flex.row;
   }
 }
-
-.PairingsGrid {
-  display: grid;
-  grid-template-columns: 1fr 1.5rem 1fr 1fr;
-  gap: 1rem;
-}
-
-.PairedSection {
-  @include flex.column($gap: 0.5rem);
-
-  grid-column: 1 / 4;
-}
-
-.UnpairedSection {
-  @include flex.column($gap: 0.5rem);
-
-  grid-column: 4 / 5;
-}
-
-.DragContent {
-  @include borders.normal;
-  @include shadows.surface;
-  @include corners.normal;
-  @include flex.stretchy;
-
-  height: 5rem;
-  padding: calc(1rem - 1px);
-}
-
-.UnpairedPool {
-  @include flex.column($gap: 0.5rem);
-}

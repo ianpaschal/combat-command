@@ -13,8 +13,10 @@ export {
   pauseTournamentTimerArgs,
   resetTournamentTimer,
   resetTournamentTimerArgs,
-  resumeTournamentTimer,
-  resumeTournamentTimerArgs,
   startTournamentTimer,
   startTournamentTimerArgs,
 } from './mutations';
+export {
+  getTournamentTimer,
+  getTournamentTimerArgs,
+} from './queries/getTournamentTimer';

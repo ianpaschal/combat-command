@@ -19,12 +19,15 @@ import { useFetchUserList } from '~/services/users/useFetchUserList';
 
 import styles from './UserSelectDialog.module.scss';
 
+export type UserSelectDialogValue = { userId?: UserId, placeholder?: string };
+
 export interface UserSelectDialogProps {
   allowPlaceholder?: boolean;
   disabled?: boolean;
   excludeUserIds?: UserId[];
   id: string;
-  onConfirm: (data: { userId?: UserId, placeholder?: string }) => void,
+  value: UserSelectDialogValue;
+  onConfirm: (data: UserSelectDialogValue) => void,
   placeholder?: string;
 }
 
@@ -32,10 +35,11 @@ export const UserSelectDialog = ({
   allowPlaceholder = true,
   excludeUserIds = [],
   id: key,
+  value,
   onConfirm,
 }: UserSelectDialogProps): JSX.Element => {
   const user = useAuth();
-  const { id, data, close } = useUserSelectDialog(key);
+  const { id, close } = useUserSelectDialog(key);
 
   // Search
   const [search, setSearch] = useState<string>('');
@@ -45,7 +49,7 @@ export const UserSelectDialog = ({
   const { data: userList } = useFetchUserList({ search });
 
   // Placeholder (hidden by default)
-  const [placeholder, setPlaceholder] = useState<string>(data?.placeholder || '');
+  const [placeholder, setPlaceholder] = useState<string>(value?.placeholder || '');
   const handleChangePlaceholder = (e: ChangeEvent<HTMLInputElement>): void => {
     setPlaceholder(e.target.value);
   };
@@ -57,17 +61,21 @@ export const UserSelectDialog = ({
   // Remove own user, and currently selected user
   const selectableUsers = (userList || []).filter((u) => {
     const isSelf = u._id === user?._id;
-    const isSelected = u._id === data?.userId;
+    const isSelected = u._id === value?.userId;
     const isExcluded = excludeUserIds.includes(u._id);
     return !isSelf && !isSelected && !isExcluded;
   });
-  const selectedUser = (userList || []).find((u) => u._id === data?.userId);
+  const selectedUser = (userList || []).find((u) => u._id === value?.userId);
 
   const handleSelect = (userId: UserId): void => {
     onConfirm({ userId });
     close();
     setSearch('');
     setPlaceholder('');
+  };
+  const handleClear = (): void => {
+    onConfirm({ userId: '' as UserId });
+    // close();
   };
 
   return (
@@ -97,6 +105,7 @@ export const UserSelectDialog = ({
                 className={styles.UserSelectDialog_SelectedUser_Clear}
                 size="small"
                 variant="ghost"
+                onClick={handleClear}
               >
                 <X />
               </Button>

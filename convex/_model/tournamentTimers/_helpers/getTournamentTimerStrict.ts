@@ -3,6 +3,7 @@ import { ConvexError } from 'convex/values';
 import { Id } from '../../../_generated/dataModel';
 import { MutationCtx, QueryCtx } from '../../../_generated/server';
 import { getErrorMessage } from '../../../common/errors';
+import { getDetailedTime } from './getDetailedTime';
 import { getTournamentStrict } from './getTournamentStrict';
 
 /**
@@ -29,5 +30,8 @@ export const getTournamentTimerStrict = async (
   if (!timer) {
     throw new ConvexError(getErrorMessage('TOURNAMENT_TIMER_NOT_FOUND'));
   }
-  return timer;
+  return {
+    ...timer,
+    ...getDetailedTime(timer, tournament.roundStructure),
+  };
 };

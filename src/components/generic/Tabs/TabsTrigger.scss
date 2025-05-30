@@ -7,7 +7,7 @@
 
 .TabsTrigger {
   @include corners.tight;
-  @include flex.row($gap: 0.5rem);
+  @include flex.row($gap: 0.25rem);
   @include flex.stretchy;
   @include text.ui;
   @include variants.secondary;

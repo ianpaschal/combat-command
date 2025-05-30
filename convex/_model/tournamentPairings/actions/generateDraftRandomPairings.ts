@@ -18,7 +18,7 @@ export const generateDraftRandomPairings = (competitors: RankedCompetitor[]) => 
     }
   });
 
-  const unpairedCompetitors = competitors.filter((competitor) => !pairings.find((p) => [p[0].id, p[1].id].includes(competitor.id)));
+  const unpairedCompetitors = competitors.filter((competitor) => !pairings.find((p) => p.filter((c) => !!c).map((c) => c.id).includes(competitor.id)));
 
   // If it SHOULD be possible to have everyone paired, fix it
   while (unpairedCompetitors.length > 1 && competitors.length % 2 === 0) {

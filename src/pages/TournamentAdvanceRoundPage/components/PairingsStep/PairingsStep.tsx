@@ -1,127 +1,100 @@
-import { useEffect, useState } from 'react';
 import {
-  DndContext,
-  DragOverlay,
-  rectIntersection,
-} from '@dnd-kit/core';
-import { restrictToWindowEdges } from '@dnd-kit/modifiers';
-import { AnimatePresence } from 'framer-motion';
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useState,
+} from 'react';
+import isEqual from 'fast-deep-equal';
 
 import {
   PairingResult,
-  RankedCompetitor,
-  TournamentCompetitorId,
   TournamentPairingMethod,
   tournamentPairingMethodOptions,
 } from '~/api';
+import { ConfirmationDialog, useConfirmationDialog } from '~/components/ConfirmationDialog';
 import { Button } from '~/components/generic/Button';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { Label } from '~/components/generic/Label';
 import { Separator } from '~/components/generic/Separator';
-import { Draggable } from '../Draggable';
-import { Droppable } from '../Droppable';
-import { PairableCompetitorCard } from '../PairableCompetitorCard';
-import { PairingsGridRow } from '../PairingsGridRow';
-import { usePairingsGrid } from './PairingsStep.hooks';
+import { TournamentPairingsGrid } from '~/components/TournamentPairingsGrid';
+import { useTournament } from '~/components/TournamentProvider';
+import { useGetDraftTournamentPairings } from '~/services/tournamentPairings/useGetDraftTournamentPairings';
 
-// import { useTournament } from '~/components/TournamentProvider';
-// import { PairingGrid } from './PairingsGrid';
 import styles from './PairingsStep.module.scss';
 
-const grabMotionDuration = 0.150;
-const grabMotionInitial = {
-  scale: 1,
-  boxShadow: '0px 0px 0px rgba(0, 0, 0, 0)',
-};
-const grabMotionAnimate = {
-  scale: 1.05,
-  boxShadow: '0px 8px 20px rgba(0, 0, 0, 0.2)',
-};
-const grabAnimationProps = {
-  initial: grabMotionInitial,
-  animate: grabMotionAnimate,
-  exit: grabMotionInitial,
-  transition: { duration: grabMotionDuration },
-};
+const changePairingMethodConfirmDialogId = 'confirm-change-pairing-method';
+const resetPairingsConfirmDialogId = 'confirm-reset-pairings';
+const commitPairingsConfirmDialogId = 'commit-reset-pairings';
 
-const rankedCompetitors: RankedCompetitor[] = [
-  { id: 'A' as TournamentCompetitorId, opponentIds: ['E' as TournamentCompetitorId], rank: 0 },
-  { id: 'B' as TournamentCompetitorId, opponentIds: ['F' as TournamentCompetitorId], rank: 1 },
-  { id: 'C' as TournamentCompetitorId, opponentIds: ['G' as TournamentCompetitorId], rank: 2 },
-  { id: 'D' as TournamentCompetitorId, opponentIds: ['H' as TournamentCompetitorId], rank: 3 },
-  { id: 'E' as TournamentCompetitorId, opponentIds: ['A' as TournamentCompetitorId], rank: 4 },
-  { id: 'F' as TournamentCompetitorId, opponentIds: ['B' as TournamentCompetitorId], rank: 5 },
-  { id: 'G' as TournamentCompetitorId, opponentIds: ['C' as TournamentCompetitorId], rank: 6 },
-  { id: 'H' as TournamentCompetitorId, opponentIds: ['D' as TournamentCompetitorId], rank: 7 },
-  { id: 'K' as TournamentCompetitorId, opponentIds: ['L' as TournamentCompetitorId], rank: 8 },
-];
+export interface PairingsStepProps {
+  nextRound: number;
+  onConfirm: (pairings: PairingResult) => void;
+}
 
-const draftPairingResults: PairingResult = {
-  pairings: [
-    [rankedCompetitors[0], rankedCompetitors[1]],
-    [rankedCompetitors[2], rankedCompetitors[3]],
-    [rankedCompetitors[4], rankedCompetitors[5]],
-    [rankedCompetitors[6], rankedCompetitors[7]],
-  ],
-  unpairedCompetitors: [
-    rankedCompetitors[8],
-  ],
-};
+export interface PairingsStepHandle {
+  validate: () => void;
+}
 
-export const PairingsStep = (): JSX.Element => {
-  // const tournament = useTournament();
-  const [pairingMethod, setPairingMethod] = useState<TournamentPairingMethod>('random'); // TODO: Auto set based on tournament info
+export const PairingsStep = forwardRef<PairingsStepHandle, PairingsStepProps>(({
+  nextRound,
+  onConfirm,
+}: PairingsStepProps, ref) => {
+  const tournament = useTournament();
 
-  const pairingIndexes = Array.from({ length: Math.floor(rankedCompetitors.length / 2) }, (_, i) => i);
-
-  const {
-    state,
-    handleDragStart,
-    handleDragEnd,
-    // reset,
-  } = usePairingsGrid(draftPairingResults);
+  // Pairing state
+  const isFirstRound = nextRound === 0;
+  const defaultPairingMethod = isFirstRound ? 'random' : tournament.pairingMethod;
+  const [pairingMethod, setPairingMethod] = useState<TournamentPairingMethod>(defaultPairingMethod);
+  const { data: draftPairingResults } = useGetDraftTournamentPairings({
+    tournamentId: tournament._id,
+    round: nextRound,
+    method: pairingMethod,
+  });
+  const [manualPairings, setManualPairings] = useState<PairingResult | undefined>(draftPairingResults);
   useEffect(() => {
-    document.body.style.cursor = state.activeCompetitor ? 'grabbing' : 'default';
-    return () => {
-      document.body.style.cursor = 'default';
-    };
-  }, [state]);
+    if (draftPairingResults) {
+      setManualPairings(draftPairingResults);
+    }
+  }, [draftPairingResults]);
+
+  const isDirty = manualPairings && !isEqual(manualPairings, draftPairingResults);
+
+  const { open: openChangePairingMethodConfirmDialog } = useConfirmationDialog(changePairingMethodConfirmDialogId);
+  const { open: openResetPairingsConfirmDialog } = useConfirmationDialog(resetPairingsConfirmDialogId);
+  const { open: openCommitPairingsConfirmDialog } = useConfirmationDialog(commitPairingsConfirmDialogId);
 
   const handleChangePairingMethod = (value: TournamentPairingMethod): void => {
-    // If dirty, show a warning before changing
-    if (state.dirty) {
-      alert('Are you sure?');
+    if (isDirty) {
+      openChangePairingMethodConfirmDialog({
+        onConfirm: () => setPairingMethod(value),
+      });
     } else {
       setPairingMethod(value);
     }
   };
 
-  // const handleConfirmChange = (value: TournamentPairingMethod): void => {
-  //   // Close dialog
-  //   // Reset
-  //   setPairingMethod(value);
-  // };
-
   const handleReset = (): void => {
-    // If dirty, show a warning before resetting
-    if (state.dirty) {
-      alert('Are you sure?');
+    if (draftPairingResults) {
+      if (isDirty) {
+        openResetPairingsConfirmDialog({
+          onConfirm: () => setManualPairings(draftPairingResults),
+        });
+      } else {
+        setManualPairings(draftPairingResults);
+      }
     }
   };
 
-  // const handleConfirmReset = (): void => {
-  //   // Close dialog
-  //   // Reset
-  //   reset();
-  // };
+  useImperativeHandle(ref, () => ({
+    validate: openCommitPairingsConfirmDialog,
+  }));
 
-  // const handleSubmit = (): void => {
-
-  // };
-
-  // const handleConfirmSubmit = (): void => {
-
-  // };
+  const handleConfirm = () => {
+    if (!manualPairings) {
+      throw new Error('cannot confirm non-existent pairings!');
+    }
+    onConfirm(manualPairings);
+  };
 
   return (
     <div className={styles.PairingStep}>
@@ -133,61 +106,34 @@ export const PairingsStep = (): JSX.Element => {
           onChange={handleChangePairingMethod}
           options={tournamentPairingMethodOptions}
           value={pairingMethod}
+          disabled={isFirstRound}
         />
-        <Button onClick={handleReset}>
+        <Button onClick={handleReset} variant="secondary" disabled={isEqual(manualPairings, draftPairingResults)}>
           Reset
         </Button>
       </div>
       <Separator />
-      <DndContext
-        modifiers={[restrictToWindowEdges]}
-        collisionDetection={rectIntersection}
-        onDragEnd={handleDragEnd}
-        onDragStart={handleDragStart}
+      <TournamentPairingsGrid value={manualPairings} onChange={setManualPairings} />
+      <ConfirmationDialog
+        id={changePairingMethodConfirmDialogId}
+        title="Confirm Change Pairing Method"
+        description="Are you sure you want to change the pairing method? The existing pairings will be replaced."
+      />
+      <ConfirmationDialog
+        id={resetPairingsConfirmDialogId}
+        title="Confirm Reset Pairing Method"
+        description="Are you sure you want to reset? The existing pairings will be replaced."
+      />
+      <ConfirmationDialog
+        id={commitPairingsConfirmDialogId}
+        title={`Confirm Round ${nextRound} Pairings`}
+        intent="default"
+        onConfirm={handleConfirm}
       >
-        <div className={styles.PairingsGrid}>
-          <div className={styles.PairedSection}>
-            <Label>Pairings</Label>
-            {pairingIndexes.map((i) => (
-              <PairingsGridRow key={i} index={i} activeCompetitor={state.activeCompetitor} pairing={state.pairings[i]} />
-            ))}
-          </div>
-          <div className={styles.UnpairedSection}>
-            <Label>Unpaired Competitors</Label>
-            <Droppable key="unpaired" id="unpaired" className={styles.UnpairedPool}>
-              <AnimatePresence>
-                {state.unpairedCompetitors.map((competitor) => (
-                  <Draggable id={competitor.id} key={competitor.id}>
-                    <PairableCompetitorCard
-                      competitorId={competitor.id}
-                      rank={competitor.rank}
-                      key={`card_${competitor.id}`}
-                      initial={{ scale: 0.5, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      transition={{ duration: 0.25 }}
-                    />
-                  </Draggable>
-                ))}
-              </AnimatePresence>
-            </Droppable>
-          </div>
-        </div>
-        <AnimatePresence>
-          {state.activeCompetitor && (
-            <DragOverlay
-              dropAnimation={{ duration: grabMotionDuration * 1000, easing: 'ease' }}
-            >
-              <Draggable id={state.activeCompetitor.id}>
-                <PairableCompetitorCard
-                  competitorId={state.activeCompetitor.id}
-                  rank={state.activeCompetitor.rank}
-                  {...grabAnimationProps}
-                />
-              </Draggable>
-            </DragOverlay>
-          )}
-        </AnimatePresence>
-      </DndContext>
+        <pre>
+          {JSON.stringify(manualPairings, null, 2)}
+        </pre>
+      </ConfirmationDialog>
     </div>
   );
-};
+});

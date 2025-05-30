@@ -1,0 +1,66 @@
+@use "/src/style/variables";
+@use "/src/style/flex";
+@use "/src/style/text";
+@use "/src/style/corners";
+@use "/src/style/shadows";
+@use "/src/style/borders";
+@use "/src/style/backgrounds";
+
+.TournamentRoundTimer {
+  @include flex.column($gap: 0.5rem);
+
+  width: min-content;
+
+  &_TimeSection {
+    @include flex.column($gap: 0.25rem, $xAlign: center);
+  }
+
+  &_Round {
+    @include text.ui($bold: true);
+
+    user-select: none;
+    display: block;
+  }
+
+  &_TimeRemaining {
+    @include corners.normal;
+    @include flex.centered;
+
+    user-select: none;
+
+    width: min-content;
+    height: 3rem;
+
+    font-size: 3.25rem;
+    font-weight: 300;
+
+    &[data-paused="true"] {
+      @keyframes pulse {
+        0% {
+          opacity: 1;
+        }
+
+        50% {
+          opacity: 0.4;
+        }
+
+        100% {
+          opacity: 1;
+        }
+      }
+
+      animation: pulse 1.5s infinite;
+    }
+  }
+
+  &_EndTime {
+    @include text.ui($bold: true);
+
+    user-select: none;
+    display: block;
+  }
+
+  &_Controls {
+    @include flex.row($gap: 0.25rem, $xAlign: center);
+  }
+}

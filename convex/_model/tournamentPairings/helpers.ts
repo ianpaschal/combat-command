@@ -16,11 +16,14 @@ export const getDeepTournamentPairing = async (
   }
   const tournamentCompetitor0 = await getDeepTournamentCompetitor(ctx, rawTournamentCompetitor0 );
 
-  const rawTournamentCompetitor1 = await ctx.db.get(tournamentPairing.tournamentCompetitor1Id);
-  if (!rawTournamentCompetitor1) {
-    throw new ConvexError(getErrorMessage('TOURNAMENT_COMPETITOR_NOT_FOUND'));
+  let tournamentCompetitor1 = null;
+  if (tournamentPairing.tournamentCompetitor1Id) {
+    const rawTournamentCompetitor1 = await ctx.db.get(tournamentPairing.tournamentCompetitor1Id);
+    if (!rawTournamentCompetitor1) {
+      throw new ConvexError(getErrorMessage('TOURNAMENT_COMPETITOR_NOT_FOUND'));
+    }
+    tournamentCompetitor1 = await getDeepTournamentCompetitor(ctx, rawTournamentCompetitor1 );
   }
-  const tournamentCompetitor1 = await getDeepTournamentCompetitor(ctx, rawTournamentCompetitor1 );
 
   return {
     ...tournamentPairing,

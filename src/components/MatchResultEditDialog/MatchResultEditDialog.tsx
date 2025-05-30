@@ -8,6 +8,7 @@ import {
 import { ScrollArea } from '~/components/generic/ScrollArea';
 import { Separator } from '~/components/generic/Separator';
 import { useMatchResult } from '~/components/MatchResultProvider';
+
 import { useMatchResultEditDialog } from './MatchResultEditDialog.hooks';
 
 import styles from './MatchResultEditDialog.module.scss';

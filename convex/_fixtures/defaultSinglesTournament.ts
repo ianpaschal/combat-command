@@ -20,7 +20,7 @@ export const defaultSinglesTournament: Omit<Doc<'tournaments'>, '_id'|'_creation
     coordinates: { lat: 0, lon: 0 },
   },
   maxCompetitors: 12,
-  pairingMethod: 'swiss',
+  pairingMethod: 'adjacent',
   rankingFactors: ['total_wins', 'total_points', 'total_units_destroyed'],
   registrationClosesAt: '2025-01-01T00:00:00',
   requireRealNames: false,

@@ -22,6 +22,7 @@ import { InputUser } from '~/components/InputUser';
 import { useTournament } from '~/components/TournamentProvider';
 import { useGetTournamentCompetitorsByTournamentId } from '~/services/tournamentCompetitors';
 import { getEtcCountryOptions } from '~/utils/common/getCountryOptions';
+
 import {
   createSchema,
   FormData,
@@ -54,7 +55,7 @@ export const TournamentCompetitorForm = ({
     competitorSize,
     useTeams,
     useNationalTeams,
-    playerUserIds,
+    playerUserIds: existingPlayerUserIds,
   } = useTournament();
   const { data: tournamentCompetitors } = useGetTournamentCompetitorsByTournamentId(tournamentId);
 
@@ -80,7 +81,7 @@ export const TournamentCompetitorForm = ({
   ));
 
   const handleChangeUser = (i: number, { userId }: { userId?: UserId, placeholder?: string }): void => {
-    if (userId) {
+    if (userId !== undefined) {
       form.setValue(`players.${i}.userId`, userId);
     }
   };
@@ -90,6 +91,11 @@ export const TournamentCompetitorForm = ({
   const handleSubmit: SubmitHandler<FormData> = async (formData): Promise<void> => {
     onSubmit({ tournamentId, ...formData });
   };
+
+  const excludedUserIds = [
+    ...existingPlayerUserIds,
+    ...players.map((player) => player.userId),
+  ];
 
   return (
     <Form id={id} form={form} onSubmit={handleSubmit} className={clsx(styles.TournamentCompetitorForm, className)}>
@@ -118,7 +124,7 @@ export const TournamentCompetitorForm = ({
                 name={`players.${i}.userId`}
                 value={{ userId: players[i].userId }}
                 onChange={(value) => handleChangeUser(i, value)}
-                excludedUserIds={playerUserIds}
+                excludedUserIds={excludedUserIds}
                 disabled={loading}
                 allowPlaceholder={false}
               />
@@ -132,7 +138,7 @@ export const TournamentCompetitorForm = ({
             name={'players.0.userId'}
             onChange={(value) => handleChangeUser(0, value)}
             value={{ userId: players[0].userId }}
-            excludedUserIds={playerUserIds}
+            excludedUserIds={excludedUserIds}
             disabled={loading}
             allowPlaceholder={false}
           />

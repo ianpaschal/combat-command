@@ -22,7 +22,7 @@ describe('generateDraftRandomPairings', () => {
     expect(pairings.length).toBe(2); // 4 competitors should result in 2 pairings
     expect(unpairedCompetitors.length).toBe(0); // No unpaired competitors
     pairings.forEach(([c1, c2]) => {
-      expect(c1.id).not.toBe(c2.id); // Competitors in a pairing should not be the same
+      expect(c1?.id).not.toBe(c2?.id); // Competitors in a pairing should not be the same
     });
   });
 
@@ -50,7 +50,7 @@ describe('generateDraftRandomPairings', () => {
     const { pairings } = generateDraftRandomPairings(competitors);
 
     pairings.forEach(([c1, c2]) => {
-      expect(c1.opponentIds).not.toContain(c2.id); // Competitors in a pairing should not have played against each other
+      expect(c1?.opponentIds).not.toContain(c2?.id); // Competitors in a pairing should not have played against each other
     });
   });
 
@@ -74,7 +74,7 @@ describe('generateDraftRandomPairings', () => {
 
     const { pairings, unpairedCompetitors } = generateDraftRandomPairings(competitors);
 
-    const pairedCompetitorIds = pairings.flatMap(([c1, c2]) => [c1.id, c2.id]);
+    const pairedCompetitorIds = pairings.flatMap(([c1, c2]) => [c1?.id, c2?.id]);
     const unpairedCompetitorIds = unpairedCompetitors.map((c) => c.id);
 
     const allCompetitorIds = competitors.map((c) => c.id);

@@ -1,36 +1,33 @@
-import {
-  ReactElement,
-  ReactNode,
-  useMemo,
-} from 'react';
+import { ReactElement, useMemo } from 'react';
+import { Ghost } from 'lucide-react';
 
-import { TournamentCompetitor, User } from '~/api';
 import { Avatar } from '~/components/generic/Avatar';
 import { FlagCircle } from '~/components/generic/FlagCircle';
 import { getCountryName } from '~/utils/common/getCountryName';
 import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
 
-export type GetDisplayNameInput = {
-  user?: User;
-  competitor?: TournamentCompetitor;
+import { IdentityBadgeInput } from './IdentityBadge.types';
+
+const checkInput = (input: IdentityBadgeInput): void => {
+  const providedInputCount = Object.values(input).filter((i) => !!i).length;
+  if (providedInputCount < 1) {
+    throw new Error('Please supply either a user, tournament competitor, or placeholder to <IdentityBadge/>!');
+  }
+  if (providedInputCount > 1) {
+    throw new Error('Please supply only a user, tournament competitor, or placeholder to <IdentityBadge/>!');
+  }
 };
 
-export const useDisplayName = ({
-  user,
-  competitor,
-}: GetDisplayNameInput): ReactNode | null => useMemo(() => {
-  if (!user && !competitor) {
-    return null;
-  }
-  if (user && competitor) {
-    throw new Error('Please supply only a user or a tournament competitor to <IdentityBadge/>!');
-  }
+export const useDisplayName = (input: IdentityBadgeInput): ReactElement => useMemo(() => {
+  checkInput(input);
+  const { user, competitor, placeholder } = input;
+
   if (user) {
-    return getUserDisplayNameString(user);
+    return <span>{getUserDisplayNameString(user)}</span>;
   }
   if (competitor) {
     if (competitor.players.length === 1 && competitor.players[0].user) {
-      return getUserDisplayNameString(competitor.players[0].user);
+      return <span>{getUserDisplayNameString(competitor.players[0].user)}</span >;
     }
     if (competitor.teamName) {
       const countryName = getCountryName(competitor.teamName);
@@ -38,19 +35,16 @@ export const useDisplayName = ({
     }
     return <span>Unknown Competitor</span>;
   }
-  return 'Unknown User';
-}, [user, competitor]);
+  if (placeholder) {
+    return <span>{placeholder.displayName}</span>;
+  }
+  return <span>Unknown User</span>;
+}, [input]);
 
-export const useDisplayAvatar = ({
-  user,
-  competitor,
-}: GetDisplayNameInput): ReactElement | null => useMemo(() => {
-  if (!user && !competitor) {
-    return null;
-  }
-  if (user && competitor) {
-    throw new Error('Please supply only a user or a tournament competitor to <IdentityBadge/>!');
-  }
+export const useDisplayAvatar = (input: IdentityBadgeInput): ReactElement => useMemo(() => {
+  checkInput(input);
+  const { user, competitor, placeholder } = input;
+
   if (user) {
     return <Avatar url={user?.avatarUrl} />;
   }
@@ -65,7 +59,10 @@ export const useDisplayAvatar = ({
       }
       return <Avatar isTeam />;
     }
-    return <span>Unknown Competitor</span>;
+    return <Avatar />;
+  }
+  if (placeholder) {
+    return <Avatar icon={placeholder.icon ?? <Ghost />} muted />;
   }
   return <Avatar />;
-}, [user, competitor]);
+}, [input]);

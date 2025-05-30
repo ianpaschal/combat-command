@@ -8,6 +8,7 @@ import { InputText } from '~/components/generic/InputText';
 import { Separator } from '~/components/generic/Separator';
 import { useResetPassword } from '~/services/auth/useResetPassword';
 import { PATHS } from '~/settings';
+
 import {
   defaultValues,
   ResetPasswordFormData,

@@ -7,6 +7,7 @@ import { FormField } from '~/components/generic/Form';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { InputText } from '~/components/generic/InputText';
 import { Separator } from '~/components/generic/Separator';
+
 import { SelectPlayerDialog } from './SelectPlayerDialog';
 
 import styles from './SingleMatchPlayersFields.module.scss';

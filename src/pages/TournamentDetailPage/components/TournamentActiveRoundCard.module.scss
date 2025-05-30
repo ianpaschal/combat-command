@@ -1,0 +1,6 @@
+@use "/src/style/variables";
+
+.Timer {
+  place-self: center;
+  padding: 1rem var(--container-padding-x);
+}

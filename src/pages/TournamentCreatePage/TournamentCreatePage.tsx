@@ -21,7 +21,7 @@ export const TournamentCreatePage = (): JSX.Element => {
   const navigate = useNavigate();
 
   const { mutation: createTournament, loading } = useCreateTournament({
-    onSuccess: (id: string): void => {
+    onSuccess: (id): void => {
       toast.success('Tournament created!');
       navigate(generatePath(PATHS.tournamentDetails, { id }));
     },

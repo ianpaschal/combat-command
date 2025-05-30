@@ -10,6 +10,7 @@ import { Form } from '~/components/generic/Form';
 import { useFileFromUrl } from '~/hooks/useFileFromUrl';
 import { useFetchTournament } from '~/services/tournaments/useFetchTournament';
 import { useUploadConvexImage } from '~/services/useUploadConvexFile';
+
 import { CompetitorFields } from './components/CompetitorFields';
 import { FormatFields } from './components/FormatFields';
 import { GeneralFields } from './components/GeneralFields';

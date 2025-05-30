@@ -1,0 +1,86 @@
+@use "/src/style/variables";
+@use "/src/style/flex";
+@use "/src/style/text";
+@use "/src/style/corners";
+@use "/src/style/shadows";
+@use "/src/style/borders";
+@use "/src/style/variants";
+
+@mixin row {
+  @include borders.muted($side: bottom);
+
+  display: grid;
+  grid-template-columns: 2.5rem 1fr;
+  column-gap: 1rem;
+  align-items: center;
+  justify-content: center;
+
+  padding: 1rem var(--container-padding-x);
+
+  text-align: center;
+}
+
+.TournamentPairingsList {
+  @include flex.column($gap: 0);
+
+  &_Header {
+    @include row;
+
+    padding: 0 var(--container-padding-x);
+    padding-bottom: 0.5rem;
+
+    &[data-orientation="horizontal"] {
+      text-align: center;
+    }
+
+    &[data-orientation="vertical"] {
+      text-align: left;
+    }
+  }
+
+  &_List {
+    @include flex.column($gap: 0);
+  }
+
+  &_Pairing {
+    @include row;
+
+    &_Versus {
+      @include text.small($muted: true);
+
+      font-size: var(--font-size-tiny);
+      font-weight: 500;
+      line-height: var(--line-height-tiny);
+    }
+
+    &_Competitors {
+      &[data-orientation="horizontal"] {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        gap: 1rem;
+        align-items: center;
+      }
+
+      &[data-orientation="horizontal"] > :first-child {
+        justify-self: end;
+      }
+
+      &[data-orientation="vertical"] {
+        @include flex.column($gap: 0.5rem);
+
+        .TournamentPairingsList_Pairing_Versus {
+          justify-self: start;
+          width: 2.5rem;
+        }
+      }
+    }
+
+    &_Table {
+      @include text.ui;
+
+      font-size: 1.5rem;
+      font-weight: 300;
+      line-height: 1.75rem;
+    }
+  }
+}

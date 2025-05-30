@@ -8,6 +8,7 @@ import { InputText } from '~/components/generic/InputText';
 import { Separator } from '~/components/generic/Separator';
 import { useSignUp } from '~/services/auth/useSignUp';
 import { PATHS } from '~/settings';
+
 import {
   defaultValues,
   SignUpFormData,

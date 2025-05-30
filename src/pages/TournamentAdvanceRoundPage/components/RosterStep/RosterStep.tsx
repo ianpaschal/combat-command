@@ -1,51 +1,101 @@
+import {
+  forwardRef,
+  ReactNode,
+  useImperativeHandle,
+  useMemo,
+} from 'react';
 import { Plus } from 'lucide-react';
 
-import { Accordion, AccordionItem } from '~/components/generic/Accordion';
+import { ConfirmationDialog, useConfirmationDialog } from '~/components/ConfirmationDialog';
 import { Button } from '~/components/generic/Button';
 import { Separator } from '~/components/generic/Separator';
-import { IdentityBadge } from '~/components/IdentityBadge';
-import { TournamentCompetitorEditDialog } from '~/components/TournamentCompetitorEditDialog/TournamentCompetitorEditDialog';
+import { TournamentCompetitorCreateDialog, useTournamentCompetitorCreateDialog } from '~/components/TournamentCompetitorCreateDialog';
+import { useTournamentCompetitors } from '~/components/TournamentCompetitorsProvider';
 import { useTournament } from '~/components/TournamentProvider';
-import { RosterAddCompetitorDialog, useRosterAddCompetitorDialog } from '~/pages/TournamentAdvanceRoundPage/components/RosterAddCompetitorDialog';
-import { useGetTournamentCompetitorsByTournamentId } from '~/services/tournamentCompetitors';
-import { RosterHeader } from '../RosterHeader';
+import { TournamentRoster } from '~/components/TournamentRoster';
+
+import { getWarnings, sortCompetitorsByActive } from './RosterStep.utils';
 
 import styles from './RosterStep.module.scss';
 
-export const RosterStep = (): JSX.Element => {
-  const { _id: tournamentId, useTeams } = useTournament();
-  const { data: competitors } = useGetTournamentCompetitorsByTournamentId(tournamentId);
-  const { open: openRosterAddCompetitorDialog } = useRosterAddCompetitorDialog();
+const tournamentRosterConfirmDialogId = 'tournament-roster-confirm';
+
+export interface RosterStepProps {
+  nextRound: number;
+  onConfirm: () => void;
+}
+
+export interface RosterStepHandle {
+  validate: () => void;
+}
+
+export const RosterStep = forwardRef<RosterStepHandle, RosterStepProps>(({
+  onConfirm,
+  nextRound,
+}: RosterStepProps, ref) => {
+  const tournament = useTournament();
+  const tournamentCompetitors = useTournamentCompetitors();
+  const { open: openTournamentCompetitorCreateDialog } = useTournamentCompetitorCreateDialog();
+  const {
+    open: openTournamentRosterConfirmDialog,
+    close: closeTournamentRosterConfirmDialog,
+  } = useConfirmationDialog(tournamentRosterConfirmDialogId);
+
+  const sortedCompetitors = sortCompetitorsByActive(tournamentCompetitors);
+
+  useImperativeHandle(ref, () => ({
+    validate: () => {
+      if (!sortedCompetitors.active.length) {
+        // TODO: Use a toast instead and return
+        throw new Error('No competitors');
+      }
+      if (sortedCompetitors.active.length > tournament.maxCompetitors) {
+        // TODO: Use a toast instead and return
+        throw new Error('Too many competitors!');
+      }
+      if (warnings.length > 0) {
+        openTournamentRosterConfirmDialog();
+      } else {
+        onConfirm();
+      }
+    },
+  }));
+
+  const handleConfirm = () => {
+    closeTournamentRosterConfirmDialog();
+    onConfirm();
+  };
+
+  const warnings: ReactNode[] = useMemo(() => getWarnings(tournament, tournamentCompetitors), [
+    tournament,
+    tournamentCompetitors,
+  ]);
+
   return (
     <>
       <div className={styles.RosterStep}>
         <div className={styles.RosterStep_Header}>
           <h2>
-            {`Adjust ${useTeams ? 'Teams' : 'Players'}`}
+            {`Adjust ${tournament.useTeams ? 'Teams' : 'Players'}`}
           </h2>
           <div className={styles.RosterStep_Actions}>
-            <Button variant="secondary" onClick={openRosterAddCompetitorDialog}>
+            <Button variant="secondary" onClick={openTournamentCompetitorCreateDialog}>
               <Plus />
-              {`Add ${useTeams ? 'Team' : 'Player'}`}
+              {`Add ${tournament.useTeams ? 'Team' : 'Player'}`}
             </Button>
           </div>
         </div>
         <Separator />
-        <Accordion>
-          {(competitors || []).map((competitor) => (
-            <AccordionItem id={competitor._id} disabled={!useTeams} key={competitor._id}>
-              <RosterHeader tournamentCompetitor={competitor} />
-              <div className={styles.RosterStep_CompetitorContent}>
-                {competitor.players.filter((player) => player.active).map((player) => (
-                  <IdentityBadge key={player.user?._id} user={player.user} size="small" />
-                ))}
-              </div>
-            </AccordionItem>
-          ))}
-        </Accordion>
+        <TournamentRoster />
       </div>
-      <RosterAddCompetitorDialog />
-      <TournamentCompetitorEditDialog />
+      <TournamentCompetitorCreateDialog />
+      <ConfirmationDialog
+        id={tournamentRosterConfirmDialogId}
+        title={`Confirm Round ${nextRound + 1} ${tournament.useTeams ? 'Teams' : 'Players'}`}
+        onConfirm={handleConfirm}
+        intent="default"
+        warnings={warnings}
+      />
     </>
   );
-};
+});

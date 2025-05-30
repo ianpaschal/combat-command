@@ -5,10 +5,15 @@ import {
   v,
 } from 'convex/values';
 
+import { generateDraftAdjacentPairings } from './actions/generateDraftAdjacentPairings';
+import { generateDraftRandomPairings } from './actions/generateDraftRandomPairings';
 import { DataModel, Id } from '../../_generated/dataModel';
 import { QueryCtx } from '../../_generated/server';
 import { getErrorMessage } from '../../common/errors';
+import { tournamentPairingMethod } from '../../static/tournamentPairingMethods';
 import { notNullOrUndefined } from '../_helpers/notNullOrUndefined';
+import { getTournamentCompetitorListByTournamentId } from '../tournamentCompetitors';
+import { getTournamentRankings } from '../tournamentRankings';
 import { getDeepTournamentPairing } from './helpers';
 
 export const getTournamentPairingArgs = v.object({
@@ -26,16 +31,14 @@ export const getTournamentPairing = async (
   return await getDeepTournamentPairing(ctx, result);
 };
 
-export const getTournamentPairingListArgs = v.object({
+export const getTournamentPairingsArgs = v.object({
   tournamentId: v.optional(v.id('tournaments')),
   round: v.optional(v.number()),
 });
 
-export type GetTournamentPairingList = Awaited<ReturnType<typeof getTournamentPairingList>>;
-
-export const getTournamentPairingList = async (
+export const getTournamentPairings = async (
   ctx: QueryCtx,
-  args: Infer<typeof getTournamentPairingListArgs>,
+  args: Infer<typeof getTournamentPairingsArgs>,
 ) => {
   const baseQuery = ctx.db.query('tournamentPairings');
 
@@ -58,4 +61,40 @@ export const getTournamentPairingList = async (
 
   // TODO: Add pagination
   return deepResults.filter(notNullOrUndefined);
+};
+
+export const getDraftTournamentPairingsArgs = v.object({
+  tournamentId: v.id('tournaments'),
+
+  // Upcoming round
+  round: v.number(),
+  method: tournamentPairingMethod,
+});
+
+/**
+ * 
+ * @param ctx 
+ * @param args 
+ * @returns 
+ */
+export const getDraftTournamentPairings = async (
+  ctx: QueryCtx,
+  args: Infer<typeof getDraftTournamentPairingsArgs>,
+) => {
+  const competitors = await getTournamentCompetitorListByTournamentId(ctx, args);
+  const { competitors: rankedCompetitors } = await getTournamentRankings(ctx, {
+    tournamentId: args.tournamentId,
+    round: args.round - 1, // Get rankings for previous round
+  });
+  const activeCompetitors = rankedCompetitors.filter(({ id }) => !!competitors.find((c) => c._id === id && c.active));
+  if (args.method === 'adjacent') {
+    return generateDraftAdjacentPairings(activeCompetitors);
+  }
+  if (args.method === 'random') {
+    return generateDraftRandomPairings(activeCompetitors);
+  }
+  return {
+    pairings: [],
+    unpairedCompetitors: [],
+  };
 };

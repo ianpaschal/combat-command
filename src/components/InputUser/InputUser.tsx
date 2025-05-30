@@ -57,7 +57,7 @@ export const InputUser = forwardRef<HTMLButtonElement, InputUserProps>(({
           'Select'
         )}
       </Button>
-      <UserSelectDialog id={name} onConfirm={onChange} excludeUserIds={excludedUserIds} allowPlaceholder={allowPlaceholder} />
+      <UserSelectDialog id={name} value={{ userId, placeholder }} onConfirm={onChange} excludeUserIds={excludedUserIds} allowPlaceholder={allowPlaceholder} />
     </>
   );
 });

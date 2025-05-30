@@ -44,6 +44,11 @@ export type UpdateTournamentCompetitorArgs = typeof api.tournamentCompetitors.up
 
 // Tournament Pairings
 export type TournamentPairingId = Id<'tournamentPairings'>;
+export type GetDraftTournamentPairingsArgs = typeof api.tournamentPairings.getDraftTournamentPairings._args;
+
+// Tournament Timers
+export type TournamentTimerId = Id<'tournamentTimers'>;
+export type TournamentTimer = typeof api.tournamentTimers.getTournamentTimer._returnType;
 
 // Tournaments
 export type CreateTournamentArgs = typeof api.tournaments.createTournament._args;

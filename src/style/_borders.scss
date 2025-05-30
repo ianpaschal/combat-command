@@ -35,6 +35,35 @@
   border-width: var(--border-width);
 }
 
+@mixin muted($side: all) {
+  border-color: var(--border-color-muted);
+  border-width: var(--border-width);
+
+  @if $side == all {
+    border-style: solid;
+  }
+
+  @if $side == top {
+    border-style: none;
+    border-top-style: solid;
+  }
+
+  @if $side == bottom {
+    border-style: none;
+    border-bottom-style: solid;
+  }
+
+  @if $side == left {
+    border-style: none;
+    border-left-style: solid;
+  }
+
+  @if $side == right {
+    border-style: none;
+    border-right-style: solid;
+  }
+}
+
 @mixin warning {
   border-color: var(--border-color-warning);
   border-style: solid;

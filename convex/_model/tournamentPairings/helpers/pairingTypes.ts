@@ -1,16 +1,21 @@
-import { Id } from '../../../_generated/dataModel';
+import { Infer, v } from 'convex/values';
 
-export type DraftPairing = [RankedCompetitor, RankedCompetitor];
-export type Bye = RankedCompetitor;
+import { Id } from '../../../_generated/dataModel';
+import { ExtendedResultData } from '../../tournamentRankings/types';
+import { uniqueFields } from '../fields';
+
+export type DraftPairing = [RankedCompetitor, RankedCompetitor ];
 
 export type PairingResult = {
   pairings: DraftPairing[];
   unpairedCompetitors: RankedCompetitor[];
 };
 
-export type RankedCompetitor = {
+export type RankedCompetitor = ExtendedResultData<Id<'tournamentCompetitors'>> & {
   id: Id<'tournamentCompetitors'>;
-  opponentIds: Id<'tournamentCompetitors'>[];
-  byeRound?: number;
-  rank: number; // Can't use index once we start moving competitors around
+  rank: number | null; // Can't use index once we start moving competitors around
 };
+
+const uniqueFieldsSchema = v.object(uniqueFields);
+
+export type PairingUniqueFields = Infer<typeof uniqueFieldsSchema>;

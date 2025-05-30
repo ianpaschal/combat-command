@@ -98,7 +98,7 @@ export const defaultValues: DeepPartial<TournamentFormData> = {
   description: '',
   roundCount: 3,
   rulesPackUrl: '',
-  pairingMethod: 'swiss',
+  pairingMethod: 'adjacent',
   title: '',
   organizerUserIds: [],
   gameSystemId: 'flames_of_war_v4',

@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 
 import { MatchResult } from '~/api';
+
 import { MatchResultContext } from './MatchResultProvider.context';
 
 export interface MatchResultProviderProps {

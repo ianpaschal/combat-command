@@ -1,0 +1,1 @@
+export { TournamentPairingsList } from './TournamentPairingsList';

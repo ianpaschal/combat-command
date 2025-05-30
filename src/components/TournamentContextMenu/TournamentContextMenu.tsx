@@ -7,7 +7,6 @@ import { PopoverMenu } from '~/components/generic/PopoverMenu';
 import { toast } from '~/components/ToastProvider';
 import { useTournament } from '~/components/TournamentProvider';
 import { useDeleteTournament } from '~/services/tournaments/useDeleteTournament';
-import { useFetchTournamentActiveRound } from '~/services/tournaments/useFetchTournamentActiveRound';
 import { usePublishTournament } from '~/services/tournaments/usePublishTournament';
 import { useStartTournament } from '~/services/tournaments/useStartTournament';
 import { PATHS } from '~/settings';
@@ -26,8 +25,6 @@ export const TournamentContextMenu = ({
   const user = useAuth();
   const tournament = useTournament();
   const navigate = useNavigate();
-
-  const { data: activeRound } = useFetchTournamentActiveRound(tournament._id);
   const { mutation: deleteTournament } = useDeleteTournament({
     onSuccess: (): void => {
       toast.success('Tournament deleted!');
@@ -71,22 +68,16 @@ export const TournamentContextMenu = ({
       visible: tournament.status === 'published',
     },
     {
-      label: `Prepare Round ${(tournament.currentRound ?? 0) + 1}`,
+      label: `Configure Round ${(tournament.lastRound ?? -1) + 2}`,
       onClick: () => navigate(generatePath(PATHS.tournamentAdvanceRound, { id: tournament._id })),
-      visible: activeRound && !activeRound.pairings.length,
+      visible: !tournament.currentRound,
     },
-    {
-      label: `Start Round ${tournament.currentRound! + 1}`,
-      // eslint-disable-next-line no-console
-      onClick: () => console.log('Start Round'),
-      visible: activeRound && activeRound.pairings.length,
-    },
-    {
-      label: `End Round ${tournament.currentRound! + 1}`,
-      // eslint-disable-next-line no-console
-      onClick: () => console.log('End Round'),
-      visible: activeRound,
-    },
+    // {
+    //   label: `End Round ${tournament.currentRound! + 1}`,
+    //   // eslint-disable-next-line no-console
+    //   onClick: () => console.log('End Round'),
+    //   visible: activeRound,
+    // },
   ];
 
   const visibleMenuItems = menuItems.filter((item) => item.visible);

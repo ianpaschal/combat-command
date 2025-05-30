@@ -119,10 +119,9 @@ export const startTournament = async (
   { id }: Infer<typeof startTournamentArgs>,
 ) => await ctx.db.patch(id, {
   status: 'active',
-  currentRound: 0,
 });
 
-export const advanceTournament = async (
+export const closeTournamentRound = async (
   ctx: MutationCtx,
   { id }: Infer<typeof startTournamentArgs>,
 ) => {
@@ -133,8 +132,42 @@ export const advanceTournament = async (
   if (tournament.status !== 'active') {
     throw new ConvexError(getErrorMessage('CANNOT_ADVANCE_INACTIVE_TOURNAMENT'));
   }
+  if (tournament.currentRound === undefined) {
+    throw new ConvexError(getErrorMessage('CANNOT_END_NON_EXISTENT_TOURNAMENT_ROUND'));
+  }
   await ctx.db.patch(id, {
-    currentRound: tournament.currentRound ?? 0 + 1,
+    lastRound: tournament.currentRound,
+    currentRound: undefined,
   });
-  // TODO: Clean up old timer
+
+  // TODO: Clean up timer
+};
+
+export const advanceTournamentRound = async (
+  ctx: MutationCtx,
+  { id }: Infer<typeof startTournamentArgs>,
+) => {
+  const tournament = await ctx.db.get(id);
+  if (!tournament) {
+    throw new ConvexError(getErrorMessage('TOURNAMENT_NOT_FOUND'));
+  }
+  if (tournament.status !== 'active') {
+    throw new ConvexError(getErrorMessage('CANNOT_ADVANCE_INACTIVE_TOURNAMENT'));
+  }
+
+  const nextRound = !tournament.lastRound ? 0 : tournament.lastRound++;
+  
+  await ctx.db.patch(id, {
+    currentRound: nextRound,
+  });
+
+  await ctx.db.insert('tournamentTimers', {
+    pausedAt: null,
+    pauseTime: 0,
+    round: nextRound,
+    startedAt: null,
+    tournamentId: tournament._id,
+  });
+
+  return nextRound;
 };

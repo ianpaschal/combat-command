@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 
 import { Tournament } from '~/api';
+
 import { TournamentContext } from './TournamentProvider.context';
 
 export interface TournamentProviderProps {

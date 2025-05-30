@@ -1,10 +1,16 @@
 import { useCallback, useEffect } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useWindowWidth } from '@react-hook/window-size/throttled';
+import {
+  Info,
+  Swords,
+  Timer,
+  Trophy,
+  Users,
+} from 'lucide-react';
 
 import { TournamentId } from '~/api';
 import { Animate } from '~/components/generic/Animate';
-import { Separator } from '~/components/generic/Separator';
 import {
   Tabs,
   TabsContent,
@@ -15,11 +21,16 @@ import { PageWrapper } from '~/components/PageWrapper';
 import { TournamentContextMenu } from '~/components/TournamentContextMenu';
 import { TournamentProvider } from '~/components/TournamentProvider';
 import { useFetchTournament } from '~/services/tournaments/useFetchTournament';
-import { MAX_WIDTH, MIN_WIDTH_DESKTOP } from '~/settings';
+import {
+  MAX_WIDTH,
+  MIN_WIDTH_DESKTOP,
+  MIN_WIDTH_TABLET,
+} from '~/settings';
+
+import { TournamentActiveRoundCard } from './components/TournamentActiveRoundCard';
 import { TournamentDetailsCard } from './components/TournamentDetailsCard';
 import { TournamentInfoCard } from './components/TournamentInfoCard';
 import { TournamentRosterCard } from './components/TournamentRosterCard';
-import { TournamentTabHeader } from './components/TournamentTabHeader';
 
 import styles from './TournamentDetailPage.module.scss';
 
@@ -63,6 +74,8 @@ export const TournamentDetailPage = (): JSX.Element => {
     }
   }, [activeTab, queryTab, handleTabChange]);
 
+  const showTabLabels = windowWidth >= MIN_WIDTH_TABLET;
+
   if (!tournament) {
     return <div>Loading...</div>;
   }
@@ -93,19 +106,44 @@ export const TournamentDetailPage = (): JSX.Element => {
                 {visibleTabs.length > 1 && (
                   <TabsList>
                     <Animate show={visibleTabs.includes('info')}>
-                      <TabsTrigger value="info">Info</TabsTrigger>
+                      <TabsTrigger value="info">
+                        <Info />
+                        {showTabLabels && (
+                          'Info'
+                        )}
+                      </TabsTrigger>
                     </Animate>
                     <Animate show={visibleTabs.includes('activeRound')}>
-                      <TabsTrigger value="activeRound">Active Round</TabsTrigger>
+                      <TabsTrigger value="activeRound">
+                        <Timer />
+                        {showTabLabels && (
+                          'Active Round'
+                        )}
+                      </TabsTrigger>
                     </Animate>
                     <Animate show={visibleTabs.includes('rankings')}>
-                      <TabsTrigger value="rankings">Rankings</TabsTrigger>
+                      <TabsTrigger value="rankings">
+                        <Trophy />
+                        {showTabLabels && (
+                          'Rankings'
+                        )}
+                      </TabsTrigger>
                     </Animate>
                     <Animate show={visibleTabs.includes('matchResults')}>
-                      <TabsTrigger value="matchResults">Match Results</TabsTrigger>
+                      <TabsTrigger value="matchResults">
+                        <Swords />
+                        {showTabLabels && (
+                          'Match Results'
+                        )}
+                      </TabsTrigger>
                     </Animate>
                     <Animate show={visibleTabs.includes('roster')}>
-                      <TabsTrigger value="roster">Roster</TabsTrigger>
+                      <TabsTrigger value="roster">
+                        <Users />
+                        {showTabLabels && (
+                          'Roster'
+                        )}
+                      </TabsTrigger>
                     </Animate>
                   </TabsList>
                 )}
@@ -115,15 +153,7 @@ export const TournamentDetailPage = (): JSX.Element => {
                 <TournamentInfoCard />
               </TabsContent>
               <TabsContent className={styles.TournamentDetailPage_TabsContent} value="activeRound">
-                <TournamentDetailsCard>
-                  <div className={styles.TournamentDetailPage_RoundTimer}>
-                    <span className={styles.TournamentDetailPage_RoundTimer_Round}>Round 2</span>
-                    <span className={styles.TournamentDetailPage_RoundTimer_TimeRemaining}>00:00</span>
-                    <span className={styles.TournamentDetailPage_RoundTimer_EndTime}>Ends At</span>
-                  </div>
-                  <Separator />
-                  <TournamentTabHeader title="Pairings" />
-                </TournamentDetailsCard>
+                <TournamentActiveRoundCard />
               </TabsContent>
               <TabsContent className={styles.TournamentDetailPage_TabsContent} value="rankings">
                 <TournamentDetailsCard title="Rankings">

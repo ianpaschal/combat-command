@@ -11,6 +11,7 @@ import { Separator } from '~/components/generic/Separator';
 import { useUpdateUser } from '~/services/users/useUpdateUser';
 import { userProfileNameVisibilityOptions } from '~/types/UserProfileNameVisibility';
 import { getCountryOptions } from '~/utils/common/getCountryOptions';
+
 import {
   defaultValues,
   UserProfileFormData,

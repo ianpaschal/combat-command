@@ -13,6 +13,7 @@ import { Button } from '~/components/generic/Button';
 import { InputText } from '~/components/generic/InputText';
 import { retrieveLocation } from '~/services/mapbox/useRetrieveLocation';
 import { useSuggestLocation } from '~/services/mapbox/useSuggestLocation';
+
 import { LocationButton } from './LocationButton';
 
 import styles from './InputLocation.module.scss';

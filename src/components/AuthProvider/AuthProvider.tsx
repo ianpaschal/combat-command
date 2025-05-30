@@ -8,6 +8,7 @@ import { LoaderCircle } from 'lucide-react';
 
 import { api } from '~/api';
 import { ChangePasswordDialog } from '~/components/ChangePasswordDialog';
+
 import { AuthContext } from './AuthProvider.context';
 
 import styles from './AuthProvider.module.scss';

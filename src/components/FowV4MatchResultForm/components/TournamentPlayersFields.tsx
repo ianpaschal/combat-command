@@ -11,6 +11,7 @@ import { FormField } from '~/components/generic/Form';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { InputText } from '~/components/generic/InputText';
 import { Separator } from '~/components/generic/Separator';
+
 import { getCompetitorPlayerOptions } from './TournamentPlayersFields.utils';
 
 import styles from './TournamentPlayersFields.module.scss';

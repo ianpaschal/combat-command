@@ -37,7 +37,6 @@ export const startTournament = async (
     throw new ConvexError(getErrorMessage('CANNOT_START_ARCHIVED_TOURNAMENT'));
   }
   await ctx.db.patch(id, {
-    currentRound: 0,
     status: 'active',
   });
 };

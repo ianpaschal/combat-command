@@ -25,9 +25,9 @@ export const TournamentEditPage = (): JSX.Element => {
   const navigate = useNavigate();
 
   const { mutation: updateTournament, loading } = useUpdateTournament({
-    onSuccess: (id: string): void => {
+    onSuccess: (): void => {
       toast.success('Changes saved!');
-      navigate(generatePath(PATHS.tournamentDetails, { id }));
+      navigate(generatePath(PATHS.tournamentDetails, { id: tournamentId }));
     },
   });
 

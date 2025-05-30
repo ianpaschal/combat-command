@@ -27,7 +27,7 @@ export const createTestTournamentRoundResults = async (
   }
   tournamentPairings.forEach(async (pairing) => {
     const tournamentCompetitor0 = await ctx.db.get(pairing.tournamentCompetitor0Id);
-    const tournamentCompetitor1 = await ctx.db.get(pairing.tournamentCompetitor1Id);
+    const tournamentCompetitor1 = pairing.tournamentCompetitor1Id ? await ctx.db.get(pairing.tournamentCompetitor1Id) : null;
     if (!tournamentCompetitor0 || !tournamentCompetitor1) {
       throw new Error('Pairing is missing a competitor!');
     }

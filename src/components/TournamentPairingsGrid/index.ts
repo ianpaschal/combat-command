@@ -1,0 +1,1 @@
+export { TournamentPairingsGrid } from './TournamentPairingsGrid';

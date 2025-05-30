@@ -7,14 +7,14 @@ import {
 } from '../helpers/pairingTypes';
 
 export function generateDraftAdjacentPairings(competitors: RankedCompetitor[]): PairingResult {
-  const sorted = [...competitors].sort((a, b) => a.rank - b.rank); // Lower rank = higher seed
+  const sorted = [...competitors].sort((a, b) => (a.rank ?? 0) - (b.rank ?? 0)); // Lower rank = higher seed
 
   let byeCompetitor: RankedCompetitor | undefined;
   let availableCompetitors = sorted;
 
   // If a bye is required, assign it to the lowest ranked competitor which has not had a bye yet
   if (sorted.length % 2 !== 0) {
-    byeCompetitor = [...sorted].reverse().find((c) => c.byeRound === null);
+    byeCompetitor = [...sorted].reverse().find((c) => c.byeRounds.length === 0);
     if (!byeCompetitor) {
       throw new Error('All players have already received a bye.');
     }
@@ -57,7 +57,7 @@ export function generateDraftAdjacentPairings(competitors: RankedCompetitor[]): 
   if (paired.size < availableCompetitors.length) {
     console.warn('Blossom pairing incomplete — using fallback greedy matcher.');
 
-    const used = new Set<string>(pairings.flat().map((c) => c.id));
+    const used = new Set<string>(pairings.flat().filter((c) => !!c).map((c) => c.id));
     const remaining = availableCompetitors.filter((c) => !used.has(c.id));
 
     const fallbackPairs: DraftPairing[] = [];
