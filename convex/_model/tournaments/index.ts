@@ -10,25 +10,41 @@ export const tournaments = defineTable({
 );
 
 export {
-  checkInPlayer,
-  checkInPlayerArgs,
-} from './actions/checkInPlayer';
+  closeTournamentRound,
+  closeTournamentRoundArgs,
+} from './actions/closeTournamentRound';
+export {
+  endTournament,
+  endTournamentArgs,
+} from './actions/endTournament';
+export {
+  openTournamentRound,
+  openTournamentRoundArgs,
+} from './actions/openTournamentRound';
+export {
+  publishTournament,
+  publishTournamentArgs,
+} from './actions/publishTournament';
+export {
+  startTournament,
+  startTournamentArgs,
+} from './actions/startTournament';
 export {
   createTournament,
   createTournamentArgs,
   deleteTournament,
   deleteTournamentArgs,
-  publishTournament,
-  publishTournamentArgs,
-  startTournament,
-  startTournamentArgs,
   updateTournament,
   updateTournamentArgs,
 } from './mutations';
 export {
   getTournament,
-  getTournamentActiveRound,
-  getTournamentActiveRoundArgs,
   getTournamentArgs,
-  getTournamentList,
+  getTournamentOpenRound,
+  getTournamentOpenRoundArgs,
+  getTournaments,
 } from './queries';
+export {
+  getTournamentRankings,
+  getTournamentRankingsArgs,
+} from './queries/getTournamentRankings';

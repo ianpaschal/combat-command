@@ -96,78 +96,78 @@ export const deleteTournament = async (
   });
 };
 
-// Actions
-export const publishTournamentArgs = v.object({
-  id: v.id('tournaments'),
-});
+// // Actions
+// export const publishTournamentArgs = v.object({
+//   id: v.id('tournaments'),
+// });
 
-// TODO: Throw error if status is not draft
-export const publishTournament = async (
-  ctx: MutationCtx,
-  { id }: Infer<typeof publishTournamentArgs>,
-) => await ctx.db.patch(id, {
-  status: 'published',
-});
+// // TODO: Throw error if status is not draft
+// export const publishTournament = async (
+//   ctx: MutationCtx,
+//   { id }: Infer<typeof publishTournamentArgs>,
+// ) => await ctx.db.patch(id, {
+//   status: 'published',
+// });
 
-export const startTournamentArgs = v.object({
-  id: v.id('tournaments'),
-});
+// export const startTournamentArgs = v.object({
+//   id: v.id('tournaments'),
+// });
 
-// TODO: Throw error if status is not published
-export const startTournament = async (
-  ctx: MutationCtx,
-  { id }: Infer<typeof startTournamentArgs>,
-) => await ctx.db.patch(id, {
-  status: 'active',
-});
+// // TODO: Throw error if status is not published
+// export const startTournament = async (
+//   ctx: MutationCtx,
+//   { id }: Infer<typeof startTournamentArgs>,
+// ) => await ctx.db.patch(id, {
+//   status: 'active',
+// });
 
-export const closeTournamentRound = async (
-  ctx: MutationCtx,
-  { id }: Infer<typeof startTournamentArgs>,
-) => {
-  const tournament = await ctx.db.get(id);
-  if (!tournament) {
-    throw new ConvexError(getErrorMessage('TOURNAMENT_NOT_FOUND'));
-  }
-  if (tournament.status !== 'active') {
-    throw new ConvexError(getErrorMessage('CANNOT_ADVANCE_INACTIVE_TOURNAMENT'));
-  }
-  if (tournament.currentRound === undefined) {
-    throw new ConvexError(getErrorMessage('CANNOT_END_NON_EXISTENT_TOURNAMENT_ROUND'));
-  }
-  await ctx.db.patch(id, {
-    lastRound: tournament.currentRound,
-    currentRound: undefined,
-  });
+// export const closeTournamentRound = async (
+//   ctx: MutationCtx,
+//   { id }: Infer<typeof startTournamentArgs>,
+// ) => {
+//   const tournament = await ctx.db.get(id);
+//   if (!tournament) {
+//     throw new ConvexError(getErrorMessage('TOURNAMENT_NOT_FOUND'));
+//   }
+//   if (tournament.status !== 'active') {
+//     throw new ConvexError(getErrorMessage('CANNOT_ADVANCE_INACTIVE_TOURNAMENT'));
+//   }
+//   if (tournament.currentRound === undefined) {
+//     throw new ConvexError(getErrorMessage('CANNOT_END_NON_EXISTENT_TOURNAMENT_ROUND'));
+//   }
+//   await ctx.db.patch(id, {
+//     lastRound: tournament.currentRound,
+//     currentRound: undefined,
+//   });
 
-  // TODO: Clean up timer
-};
+//   // TODO: Clean up timer
+// };
 
-export const advanceTournamentRound = async (
-  ctx: MutationCtx,
-  { id }: Infer<typeof startTournamentArgs>,
-) => {
-  const tournament = await ctx.db.get(id);
-  if (!tournament) {
-    throw new ConvexError(getErrorMessage('TOURNAMENT_NOT_FOUND'));
-  }
-  if (tournament.status !== 'active') {
-    throw new ConvexError(getErrorMessage('CANNOT_ADVANCE_INACTIVE_TOURNAMENT'));
-  }
+// export const advanceTournamentRound = async (
+//   ctx: MutationCtx,
+//   { id }: Infer<typeof startTournamentArgs>,
+// ) => {
+//   const tournament = await ctx.db.get(id);
+//   if (!tournament) {
+//     throw new ConvexError(getErrorMessage('TOURNAMENT_NOT_FOUND'));
+//   }
+//   if (tournament.status !== 'active') {
+//     throw new ConvexError(getErrorMessage('CANNOT_ADVANCE_INACTIVE_TOURNAMENT'));
+//   }
 
-  const nextRound = !tournament.lastRound ? 0 : tournament.lastRound++;
+//   const nextRound = !tournament.lastRound ? 0 : tournament.lastRound++;
   
-  await ctx.db.patch(id, {
-    currentRound: nextRound,
-  });
+//   await ctx.db.patch(id, {
+//     currentRound: nextRound,
+//   });
 
-  await ctx.db.insert('tournamentTimers', {
-    pausedAt: null,
-    pauseTime: 0,
-    round: nextRound,
-    startedAt: null,
-    tournamentId: tournament._id,
-  });
+//   await ctx.db.insert('tournamentTimers', {
+//     pausedAt: null,
+//     pauseTime: 0,
+//     round: nextRound,
+//     startedAt: null,
+//     tournamentId: tournament._id,
+//   });
 
-  return nextRound;
-};
+//   return nextRound;
+// };

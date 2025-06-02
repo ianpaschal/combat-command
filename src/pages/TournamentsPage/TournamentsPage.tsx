@@ -1,20 +1,19 @@
 import { useNavigate } from 'react-router-dom';
 import * as Popover from '@radix-ui/react-popover';
 import { useWindowWidth } from '@react-hook/window-size/throttled';
-import { useQuery } from 'convex/react';
 import {
   ListFilter,
   Plus,
   Search,
 } from 'lucide-react';
 
-import { api } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
 import { FloatingActionButton } from '~/components/FloatingActionButton';
 import { Button } from '~/components/generic/Button';
 import { InputText } from '~/components/generic/InputText';
 import { PageWrapper } from '~/components/PageWrapper';
 import { TournamentCard } from '~/components/TournamentCard/TournamentCard';
+import { useGetTournaments } from '~/services/tournaments';
 import { MIN_WIDTH_TABLET, PATHS } from '~/settings';
 
 import styles from './TournamentsPage.module.scss';
@@ -25,7 +24,7 @@ export const TournamentsPage = (): JSX.Element => {
   const showCreateTournamentButton = !!user;
   const navigate = useNavigate();
   const showButtonText = useWindowWidth() > MIN_WIDTH_TABLET;
-  const tournaments = useQuery(api.tournaments.getTournamentList);
+  const { data: tournaments } = useGetTournaments({});
   const handleClickCreateTournament = (): void => {
     navigate(PATHS.tournamentCreate);
   };

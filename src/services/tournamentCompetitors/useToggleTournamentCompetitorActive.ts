@@ -3,7 +3,7 @@ import { useMutation } from 'convex/react';
 
 import { api } from '~/api';
 import { toast } from '~/components/ToastProvider';
-import { MutationHookConfig } from '~/services/MutationHookConfig';
+import { MutationHookConfig } from '~/services/utils/MutationHookConfig';
 
 export const useToggleTournamentCompetitorActive = (config?: MutationHookConfig) => {
   const mutation = api.tournamentCompetitors.toggleTournamentCompetitorActive;

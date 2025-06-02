@@ -65,7 +65,7 @@ describe('tournaments/startTournament', async () => {
     });
     await expect(async () => {
       await asOrganizer().mutation(api.tournaments.startTournament, { id: tournamentId });
-    }).rejects.toThrowError(errors.CANNOT_START_ACTIVE_TOURNAMENT);
+    }).rejects.toThrowError(errors.TOURNAMENT_ALREADY_ACTIVE);
   });
 
   it('throws if tournament is archived', async () => {

@@ -3,33 +3,32 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import { useWindowWidth } from '@react-hook/window-size/throttled';
 import {
   Info,
-  Swords,
-  Timer,
   Trophy,
   Users,
+  Zap,
 } from 'lucide-react';
 
 import { TournamentId } from '~/api';
-import { Animate } from '~/components/generic/Animate';
 import {
   Tabs,
   TabsContent,
   TabsList,
-  TabsTrigger,
 } from '~/components/generic/Tabs';
 import { PageWrapper } from '~/components/PageWrapper';
+import { TournamentCompetitorsProvider } from '~/components/TournamentCompetitorsProvider';
 import { TournamentContextMenu } from '~/components/TournamentContextMenu';
 import { TournamentProvider } from '~/components/TournamentProvider';
-import { useFetchTournament } from '~/services/tournaments/useFetchTournament';
+import { TournamentRankingsCard } from '~/pages/TournamentDetailPage/components/TournamentRankingsCard';
+import { useGetTournamentCompetitorsByTournamentId } from '~/services/tournamentCompetitors';
+import { useGetTournament } from '~/services/tournaments';
 import {
   MAX_WIDTH,
   MIN_WIDTH_DESKTOP,
   MIN_WIDTH_TABLET,
 } from '~/settings';
 
-import { TournamentActiveRoundCard } from './components/TournamentActiveRoundCard';
-import { TournamentDetailsCard } from './components/TournamentDetailsCard';
 import { TournamentInfoCard } from './components/TournamentInfoCard';
+import { TournamentPairingsCard } from './components/TournamentPairingsCard';
 import { TournamentRosterCard } from './components/TournamentRosterCard';
 
 import styles from './TournamentDetailPage.module.scss';
@@ -38,7 +37,8 @@ export const TournamentDetailPage = (): JSX.Element => {
   const windowWidth = useWindowWidth();
   const params = useParams();
   const tournamentId = params.id! as TournamentId; // Must exist or else how did we get to this route?
-  const { data: tournament } = useFetchTournament(tournamentId);
+  const { data: tournament } = useGetTournament({ id: tournamentId });
+  const { data: tournamentCompetitors } = useGetTournamentCompetitorsByTournamentId(tournamentId);
 
   const fitToWindow = windowWidth >= MIN_WIDTH_DESKTOP;
 
@@ -51,22 +51,18 @@ export const TournamentDetailPage = (): JSX.Element => {
   }, [setSearchParams]);
 
   const showInfoSidebar = windowWidth >= MIN_WIDTH_DESKTOP;
-  const showActiveRoundSidebar = false;
-
-  const visibleTabs = ['info', 'activeRound', 'rankings', 'matchResults', 'roster'];
+  const tabs = [
+    { value: 'info', label: 'Info', icon: <Info /> },
+    { value: 'pairings', label: 'Pairings', icon: <Zap /> },
+    { value: 'rankings', label: 'Rankings', icon: <Trophy /> },
+    // TODO: Add match results later
+    // { value: 'matchResults', label: 'Match Results', icon: <Swords /> },
+    { value: 'roster', label: 'Roster', icon: <Users /> },
+  ];
   if (showInfoSidebar) {
-    visibleTabs.splice(visibleTabs.indexOf('info'), 1);
+    tabs.splice(tabs.findIndex((tab) => tab.value === 'info'), 1);
   }
-  if (showActiveRoundSidebar) {
-    visibleTabs.splice(visibleTabs.indexOf('activeRound'), 1);
-  }
-  if (tournament?.currentRound === undefined) {
-    visibleTabs.splice(visibleTabs.indexOf('activeRound'), 1);
-    visibleTabs.splice(visibleTabs.indexOf('rankings'), 1);
-    visibleTabs.splice(visibleTabs.indexOf('matchResults'), 1);
-  }
-
-  const activeTab = !queryTab || !visibleTabs.includes(queryTab) ? visibleTabs[0] : queryTab;
+  const activeTab = !queryTab || tabs.findIndex((tab) => tab.value === queryTab) === -1 ? tabs[0].value : queryTab;
 
   useEffect(() => {
     if (activeTab !== queryTab) {
@@ -76,7 +72,7 @@ export const TournamentDetailPage = (): JSX.Element => {
 
   const showTabLabels = windowWidth >= MIN_WIDTH_TABLET;
 
-  if (!tournament) {
+  if (!tournament || !tournamentCompetitors) {
     return <div>Loading...</div>;
   }
 
@@ -95,83 +91,43 @@ export const TournamentDetailPage = (): JSX.Element => {
       </div>
       <PageWrapper fitToWindow={fitToWindow} removeAppBarPadding>
         <TournamentProvider tournament={tournament}>
-          <div className={styles.TournamentDetailPage_Content}>
-            {showInfoSidebar && (
-              <div className={styles.TournamentDetailPage_Sidebar}>
-                <TournamentInfoCard />
-              </div>
-            )}
-            <Tabs className={styles.TournamentDetailPage_Tabs} value={activeTab} onValueChange={handleTabChange}>
-              <div className={styles.TournamentDetailPage_TabBar}>
-                {visibleTabs.length > 1 && (
-                  <TabsList>
-                    <Animate show={visibleTabs.includes('info')}>
-                      <TabsTrigger value="info">
-                        <Info />
-                        {showTabLabels && (
-                          'Info'
-                        )}
-                      </TabsTrigger>
-                    </Animate>
-                    <Animate show={visibleTabs.includes('activeRound')}>
-                      <TabsTrigger value="activeRound">
-                        <Timer />
-                        {showTabLabels && (
-                          'Active Round'
-                        )}
-                      </TabsTrigger>
-                    </Animate>
-                    <Animate show={visibleTabs.includes('rankings')}>
-                      <TabsTrigger value="rankings">
-                        <Trophy />
-                        {showTabLabels && (
-                          'Rankings'
-                        )}
-                      </TabsTrigger>
-                    </Animate>
-                    <Animate show={visibleTabs.includes('matchResults')}>
-                      <TabsTrigger value="matchResults">
-                        <Swords />
-                        {showTabLabels && (
-                          'Match Results'
-                        )}
-                      </TabsTrigger>
-                    </Animate>
-                    <Animate show={visibleTabs.includes('roster')}>
-                      <TabsTrigger value="roster">
-                        <Users />
-                        {showTabLabels && (
-                          'Roster'
-                        )}
-                      </TabsTrigger>
-                    </Animate>
-                  </TabsList>
-                )}
-                <TournamentContextMenu variant="primary" />
-              </div>
-              <TabsContent className={styles.TournamentDetailPage_TabsContent} value="info">
-                <TournamentInfoCard />
-              </TabsContent>
-              <TabsContent className={styles.TournamentDetailPage_TabsContent} value="activeRound">
-                <TournamentActiveRoundCard />
-              </TabsContent>
-              <TabsContent className={styles.TournamentDetailPage_TabsContent} value="rankings">
-                <TournamentDetailsCard title="Rankings">
-                  Nothing here yet
-                </TournamentDetailsCard>
-              </TabsContent>
-              <TabsContent className={styles.TournamentDetailPage_TabsContent} value="matchResults">
-                <TournamentDetailsCard title="Match Results">
-                  Nothing here yet
-                </TournamentDetailsCard>
-              </TabsContent>
-              <TabsContent className={styles.TournamentDetailPage_TabsContent} value="roster">
-                <TournamentRosterCard />
-              </TabsContent>
-            </Tabs>
-          </div>
-        </TournamentProvider>
-      </PageWrapper>
+          <TournamentCompetitorsProvider tournamentCompetitors={tournamentCompetitors}>
+            <div className={styles.TournamentDetailPage_Content}>
+              {showInfoSidebar && (
+                <div className={styles.TournamentDetailPage_Sidebar}>
+                  <TournamentInfoCard />
+                </div>
+              )}
+              <Tabs className={styles.TournamentDetailPage_Tabs} value={activeTab} onValueChange={handleTabChange}>
+                <div className={styles.TournamentDetailPage_TabBar}>
+                  {tabs.length > 1 && (
+                    <TabsList hideLabels={!showTabLabels} tabs={tabs} />
+                  )}
+                  <TournamentContextMenu variant="primary" size="large" />
+                </div>
+                <TabsContent className={styles.TournamentDetailPage_TabsContent} value="info">
+                  <TournamentInfoCard />
+                </TabsContent>
+                <TabsContent className={styles.TournamentDetailPage_TabsContent} value="pairings">
+                  <TournamentPairingsCard />
+                </TabsContent>
+                <TabsContent className={styles.TournamentDetailPage_TabsContent} value="rankings">
+                  <TournamentRankingsCard />
+                </TabsContent>
+                {/* TODO: Add match results later */}
+                {/* <TabsContent className={styles.TournamentDetailPage_TabsContent} value="matchResults">
+                  <TournamentDetailsCard title="Match Results">
+                    Nothing here yet
+                  </TournamentDetailsCard>
+                </TabsContent> */}
+                <TabsContent className={styles.TournamentDetailPage_TabsContent} value="roster">
+                  <TournamentRosterCard />
+                </TabsContent>
+              </Tabs>
+            </div>
+          </TournamentCompetitorsProvider>
+        </TournamentProvider >
+      </PageWrapper >
     </>
   );
 };

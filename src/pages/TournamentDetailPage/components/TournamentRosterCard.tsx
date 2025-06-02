@@ -18,7 +18,7 @@ import { useTournament } from '~/components/TournamentProvider';
 import { TournamentDetailsCard } from '~/pages/TournamentDetailPage/components/TournamentDetailsCard';
 import { useCreateTournamentCompetitor } from '~/services/tournamentCompetitors/useCreateTournamentCompetitor';
 import { useGetTournamentCompetitorsByTournamentId } from '~/services/tournamentCompetitors/useGetTournamentCompetitorsByTournamentId';
-import { usePublishTournament } from '~/services/tournaments/usePublishTournament';
+import { usePublishTournament } from '~/services/tournaments';
 import { PATHS } from '~/settings';
 
 import styles from './TournamentRosterCard.module.scss';

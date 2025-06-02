@@ -17,7 +17,15 @@ export const TournamentPairingsList = () => {
     tournamentId,
     round: currentRound,
   });
-  const sortedPairings = (tournamentPairings || []).sort((a, b) => (a.table ?? 0) - (b.table ?? 0));
+  const sortedPairings = (tournamentPairings || []).sort((a, b) => {
+    if (a.table === null) {
+      return 1;
+    }
+    if (b.table === null) {
+      return -1;
+    }
+    return a.table - b.table;
+  });
 
   const windowWidth = useWindowWidth();
   const orientation = windowWidth <= MOBILE_BREAKPOINT ? 'vertical' : 'horizontal';

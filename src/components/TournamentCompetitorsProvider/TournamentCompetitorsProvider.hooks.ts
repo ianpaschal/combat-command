@@ -11,7 +11,7 @@ export interface UseTournamentCompetitorsArgs {
 export const useTournamentCompetitors = (args?: UseTournamentCompetitorsArgs): TournamentCompetitor[] => {
   const context = useContext(TournamentCompetitorsContext);
   if (!context) {
-    throw Error('useTournamentCompetitors must be used within a <TournamentProvider />!');
+    throw Error('useTournamentCompetitors must be used within a <TournamentCompetitorsProvider />!');
   }
   if (args?.onlyActive) {
     return context.filter((c) => c.active);

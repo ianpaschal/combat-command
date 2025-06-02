@@ -17,10 +17,12 @@ export const createTestTournamentRoundResults = async (
   if (tournament.status !== 'active') {
     throw new Error('Tournament is not active');
   }
-  const round = tournament.currentRound ?? 0;
+  if (tournament.currentRound == undefined) {
+    throw new Error('Tournament does not have a current round!');
+  }
   const tournamentPairings = await ctx.db.query('tournamentPairings')
     .withIndex('by_tournament_id', (q) => q.eq('tournamentId', tournamentId))
-    .filter((q) => q.eq(q.field('round'), round))
+    .filter((q) => q.eq(q.field('round'), tournament.currentRound))
     .collect();
   if (tournamentPairings.length < 1) {
     throw new Error('No pairings to create results for!');
@@ -28,11 +30,11 @@ export const createTestTournamentRoundResults = async (
   tournamentPairings.forEach(async (pairing) => {
     const tournamentCompetitor0 = await ctx.db.get(pairing.tournamentCompetitor0Id);
     const tournamentCompetitor1 = pairing.tournamentCompetitor1Id ? await ctx.db.get(pairing.tournamentCompetitor1Id) : null;
-    if (!tournamentCompetitor0 || !tournamentCompetitor1) {
-      throw new Error('Pairing is missing a competitor!');
+    if (!tournamentCompetitor0) {
+      throw new Error('Pairing needs at least 1 competitor!');
     }
     const tournamentCompetitor0UserIds = tournamentCompetitor0.players.filter((player) => player.active).map((player) => player.userId);
-    const tournamentCompetitor1UserIds = tournamentCompetitor1.players.filter((player) => player.active).map((player) => player.userId);
+    const tournamentCompetitor1UserIds = tournamentCompetitor1 ? tournamentCompetitor1.players.filter((player) => player.active).map((player) => player.userId) : [];
     for (let i = 0; i < tournament.competitorSize; i++) {
       const outcomeType = Math.random() > 0.25 ? 'objective_taken' : 'time_out';
       await ctx.db.insert('matchResults', {

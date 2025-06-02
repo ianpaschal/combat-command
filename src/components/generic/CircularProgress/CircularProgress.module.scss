@@ -1,0 +1,27 @@
+@use "/src/style/variables";
+
+.CircularProgress {
+  position: relative;
+  flex: 0 auto;
+
+  svg {
+    inset: 0;
+  }
+
+  &_InnerWrapper {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &_Track {
+    stroke: var(--secondary-default-bg);
+  }
+
+  &_Fill {
+    stroke: var(--primary-default-bg);
+  }
+}

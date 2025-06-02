@@ -34,7 +34,7 @@ export const getTournamentRankings = async (
 
   // 1. Gather raw results from match data
   const rawResults = await aggregateResults(ctx, args.tournamentId, args.round, args.includePlayers);
- 
+
   // 2. Convert raw results into total, average, and average opponent values
   const extendedResults = {
     competitors: extendResults(rawResults.competitors, competitorSize),

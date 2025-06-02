@@ -52,6 +52,7 @@
   @include animate.duration-quick;
   @include animate.style-pop;
 
+  z-index: 9999; /* something high enough */
   overflow: hidden;
   background-color: variables.$white;
   border-radius: variables.$corner-radius;

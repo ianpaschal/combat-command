@@ -1,4 +1,3 @@
-import { getAuthUserId } from '@convex-dev/auth/server';
 import {
   ConvexError,
   Infer,
@@ -7,6 +6,7 @@ import {
 
 import { MutationCtx } from '../../../_generated/server';
 import { getErrorMessage } from '../../../common/errors';
+import { checkTournamentAuth } from '../_helpers/checkTournamentAuth';
 
 export const startTournamentArgs = v.object({
   id: v.id('tournaments'),
@@ -20,22 +20,26 @@ export const startTournament = async (
   if (!tournament) {
     throw new ConvexError(getErrorMessage('TOURNAMENT_NOT_FOUND'));
   }
-  const userId = await getAuthUserId(ctx);
-  if (!userId) {
-    throw new ConvexError(getErrorMessage('USER_NOT_AUTHENTICATED'));
-  }
-  if (!tournament.organizerUserIds.includes(userId)) {
-    throw new ConvexError(getErrorMessage('USER_NOT_TOURNAMENT_ORGANIZER'));
-  }
+
+  // --- CHECK AUTH ----
+  checkTournamentAuth(ctx, tournament);
+
+  // ---- CHECK ELIGIBILITY ----
   if (tournament.status === 'draft') {
     throw new ConvexError(getErrorMessage('CANNOT_START_DRAFT_TOURNAMENT'));
   }
+  if (tournament.status === 'published') {
+    // OK
+  }
   if (tournament.status === 'active') {
-    throw new ConvexError(getErrorMessage('CANNOT_START_ACTIVE_TOURNAMENT'));
+    throw new ConvexError(getErrorMessage('TOURNAMENT_ALREADY_ACTIVE'));
   }
   if (tournament.status === 'archived') {
     throw new ConvexError(getErrorMessage('CANNOT_START_ARCHIVED_TOURNAMENT'));
   }
+
+  // ---- PRIMARY ACTIONS ----
+  // Start the tournament
   await ctx.db.patch(id, {
     status: 'active',
   });

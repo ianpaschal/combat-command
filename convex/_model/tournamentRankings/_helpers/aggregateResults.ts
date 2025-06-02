@@ -1,6 +1,6 @@
 import { Id } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
-import { calculateMatchScore } from '../../fowV4/calculateMatchScore';
+import { calculateFowV4MatchResultScore } from '../../fowV4/calculateFowV4MatchResultScore';
 import { getMatchResultsByTournamentPairing } from '../../matchResults/getMatchResultsByTournamentPairing';
 import { getTournamentCompetitorsByTournamentId } from '../../tournamentCompetitors/helpers';
 import { getTournamentPairingsByTournamentId } from '../../tournamentPairings/helpers';
@@ -37,7 +37,7 @@ export const aggregateResults = async (
     ...competitor.players.reduce((playerAcc, player) => ({
       ...playerAcc,
       [player.userId]: [],
-    })),
+    }), {} as AggregateRoundResults<Id<'users'>>),
   }), {} as AggregateRoundResults<Id<'users'>>) : {};
 
   for (const pairing of relevantPairings) {
@@ -61,7 +61,7 @@ export const aggregateResults = async (
 
     matchResults.forEach((matchResult) => {
       const { player0UserId, player1UserId, details } = matchResult;
-      const score = calculateMatchScore(matchResult);
+      const score = calculateFowV4MatchResultScore(matchResult);
 
       [player0UserId, player1UserId].forEach((userId, i) => {
         if (!userId) {

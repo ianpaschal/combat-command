@@ -4,6 +4,7 @@
 @use "/src/style/variants";
 @use "/src/style/shadows";
 @use "/src/style/text";
+@use "/src/style/sizes";
 
 .TabsTrigger {
   @include corners.tight;
@@ -34,6 +35,18 @@
     &:hover {
       background-color: var(--secondary-default-bg-hover);
     }
+  }
+
+  &[data-size="small"] {
+    @include sizes.small;
+  }
+
+  &[data-size="normal"] {
+    @include sizes.normal;
+  }
+
+  &[data-size="large"] {
+    @include sizes.large;
   }
 
   svg {

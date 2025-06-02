@@ -18,10 +18,16 @@
   padding: 1rem var(--container-padding-x);
 
   text-align: center;
+
+  &:last-child {
+    border: none;
+  }
 }
 
 .TournamentPairingsList {
   @include flex.column($gap: 0);
+
+  min-height: 0;
 
   &_Header {
     @include row;

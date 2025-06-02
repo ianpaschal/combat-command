@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useMutation } from 'convex/react';
 
 import { api, MatchResultId } from '~/api';
-import { MutationHookConfig } from '~/services/MutationHookConfig';
 import { uploadConvexImage } from '~/services/uploadConvexImage';
+import { MutationHookConfig } from '~/services/utils/MutationHookConfig';
 
 export const useAddPhotoToMatchResult = (config?: MutationHookConfig) => {
   const [loading, setLoading] = useState(false);

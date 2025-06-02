@@ -10,8 +10,7 @@ import { Button } from '~/components/generic/Button';
 import { PageWrapper } from '~/components/PageWrapper';
 import { toast } from '~/components/ToastProvider';
 import { TournamentForm, TournamentFormSubmitData } from '~/components/TournamentForm';
-import { useFetchTournament } from '~/services/tournaments/useFetchTournament';
-import { useUpdateTournament } from '~/services/tournaments/useUpdateTournament';
+import { useGetTournament, useUpdateTournament } from '~/services/tournaments';
 import { PATHS } from '~/settings';
 
 const WIDTH = 960;
@@ -21,7 +20,7 @@ export const TournamentEditPage = (): JSX.Element => {
   const { pathname } = useLocation();
   const params = useParams();
   const tournamentId = params.id! as TournamentId; // Must exist or else how did we get to this route?
-  const { data: tournament } = useFetchTournament(tournamentId);
+  const { data: tournament } = useGetTournament({ id: tournamentId });
   const navigate = useNavigate();
 
   const { mutation: updateTournament, loading } = useUpdateTournament({

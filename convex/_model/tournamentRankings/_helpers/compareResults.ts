@@ -6,6 +6,8 @@ export function compareResults(
   b: ExtendedResultData<AllowedIds>,
   rankingFactors: FowV4RankingFactor[],
 ) {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   const factorMap: Record<FowV4RankingFactor, (a: ExtendedResultData<AllowedIds>, b: ExtendedResultData<AllowedIds>) => number> = {
     total_points: (a, b) => b.total.points - a.total.points,
     total_units_destroyed: (a, b) => b.total.unitsDestroyed - a.total.unitsDestroyed,

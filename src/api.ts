@@ -52,7 +52,7 @@ export type TournamentTimer = typeof api.tournamentTimers.getTournamentTimer._re
 
 // Tournaments
 export type CreateTournamentArgs = typeof api.tournaments.createTournament._args;
-export type FetchTournamentListResponse = typeof api.tournaments.getTournamentList._returnType;
+export type FetchTournamentListResponse = typeof api.tournaments.getTournaments._returnType;
 export type FetchTournamentListResponseItem = FetchTournamentListResponse[number];
 export type FetchTournamentResponse = typeof api.tournaments.getTournament._returnType;
 export type Tournament = FetchTournamentListResponseItem;

@@ -9,7 +9,7 @@ import { Button } from '~/components/generic/Button';
 import { PageWrapper } from '~/components/PageWrapper';
 import { toast } from '~/components/ToastProvider';
 import { TournamentForm, TournamentFormSubmitData } from '~/components/TournamentForm';
-import { useCreateTournament } from '~/services/tournaments/useCreateTournament';
+import { useCreateTournament } from '~/services/tournaments';
 import { PATHS } from '~/settings';
 
 const WIDTH = 960;

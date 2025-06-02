@@ -12,8 +12,7 @@ import { toast } from '~/components/ToastProvider';
 import { TournamentCompetitorsProvider } from '~/components/TournamentCompetitorsProvider';
 import { TournamentProvider } from '~/components/TournamentProvider';
 import { useGetTournamentCompetitorsByTournamentId } from '~/services/tournamentCompetitors';
-import { useCommitTournamentPairings } from '~/services/tournamentPairings/useCommitTournamentPairings';
-import { useFetchTournament } from '~/services/tournaments/useFetchTournament';
+import { useGetTournament, useOpenTournamentRound } from '~/services/tournaments';
 import { PATHS } from '~/settings';
 
 import { PairingsStep } from './components/PairingsStep';
@@ -27,9 +26,9 @@ export const TournamentAdvanceRoundPage = (): JSX.Element => {
   const params = useParams();
   const navigate = useNavigate();
   const tournamentId = params.id! as TournamentId; // Must exist or else how did we get to this route?
-  const { data: tournament } = useFetchTournament(tournamentId);
+  const { data: tournament } = useGetTournament({ id: tournamentId });
   const { data: tournamentCompetitors } = useGetTournamentCompetitorsByTournamentId(tournamentId);
-  const { mutation: commitTournamentPairings } = useCommitTournamentPairings({
+  const { mutation: openTournamentRound } = useOpenTournamentRound({
     onSuccess: (): void => {
       toast.success(`Round ${nextRound + 1} pairings created!`);
       navigate(`${generatePath(PATHS.tournamentDetails, { id: tournamentId })}?tab=activeRound`);
@@ -51,8 +50,8 @@ export const TournamentAdvanceRoundPage = (): JSX.Element => {
   ]);
 
   const onConfirmPairings = async (value: PairingResult) => {
-    await commitTournamentPairings({
-      tournamentId,
+    await openTournamentRound({
+      id: tournamentId,
       unassignedPairings: convertPairingResult(value),
     });
   };

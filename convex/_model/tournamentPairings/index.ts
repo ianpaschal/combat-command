@@ -10,10 +10,6 @@ export const tournamentPairings = defineTable({
 );
 
 export {
-  commitTournamentPairings,
-  commitTournamentPairingsArgs,
-} from './mutations/commitTournamentPairings';
-export {
   getDraftTournamentPairings,
   getDraftTournamentPairingsArgs,
   getTournamentPairing,

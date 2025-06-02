@@ -24,7 +24,7 @@ export const getTournament = async (
   return await getDeepTournament(ctx, result);
 };
 
-export const getTournamentList = async (
+export const getTournaments = async (
   ctx: QueryCtx,
 ) => {
   const result = await ctx.db.query('tournaments').collect();
@@ -38,13 +38,13 @@ export const getTournamentList = async (
   return deepResults.filter(notNullOrUndefined);
 };
 
-export const getTournamentActiveRoundArgs = v.object({
+export const getTournamentOpenRoundArgs = v.object({
   id: v.id('tournaments'),
 });
 
-export const getTournamentActiveRound = async (
+export const getTournamentOpenRound = async (
   ctx: QueryCtx,
-  { id }: Infer<typeof getTournamentActiveRoundArgs>,
+  { id }: Infer<typeof getTournamentOpenRoundArgs>,
 ) => {
   const tournament = await ctx.db.get(id);
   if (!tournament) {
@@ -59,10 +59,21 @@ export const getTournamentActiveRound = async (
     .filter((q) => q.eq(q.field('round'), tournament.currentRound))
     .collect();
 
+  const matchResults = await ctx.db.query('matchResults')
+    .withIndex('by_tournament_id', (q) => q.eq('tournamentId', id))
+    .collect();
+
+  const relevantPairingIds = pairings.map((pairing) => pairing._id);
+  const relevantMatchResultIds = matchResults.filter((matchResult) => (
+    matchResult.tournamentPairingId && relevantPairingIds.includes(matchResult.tournamentPairingId)
+  )).map((matchResult) => matchResult._id);
+
   return {
     round: tournament.currentRound,
-    pairings,
+    matchResultsProgress: {
+      submitted: relevantPairingIds.length * tournament.competitorSize,
+      required: relevantMatchResultIds.length,
+    },
+    // Get timer
   };
-  // Get pairings
-  // Get timer
 };

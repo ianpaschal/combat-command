@@ -9,7 +9,7 @@ import { Doc } from '../../_generated/dataModel';
  * @param matchResult - The match result to score
  * @returns - A tuple with the scores for player 0 and 1 respectively
  */
-export const calculateMatchScore = (matchResult: Doc<'matchResults'>): [number, number] => {
+export const calculateFowV4MatchResultScore = (matchResult: Doc<'matchResults'>): [number, number] => {
 
   // TODO: Add some guards in case matchResult is not FowV4
 
