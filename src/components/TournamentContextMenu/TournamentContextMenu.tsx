@@ -8,7 +8,9 @@ import { toast } from '~/components/ToastProvider';
 import { getRemainingRequiredMatchResults } from '~/components/TournamentContextMenu/TournamentContextMenu.utils';
 import { useTournament } from '~/components/TournamentProvider';
 import {
+  useCloseTournamentRound,
   useDeleteTournament,
+  useEndTournament,
   useGetTournamentOpenRound,
   usePublishTournament,
   useStartTournament,
@@ -33,36 +35,44 @@ export const TournamentContextMenu = ({
     status,
     currentRound,
     lastRound,
+    title,
     organizerUserIds,
   } = useTournament();
   const navigate = useNavigate();
   const { data: activeRound } = useGetTournamentOpenRound({ id });
+
   const { mutation: deleteTournament } = useDeleteTournament({
     onSuccess: (): void => {
-      toast.success('Tournament deleted!');
+      toast.success(`${title} deleted!`);
       navigate(PATHS.tournaments);
     },
   });
 
   const { mutation: publishTournament } = usePublishTournament({
     onSuccess: (): void => {
-      toast.success('Tournament is now published!');
-      navigate(PATHS.tournaments);
+      toast.success(`${title} is now published!`);
     },
   });
 
   const { mutation: startTournament } = useStartTournament({
     onSuccess: (): void => {
-      toast.success('Tournament started!');
+      toast.success(`${title} has started!`);
+    },
+  });
+
+  const { mutation: endTournament } = useEndTournament({
+    onSuccess: (): void => {
+      toast.success(`${title} completed!`);
+    },
+  });
+
+  const { mutation: closeTournamentRound } = useCloseTournamentRound({
+    onSuccess: (): void => {
+      toast.success(`Round ${lastRound} completed!`);
     },
   });
 
   const menuItems = [
-    {
-      label: 'Publish',
-      onClick: () => publishTournament({ id }),
-      visible: status === 'draft',
-    },
     {
       label: 'Edit',
       onClick: () => navigate(generatePath(PATHS.tournamentEdit, { id })),
@@ -71,11 +81,17 @@ export const TournamentContextMenu = ({
     {
       label: 'Delete',
       onClick: () => deleteTournament({ id }),
+      // TODO: Implement confirmation dialog
       visible: status !== 'active' && status !== 'archived',
     },
     {
+      label: 'Publish',
+      onClick: () => publishTournament({ id }),
+      // TODO: Implement confirmation dialog
+      visible: status === 'draft',
+    },
+    {
       label: 'Start',
-      // TODO: Show confirmation dialog
       onClick: () => startTournament({ id }),
       visible: status === 'published',
     },
@@ -86,9 +102,14 @@ export const TournamentContextMenu = ({
     },
     {
       label: `Close Round ${currentRound! + 1}`,
-      // eslint-disable-next-line no-console
-      onClick: () => console.log('End Round'),
+      onClick: () => closeTournamentRound({ id }),
       visible: activeRound && getRemainingRequiredMatchResults(activeRound) === 0,
+    },
+    {
+      label: 'End Tournament',
+      onClick: () => endTournament({ id }),
+      // TODO: More checks, show confirmation dialog if not complete
+      visible: status === 'active',
     },
   ];
 
