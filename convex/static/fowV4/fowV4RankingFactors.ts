@@ -86,25 +86,25 @@ export const fowV4RankingFactorDisplayNames: Record<FowV4RankingFactor, string> 
 };
 
 export const fowV4RankingFactorShortNames: Record<FowV4RankingFactor, string> = {
-  'average_opponent_points': 'Op. Avg. Pts.',
-  'average_opponent_units_destroyed': 'Op. Avg. UD',
-  'average_opponent_units_lost': 'Opponent\u{2019}s Avg. Units Lost per Round',
-  'average_opponent_wins': 'Opponent\u{2019}s Avg. Wins per Round',
+  'average_opponent_points': 'AOP',
+  'average_opponent_units_destroyed': 'AOD',
+  'average_opponent_units_lost': 'AOL',
+  'average_opponent_wins': 'AOW',
 
-  'average_points': 'Avg. Points per Round',
-  'average_units_destroyed': 'Avg. Units Destroyed per Round',
-  'average_units_lost': 'Avg. Units Lost per Round',
-  'average_wins': 'Avg. Wins per Round',
+  'average_points': 'AP',
+  'average_units_destroyed': 'AD',
+  'average_units_lost': 'AL',
+  'average_wins': 'AW',
 
-  'total_opponent_points': 'Op. Pts.',
-  'total_opponent_units_destroyed': 'Op. Units Dest.',
-  'total_opponent_units_lost': 'Op. Units Lost',
-  'total_opponent_wins': 'Op. Wins',
+  'total_opponent_points': 'OP',
+  'total_opponent_units_destroyed': 'OD',
+  'total_opponent_units_lost': 'OL',
+  'total_opponent_wins': 'OW',
 
-  'total_points': 'Pts.',
-  'total_units_destroyed': 'Units Dest.',
-  'total_units_lost': 'Units Lost',
-  'total_wins' : 'Wins',
+  'total_points': 'P',
+  'total_units_destroyed': 'D',
+  'total_units_lost': 'L',
+  'total_wins' : 'W',
 };
 
 export const fowV4RankingFactorOptions = fowV4RankingFactors.map((key) => ({

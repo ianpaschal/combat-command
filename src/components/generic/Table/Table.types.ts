@@ -6,9 +6,9 @@ export type ColumnDef<T extends RowData> = {
   align?: 'left' | 'center' | 'right';
   className?: string;
   key: string;
-  label: string;
+  label?: string;
   renderCell?: (row: T) => ReactNode;
-  renderHeader?: (column: ColumnDef<T>) => ReactNode;
+  renderHeader?: () => ReactNode;
   width?: number;
 };
 

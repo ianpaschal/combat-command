@@ -2,13 +2,13 @@ import { Infer, v } from 'convex/values';
 
 import { MutationCtx } from '../../_generated/server';
 
-export const createTestTournamentRoundResultsArgs = v.object({
+export const createTestTournamentMatchResultsArgs = v.object({
   tournamentId: v.id('tournaments'),
 });
 
-export const createTestTournamentRoundResults = async (
+export const createTestTournamentMatchResults = async (
   ctx: MutationCtx,
-  { tournamentId } : Infer<typeof createTestTournamentRoundResultsArgs>,
+  { tournamentId } : Infer<typeof createTestTournamentMatchResultsArgs>,
 ) => {
   const tournament = await ctx.db.get(tournamentId);
   if (!tournament) {
@@ -39,6 +39,7 @@ export const createTestTournamentRoundResults = async (
       const outcomeType = Math.random() > 0.25 ? 'objective_taken' : 'time_out';
       await ctx.db.insert('matchResults', {
         tournamentPairingId: pairing._id,
+        tournamentId: tournament._id,
         player0UserId: tournamentCompetitor0UserIds[i],
         player1UserId: tournamentCompetitor1UserIds[i],
         player0Confirmed: true,

@@ -15,14 +15,13 @@ export const TableCell = <T extends RowData>({
   row,
 }: TableCellProps<T>): JSX.Element => {
   const className = clsx(styles.Table_Cell, column.className);
-
   const renderInner = (): ReactElement | null => {
     if (!row) {
       if (column.renderHeader) {
-        const el = column.renderHeader(column);
+        const el = column.renderHeader();
         return isValidElement(el) ? el : <h3>{el}</h3>;
       }
-      return <h3>{column.label}</h3>;
+      return <h3>{column?.label ?? ''}</h3>;
     }
     if (row) {
       if (column.renderCell) {

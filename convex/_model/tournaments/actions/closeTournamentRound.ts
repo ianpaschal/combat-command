@@ -12,6 +12,12 @@ export const closeTournamentRoundArgs = v.object({
   id: v.id('tournaments'),
 });
 
+/**
+ * 
+ * @param ctx - Convex mutation context.
+ * @param args - Convex mutation args.
+ * @param args.id - The ID of the tournament.
+ */
 export const closeTournamentRound = async (
   ctx: MutationCtx,
   args: Infer<typeof closeTournamentRoundArgs>,

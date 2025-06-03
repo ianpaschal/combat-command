@@ -138,7 +138,9 @@ export { fowV4MatchOutcomeTypeValues } from '../convex/common/fowV4/fowV4MatchOu
 // Ranking Factors
 export {
   type FowV4RankingFactor,
+  fowV4RankingFactorDisplayNames,
   fowV4RankingFactorOptions,
+  fowV4RankingFactorShortNames,
 } from '../convex/static/fowV4/fowV4RankingFactors';
 
 // Missions

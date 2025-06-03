@@ -57,7 +57,8 @@ export const TournamentRankingsCard = ({
     { label: 'Teams', value: 'competitors' },
   ];
 
-  const showEmptyState = !lastRound;
+  const showEmptyState = false;
+  // const showEmptyState = !lastRound;
   const showLoadingState = loading;
 
   return (

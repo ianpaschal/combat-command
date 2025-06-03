@@ -40,10 +40,12 @@ export {
 export {
   getTournament,
   getTournamentArgs,
-  getTournamentOpenRound,
-  getTournamentOpenRoundArgs,
   getTournaments,
 } from './queries';
+export {
+  getTournamentOpenRound,
+  getTournamentOpenRoundArgs,
+} from './queries/getTournamentOpenRound';
 export {
   getTournamentRankings,
   getTournamentRankingsArgs,

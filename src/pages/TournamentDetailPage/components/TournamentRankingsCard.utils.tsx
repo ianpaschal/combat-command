@@ -2,11 +2,14 @@ import { FowV4TournamentFlatExtendedStats } from 'convex/_model/fowV4/types';
 
 import {
   FowV4RankingFactor,
+  fowV4RankingFactorDisplayNames,
+  fowV4RankingFactorShortNames,
   TournamentCompetitor,
   TournamentCompetitorId,
   User,
   UserId,
 } from '~/api';
+import { InfoPopover } from '~/components/generic/InfoPopover';
 import { ColumnDef } from '~/components/generic/Table';
 import { IdentityBadge } from '~/components/IdentityBadge';
 
@@ -67,12 +70,16 @@ export const getTournamentRankingTableConfig = (
         return null;
       },
     },
-    ...config.rankingFactors.map((key, i): ColumnDef<RankingRow> => ({
+    ...config.rankingFactors.map((key): ColumnDef<RankingRow> => ({
       key,
-      label: `RF${i}`,
       width: 32,
       align: 'center',
       renderCell: (r) => r.stats[key],
+      renderHeader: () => (
+        <InfoPopover key={key} content={fowV4RankingFactorDisplayNames[key]}>
+          <h3>{fowV4RankingFactorShortNames[key]}</h3>
+        </InfoPopover>
+      ),
     })),
   ];
 };

@@ -1,0 +1,28 @@
+@use "/src/style/corners";
+@use "/src/style/flex";
+@use "/src/style/sizes";
+@use "/src/style/text";
+@use "/src/style/variables";
+
+.InfoPopover {
+  @include flex.centered;
+  @include sizes.small;
+
+  position: relative;
+
+  &_Content {
+    @include corners.tight;
+
+    padding: 0.5rem 0.75rem;
+    text-wrap: balance;
+    background-color: var(--primary-default-bg);
+
+    span {
+      @include text.ui;
+
+      display: block;
+      color: var(--primary-default-text);
+      text-align: center;
+    }
+  }
+}
