@@ -29,7 +29,7 @@ export const CircularProgress = ({
   const clampedTotal = Math.abs(total);
   const clampedFilled = Math.min(Math.max(filled, 0), clampedTotal);
   const [ref, width] = useElementSize();
-  const radius = (width / 2) - (strokeWidth / 2);
+  const radius = Math.max((width / 2) - (strokeWidth / 2), 0);
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (clampedFilled / clampedTotal) * circumference;
   return (

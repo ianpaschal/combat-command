@@ -52,7 +52,7 @@ export const TournamentRankingsCard = ({
     if (lastRound !== undefined) {
       return Array.from({ length: lastRound + 1 }, (_, i) => i);
     }
-    return [];
+    return [0];
   };
   const roundOptions = getRoundIndexes().map((round) => ({
     label: `Round ${round + 1}`,

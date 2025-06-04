@@ -57,8 +57,8 @@ export const openTournamentRound = async (
 
   // ---- PRIMARY ACTIONS ----
   const tableCount = Math.ceil(tournament.maxCompetitors / 2);
-  const nextRound = tournament.lastRound === undefined ? 0 : tournament.lastRound++;
-  
+  const nextRound = (tournament.lastRound ?? -1) + 1;
+
   // Assign pairings to tables
   const assignedPairings = generateTableAssignments(args.unassignedPairings, tableCount);
 
