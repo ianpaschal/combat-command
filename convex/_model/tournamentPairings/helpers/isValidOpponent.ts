@@ -1,8 +1,8 @@
-import { DraftPairing, RankedCompetitor } from './pairingTypes';
+import { DraftPairing, RankedTournamentCompetitor } from './pairingTypes';
 
 export const isValidOpponent = (
-  a: RankedCompetitor,
-  b: RankedCompetitor,
+  a: RankedTournamentCompetitor,
+  b: RankedTournamentCompetitor,
   pairings: DraftPairing[],
 ): boolean => {
   // Can't play themselves

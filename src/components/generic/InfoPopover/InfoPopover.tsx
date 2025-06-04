@@ -1,21 +1,8 @@
 import { ReactNode, useState } from 'react';
-import {
-  Close,
-  Content,
-  Root,
-  Trigger,
-} from '@radix-ui/react-popover';
 import clsx from 'clsx';
-import { AnimatePresence, motion } from 'framer-motion';
+import { Popover } from 'radix-ui';
 
 import styles from './InfoPopover.module.scss';
-
-const animationProps = {
-  initial: { opacity: 0, scale: 0.95 },
-  animate: { opacity: 1, scale: 1 },
-  exit: { opacity: 0, scale: 0.95 },
-  transition: { duration: 0.2 },
-};
 
 export interface InfoPopoverProps {
   autoHideDuration?: number;
@@ -42,21 +29,16 @@ export const InfoPopover = ({
     }
   };
   return (
-    <Root onOpenChange={handleOpenChange} open={open}>
-      <Trigger className={clsx(styles.InfoPopover, className)} asChild>
+    <Popover.Root onOpenChange={handleOpenChange} open={open}>
+      <Popover.Trigger className={clsx(styles.InfoPopover, className)} asChild>
         {children}
-      </Trigger>
-      <AnimatePresence>
-        {open && (
-          <Content asChild className={styles.InfoPopover_Content} align="center" forceMount>
-            <motion.div {...animationProps}>
-              <Close asChild>
-                <span>{content}</span>
-              </Close>
-            </motion.div>
-          </Content>
-        )}
-      </AnimatePresence>
-    </Root>
+      </Popover.Trigger>
+      <Popover.Portal>
+        <Popover.Content className={styles.InfoPopover_Content} sideOffset={2} side="top" align="center">
+          {content}
+          <Popover.Arrow className={styles.InfoPopover_Arrow} />
+        </Popover.Content>
+      </Popover.Portal>
+    </Popover.Root >
   );
 };

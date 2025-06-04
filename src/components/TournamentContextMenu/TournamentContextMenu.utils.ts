@@ -1,10 +1,10 @@
 import { TournamentOpenRound } from '~/services/tournaments';
 
 export const getRemainingRequiredMatchResults = (
-  activeRound?: TournamentOpenRound,
+  openRound?: TournamentOpenRound,
 ): number | null => {
-  if (!activeRound) {
+  if (!openRound) {
     return null;
   }
-  return activeRound.matchResultsProgress.required - activeRound.matchResultsProgress.submitted;
+  return openRound.matchResultsProgress.required - openRound.matchResultsProgress.submitted;
 };

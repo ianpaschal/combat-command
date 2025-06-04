@@ -86,9 +86,9 @@ export const aggregateFowV4TournamentData = async (
       competitorMeta[tournamentCompetitor0Id].byeRounds.push(round);
     } else {
       competitorMeta[tournamentCompetitor0Id].opponentIds.push(tournamentCompetitor1Id);
-      competitorMeta[tournamentCompetitor0Id].tablesPlayed.push(table);
+      competitorMeta[tournamentCompetitor0Id].playedTables.push(table);
       competitorMeta[tournamentCompetitor1Id].opponentIds.push(tournamentCompetitor0Id);
-      competitorMeta[tournamentCompetitor1Id].tablesPlayed.push(table);
+      competitorMeta[tournamentCompetitor1Id].playedTables.push(table);
     }   
   }
 
@@ -129,11 +129,11 @@ export const aggregateFowV4TournamentData = async (
 
   return {
     players: flattenFowV4StatMap(playerStats).map(({ id, stats }) => ({
-      userId: id,
+      id,
       stats,
     })),
     competitors: flattenFowV4StatMap(competitorStats).map(({ id, stats }) => ({
-      tournamentCompetitorId: id,
+      id,
       stats,
       ...competitorMeta[id],
     })),

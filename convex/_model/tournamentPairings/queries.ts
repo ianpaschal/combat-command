@@ -13,7 +13,8 @@ import { getErrorMessage } from '../../common/errors';
 import { tournamentPairingMethod } from '../../static/tournamentPairingMethods';
 import { notNullOrUndefined } from '../_helpers/notNullOrUndefined';
 import { getTournamentCompetitorListByTournamentId } from '../tournamentCompetitors';
-import { getTournamentRankings } from '../tournamentRankings';
+import { getTournamentRankings } from '../tournaments/queries/getTournamentRankings';
+// import { getTournamentRankings } from '../tournamentRankings';
 import { getDeepTournamentPairing } from './helpers';
 
 export const getTournamentPairingArgs = v.object({
@@ -60,13 +61,19 @@ export const getTournamentPairings = async (
   );
 
   // TODO: Add pagination
-  return deepResults.filter(notNullOrUndefined);
+  return deepResults.filter(notNullOrUndefined).sort((a, b) => {
+    if (a.table === null) {
+      return 1;
+    }
+    if (b.table === null) {
+      return -1;
+    }
+    return a.table - b.table;
+  });
 };
 
 export const getDraftTournamentPairingsArgs = v.object({
   tournamentId: v.id('tournaments'),
-
-  // Upcoming round
   round: v.number(),
   method: tournamentPairingMethod,
 });
@@ -74,7 +81,8 @@ export const getDraftTournamentPairingsArgs = v.object({
 /**
  * 
  * @param ctx 
- * @param args 
+ * @param args - Convex query args.
+ * @param args.round - The upcoming round index which the generated pairing are for.
  * @returns 
  */
 export const getDraftTournamentPairings = async (

@@ -22,7 +22,7 @@ export const getRange = (
       max = Math.min(range, 999);
     } else {
       min = Math.max(range.min, 0);
-      max = Math.min(Math.min(range.max, 999), min);
+      max = Math.max(Math.min(range.max, 999), min);
     }
   }
   return { min, max };

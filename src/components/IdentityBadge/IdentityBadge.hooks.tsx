@@ -1,68 +1,102 @@
-import { ReactElement, useMemo } from 'react';
-import { Ghost } from 'lucide-react';
+import { ReactElement } from 'react';
+import { useQuery } from 'convex/react';
+import { Ghost, HelpCircle } from 'lucide-react';
 
+import { api, TournamentCompetitor } from '~/api';
 import { Avatar } from '~/components/generic/Avatar';
 import { FlagCircle } from '~/components/generic/FlagCircle';
 import { getCountryName } from '~/utils/common/getCountryName';
 import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
 
-import { IdentityBadgeInput } from './IdentityBadge.types';
+import { Identity } from './IdentityBadge.types';
 
-const checkInput = (input: IdentityBadgeInput): void => {
-  const providedInputCount = Object.values(input).filter((i) => !!i).length;
-  if (providedInputCount < 1) {
-    throw new Error('Please supply either a user, tournament competitor, or placeholder to <IdentityBadge/>!');
+const fallbackAvatar: ReactElement = <Avatar icon={<HelpCircle />} muted />;
+const fallbackDisplayName: ReactElement = <span>Unknown</span>;
+
+const getCompetitorAvatar = (competitor: TournamentCompetitor): ReactElement => {
+  if (competitor.players.length === 1) {
+    return <Avatar url={competitor.players[0]?.user?.avatarUrl} />;
   }
-  if (providedInputCount > 1) {
-    throw new Error('Please supply only a user, tournament competitor, or placeholder to <IdentityBadge/>!');
+  if (competitor.teamName) {
+    const countryName = getCountryName(competitor.teamName);
+    if (countryName) {
+      return <FlagCircle code={competitor.teamName} />;
+    }
+    return <Avatar isTeam />;
   }
+  return fallbackAvatar;
 };
 
-export const useDisplayName = (input: IdentityBadgeInput): ReactElement => useMemo(() => {
-  checkInput(input);
-  const { user, competitor, placeholder } = input;
+const getCompetitorDisplayName = (competitor: TournamentCompetitor): ReactElement => {
+  if (competitor.players.length === 1 && competitor.players[0].user) {
+    return <span>{getUserDisplayNameString(competitor.players[0].user)}</span >;
+  }
+  if (competitor.teamName) {
+    const countryName = getCountryName(competitor.teamName);
+    return <span>{countryName ?? competitor.teamName}</span>;
+  }
+  return fallbackDisplayName;
+};
+
+export const useIdentityElements = (identity: Identity, loading?: boolean): ReactElement[] => {
+  const { user, userId, competitor, competitorId, placeholder } = identity;
+
+  // TODO: Replace with a service hook
+  const queryUser = useQuery(api.users.fetchUser.fetchUser, userId ? {
+    id: userId,
+  } : 'skip');
+  // TODO: Replace with a service hook
+  const queryCompetitor = useQuery(api.tournamentCompetitors.getTournamentCompetitor, competitorId ? {
+    id: competitorId,
+  } : 'skip');
+
+  // Render loading skeleton if explicitly loading or an ID was provided and it is fetching
+  if (loading || (userId && !queryUser) || competitorId && !queryCompetitor) {
+    return [
+      <Avatar loading />,
+      <span>Loading...</span>,
+    ];
+  }
 
   if (user) {
-    return <span>{getUserDisplayNameString(user)}</span>;
+    return [
+      <Avatar url={user?.avatarUrl} />,
+      <span>{getUserDisplayNameString(user)}</span>,
+    ];
   }
-  if (competitor) {
-    if (competitor.players.length === 1 && competitor.players[0].user) {
-      return <span>{getUserDisplayNameString(competitor.players[0].user)}</span >;
-    }
-    if (competitor.teamName) {
-      const countryName = getCountryName(competitor.teamName);
-      return <span>{countryName ?? competitor.teamName}</span>;
-    }
-    return <span>Unknown Competitor</span>;
-  }
-  if (placeholder) {
-    return <span>{placeholder.displayName}</span>;
-  }
-  return <span>Unknown User</span>;
-}, [input]);
 
-export const useDisplayAvatar = (input: IdentityBadgeInput): ReactElement => useMemo(() => {
-  checkInput(input);
-  const { user, competitor, placeholder } = input;
+  if (userId && queryUser) {
+    return [
+      <Avatar url={queryUser?.avatarUrl} />,
+      <span>{getUserDisplayNameString(queryUser)}</span>,
+    ];
+  }
 
-  if (user) {
-    return <Avatar url={user?.avatarUrl} />;
-  }
   if (competitor) {
-    if (competitor.players.length === 1) {
-      return <Avatar url={competitor.players[0]?.user?.avatarUrl} />;
-    }
-    if (competitor.teamName) {
-      const countryName = getCountryName(competitor.teamName);
-      if (countryName) {
-        return <FlagCircle code={competitor.teamName} />;
-      }
-      return <Avatar isTeam />;
-    }
-    return <Avatar />;
+    return [
+      getCompetitorAvatar(competitor),
+      getCompetitorDisplayName(competitor),
+    ];
   }
+
+  if (competitorId && queryCompetitor) {
+    return [
+      getCompetitorAvatar(queryCompetitor),
+      getCompetitorDisplayName(queryCompetitor),
+    ];
+  }
+
   if (placeholder) {
-    return <Avatar icon={placeholder.icon ?? <Ghost />} muted />;
+    return [
+      <Avatar icon={placeholder.icon ?? <Ghost />} muted />,
+      <span>{placeholder.displayName}</span>,
+    ];
   }
-  return <Avatar />;
-}, [input]);
+
+  // If none of the values have been provided, return the empty state
+  // NOTE: If user or competitor is meant to be provided, but undefined because it is loading (externally) the empty state should be avoided by passing loading = true
+  return [
+    fallbackAvatar,
+    fallbackDisplayName,
+  ];
+};

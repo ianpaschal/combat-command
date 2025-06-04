@@ -1,0 +1,22 @@
+@use "/src/style/flex";
+@use "/src/style/borders";
+@use "/src/style/corners";
+
+@use "/src/style/variables";
+
+.NotFoundView {
+  @include flex.centered;
+
+  width: 100vw;
+  height: 100vh;
+
+  &_Card {
+    @include borders.normal;
+    @include corners.normal;
+    @include flex.column;
+
+    max-width: 480px;
+    padding: 2rem calc(var(--container-padding-x) + 1rem);
+    background-color: var(--card-bg);
+  }
+}

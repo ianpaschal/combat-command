@@ -1,11 +1,11 @@
-import { RankedCompetitor } from './pairingTypes';
+import { RankedTournamentCompetitor } from './pairingTypes';
 
 export const generateMockCompetitor = (
   id: string,
   opponentIds: string[],
   rank = 0,
-): RankedCompetitor => ({
+): RankedTournamentCompetitor => ({
   id,
   opponentIds,
   rank,
-} as RankedCompetitor);
+} as RankedTournamentCompetitor);

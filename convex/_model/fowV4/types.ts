@@ -68,6 +68,6 @@ export type FowV4StatId = Id<'users'> | Id<'tournamentCompetitors'>;
  */
 export type TournamentCompetitorMeta = {
   opponentIds: Id<'tournamentCompetitors'>[];
-  tablesPlayed: number[];
+  playedTables: number[];
   byeRounds: number[];
 };

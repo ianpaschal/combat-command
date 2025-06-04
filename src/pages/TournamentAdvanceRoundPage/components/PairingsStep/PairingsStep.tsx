@@ -16,6 +16,8 @@ import { Button } from '~/components/generic/Button';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { Label } from '~/components/generic/Label';
 import { Separator } from '~/components/generic/Separator';
+import { IdentityBadge } from '~/components/IdentityBadge';
+import { TournamentPairingRow } from '~/components/TournamentPairingRow';
 import { TournamentPairingsGrid } from '~/components/TournamentPairingsGrid';
 import { useTournament } from '~/components/TournamentProvider';
 import { useGetDraftTournamentPairings } from '~/services/tournamentPairings/useGetDraftTournamentPairings';
@@ -130,9 +132,27 @@ export const PairingsStep = forwardRef<PairingsStepHandle, PairingsStepProps>(({
         intent="default"
         onConfirm={handleConfirm}
       >
-        <pre>
-          {JSON.stringify(manualPairings, null, 2)}
-        </pre>
+        <div className={styles.PairingStep_ConfirmationContent}>
+          <div className={styles.PairingStep_ConfirmationSection}>
+            <h3>Pairings</h3>
+            <p>The following pairings will be created:</p>
+          </div>
+          {(manualPairings?.pairings || []).map((pairing, i) => (
+            <TournamentPairingRow key={`pairing_${i}`} pairing={pairing} />
+          ))}
+          {!!(manualPairings?.unpairedCompetitors.length) && (
+            <>
+              <Separator />
+              <div className={styles.PairingStep_ConfirmationSection}>
+                <h3>Unpaired Competitors</h3>
+                <p>The following competitors are not paired. They will receive byes and fake match results will need to be submitted (depending on how your rules pack treats byes):</p>
+              </div>
+              {(manualPairings?.unpairedCompetitors || []).map((competitor, i) => (
+                <IdentityBadge key={`unpaired_${i}`} competitorId={competitor.id} />
+              ))}
+            </>
+          )}
+        </div>
       </ConfirmationDialog>
     </div>
   );

@@ -16,9 +16,9 @@ $indicator-gradient-end-color: rgb(0 0 0 / 0%);
   }
 
   &_Viewport {
-    border-radius: inherit;
-
     @include flex.stretchy;
+
+    border-radius: inherit;
   }
 
   &_Indicator {

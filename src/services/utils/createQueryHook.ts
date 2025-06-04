@@ -7,6 +7,12 @@ type QueryFn = FunctionReference<'query'>;
 export const createQueryHook = <T extends QueryFn>(queryFn: T) => (args: T['_args'] | 'skip') => {
   const data = useQuery(queryFn, args);
   const stored = useRef(data);
+  if (!args || args === 'skip') {
+    return {
+      data: undefined,
+      loading: false,
+    };
+  }
   if (data !== undefined) {
     stored.current = data;
   }

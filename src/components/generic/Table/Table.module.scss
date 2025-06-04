@@ -35,21 +35,14 @@
   }
 
   &_Inner {
-    display: flex;
-    flex-direction: column;
+    @include flex.column($gap: 0);
 
-    min-width: max-content; // allow horizontal scroll when needed
-    min-width: 0;
     max-width: 100%;
   }
 
   &_HeaderRow {
     @include borders.normal($side: bottom);
     @include row;
-
-    position: sticky;
-    z-index: 1;
-    top: 0;
 
     h3 {
       @include row-text;

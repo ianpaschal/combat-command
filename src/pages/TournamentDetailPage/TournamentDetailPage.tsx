@@ -14,6 +14,7 @@ import {
   TabsContent,
   TabsList,
 } from '~/components/generic/Tabs';
+import { NotFoundView } from '~/components/NotFoundView';
 import { PageWrapper } from '~/components/PageWrapper';
 import { TournamentCompetitorsProvider } from '~/components/TournamentCompetitorsProvider';
 import { TournamentContextMenu } from '~/components/TournamentContextMenu';
@@ -37,8 +38,14 @@ export const TournamentDetailPage = (): JSX.Element => {
   const windowWidth = useWindowWidth();
   const params = useParams();
   const tournamentId = params.id! as TournamentId; // Must exist or else how did we get to this route?
-  const { data: tournament } = useGetTournament({ id: tournamentId });
-  const { data: tournamentCompetitors } = useGetTournamentCompetitorsByTournamentId(tournamentId);
+  const {
+    data: tournament,
+    loading: tournamentLoading,
+  } = useGetTournament({ id: tournamentId });
+  const {
+    data: tournamentCompetitors,
+    loading: tournamentCompetitorsLoading,
+  } = useGetTournamentCompetitorsByTournamentId(tournamentId);
 
   const fitToWindow = windowWidth >= MIN_WIDTH_DESKTOP;
 
@@ -72,8 +79,14 @@ export const TournamentDetailPage = (): JSX.Element => {
 
   const showTabLabels = windowWidth >= MIN_WIDTH_TABLET;
 
-  if (!tournament || !tournamentCompetitors) {
+  const loading = tournamentLoading || tournamentCompetitorsLoading;
+
+  if (loading) {
     return <div>Loading...</div>;
+  }
+
+  if (!tournament || !tournamentCompetitors) {
+    return <NotFoundView />;
   }
 
   return (

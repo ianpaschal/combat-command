@@ -4,12 +4,16 @@ import { Doc, Id } from '../../_generated/dataModel';
 import { QueryCtx } from '../../_generated/server';
 import { getErrorMessage } from '../../common/errors';
 import { getDeepTournamentCompetitor } from '../tournamentCompetitors/helpers';
+import { getTournamentShallow } from '../tournaments/_helpers/getTournamentShallow';
 
 export const getDeepTournamentPairing = async (
   ctx: QueryCtx,
   tournamentPairing: Doc<'tournamentPairings'>,
 ) => {
-
+  const { competitorSize } = await getTournamentShallow(ctx, tournamentPairing.tournamentId);
+  const matchResults = await ctx.db.query('matchResults')
+    .withIndex('by_tournament_pairing_id', (q) => q.eq('tournamentPairingId', tournamentPairing._id))
+    .collect();
   const rawTournamentCompetitor0 = await ctx.db.get(tournamentPairing.tournamentCompetitor0Id);
   if (!rawTournamentCompetitor0) {
     throw new ConvexError(getErrorMessage('TOURNAMENT_COMPETITOR_NOT_FOUND'));
@@ -29,6 +33,10 @@ export const getDeepTournamentPairing = async (
     ...tournamentPairing,
     tournamentCompetitor0,
     tournamentCompetitor1,
+    matchResultsProgress: {
+      submitted: matchResults.length,
+      required: competitorSize,
+    },
   };
 };
 

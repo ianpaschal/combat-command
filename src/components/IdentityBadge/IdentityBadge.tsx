@@ -1,11 +1,16 @@
 import { cloneElement } from 'react';
 import clsx from 'clsx';
 
-import { TournamentCompetitor, User } from '~/api';
-import { IdentityBadgePlaceholder } from '~/components/IdentityBadge/IdentityBadge.types';
+import {
+  TournamentCompetitor,
+  TournamentCompetitorId,
+  User,
+  UserId,
+} from '~/api';
 import { ElementSize } from '~/types/componentLib';
 
-import { useDisplayAvatar, useDisplayName } from './IdentityBadge.hooks';
+import { useIdentityElements } from './IdentityBadge.hooks';
+import { IdentityBadgePlaceholder } from './IdentityBadge.types';
 
 import styles from './IdentityBadge.module.scss';
 
@@ -17,24 +22,35 @@ const sizeClasses: Record<ElementSize, string | undefined> = {
 };
 
 export interface IdentityBadgeProps {
-  user?: User;
-  competitor?: TournamentCompetitor;
-  placeholder?: IdentityBadgePlaceholder;
   className?: string;
-  size?: ElementSize;
+  competitor?: TournamentCompetitor;
+  competitorId?: TournamentCompetitorId;
   flipped?: boolean;
+  loading?: boolean;
+  placeholder?: IdentityBadgePlaceholder;
+  size?: ElementSize;
+  user?: User;
+  userId?: UserId;
 }
 
 export const IdentityBadge = ({
-  user,
-  competitor,
-  placeholder,
   className,
-  size = 'normal',
+  competitor,
+  competitorId,
   flipped = false,
+  loading = false,
+  placeholder,
+  size = 'normal',
+  user,
+  userId,
 }: IdentityBadgeProps): JSX.Element | null => {
-  const displayName = useDisplayName({ user, competitor, placeholder });
-  const displayAvatar = useDisplayAvatar({ user, competitor, placeholder });
+  const [displayAvatar, displayName] = useIdentityElements({
+    user,
+    competitor,
+    placeholder,
+    competitorId,
+    userId,
+  }, loading);
   const elements = [
     cloneElement(displayAvatar, { className: styles.IdentityBadge_Avatar, key: 'avatar' }),
     cloneElement(displayName, {

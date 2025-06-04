@@ -1,0 +1,1 @@
+export { TournamentPairingRow } from './TournamentPairingRow';

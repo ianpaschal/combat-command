@@ -37,18 +37,24 @@ export const TournamentRankingsCard = ({
   });
   // TODO: Move rows into the config util
   const competitorRows: RankingRow[] = (rankings?.competitors || []).map((competitor) => ({
-    id: competitor.tournamentCompetitorId,
+    id: competitor.id,
     rank: competitor.rank,
     stats: competitor.stats,
   }));
   const playerRows: RankingRow[] = (rankings?.players || []).map((player) => ({
-    id: player.userId,
+    id: player.id,
     rank: player.rank,
     stats: player.stats,
   }));
   const rows = view === 'players' ? playerRows : competitorRows;
 
-  const roundOptions = Array.from({ length: (lastRound ?? 0) + 1 }, (_, i) => i).map((round) => ({
+  const getRoundIndexes = (): number[] => {
+    if (lastRound !== undefined) {
+      return Array.from({ length: lastRound + 1 }, (_, i) => i);
+    }
+    return [];
+  };
+  const roundOptions = getRoundIndexes().map((round) => ({
     label: `Round ${round + 1}`,
     value: round,
   }));
@@ -57,8 +63,7 @@ export const TournamentRankingsCard = ({
     { label: 'Teams', value: 'competitors' },
   ];
 
-  const showEmptyState = false;
-  // const showEmptyState = !lastRound;
+  const showEmptyState = lastRound === undefined;
   const showLoadingState = loading;
 
   return (

@@ -1,11 +1,11 @@
 import {
   DraftPairing,
   PairingResult,
-  RankedCompetitor,
+  RankedTournamentCompetitor,
   TournamentCompetitorId,
 } from '~/api';
 
-export const convertPairingResultToCompetitorList = (pairingResult?: PairingResult): RankedCompetitor[] => {
+export const convertPairingResultToCompetitorList = (pairingResult?: PairingResult): RankedTournamentCompetitor[] => {
   if (!pairingResult) {
     return [];
   }
@@ -46,7 +46,7 @@ export const buildGridState = (pairingResult?: PairingResult): Record<Tournament
   };
 };
 
-export const buildPairingResult = (competitors: RankedCompetitor[], state: Record<TournamentCompetitorId, string>): PairingResult => {
+export const buildPairingResult = (competitors: RankedTournamentCompetitor[], state: Record<TournamentCompetitorId, string>): PairingResult => {
   if (!competitors?.length || !Object.keys(state).length) {
     return {
       pairings: [],
@@ -58,7 +58,7 @@ export const buildPairingResult = (competitors: RankedCompetitor[], state: Recor
     slotId: state[competitor.id],
   }));
   const pairings: DraftPairing[] = [];
-  const unpairedCompetitors: RankedCompetitor[] = [];
+  const unpairedCompetitors: RankedTournamentCompetitor[] = [];
   statefulCompetitors.map(({ competitor, slotId }) => {
     if (slotId === 'unpaired') {
       unpairedCompetitors.push(competitor);

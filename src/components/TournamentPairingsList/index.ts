@@ -1,1 +1,0 @@
-export { TournamentPairingsList } from './TournamentPairingsList';

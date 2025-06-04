@@ -10,8 +10,6 @@
 
   &_InnerWrapper {
     position: absolute;
-    inset: 0;
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -22,6 +20,18 @@
   }
 
   &_Fill {
-    stroke: var(--primary-default-bg);
+    stroke: var(--text-color-default);
+
+    &[data-color="green"] {
+      stroke: var(--text-color-success);
+    }
+
+    &[data-color="red"] {
+      stroke: var(--text-color-danger);
+    }
+
+    &[data-color="yellow"] {
+      stroke: var(--text-color-warning);
+    }
   }
 }

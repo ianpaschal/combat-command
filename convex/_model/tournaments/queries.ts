@@ -1,11 +1,6 @@
-import {
-  ConvexError,
-  Infer,
-  v,
-} from 'convex/values';
+import { Infer, v } from 'convex/values';
 
 import { QueryCtx } from '../../_generated/server';
-import { getErrorMessage } from '../../common/errors';
 import { notNullOrUndefined } from '../_helpers/notNullOrUndefined';
 import { getDeepTournament } from './helpers';
 
@@ -19,7 +14,7 @@ export const getTournament = async (
 ) => {
   const result = await ctx.db.get(id);
   if (!result) {
-    throw new ConvexError(getErrorMessage('TOURNAMENT_NOT_FOUND'));
+    return null;
   }
   return await getDeepTournament(ctx, result);
 };

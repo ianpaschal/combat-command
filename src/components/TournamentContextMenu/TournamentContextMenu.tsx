@@ -39,7 +39,7 @@ export const TournamentContextMenu = ({
     organizerUserIds,
   } = useTournament();
   const navigate = useNavigate();
-  const { data: activeRound } = useGetTournamentOpenRound({ id });
+  const { data: openRound } = useGetTournamentOpenRound({ id });
 
   const { mutation: deleteTournament } = useDeleteTournament({
     onSuccess: (): void => {
@@ -68,7 +68,7 @@ export const TournamentContextMenu = ({
 
   const { mutation: closeTournamentRound } = useCloseTournamentRound({
     onSuccess: (): void => {
-      toast.success(`Round ${lastRound} completed!`);
+      toast.success(`Round ${(currentRound ?? 0) + 1} completed!`);
     },
   });
 
@@ -98,12 +98,12 @@ export const TournamentContextMenu = ({
     {
       label: `Configure Round ${(lastRound ?? -1) + 2}`,
       onClick: () => navigate(generatePath(PATHS.tournamentAdvanceRound, { id })),
-      visible: status === 'active' && activeRound === null,
+      visible: status === 'active' && currentRound === undefined,
     },
     {
       label: `Close Round ${currentRound! + 1}`,
       onClick: () => closeTournamentRound({ id }),
-      visible: activeRound && getRemainingRequiredMatchResults(activeRound) === 0,
+      visible: openRound && getRemainingRequiredMatchResults(openRound) === 0,
     },
     {
       label: 'End Tournament',

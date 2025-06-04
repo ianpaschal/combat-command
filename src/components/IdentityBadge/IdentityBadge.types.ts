@@ -1,10 +1,23 @@
 import { ReactElement } from 'react';
 
-import { TournamentCompetitor, User } from '~/api';
+import {
+  TournamentCompetitor,
+  TournamentCompetitorId,
+  User,
+  UserId,
+} from '~/api';
 
 export type IdentityBadgeInput = {
   user?: User;
   competitor?: TournamentCompetitor;
+  placeholder?: IdentityBadgePlaceholder;
+};
+
+export type Identity = {
+  userId?: UserId;
+  user?: User;
+  competitor?: TournamentCompetitor;
+  competitorId?: TournamentCompetitorId;
   placeholder?: IdentityBadgePlaceholder;
 };
 

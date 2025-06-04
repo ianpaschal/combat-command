@@ -7,7 +7,8 @@ import { tournamentStatus } from '../../common/tournamentStatus';
 export const createTestTournamentArgs = v.object({
   useTeams: v.boolean(),
   status: tournamentStatus,
-  currentRound: v.number(),
+  currentRound: v.optional(v.number()),
+  lastRound: v.optional(v.number()),
   useNationalTeams: v.boolean(),
 });
 
@@ -17,6 +18,7 @@ export const createTestTournament = async (
     useTeams,
     status,
     currentRound,
+    lastRound,
     useNationalTeams,
   }: Infer<typeof createTestTournamentArgs>,
 ) => {
@@ -40,7 +42,8 @@ export const createTestTournament = async (
     ...mockTournamentData,
     status,
     organizerUserIds: [organizerUserId],
-    currentRound: currentRound === undefined ? 0 : 1,
+    currentRound,
+    lastRound,
     maxCompetitors,
     competitorSize,
     useNationalTeams,
@@ -62,7 +65,7 @@ export const createTestTournament = async (
       await ctx.db.insert('tournamentCompetitors', {
         teamName: useTeams ? `Team ${i + 1}` : undefined,
         tournamentId,
-        active: currentRound > 0,
+        active: status === 'active',
         players,
       });
     }

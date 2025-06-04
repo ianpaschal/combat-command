@@ -14,7 +14,7 @@ export const createTournamentCompetitorMetaMap = (
   ...acc,
   [id]: {
     opponentIds: [],
-    tablesPlayed: [],
+    playedTables: [],
     byeRounds: [],
   },
 }), {} as Record<Id<'tournamentCompetitors'>, TournamentCompetitorMeta>);

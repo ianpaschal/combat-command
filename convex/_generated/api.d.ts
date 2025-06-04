@@ -47,7 +47,6 @@ import type * as _model_tournamentPairings_actions_generateTableAssignments from
 import type * as _model_tournamentPairings_fields from "../_model/tournamentPairings/fields.js";
 import type * as _model_tournamentPairings_helpers_checkPairingIsValid from "../_model/tournamentPairings/helpers/checkPairingIsValid.js";
 import type * as _model_tournamentPairings_helpers_isValidOpponent from "../_model/tournamentPairings/helpers/isValidOpponent.js";
-import type * as _model_tournamentPairings_helpers_old_generateDraftPairings from "../_model/tournamentPairings/helpers/old/generateDraftPairings.js";
 import type * as _model_tournamentPairings_helpers_pairingTypes from "../_model/tournamentPairings/helpers/pairingTypes.js";
 import type * as _model_tournamentPairings_helpers_shuffle from "../_model/tournamentPairings/helpers/shuffle.js";
 import type * as _model_tournamentPairings_helpers_testHelpers from "../_model/tournamentPairings/helpers/testHelpers.js";
@@ -83,12 +82,13 @@ import type * as _model_tournaments_fields from "../_model/tournaments/fields.js
 import type * as _model_tournaments_helpers from "../_model/tournaments/helpers.js";
 import type * as _model_tournaments_index from "../_model/tournaments/index.js";
 import type * as _model_tournaments_mutations from "../_model/tournaments/mutations.js";
+import type * as _model_tournaments_queries_getTournamentOpenRound from "../_model/tournaments/queries/getTournamentOpenRound.js";
 import type * as _model_tournaments_queries_getTournamentRankings from "../_model/tournaments/queries/getTournamentRankings.js";
 import type * as _model_tournaments_queries from "../_model/tournaments/queries.js";
 import type * as _model_utils__helpers_mockData from "../_model/utils/_helpers/mockData.js";
 import type * as _model_utils__helpers_testUsers from "../_model/utils/_helpers/testUsers.js";
 import type * as _model_utils_createTestTournament from "../_model/utils/createTestTournament.js";
-import type * as _model_utils_createTestTournamentRoundResults from "../_model/utils/createTestTournamentRoundResults.js";
+import type * as _model_utils_createTestTournamentMatchResults from "../_model/utils/createTestTournamentMatchResults.js";
 import type * as _model_utils_deleteTestTournament from "../_model/utils/deleteTestTournament.js";
 import type * as _model_utils_index from "../_model/utils/index.js";
 import type * as auth_ResendOtpPasswordReset from "../auth/ResendOtpPasswordReset.js";
@@ -196,7 +196,6 @@ declare const fullApi: ApiFromModules<{
   "_model/tournamentPairings/fields": typeof _model_tournamentPairings_fields;
   "_model/tournamentPairings/helpers/checkPairingIsValid": typeof _model_tournamentPairings_helpers_checkPairingIsValid;
   "_model/tournamentPairings/helpers/isValidOpponent": typeof _model_tournamentPairings_helpers_isValidOpponent;
-  "_model/tournamentPairings/helpers/old/generateDraftPairings": typeof _model_tournamentPairings_helpers_old_generateDraftPairings;
   "_model/tournamentPairings/helpers/pairingTypes": typeof _model_tournamentPairings_helpers_pairingTypes;
   "_model/tournamentPairings/helpers/shuffle": typeof _model_tournamentPairings_helpers_shuffle;
   "_model/tournamentPairings/helpers/testHelpers": typeof _model_tournamentPairings_helpers_testHelpers;
@@ -232,12 +231,13 @@ declare const fullApi: ApiFromModules<{
   "_model/tournaments/helpers": typeof _model_tournaments_helpers;
   "_model/tournaments/index": typeof _model_tournaments_index;
   "_model/tournaments/mutations": typeof _model_tournaments_mutations;
+  "_model/tournaments/queries/getTournamentOpenRound": typeof _model_tournaments_queries_getTournamentOpenRound;
   "_model/tournaments/queries/getTournamentRankings": typeof _model_tournaments_queries_getTournamentRankings;
   "_model/tournaments/queries": typeof _model_tournaments_queries;
   "_model/utils/_helpers/mockData": typeof _model_utils__helpers_mockData;
   "_model/utils/_helpers/testUsers": typeof _model_utils__helpers_testUsers;
   "_model/utils/createTestTournament": typeof _model_utils_createTestTournament;
-  "_model/utils/createTestTournamentRoundResults": typeof _model_utils_createTestTournamentRoundResults;
+  "_model/utils/createTestTournamentMatchResults": typeof _model_utils_createTestTournamentMatchResults;
   "_model/utils/deleteTestTournament": typeof _model_utils_deleteTestTournament;
   "_model/utils/index": typeof _model_utils_index;
   "auth/ResendOtpPasswordReset": typeof auth_ResendOtpPasswordReset;

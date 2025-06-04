@@ -35,3 +35,8 @@ export const getTournamentRankings = async (
     competitors: calculateFowV4TournamentRankings(competitors, rankingFactors),
   };
 };
+
+/**
+ * Tournament rankings and related data, split into competitors and players.
+ */
+export type TournamentRankings = Awaited<ReturnType<typeof getTournamentRankings>>;

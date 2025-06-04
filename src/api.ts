@@ -44,6 +44,7 @@ export type UpdateTournamentCompetitorArgs = typeof api.tournamentCompetitors.up
 
 // Tournament Pairings
 export type TournamentPairingId = Id<'tournamentPairings'>;
+export type TournamentPairing = typeof api.tournamentPairings.getTournamentPairings._returnType[number];
 export type GetDraftTournamentPairingsArgs = typeof api.tournamentPairings.getDraftTournamentPairings._args;
 
 // Tournament Timers
@@ -89,10 +90,10 @@ export {
 export {
   checkPairingIsValid,
 } from '../convex/_model/tournamentPairings/helpers/checkPairingIsValid';
-export {
-  type DraftPairing,
-  type PairingResult,
-  type RankedCompetitor,
+export type {
+  DraftPairing,
+  PairingResult,
+  RankedTournamentCompetitor,
 } from '../convex/_model/tournamentPairings/helpers/pairingTypes';
 
 // Static Data & Interfaces (Flames of War 4th Edition)

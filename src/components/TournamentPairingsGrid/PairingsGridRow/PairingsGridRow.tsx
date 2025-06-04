@@ -4,7 +4,7 @@ import { CircleCheck, CircleX } from 'lucide-react';
 import {
   checkPairingIsValid,
   DraftPairing,
-  RankedCompetitor,
+  RankedTournamentCompetitor,
 } from '~/api';
 
 import { Draggable } from '../Draggable';
@@ -22,7 +22,7 @@ const iconVariants = {
 export interface PairingsGridRowProps {
   index: number;
   pairing?: Partial<DraftPairing>;
-  activeCompetitor?: RankedCompetitor | null;
+  activeCompetitor?: RankedTournamentCompetitor | null;
 }
 
 export const PairingsGridRow = ({

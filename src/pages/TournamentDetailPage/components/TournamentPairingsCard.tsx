@@ -1,21 +1,25 @@
 import { useState } from 'react';
 
 import { InputSelect } from '~/components/generic/InputSelect';
-import { TournamentPairingsList } from '~/components/TournamentPairingsList';
+import { Table } from '~/components/generic/Table';
 import { useTournament } from '~/components/TournamentProvider';
+import { getTournamentPairingTableConfig } from '~/pages/TournamentDetailPage/components/TournamentPairingsCard.utils';
 import { useGetTournamentPairings } from '~/services/tournamentPairings/useGetTournamentPairings';
 
 import { TournamentDetailsCard } from './TournamentDetailsCard';
+
+import styles from './TournamentPairingsCard.module.scss';
 
 export const TournamentPairingsCard = () => {
   const { _id: tournamentId, currentRound, lastRound } = useTournament();
   const [round, setRound] = useState<number>(currentRound ?? 0);
   const { data: tournamentPairings, loading } = useGetTournamentPairings({
     tournamentId,
-    round: round,
+    round,
   });
-
-  const getPairingRoundIndexes = (): number[] => {
+  const columns = getTournamentPairingTableConfig();
+  const rows = (tournamentPairings || []);
+  const getRoundIndexes = (): number[] => {
     if (currentRound === undefined && lastRound === undefined) {
       return [];
     }
@@ -27,12 +31,12 @@ export const TournamentPairingsCard = () => {
     }
     return [];
   };
-  const roundOptions = getPairingRoundIndexes().map((round) => ({
+  const roundOptions = getRoundIndexes().map((round) => ({
     label: `Round ${round + 1}`,
     value: round,
   }));
 
-  const showEmptyState = !(tournamentPairings || []).length;
+  const showEmptyState = !loading && !rows.length;
   const showLoadingState = loading;
 
   return (
@@ -49,7 +53,19 @@ export const TournamentPairingsCard = () => {
         />,
       ]}
     >
-      <TournamentPairingsList />
+      {showLoadingState ? (
+        <div className={styles.TournamentPairingsCard_EmptyState}>
+          Loading...
+        </div>
+      ) : (
+        showEmptyState ? (
+          <div className={styles.TournamentPairingsCard_EmptyState}>
+            Nothing to show yet.
+          </div>
+        ) : (
+          <Table columns={columns} rows={rows} rowClassName={styles.TournamentPairingsCard_Row} />
+        )
+      )}
     </TournamentDetailsCard >
   );
 };
