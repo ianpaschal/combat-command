@@ -7,7 +7,6 @@ import { Avatar } from '~/components/generic/Avatar';
 import { FlagCircle } from '~/components/generic/FlagCircle';
 import { getCountryName } from '~/utils/common/getCountryName';
 import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
-
 import { Identity } from './IdentityBadge.types';
 
 const fallbackAvatar: ReactElement = <Avatar icon={<HelpCircle />} muted />;

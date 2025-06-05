@@ -4,7 +4,6 @@ import { useFormContext } from 'react-hook-form';
 import { FormField } from '~/components/generic/Form';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { InputText } from '~/components/generic/InputText';
-
 import {
   computeAttacker,
   computeFirstTurn,

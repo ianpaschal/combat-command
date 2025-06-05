@@ -13,7 +13,6 @@ import { TournamentCompetitorCreateDialog, useTournamentCompetitorCreateDialog }
 import { useTournamentCompetitors } from '~/components/TournamentCompetitorsProvider';
 import { useTournament } from '~/components/TournamentProvider';
 import { TournamentRoster } from '~/components/TournamentRoster';
-
 import { getWarnings, sortCompetitorsByActive } from './RosterStep.utils';
 
 import styles from './RosterStep.module.scss';

@@ -17,7 +17,6 @@ import { MatchResultSocials } from '~/components/MatchResultSocials';
 import { PageWrapper } from '~/components/PageWrapper';
 import { useFetchMatchResult } from '~/services/matchResults/useFetchMatchResult';
 import { MIN_WIDTH_DESKTOP } from '~/settings';
-
 import { MatchResultDetails } from './components/MatchResultDetails';
 
 import styles from './MatchResultDetailPage.module.scss';

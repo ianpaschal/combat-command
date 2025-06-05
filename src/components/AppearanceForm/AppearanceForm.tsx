@@ -3,7 +3,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 import { useAuth } from '~/components/AuthProvider';
 import { Form } from '~/components/generic/Form';
-
 import { AppearanceFormData, appearanceFormSchema } from './AppearanceForm.schema';
 
 import styles from './AppearanceForm.module.scss';

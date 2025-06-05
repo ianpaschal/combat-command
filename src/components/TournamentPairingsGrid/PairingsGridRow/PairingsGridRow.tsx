@@ -6,7 +6,6 @@ import {
   DraftPairing,
   RankedTournamentCompetitor,
 } from '~/api';
-
 import { Draggable } from '../Draggable';
 import { Droppable } from '../Droppable/Droppable';
 import { PairableCompetitorCard } from '../PairableCompetitorCard';

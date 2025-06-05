@@ -21,7 +21,6 @@ import {
   convertPairingResultToCompetitorList,
 } from '~/components/TournamentPairingsGrid/TournamentPairingsGrid.utils';
 import { useTournament } from '~/components/TournamentProvider';
-
 import { Draggable } from './Draggable';
 import { Droppable } from './Droppable';
 import { PairableCompetitorCard } from './PairableCompetitorCard';

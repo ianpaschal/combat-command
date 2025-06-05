@@ -8,7 +8,6 @@ import {
 } from '~/api';
 import { IdentityBadge } from '~/components/IdentityBadge';
 import { MOBILE_BREAKPOINT } from '~/settings';
-
 import { getIdentityBadgeProps } from './TournamentPairingRow.utils';
 
 import styles from './TournamentPairingRow.module.scss';

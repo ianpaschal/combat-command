@@ -46,8 +46,7 @@ module.exports = {
     'simple-import-sort/imports': ['error', {
       'groups': [
         ['^react', '^@?\\w'], // External Packages (React related first)
-        ['^src', '^~(/.*|$)'], // Internal packages
-        ['^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$'], // Local packages
+        ['^src', '^~(/.*|$)', '^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$'], // Internal packages
         ['^.+\\.?(css|scss)$'] // Style
       ]
     }],

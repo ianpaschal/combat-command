@@ -10,7 +10,6 @@ import { Cog, Search } from 'lucide-react';
 import { Button } from '~/components/generic/Button';
 import { InputText } from '~/components/generic/InputText';
 import { ScrollArea } from '~/components/generic/ScrollArea';
-
 import { DefaultCell } from './DefaultCell';
 
 import styles from './DataTable.module.scss';

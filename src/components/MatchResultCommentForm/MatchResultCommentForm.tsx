@@ -9,7 +9,6 @@ import { Avatar } from '~/components/generic/Avatar';
 import { Button } from '~/components/generic/Button';
 import { InputTextArea } from '~/components/generic/InputTextArea';
 import { useAddMatchResultComment } from '~/services/matchResultComments/useAddMatchResultComment';
-
 import {
   defaultValues,
   MatchResultCommentFormData,

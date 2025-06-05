@@ -20,7 +20,6 @@ import { Separator } from '~/components/generic/Separator';
 import { TournamentPairingsGrid } from '~/components/TournamentPairingsGrid';
 import { useTournament } from '~/components/TournamentProvider';
 import { useGetDraftTournamentPairings } from '~/services/tournamentPairings/useGetDraftTournamentPairings';
-
 import { ConfirmPairingsDialog, confirmPairingsDialogId } from '../ConfirmPairingsDialog';
 
 import styles from './PairingsStep.module.scss';

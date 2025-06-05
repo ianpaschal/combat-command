@@ -6,7 +6,6 @@ import {
 } from '~/components/generic/Dialog';
 import { TournamentCompetitorForm, TournamentCompetitorSubmitData } from '~/components/TournamentCompetitorForm';
 import { useUpdateTournamentCompetitor } from '~/services/tournamentCompetitors/useUpdateTournamentCompetitor';
-
 import { useTournamentCompetitorEditDialog } from './TournamentCompetitorEditDialog.hooks';
 
 import styles from './TournamentCompetitorEditDialog.module.scss';

@@ -2,7 +2,6 @@ import { HTMLAttributes, ReactElement } from 'react';
 import clsx from 'clsx';
 
 import { Card } from '~/components/generic/Card';
-
 import { TournamentTabHeader } from './TournamentTabHeader';
 
 import styles from './TournamentDetailsCard.module.scss';

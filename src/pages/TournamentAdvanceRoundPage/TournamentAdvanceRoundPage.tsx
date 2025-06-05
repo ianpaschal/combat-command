@@ -14,7 +14,6 @@ import { TournamentProvider } from '~/components/TournamentProvider';
 import { useGetTournamentCompetitorsByTournamentId } from '~/services/tournamentCompetitors';
 import { useGetTournament, useOpenTournamentRound } from '~/services/tournaments';
 import { PATHS } from '~/settings';
-
 import { PairingsStep } from './components/PairingsStep';
 import { PairingsStepHandle } from './components/PairingsStep/PairingsStep';
 import { RosterStep } from './components/RosterStep';

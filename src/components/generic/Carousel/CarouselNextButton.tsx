@@ -4,7 +4,6 @@ import { ArrowRight } from 'lucide-react';
 
 import { Animate } from '~/components/generic/Animate';
 import { Button } from '~/components/generic/Button';
-
 import { useCarousel } from './Carousel.hooks';
 
 import styles from './CarouselNextButton.module.scss';

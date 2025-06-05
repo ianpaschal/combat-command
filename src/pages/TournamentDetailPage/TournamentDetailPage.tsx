@@ -27,7 +27,6 @@ import {
   MIN_WIDTH_DESKTOP,
   MIN_WIDTH_TABLET,
 } from '~/settings';
-
 import { TournamentInfoCard } from './components/TournamentInfoCard';
 import { TournamentPairingsCard } from './components/TournamentPairingsCard';
 import { TournamentRosterCard } from './components/TournamentRosterCard';

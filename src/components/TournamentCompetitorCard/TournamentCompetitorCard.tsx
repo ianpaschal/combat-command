@@ -11,7 +11,6 @@ import { useTournament } from '~/components/TournamentProvider';
 import { useAddPlayerToTournamentCompetitor } from '~/services/tournamentCompetitors';
 import { useRemovePlayerFromTournamentCompetitor } from '~/services/tournamentCompetitors';
 import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
-
 import { useCompetitorAvatar, useCompetitorDisplayName } from './TournamentCompetitorCard.hooks';
 
 import styles from './TournamentCompetitorCard.module.scss';

@@ -5,7 +5,6 @@ import { Table } from '~/components/generic/Table';
 import { useTournament } from '~/components/TournamentProvider';
 import { getTournamentPairingTableConfig } from '~/pages/TournamentDetailPage/components/TournamentPairingsCard.utils';
 import { useGetTournamentPairings } from '~/services/tournamentPairings/useGetTournamentPairings';
-
 import { TournamentDetailsCard } from './TournamentDetailsCard';
 
 import styles from './TournamentPairingsCard.module.scss';

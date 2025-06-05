@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 
 import { TournamentCompetitor } from '~/api';
-
 import { TournamentCompetitorsContext } from './TournamentCompetitorsProvider.context';
 
 export interface UseTournamentCompetitorsArgs {

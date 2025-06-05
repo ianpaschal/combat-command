@@ -10,7 +10,6 @@ import { MatchResultPlayers } from '~/components/MatchResultPlayers';
 import { MatchResultProvider } from '~/components/MatchResultProvider';
 import { MatchResultSocials } from '~/components/MatchResultSocials';
 import { PATHS } from '~/settings';
-
 import { MatchResultPhotos } from './MatchResultPhotos';
 
 import styles from './MatchResultCard.module.scss';

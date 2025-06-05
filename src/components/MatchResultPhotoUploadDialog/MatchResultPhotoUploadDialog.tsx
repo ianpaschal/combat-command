@@ -11,7 +11,6 @@ import { Form } from '~/components/generic/Form';
 import { InputFile } from '~/components/InputFile/InputFile';
 import { useMatchResult } from '~/components/MatchResultProvider';
 import { useAddPhotoToMatchResult } from '~/services/photos/useAddPhotoToMatchResult';
-
 import { useMatchResultPhotoUploadDialog } from './MatchResultPhotoUploadDialog.hooks';
 import {
   defaultValues,

@@ -8,7 +8,6 @@ import {
   UserId,
 } from '~/api';
 import { ElementSize } from '~/types/componentLib';
-
 import { useIdentityElements } from './IdentityBadge.hooks';
 import { IdentityBadgePlaceholder } from './IdentityBadge.types';
 

@@ -13,7 +13,6 @@ import { InputText } from '~/components/generic/InputText';
 import { useTournament } from '~/components/TournamentProvider';
 import { useCreateTournamentCompetitor } from '~/services/tournamentCompetitors/useCreateTournamentCompetitor';
 import { getEtcCountryOptions } from '~/utils/common/getCountryOptions';
-
 import { useTournamentCreateTeamDialog } from './TournamentCreateTeamDialog.hooks';
 import {
   defaultValues,

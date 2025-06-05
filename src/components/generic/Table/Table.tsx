@@ -1,7 +1,6 @@
 import clsx from 'clsx';
 
 import { ScrollArea } from '~/components/generic/ScrollArea';
-
 import { ColumnDef, RowData } from './Table.types';
 import { TableRow } from './TableRow';
 

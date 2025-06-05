@@ -7,7 +7,6 @@ import {
 } from '~/components/generic/Dialog';
 import { useMatchResult } from '~/components/MatchResultProvider';
 import { useDeleteMatchResult } from '~/services/matchResults/useDeleteMatchResult';
-
 import { useMatchResultDeleteDialog } from './MatchResultDeleteDialog.hooks';
 
 import styles from './MatchResultDeleteDialog.module.scss';

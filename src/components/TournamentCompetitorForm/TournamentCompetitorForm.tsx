@@ -22,7 +22,6 @@ import { InputUser } from '~/components/InputUser';
 import { useTournament } from '~/components/TournamentProvider';
 import { useGetTournamentCompetitorsByTournamentId } from '~/services/tournamentCompetitors';
 import { getEtcCountryOptions } from '~/utils/common/getCountryOptions';
-
 import {
   createSchema,
   FormData,

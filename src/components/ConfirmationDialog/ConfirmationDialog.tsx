@@ -11,7 +11,6 @@ import {
 } from '~/components/generic/Dialog';
 import { ScrollArea } from '~/components/generic/ScrollArea';
 import { ElementIntent } from '~/types/componentLib';
-
 import { useConfirmationDialog } from './ConfirmationDialog.hooks';
 
 import styles from './ConfirmationDialog.module.scss';

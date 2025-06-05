@@ -7,7 +7,6 @@ import { useTournamentCompetitors } from '~/components/TournamentCompetitorsProv
 import { useTournament } from '~/components/TournamentProvider';
 import { getTournamentRankingTableConfig, RankingRow } from '~/pages/TournamentDetailPage/components/TournamentRankingsCard.utils';
 import { useGetTournamentRankings } from '~/services/tournaments';
-
 import { TournamentDetailsCard } from './TournamentDetailsCard';
 
 import styles from './TournamentRankingsCard.module.scss';
