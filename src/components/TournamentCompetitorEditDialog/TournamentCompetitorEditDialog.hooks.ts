@@ -19,10 +19,3 @@ export const useTournamentCompetitorEditDialog = () => {
     close: () => closeModal(id),
   };
 };
-
-export const createDialogHandlerHook = <T extends object>() => (key: string) => ({
-  key,
-  data: useModal<T>(key).data,
-  open: (updated?: T) => openModal(key, updated),
-  close: () => closeModal(key),
-});
