@@ -124,7 +124,7 @@ export const TournamentRosterCard = ({
           )}
         </div>
       ) : (
-        <ScrollArea indicatorBorder="top">
+        <ScrollArea indicatorBorders="top">
           <div className={styles.TournamentRoster_CompetitorList}>
             {(tournamentCompetitors || []).map((tournamentCompetitor) => (
               <TournamentCompetitorCard

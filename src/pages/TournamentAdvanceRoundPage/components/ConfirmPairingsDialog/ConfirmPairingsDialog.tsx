@@ -43,7 +43,7 @@ export const ConfirmPairingsDialog = ({
   return (
     <ConfirmationDialog
       id={confirmPairingsDialogId}
-      title={`Confirm Round ${nextRound} Pairings`}
+      title={`Confirm Round ${nextRound + 1} Pairings`}
       intent="default"
       onConfirm={handleConfirm}
     >
