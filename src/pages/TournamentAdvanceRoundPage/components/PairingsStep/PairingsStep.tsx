@@ -10,27 +10,27 @@ import {
   PairingResult,
   TournamentPairingMethod,
   tournamentPairingMethodOptions,
+  UnassignedPairingInput,
 } from '~/api';
 import { ConfirmationDialog, useConfirmationDialog } from '~/components/ConfirmationDialog';
 import { Button } from '~/components/generic/Button';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { Label } from '~/components/generic/Label';
 import { Separator } from '~/components/generic/Separator';
-import { IdentityBadge } from '~/components/IdentityBadge';
-import { TournamentPairingRow } from '~/components/TournamentPairingRow';
 import { TournamentPairingsGrid } from '~/components/TournamentPairingsGrid';
 import { useTournament } from '~/components/TournamentProvider';
 import { useGetDraftTournamentPairings } from '~/services/tournamentPairings/useGetDraftTournamentPairings';
+
+import { ConfirmPairingsDialog, confirmPairingsDialogId } from '../ConfirmPairingsDialog';
 
 import styles from './PairingsStep.module.scss';
 
 const changePairingMethodConfirmDialogId = 'confirm-change-pairing-method';
 const resetPairingsConfirmDialogId = 'confirm-reset-pairings';
-const commitPairingsConfirmDialogId = 'commit-reset-pairings';
 
 export interface PairingsStepProps {
   nextRound: number;
-  onConfirm: (pairings: PairingResult) => void;
+  onConfirm: (pairings: UnassignedPairingInput[]) => void;
 }
 
 export interface PairingsStepHandle {
@@ -63,7 +63,7 @@ export const PairingsStep = forwardRef<PairingsStepHandle, PairingsStepProps>(({
 
   const { open: openChangePairingMethodConfirmDialog } = useConfirmationDialog(changePairingMethodConfirmDialogId);
   const { open: openResetPairingsConfirmDialog } = useConfirmationDialog(resetPairingsConfirmDialogId);
-  const { open: openCommitPairingsConfirmDialog } = useConfirmationDialog(commitPairingsConfirmDialogId);
+  const { open: openConfirmPairingsDialog } = useConfirmationDialog(confirmPairingsDialogId);
 
   const handleChangePairingMethod = (value: TournamentPairingMethod): void => {
     if (isDirty) {
@@ -88,15 +88,8 @@ export const PairingsStep = forwardRef<PairingsStepHandle, PairingsStepProps>(({
   };
 
   useImperativeHandle(ref, () => ({
-    validate: openCommitPairingsConfirmDialog,
+    validate: openConfirmPairingsDialog,
   }));
-
-  const handleConfirm = () => {
-    if (!manualPairings) {
-      throw new Error('cannot confirm non-existent pairings!');
-    }
-    onConfirm(manualPairings);
-  };
 
   return (
     <div className={styles.PairingStep}>
@@ -126,34 +119,11 @@ export const PairingsStep = forwardRef<PairingsStepHandle, PairingsStepProps>(({
         title="Confirm Reset Pairing Method"
         description="Are you sure you want to reset? The existing pairings will be replaced."
       />
-      <ConfirmationDialog
-        id={commitPairingsConfirmDialogId}
-        title={`Confirm Round ${nextRound} Pairings`}
-        intent="default"
-        onConfirm={handleConfirm}
-      >
-        <div className={styles.PairingStep_ConfirmationContent}>
-          <div className={styles.PairingStep_ConfirmationSection}>
-            <h3>Pairings</h3>
-            <p>The following pairings will be created:</p>
-          </div>
-          {(manualPairings?.pairings || []).map((pairing, i) => (
-            <TournamentPairingRow key={`pairing_${i}`} pairing={pairing} />
-          ))}
-          {!!(manualPairings?.unpairedCompetitors.length) && (
-            <>
-              <Separator />
-              <div className={styles.PairingStep_ConfirmationSection}>
-                <h3>Unpaired Competitors</h3>
-                <p>The following competitors are not paired. They will receive byes and fake match results will need to be submitted (depending on how your rules pack treats byes):</p>
-              </div>
-              {(manualPairings?.unpairedCompetitors || []).map((competitor, i) => (
-                <IdentityBadge key={`unpaired_${i}`} competitorId={competitor.id} />
-              ))}
-            </>
-          )}
-        </div>
-      </ConfirmationDialog>
+      <ConfirmPairingsDialog
+        nextRound={nextRound}
+        manualPairings={manualPairings}
+        onConfirm={onConfirm}
+      />
     </div>
   );
 });

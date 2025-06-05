@@ -68,8 +68,12 @@ export const useScrollIndicators = (indicatorBorder?: string | string[]): UseScr
       return;
     }
 
-    // Viewport size
-    const { width, height } = ref.current.getBoundingClientRect();
+    /* Viewport size
+     * Use .offsetHeight instead of .getBoundingClientRect() so that it's the intrinsic height, not
+     * the rendered height (which might be affected by entry animations).
+     */
+    const height = ref.current.offsetHeight;
+    const width = ref.current.offsetWidth;
 
     // Scroll content offset and size
     const { scrollTop, scrollLeft, scrollHeight, scrollWidth } = ref.current;
@@ -77,7 +81,7 @@ export const useScrollIndicators = (indicatorBorder?: string | string[]): UseScr
     // If the difference between the height and scrollHeight is less than 1px, the browser doesn't allow scrolling anyway.
     setVisible({
       top: scrollTop > 0,
-      bottom: scrollHeight - scrollTop > height,
+      bottom: scrollHeight > height,
       left: scrollLeft > 0,
       right:  (scrollWidth - width > 1) && (scrollLeft + width < scrollWidth),
     });

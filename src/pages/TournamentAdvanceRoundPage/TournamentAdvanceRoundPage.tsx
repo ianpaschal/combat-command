@@ -5,7 +5,7 @@ import {
   useParams,
 } from 'react-router-dom';
 
-import { PairingResult, TournamentId } from '~/api';
+import { TournamentId, UnassignedPairingInput } from '~/api';
 import { Button } from '~/components/generic/Button';
 import { PageWrapper } from '~/components/PageWrapper';
 import { toast } from '~/components/ToastProvider';
@@ -20,7 +20,6 @@ import { PairingsStepHandle } from './components/PairingsStep/PairingsStep';
 import { RosterStep } from './components/RosterStep';
 import { RosterStepHandle } from './components/RosterStep/RosterStep';
 import { useWizardSteps } from './TournamentAdvanceRoundPage.hooks';
-import { convertPairingResult } from './TournamentAdvanceRoundPage.utils';
 
 export const TournamentAdvanceRoundPage = (): JSX.Element => {
   const params = useParams();
@@ -49,10 +48,10 @@ export const TournamentAdvanceRoundPage = (): JSX.Element => {
     pairingsStepRef,
   ]);
 
-  const onConfirmPairings = async (value: PairingResult) => {
+  const onConfirmPairings = async (unassignedPairings: UnassignedPairingInput[]): Promise<void> => {
     await openTournamentRound({
       id: tournamentId,
-      unassignedPairings: convertPairingResult(value),
+      unassignedPairings,
     });
   };
 

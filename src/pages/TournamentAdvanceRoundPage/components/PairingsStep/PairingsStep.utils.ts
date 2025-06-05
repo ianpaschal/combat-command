@@ -1,6 +1,6 @@
-import { PairingResult } from '~/api';
+import { PairingResult, UnassignedPairingInput } from '~/api';
 
-export const convertPairingResult = (pairingResult: PairingResult) => [
+export const convertPairingResult = (pairingResult: PairingResult): UnassignedPairingInput[] => [
   ...pairingResult.pairings.map((pairing) => ({
     tournamentCompetitor0Id: pairing[0].id,
     tournamentCompetitor1Id: pairing[1].id,
