@@ -77,7 +77,7 @@ export const useScrollIndicators = (indicatorBorder?: string | string[]): UseScr
     // If the difference between the height and scrollHeight is less than 1px, the browser doesn't allow scrolling anyway.
     setVisible({
       top: scrollTop > 0,
-      bottom: scrollHeight - scrollTop > Math.ceil(height),
+      bottom: scrollHeight - scrollTop > height,
       left: scrollLeft > 0,
       right:  (scrollWidth - width > 1) && (scrollLeft + width < scrollWidth),
     });

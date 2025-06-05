@@ -16,6 +16,7 @@ import { useScrollIndicators } from '~/components/generic/ScrollArea/ScrollArea.
 import { bem } from '~/utils/componentLib/bem';
 
 import './ScrollArea.scss';
+import styles from './ScrollArea.module.scss';
 
 const cn = bem('ScrollArea');
 
@@ -38,7 +39,8 @@ export const ScrollArea = forwardRef<ScrollAreaRef, ScrollAreaProps>(({
         {children}
       </Viewport>
       <div className={cn('IndicatorTop', indicatorProps.top)} />
-      <div className={cn('IndicatorBottom', indicatorProps.bottom)} />
+      {/* <div className={cn('IndicatorBottom', indicatorProps.bottom)} /> */}
+      <div className={styles.ScrollArea_IndicatorBottom} data-visible={indicatorProps?.bottom?.visible} />
       <div className={cn('IndicatorLeft', indicatorProps.left)} />
       <div className={cn('IndicatorRight', indicatorProps.right)} />
       <Scrollbar className={cn('Scrollbar')} orientation="vertical">

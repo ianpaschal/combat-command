@@ -10,10 +10,6 @@ export const deleteTestTournament = async (
   ctx: MutationCtx,
   { id }: Infer<typeof deleteTestTournamentArgs>,
 ) => {
-  if (process.env.VITE_ENVIRONMENT !== 'development') {
-    throw new Error('This mutation is disabled in production!');
-  }
-
   // 1. Delete the tournament
   await ctx.db.delete(id);
 
