@@ -46,6 +46,7 @@ export type UpdateTournamentCompetitorArgs = typeof api.tournamentCompetitors.up
 export type TournamentPairingId = Id<'tournamentPairings'>;
 export type TournamentPairing = typeof api.tournamentPairings.getTournamentPairings._returnType[number];
 export type GetDraftTournamentPairingsArgs = typeof api.tournamentPairings.getDraftTournamentPairings._args;
+export { type TournamentPairingDeep } from '../convex/_model/tournamentPairings';
 export type { UnassignedPairingInput } from '../convex/_model/tournaments/actions/openTournamentRound';
 
 // Tournament Timers

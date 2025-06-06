@@ -52,6 +52,7 @@ import type * as _model_tournamentPairings_helpers_shuffle from "../_model/tourn
 import type * as _model_tournamentPairings_helpers_testHelpers from "../_model/tournamentPairings/helpers/testHelpers.js";
 import type * as _model_tournamentPairings_helpers from "../_model/tournamentPairings/helpers.js";
 import type * as _model_tournamentPairings_index from "../_model/tournamentPairings/index.js";
+import type * as _model_tournamentPairings_queries_getActiveTournamentPairingsByUser from "../_model/tournamentPairings/queries/getActiveTournamentPairingsByUser.js";
 import type * as _model_tournamentPairings_queries from "../_model/tournamentPairings/queries.js";
 import type * as _model_tournamentRankings__helpers_aggregateResults from "../_model/tournamentRankings/_helpers/aggregateResults.js";
 import type * as _model_tournamentRankings__helpers_averageResults from "../_model/tournamentRankings/_helpers/averageResults.js";
@@ -84,6 +85,7 @@ import type * as _model_tournaments_index from "../_model/tournaments/index.js";
 import type * as _model_tournaments_mutations from "../_model/tournaments/mutations.js";
 import type * as _model_tournaments_queries_getTournamentOpenRound from "../_model/tournaments/queries/getTournamentOpenRound.js";
 import type * as _model_tournaments_queries_getTournamentRankings from "../_model/tournaments/queries/getTournamentRankings.js";
+import type * as _model_tournaments_queries_getTournamentsByStatus from "../_model/tournaments/queries/getTournamentsByStatus.js";
 import type * as _model_tournaments_queries from "../_model/tournaments/queries.js";
 import type * as _model_utils__helpers_mockData from "../_model/utils/_helpers/mockData.js";
 import type * as _model_utils__helpers_testUsers from "../_model/utils/_helpers/testUsers.js";
@@ -201,6 +203,7 @@ declare const fullApi: ApiFromModules<{
   "_model/tournamentPairings/helpers/testHelpers": typeof _model_tournamentPairings_helpers_testHelpers;
   "_model/tournamentPairings/helpers": typeof _model_tournamentPairings_helpers;
   "_model/tournamentPairings/index": typeof _model_tournamentPairings_index;
+  "_model/tournamentPairings/queries/getActiveTournamentPairingsByUser": typeof _model_tournamentPairings_queries_getActiveTournamentPairingsByUser;
   "_model/tournamentPairings/queries": typeof _model_tournamentPairings_queries;
   "_model/tournamentRankings/_helpers/aggregateResults": typeof _model_tournamentRankings__helpers_aggregateResults;
   "_model/tournamentRankings/_helpers/averageResults": typeof _model_tournamentRankings__helpers_averageResults;
@@ -233,6 +236,7 @@ declare const fullApi: ApiFromModules<{
   "_model/tournaments/mutations": typeof _model_tournaments_mutations;
   "_model/tournaments/queries/getTournamentOpenRound": typeof _model_tournaments_queries_getTournamentOpenRound;
   "_model/tournaments/queries/getTournamentRankings": typeof _model_tournaments_queries_getTournamentRankings;
+  "_model/tournaments/queries/getTournamentsByStatus": typeof _model_tournaments_queries_getTournamentsByStatus;
   "_model/tournaments/queries": typeof _model_tournaments_queries;
   "_model/utils/_helpers/mockData": typeof _model_utils__helpers_mockData;
   "_model/utils/_helpers/testUsers": typeof _model_utils__helpers_testUsers;

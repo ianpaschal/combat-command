@@ -2,7 +2,7 @@ import { Infer, v } from 'convex/values';
 
 import { QueryCtx } from '../../_generated/server';
 import { notNullOrUndefined } from '../_helpers/notNullOrUndefined';
-import { getDeepTournament } from './helpers';
+import { getTournamentDeep } from './helpers';
 
 export const getTournamentArgs = v.object({
   id: v.id('tournaments'),
@@ -16,7 +16,7 @@ export const getTournament = async (
   if (!result) {
     return null;
   }
-  return await getDeepTournament(ctx, result);
+  return await getTournamentDeep(ctx, result);
 };
 
 export const getTournaments = async (
@@ -25,7 +25,7 @@ export const getTournaments = async (
   const result = await ctx.db.query('tournaments').collect();
   const deepResults = await Promise.all(
     result.map(
-      async (item) => await getDeepTournament(ctx, item),
+      async (item) => await getTournamentDeep(ctx, item),
     ),
   );
 

@@ -10,6 +10,9 @@ export const tournamentPairings = defineTable({
 );
 
 export {
+  type TournamentPairingDeep,
+} from './helpers';
+export {
   getDraftTournamentPairings,
   getDraftTournamentPairingsArgs,
   getTournamentPairing,
@@ -17,3 +20,7 @@ export {
   getTournamentPairings,
   getTournamentPairingsArgs,
 } from './queries';
+export {
+  getActiveTournamentPairingsByUser,
+  getActiveTournamentPairingsByUserArgs,
+} from './queries/getActiveTournamentPairingsByUser';

@@ -1,17 +1,20 @@
-import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import clsx from 'clsx';
 
-import {
-  MatchResultId,
-  TournamentId,
-  TournamentPairingId,
-} from '~/api';
+import { MatchResultId, TournamentPairingId } from '~/api';
+import { useAuth } from '~/components/AuthProvider';
 import { Form } from '~/components/generic/Form';
+import { InputSelect } from '~/components/generic/InputSelect';
+import { SelectValue } from '~/components/generic/InputSelect/InputSelect.types';
+import { Label } from '~/components/generic/Label';
 import { Separator } from '~/components/generic/Separator';
+import { useAsyncState } from '~/hooks/useAsyncState';
 import { useCreateMatchResult } from '~/services/matchResults/useCreateMatchResult';
 import { useFetchMatchResult } from '~/services/matchResults/useFetchMatchResult';
 import { useUpdateMatchResult } from '~/services/matchResults/useUpdateMatchResult';
+import { useGetActiveTournamentPairingsByUser } from '~/services/tournamentPairings';
+import { getTournamentPairingDisplayName } from '~/utils/common/getTournamentPairingDisplayName';
 import { CommonFields } from './components/CommonFields';
 import { GameConfigFields } from './components/GameConfigFields';
 import { SingleMatchPlayersFields } from './components/SingleMatchPlayersFields';
@@ -27,7 +30,6 @@ import styles from './FowV4MatchResultForm.module.scss';
 export interface FowV4MatchResultFormProps {
   id: string;
   className?: string;
-  tournamentId?: TournamentId;
   matchResultId?: MatchResultId;
   onSuccess?: () => void;
 }
@@ -35,14 +37,28 @@ export interface FowV4MatchResultFormProps {
 export const FowV4MatchResultForm = ({
   id,
   className,
-  // tournamentId,
   matchResultId,
   onSuccess,
 }: FowV4MatchResultFormProps): JSX.Element => {
-  const [tournamentPairingId] = useState<TournamentPairingId | 'single'>('single');
+  const user = useAuth();
+
+  const {
+    data: matchResult,
+    loading: matchResultLoading,
+  } = useFetchMatchResult(matchResultId);
+
+  const [
+    tournamentPairingId,
+    setTournamentPairingId,
+  ] = useAsyncState<TournamentPairingId | 'single'>('single', matchResult?.tournamentPairingId);
+
   // const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
 
-  const { data: matchResult, loading } = useFetchMatchResult(matchResultId);
+  const {
+    data: tournamentPairings,
+    loading: tournamentPairingsLoading,
+  } = useGetActiveTournamentPairingsByUser(user ? { userId: user._id } : 'skip');
+
   const { createMatchResult } = useCreateMatchResult({
     onSuccess,
   });
@@ -70,14 +86,14 @@ export const FowV4MatchResultForm = ({
       throw new Error('Failed to parse form schema!');
     }
     const playedAt = new Date().toISOString();
-    if (tournamentPairingId === 'single') {
+    if (tournamentPairingId !== 'single') {
+      // setConfirmDialogOpen(true);
+    } else {
       if (matchResult) {
         updateMatchResult({ ...data, id: matchResult._id, playedAt });
       } else {
         createMatchResult({ ...data, playedAt });
       }
-    } else {
-      // setConfirmDialogOpen(true);
     }
   };
 
@@ -96,44 +112,51 @@ export const FowV4MatchResultForm = ({
   //   }
   // };
 
-  // const resultForOptions = [
-  //   { value: 'single', label: 'Single Match' },
-  //   // { value: 'foo', label: 'Belgian Nationals | Ian vs Rob' },
-  // ];
+  const resultForOptions = [
+    { value: 'single', label: 'Single Match' },
+    ...(tournamentPairings || []).map((pairing) => ({
+      value: pairing._id,
+      label: getTournamentPairingDisplayName(pairing),
+    })),
+  ];
 
-  // const handleChangeResultFor = (value?: SelectValue): void => {
-  //   if (value) {
-  //     // TODO: Remove cast
-  //     setTournamentPairingId(value as TournamentPairingId);
-  //   }
-  // };
-  if (loading) {
+  const handleChangeResultFor = (value?: SelectValue): void => {
+    if (value) {
+      // TODO: Remove cast
+      setTournamentPairingId(value as TournamentPairingId);
+    }
+  };
+  if (tournamentPairingsLoading || matchResultLoading) {
     return <div>Loading...</div>;
   }
   return (
-    <Form id={id} form={form} onSubmit={onSubmit} className={className}>
-      <div className={styles.Root}>
-        {/* TODO: Enable for tournaments eventually */}
-        {/* <FormField label="Result For">
-          <InputSelect
-            options={resultForOptions}
-            value={tournamentPairingId}
-            onChange={handleChangeResultFor}
-          />
-        </FormField>
-        <Separator /> */}
-        {tournamentPairingId !== 'single' ? (
-          <TournamentPlayersFields tournamentPairingId={tournamentPairingId} />
-        ) : (
-          <>
-            <SingleMatchPlayersFields />
-            <Separator />
-            <GameConfigFields />
-          </>
-        )}
-        <Separator />
-        <CommonFields />
-      </div>
+    <Form id={id} form={form} onSubmit={onSubmit} className={clsx(styles.FowV4MatchResultForm, className)}>
+      {!matchResultId && (
+        <>
+          <div className={styles.FowV4MatchResultForm_ResultForSection}>
+            <Label>
+              Result For
+            </Label>
+            <InputSelect
+              options={resultForOptions}
+              value={tournamentPairingId}
+              onChange={handleChangeResultFor}
+            />
+          </div>
+          <Separator />
+        </>
+      )}
+      {tournamentPairingId !== 'single' ? (
+        <TournamentPlayersFields tournamentPairingId={tournamentPairingId} />
+      ) : (
+        <>
+          <SingleMatchPlayersFields />
+          <Separator />
+          <GameConfigFields />
+        </>
+      )}
+      <Separator />
+      <CommonFields />
       {/* <Dialog
         title="Are all details correct?"
         description="After you submit the match you will still be able to add notes and photos, but the game configuration and outcome can no longer be changed!"

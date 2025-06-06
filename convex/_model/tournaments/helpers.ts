@@ -5,7 +5,7 @@ import { QueryCtx } from '../../_generated/server';
 import { getStorageUrl } from '../_helpers/getStorageUrl';
 import { getTournamentCompetitorsByTournamentId } from '../tournamentCompetitors/helpers';
 
-export const getDeepTournament = async (
+export const getTournamentDeep = async (
   ctx: QueryCtx,
   tournament: Doc<'tournaments'>,
 ) => {
@@ -53,6 +53,8 @@ export const getDeepTournament = async (
     useTeams,
   };
 };
+
+export type TournamentDeep = Awaited<ReturnType<typeof getTournamentDeep>>;
 
 export const getTournamentUserIds = async (
   ctx: QueryCtx,

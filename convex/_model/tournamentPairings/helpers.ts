@@ -33,12 +33,18 @@ export const getDeepTournamentPairing = async (
     ...tournamentPairing,
     tournamentCompetitor0,
     tournamentCompetitor1,
+    playerUserIds: [
+      ...tournamentCompetitor0.players.map((player) => player.user._id),
+      ...(tournamentCompetitor1?.players ?? []).map((player) => player.user._id),
+    ],
     matchResultsProgress: {
       submitted: matchResults.length,
       required: competitorSize,
     },
   };
 };
+
+export type TournamentPairingDeep = Awaited<ReturnType<typeof getDeepTournamentPairing>>;
 
 export const getTournamentPairingsByTournamentId = async (
   ctx: QueryCtx,

@@ -7,6 +7,8 @@ export const tournaments = defineTable({
   ...computedFields,
 }).index(
   'by_game_system_id', ['gameSystemId'],
+).index(
+  'by_status', ['status'],
 );
 
 export {
@@ -29,6 +31,10 @@ export {
   startTournament,
   startTournamentArgs,
 } from './actions/startTournament';
+export {
+  getTournamentDeep,
+  type TournamentDeep,
+} from './helpers';
 export {
   createTournament,
   createTournamentArgs,
