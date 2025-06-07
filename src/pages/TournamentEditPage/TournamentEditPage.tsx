@@ -14,7 +14,7 @@ import { useGetTournament, useUpdateTournament } from '~/services/tournaments';
 import { PATHS } from '~/settings';
 
 const WIDTH = 960;
-const FORM_ID = 'tournament-create-form';
+const FORM_ID = 'tournament-edit-form';
 
 export const TournamentEditPage = (): JSX.Element => {
   const { pathname } = useLocation();
@@ -24,9 +24,9 @@ export const TournamentEditPage = (): JSX.Element => {
   const navigate = useNavigate();
 
   const { mutation: updateTournament, loading } = useUpdateTournament({
-    onSuccess: (id: string): void => {
+    onSuccess: (): void => {
       toast.success('Changes saved!');
-      navigate(generatePath(PATHS.tournamentDetails, { id }));
+      navigate(generatePath(PATHS.tournamentDetails, { id: tournamentId }));
     },
   });
 
