@@ -58,9 +58,10 @@ export const InputSelect = forwardRef<SelectRef, SelectProps<number | string>>((
   };
   const stringValue: string | undefined = value !== undefined && typeof value === 'number' ? value.toString() : value;
   const stringOptions = options.map((item) => ({ value: typeof item.value === 'number' ? item.value.toString() : item.value, label: item.label }));
+  const showDisabled = disabled || options.length < 2;
   return (
-    <Root onValueChange={handleChange} disabled={disabled} value={stringValue} {...props}>
-      <Trigger className={clsx('InputSelectTrigger', { 'InputSelectTrigger--hasError': hasError, 'InputSelectTrigger--disabled': disabled })}>
+    <Root onValueChange={handleChange} disabled={showDisabled} value={stringValue} {...props}>
+      <Trigger className={clsx('InputSelectTrigger', { 'InputSelectTrigger--hasError': hasError, 'InputSelectTrigger--disabled': showDisabled })}>
         <Value ref={ref} placeholder={placeholder} />
         <Icon className="SelectIcon">
           <ChevronDown />
