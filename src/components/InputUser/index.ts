@@ -1,0 +1,1 @@
+export { InputUser } from './InputUser';
