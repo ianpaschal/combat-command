@@ -1,0 +1,123 @@
+@use "/src/style/corners";
+@use "/src/style/flex";
+@use "/src/style/sizes";
+@use "/src/style/text";
+@use "/src/style/variables";
+@use "/src/style/shadows";
+
+.InfoPopover {
+  @include flex.centered;
+  @include sizes.small;
+
+  position: relative;
+
+  .InfoPopover_Wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &_Arrow {
+    fill: var(--primary-default-bg);
+  }
+
+  &_Content {
+    @include corners.tight;
+    @include shadows.elevated;
+    @include text.ui;
+
+    will-change: transform, opacity;
+
+    padding: 0.625rem 0.75rem 0.5rem;
+
+    color: var(--primary-default-text);
+    text-align: center;
+    text-wrap: balance;
+
+    background-color: var(--primary-default-bg);
+
+    animation-duration: 500ms;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+
+    &[data-state="open"][data-side="top"] {
+      animation-name: slide-down;
+    }
+
+    &[data-state="open"][data-side="right"] {
+      animation-name: slide-left;
+    }
+
+    &[data-state="open"][data-side="bottom"] {
+      animation-name: slide-up;
+    }
+
+    &[data-state="open"][data-side="left"] {
+      animation-name: slide-right;
+    }
+
+    &[data-state="closed"] {
+      animation-name: fade-out;
+    }
+  }
+}
+
+@keyframes fade-out {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  to {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(8px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-right {
+  from {
+    transform: translateX(-8px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-down {
+  from {
+    transform: translateY(-8px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-left {
+  from {
+    transform: translateX(8px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
