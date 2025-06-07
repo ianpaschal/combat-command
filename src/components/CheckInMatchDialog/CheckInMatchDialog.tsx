@@ -1,6 +1,5 @@
 import { ReactNode, useState } from 'react';
 
-import { TournamentId } from '~/api';
 import { FowV4MatchResultForm } from '~/components/FowV4MatchResultForm';
 import { Dialog } from '~/components/generic/Dialog';
 import { ScrollArea } from '~/components/generic/ScrollArea';
@@ -10,13 +9,11 @@ import styles from './CheckInMatchDialog.module.scss';
 export interface CheckInMatchDialogProps {
   children?: ReactNode;
   trigger?: ReactNode;
-  tournamentId?: TournamentId;
 }
 
 export const CheckInMatchDialog = ({
   children,
   trigger,
-  tournamentId,
 }: CheckInMatchDialogProps): JSX.Element => {
   const [open, setOpen] = useState<boolean>(false);
   return (
@@ -34,7 +31,6 @@ export const CheckInMatchDialog = ({
         <FowV4MatchResultForm
           id="fow-v4-match-result-form"
           className={styles.Form}
-          tournamentId={tournamentId}
           onSuccess={() => setOpen(false)}
         />
       </ScrollArea>
