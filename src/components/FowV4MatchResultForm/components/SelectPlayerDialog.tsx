@@ -69,7 +69,7 @@ export const SelectPlayerDialog = ({
           <ScrollArea className={styles.ScrollArea}>
             <div className={styles.UserList}>
               {selectableUsers.map((user, i) => (
-                <div className={styles.UserListItem} key={i} >
+                <div className={styles.UserListItem} key={i}>
                   <Avatar url={user.avatarUrl} className={styles.UserAvatar} />
                   <div className={styles.UserDisplayName}>
                     {getUserDisplayNameReact(user)}
@@ -94,7 +94,7 @@ export const SelectPlayerDialog = ({
         <div className={styles.PlaceholderInput}>
           <InputText value={placeholder} onChange={handleChangePlaceholder} />
           <Close asChild>
-            <Button onClick={() => onConfirm({ placeholder })} >
+            <Button onClick={() => onConfirm({ placeholder })}>
               Set
             </Button>
           </Close>

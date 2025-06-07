@@ -25,7 +25,7 @@ export const PopoverMenu = ({
   children,
   menuItems = [],
 }: PopoverMenuProps): JSX.Element => (
-  <Root >
+  <Root>
     <Trigger className={className} asChild>
       {children}
     </Trigger>

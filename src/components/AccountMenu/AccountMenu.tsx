@@ -33,7 +33,7 @@ export const AccountMenu = (): JSX.Element => {
     },
   ];
   return (
-    <Popover.Root >
+    <Popover.Root>
       <Popover.Trigger className={styles.Trigger}>
         <Avatar url={user?.avatarUrl} />
       </Popover.Trigger>

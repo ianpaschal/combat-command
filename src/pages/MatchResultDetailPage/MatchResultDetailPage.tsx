@@ -69,6 +69,6 @@ export const MatchResultDetailPage = (): JSX.Element => {
           <MatchResultPhotoUploadDialog />
         </MatchResultProvider>
       )}
-    </PageWrapper >
+    </PageWrapper>
   );
 };
