@@ -27,11 +27,18 @@
   width: 100%;
   height: 100%;
 
+  color: var(--text-color-default);
+
   background-color: var(--secondary-default-bg);
 
   svg {
     width: min(60%, 48px);
     height: min(60%, 48px);
+  }
+
+  &-muted {
+    color: var(--text-color-muted);
+    background-color: var(--secondary-default-bg);
   }
 }
 
