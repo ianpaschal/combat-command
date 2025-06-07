@@ -23,7 +23,11 @@
   &[data-state="active"] {
     @include shadows.surface;
 
-    background-color: variables.$white;
+    background-color: var(--card-bg);
+
+    &:hover {
+      background-color: var(--card-bg);
+    }
   }
 
   &[data-state="inactive"] {

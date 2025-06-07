@@ -9,7 +9,7 @@
   border-radius: 100%;
 
   // A normal border pushes the background image 1px away from the edges giving the circle "flat sides"
-  box-shadow: inset var(--border-color) 0 0 0 1px;
+  box-shadow: inset var(--border-color-default) 0 0 0 1px;
 }
 
 .FlagCircle-merc {
