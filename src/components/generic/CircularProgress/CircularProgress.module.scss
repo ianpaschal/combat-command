@@ -1,0 +1,37 @@
+@use "/src/style/variables";
+
+.CircularProgress {
+  position: relative;
+  flex: 0 auto;
+
+  svg {
+    inset: 0;
+  }
+
+  &_InnerWrapper {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &_Track {
+    stroke: var(--secondary-default-bg);
+  }
+
+  &_Fill {
+    stroke: var(--text-color-default);
+
+    &[data-color="green"] {
+      stroke: var(--text-color-success);
+    }
+
+    &[data-color="red"] {
+      stroke: var(--text-color-negative);
+    }
+
+    &[data-color="yellow"] {
+      stroke: var(--text-color-warning);
+    }
+  }
+}
