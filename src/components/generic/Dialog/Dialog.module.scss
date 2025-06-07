@@ -27,8 +27,13 @@
   @include flex.column($gap: 0);
 
   pointer-events: none;
+
   position: relative;
+
+  overflow: hidden;
+
   max-height: 100%;
+
   background-color: var(--card-bg);
 
   &-small {
