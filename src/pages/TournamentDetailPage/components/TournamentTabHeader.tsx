@@ -1,11 +1,15 @@
-import { HTMLAttributes, ReactNode } from 'react';
+import {
+  cloneElement,
+  HTMLAttributes,
+  ReactElement,
+} from 'react';
 import clsx from 'clsx';
 
 import styles from './TournamentTabHeader.module.scss';
 
 export interface TournamentTabHeaderProps extends HTMLAttributes<HTMLDivElement> {
   title: string;
-  buttons?: ReactNode[];
+  buttons?: ReactElement[];
 }
 
 export const TournamentTabHeader = ({
@@ -17,7 +21,7 @@ export const TournamentTabHeader = ({
     <h2>{title}</h2>
     {buttons && buttons.length && (
       <div className={styles.TournamentTabHeader_Actions}>
-        {buttons}
+        {buttons.map((button, i) => cloneElement(button, { key: i }))}
       </div>
     )}
   </div>
