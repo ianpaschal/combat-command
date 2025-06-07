@@ -1,5 +1,5 @@
+import { ReactElement } from 'react';
 import { generatePath } from 'react-router-dom';
-import { ScrollArea } from '@radix-ui/react-scroll-area';
 import clsx from 'clsx';
 import {
   Link,
@@ -9,6 +9,7 @@ import {
 
 import { useAuth } from '~/components/AuthProvider';
 import { Button } from '~/components/generic/Button';
+import { ScrollArea } from '~/components/generic/ScrollArea';
 import { toast } from '~/components/ToastProvider';
 import { TournamentCompetitorCard } from '~/components/TournamentCompetitorCard';
 import { TournamentCreateTeamDialog } from '~/components/TournamentCreateTeamDialog';
@@ -32,7 +33,6 @@ export const TournamentRosterCard = ({
   const tournament = useTournament();
   const userIsPlayer = !!(user && tournament.playerUserIds.includes(user._id));
   const userIsOrganizer = !!(user && tournament.organizerUserIds.includes(user._id));
-  const isTeamTournament = tournament.competitorSize > 1;
 
   const { open: openTournamentCreateTeamDialog } = useTournamentCreateTeamDialog(tournament._id);
 
@@ -71,27 +71,27 @@ export const TournamentRosterCard = ({
 
   };
 
-  const getPrimaryButton = (): JSX.Element | undefined => {
+  const getPrimaryButtons = (): ReactElement[] | undefined => {
     if (userIsPlayer) {
-      return (
+      return [
         <Button variant="secondary">
           <UserMinus />Leave
-        </Button>
-      );
+        </Button>,
+      ];
     }
-    if (!isTeamTournament && user && !userIsOrganizer && !userIsPlayer) {
-      return (
+    if (!tournament.useTeams && user && !userIsOrganizer && !userIsPlayer) {
+      return [
         <Button onClick={handleRegister}>
           <UserPlus />Register
-        </Button>
-      );
+        </Button>,
+      ];
     }
-    if (isTeamTournament && user && !userIsOrganizer && !userIsPlayer) {
-      return (
+    if (tournament.useTeams && user && !userIsOrganizer && !userIsPlayer) {
+      return [
         <Button onClick={openTournamentCreateTeamDialog}>
           <UserPlus />New Team
-        </Button>
-      );
+        </Button>,
+      ];
     }
   };
 
@@ -99,7 +99,7 @@ export const TournamentRosterCard = ({
     <TournamentDetailsCard
       className={clsx(className)}
       title="Roster"
-      buttons={[getPrimaryButton()]}
+      buttons={getPrimaryButtons()}
     >
       {showEmptyState ? (
         <div className={styles.TournamentRoster_EmptyState}>
@@ -123,7 +123,7 @@ export const TournamentRosterCard = ({
           )}
         </div>
       ) : (
-        <ScrollArea>
+        <ScrollArea indicatorBorders="top">
           <div className={styles.TournamentRoster_CompetitorList}>
             {(tournamentCompetitors || []).map((tournamentCompetitor) => (
               <TournamentCompetitorCard
@@ -135,6 +135,6 @@ export const TournamentRosterCard = ({
         </ScrollArea>
       )}
       <TournamentCreateTeamDialog />
-    </TournamentDetailsCard >
+    </TournamentDetailsCard>
   );
 };
