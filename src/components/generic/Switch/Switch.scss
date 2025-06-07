@@ -34,7 +34,7 @@ $thumb-offset: calc($switch-width - ($thumb-inset + $thumb-size));
   }
 
   &_Thumb {
-    @include shadows.surface-shadow;
+    @include shadows.surface;
 
     pointer-events: none;
 

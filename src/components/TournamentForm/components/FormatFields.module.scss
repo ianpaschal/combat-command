@@ -33,21 +33,21 @@
 
     &_PairingTime {
       @include corners.tight;
-      @include shadows.surface-shadow;
+      @include shadows.surface;
 
       background-color: var(--crimson-9);
     }
 
     &_SetUpTime {
       @include corners.tight;
-      @include shadows.surface-shadow;
+      @include shadows.surface;
 
       background-color: var(--plum-9);
     }
 
     &_PlayingTime {
       @include corners.tight;
-      @include shadows.surface-shadow;
+      @include shadows.surface;
 
       background-color: var(--iris-9);
     }
@@ -76,7 +76,7 @@
     text-wrap: nowrap;
 
     span {
-      @include shadows.surface-shadow;
+      @include shadows.surface;
 
       display: block;
       aspect-ratio: 1;

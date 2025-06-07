@@ -20,7 +20,7 @@
 
 .Content {
   @include borders.normal;
-  @include shadows.shadow;
+  @include shadows.elevated;
   @include animate.duration-quick;
   @include animate.style-pop;
 
