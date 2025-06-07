@@ -1,7 +1,7 @@
 export type ElementVariant = 'primary' | 'secondary' | 'outlined' | 'ghost';
 
-export type ElementIntent = 'danger' | 'default';
+export type ElementIntent = 'danger' | 'default' | 'success' | 'info' | 'warning';
 
-export type ElementSize = 'tiny' | 'small' | 'normal' | 'large' | null;
+export type ElementSize = 'tiny' | 'small' | 'normal' | 'large';
 
 export type ElementOrientation = 'horizontal' | 'vertical';

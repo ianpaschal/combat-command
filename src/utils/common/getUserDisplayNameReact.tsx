@@ -8,12 +8,17 @@ export const getUserDisplayNameReact = (userProfile?: User): ReactNode => {
   }
 
   if (userProfile.givenName && !userProfile.familyName) {
-    return <>{userProfile.givenName}</>;
+    return <span>{userProfile.givenName}</span>;
   }
 
   if (userProfile.givenName && userProfile.familyName) {
-    return <>{userProfile.givenName} <br /> {userProfile.familyName}</>;
+    return (
+      <>
+        <span>{userProfile.givenName}</span>
+        <span>{userProfile.familyName}</span>
+      </>
+    );
   }
 
-  return <>{userProfile?.username || 'Unknown User'}</>;
+  return <span>{userProfile?.username || 'Unknown User'}</span>;
 };
