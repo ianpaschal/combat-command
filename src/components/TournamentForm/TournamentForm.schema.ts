@@ -47,8 +47,8 @@ export const tournamentFormSchema = z.object({
   startsAt: z.string(), // Local time 0000-00-00T00:00
   endsAt: z.string(), // Local time 0000-00-00T00:00
   registrationClosesAt: z.string(),
-  logoFile: z.union([z.instanceof(File), z.null()]),
-  bannerFile: z.union([z.instanceof(File), z.null()]),
+  logoFile: z.optional(z.instanceof(File)),
+  bannerFile: z.optional(z.instanceof(File)),
 
   // Competitor Config
   maxCompetitors: z.coerce.number().min(2, 'Tournaments require at least two competitors.'),
@@ -109,4 +109,6 @@ export const defaultValues: DeepPartial<TournamentFormData> = {
     playingTime: 120,
   },
   rankingFactors: ['total_wins'],
+  logoFile: undefined,
+  bannerFile: undefined,
 };
