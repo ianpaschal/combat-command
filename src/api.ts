@@ -39,11 +39,18 @@ export type FetchTournamentCompetitorListResponseItem = FetchTournamentCompetito
 export type FetchTournamentCompetitorResponse = typeof api.tournamentCompetitors.getTournamentCompetitor._returnType;
 export type TournamentCompetitor = FetchTournamentCompetitorListResponseItem;
 export type TournamentCompetitorId = Id<'tournamentCompetitors'>;
+export type CreateTournamentCompetitorArgs = typeof api.tournamentCompetitors.createTournamentCompetitor._args;
+export type UpdateTournamentCompetitorArgs = typeof api.tournamentCompetitors.updateTournamentCompetitor._args;
 
 // Tournament Pairings
 export type TournamentPairingId = Id<'tournamentPairings'>;
+export type TournamentPairing = typeof api.tournamentPairings.getTournamentPairings._returnType[number];
+export type GetDraftTournamentPairingsArgs = typeof api.tournamentPairings.getDraftTournamentPairings._args;
+export { type TournamentPairingDeep } from '../convex/_model/tournamentPairings';
+export type { UnassignedPairingInput } from '../convex/_model/tournaments/actions/openTournamentRound';
 
 // Tournaments
+export type CreateTournamentArgs = typeof api.tournaments.createTournament._args;
 export type FetchTournamentListResponse = typeof api.tournaments.getTournaments._returnType;
 export type FetchTournamentListResponseItem = FetchTournamentListResponse[number];
 export type FetchTournamentResponse = typeof api.tournaments.getTournament._returnType;
@@ -76,6 +83,16 @@ export {
   tournamentPairingMethodDisplayNames,
   tournamentPairingMethodOptions,
 } from '../convex/static/tournamentPairingMethods';
+
+// TODO: Move around...
+export {
+  checkPairingIsValid,
+} from '../convex/_model/tournamentPairings/helpers/checkPairingIsValid';
+export type {
+  DraftPairing,
+  PairingResult,
+  RankedTournamentCompetitor,
+} from '../convex/_model/tournamentPairings/helpers/pairingTypes';
 
 // Static Data & Interfaces (Flames of War 4th Edition)
 
@@ -120,7 +137,9 @@ export { fowV4MatchOutcomeTypeValues } from '../convex/common/fowV4/fowV4MatchOu
 // Ranking Factors
 export {
   type FowV4RankingFactor,
+  fowV4RankingFactorDisplayNames,
   fowV4RankingFactorOptions,
+  fowV4RankingFactorShortNames,
 } from '../convex/static/fowV4/fowV4RankingFactors';
 
 // Missions
