@@ -1,0 +1,10 @@
+.Draggable {
+  cursor: grab;
+  /* stylelint-disable-next-line property-no-vendor-prefix */
+  -webkit-user-select: none;
+  user-select: none;
+
+  outline: none;
+
+  -webkit-touch-callout: none;
+}
