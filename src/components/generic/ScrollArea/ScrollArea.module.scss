@@ -7,6 +7,7 @@ $scrollbar-size: 1rem;
 $scrollbar-padding: 0.25rem;
 $indicator-gradient-start-color: var(--black-a1);
 $indicator-gradient-end-color: rgb(0 0 0 / 0%);
+$indicator-border: var(--border-width) solid var(--border-color-muted);
 
 .ScrollArea {
   &_Root {
@@ -16,53 +17,62 @@ $indicator-gradient-end-color: rgb(0 0 0 / 0%);
   }
 
   &_Viewport {
-    border-radius: inherit;
-
     @include flex.stretchy;
+
+    border-radius: inherit;
   }
 
   &_Indicator {
-    &Top,
-    &Bottom,
-    &Left,
-    &Right {
-      pointer-events: none;
-      position: absolute;
-      opacity: 0;
-      transition: opacity 500ms ease-in-out;
+    pointer-events: none;
+    position: absolute;
+    opacity: 0;
+    transition: opacity 500ms ease-in-out;
 
-      &-visible {
-        opacity: 1;
-      }
+    &[data-visible="true"] {
+      opacity: 1;
     }
 
-    &Top,
-    &Bottom {
+    &[data-side="top"] {
+      top: 0;
       width: 100%;
       height: 0.75rem;
-    }
+      background-image: linear-gradient(to bottom, $indicator-gradient-start-color, $indicator-gradient-end-color);
 
-    &Left,
-    &Right {
-      width: 0.75rem;
-      height: 100%;
-    }
-
-    &Top {
-      top: 0;
-      background-image: linear-gradient($indicator-gradient-start-color, $indicator-gradient-end-color);
-
-      &-bordered {
-        border-top: variables.$border-width solid var(--border-color);
+      &[data-bordered="true"] {
+        border-top: var(--indicator-border);
       }
     }
 
-    &Bottom {
+    &[data-side="bottom"] {
       bottom: 0;
-      background-image: linear-gradient($indicator-gradient-end-color, $indicator-gradient-start-color);
+      width: 100%;
+      height: 0.75rem;
+      background-image: linear-gradient(to top, $indicator-gradient-start-color, $indicator-gradient-end-color);
 
-      &-bordered {
-        border-bottom: variables.$border-width solid var(--border-color);
+      &[data-bordered="true"] {
+        border-bottom: var(--indicator-border);
+      }
+    }
+
+    &[data-side="left"] {
+      left: 0;
+      width: 0.75rem;
+      height: 100%;
+      background-image: linear-gradient(to right, $indicator-gradient-start-color, $indicator-gradient-end-color);
+
+      &[data-bordered="true"] {
+        border-left: var(--indicator-border);
+      }
+    }
+
+    &[data-side="right"] {
+      right: 0;
+      width: 0.75rem;
+      height: 100%;
+      background-image: linear-gradient(to left, $indicator-gradient-start-color, $indicator-gradient-end-color);
+
+      &[data-bordered="true"] {
+        border-right: var(--indicator-border);
       }
     }
   }

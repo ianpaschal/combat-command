@@ -30,7 +30,7 @@ export const CheckInMatchDialog = ({
         { label: 'Save Match', type: 'submit', form: 'fow-v4-match-result-form' },
       ]}
     >
-      <ScrollArea type="scroll" indicatorBorder={['top', 'bottom']}>
+      <ScrollArea type="scroll" indicatorBorders={['top', 'bottom']}>
         <FowV4MatchResultForm
           id="fow-v4-match-result-form"
           className={styles.Form}
