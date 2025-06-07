@@ -7,22 +7,52 @@ export const tournaments = defineTable({
   ...computedFields,
 }).index(
   'by_game_system_id', ['gameSystemId'],
+).index(
+  'by_status', ['status'],
 );
 
+export {
+  closeTournamentRound,
+  closeTournamentRoundArgs,
+} from './actions/closeTournamentRound';
+export {
+  endTournament,
+  endTournamentArgs,
+} from './actions/endTournament';
+export {
+  openTournamentRound,
+  openTournamentRoundArgs,
+} from './actions/openTournamentRound';
+export {
+  publishTournament,
+  publishTournamentArgs,
+} from './actions/publishTournament';
+export {
+  startTournament,
+  startTournamentArgs,
+} from './actions/startTournament';
+export {
+  getTournamentDeep,
+  type TournamentDeep,
+} from './helpers';
 export {
   createTournament,
   createTournamentArgs,
   deleteTournament,
   deleteTournamentArgs,
-  publishTournament,
-  publishTournamentArgs,
-  startTournament,
-  startTournamentArgs,
   updateTournament,
   updateTournamentArgs,
 } from './mutations';
 export {
   getTournament,
   getTournamentArgs,
-  getTournamentList,
+  getTournaments,
 } from './queries';
+export {
+  getTournamentOpenRound,
+  getTournamentOpenRoundArgs,
+} from './queries/getTournamentOpenRound';
+export {
+  getTournamentRankings,
+  getTournamentRankingsArgs,
+} from './queries/getTournamentRankings';

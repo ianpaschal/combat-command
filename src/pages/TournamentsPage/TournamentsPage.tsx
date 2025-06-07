@@ -25,7 +25,7 @@ export const TournamentsPage = (): JSX.Element => {
   const showCreateTournamentButton = !!user;
   const navigate = useNavigate();
   const showButtonText = useWindowWidth() > MIN_WIDTH_TABLET;
-  const tournaments = useQuery(api.tournaments.getTournamentList);
+  const tournaments = useQuery(api.tournaments.getTournaments);
   const handleClickCreateTournament = (): void => {
     navigate(PATHS.tournamentCreate);
   };

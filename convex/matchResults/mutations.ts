@@ -74,7 +74,7 @@ export const createMatchResult = mutation({
     ...fields,
   },
   handler: async (ctx, args) => {
-    if (await getAuthUserId(ctx) !== args.player0UserId) {
+    if (await getAuthUserId(ctx) !== args.player0UserId && !args.tournamentPairingId) {
       throw 'Cannot add match as another user.';
     }
     if (!args.player1UserId && !args.player1Placeholder) {

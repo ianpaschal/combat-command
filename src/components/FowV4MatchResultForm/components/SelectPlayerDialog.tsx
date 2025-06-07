@@ -30,7 +30,7 @@ export const SelectPlayerDialog = ({
   disabled = false,
 }: SelectMatchResultPlayerDialogProps): JSX.Element => {
   const user = useAuth();
-  const users = useQuery(api.users.fetchUserList.fetchUserList);
+  const users = useQuery(api.users.fetchUserList.fetchUserList, {});
 
   const selectableUsers = (users || []).filter((u) => u._id !== user?._id && userId !== u._id);
   const existingUser = (users || []).find((u) => u._id === userId);

@@ -1,53 +1,62 @@
 import { mutation, query } from './_generated/server';
-import {
-  createTournament as createTournamentHandler,
-  createTournamentArgs,
-  deleteTournament as deleteTournamentHandler,
-  deleteTournamentArgs,
-  getTournament as getTournamentHandler,
-  getTournamentArgs,
-  getTournamentList as getTournamentListHandler,
-  publishTournament as publishTournamentHandler,
-  publishTournamentArgs,
-  startTournament as startTournamentHandler,
-  startTournamentArgs,
-  updateTournament as updateTournamentHandler,
-  updateTournamentArgs,
-} from './_model/tournaments';
+import * as model from './_model/tournaments';
 
 export const getTournament = query({
-  args: getTournamentArgs,
-  handler: getTournamentHandler,
+  args: model.getTournamentArgs,
+  handler: model.getTournament,
 });
 
-export const getTournamentList = query({
+export const getTournaments = query({
   args: {},
-  handler: getTournamentListHandler,
+  handler: model.getTournaments,
 });
 
-// CRUD Operations
+export const getTournamentOpenRound = query({
+  args: model.getTournamentOpenRoundArgs,
+  handler: model.getTournamentOpenRound,
+});
+
+export const getTournamentRankings = query({
+  args: model.getTournamentRankingsArgs,
+  handler: model.getTournamentRankings,
+});
+
 export const createTournament = mutation({
-  args: createTournamentArgs,
-  handler: createTournamentHandler,
+  args: model.createTournamentArgs,
+  handler: model.createTournament,
 });
 
 export const updateTournament = mutation({
-  args: updateTournamentArgs,
-  handler: updateTournamentHandler,
+  args: model.updateTournamentArgs,
+  handler: model.updateTournament,
 });
 
 export const deleteTournament = mutation({
-  args: deleteTournamentArgs,
-  handler: deleteTournamentHandler,
+  args: model.deleteTournamentArgs,
+  handler: model.deleteTournament,
 });
 
-// Actions
+export const closeTournamentRound = mutation({
+  args: model.closeTournamentRoundArgs,
+  handler: model.closeTournamentRound,
+});
+
+export const endTournament = mutation({
+  args: model.endTournamentArgs,
+  handler: model.endTournament,
+});
+
+export const openTournamentRound = mutation({
+  args: model.openTournamentRoundArgs,
+  handler: model.openTournamentRound,
+});
+
 export const publishTournament = mutation({
-  args: publishTournamentArgs,
-  handler: publishTournamentHandler,
+  args: model.publishTournamentArgs,
+  handler: model.publishTournament,
 });
 
 export const startTournament = mutation({
-  args: startTournamentArgs,
-  handler: startTournamentHandler,
+  args: model.startTournamentArgs,
+  handler: model.startTournament,
 });

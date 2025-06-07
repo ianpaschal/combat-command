@@ -95,26 +95,3 @@ export const deleteTournament = async (
     await ctx.db.delete(tournamentPairing._id);
   });
 };
-
-// Actions
-export const publishTournamentArgs = v.object({
-  id: v.id('tournaments'),
-});
-
-export const publishTournament = async (
-  ctx: MutationCtx,
-  { id }: Infer<typeof publishTournamentArgs>,
-) => await ctx.db.patch(id, {
-  status: 'published',
-});
-
-export const startTournamentArgs = v.object({
-  id: v.id('tournaments'),
-});
-
-export const startTournament = async (
-  ctx: MutationCtx,
-  { id }: Infer<typeof startTournamentArgs>,
-) => await ctx.db.patch(id, {
-  status: 'active',
-});
