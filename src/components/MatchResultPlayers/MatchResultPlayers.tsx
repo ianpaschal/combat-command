@@ -22,7 +22,7 @@ export const MatchResultPlayers = ({
   const player0Name = matchResult.player0User ? getUserDisplayNameReact(matchResult.player0User) : matchResult.player0Placeholder;
   const player1Name = matchResult.player1User ? getUserDisplayNameReact(matchResult.player1User) : matchResult.player1Placeholder;
 
-  const [player0Score, player1Score] = calculateMatchScore(matchResult);
+  const [player0Score, player1Score] = calculateMatchScore(matchResult.details);
 
   return (
     <div className={clsx(styles.Root, className)} ref={ref} data-orientation={orientation}>

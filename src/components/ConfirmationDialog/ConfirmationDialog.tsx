@@ -31,7 +31,7 @@ export const ConfirmationDialog = ({
   className,
   description,
   id,
-  intent = 'danger',
+  intent = 'default',
   onConfirm,
   title,
   warnings = [],

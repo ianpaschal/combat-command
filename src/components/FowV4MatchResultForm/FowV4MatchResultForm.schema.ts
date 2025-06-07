@@ -23,10 +23,10 @@ export const fowV4MatchResultFormSchema = z.object({
   details: z.object({
     // Handled by <TournamentPlayersForm /> or <SingleMatchPlayersForm />
     player0BattlePlan: z.string({ message: 'Please select a battle plan.' }).transform((val) => val as FowV4BattlePlan),
-    player0FactionId: z.string({ message: 'Please select a faction.' }).transform((val) => val as FowV4FactionId),
+    player0FactionId: z.optional(z.string({ message: 'Please select a faction.' }).transform((val) => val as FowV4FactionId)),
     player0UnitsLost: z.coerce.number(),
     player1BattlePlan: z.string({ message: 'Please select a battle plan.' }).transform((val) => val as FowV4BattlePlan),
-    player1FactionId: z.string({ message: 'Please select a faction.' }).transform((val) => val as FowV4FactionId),
+    player1FactionId: z.optional(z.string({ message: 'Please select a faction.' }).transform((val) => val as FowV4FactionId)),
     player1UnitsLost: z.coerce.number(),
 
     // Handled by <CommonForm />
@@ -42,6 +42,7 @@ export const fowV4MatchResultFormSchema = z.object({
 
   // Non-editable
   gameSystemId: z.string().transform((val) => val as GameSystemId),
+  playedAt: z.string(), // TODO: not visible, enable later
 }).superRefine((values, ctx) => {
   if (values.details.outcomeType !== 'time_out' && values.details.winner === undefined) {
     ctx.addIssue({
@@ -76,4 +77,5 @@ export const defaultValues: DeepPartial<MatchResult> = {
   player1UserId: '' as UserId,
   gameSystemId: 'flames_of_war_v4',
   gameSystemConfig: fowV4GameSystemConfigDefaultValues,
+  playedAt: new Date().toISOString(),
 };

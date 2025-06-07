@@ -36,7 +36,6 @@ export function extendResults<T extends Id<'users'> | Id<'tournamentCompetitors'
       }
     });
 
-    // console.log(opponentIds);
     extendedResults[id as T] = {
       opponentIds,
       total,

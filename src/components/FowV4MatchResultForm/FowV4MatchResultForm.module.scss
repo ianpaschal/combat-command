@@ -14,8 +14,8 @@
     gap: 1rem;
     align-items: center;
   }
-}
 
-.ConfirmDialogMatchCard {
-  margin: 1rem var(--modal-inner-gutter) 0;
+  &_ConfirmDialogDetails {
+    margin-top: 1rem;
+  }
 }

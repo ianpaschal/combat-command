@@ -1,6 +1,7 @@
 import { Infer, v } from 'convex/values';
 
 import { QueryCtx } from '../../../_generated/server';
+import { notNullOrUndefined } from '../../_helpers/notNullOrUndefined';
 import { getDeepTournamentPairing, TournamentPairingDeep } from '../helpers';
 
 export const getActiveTournamentPairingsByUserArgs = v.object({
@@ -30,31 +31,27 @@ export const getActiveTournamentPairingsByUser = async (
 
   // Get all pairings which are part of an active tournament
   const tournamentPairings = await ctx.db.query('tournamentPairings').collect();
-  const activeTournamentPairings = await Promise.all(tournamentPairings.filter(async (tournamentPairing) => {
+  
+  // Return the ones which qualify for the given user ID.
+  return (await Promise.all(tournamentPairings.map(async (tournamentPairing) => {
     const tournament = activeTournaments.find((activeTournament) => activeTournament._id === tournamentPairing.tournamentId);
 
     // If pairing belongs to an inactive tournament OR an active tournament but not the current round, exclude it:
     if (!tournament || tournament.currentRound !== tournamentPairing.round) {
-      return false;
+      return null;
     }
 
-    // If pairing belongs to a tournament which user is an organizer of, include it:
-    if (tournament.organizerUserIds.includes(args.userId)) {
-      return true;
-    }
-
-    // If pairing includes a competitor which includes user, include it:
     const deepPairing = await getDeepTournamentPairing(ctx, tournamentPairing);
-    if (deepPairing.playerUserIds.includes(args.userId)) {
-      return true;
+
+    const isOrganizer = tournament.organizerUserIds.includes(args.userId);
+    const isPlayer = deepPairing.playerUserIds.includes(args.userId);
+
+    // If user is organizer of the pairing's tournament, or a player in the pairing, include it:
+    if (isOrganizer || isPlayer) {
+      return deepPairing;
     }
 
-    return false;
-  }));
-
-  return await Promise.all(
-    activeTournamentPairings.map(
-      async (item) => await getDeepTournamentPairing(ctx, item),
-    ),
-  );
+    // Otherwise, exclude it:
+    return null;
+  }))).filter(notNullOrUndefined);
 };

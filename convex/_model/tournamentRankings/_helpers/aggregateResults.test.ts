@@ -65,7 +65,6 @@ describe('aggregateResults', async () => {
     //   }
     // }
     // const pairings = await ctx.db.query('tournamentPairings').collect();
-    // console.log(pairings);
 
     // Create match results
   });
