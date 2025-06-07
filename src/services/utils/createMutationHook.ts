@@ -1,24 +1,29 @@
 import { useState } from 'react';
 import { useMutation } from 'convex/react';
+import { FunctionReference } from 'convex/server';
 
-import { api } from '~/api';
 import { toast } from '~/components/ToastProvider';
-import { MutationHookConfig } from '~/services/MutationHookConfig';
 
-export const useRemovePlayerFromTournamentCompetitor = (config?: MutationHookConfig) => {
-  const mutation = api.tournamentCompetitors.removePlayerFromTournamentCompetitor;
-  const handler = useMutation(mutation);
+type MutationFn = FunctionReference<'mutation'>;
+type MutationHookConfig<T extends MutationFn> = {
+  onSuccess?: (response: T['_returnType']) => void;
+  onError?: (error: unknown) => void;
+  successMessage?: string;
+};
+
+export const createMutationHook = <T extends MutationFn>(mutationFn: T) => (config?: MutationHookConfig<T>) => {
+  const handler = useMutation(mutationFn);
   const [loading, setIsLoading] = useState<boolean>(false);
   return {
-    mutation: async (args: typeof mutation._args) => {
+    mutation: async (args: T['_args']) => {
       setIsLoading(true);
       try {
-        await handler(args);
+        const response = await handler(args);
         if (config?.successMessage) {
           toast.success(config.successMessage);
         }
         if (config?.onSuccess) {
-          config.onSuccess(args.tournamentCompetitorId);
+          config.onSuccess(response);
         }
       } catch (error) {
         console.error(error);

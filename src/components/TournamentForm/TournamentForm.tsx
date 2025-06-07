@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useBlocker } from 'react-router-dom';
 import { zodResolver } from '@hookform/resolvers/zod';
 import clsx from 'clsx';
 
@@ -10,7 +9,7 @@ import { Card } from '~/components/generic/Card';
 import { Form } from '~/components/generic/Form';
 import { UnsavedChangesDialog } from '~/components/UnsavedChangesDialog';
 import { useFileFromUrl } from '~/hooks/useFileFromUrl';
-import { useFetchTournament } from '~/services/tournaments/useFetchTournament';
+import { useGetTournament } from '~/services/tournaments';
 import { useUploadConvexImage } from '~/services/useUploadConvexFile';
 import { CompetitorFields } from './components/CompetitorFields';
 import { FormatFields } from './components/FormatFields';
@@ -41,7 +40,7 @@ export const TournamentForm = ({
   onSubmit: handleSubmit,
   tournamentId,
 }: TournamentFormProps): JSX.Element => {
-  const { data: tournament } = useFetchTournament(tournamentId);
+  const { data: tournament } = useGetTournament(tournamentId ? { id: tournamentId } : 'skip');
 
   const { mutation: uploadConvexImage } = useUploadConvexImage();
 

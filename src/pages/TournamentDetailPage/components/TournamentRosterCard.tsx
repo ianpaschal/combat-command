@@ -15,9 +15,8 @@ import { TournamentCreateTeamDialog } from '~/components/TournamentCreateTeamDia
 import { useTournamentCreateTeamDialog } from '~/components/TournamentCreateTeamDialog/TournamentCreateTeamDialog.hooks';
 import { useTournament } from '~/components/TournamentProvider';
 import { TournamentDetailsCard } from '~/pages/TournamentDetailPage/components/TournamentDetailsCard';
-import { useCreateTournamentCompetitor } from '~/services/tournamentCompetitors/useCreateTournamentCompetitor';
-import { useGetTournamentCompetitorsByTournamentId } from '~/services/tournamentCompetitors/useGetTournamentCompetitorsByTournamentId';
-import { usePublishTournament } from '~/services/tournaments/usePublishTournament';
+import { useCreateTournamentCompetitor, useGetTournamentCompetitorsByTournamentId } from '~/services/tournamentCompetitors';
+import { usePublishTournament } from '~/services/tournaments';
 import { PATHS } from '~/settings';
 
 import styles from './TournamentRosterCard.module.scss';
@@ -37,7 +36,7 @@ export const TournamentRosterCard = ({
 
   const { open: openTournamentCreateTeamDialog } = useTournamentCreateTeamDialog(tournament._id);
 
-  const { data: tournamentCompetitors, loading } = useGetTournamentCompetitorsByTournamentId(tournament._id);
+  const { data: tournamentCompetitors, loading } = useGetTournamentCompetitorsByTournamentId({ tournamentId: tournament._id });
   const { mutation: createTournamentCompetitor } = useCreateTournamentCompetitor({
     successMessage: `Successfully joined ${tournament.title}!`,
   });

@@ -9,9 +9,11 @@ import {
 } from '~/api';
 import { Form } from '~/components/generic/Form';
 import { Separator } from '~/components/generic/Separator';
-import { useCreateMatchResult } from '~/services/matchResults/useCreateMatchResult';
-import { useFetchMatchResult } from '~/services/matchResults/useFetchMatchResult';
-import { useUpdateMatchResult } from '~/services/matchResults/useUpdateMatchResult';
+import {
+  useCreateMatchResult,
+  useGetMatchResult,
+  useUpdateMatchResult,
+} from '~/services/matchResults';
 import { CommonFields } from './components/CommonFields';
 import { GameConfigFields } from './components/GameConfigFields';
 import { SingleMatchPlayersFields } from './components/SingleMatchPlayersFields';
@@ -41,12 +43,32 @@ export const FowV4MatchResultForm = ({
 }: FowV4MatchResultFormProps): JSX.Element => {
   const [tournamentPairingId] = useState<TournamentPairingId | 'single'>('single');
   // const [confirmDialogOpen, setConfirmDialogOpen] = useState<boolean>(false);
+  const user = useAuth();
 
-  const { data: matchResult, loading } = useFetchMatchResult(matchResultId);
-  const { createMatchResult } = useCreateMatchResult({
+  const {
+    data: matchResult,
+    loading: matchResultLoading,
+  } = useGetMatchResult(matchResultId ? { id: matchResultId } : 'skip');
+
+  const [
+    tournamentPairingId,
+    setTournamentPairingId,
+  ] = useAsyncState<TournamentPairingId | undefined>(undefined, matchResult?.tournamentPairingId);
+
+  const {
+    open: openConfirmMatchResultDialog,
+    close: closeConfirmMatchResultDialog,
+  } = useConfirmationDialog(confirmMatchResultDialogId);
+
+  const {
+    data: tournamentPairings,
+    loading: tournamentPairingsLoading,
+  } = useGetActiveTournamentPairingsByUser(user ? { userId: user._id } : 'skip');
+
+  const { mutation: createMatchResult } = useCreateMatchResult({
     onSuccess,
   });
-  const { updateMatchResult } = useUpdateMatchResult({
+  const { mutation: updateMatchResult } = useUpdateMatchResult({
     onSuccess,
   });
 

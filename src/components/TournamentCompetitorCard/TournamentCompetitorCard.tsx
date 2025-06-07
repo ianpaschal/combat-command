@@ -8,8 +8,8 @@ import { Button } from '~/components/generic/Button';
 import { Card } from '~/components/generic/Card';
 import { Separator } from '~/components/generic/Separator';
 import { useTournament } from '~/components/TournamentProvider';
-import { useAddPlayerToTournamentCompetitor } from '~/services/tournamentCompetitors/useAddPlayerToTournamentCompetitor';
-import { useRemovePlayerFromTournamentCompetitor } from '~/services/tournamentCompetitors/useRemovePlayerFromTournamentCompetitor';
+import { useAddPlayerToTournamentCompetitor } from '~/services/tournamentCompetitors';
+import { useRemovePlayerFromTournamentCompetitor } from '~/services/tournamentCompetitors';
 import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
 import { useCompetitorAvatar, useCompetitorDisplayName } from './TournamentCompetitorCard.hooks';
 

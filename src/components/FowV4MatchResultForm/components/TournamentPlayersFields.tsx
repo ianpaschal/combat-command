@@ -1,16 +1,12 @@
 import { useEffect, useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { useQuery } from 'convex/react';
 
-import {
-  api,
-  fowV4BattlePlanOptions,
-  TournamentPairingId,
-} from '~/api';
+import { fowV4BattlePlanOptions, TournamentPairingId } from '~/api';
 import { FormField } from '~/components/generic/Form';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { InputText } from '~/components/generic/InputText';
 import { Separator } from '~/components/generic/Separator';
+import { useGetTournamentPairing } from '~/services/tournamentPairings';
 import { getCompetitorPlayerOptions } from './TournamentPlayersFields.utils';
 
 import styles from './TournamentPlayersFields.module.scss';
@@ -25,8 +21,7 @@ export const TournamentPlayersFields = ({
   const { setValue, watch } = useFormContext();
   const { player0UserId, player1UserId } = watch();
 
-  // TODO: Handle loading state...
-  const selectedPairing = useQuery(api.tournamentPairings.getTournamentPairing, { id: tournamentPairingId });
+  const { data: selectedPairing } = useGetTournamentPairing({ id: tournamentPairingId });
 
   // Automatically set "Player 1" if possible
   const player0Options = useMemo(() => (
