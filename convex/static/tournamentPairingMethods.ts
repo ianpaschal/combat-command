@@ -3,7 +3,6 @@ import { Infer, v } from 'convex/values';
 export const tournamentPairingMethods = [
   'adjacent', // Replacement for Swiss
   // 'round_robin', // Random, but will trigger validation error if rounds and competitors don't match
-  'swiss',
   'random',
   // 'elimination', // Will trigger validation error if rounds and competitors don't match
 ] as const;
@@ -16,7 +15,6 @@ export type TournamentPairingMethod = Infer<typeof tournamentPairingMethod>;
 export const tournamentPairingMethodDisplayNames: Record<TournamentPairingMethod, string> = {
   'adjacent': 'Adjacent',
   'random': 'Random',
-  'swiss': 'Swiss',
 };
 
 // TODO: Move to front-end to enable translations
