@@ -12,7 +12,9 @@ export const useSuggestLocation = (query?: string) => useQuery({
     const response = await fetch(
       `https://api.mapbox.com/search/searchbox/v1/suggest?${getMapboxParams(query)}`,
     );
-    if (!response.ok) throw new Error('Failed to fetch suggestions');
+    if (!response.ok) {
+      throw new Error('Failed to fetch suggestions');
+    }
     const { suggestions } = await response.json();
     return suggestions;
   },

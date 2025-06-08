@@ -8,7 +8,7 @@ export const createTestTournamentMatchResultsArgs = v.object({
 
 export const createTestTournamentMatchResults = async (
   ctx: MutationCtx,
-  { tournamentId } : Infer<typeof createTestTournamentMatchResultsArgs>,
+  { tournamentId }: Infer<typeof createTestTournamentMatchResultsArgs>,
 ) => {
   const tournament = await ctx.db.get(tournamentId);
   if (!tournament) {

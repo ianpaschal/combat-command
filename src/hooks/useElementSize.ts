@@ -10,7 +10,9 @@ export const useElementSize = <T extends HTMLDivElement>(): [MutableRefObject<T 
   const [size, setSize] = useState<{ width: number, height: number }>({ width: 0, height: 0 });
 
   useEffect(() => {
-    if (!ref.current) return;
+    if (!ref.current) {
+      return;
+    }
 
     const observer = new ResizeObserver(([entry]) => {
       const { inlineSize: width, blockSize: height } = entry.borderBoxSize[0];

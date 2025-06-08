@@ -4,11 +4,15 @@ export function useFileFromUrl(url?: string): File | undefined {
   const [file, setFile] = useState<File | undefined>(undefined);
 
   useEffect(() => {
-    if (!url) return;
+    if (!url) {
+      return;
+    }
 
     const fetchFile = async () => {
       const response = await fetch(url);
-      if (!response.ok) throw new Error(`Failed to fetch: ${response.statusText}`);
+      if (!response.ok) {
+        throw new Error(`Failed to fetch: ${response.statusText}`);
+      }
 
       const blob = await response.blob();
 

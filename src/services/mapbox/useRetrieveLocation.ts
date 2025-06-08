@@ -7,7 +7,9 @@ export const retrieveLocation = async (mapboxPlaceId: string): Promise<SearchBox
   const response = await fetch(
     `https://api.mapbox.com/search/searchbox/v1/retrieve/${mapboxPlaceId}?${getMapboxParams()}`,
   );
-  if (!response.ok) throw new Error('Failed to fetch place details');
+  if (!response.ok) {
+    throw new Error('Failed to fetch place details');
+  }
   const { features } = await response.json();
   return features[0] || null;
 };
@@ -18,7 +20,9 @@ export const useRetrieveLocation = (mapboxPlaceId?: string) => useQuery({
     const response = await fetch(
       `https://api.mapbox.com/search/searchbox/v1/retrieve/${mapboxPlaceId}?${getMapboxParams()}`,
     );
-    if (!response.ok) throw new Error('Failed to fetch place details');
+    if (!response.ok) {
+      throw new Error('Failed to fetch place details');
+    }
     const { features } = await response.json();
     return features[0] || null;
   },
