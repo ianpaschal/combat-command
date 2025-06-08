@@ -5,12 +5,13 @@
 @use "/src/style/corners";
 @use "/src/style/flex";
 @use "/src/style/text";
+@use "/src/style/sizes";
 
 .PopoverContent {
   @include flex.column($gap: 0.25rem);
   @include animate.duration-quick;
   @include corners.normal;
-  @include shadows.shadow;
+  @include shadows.elevated;
   @include variants.card;
 
   z-index: 1;
@@ -21,6 +22,12 @@
   @include animate.style-pop; // Must list last because it contains nested declarations
 }
 
-.MenuItemButton {
-  text-align: left; // TODO: Make this override button's center text
+.MenuItem {
+  @include variants.ghost;
+  @include corners.tight;
+  @include flex.row($gap: 0.125rem);
+  @include sizes.normal;
+  @include text.ui;
+
+  padding: 0 0.75rem;
 }

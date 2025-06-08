@@ -51,6 +51,7 @@ export const editableFields = {
 
 export const computedFields = {
   currentRound: v.optional(v.number()),
+  lastRound: v.optional(v.number()),
   status: tournamentStatus,
   modifiedAt: v.optional(v.number()),
 };

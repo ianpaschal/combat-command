@@ -4,10 +4,11 @@
 @use "/src/style/variants";
 @use "/src/style/shadows";
 @use "/src/style/text";
+@use "/src/style/sizes";
 
 .TabsTrigger {
   @include corners.tight;
-  @include flex.row($gap: 0.5rem);
+  @include flex.row($gap: 0.25rem);
   @include flex.stretchy;
   @include text.ui;
   @include variants.secondary;
@@ -18,18 +19,34 @@
   min-height: 2rem;
   padding: 0 0.75rem;
 
-  font-weight: 500;
+  white-space: nowrap;
 
   &[data-state="active"] {
-    @include shadows.surface-shadow;
+    @include shadows.surface;
 
-    background-color: variables.$white;
+    background-color: var(--card-bg);
+
+    &:hover {
+      background-color: var(--card-bg);
+    }
   }
 
   &[data-state="inactive"] {
     &:hover {
       background-color: var(--secondary-default-bg-hover);
     }
+  }
+
+  &[data-size="small"] {
+    @include sizes.small;
+  }
+
+  &[data-size="normal"] {
+    @include sizes.normal;
+  }
+
+  &[data-size="large"] {
+    @include sizes.large;
   }
 
   svg {

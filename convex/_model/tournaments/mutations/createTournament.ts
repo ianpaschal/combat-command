@@ -1,0 +1,24 @@
+import { Infer, v } from 'convex/values';
+
+import { Id } from '../../../_generated/dataModel';
+import { MutationCtx } from '../../../_generated/server';
+import { editableFields } from '../fields';
+
+export const createTournamentArgs = v.object({
+  ...editableFields,
+});
+
+/**
+ * Creates a new Tournament.
+ * 
+ * @param ctx - Convex query context
+ * @param args - Tournament data
+ * @returns ID of the newly created Tournament
+ */
+export const createTournament = async (
+  ctx: MutationCtx,
+  args: Infer<typeof createTournamentArgs>,
+): Promise<Id<'tournaments'>> => await ctx.db.insert('tournaments', {
+  ...args,
+  status: 'draft',
+});

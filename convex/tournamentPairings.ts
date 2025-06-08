@@ -1,8 +1,13 @@
 import { query } from './_generated/server';
 import {
+  getActiveTournamentPairingsByUser as getActiveTournamentPairingsByUserHandler,
+  getActiveTournamentPairingsByUserArgs,
+  getDraftTournamentPairings as getDraftTournamentPairingsHandler,
+  getDraftTournamentPairingsArgs,
   getTournamentPairing as getTournamentPairingHandler,
   getTournamentPairingArgs,
-  getTournamentPairingList as getTournamentPairingListHandler,
+  getTournamentPairings as getTournamentPairingsHandler,
+  getTournamentPairingsArgs,
 } from './_model/tournamentPairings';
 
 export const getTournamentPairing = query({
@@ -10,7 +15,17 @@ export const getTournamentPairing = query({
   handler: getTournamentPairingHandler,
 });
 
-export const getTournamentPairingList = query({
-  args: {},
-  handler: getTournamentPairingListHandler,
+export const getTournamentPairings = query({
+  args: getTournamentPairingsArgs,
+  handler: getTournamentPairingsHandler,
+});
+
+export const getDraftTournamentPairings = query({
+  args: getDraftTournamentPairingsArgs,
+  handler: getDraftTournamentPairingsHandler,
+});
+
+export const getActiveTournamentPairingsByUser = query({
+  args: getActiveTournamentPairingsByUserArgs,
+  handler: getActiveTournamentPairingsByUserHandler,
 });

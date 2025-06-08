@@ -26,8 +26,10 @@ module.exports = {
     '@stylistic/js/no-multiple-empty-lines': ['error', { max: 1, maxBOF: 0, maxEOF: 0 }],
     '@stylistic/ts/indent': ['error', 2],
     '@stylistic/ts/object-curly-spacing': ['error', 'always'],
+    // '@stylistic/js/array-bracket-spacing': ['error', 'always'],
     '@stylistic/ts/quotes': ['error', 'single'],
     '@stylistic/ts/semi': 'error',
+    // '@stylistic/ts/type-annotation-spacing': 'error',
 
     // Replace JS rules with TS rules:
     'quotes': 'off',
@@ -36,6 +38,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': ['warn', { 'argsIgnorePattern': '^_' }],
 
     // Misc.
+    // "curly": ["error"],
     "arrow-body-style": ["error", "as-needed"],
     "no-console": ["warn", { allow: ["warn", "error", "info"] }],
 

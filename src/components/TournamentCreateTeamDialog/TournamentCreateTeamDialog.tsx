@@ -11,7 +11,7 @@ import { Form, FormField } from '~/components/generic/Form';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { InputText } from '~/components/generic/InputText';
 import { useTournament } from '~/components/TournamentProvider';
-import { useCreateTournamentCompetitor } from '~/services/tournamentCompetitors/useCreateTournamentCompetitor';
+import { useCreateTournamentCompetitor } from '~/services/tournamentCompetitors';
 import { getEtcCountryOptions } from '~/utils/common/getCountryOptions';
 import { useTournamentCreateTeamDialog } from './TournamentCreateTeamDialog.hooks';
 import {

@@ -30,7 +30,7 @@ export const SelectPlayerDialog = ({
   disabled = false,
 }: SelectMatchResultPlayerDialogProps): JSX.Element => {
   const user = useAuth();
-  const users = useQuery(api.users.fetchUserList.fetchUserList);
+  const users = useQuery(api.users.fetchUserList.fetchUserList, {});
 
   const selectableUsers = (users || []).filter((u) => u._id !== user?._id && userId !== u._id);
   const existingUser = (users || []).find((u) => u._id === userId);
@@ -69,7 +69,7 @@ export const SelectPlayerDialog = ({
           <ScrollArea className={styles.ScrollArea}>
             <div className={styles.UserList}>
               {selectableUsers.map((user, i) => (
-                <div className={styles.UserListItem} key={i} >
+                <div className={styles.UserListItem} key={i}>
                   <Avatar url={user.avatarUrl} className={styles.UserAvatar} />
                   <div className={styles.UserDisplayName}>
                     {getUserDisplayNameReact(user)}
@@ -94,7 +94,7 @@ export const SelectPlayerDialog = ({
         <div className={styles.PlaceholderInput}>
           <InputText value={placeholder} onChange={handleChangePlaceholder} />
           <Close asChild>
-            <Button onClick={() => onConfirm({ placeholder })} >
+            <Button onClick={() => onConfirm({ placeholder })}>
               Set
             </Button>
           </Close>

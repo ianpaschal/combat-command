@@ -8,8 +8,8 @@ import { Button } from '~/components/generic/Button';
 import { Card } from '~/components/generic/Card';
 import { Separator } from '~/components/generic/Separator';
 import { useTournament } from '~/components/TournamentProvider';
-import { useAddPlayerToTournamentCompetitor } from '~/services/tournamentCompetitors/useAddPlayerToTournamentCompetitor';
-import { useRemovePlayerFromTournamentCompetitor } from '~/services/tournamentCompetitors/useRemovePlayerFromTournamentCompetitor';
+import { useAddPlayerToTournamentCompetitor } from '~/services/tournamentCompetitors';
+import { useRemovePlayerFromTournamentCompetitor } from '~/services/tournamentCompetitors';
 import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
 import { useCompetitorAvatar, useCompetitorDisplayName } from './TournamentCompetitorCard.hooks';
 
@@ -28,7 +28,6 @@ export const TournamentCompetitorCard = ({
   const tournament = useTournament();
   const avatar = useCompetitorAvatar(tournamentCompetitor);
   const displayName = useCompetitorDisplayName(tournamentCompetitor);
-  const isTeamTournament = tournament.competitorSize > 1;
   const userIsPlayer = !!(user && tournament.playerUserIds.includes(user._id));
   const userIsOrganizer = !!(user && tournament.organizerUserIds.includes(user._id));
 
@@ -58,13 +57,13 @@ export const TournamentCompetitorCard = ({
     });
   };
   return (
-    <Card className={clsx(styles.TournamentCompetitorCard, className)} data-is-team={isTeamTournament}>
+    <Card className={clsx(styles.TournamentCompetitorCard, className)} data-is-team={tournament.useTeams}>
       <div className={styles.TournamentCompetitorCard_Avatar}>
         {avatar}
       </div>
       <div className={styles.TournamentCompetitorCard_TeamName}>
         <h3>{displayName}</h3>
-        {(isTeamTournament && user && !userIsOrganizer) && (!userIsPlayer ? (
+        {(tournament.useTeams && user && !userIsOrganizer) && (!userIsPlayer ? (
           <Button size="small" variant="secondary" className={styles.TournamentCompetitorCard_JoinButton} onClick={handleClickJoin}>
             <UserPlus />
             Join
@@ -76,7 +75,7 @@ export const TournamentCompetitorCard = ({
           </Button>
         ))}
       </div>
-      {isTeamTournament && (
+      {tournament.useTeams && (
         <>
           <Separator className={styles.TournamentCompetitorCard_Separator} />
           <div className={styles.TournamentCompetitorCard_TeamPlayers}>

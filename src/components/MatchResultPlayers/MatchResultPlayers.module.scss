@@ -11,8 +11,7 @@
   @include text.ui;
 
   place-self: center start;
-  font-size: 0.875rem;
-  line-height: 1.125rem;
+  font-size: 1rem;
 }
 
 @mixin score {
@@ -84,7 +83,7 @@
 
 .Separator {
   grid-area: separator;
-  background-color: var(--border-color);
+  background-color: var(--border-color-default);
 }
 
 .Player1Avatar {
@@ -111,7 +110,7 @@
 
 .FactionDetails {
   @include variants.card;
-  @include shadows.shadow;
+  @include shadows.elevated;
   @include animate.duration-quick;
   @include animate.style-pop;
   @include flex.column($gap: 0);

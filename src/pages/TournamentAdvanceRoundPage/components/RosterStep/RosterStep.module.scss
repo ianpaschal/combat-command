@@ -1,0 +1,33 @@
+@use "/src/style/flex";
+@use "/src/style/variables";
+@use "/src/style/variants";
+@use "/src/style/borders";
+@use "/src/style/corners";
+@use "/src/style/shadows";
+@use "/src/style/text";
+
+.RosterStep {
+  @include flex.column;
+  @include borders.normal;
+  @include shadows.surface;
+  @include corners.normal;
+
+  padding: var(--container-padding-y) var(--container-padding-x);
+  background: var(--card-bg);
+
+  &_Header {
+    @include flex.row;
+  }
+
+  &_Actions {
+    @include flex.row;
+
+    margin-left: auto;
+  }
+
+  &_CompetitorContent {
+    @include flex.column;
+
+    padding: 1rem calc(1rem - var(--border-width));
+  }
+}

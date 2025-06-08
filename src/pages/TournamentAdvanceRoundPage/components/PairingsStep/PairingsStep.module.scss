@@ -1,0 +1,29 @@
+@use "/src/style/flex";
+@use "/src/style/variables";
+@use "/src/style/borders";
+@use "/src/style/corners";
+@use "/src/style/shadows";
+@use "/src/style/text";
+
+.PairingStep {
+  @include flex.column;
+  @include borders.normal;
+  @include shadows.surface;
+  @include corners.normal;
+  @include flex.stretchy;
+
+  padding: var(--container-padding-y) var(--container-padding-x);
+  background: var(--card-bg);
+
+  &_PairingMethodSection {
+    @include flex.row;
+  }
+
+  &_ConfirmationContent {
+    @include flex.column;
+  }
+
+  &_ConfirmationSection {
+    @include flex.column($gap: 0.5rem);
+  }
+}

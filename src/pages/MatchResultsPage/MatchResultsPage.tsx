@@ -1,13 +1,11 @@
 import * as Popover from '@radix-ui/react-popover';
 import { useWindowWidth } from '@react-hook/window-size/throttled';
-import { useQuery } from 'convex/react';
 import {
   ListFilter,
   Plus,
   Search,
 } from 'lucide-react';
 
-import { api } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
 import { CheckInMatchDialog } from '~/components/CheckInMatchDialog';
 import { FloatingActionButton } from '~/components/FloatingActionButton';
@@ -15,6 +13,7 @@ import { Button } from '~/components/generic/Button';
 import { InputText } from '~/components/generic/InputText';
 import { MatchResultCard } from '~/components/MatchResultCard';
 import { PageWrapper } from '~/components/PageWrapper';
+import { useGetMatchResults } from '~/services/matchResults';
 import { MIN_WIDTH_TABLET } from '~/settings';
 
 import styles from './MatchResultsPage.module.scss';
@@ -24,7 +23,7 @@ export const MatchResultsPage = (): JSX.Element => {
   const showFilters = false;
   const showAddMatchResultButton = !!user;
   const showButtonText = useWindowWidth() > MIN_WIDTH_TABLET;
-  const matchResults = useQuery(api.matchResults.fetchMatchResultList.fetchMatchResultList);
+  const { data: matchResults } = useGetMatchResults({});
   return (
     <PageWrapper title="Match Results">
       {showFilters && (

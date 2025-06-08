@@ -5,12 +5,13 @@ import {
 } from 'react';
 import clsx from 'clsx';
 
-import './InputText.scss';
+import styles from './InputText.module.scss';
 
-export interface InputTextProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface InputTextProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
   slotBefore?: ReactNode;
   slotAfter?: ReactNode;
   hasError?: boolean;
+  size?: 'small' | 'normal' | 'large';
 }
 
 export const InputText = forwardRef<HTMLInputElement, InputTextProps>(({
@@ -20,23 +21,27 @@ export const InputText = forwardRef<HTMLInputElement, InputTextProps>(({
   slotBefore,
   slotAfter,
   disabled,
+  size = 'normal',
   ...props
 }, ref) => (
-  <div className={clsx('InputWrapper', { 'InputWrapper-hasError': hasError, 'InputWrapper-disabled': disabled }, className)}>
+  <div
+    className={clsx(styles.InputWrapper, { [styles['InputWrapper-hasError']]: hasError, [styles['InputWrapper-disabled']]: disabled })}
+    data-size={size}
+  >
     <input
       type={type}
-      className={clsx('Input', { 'Input-slotAfter': !!slotAfter, 'Input-slotBefore': !!slotBefore })}
+      className={clsx(styles.Input, { [styles['Input-slotAfter']]: !!slotAfter, [styles['Input-slotBefore']]: !!slotBefore }, className)}
       ref={ref}
       disabled={disabled}
       {...props}
     />
     {slotBefore && (
-      <div className={clsx('InputSlotBefore')}>
+      <div className={styles.InputSlotBefore}>
         {slotBefore}
       </div>
     )}
     {slotAfter && (
-      <div className={clsx('InputSlotAfter')}>
+      <div className={styles.InputSlotAfter}>
         {slotAfter}
       </div>
     )}

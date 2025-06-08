@@ -6,7 +6,11 @@ import { fowV4MatchResultDetails } from '../common/fowV4/fowV4MatchResultDetails
 import { gameSystemId } from '../static/gameSystems';
 
 export const fields = {
+  // Tournament
+  // Denormalized so that we can filter match results by tournament.
+  // The duplicate data is worth the efficiency in querying.
   tournamentPairingId: v.optional(v.id('tournamentPairings')),
+  tournamentId: v.optional(v.id('tournaments')),
 
   // Players
   player0UserId: v.optional(v.id('users')),
@@ -36,6 +40,10 @@ const table = defineTable({
   'by_user_id', ['player0UserId', 'player1UserId'],
 ).index(
   'by_game_system_id', ['gameSystemId'],
+).index(
+  'by_tournament_id', ['tournamentId'],
+).index(
+  'by_tournament_pairing_id', ['tournamentPairingId'],
 );
 
 export {

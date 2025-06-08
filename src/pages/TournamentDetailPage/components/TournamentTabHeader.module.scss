@@ -5,12 +5,15 @@
 @use "/src/style/shadows";
 @use "/src/style/borders";
 @use "/src/style/backgrounds";
+@use "/src/style/sizes";
 
 .TournamentTabHeader {
   @include flex.row($gap: 0.5rem, $yAlign: center);
+  @include sizes.normal;
 
   position: relative;
-  padding: 1rem var(--container-padding-x) 0;
+  box-sizing: content-box; // Make the height apply to the inside, without padding
+  padding: 1rem var(--container-padding-x);
 
   &_Actions {
     @include flex.row($gap: 0.5rem, $xAlign: center);

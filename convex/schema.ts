@@ -2,8 +2,8 @@ import { authTables } from '@convex-dev/auth/server';
 import { defineSchema } from 'convex/server';
 
 import { tournamentCompetitors } from './_model/tournamentCompetitors';
-import { tournamentPairings } from './_model/tournamentPairings';
-import { tournaments } from './_model/tournaments';
+import { tournamentPairingsTable } from './_model/tournamentPairings';
+import { tournamentsTable } from './_model/tournaments';
 import { friendships } from './friendships';
 import { matchResultComments } from './matchResultComments';
 import { matchResultLikes } from './matchResultLikes';
@@ -18,8 +18,8 @@ export default defineSchema({
   matchResultLikes,
   matchResults,
   tournamentCompetitors,
-  tournamentPairings,
-  tournaments,
+  tournamentPairings: tournamentPairingsTable,
+  tournaments: tournamentsTable,
   users,
   photos,
 });

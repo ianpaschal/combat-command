@@ -1,0 +1,36 @@
+@use "/src/style/flex";
+@use "/src/style/variables";
+@use "/src/style/variants";
+@use "/src/style/corners";
+@use "/src/style/shadows";
+@use "/src/style/text";
+
+.PairableCompetitorCard {
+  --rank-size: 2.5rem;
+
+  @include variants.outlined($hover: false);
+  @include shadows.surface;
+  @include corners.normal;
+
+  display: grid;
+  grid-template-areas: "identity rank";
+  grid-template-columns: 1fr var(--rank-size);
+  padding: calc(0.75rem - 1px);
+
+  &_Identity {
+    grid-area: identity;
+  }
+
+  &_Rank {
+    @include text.ui;
+    @include flex.centered;
+
+    grid-area: rank;
+
+    width: var(--rank-size);
+
+    font-size: 2rem;
+    font-weight: 300;
+    line-height: var(--rank-size);
+  }
+}

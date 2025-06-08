@@ -1,0 +1,90 @@
+@use "/src/style/variables";
+@use "/src/style/flex";
+@use "/src/style/variants";
+@use "/src/style/corners";
+@use "/src/style/sizes";
+@use "/src/style/text";
+
+.Input {
+  @include variants.outlined;
+  @include corners.normal;
+  @include text.ui;
+
+  position: absolute;
+  inset: 0;
+  padding: 0 0.75rem;
+  text-align: left;
+
+  &-slotBefore {
+    padding-left: 2.25rem;
+  }
+
+  &-slotAfter {
+    padding-right: 2.25rem;
+  }
+}
+
+.InputSlotBefore,
+.InputSlotAfter {
+  pointer-events: none;
+
+  position: absolute;
+  top: 0;
+  bottom: 0;
+
+  color: inherit;
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  @include flex.centered;
+}
+
+.InputSlotBefore {
+  left: 0.75rem;
+}
+
+.InputSlotAfter {
+  right: 0.75rem;
+}
+
+.InputWrapper {
+  @include flex.stretchy;
+
+  position: relative;
+  width: 100%;
+
+  &[data-size="small"] {
+    @include sizes.small;
+  }
+
+  &[data-size="normal"] {
+    @include sizes.normal;
+  }
+
+  &[data-size="large"] {
+    @include sizes.large;
+  }
+
+  &-hasError {
+    color: variables.$red;
+
+    input {
+      border-color: variables.$red;
+    }
+  }
+
+  &-disabled {
+    input {
+      border-color: transparent; // TODO: Implement proper disabled state
+    }
+  }
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-color-muted);
+  opacity: 1;
+}

@@ -3,51 +3,45 @@ import {
   ElementRef,
   forwardRef,
 } from 'react';
-import {
-  Corner,
-  Root,
-  Scrollbar,
-  Thumb,
-  Viewport,
-} from '@radix-ui/react-scroll-area';
 import clsx from 'clsx';
+import { ScrollArea as RadixScrollArea } from 'radix-ui';
 
 import { useScrollIndicators } from '~/components/generic/ScrollArea/ScrollArea.hooks';
-import { bem } from '~/utils/componentLib/bem';
 
-import './ScrollArea.scss';
+import styles from './ScrollArea.module.scss';
 
-const cn = bem('ScrollArea');
+type ScrollAreaRef = ElementRef<typeof RadixScrollArea.Root>;
 
-type ScrollAreaRef = ElementRef<typeof Root>;
-
-type ScrollAreaProps = ComponentPropsWithoutRef<typeof Root> & {
-  indicatorBorder?: string | string[];
+type ScrollAreaProps = ComponentPropsWithoutRef<typeof RadixScrollArea.Root> & {
+  indicatorBorders?: string | string[];
 };
 
 export const ScrollArea = forwardRef<ScrollAreaRef, ScrollAreaProps>(({
   className,
   children,
-  indicatorBorder,
+  indicatorBorders,
   ...props
 }, ref) => {
-  const [viewportRef, onScroll, indicatorProps] = useScrollIndicators(indicatorBorder);
+  const { ref: viewportRef, handleScroll, indicators } = useScrollIndicators(indicatorBorders);
   return (
-    <Root className={clsx(cn('Root'), className)} ref={ref} type="scroll" scrollHideDelay={1000} {...props}>
-      <Viewport className={cn('Viewport')} ref={viewportRef} onScroll={onScroll}>
+    <RadixScrollArea.Root
+      className={clsx(styles.ScrollArea_Root, className)}
+      ref={ref}
+      type="scroll"
+      scrollHideDelay={1000}
+      {...props}
+    >
+      <RadixScrollArea.Viewport className={styles.ScrollArea_Viewport} ref={viewportRef} onScroll={handleScroll}>
         {children}
-      </Viewport>
-      <div className={cn('IndicatorTop', indicatorProps.top)} />
-      <div className={cn('IndicatorBottom', indicatorProps.bottom)} />
-      <div className={cn('IndicatorLeft', indicatorProps.left)} />
-      <div className={cn('IndicatorRight', indicatorProps.right)} />
-      <Scrollbar className={cn('Scrollbar')} orientation="vertical">
-        <Thumb className={cn('Thumb')} />
-      </Scrollbar>
-      <Scrollbar className={cn('Scrollbar')} orientation="horizontal">
-        <Thumb className={cn('Thumb')} />
-      </Scrollbar>
-      <Corner className={cn('Corner')} />
-    </Root>
+      </RadixScrollArea.Viewport>
+      {indicators}
+      <RadixScrollArea.Scrollbar className={styles.ScrollArea_Scrollbar} orientation="vertical">
+        <RadixScrollArea.Thumb className={styles.ScrollArea_Thumb} />
+      </RadixScrollArea.Scrollbar>
+      <RadixScrollArea.Scrollbar className={styles.ScrollArea_Scrollbar} orientation="horizontal">
+        <RadixScrollArea.Thumb className={styles.ScrollArea_Thumb} />
+      </RadixScrollArea.Scrollbar>
+      <RadixScrollArea.Corner />
+    </RadixScrollArea.Root>
   );
 });

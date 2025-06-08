@@ -12,7 +12,7 @@
   --banner-wide-size: 14rem;
 
   @include variants.card;
-  @include shadows.surface-shadow;
+  @include shadows.surface;
   @include corners.normal;
   @include text.ui;
 

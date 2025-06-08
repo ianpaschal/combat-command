@@ -39,7 +39,7 @@ export const TournamentInfoCard = ({
         <TournamentInfoBlock type="practical" className={styles.TournamentInfoCard_InfoBlock} />
         <Separator />
         <TournamentInfoBlock type="gameSystem" className={styles.TournamentInfoCard_InfoBlock} />
-      </ScrollArea >
+      </ScrollArea>
     </TournamentDetailsCard>
   );
 };

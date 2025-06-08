@@ -1,0 +1,32 @@
+@use "/src/style/flex";
+@use "/src/style/text";
+@use "/src/style/variables";
+
+.TournamentCompetitorForm {
+  @include flex.column;
+
+  &_TeamPlayers {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    row-gap: 0.5rem;
+    column-gap: 1rem;
+    align-items: center;
+  }
+
+  &_SinglePlayer {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    row-gap: 0.5rem;
+    column-gap: 1rem;
+    align-items: center;
+  }
+
+  &_PlayerErrors {
+    @include text.ui;
+
+    grid-area: description;
+    font-weight: 300;
+    line-height: 1rem;
+    color: var(--text-color-negative);
+  }
+}

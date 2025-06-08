@@ -6,7 +6,7 @@ import {
   DialogHeader,
 } from '~/components/generic/Dialog';
 import { useMatchResult } from '~/components/MatchResultProvider';
-import { useDeleteMatchResult } from '~/services/matchResults/useDeleteMatchResult';
+import { useDeleteMatchResult } from '~/services/matchResults';
 import { useMatchResultDeleteDialog } from './MatchResultDeleteDialog.hooks';
 
 import styles from './MatchResultDeleteDialog.module.scss';
@@ -14,7 +14,7 @@ import styles from './MatchResultDeleteDialog.module.scss';
 export const MatchResultDeleteDialog = (): JSX.Element => {
   const matchResult = useMatchResult();
   const { id, close } = useMatchResultDeleteDialog(matchResult._id);
-  const { deleteMatchResult, loading } = useDeleteMatchResult({
+  const { mutation: deleteMatchResult, loading } = useDeleteMatchResult({
     onSuccess: close,
   });
   const handleDelete = () => {

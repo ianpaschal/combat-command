@@ -1,45 +1,40 @@
 import { useStore } from '@tanstack/react-store';
 import { Store } from '@tanstack/store';
 
-interface Modal {
+interface Modal<T extends object> {
   id: string;
-  open: boolean;
-  data: object;
+  data: T;
 }
 
-export const openModals = new Store<Modal[]>([]);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const openModals = new Store<Modal<any>[]>([]);
 
-export const openModal = (id: string, data = {}): void => {
-  openModals.setState((state) => {
-    const index = state.findIndex((openModal) => openModal.id === id);
-    if (index === -1) {
-      return [...state, { id, open: true, data }];
-    }
-    return [
-      ...state.slice(0, index),
-      { id, open: true, data },
-      ...state.slice(index + 1, state.length),
-    ];
-  });
+export const openModal = <T extends object>(id: string, data?: T): void => {
+  const existingIds = openModals.state.map((modal) => modal.id);
+  if (existingIds.includes(id)) {
+    throw new Error(`Modal with ID ${id} already registered! Make sure each modal has a unique ID.`);
+  }
+  openModals.setState((state) => [
+    ...state,
+    { id, data },
+  ]);
 };
 
 export const closeModal = (id: string): void => {
-  openModals.setState((state) => {
-    const index = state.findIndex((openModal) => openModal.id === id);
-    return [
-      ...state.slice(0, index),
-      { id, open: false, data: {} },
-      ...state.slice(index + 1, state.length),
-    ];
-  });
+  openModals.setState((state) => state.filter((modal) => modal.id !== id));
 };
 
-export const useModal = (id: string) => {
-  const modal = useStore(openModals, (state) => state.find((openModal) => openModal.id === id));
-  return modal || { open: false, id, data: {} };
+export const useModal = <T extends object>(id: string) => {
+  const modal: Modal<T> | undefined = useStore(openModals, (state) => state.find((openModal) => openModal.id === id));
+  return {
+    id,
+    data: modal?.data,
+    open: (data?: T) => openModal(id, data),
+    close: () => closeModal(id),
+  };
 };
 
 export const useModalVisible = (id: string) => {
   const modal = useStore(openModals, (state) => state.find((openModal) => openModal.id === id));
-  return modal?.open || false;
+  return !!modal;
 };

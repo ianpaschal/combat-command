@@ -2,6 +2,8 @@ import { getAuthUserId } from '@convex-dev/auth/server';
 import { v } from 'convex/values';
 
 import { mutation } from '../_generated/server';
+import { getTournamentPairingDeep } from '../_model/tournamentPairings';
+import { getTournamentShallow } from '../_model/tournaments';
 import { fields } from '.';
 
 export const addPhotoToMatchResult = mutation({
@@ -74,12 +76,40 @@ export const createMatchResult = mutation({
     ...fields,
   },
   handler: async (ctx, args) => {
-    if (await getAuthUserId(ctx) !== args.player0UserId) {
-      throw 'Cannot add match as another user.';
+
+    const userId = await getAuthUserId(ctx);
+    if (!userId) {
+      throw 'Cannot add match results when not signed in!';
     }
+
+    if (args.tournamentPairingId) {
+      // Perform tournament-based auth checks for matches with a tournament pairing:
+      const tournamentPairing = await getTournamentPairingDeep(ctx, args.tournamentPairingId);
+      const tournament = await getTournamentShallow(ctx, tournamentPairing.tournamentId);
+
+      const isPlayerInPairing = tournamentPairing.playerUserIds.includes(userId);
+      const isTournamentOrganizer = tournament.organizerUserIds.includes(userId);
+      if (!isPlayerInPairing && !isTournamentOrganizer ) {
+        throw 'You do not have permission to do that.';
+      }
+
+      const player0AlreadySubmitted = args.player0UserId && tournamentPairing.submittedUserIds.includes(args.player0UserId);
+      const player1AlreadySubmitted = args.player1UserId && tournamentPairing.submittedUserIds.includes(args.player1UserId);
+      if (player0AlreadySubmitted || player1AlreadySubmitted) {
+        throw 'One or more players have already submitted their match result for this pairing!';
+      }
+
+    } else {
+      // Perform basic auth checks for single matches:
+      if (userId !== args.player0UserId && !args.tournamentPairingId) {
+        throw 'Cannot add match as another user.';
+      }
+    }
+ 
     if (!args.player1UserId && !args.player1Placeholder) {
       throw 'Match result must include reference to another user or a placeholder.';
     }
+
     // TODO: Validate: Check that details match game system config
     return await ctx.db.insert('matchResults', {
       ...args,
@@ -97,6 +127,20 @@ export const updateMatchResult = mutation({
   handler: async (ctx, { id, ...args }) => {
     
     const userId = await getAuthUserId(ctx);
+    if (!userId) {
+      throw 'Cannot edit match results when not signed in!';
+    }
+
+    if (args.tournamentPairingId) {
+      // Perform tournament-based auth checks for matches with a tournament pairing:
+      const tournamentPairing = await getTournamentPairingDeep(ctx, args.tournamentPairingId);
+      const tournament = await getTournamentShallow(ctx, tournamentPairing.tournamentId);
+
+      const isTournamentOrganizer = tournament.organizerUserIds.includes(userId);
+      if (!isTournamentOrganizer ) {
+        throw 'You do not have permission to do that.';
+      }
+    }
 
     const confirmations = {
       player0Confirmed: false,

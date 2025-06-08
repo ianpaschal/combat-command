@@ -1,0 +1,37 @@
+@use "/src/style/variables";
+@use "/src/style/flex";
+@use "/src/style/text";
+@use "/src/style/corners";
+@use "/src/style/shadows";
+@use "/src/style/borders";
+@use "/src/style/variants";
+
+.TournamentPairingRow {
+  &_Versus {
+    @include text.small($muted: true);
+
+    font-size: var(--font-size-tiny);
+    font-weight: 500;
+    line-height: var(--line-height-tiny);
+  }
+
+  &[data-orientation="horizontal"] {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  &[data-orientation="horizontal"] > :first-child {
+    justify-self: end;
+  }
+
+  &[data-orientation="vertical"] {
+    @include flex.column($gap: 0.5rem);
+
+    .TournamentPairingRow_Versus {
+      justify-self: start;
+      width: 2.5rem;
+    }
+  }
+}

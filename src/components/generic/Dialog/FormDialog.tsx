@@ -160,6 +160,6 @@ export const FormDialog = <T extends FieldValues>({
           </Portal>
         )}
       </AnimatePresence>
-    </Root >
+    </Root>
   );
 };

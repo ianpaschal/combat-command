@@ -7,32 +7,37 @@ import { useTournament } from '~/components/TournamentProvider';
 import { getCountryName } from '~/utils/common/getCountryName';
 import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
 
-// TODO: Convert to hook to use useTournament?
 export const useCompetitorAvatar = (tournamentCompetitor: TournamentCompetitor) => {
-  const tournament = useTournament();
+  const { competitorSize, useNationalTeams } = useTournament();
   return useMemo(() => {
-    if (tournament.competitorSize === 1) {
+    if (competitorSize === 1) {
       return <Avatar url={tournamentCompetitor.players[0].user?.avatarUrl} />;
     }
-    if (tournament.competitorSize > 1 && tournament.useNationalTeams && tournamentCompetitor.teamName) {
-      return <FlagCircle code={tournamentCompetitor.teamName} size="100%" />;
+    if (competitorSize > 1 && tournamentCompetitor.teamName) {
+      if (useNationalTeams) {
+        return <FlagCircle code={tournamentCompetitor.teamName} />;
+      }
+      return <Avatar />;
     }
-    return null;
-  }, [tournament, tournamentCompetitor]);
+    return <Avatar />;
+  }, [competitorSize, useNationalTeams, tournamentCompetitor]);
 };
 
-// TODO: Convert to hook to use useTournament?
 export const useCompetitorDisplayName = (tournamentCompetitor: TournamentCompetitor) => {
-  const tournament = useTournament();
+  const { competitorSize, useNationalTeams } = useTournament();
   return useMemo(() => {
-    if (tournament.competitorSize === 1) {
+    if (competitorSize === 1) {
       return getUserDisplayNameString(tournamentCompetitor.players[0].user);
     }
-    if (tournament.competitorSize > 1 && tournamentCompetitor.teamName) {
-      if (tournament.useNationalTeams) {
-        return getCountryName(tournamentCompetitor.teamName) ?? 'Unknown Team';
+    if (competitorSize > 1) {
+      if (tournamentCompetitor.teamName) {
+        if (useNationalTeams) {
+          return getCountryName(tournamentCompetitor.teamName) ?? 'Unknown Country';
+        }
+        return tournamentCompetitor.teamName;
       }
-      return tournamentCompetitor.teamName;
+      return 'Unknown Team';
     }
-  }, [tournament, tournamentCompetitor]);
+    return 'Unknown Competitor';
+  }, [competitorSize, useNationalTeams, tournamentCompetitor]);
 };

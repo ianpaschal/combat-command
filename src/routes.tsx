@@ -25,6 +25,7 @@ import {
   SettingsPage,
   UserProfileForm,
 } from '~/pages/SettingsPage';
+import { TournamentAdvanceRoundPage } from '~/pages/TournamentAdvanceRoundPage';
 import { TournamentCreatePage } from '~/pages/TournamentCreatePage';
 import { TournamentDetailPage } from '~/pages/TournamentDetailPage/TournamentDetailPage';
 import { TournamentEditPage } from '~/pages/TournamentEditPage/TournamentEditPage';
@@ -133,6 +134,11 @@ export const routes = [
     element: <TournamentDetailPage />,
   },
   {
+    path: PATHS.tournamentAdvanceRound,
+    visibility: [],
+    element: <TournamentAdvanceRoundPage />,
+  },
+  {
     path: PATHS.tournamentEdit,
     visibility: [],
     element: <TournamentEditPage />,
@@ -235,4 +241,8 @@ export const router = createBrowserRouter([{
     { path: '', element: <LandingPage /> },
     ...routes,
   ],
-}]);
+}], {
+  future: {
+    v7_relativeSplatPath: true,
+  },
+});

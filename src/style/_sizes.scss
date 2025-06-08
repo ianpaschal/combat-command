@@ -43,11 +43,13 @@
 @mixin normal {
   min-width: 2.5rem;
   height: 2.5rem;
+  min-height: 2.5rem;
   max-height: 2.5rem;
 }
 
 @mixin large {
   min-width: 3rem;
   height: 3rem;
+  min-height: 3rem;
   max-height: 3rem;
 }

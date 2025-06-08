@@ -11,7 +11,7 @@ export const CountryCell = ({
   code,
 }: CountryCellProps): JSX.Element => (
   <div className={styles.Root}>
-    <FlagCircle code={code} size="1.5rem" />
+    <FlagCircle code={code} />
     <span>
       {getCountryName(code)}
     </span>

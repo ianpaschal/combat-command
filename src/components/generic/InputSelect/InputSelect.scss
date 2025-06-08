@@ -15,9 +15,19 @@
   @include flex.row($gap: 0.25rem);
   @include text.ui;
 
-  width: 100%;
+  overflow: hidden;
+  flex-shrink: 1;
+
+  // width: 100%;
   padding: 0 0.75rem 0 1rem;
   text-wrap: nowrap;
+
+  span {
+    overflow: hidden;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 
   &--hasError {
     border-color: variables.$red;
@@ -38,10 +48,11 @@
 
 .SelectContent {
   @include borders.normal;
-  @include shadows.shadow;
+  @include shadows.elevated;
   @include animate.duration-quick;
   @include animate.style-pop;
 
+  z-index: 9999; /* something high enough */
   overflow: hidden;
   background-color: variables.$white;
   border-radius: variables.$corner-radius;
@@ -75,6 +86,7 @@
   align-items: center;
 
   height: 2rem;
+  padding-right: 1rem;
   padding-left: 2rem;
 
   border-radius: 0.25rem;
@@ -107,7 +119,7 @@
 .SelectSeparator {
   height: variables.$border-width;
   margin: 0.25rem 0;
-  background-color: var(--border-color);
+  background-color: var(--border-color-default);
 }
 
 .SelectItemIndicator {

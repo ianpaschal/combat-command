@@ -3,7 +3,3 @@
 .MatchResultDeleteDialog {
   @include flex.column($gap: 0);
 }
-
-.Form {
-  padding: 1rem var(--modal-inner-gutter);
-}

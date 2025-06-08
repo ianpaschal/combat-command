@@ -36,7 +36,7 @@ export const MatchResultSocials = ({
   };
   return (
     <>
-      <div className={clsx(styles.MatchResultSocials, className)} >
+      <div className={clsx(styles.MatchResultSocials, className)}>
         <HeartToggle checked={isLiked} onCheckedChange={handleToggleLike} />
         <Animate show={likeCount > 0}>
           <Dialog

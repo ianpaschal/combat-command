@@ -19,7 +19,7 @@ export const MatchResultEditDialog = (): JSX.Element => {
     <ControlledDialog id={id} className={styles.MatchResultEditDialog}>
       <DialogHeader title="Edit Match Result" onCancel={close} />
       <Separator />
-      <ScrollArea type="scroll" indicatorBorder={['top', 'bottom']}>
+      <ScrollArea type="scroll" indicatorBorders={['top', 'bottom']}>
         <FowV4MatchResultForm
           id="fow-v4-match-result-form"
           matchResultId={matchResult._id}

@@ -1,0 +1,22 @@
+@use "/src/style/flex";
+@use "/src/style/variables";
+@use "/src/style/corners";
+@use "/src/style/borders";
+@use "/src/style/sizes";
+@use "/src/style/variants";
+@use "/src/style/text";
+
+.InputUser {
+  @include flex.row;
+  @include sizes.large;
+  @include text.ui;
+
+  padding: calc(0.5rem - var(--border-width));
+  padding-right: calc(1rem - var(--border-width));
+
+  &_Buttons {
+    @include flex.row($gap: 0.25rem);
+
+    margin-left: auto;
+  }
+}

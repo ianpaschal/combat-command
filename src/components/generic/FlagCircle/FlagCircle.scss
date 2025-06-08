@@ -3,13 +3,13 @@
 .FlagCircle {
   flex-shrink: 0;
 
-  width: 2.5rem;
-  height: 2.5rem;
+  aspect-ratio: 1;
+  width: 100%;
 
   border-radius: 100%;
 
   // A normal border pushes the background image 1px away from the edges giving the circle "flat sides"
-  box-shadow: inset var(--border-color) 0 0 0 1px;
+  box-shadow: inset var(--border-color-default) 0 0 0 1px;
 }
 
 .FlagCircle-merc {

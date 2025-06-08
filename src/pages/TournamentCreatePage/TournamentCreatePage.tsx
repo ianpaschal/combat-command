@@ -9,7 +9,7 @@ import { Button } from '~/components/generic/Button';
 import { PageWrapper } from '~/components/PageWrapper';
 import { toast } from '~/components/ToastProvider';
 import { TournamentForm, TournamentFormSubmitData } from '~/components/TournamentForm';
-import { useCreateTournament } from '~/services/tournaments/useCreateTournament';
+import { useCreateTournament } from '~/services/tournaments';
 import { PATHS } from '~/settings';
 
 const WIDTH = 960;
@@ -21,7 +21,7 @@ export const TournamentCreatePage = (): JSX.Element => {
   const navigate = useNavigate();
 
   const { mutation: createTournament, loading } = useCreateTournament({
-    onSuccess: (id: string): void => {
+    onSuccess: (id): void => {
       toast.success('Tournament created!');
       navigate(generatePath(PATHS.tournamentDetails, { id }));
     },

@@ -16,6 +16,7 @@ export const MatchResultContextMenu = ({
 }: MatchResultContextMenuProps): JSX.Element | null => {
   const user = useAuth();
   const matchResult = useMatchResult();
+
   const { open: openEditDialog } = useMatchResultEditDialog(matchResult._id);
   const { open: openDeleteDialog } = useMatchResultDeleteDialog(matchResult._id);
 

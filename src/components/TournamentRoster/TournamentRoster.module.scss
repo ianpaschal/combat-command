@@ -1,0 +1,27 @@
+@use "/src/style/flex";
+@use "/src/style/variables";
+@use "/src/style/variants";
+@use "/src/style/borders";
+@use "/src/style/corners";
+@use "/src/style/shadows";
+@use "/src/style/text";
+
+.TournamentRoster {
+  &_Header {
+    @include flex.row;
+    @include flex.stretchy;
+
+    &_Actions {
+      @include flex.row;
+
+      margin-left: auto;
+    }
+  }
+
+  &_Content {
+    @include flex.column;
+
+    padding: 1rem calc(1rem - var(--border-width));
+    padding-left: calc(3.75rem - var(--border-width));
+  }
+}

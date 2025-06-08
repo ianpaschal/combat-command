@@ -16,6 +16,10 @@ export {
   createTournamentCompetitorArgs,
   removePlayerFromTournamentCompetitor,
   removePlayerFromTournamentCompetitorArgs,
+  substituteTournamentCompetitorPlayer,
+  substituteTournamentCompetitorPlayerArgs,
+  toggleTournamentCompetitorActive,
+  toggleTournamentCompetitorActiveArgs,
   updateTournamentCompetitor,
   updateTournamentCompetitorArgs,
 } from './mutations';

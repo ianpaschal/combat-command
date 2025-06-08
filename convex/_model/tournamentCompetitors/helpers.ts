@@ -1,5 +1,8 @@
-import { Doc } from '../../_generated/dataModel';
+import { ConvexError } from 'convex/values';
+
+import { Doc, Id } from '../../_generated/dataModel';
 import { QueryCtx } from '../../_generated/server';
+import { getErrorMessage } from '../../common/errors';
 import { redactUserInfo } from '../../users/utils/redactUserInfo';
 import { getStorageUrl } from '../_helpers/getStorageUrl';
 
@@ -11,16 +14,26 @@ export const getDeepTournamentCompetitor = async (
     // TODO: Replace with proper user helper
     const user = await ctx.db.get(userId);
     const avatarUrl = user ? await getStorageUrl(ctx, user.avatarStorageId) : undefined;
+    if (!user) {
+      throw new ConvexError(getErrorMessage('USER_NOT_FOUND'));
+    }
     return {
       active,
-      user: user ? {
+      user: {
         ...await redactUserInfo(ctx, user),
         avatarUrl,
-      } : null,
+      },
     };
   }));
   return {
     ...tournamentCompetitor,
-    players,
+    players: players.filter((player) => !!player.user),
   };
 };
+
+export const getTournamentCompetitorsByTournamentId = async (
+  ctx: QueryCtx,
+  id: Id<'tournaments'>,
+) => await ctx.db.query('tournamentCompetitors')
+  .withIndex('by_tournament_id', (q) => q.eq('tournamentId', id))
+  .collect();

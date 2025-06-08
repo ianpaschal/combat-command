@@ -13,6 +13,7 @@ interface InputSingleFileProps {
   name: string;
   onChange?: (value?: File | null) => void;
   value?: File | null;
+  hasError?: boolean;
 }
 
 export const InputSingleFile = forwardRef<HTMLDivElement, InputSingleFileProps>(({
@@ -21,6 +22,8 @@ export const InputSingleFile = forwardRef<HTMLDivElement, InputSingleFileProps>(
   name,
   onChange,
   value,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  hasError = false,
   ...props
 }, ref): JSX.Element => {
   const { getRootProps, getInputProps } = useDropzone({

@@ -31,7 +31,7 @@
 
 .Separator {
   flex-grow: 1;
-  background-color: var(--border-color);
+  background-color: var(--border-color-default);
 
   &[data-orientation="horizontal"] {
     height: 1px;

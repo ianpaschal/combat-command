@@ -1,0 +1,25 @@
+@use "/src/style/variables";
+@use "/src/style/flex";
+@use "/src/style/text";
+
+.TournamentRankingsCard {
+  &_Filters {
+    @include flex.row;
+  }
+
+  &_EmptyState {
+    @include flex.stretchy;
+    @include flex.centered;
+    @include text.ui($muted: true);
+
+    padding-bottom: 4rem;
+  }
+
+  &_Row {
+    padding: 0 var(--container-padding-x);
+  }
+
+  &_IdentityBadge {
+    margin: 0.5rem 0;
+  }
+}

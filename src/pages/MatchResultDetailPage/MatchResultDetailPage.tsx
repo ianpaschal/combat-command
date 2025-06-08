@@ -15,7 +15,7 @@ import { MatchResultPlayers } from '~/components/MatchResultPlayers';
 import { MatchResultProvider } from '~/components/MatchResultProvider';
 import { MatchResultSocials } from '~/components/MatchResultSocials';
 import { PageWrapper } from '~/components/PageWrapper';
-import { useFetchMatchResult } from '~/services/matchResults/useFetchMatchResult';
+import { useGetMatchResult } from '~/services/matchResults';
 import { MIN_WIDTH_DESKTOP } from '~/settings';
 import { MatchResultDetails } from './components/MatchResultDetails';
 
@@ -28,7 +28,7 @@ export const MatchResultDetailPage = (): JSX.Element => {
   const matchResultId = params.id! as MatchResultId; // Must exist or else how did we get to this route?
   const { open } = useMatchResultPhotoUploadDialog(matchResultId);
 
-  const { data: matchResult } = useFetchMatchResult(matchResultId);
+  const { data: matchResult } = useGetMatchResult({ id: matchResultId });
 
   const hasPhotos = !!matchResult?.photoIds?.length;
   const userInMatch = matchResult && user && [
@@ -69,6 +69,6 @@ export const MatchResultDetailPage = (): JSX.Element => {
           <MatchResultPhotoUploadDialog />
         </MatchResultProvider>
       )}
-    </PageWrapper >
+    </PageWrapper>
   );
 };
