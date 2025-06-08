@@ -6,32 +6,28 @@ import {
 
 import { MutationCtx } from '../../../_generated/server';
 import { getErrorMessage } from '../../../common/errors';
-import { generateTableAssignments } from '../../tournamentPairings/actions/generateTableAssignments';
+import { generateTableAssignments, unassignedTournamentPairingFields } from '../../tournamentPairings';
 import { checkTournamentAuth } from '../_helpers/checkTournamentAuth';
-
-// TODO: Move to pairings
-export const unassignedPairing = v.object({
-  playedTables: v.array(v.union(v.number(), v.null())),
-  tournamentCompetitor0Id: v.id('tournamentCompetitors'),
-  tournamentCompetitor1Id: v.union(v.id('tournamentCompetitors'), v.null()),
-});
-
-// TODO: Move to pairings
-export type UnassignedPairingInput = Infer<typeof unassignedPairing>;
+import { getTournamentShallow } from '../_helpers/getTournamentShallow';
 
 export const openTournamentRoundArgs = v.object({
   id: v.id('tournaments'),
-  unassignedPairings: v.array(unassignedPairing),
+  unassignedPairings: v.array(unassignedTournamentPairingFields),
 });
 
+/**
+ * Finalizes draft Pairings and opens a new Tournament round.
+ * 
+ * @param ctx - Convex query context
+ * @param args - Convex query args
+ * @param args.id - ID of the Tournament
+ * @param args.unassignedPairings - Draft Pairings to assign to tables
+ */
 export const openTournamentRound = async (
   ctx: MutationCtx,
   args: Infer<typeof openTournamentRoundArgs>,
-) => {
-  const tournament = await ctx.db.get(args.id);
-  if (!tournament) {
-    throw new ConvexError(getErrorMessage('TOURNAMENT_NOT_FOUND'));
-  }
+): Promise<void> => {
+  const tournament = await getTournamentShallow(ctx, args.id);
 
   // --- CHECK AUTH ----
   checkTournamentAuth(ctx, tournament);

@@ -2,7 +2,7 @@ import { defineTable } from 'convex/server';
 
 import { computedFields, editableFields } from './fields';
 
-export const tournaments = defineTable({
+export const tournamentsTable = defineTable({
   ...editableFields,
   ...computedFields,
 }).index(
@@ -11,48 +11,66 @@ export const tournaments = defineTable({
   'by_status', ['status'],
 );
 
+// Helpers
+export { checkTournamentAuth } from './_helpers/checkTournamentAuth';
+export { deepenTournament, type TournamentDeep } from './_helpers/deepenTournament';
+export { getTournamentDeep } from './_helpers/getTournamentDeep';
+export { getTournamentShallow } from './_helpers/getTournamentShallow';
+export { getTournamentUserIds } from './_helpers/getTournamentUserIds';
+
+// Mutations
 export {
   closeTournamentRound,
   closeTournamentRoundArgs,
-} from './actions/closeTournamentRound';
-export {
-  endTournament,
-  endTournamentArgs,
-} from './actions/endTournament';
-export {
-  openTournamentRound,
-  openTournamentRoundArgs,
-} from './actions/openTournamentRound';
-export {
-  publishTournament,
-  publishTournamentArgs,
-} from './actions/publishTournament';
-export {
-  startTournament,
-  startTournamentArgs,
-} from './actions/startTournament';
-export {
-  getTournamentDeep,
-  type TournamentDeep,
-} from './helpers';
+} from './mutations/closeTournamentRound';
 export {
   createTournament,
   createTournamentArgs,
+} from './mutations/createTournament';
+export {
   deleteTournament,
   deleteTournamentArgs,
+} from './mutations/deleteTournament';
+export {
+  endTournament,
+  endTournamentArgs,
+} from './mutations/endTournament';
+export {
+  openTournamentRound,
+  openTournamentRoundArgs,
+} from './mutations/openTournamentRound';
+export {
+  publishTournament,
+  publishTournamentArgs,
+} from './mutations/publishTournament';
+export {
+  startTournament,
+  startTournamentArgs,
+} from './mutations/startTournament';
+export {
   updateTournament,
   updateTournamentArgs,
-} from './mutations';
+} from './mutations/updateTournament';
+
+// Queries
 export {
   getTournament,
   getTournamentArgs,
-  getTournaments,
-} from './queries';
+} from './queries/getTournament';
 export {
   getTournamentOpenRound,
   getTournamentOpenRoundArgs,
+  type TournamentOpenRound,
 } from './queries/getTournamentOpenRound';
 export {
   getTournamentRankings,
   getTournamentRankingsArgs,
+  type TournamentRankings,
 } from './queries/getTournamentRankings';
+export {
+  getTournaments,
+} from './queries/getTournaments';
+export {
+  getTournamentsByStatus,
+  getTournamentsByStatusArgs,
+} from './queries/getTournamentsByStatus';

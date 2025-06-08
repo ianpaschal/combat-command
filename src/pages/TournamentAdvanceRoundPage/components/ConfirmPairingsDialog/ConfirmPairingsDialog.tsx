@@ -1,4 +1,4 @@
-import { PairingResult, UnassignedPairingInput } from '~/api';
+import { DraftTournamentPairings, UnassignedTournamentPairing } from '~/api';
 import { ConfirmationDialog } from '~/components/ConfirmationDialog';
 import { TournamentPairingRow } from '~/components/TournamentPairingRow';
 
@@ -8,8 +8,8 @@ export const confirmPairingsDialogId = 'confirm-pairings';
 
 export interface ConfirmPairingsDialogProps {
   nextRound: number;
-  manualPairings?: PairingResult;
-  onConfirm: (pairings: UnassignedPairingInput[]) => void;
+  manualPairings?: DraftTournamentPairings;
+  onConfirm: (pairings: UnassignedTournamentPairing[]) => void;
 }
 
 export const ConfirmPairingsDialog = ({
@@ -17,7 +17,7 @@ export const ConfirmPairingsDialog = ({
   manualPairings,
   onConfirm,
 }: ConfirmPairingsDialogProps): JSX.Element => {
-  const unassignedPairings: UnassignedPairingInput[] = [
+  const unassignedPairings: UnassignedTournamentPairing[] = [
     ...(manualPairings?.pairings || []).map((pairing) => ({
       tournamentCompetitor0Id: pairing[0].id,
       tournamentCompetitor1Id: pairing[1]?.id ?? null,

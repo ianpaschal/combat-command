@@ -62,11 +62,13 @@
 // import blossom from 'edmonds-blossom';
 /* ---------------------------------------------------------------------------------------------- */
 
+// TODO: DOCUMENTATION
+
 import {
-  DraftPairing,
-  PairingResult,
+  DraftTournamentPairing,
+  DraftTournamentPairings,
   RankedTournamentCompetitor,
-} from '../helpers/pairingTypes';
+} from '../types';
 
 // type RankedTournamentCompetitor = {
 //   id: string;
@@ -85,7 +87,7 @@ import {
  * Generates adjacent pairings.
  * @param competitors 
  */
-export function generateDraftAdjacentPairings(competitors: RankedTournamentCompetitor[]): PairingResult {
+export function generateDraftAdjacentPairings(competitors: RankedTournamentCompetitor[]): DraftTournamentPairings {
 
   // Attempt to pair all competitors with the most closely ranked opponent.
 
@@ -152,7 +154,7 @@ export function generateDraftAdjacentPairings(competitors: RankedTournamentCompe
   // return { pairings, unpairedCompetitors };
 
   // ALT VERSION:
-  const pairings: DraftPairing[] = [];
+  const pairings: DraftTournamentPairing[] = [];
   const unpairedCompetitors: RankedTournamentCompetitor[] = [];
 
   // Sort competitors by rank (ascending: best first)

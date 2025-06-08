@@ -8,15 +8,22 @@ import { MutationCtx } from '../../../_generated/server';
 import { getErrorMessage } from '../../../common/errors';
 import { checkTournamentAuth } from '../_helpers/checkTournamentAuth';
 
-export const startTournamentArgs = v.object({
+export const endTournamentArgs = v.object({
   id: v.id('tournaments'),
 });
 
-export const startTournament = async (
+/**
+ * Ends a Tournament (changes its status to 'archived').
+ * 
+ * @param ctx - Convex query context
+ * @param args - Convex query args
+ * @param args.id - ID of the Tournament
+ */
+export const endTournament = async (
   ctx: MutationCtx,
-  { id }: Infer<typeof startTournamentArgs>,
-) => {
-  const tournament = await ctx.db.get(id);
+  args: Infer<typeof endTournamentArgs>,
+): Promise<void> => {
+  const tournament = await ctx.db.get(args.id);
   if (!tournament) {
     throw new ConvexError(getErrorMessage('TOURNAMENT_NOT_FOUND'));
   }
@@ -26,21 +33,21 @@ export const startTournament = async (
 
   // ---- CHECK ELIGIBILITY ----
   if (tournament.status === 'draft') {
-    throw new ConvexError(getErrorMessage('CANNOT_START_DRAFT_TOURNAMENT'));
+    throw new ConvexError(getErrorMessage('CANNOT_END_DRAFT_TOURNAMENT'));
   }
   if (tournament.status === 'published') {
-    // OK
+    throw new ConvexError(getErrorMessage('CANNOT_END_PUBLISHED_TOURNAMENT'));
   }
   if (tournament.status === 'active') {
-    throw new ConvexError(getErrorMessage('TOURNAMENT_ALREADY_ACTIVE'));
+    // OK
   }
   if (tournament.status === 'archived') {
-    throw new ConvexError(getErrorMessage('CANNOT_START_ARCHIVED_TOURNAMENT'));
+    throw new ConvexError(getErrorMessage('TOURNAMENT_ALREADY_ARCHIVED'));
   }
 
   // ---- PRIMARY ACTIONS ----
-  // Start the tournament
-  await ctx.db.patch(id, {
-    status: 'active',
+  // End the tournament
+  await ctx.db.patch(args.id, {
+    status: 'archived',
   });
 };

@@ -2,8 +2,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { CircleCheck, CircleX } from 'lucide-react';
 
 import {
-  checkPairingIsValid,
-  DraftPairing,
+  checkDraftPairingIsValid,
+  DraftTournamentPairing,
   RankedTournamentCompetitor,
 } from '~/api';
 import { Draggable } from '../Draggable';
@@ -20,7 +20,7 @@ const iconVariants = {
 
 export interface PairingsGridRowProps {
   index: number;
-  pairing?: Partial<DraftPairing>;
+  pairing?: Partial<DraftTournamentPairing>;
   activeCompetitor?: RankedTournamentCompetitor | null;
 }
 
@@ -29,7 +29,7 @@ export const PairingsGridRow = ({
   pairing,
   activeCompetitor,
 }: PairingsGridRowProps): JSX.Element => {
-  const isValid = pairing && pairing[0] && pairing[1] ? checkPairingIsValid(pairing) : undefined;
+  const isValid = pairing && pairing[0] && pairing[1] ? checkDraftPairingIsValid(pairing) : undefined;
   return (
     <div className={styles.PairingsGridRow}>
       <div className={styles.PairingsGridRow_Indicator} data-valid={isValid}>

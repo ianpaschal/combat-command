@@ -13,7 +13,7 @@ import {
 import { restrictToWindowEdges } from '@dnd-kit/modifiers';
 import { AnimatePresence } from 'framer-motion';
 
-import { PairingResult, TournamentCompetitorId } from '~/api';
+import { DraftTournamentPairings, TournamentCompetitorId } from '~/api';
 import { Label } from '~/components/generic/Label';
 import {
   buildGridState,
@@ -45,8 +45,8 @@ const grabAnimationProps = {
 };
 
 export interface TournamentPairingsGridProps {
-  value?: PairingResult;
-  onChange: (value: PairingResult) => void;
+  value?: DraftTournamentPairings;
+  onChange: (value: DraftTournamentPairings) => void;
 }
 
 export const TournamentPairingsGrid = ({

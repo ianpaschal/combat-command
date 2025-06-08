@@ -1,6 +1,6 @@
 import { Id } from '../../_generated/dataModel';
 import { QueryCtx } from '../../_generated/server';
-import { getTournamentUserIds } from '../../_model/tournaments/helpers';
+import { getTournamentUserIds } from '../../_model/tournaments';
 
 type CheckUserTournamentRelationshipArgs = {
   queryingUserId: Id<'users'>;

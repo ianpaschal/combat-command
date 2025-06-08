@@ -7,25 +7,24 @@ import {
 import { MutationCtx } from '../../../_generated/server';
 import { getErrorMessage } from '../../../common/errors';
 import { checkTournamentAuth } from '../_helpers/checkTournamentAuth';
+import { getTournamentShallow } from '../_helpers/getTournamentShallow';
 
 export const closeTournamentRoundArgs = v.object({
   id: v.id('tournaments'),
 });
 
 /**
+ * Closes a currently open Tournament round.
  * 
- * @param ctx - Convex mutation context.
- * @param args - Convex mutation args.
- * @param args.id - The ID of the tournament.
+ * @param ctx - Convex mutation context
+ * @param args - Convex mutation args
+ * @param args.id - ID of the Tournament
  */
 export const closeTournamentRound = async (
   ctx: MutationCtx,
   args: Infer<typeof closeTournamentRoundArgs>,
-) => {
-  const tournament = await ctx.db.get(args.id);
-  if (!tournament) {
-    throw new ConvexError(getErrorMessage('TOURNAMENT_NOT_FOUND'));
-  }
+): Promise<void> => {
+  const tournament = await getTournamentShallow(ctx, args.id);
   
   // --- CHECK AUTH ----
   checkTournamentAuth(ctx, tournament);

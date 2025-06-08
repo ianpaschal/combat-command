@@ -5,7 +5,7 @@ import {
   useParams,
 } from 'react-router-dom';
 
-import { TournamentId, UnassignedPairingInput } from '~/api';
+import { TournamentId, UnassignedTournamentPairing } from '~/api';
 import { Button } from '~/components/generic/Button';
 import { PageWrapper } from '~/components/PageWrapper';
 import { toast } from '~/components/ToastProvider';
@@ -47,7 +47,7 @@ export const TournamentAdvanceRoundPage = (): JSX.Element => {
     pairingsStepRef,
   ]);
 
-  const onConfirmPairings = async (unassignedPairings: UnassignedPairingInput[]): Promise<void> => {
+  const onConfirmPairings = async (unassignedPairings: UnassignedTournamentPairing[]): Promise<void> => {
     await openTournamentRound({
       id: tournamentId,
       unassignedPairings,

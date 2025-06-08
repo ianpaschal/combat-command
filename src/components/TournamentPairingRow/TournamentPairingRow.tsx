@@ -2,9 +2,9 @@ import { useWindowWidth } from '@react-hook/window-size/throttled';
 import clsx from 'clsx';
 
 import {
-  DraftPairing,
+  DraftTournamentPairing,
   TournamentPairing,
-  UnassignedPairingInput,
+  UnassignedTournamentPairing,
 } from '~/api';
 import { IdentityBadge } from '~/components/IdentityBadge';
 import { MOBILE_BREAKPOINT } from '~/settings';
@@ -13,7 +13,7 @@ import { getIdentityBadgeProps } from './TournamentPairingRow.utils';
 import styles from './TournamentPairingRow.module.scss';
 
 export interface TournamentPairingRowProps {
-  pairing?: TournamentPairing | DraftPairing | UnassignedPairingInput;
+  pairing?: TournamentPairing | DraftTournamentPairing | UnassignedTournamentPairing;
   loading?: boolean;
   className?: string;
 }

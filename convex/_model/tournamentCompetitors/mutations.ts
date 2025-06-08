@@ -7,7 +7,7 @@ import {
 
 import { MutationCtx } from '../../_generated/server';
 import { getErrorMessage } from '../../common/errors';
-import { getTournamentUserIds } from '../tournaments/helpers';
+import { getTournamentUserIds } from '../tournaments';
 import { editableFields } from './fields';
 
 // CRUD Operations
@@ -41,7 +41,7 @@ export const createTournamentCompetitor = async (
     throw new ConvexError(getErrorMessage('TEAM_ALREADY_IN_TOURNAMENT'));
   }
 
-  if (unregisteredUserIds.some((userId) => registeredUserIds.has(userId))) {
+  if (unregisteredUserIds.some((userId) => registeredUserIds.includes(userId))) {
     throw new ConvexError(getErrorMessage('USER_ALREADY_IN_TOURNAMENT'));
   }
 

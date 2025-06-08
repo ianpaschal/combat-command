@@ -12,11 +12,18 @@ export const publishTournamentArgs = v.object({
   id: v.id('tournaments'),
 });
 
+/**
+ * Publishes a Tournament (changes its status to 'published').
+ * 
+ * @param ctx - Convex query context
+ * @param args - Convex query args
+ * @param args.id - ID of the Tournament
+ */
 export const publishTournament = async (
   ctx: MutationCtx,
-  { id }: Infer<typeof publishTournamentArgs>,
-) => {
-  const tournament = await ctx.db.get(id);
+  args: Infer<typeof publishTournamentArgs>,
+): Promise<void> => {
+  const tournament = await ctx.db.get(args.id);
   if (!tournament) {
     throw new ConvexError(getErrorMessage('TOURNAMENT_NOT_FOUND'));
   }
@@ -40,7 +47,7 @@ export const publishTournament = async (
 
   // ---- PRIMARY ACTIONS ----
   // Publish the tournament
-  await ctx.db.patch(id, {
+  await ctx.db.patch(args.id, {
     status: 'published',
   });
 };

@@ -1,9 +1,17 @@
-import { DraftPairing, RankedTournamentCompetitor } from './pairingTypes';
+import { DraftTournamentPairing, RankedTournamentCompetitor } from '../types';
 
-export const isValidOpponent = (
+/**
+ * Checks if two RankedTournamentCompetitors make for valid opponents.
+ * 
+ * @param a - RankedTournamentCompetitor A
+ * @param b - RankedTournamentCompetitor A
+ * @param pairings - All other DraftTournamentPairings
+ * @returns True if the match-up is valid, false if it is not
+ */
+export const checkOpponentIsValid = (
   a: RankedTournamentCompetitor,
   b: RankedTournamentCompetitor,
-  pairings: DraftPairing[],
+  pairings: DraftTournamentPairing[],
 ): boolean => {
   // Can't play themselves
   if (a.id === b.id) {

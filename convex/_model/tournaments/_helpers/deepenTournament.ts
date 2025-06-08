@@ -1,16 +1,22 @@
-import { getAuthUserId } from '@convex-dev/auth/server';
+import { Doc, Id } from '../../../_generated/dataModel';
+import { QueryCtx } from '../../../_generated/server';
+import { getStorageUrl } from '../../_helpers/getStorageUrl';
 
-import { Doc, Id } from '../../_generated/dataModel';
-import { QueryCtx } from '../../_generated/server';
-import { getStorageUrl } from '../_helpers/getStorageUrl';
-import { getTournamentCompetitorsByTournamentId } from '../tournamentCompetitors/helpers';
-
-export const getTournamentDeep = async (
+/**
+ * Deepens a Tournament by joining additional relevant data and adding computed fields.
+ * 
+ * @remarks
+ * This method's return type is, by nature, the definition of a deep Tournament.
+ * 
+ * @param ctx - Convex query context
+ * @param tournament - Raw Tournament document
+ * @returns A deep Tournament
+ */
+export const deepenTournament = async (
   ctx: QueryCtx,
   tournament: Doc<'tournaments'>,
 ) => {
   const logoUrl = await getStorageUrl(ctx, tournament.logoStorageId);
-
   const bannerUrl = await getStorageUrl(ctx, tournament.bannerStorageId);
 
   const tournamentCompetitors = await ctx.db.query('tournamentCompetitors').withIndex(
@@ -33,14 +39,6 @@ export const getTournamentDeep = async (
   const maxPlayers = tournament.maxCompetitors * tournament.competitorSize;
   const useTeams = tournament.competitorSize > 1;
 
-  // const organizerUsers = [];
-
-  // Restrict visibility of draft tournaments:
-  const userId = await getAuthUserId(ctx);
-  if (tournament.status === 'draft' && (!userId || !tournament.organizerUserIds.includes(userId))) {
-    return null;
-  }
-
   return {
     ...tournament,
     logoUrl,
@@ -54,15 +52,7 @@ export const getTournamentDeep = async (
   };
 };
 
-export type TournamentDeep = Awaited<ReturnType<typeof getTournamentDeep>>;
-
-export const getTournamentUserIds = async (
-  ctx: QueryCtx,
-  id: Id<'tournaments'>,
-) => {
-  const tournamentCompetitors = await getTournamentCompetitorsByTournamentId(ctx, id);
-  return new Set(tournamentCompetitors.reduce((acc, c) => [
-    ...acc,
-    ...c.players.map((p) => p.userId),
-  ], [] as Id<'users'>[]));
-};
+/**
+ * Deep Tournament with additional joined data and computed fields.
+ */
+export type TournamentDeep = Awaited<ReturnType<typeof deepenTournament>>;

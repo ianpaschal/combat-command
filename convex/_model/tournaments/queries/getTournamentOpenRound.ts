@@ -7,6 +7,14 @@ export const getTournamentOpenRoundArgs = v.object({
   id: v.id('tournaments'),
 });
 
+/**
+ * Gets the current open round for a Tournament, including its match submission progress.
+ * 
+ * @param ctx - Convex query context
+ * @param args - Convex query args
+ * @param args.id - ID of the Tournament
+ * @returns 
+ */
 export const getTournamentOpenRound = async (
   ctx: QueryCtx,
   args: Infer<typeof getTournamentOpenRoundArgs>,
@@ -40,3 +48,8 @@ export const getTournamentOpenRound = async (
     // TODO: Get timer
   };
 };
+
+/**
+ * Tournament open round data, including match submission progress.
+ */
+export type TournamentOpenRound = Awaited<ReturnType<typeof getTournamentOpenRound>>;

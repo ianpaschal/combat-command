@@ -1,7 +1,18 @@
+import { Infer, v } from 'convex/values';
 import blossom from 'edmonds-blossom';
 
 import { Id } from '../../../_generated/dataModel';
-import { PairingUniqueFields } from '../helpers/pairingTypes';
+import { PairingUniqueFields } from '../types';
+
+export const unassignedTournamentPairingFields = v.object({
+  playedTables: v.array(v.union(v.number(), v.null())),
+  tournamentCompetitor0Id: v.id('tournamentCompetitors'),
+  tournamentCompetitor1Id: v.union(v.id('tournamentCompetitors'), v.null()),
+});
+
+export type UnassignedTournamentPairing = Infer<typeof unassignedTournamentPairingFields>;
+
+// TODO: DOCUMENTATION
 
 export const generateTableAssignments = (
   draftPairings: {

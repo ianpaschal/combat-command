@@ -46,8 +46,10 @@ export type UpdateTournamentCompetitorArgs = typeof api.tournamentCompetitors.up
 export type TournamentPairingId = Id<'tournamentPairings'>;
 export type TournamentPairing = typeof api.tournamentPairings.getTournamentPairings._returnType[number];
 export type GetDraftTournamentPairingsArgs = typeof api.tournamentPairings.getDraftTournamentPairings._args;
-export { type TournamentPairingDeep } from '../convex/_model/tournamentPairings';
-export type { UnassignedPairingInput } from '../convex/_model/tournaments/actions/openTournamentRound';
+export {
+  type TournamentPairingDeep,
+  type UnassignedTournamentPairing,
+} from '../convex/_model/tournamentPairings';
 
 // Tournaments
 export type CreateTournamentArgs = typeof api.tournaments.createTournament._args;
@@ -85,14 +87,14 @@ export {
 } from '../convex/static/tournamentPairingMethods';
 
 // TODO: Move around...
-export {
-  checkPairingIsValid,
-} from '../convex/_model/tournamentPairings/helpers/checkPairingIsValid';
 export type {
-  DraftPairing,
-  PairingResult,
+  DraftTournamentPairing,
+  DraftTournamentPairings,
   RankedTournamentCompetitor,
-} from '../convex/_model/tournamentPairings/helpers/pairingTypes';
+} from '../convex/_model/tournamentPairings';
+export {
+  checkDraftPairingIsValid,
+} from '../convex/_model/tournamentPairings/';
 
 // Static Data & Interfaces (Flames of War 4th Edition)
 

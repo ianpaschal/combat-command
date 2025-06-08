@@ -7,10 +7,10 @@ import {
 import isEqual from 'fast-deep-equal';
 
 import {
-  PairingResult,
+  DraftTournamentPairings,
   TournamentPairingMethod,
   tournamentPairingMethodOptions,
-  UnassignedPairingInput,
+  UnassignedTournamentPairing,
 } from '~/api';
 import { ConfirmationDialog, useConfirmationDialog } from '~/components/ConfirmationDialog';
 import { Button } from '~/components/generic/Button';
@@ -29,7 +29,7 @@ const resetPairingsConfirmDialogId = 'confirm-reset-pairings';
 
 export interface PairingsStepProps {
   nextRound: number;
-  onConfirm: (pairings: UnassignedPairingInput[]) => void;
+  onConfirm: (pairings: UnassignedTournamentPairing[]) => void;
 }
 
 export interface PairingsStepHandle {
@@ -51,7 +51,7 @@ export const PairingsStep = forwardRef<PairingsStepHandle, PairingsStepProps>(({
     round: nextRound,
     method: pairingMethod,
   });
-  const [manualPairings, setManualPairings] = useState<PairingResult | undefined>(draftPairingResults);
+  const [manualPairings, setManualPairings] = useState<DraftTournamentPairings | undefined>(draftPairingResults);
   useEffect(() => {
     if (draftPairingResults) {
       setManualPairings(draftPairingResults);

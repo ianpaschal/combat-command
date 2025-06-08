@@ -1,13 +1,13 @@
 import { ChevronRight } from 'lucide-react';
 
 import {
-  DraftPairing,
+  DraftTournamentPairing,
   TournamentPairing,
-  UnassignedPairingInput,
+  UnassignedTournamentPairing,
 } from '~/api';
 import { IdentityBadgeProps } from '~/components/IdentityBadge';
 
-export function isDraftPairing(pairing: unknown): pairing is DraftPairing {
+export function isDraftPairing(pairing: unknown): pairing is DraftTournamentPairing {
   return Array.isArray(pairing) &&
     pairing.length > 0 &&
     typeof pairing[0] === 'object' &&
@@ -15,7 +15,7 @@ export function isDraftPairing(pairing: unknown): pairing is DraftPairing {
     'id' in pairing[0];
 }
 
-export function isUnassignedPairingInput(pairing: unknown): pairing is UnassignedPairingInput {
+export function isUnassignedPairingInput(pairing: unknown): pairing is UnassignedTournamentPairing {
   return typeof pairing === 'object' &&
     pairing !== null &&
     'tournamentCompetitor0Id' in pairing;
@@ -28,7 +28,7 @@ export function isTournamentPairing(pairing: unknown): pairing is TournamentPair
 }
 
 export const getIdentityBadgeProps = (
-  pairing?: TournamentPairing | DraftPairing | UnassignedPairingInput,
+  pairing?: TournamentPairing | DraftTournamentPairing | UnassignedTournamentPairing,
 ): [Partial<IdentityBadgeProps>, Partial<IdentityBadgeProps>] => {
   if (isDraftPairing(pairing)) {
     if (pairing[1]) {

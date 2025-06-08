@@ -9,14 +9,20 @@ import { aggregateFowV4TournamentData } from '../../fowV4/aggregateFowV4Tourname
 import { calculateFowV4TournamentRankings } from '../../fowV4/calculateFowV4TournamentRankings';
 import { getTournamentShallow } from '../_helpers/getTournamentShallow';
 
-/**
- * round: Rankings AFTER this round
- */
 export const getTournamentRankingsArgs = v.object({
   tournamentId: v.id('tournaments'),
   round: v.number(),
 });
 
+/**
+ * Gets rankings and other play data for a Tournament.
+ * 
+ * @param ctx - Convex query context
+ * @param args - Convex query args
+ * @param args.tournamentId - ID of the Tournament
+ * @param args.round - Round index up to which to include data
+ * @returns - A TournamentRankings object
+ */
 export const getTournamentRankings = async (
   ctx: QueryCtx,
   args: Infer<typeof getTournamentRankingsArgs>,
