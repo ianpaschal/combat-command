@@ -9,15 +9,9 @@
 .TournamentDetailsCard {
   @include flex.column($gap: 0);
 
+  overflow: hidden;
+
   &_ScrollArea {
     @include flex.stretchy;
-  }
-}
-
-// 3 x 320px + 4 x 16px
-@media (width >= 1024px) {
-  .TournamentDetailsCard {
-    position: absolute;
-    inset: 0;
   }
 }

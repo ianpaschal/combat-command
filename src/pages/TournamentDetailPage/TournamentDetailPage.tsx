@@ -1,6 +1,5 @@
 import { useCallback, useEffect } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
-import { useWindowWidth } from '@react-hook/window-size/throttled';
 import {
   Info,
   Trophy,
@@ -19,14 +18,11 @@ import { PageWrapper } from '~/components/PageWrapper';
 import { TournamentCompetitorsProvider } from '~/components/TournamentCompetitorsProvider';
 import { TournamentContextMenu } from '~/components/TournamentContextMenu';
 import { TournamentProvider } from '~/components/TournamentProvider';
+import { DeviceSize, useDeviceSize } from '~/hooks/useDeviceSize';
 import { TournamentRankingsCard } from '~/pages/TournamentDetailPage/components/TournamentRankingsCard';
 import { useGetTournamentCompetitorsByTournamentId } from '~/services/tournamentCompetitors';
 import { useGetTournament } from '~/services/tournaments';
-import {
-  MAX_WIDTH,
-  MIN_WIDTH_DESKTOP,
-  MIN_WIDTH_TABLET,
-} from '~/settings';
+import { MAX_WIDTH } from '~/settings';
 import { TournamentInfoCard } from './components/TournamentInfoCard';
 import { TournamentPairingsCard } from './components/TournamentPairingsCard';
 import { TournamentRosterCard } from './components/TournamentRosterCard';
@@ -34,7 +30,7 @@ import { TournamentRosterCard } from './components/TournamentRosterCard';
 import styles from './TournamentDetailPage.module.scss';
 
 export const TournamentDetailPage = (): JSX.Element => {
-  const windowWidth = useWindowWidth();
+  const [deviceSize, deviceType] = useDeviceSize();
   const params = useParams();
   const tournamentId = params.id! as TournamentId; // Must exist or else how did we get to this route?
   const {
@@ -46,8 +42,6 @@ export const TournamentDetailPage = (): JSX.Element => {
     loading: tournamentCompetitorsLoading,
   } = useGetTournamentCompetitorsByTournamentId({ tournamentId });
 
-  const fitToWindow = windowWidth >= MIN_WIDTH_DESKTOP;
-
   // TAB STUFF
   const [searchParams, setSearchParams] = useSearchParams();
   const queryTab = searchParams.get('tab');
@@ -56,7 +50,7 @@ export const TournamentDetailPage = (): JSX.Element => {
     setSearchParams({ tab }, { replace: true });
   }, [setSearchParams]);
 
-  const showInfoSidebar = windowWidth >= MIN_WIDTH_DESKTOP;
+  const showInfoSidebar = deviceSize >= DeviceSize.Desktop;
   const tabs = [
     { value: 'info', label: 'Info', icon: <Info /> },
     { value: 'pairings', label: 'Pairings', icon: <Zap /> },
@@ -76,7 +70,7 @@ export const TournamentDetailPage = (): JSX.Element => {
     }
   }, [activeTab, queryTab, handleTabChange]);
 
-  const showTabLabels = windowWidth >= MIN_WIDTH_TABLET;
+  const showTabLabels = deviceSize >= DeviceSize.Tablet;
 
   const loading = tournamentLoading || tournamentCompetitorsLoading;
 
@@ -90,21 +84,22 @@ export const TournamentDetailPage = (): JSX.Element => {
 
   return (
     <>
-      <div className={styles.TournamentDetailPage_Banner} style={tournament.bannerUrl ? {
-        backgroundImage: `url(${tournament.bannerUrl}`,
-        backgroundSize: 'cover',
-      } : undefined}>
-        <div className={styles.TournamentDetailPage_BannerContent} style={{ maxWidth: MAX_WIDTH }}>
-          {tournament?.logoUrl && (
-            <img className={styles.Logo} src={tournament.logoUrl} />
-          )}
-          <h1>{tournament.title}</h1>
+
+      <PageWrapper removeAppBarPadding>
+        <div className={styles.TournamentDetailPage_Banner} style={tournament.bannerUrl ? {
+          backgroundImage: `url(${tournament.bannerUrl}`,
+          backgroundSize: 'cover',
+        } : undefined}>
+          <div className={styles.TournamentDetailPage_BannerContent} style={{ maxWidth: MAX_WIDTH }}>
+            {tournament?.logoUrl && (
+              <img className={styles.Logo} src={tournament.logoUrl} />
+            )}
+            <h1>{tournament.title}</h1>
+          </div>
         </div>
-      </div>
-      <PageWrapper fitToWindow={fitToWindow} removeAppBarPadding>
         <TournamentProvider tournament={tournament}>
           <TournamentCompetitorsProvider tournamentCompetitors={tournamentCompetitors}>
-            <div className={styles.TournamentDetailPage_Content}>
+            <div className={styles.TournamentDetailPage_Content} data-device={deviceType}>
               {showInfoSidebar && (
                 <div className={styles.TournamentDetailPage_Sidebar}>
                   <TournamentInfoCard />
@@ -117,13 +112,13 @@ export const TournamentDetailPage = (): JSX.Element => {
                   )}
                   <TournamentContextMenu variant="primary" size="large" />
                 </div>
-                <TabsContent className={styles.TournamentDetailPage_TabsContent} value="info">
+                <TabsContent value="info">
                   <TournamentInfoCard />
                 </TabsContent>
-                <TabsContent className={styles.TournamentDetailPage_TabsContent} value="pairings">
+                <TabsContent value="pairings">
                   <TournamentPairingsCard />
                 </TabsContent>
-                <TabsContent className={styles.TournamentDetailPage_TabsContent} value="rankings">
+                <TabsContent value="rankings">
                   <TournamentRankingsCard />
                 </TabsContent>
                 {/* TODO: Add match results later */}
@@ -132,7 +127,7 @@ export const TournamentDetailPage = (): JSX.Element => {
                     Nothing here yet
                   </TournamentDetailsCard>
                 </TabsContent> */}
-                <TabsContent className={styles.TournamentDetailPage_TabsContent} value="roster">
+                <TabsContent value="roster">
                   <TournamentRosterCard />
                 </TabsContent>
               </Tabs>
