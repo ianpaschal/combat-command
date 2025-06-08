@@ -22,8 +22,8 @@ describe('getRange', () => {
   });
 
   it('should clamp min and max values within valid bounds when input is a Range object.', () => {
-    expect({ min: -50, max: 200 }).toEqual({ min: 0, max: 200 });
-    expect({ min: 100, max: 1500 }).toEqual({ min: 100, max: 999 });
-    expect({ min: 500, max: 400 }).toEqual({ min: 500, max: 500 });
+    expect(getRange({ min: -50, max: 200 })).toEqual({ min: 0, max: 200 });
+    expect(getRange({ min: 100, max: 1500 })).toEqual({ min: 100, max: 999 });
+    expect(getRange({ min: 500, max: 400 })).toEqual({ min: 500, max: 500 });
   });
 });

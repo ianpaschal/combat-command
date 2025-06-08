@@ -9,22 +9,15 @@ export const tournamentPairingsTable = defineTable({
   'by_tournament_id', ['tournamentId'],
 );
 
-// Types
-export type {
-  DraftTournamentPairing,
-  DraftTournamentPairings,
-  RankedTournamentCompetitor,
-} from './types';
-
 // Helpers
-export { checkDraftPairingIsValid } from './_helpers/checkDraftPairingIsValid';
-export { checkOpponentIsValid } from './_helpers/checkOpponentIsValid';
 export {
   deepenTournamentPairing,
   type TournamentPairingDeep,
 } from './_helpers/deepenTournamentPairing';
-export { generateDraftAdjacentPairings } from './_helpers/generateDraftAdjacentPairings';
-export { generateDraftRandomPairings } from './_helpers/generateDraftRandomPairings';
+export {
+  type DraftTournamentPairing,
+  generateDraftPairings,
+} from './_helpers/generateDraftPairings';
 export {
   generateTableAssignments,
   type UnassignedTournamentPairing,
@@ -32,6 +25,8 @@ export {
 } from './_helpers/generateTableAssignments';
 export { getTournamentPairingDeep } from './_helpers/getTournamentPairingDeep';
 export { getTournamentPairingShallow } from './_helpers/getTournamentPairingShallow';
+export { shuffle } from './_helpers/shuffle';
+export { sortByRank } from './_helpers/sortByRank';
 
 // Queries
 export {

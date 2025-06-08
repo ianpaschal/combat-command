@@ -13,7 +13,7 @@ import {
 import { restrictToWindowEdges } from '@dnd-kit/modifiers';
 import { AnimatePresence } from 'framer-motion';
 
-import { DraftTournamentPairings, TournamentCompetitorId } from '~/api';
+import { DraftTournamentPairing, TournamentCompetitorId } from '~/api';
 import { Label } from '~/components/generic/Label';
 import {
   buildGridState,
@@ -45,8 +45,8 @@ const grabAnimationProps = {
 };
 
 export interface TournamentPairingsGridProps {
-  value?: DraftTournamentPairings;
-  onChange: (value: DraftTournamentPairings) => void;
+  value?: DraftTournamentPairing[];
+  onChange: (value: DraftTournamentPairing[]) => void;
 }
 
 export const TournamentPairingsGrid = ({
@@ -95,10 +95,8 @@ export const TournamentPairingsGrid = ({
     onChange(buildPairingResult(competitors, updatedInternalState));
   };
 
-  const { pairings, unpairedCompetitors } = value ?? {
-    pairings: [],
-    unpairedCompetitors: [],
-  };
+  const fullPairings = (value || []).filter((pairing) => pairing[0] && pairing[1]);
+  const unpairedCompetitors = (value || []).filter((pairing) => !!pairing[0] && pairing[1] === null).map((pairing) => pairing[0]);
   const activeCompetitor = competitors.find((c) => c.id === activeCompetitorId);
 
   return (
@@ -112,7 +110,7 @@ export const TournamentPairingsGrid = ({
         <div className={styles.PairedSection}>
           <Label>Pairings</Label>
           {pairingIndexes.map((i) => (
-            <PairingsGridRow key={i} index={i} activeCompetitor={activeCompetitor} pairing={pairings[i]} />
+            <PairingsGridRow key={i} index={i} activeCompetitor={activeCompetitor} pairing={fullPairings[i]} />
           ))}
         </div>
         <div className={styles.UnpairedSection}>

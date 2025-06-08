@@ -1,16 +1,15 @@
 import {
   DraftTournamentPairing,
-  DraftTournamentPairings,
-  RankedTournamentCompetitor,
   TournamentCompetitorId,
+  TournamentCompetitorRanked,
 } from '~/api';
 
-export const convertPairingResultToCompetitorList = (pairingResult?: DraftTournamentPairings): RankedTournamentCompetitor[] => {
-  if (!pairingResult) {
+export const convertPairingResultToCompetitorList = (draftPairings?: DraftTournamentPairing[]): TournamentCompetitorRanked[] => {
+  if (!draftPairings) {
     return [];
   }
-  const competitors = new Set(pairingResult.unpairedCompetitors);
-  pairingResult.pairings.forEach((pairing) => {
+  const competitors = new Set<TournamentCompetitorRanked>();
+  draftPairings.forEach((pairing) => {
     if (pairing[0]) {
       competitors.add(pairing[0]);
     }
@@ -21,57 +20,51 @@ export const convertPairingResultToCompetitorList = (pairingResult?: DraftTourna
   return Array.from(competitors);
 };
 
-export const buildGridState = (pairingResult?: DraftTournamentPairings): Record<TournamentCompetitorId, string> => {
-  if (!pairingResult) {
+export const buildGridState = (draftPairings?: DraftTournamentPairing[]): Record<TournamentCompetitorId, string> => {
+  if (!draftPairings) {
     return {};
   }
-  const pairedCompetitors = pairingResult.pairings.reduce((acc, pairing, i) => {
-    const newAcc = {
+  return draftPairings.reduce((acc, pairing, i) => {
+    if (!pairing[1]) {
+      return {
+        ...acc,
+        [pairing[0].id]: 'unpaired',
+      };
+    }
+    return {
       ...acc,
+      [pairing[0].id]: `${i}_0`,
+      [pairing[1].id]: `${i}_1`,
     };
-    pairing.forEach((competitor, j) => {
-      if (competitor) {
-        newAcc[competitor.id] = `${i}_${j}`;
-      }
-    });
-    return newAcc;
   }, {} as Record<TournamentCompetitorId, string>);
-  const unpairedCompetitors = pairingResult.unpairedCompetitors.reduce((acc, competitor) => ({
-    ...acc,
-    [competitor.id]: 'unpaired',
-  }), {} as Record<TournamentCompetitorId, string>);
-  return {
-    ...pairedCompetitors,
-    ...unpairedCompetitors,
-  };
 };
 
-export const buildPairingResult = (competitors: RankedTournamentCompetitor[], state: Record<TournamentCompetitorId, string>): DraftTournamentPairings => {
+export const buildPairingResult = (competitors: TournamentCompetitorRanked[], state: Record<TournamentCompetitorId, string>): DraftTournamentPairing[] => {
   if (!competitors?.length || !Object.keys(state).length) {
-    return {
-      pairings: [],
-      unpairedCompetitors: [],
-    };
+    return [];
   }
   const statefulCompetitors = competitors.map((competitor) => ({
     competitor,
     slotId: state[competitor.id],
   }));
+
   const pairings: DraftTournamentPairing[] = [];
-  const unpairedCompetitors: RankedTournamentCompetitor[] = [];
-  statefulCompetitors.map(({ competitor, slotId }) => {
-    if (slotId === 'unpaired') {
-      unpairedCompetitors.push(competitor);
-    } else {
-      const [i,j] = slotId.split('_').map((i) => parseInt(i, 10));
-      if (!pairings[i]) {
-        pairings[i] = [null, null] as unknown as DraftTournamentPairing;
-      }
-      pairings[i][j] = competitor;
+
+  // Add all full pairings:
+  const pairedCompetitors = statefulCompetitors.filter(({ slotId }) => slotId !== 'unpaired');
+  for (const { competitor, slotId } of pairedCompetitors) {
+    const [i,j] = slotId.split('_').map((i) => parseInt(i, 10));
+    if (!pairings[i]) {
+      pairings[i] = [null, null] as unknown as DraftTournamentPairing;
     }
-  });
-  return {
-    pairings,
-    unpairedCompetitors,
-  };
+    pairings[i][j] = competitor;
+  }
+
+  // Add all partial pairings:
+  const unpairedCompetitors = statefulCompetitors.filter(({ slotId }) => slotId === 'unpaired');
+  for (const { competitor } of unpairedCompetitors) {
+    pairings.push([competitor, null]);
+  }
+
+  return pairings;
 };

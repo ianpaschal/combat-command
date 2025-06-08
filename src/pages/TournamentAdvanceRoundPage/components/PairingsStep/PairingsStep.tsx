@@ -7,7 +7,7 @@ import {
 import isEqual from 'fast-deep-equal';
 
 import {
-  DraftTournamentPairings,
+  DraftTournamentPairing,
   TournamentPairingMethod,
   tournamentPairingMethodOptions,
   UnassignedTournamentPairing,
@@ -51,7 +51,7 @@ export const PairingsStep = forwardRef<PairingsStepHandle, PairingsStepProps>(({
     round: nextRound,
     method: pairingMethod,
   });
-  const [manualPairings, setManualPairings] = useState<DraftTournamentPairings | undefined>(draftPairingResults);
+  const [manualPairings, setManualPairings] = useState<DraftTournamentPairing[] | undefined>(draftPairingResults);
   useEffect(() => {
     if (draftPairingResults) {
       setManualPairings(draftPairingResults);

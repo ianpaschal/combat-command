@@ -6,7 +6,7 @@ import {
 
 import { MutationCtx } from '../../../_generated/server';
 import { getErrorMessage } from '../../../common/errors';
-import { generateTableAssignments, unassignedTournamentPairingFields } from '../../tournamentPairings';
+import { generateTableAssignments, unassignedTournamentPairingFields } from '../../tournamentPairings/_helpers/generateTableAssignments';
 import { checkTournamentAuth } from '../_helpers/checkTournamentAuth';
 import { getTournamentShallow } from '../_helpers/getTournamentShallow';
 

@@ -1,14 +1,11 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { CircleCheck, CircleX } from 'lucide-react';
 
-import {
-  checkDraftPairingIsValid,
-  DraftTournamentPairing,
-  RankedTournamentCompetitor,
-} from '~/api';
+import { DraftTournamentPairing, TournamentCompetitorRanked } from '~/api';
 import { Draggable } from '../Draggable';
 import { Droppable } from '../Droppable/Droppable';
 import { PairableCompetitorCard } from '../PairableCompetitorCard';
+import { checkDraftPairingIsValid } from './PairingsGridRow.utils';
 
 import styles from './PairingsGridRow.module.scss';
 
@@ -21,7 +18,7 @@ const iconVariants = {
 export interface PairingsGridRowProps {
   index: number;
   pairing?: Partial<DraftTournamentPairing>;
-  activeCompetitor?: RankedTournamentCompetitor | null;
+  activeCompetitor?: TournamentCompetitorRanked | null;
 }
 
 export const PairingsGridRow = ({

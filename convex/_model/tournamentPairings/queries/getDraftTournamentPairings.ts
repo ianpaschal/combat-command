@@ -4,9 +4,10 @@ import { QueryCtx } from '../../../_generated/server';
 import { tournamentPairingMethod } from '../../../static/tournamentPairingMethods';
 import { getTournamentCompetitorListByTournamentId } from '../../tournamentCompetitors';
 import { getTournamentRankings } from '../../tournaments';
-import { generateDraftAdjacentPairings } from '../_helpers/generateDraftAdjacentPairings';
-import { generateDraftRandomPairings } from '../_helpers/generateDraftRandomPairings';
-import { DraftTournamentPairings } from '../types';
+import { generateDraftPairings } from '../_helpers/generateDraftPairings';
+import { DraftTournamentPairing } from '../_helpers/generateDraftPairings';
+import { shuffle } from '../_helpers/shuffle';
+import { sortByRank } from '../_helpers/sortByRank';
 
 export const getDraftTournamentPairingsArgs = v.object({
   method: tournamentPairingMethod,
@@ -22,12 +23,12 @@ export const getDraftTournamentPairingsArgs = v.object({
  * @param args.method - The pairing method to use
  * @param args.round - The upcoming round index which the generated pairing are for
  * @param args.tournamentId - ID of the Tournament
- * @returns A DraftTournamentPairings object
+ * @returns An array of DraftTournamentPairings
  */
 export const getDraftTournamentPairings = async (
   ctx: QueryCtx,
   args: Infer<typeof getDraftTournamentPairingsArgs>,
-): Promise<DraftTournamentPairings> => {
+): Promise<DraftTournamentPairing[]> => {
   const competitors = await getTournamentCompetitorListByTournamentId(ctx, args);
   const { competitors: rankedCompetitors } = await getTournamentRankings(ctx, {
     tournamentId: args.tournamentId,
@@ -35,13 +36,12 @@ export const getDraftTournamentPairings = async (
   });
   const activeCompetitors = rankedCompetitors.filter(({ id }) => !!competitors.find((c) => c._id === id && c.active));
   if (args.method === 'adjacent') {
-    return generateDraftAdjacentPairings(activeCompetitors);
+    const orderedCompetitors = sortByRank(activeCompetitors);
+    return generateDraftPairings(orderedCompetitors);
   }
   if (args.method === 'random') {
-    return generateDraftRandomPairings(activeCompetitors);
+    const orderedCompetitors = shuffle(activeCompetitors);
+    return generateDraftPairings(orderedCompetitors);
   }
-  return {
-    pairings: [],
-    unpairedCompetitors: [],
-  };
+  return [];
 };

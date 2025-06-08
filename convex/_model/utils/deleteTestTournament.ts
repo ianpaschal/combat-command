@@ -29,5 +29,11 @@ export const deleteTestTournament = async (
     await ctx.db.delete(_id);
   });
 
-  // TODO: Delete match results with that pairing id
+  // 4. Delete match results
+  const matchResults = await ctx.db.query('matchResults')
+    .withIndex('by_tournament_id', (q) => q.eq('tournamentId', id))
+    .collect();
+  matchResults.forEach(async ({ _id }) => {
+    await ctx.db.delete(_id);
+  });
 };

@@ -2,7 +2,6 @@ import { Infer, v } from 'convex/values';
 import blossom from 'edmonds-blossom';
 
 import { Id } from '../../../_generated/dataModel';
-import { PairingUniqueFields } from '../types';
 
 export const unassignedTournamentPairingFields = v.object({
   playedTables: v.array(v.union(v.number(), v.null())),
@@ -14,6 +13,12 @@ export type UnassignedTournamentPairing = Infer<typeof unassignedTournamentPairi
 
 // TODO: DOCUMENTATION
 
+export type AssignedTournamentPairing = {
+  tournamentCompetitor0Id: Id<'tournamentCompetitors'>;
+  tournamentCompetitor1Id: Id<'tournamentCompetitors'> | null;
+  table: number | null;
+};
+
 export const generateTableAssignments = (
   draftPairings: {
     playedTables: (number | null)[],
@@ -21,7 +26,7 @@ export const generateTableAssignments = (
     tournamentCompetitor1Id: Id<'tournamentCompetitors'> | null,
   }[],
   tableCount: number,
-): PairingUniqueFields[] => {
+): AssignedTournamentPairing[] => {
   const fullPairs = draftPairings.filter(
     p => p.tournamentCompetitor0Id && p.tournamentCompetitor1Id,
   );
@@ -48,7 +53,7 @@ export const generateTableAssignments = (
 
   const match = blossom(edges);
 
-  const assignedPairs: PairingUniqueFields[] = [];
+  const assignedPairs: AssignedTournamentPairing[] = [];
 
   const usedTables = new Set<number>();
 

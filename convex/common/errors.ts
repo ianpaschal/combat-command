@@ -70,6 +70,10 @@ export const errors = {
     message: 'Cannot calculate tournament rankings!',
     additionalInfo: 'One or more match results are missing a player!',
   },
+
+  // Pairings
+  NO_VALID_PAIRINGS_POSSIBLE: 'No valid pairing result possible.',
+  NO_VALID_PAIRINGS_POSSIBLE_WITHOUT_REPEAT: 'No valid pairing result possible without allowing a repeat.',
 };
 
 export function getErrorMessage(code: keyof typeof errors): { message: string, code: string } {

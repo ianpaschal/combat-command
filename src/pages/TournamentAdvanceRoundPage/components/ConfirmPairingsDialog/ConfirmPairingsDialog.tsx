@@ -1,6 +1,7 @@
-import { DraftTournamentPairings, UnassignedTournamentPairing } from '~/api';
+import { DraftTournamentPairing, UnassignedTournamentPairing } from '~/api';
 import { ConfirmationDialog } from '~/components/ConfirmationDialog';
 import { TournamentPairingRow } from '~/components/TournamentPairingRow';
+import { convertDraftPairingsToUnassignedPairings } from '../PairingsStep/PairingsStep.utils';
 
 import styles from './ConfirmPairingsDialog.module.scss';
 
@@ -8,30 +9,16 @@ export const confirmPairingsDialogId = 'confirm-pairings';
 
 export interface ConfirmPairingsDialogProps {
   nextRound: number;
-  manualPairings?: DraftTournamentPairings;
+  manualPairings?: DraftTournamentPairing[];
   onConfirm: (pairings: UnassignedTournamentPairing[]) => void;
 }
 
 export const ConfirmPairingsDialog = ({
   nextRound,
-  manualPairings,
+  manualPairings = [],
   onConfirm,
 }: ConfirmPairingsDialogProps): JSX.Element => {
-  const unassignedPairings: UnassignedTournamentPairing[] = [
-    ...(manualPairings?.pairings || []).map((pairing) => ({
-      tournamentCompetitor0Id: pairing[0].id,
-      tournamentCompetitor1Id: pairing[1]?.id ?? null,
-      playedTables: Array.from(new Set([
-        ...pairing[0].playedTables,
-        ...(pairing[1]?.playedTables || []),
-      ])),
-    })),
-    ...(manualPairings?.unpairedCompetitors || []).map(({ id, playedTables }) => ({
-      tournamentCompetitor0Id: id,
-      tournamentCompetitor1Id: null,
-      playedTables,
-    })),
-  ];
+  const unassignedPairings = convertDraftPairingsToUnassignedPairings(manualPairings);
 
   const handleConfirm = () => {
     if (!unassignedPairings.length) {

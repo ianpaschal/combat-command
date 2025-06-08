@@ -46,3 +46,13 @@ export const getTournamentRankings = async (
  * Tournament rankings and related data, split into competitors and players.
  */
 export type TournamentRankings = Awaited<ReturnType<typeof getTournamentRankings>>;
+
+/**
+ * Ranked TournamentCompetitor with additional stats and related data.
+ */
+export type TournamentCompetitorRanked = TournamentRankings['competitors'][number];
+
+/**
+ * Ranked Tournament player with additional stats and related data.
+ */
+export type TournamentPlayerRanked = TournamentRankings['competitors'][number];

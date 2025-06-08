@@ -89,12 +89,10 @@ export {
 // TODO: Move around...
 export type {
   DraftTournamentPairing,
-  DraftTournamentPairings,
-  RankedTournamentCompetitor,
 } from '../convex/_model/tournamentPairings';
-export {
-  checkDraftPairingIsValid,
-} from '../convex/_model/tournamentPairings/';
+export type {
+  TournamentCompetitorRanked,
+} from '../convex/_model/tournaments';
 
 // Static Data & Interfaces (Flames of War 4th Edition)
 

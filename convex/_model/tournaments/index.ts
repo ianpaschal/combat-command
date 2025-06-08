@@ -65,6 +65,8 @@ export {
 export {
   getTournamentRankings,
   getTournamentRankingsArgs,
+  type TournamentCompetitorRanked,
+  type TournamentPlayerRanked,
   type TournamentRankings,
 } from './queries/getTournamentRankings';
 export {
