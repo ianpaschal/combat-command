@@ -15,8 +15,14 @@
     @include flex.column;
     @include backgrounds.topography;
 
-    width: 100%;
+    position: relative;
+    right: 50%;
+    left: 50%;
+
+    width: 100vw;
     height: 12rem;
+    margin-right: -50vw;
+    margin-left: -50vw;
   }
 
   &_BannerContent {
@@ -30,23 +36,34 @@
     padding: 1rem var(--modal-outer-gutter);
 
     color: white;
-
-    // background-color: grey;
   }
 
+  // Everything under the banner:
   &_Content {
     @include flex.column;
+
+    // NO FLEX WEIGHT CLEVERNESS! A bit redundant but very idiot proof and easy to figure out later.
+    &[data-device="desktop"] {
+      display: grid;
+      grid-template-areas:
+        "sidebar tabs tabs"
+        "sidebar tabs tabs";
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 1rem;
+    }
   }
 
   &_Sidebar {
     @include flex.column;
 
-    position: relative;
-    flex-grow: 1;
+    grid-area: sidebar;
   }
 
   &_Tabs {
     @include flex.column;
+
+    grid-area: tabs;
   }
 
   &_TabBar {
@@ -54,36 +71,6 @@
 
     overflow: hidden;
     max-width: 100%;
-  }
-
-  &_TabsContent {
-    position: relative;
-    flex-grow: 1;
-  }
-
-  &_RoundTimer {
-    @include flex.column($gap: 0.25rem, $xAlign: center);
-
-    padding: 1rem var(--container-padding-x);
-
-    &_Round {
-      @include text.small;
-
-      display: block;
-    }
-
-    &_TimeRemaining {
-      display: block;
-      font-family: Rajdhani, sans-serif;
-      font-size: 3rem;
-      line-height: 2.5rem;
-    }
-
-    &_EndTime {
-      display: block;
-
-      @include text.small;
-    }
   }
 }
 
@@ -161,3 +148,28 @@
 .Logo {
   max-height: 100%;
 }
+
+// &_RoundTimer {
+//   @include flex.column($gap: 0.25rem, $xAlign: center);
+
+//   padding: 1rem var(--container-padding-x);
+
+//   &_Round {
+//     @include text.small;
+
+//     display: block;
+//   }
+
+//   &_TimeRemaining {
+//     display: block;
+//     font-family: Rajdhani, sans-serif;
+//     font-size: 3rem;
+//     line-height: 2.5rem;
+//   }
+
+//   &_EndTime {
+//     display: block;
+
+//     @include text.small;
+//   }
+// }

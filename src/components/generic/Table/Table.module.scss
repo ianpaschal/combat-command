@@ -25,13 +25,6 @@
   &_ScrollArea {
     position: relative;
     overflow: hidden; // Radix handles scroll
-    min-height: 0;
-
-    // This doesn't work. See: https://github.com/radix-ui/primitives/issues/1667
-    [data-radix-scroll-area-viewport] {
-      overscroll-behavior-x: auto;
-      overscroll-behavior-y: contain;
-    }
   }
 
   &_Inner {
