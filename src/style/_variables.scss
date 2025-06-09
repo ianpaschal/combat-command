@@ -38,6 +38,7 @@
   --line-height-normal: 1.25rem;
   --line-height-small: 1.125rem;
   --line-height-tiny: 1rem;
+  --app-bar-height: 4rem;
   --border-width: 1px;
   --container-padding-x: calc(var(--modal-inner-gutter) - var(--border-width));
   --container-padding-y: calc(var(--modal-inner-gutter) - var(--border-width));
@@ -146,7 +147,6 @@
 // Layout
 $corner-radius: 0.375rem;
 $border-width: 1px;
-$app-bar-height: 4rem;
 $icon-button-icon-size: 1.25rem;
 
 // BASE COLORS

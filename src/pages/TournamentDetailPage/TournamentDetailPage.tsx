@@ -22,7 +22,6 @@ import { DeviceSize, useDeviceSize } from '~/hooks/useDeviceSize';
 import { TournamentRankingsCard } from '~/pages/TournamentDetailPage/components/TournamentRankingsCard';
 import { useGetTournamentCompetitorsByTournamentId } from '~/services/tournamentCompetitors';
 import { useGetTournament } from '~/services/tournaments';
-import { MAX_WIDTH } from '~/settings';
 import { TournamentInfoCard } from './components/TournamentInfoCard';
 import { TournamentPairingsCard } from './components/TournamentPairingsCard';
 import { TournamentRosterCard } from './components/TournamentRosterCard';
@@ -84,19 +83,14 @@ export const TournamentDetailPage = (): JSX.Element => {
 
   return (
     <>
-
-      <PageWrapper removeAppBarPadding>
-        <div className={styles.TournamentDetailPage_Banner} style={tournament.bannerUrl ? {
-          backgroundImage: `url(${tournament.bannerUrl}`,
-          backgroundSize: 'cover',
-        } : undefined}>
-          <div className={styles.TournamentDetailPage_BannerContent} style={{ maxWidth: MAX_WIDTH }}>
-            {tournament?.logoUrl && (
-              <img className={styles.Logo} src={tournament.logoUrl} />
-            )}
-            <h1>{tournament.title}</h1>
-          </div>
-        </div>
+      <PageWrapper
+        banner={<>
+          {tournament?.logoUrl && (
+            <img className={styles.Logo} src={tournament.logoUrl} />
+          )}
+          <h1>{tournament.title}</h1>
+        </>}
+      >
         <TournamentProvider tournament={tournament}>
           <TournamentCompetitorsProvider tournamentCompetitors={tournamentCompetitors}>
             <div className={styles.TournamentDetailPage_Content} data-device={deviceType}>
