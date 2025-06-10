@@ -12,6 +12,12 @@ export const createTestTournamentArgs = v.object({
   useNationalTeams: v.boolean(),
 });
 
+const countryCodes = [
+  'nl', 'be', 'de', 'dk',
+  'se', 'gb-nir', 'fr', 'it',
+  'es', 'pt', 'ie', 'us',
+];
+
 export const createTestTournament = async (
   ctx: MutationCtx,
   {
@@ -62,8 +68,18 @@ export const createTestTournament = async (
         userId,
         active: true,
       }));
+
+      let teamName = undefined;
+      if (useTeams) {
+        if (useNationalTeams && countryCodes[i]) {
+          teamName = countryCodes[i];
+        } else {
+          teamName = `Team ${i + 1}`;
+        }
+      }
+
       await ctx.db.insert('tournamentCompetitors', {
-        teamName: useTeams ? `Team ${i + 1}` : undefined,
+        teamName,
         tournamentId,
         active: status === 'active',
         players,

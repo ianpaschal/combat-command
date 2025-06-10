@@ -16,7 +16,7 @@
     @include flex.column;
 
     // NO FLEX WEIGHT CLEVERNESS! A bit redundant but very idiot proof and easy to figure out later.
-    &[data-device="desktop"] {
+    &[data-device="wide"] {
       display: grid;
       grid-template-areas:
         "sidebar tabs tabs"
@@ -46,32 +46,3 @@
     max-width: 100%;
   }
 }
-
-.Logo {
-  max-height: 100%;
-}
-
-// &_RoundTimer {
-//   @include flex.column($gap: 0.25rem, $xAlign: center);
-
-//   padding: 1rem var(--container-padding-x);
-
-//   &_Round {
-//     @include text.small;
-
-//     display: block;
-//   }
-
-//   &_TimeRemaining {
-//     display: block;
-//     font-family: Rajdhani, sans-serif;
-//     font-size: 3rem;
-//     line-height: 2.5rem;
-//   }
-
-//   &_EndTime {
-//     display: block;
-
-//     @include text.small;
-//   }
-// }

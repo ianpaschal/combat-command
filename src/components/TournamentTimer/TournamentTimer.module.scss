@@ -1,0 +1,158 @@
+@use "/src/style/variables";
+@use "/src/style/flex";
+@use "/src/style/text";
+@use "/src/style/corners";
+@use "/src/style/shadows";
+@use "/src/style/borders";
+@use "/src/style/backgrounds";
+
+@mixin jumbotron {
+  user-select: none;
+
+  font-size: 2.5rem;
+  font-weight: 500;
+  line-height: 2rem;
+  text-align: center;
+}
+
+.TournamentTimer {
+  --digit-height: 2rem;
+  --digit-width: 1.5rem;
+
+  @include flex.column($gap: 0);
+  @include borders.normal;
+  @include shadows.elevated;
+  @include corners.normal;
+
+  min-width: 17.5rem; // Hardcoded for simplicity
+  height: min-content;
+  min-height: 8rem; // Hardcoded for simplicity
+  background-color: var(--card-bg);
+
+  &_TimeSection {
+    display: grid;
+    grid-template-areas:
+      "roundRing currentPhase"
+      "roundRing timeRemaining"
+      "roundRing endTime";
+    grid-template-columns: 6rem 1fr;
+    grid-template-rows: 1rem var(--digit-height) 1rem;
+    gap: 1rem;
+
+    padding: calc(1rem - var(--border-width));
+
+    color: var(--text-color-default);
+  }
+
+  &_RoundRing {
+    grid-area: roundRing;
+  }
+
+  &_RoundInner {
+    @include flex.column($gap: 0, $xAlign: center);
+  }
+
+  &_RoundNumber {
+    @include flex.centered;
+    @include jumbotron;
+  }
+
+  &_RoundLabel {
+    @include flex.centered;
+    @include text.small($muted: true);
+  }
+
+  &_CurrentPhase {
+    grid-area: currentPhase;
+  }
+
+  &_EndTime {
+    grid-area: endTime;
+  }
+
+  &_TextLine {
+    @include flex.row($gap: 0.25rem, $xAlign: right);
+
+    &_Label {
+      @include text.ui($muted: true);
+
+      line-height: var(--extra-text-height);
+    }
+
+    &_Value {
+      @include text.ui;
+
+      font-weight: 500;
+      line-height: var(--extra-text-height);
+    }
+  }
+
+  &_TimeRemaining {
+    @include flex.row($gap: 0, $xAlign: right);
+
+    user-select: none;
+    grid-area: timeRemaining;
+
+    &_Digit {
+      @include flex.centered;
+      @include jumbotron;
+
+      width: var(--digit-width);
+      height: var(--digit-height);
+    }
+
+    &_Spacer {
+      @include flex.centered;
+
+      width: 0.5rem;
+    }
+
+    &[data-paused="true"] {
+      @keyframes pulse {
+        0% {
+          opacity: 1;
+        }
+
+        50% {
+          opacity: 0.4;
+        }
+
+        100% {
+          opacity: 1;
+        }
+      }
+
+      animation: pulse 1.5s infinite;
+    }
+  }
+
+  &_Controls {
+    @include flex.row($gap: 0.25rem, $xAlign: center);
+    @include borders.normal($side: top);
+
+    padding: 0.5rem;
+  }
+
+  &_LoadingIcon {
+    place-self: center;
+
+    width: 2rem;
+    height: 2rem;
+
+    color: var(--text-color-default);
+
+    opacity: 0.2;
+
+    animation: spin 1s infinite linear;
+
+    @keyframes spin {
+      from {
+        transform: scale(1) rotate(0deg);
+      }
+
+      to {
+        transform: scale(1) rotate(360deg);
+      }
+    }
+  }
+}

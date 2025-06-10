@@ -48,11 +48,11 @@ export const ConfirmationDialog = ({
   };
   return (
     <ControlledDialog id={id} width="small" className={clsx(className)}>
-      <DialogHeader title={title} onCancel={close} />
+      <DialogHeader title={data?.title ?? title} onCancel={close} />
       <ScrollArea>
-        {description && (
+        {(data?.description || description) && (
           <DialogDescription>
-            {description}
+            {data?.description || description}
           </DialogDescription>
         )}
         {warnings.length > 0 && (

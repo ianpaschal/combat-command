@@ -6,7 +6,8 @@ import {
 
 import { MutationCtx } from '../../../_generated/server';
 import { getErrorMessage } from '../../../common/errors';
-import { generateTableAssignments, unassignedTournamentPairingFields } from '../../tournamentPairings/_helpers/generateTableAssignments';
+import { generateTableAssignments, unassignedTournamentPairingFields } from '../../tournamentPairings';
+import { createTournamentTimer } from '../../tournamentTimers';
 import { checkTournamentAuth } from '../_helpers/checkTournamentAuth';
 import { getTournamentShallow } from '../_helpers/getTournamentShallow';
 
@@ -16,12 +17,12 @@ export const openTournamentRoundArgs = v.object({
 });
 
 /**
- * Finalizes draft Pairings and opens a new Tournament round.
+ * Finalizes draft TournamentPairings and opens a new Tournament round.
  * 
  * @param ctx - Convex query context
  * @param args - Convex query args
  * @param args.id - ID of the Tournament
- * @param args.unassignedPairings - Draft Pairings to assign to tables
+ * @param args.unassignedPairings - Draft TournamentPairings to assign to tables
  */
 export const openTournamentRound = async (
   ctx: MutationCtx,
@@ -55,11 +56,12 @@ export const openTournamentRound = async (
   const tableCount = Math.ceil(tournament.maxCompetitors / 2);
   const nextRound = (tournament.lastRound ?? -1) + 1;
 
-  // Assign pairings to tables
+  // Assign pairings to tables:
   const assignedPairings = generateTableAssignments(args.unassignedPairings, tableCount);
 
-  // Create pairing records
+  // Create pairing records:
   Promise.all(assignedPairings.map(async (pairing) => (
+    // TODO: Make a mutation?
     await ctx.db.insert('tournamentPairings', {
       ...pairing,
       round: nextRound,
@@ -67,16 +69,13 @@ export const openTournamentRound = async (
     })
   )));
 
-  // TODO: Create TournamentRoundTimer
-  // await ctx.db.insert('tournamentTimers', {
-  //   pausedAt: null,
-  //   pauseTime: 0,
-  //   round: nextRound,
-  //   startedAt: null,
-  //   tournamentId: tournament._id,
-  // });
+  // Create a timer for the upcoming round:
+  await createTournamentTimer(ctx, {
+    tournamentId: tournament._id,
+    round: nextRound,
+  });
 
-  // Open the round
+  // Open the round:
   await ctx.db.patch(args.id, {
     currentRound: nextRound,
   });

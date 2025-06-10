@@ -19,11 +19,12 @@ import { TournamentCompetitorsProvider } from '~/components/TournamentCompetitor
 import { TournamentContextMenu } from '~/components/TournamentContextMenu';
 import { TournamentProvider } from '~/components/TournamentProvider';
 import { DeviceSize, useDeviceSize } from '~/hooks/useDeviceSize';
-import { TournamentRankingsCard } from '~/pages/TournamentDetailPage/components/TournamentRankingsCard';
 import { useGetTournamentCompetitorsByTournamentId } from '~/services/tournamentCompetitors';
 import { useGetTournament } from '~/services/tournaments';
+import { TournamentDetailBanner } from './components/TournamentDetailBanner';
 import { TournamentInfoCard } from './components/TournamentInfoCard';
 import { TournamentPairingsCard } from './components/TournamentPairingsCard';
+import { TournamentRankingsCard } from './components/TournamentRankingsCard';
 import { TournamentRosterCard } from './components/TournamentRosterCard';
 
 import styles from './TournamentDetailPage.module.scss';
@@ -41,7 +42,6 @@ export const TournamentDetailPage = (): JSX.Element => {
     loading: tournamentCompetitorsLoading,
   } = useGetTournamentCompetitorsByTournamentId({ tournamentId });
 
-  // TAB STUFF
   const [searchParams, setSearchParams] = useSearchParams();
   const queryTab = searchParams.get('tab');
 
@@ -49,7 +49,7 @@ export const TournamentDetailPage = (): JSX.Element => {
     setSearchParams({ tab }, { replace: true });
   }, [setSearchParams]);
 
-  const showInfoSidebar = deviceSize >= DeviceSize.Desktop;
+  const showInfoSidebar = deviceSize >= DeviceSize.Wide;
   const tabs = [
     { value: 'info', label: 'Info', icon: <Info /> },
     { value: 'pairings', label: 'Pairings', icon: <Zap /> },
@@ -69,7 +69,7 @@ export const TournamentDetailPage = (): JSX.Element => {
     }
   }, [activeTab, queryTab, handleTabChange]);
 
-  const showTabLabels = deviceSize >= DeviceSize.Tablet;
+  const showTabLabels = deviceSize >= DeviceSize.Default;
 
   const loading = tournamentLoading || tournamentCompetitorsLoading;
 
@@ -82,53 +82,44 @@ export const TournamentDetailPage = (): JSX.Element => {
   }
 
   return (
-    <>
-      <PageWrapper
-        banner={<>
-          {tournament?.logoUrl && (
-            <img className={styles.Logo} src={tournament.logoUrl} />
-          )}
-          <h1>{tournament.title}</h1>
-        </>}
-      >
-        <TournamentProvider tournament={tournament}>
-          <TournamentCompetitorsProvider tournamentCompetitors={tournamentCompetitors}>
-            <div className={styles.TournamentDetailPage_Content} data-device={deviceType}>
-              {showInfoSidebar && (
-                <div className={styles.TournamentDetailPage_Sidebar}>
-                  <TournamentInfoCard />
-                </div>
-              )}
-              <Tabs className={styles.TournamentDetailPage_Tabs} value={activeTab} onValueChange={handleTabChange}>
-                <div className={styles.TournamentDetailPage_TabBar}>
-                  {tabs.length > 1 && (
-                    <TabsList hideLabels={!showTabLabels} tabs={tabs} />
-                  )}
-                  <TournamentContextMenu variant="primary" size="large" />
-                </div>
-                <TabsContent value="info">
-                  <TournamentInfoCard />
-                </TabsContent>
-                <TabsContent value="pairings">
-                  <TournamentPairingsCard />
-                </TabsContent>
-                <TabsContent value="rankings">
-                  <TournamentRankingsCard />
-                </TabsContent>
-                {/* TODO: Add match results later */}
-                {/* <TabsContent className={styles.TournamentDetailPage_TabsContent} value="matchResults">
+    <TournamentProvider tournament={tournament}>
+      <TournamentCompetitorsProvider tournamentCompetitors={tournamentCompetitors}>
+        <PageWrapper banner={<TournamentDetailBanner />}>
+          <div className={styles.TournamentDetailPage_Content} data-device={deviceType}>
+            {showInfoSidebar && (
+              <div className={styles.TournamentDetailPage_Sidebar}>
+                <TournamentInfoCard />
+              </div>
+            )}
+            <Tabs className={styles.TournamentDetailPage_Tabs} value={activeTab} onValueChange={handleTabChange}>
+              <div className={styles.TournamentDetailPage_TabBar}>
+                {tabs.length > 1 && (
+                  <TabsList hideLabels={!showTabLabels} tabs={tabs} />
+                )}
+                <TournamentContextMenu variant="primary" size="large" />
+              </div>
+              <TabsContent value="info">
+                <TournamentInfoCard />
+              </TabsContent>
+              <TabsContent value="pairings">
+                <TournamentPairingsCard />
+              </TabsContent>
+              <TabsContent value="rankings">
+                <TournamentRankingsCard />
+              </TabsContent>
+              {/* TODO: Add match results later */}
+              {/* <TabsContent className={styles.TournamentDetailPage_TabsContent} value="matchResults">
                   <TournamentDetailsCard title="Match Results">
                     Nothing here yet
                   </TournamentDetailsCard>
                 </TabsContent> */}
-                <TabsContent value="roster">
-                  <TournamentRosterCard />
-                </TabsContent>
-              </Tabs>
-            </div>
-          </TournamentCompetitorsProvider>
-        </TournamentProvider >
-      </PageWrapper >
-    </>
+              <TabsContent value="roster">
+                <TournamentRosterCard />
+              </TabsContent>
+            </Tabs>
+          </div>
+        </PageWrapper>
+      </TournamentCompetitorsProvider>
+    </TournamentProvider>
   );
 };
