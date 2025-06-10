@@ -59,30 +59,15 @@ export const TournamentCard = ({
               <TournamentContextMenu />
             )}
             <Button onClick={handleClickDetails}>
-              View
+              {layout !== 'narrow' && (
+                'View'
+              )}
               <ChevronRight />
             </Button>
           </div>
         </div>
         <TournamentInfoBlock type="practical" className={styles.InfoBlock} />
         <TournamentInfoBlock type="gameSystem" className={styles.InfoBlock} />
-        {/* {layout === 'extra-wide' && (
-          <div className={styles.Registrations}>
-            <div className={styles.Avatars}>
-              <Avatar />
-              <Avatar />
-              <Avatar />
-              <Avatar />
-              <Avatar />
-              <Avatar />
-              <Avatar />
-              <Avatar />
-            </div>
-            <div>
-              + 7
-            </div>
-          </div>
-        )} */}
       </div>
     </TournamentProvider>
   );
