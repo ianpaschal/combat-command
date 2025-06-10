@@ -48,9 +48,9 @@ export const createTestTournament = async (
     competitorSize,
     useNationalTeams,
     roundStructure: {
-      pairingTime: useTeams ? 15 : 0,
-      setUpTime: 30,
-      playingTime: 150,
+      pairingTime: useTeams ? 1 : 0,
+      setUpTime: 2,
+      playingTime: 3,
     },
   });
 
