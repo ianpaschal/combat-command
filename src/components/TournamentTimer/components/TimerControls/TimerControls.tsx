@@ -9,7 +9,7 @@ import {
   Undo,
 } from 'lucide-react';
 
-import { TournamentPhase, TournamentTimerDeep } from '~/api';
+import { TournamentPhase, TournamentTimer } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
 import { ConfirmationDialog, useConfirmationDialog } from '~/components/ConfirmationDialog';
 import { Button } from '~/components/generic/Button';
@@ -25,7 +25,7 @@ const confirmRepeatPhaseDialogId = 'confirm-repeat-phase';
 
 export interface TimerControlsProps {
   className?: string;
-  timer: TournamentTimerDeep | null;
+  timer: TournamentTimer | null;
 }
 
 export const TimerControls = ({

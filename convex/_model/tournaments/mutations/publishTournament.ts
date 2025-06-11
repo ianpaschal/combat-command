@@ -7,6 +7,7 @@ import {
 import { MutationCtx } from '../../../_generated/server';
 import { getErrorMessage } from '../../../common/errors';
 import { checkTournamentAuth } from '../_helpers/checkTournamentAuth';
+import { getTournamentShallow } from '../_helpers/getTournamentShallow';
 
 export const publishTournamentArgs = v.object({
   id: v.id('tournaments'),
@@ -23,10 +24,7 @@ export const publishTournament = async (
   ctx: MutationCtx,
   args: Infer<typeof publishTournamentArgs>,
 ): Promise<void> => {
-  const tournament = await ctx.db.get(args.id);
-  if (!tournament) {
-    throw new ConvexError(getErrorMessage('TOURNAMENT_NOT_FOUND'));
-  }
+  const tournament = await getTournamentShallow(ctx, args.id);
 
   // --- CHECK AUTH ----
   checkTournamentAuth(ctx, tournament);

@@ -1,7 +1,7 @@
 import { generatePath, useNavigate } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 
-import { FetchTournamentListResponseItem } from '~/api';
+import { Tournament } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
 import { Button } from '~/components/generic/Button';
 import { TournamentContextMenu } from '~/components/TournamentContextMenu';
@@ -13,7 +13,7 @@ import { MIN_WIDTH_TABLET, PATHS } from '~/settings';
 import styles from './TournamentCard.module.scss';
 
 export interface TournamentCardProps {
-  tournament: FetchTournamentListResponseItem;
+  tournament: Tournament;
 }
 
 export const TournamentCard = ({

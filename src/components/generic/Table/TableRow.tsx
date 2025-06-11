@@ -20,7 +20,7 @@ export const TableRow = <T extends RowData>({
   columns,
   row,
 }: TableRowProps<T>): JSX.Element => {
-  const gridTemplateColumns = columns.map(c => c.width ? `${c.width}px` : '1fr').join(' ');
+  const gridTemplateColumns = columns.map((c) => c.width ? `${c.width}px` : '1fr').join(' ');
   if (!row) {
     return (
       <div className={clsx(styles.Table_HeaderRow, className)} style={{ gridTemplateColumns }}>

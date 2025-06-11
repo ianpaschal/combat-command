@@ -8,8 +8,7 @@ import { Button } from '~/components/generic/Button';
 import { Card } from '~/components/generic/Card';
 import { Separator } from '~/components/generic/Separator';
 import { useTournament } from '~/components/TournamentProvider';
-import { useAddPlayerToTournamentCompetitor } from '~/services/tournamentCompetitors';
-import { useRemovePlayerFromTournamentCompetitor } from '~/services/tournamentCompetitors';
+import { useAddTournamentCompetitorPlayer, useRemoveTournamentCompetitorPlayer } from '~/services/tournamentCompetitors';
 import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
 import { useCompetitorAvatar, useCompetitorDisplayName } from './TournamentCompetitorCard.hooks';
 
@@ -31,10 +30,10 @@ export const TournamentCompetitorCard = ({
   const userIsPlayer = !!(user && tournament.playerUserIds.includes(user._id));
   const userIsOrganizer = !!(user && tournament.organizerUserIds.includes(user._id));
 
-  const { mutation: addPlayer } = useAddPlayerToTournamentCompetitor({
+  const { mutation: addPlayer } = useAddTournamentCompetitorPlayer({
     successMessage: `Successfully joined ${tournament.title}!`,
   });
-  const { mutation: removePlayer } = useRemovePlayerFromTournamentCompetitor({
+  const { mutation: removePlayer } = useRemoveTournamentCompetitorPlayer({
     successMessage: `Successfully left ${tournament.title}!`,
   });
 

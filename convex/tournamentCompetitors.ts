@@ -1,67 +1,44 @@
 import { mutation, query } from './_generated/server';
-import {
-  addPlayerToTournamentCompetitor as addPlayerToTournamentCompetitorHandler,
-  addPlayerToTournamentCompetitorArgs,
-  createTournamentCompetitor as createTournamentCompetitorHandler,
-  createTournamentCompetitorArgs,
-  getTournamentCompetitor as getTournamentCompetitorHandler,
-  getTournamentCompetitorArgs,
-  getTournamentCompetitorList as getTournamentCompetitorListHandler,
-  getTournamentCompetitorListByTournamentId as getTournamentCompetitorListByTournamentIdHandler,
-  getTournamentCompetitorListByTournamentIdArgs,
-  removePlayerFromTournamentCompetitor as removePlayerFromTournamentCompetitorHandler,
-  removePlayerFromTournamentCompetitorArgs,
-  substituteTournamentCompetitorPlayer as substituteTournamentCompetitorPlayerHandler,
-  substituteTournamentCompetitorPlayerArgs,
-  toggleTournamentCompetitorActive as toggleTournamentCompetitorActiveHandler,
-  toggleTournamentCompetitorActiveArgs,
-  updateTournamentCompetitor as updateTournamentCompetitorHandler,
-  updateTournamentCompetitorArgs,
-} from './_model/tournamentCompetitors';
+import * as model from './_model/tournamentCompetitors';
 
 export const getTournamentCompetitor = query({
-  args: getTournamentCompetitorArgs,
-  handler: getTournamentCompetitorHandler,
+  args: model.getTournamentCompetitorArgs,
+  handler: model.getTournamentCompetitor,
 });
 
-export const getTournamentCompetitorList = query({
+export const getTournamentCompetitors = query({
   args: {},
-  handler: getTournamentCompetitorListHandler,
+  handler: model.getTournamentCompetitors,
 });
 
-export const getTournamentCompetitorListByTournamentId = query({
-  args: getTournamentCompetitorListByTournamentIdArgs,
-  handler: getTournamentCompetitorListByTournamentIdHandler,
+export const getTournamentCompetitorsByTournament = query({
+  args: model.getTournamentCompetitorsByTournamentArgs,
+  handler: model.getTournamentCompetitorsByTournament,
 });
 
 // CRUD Operations
 export const createTournamentCompetitor = mutation({
-  args: createTournamentCompetitorArgs,
-  handler: createTournamentCompetitorHandler,
+  args: model.createTournamentCompetitorArgs,
+  handler: model.createTournamentCompetitor,
 });
 
 export const updateTournamentCompetitor = mutation({
-  args: updateTournamentCompetitorArgs,
-  handler: updateTournamentCompetitorHandler,
+  args: model.updateTournamentCompetitorArgs,
+  handler: model.updateTournamentCompetitor,
 });
 
 // Actions
-export const addPlayerToTournamentCompetitor = mutation({
-  args: addPlayerToTournamentCompetitorArgs,
-  handler: addPlayerToTournamentCompetitorHandler,
+export const addTournamentCompetitorPlayer = mutation({
+  args: model.addTournamentCompetitorPlayerArgs,
+  handler: model.addTournamentCompetitorPlayer,
 });
 
-export const removePlayerFromTournamentCompetitor = mutation({
-  args: removePlayerFromTournamentCompetitorArgs,
-  handler: removePlayerFromTournamentCompetitorHandler,
+export const removeTournamentCompetitorPlayer = mutation({
+  args: model.removeTournamentCompetitorPlayerArgs,
+  handler: model.removeTournamentCompetitorPlayer,
 });
 
 export const toggleTournamentCompetitorActive = mutation({
-  args: toggleTournamentCompetitorActiveArgs,
-  handler: toggleTournamentCompetitorActiveHandler,
-});
-
-export const substituteTournamentCompetitorPlayer = mutation({
-  args: substituteTournamentCompetitorPlayerArgs,
-  handler: substituteTournamentCompetitorPlayerHandler,
+  args: model.toggleTournamentCompetitorActiveArgs,
+  handler: model.toggleTournamentCompetitorActive,
 });

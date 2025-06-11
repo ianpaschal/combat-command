@@ -8,7 +8,7 @@ import { Search, X } from 'lucide-react';
 import tzLookup from 'tz-lookup';
 import { useDebounce } from 'use-debounce';
 
-import { Location } from '~/api';
+import { Tournament } from '~/api';
 import { Button } from '~/components/generic/Button';
 import { InputText } from '~/components/generic/InputText';
 import { retrieveLocation } from '~/services/mapbox/useRetrieveLocation';
@@ -16,6 +16,8 @@ import { useSuggestLocation } from '~/services/mapbox/useSuggestLocation';
 import { LocationButton } from './LocationButton';
 
 import styles from './InputLocation.module.scss';
+
+export type Location = Tournament['location'];
 
 export interface InputLocationProps {
   value?: Location,

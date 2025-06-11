@@ -19,7 +19,7 @@ import { TournamentCompetitorsProvider } from '~/components/TournamentCompetitor
 import { TournamentContextMenu } from '~/components/TournamentContextMenu';
 import { TournamentProvider } from '~/components/TournamentProvider';
 import { DeviceSize, useDeviceSize } from '~/hooks/useDeviceSize';
-import { useGetTournamentCompetitorsByTournamentId } from '~/services/tournamentCompetitors';
+import { useGetTournamentCompetitorsByTournament } from '~/services/tournamentCompetitors';
 import { useGetTournament } from '~/services/tournaments';
 import { TournamentDetailBanner } from './components/TournamentDetailBanner';
 import { TournamentInfoCard } from './components/TournamentInfoCard';
@@ -40,7 +40,7 @@ export const TournamentDetailPage = (): JSX.Element => {
   const {
     data: tournamentCompetitors,
     loading: tournamentCompetitorsLoading,
-  } = useGetTournamentCompetitorsByTournamentId({ tournamentId });
+  } = useGetTournamentCompetitorsByTournament({ tournamentId });
 
   const [searchParams, setSearchParams] = useSearchParams();
   const queryTab = searchParams.get('tab');

@@ -28,10 +28,10 @@ export const generateTableAssignments = (
   tableCount: number,
 ): AssignedTournamentPairing[] => {
   const fullPairs = draftPairings.filter(
-    p => p.tournamentCompetitor0Id && p.tournamentCompetitor1Id,
+    (p) => p.tournamentCompetitor0Id && p.tournamentCompetitor1Id,
   );
   const partialPairs = draftPairings.filter(
-    p => !p.tournamentCompetitor0Id || !p.tournamentCompetitor1Id,
+    (p) => !p.tournamentCompetitor0Id || !p.tournamentCompetitor1Id,
   );
 
   const tableIndices = Array.from({ length: tableCount }, (_, i) => i);
@@ -44,7 +44,7 @@ export const generateTableAssignments = (
 
   fullPairs.forEach((pair, i) => {
     const playedTables = pair.playedTables;
-    tableIndices.forEach(table => {
+    tableIndices.forEach((table) => {
       const hasPlayed = playedTables.includes(table);
       const weight = hasPlayed ? 0 : 1; // Prefer unplayed tables (higher weight)
       edges.push([i, tableOffset + table, weight]);
@@ -75,6 +75,7 @@ export const generateTableAssignments = (
     assignedPairs.push({
       tournamentCompetitor0Id,
       tournamentCompetitor1Id,
+      // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
       table: table ?? (() => {
         // If not matched, assign first available (even if it's a repeat)
         for (let t = 0; t < tableCount; t++) {

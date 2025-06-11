@@ -13,7 +13,7 @@ import { MatchResultCommentForm } from '~/components/MatchResultCommentForm';
 import { MatchResultComments } from '~/components/MatchResultComments';
 import { MatchResultLikes } from '~/components/MatchResultLikes';
 import { useMatchResult } from '~/components/MatchResultProvider';
-import { useToggleMatchResultLike } from '~/services/matchResultLikes/useToggleMatchResultLike';
+import { useToggleMatchResultLike } from '~/services/matchResultLikes';
 
 import styles from './MatchResultSocials.module.scss';
 
@@ -28,9 +28,9 @@ export const MatchResultSocials = ({
   const matchResult = useMatchResult();
   const likeCount = matchResult.likedByUserIds.length;
   const isLiked = !!(user && matchResult.likedByUserIds.includes(user._id));
-  const toggleMatchResultLike = useToggleMatchResultLike();
+  const { mutation: toggleMatchResultLike } = useToggleMatchResultLike();
   const handleToggleLike = (): void => {
-    toggleMatchResultLike.toggleMatchResultLike({
+    toggleMatchResultLike({
       matchResultId: matchResult._id,
     });
   };

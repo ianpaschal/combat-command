@@ -1,7 +1,7 @@
 import { Infer, v } from 'convex/values';
 
 import { QueryCtx } from '../../../_generated/server';
-import { notNullOrUndefined } from '../../_helpers/notNullOrUndefined';
+import { notNullOrUndefined } from '../../common/_helpers/notNullOrUndefined';
 import { deepenTournamentPairing, TournamentPairingDeep } from '../_helpers/deepenTournamentPairing';
 
 export const getActiveTournamentPairingsByUserArgs = v.object({

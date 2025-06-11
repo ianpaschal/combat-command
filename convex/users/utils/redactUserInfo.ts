@@ -4,7 +4,10 @@ import { Doc } from '../../_generated/dataModel';
 import { QueryCtx } from '../../_generated/server';
 import { checkUserTournamentRelationship } from './checkUserTournamentRelationship';
 
-export const redactUserInfo = async (ctx: QueryCtx, user: Doc<'users'>) => {
+export const redactUserInfo = async (
+  ctx: QueryCtx,
+  user: Doc<'users'>,
+): Promise<Doc<'users'>> => {
   const queryingUserId = await getAuthUserId(ctx);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

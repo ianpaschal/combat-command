@@ -1,0 +1,10 @@
+{
+  "entryPoints": ["convex/_model"], // adjust to your project's entry point(s)
+  "out": "docs",
+  "includeVersion": true,
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "hideGenerator": true,
+  "readme": "none",
+  "entryPointStrategy": "expand"
+}

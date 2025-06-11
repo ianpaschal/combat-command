@@ -1,6 +1,6 @@
-import { FetchMatchResultListResponseItem } from '~/api';
+import { MatchResult } from '~/api';
 
-export const formatOutcome = (details: FetchMatchResultListResponseItem['details'], playerNames: [string, string]): string => {
+export const formatOutcome = (details: MatchResult['details'], playerNames: [string, string]): string => {
   if (details.winner !== -1 && details.outcomeType === 'attack_repelled') {
     return `${playerNames[details.winner]} repelled the attack`;
   }

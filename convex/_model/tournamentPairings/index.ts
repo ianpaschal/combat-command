@@ -1,13 +1,15 @@
 import { defineTable } from 'convex/server';
 
+import { Id } from '../../_generated/dataModel';
 import { computedFields, editableFields } from './fields';
 
 export const tournamentPairingsTable = defineTable({
   ...editableFields,
   ...computedFields,
-}).index(
-  'by_tournament_id', ['tournamentId'],
-);
+})
+  .index('by_tournament_id', ['tournamentId']);
+
+export type TournamentPairingId = Id<'tournamentPairings'>;
 
 // Helpers
 export {

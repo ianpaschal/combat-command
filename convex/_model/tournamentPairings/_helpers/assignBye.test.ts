@@ -106,8 +106,8 @@ describe('assignBye', () => {
     expect(bye!.id).toBe(competitors[2].id);
     expect(remaining).not.toContain(bye);
     expect(remaining.length).toBe(4);
-    expect(remaining.map(c => c.id)).toEqual(
-      competitors.filter(c => c.id !== bye!.id).map(c => c.id),
+    expect(remaining.map((c) => c.id)).toEqual(
+      competitors.filter((c) => c.id !== bye!.id).map((c) => c.id),
     );
   });
 });

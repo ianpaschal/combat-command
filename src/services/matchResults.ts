@@ -2,13 +2,18 @@ import { api } from '~/api';
 import { createMutationHook, createQueryHook } from '~/services/utils';
 
 // Basic Queries
-export const useGetMatchResult = createQueryHook(api.matchResults.fetchMatchResult.fetchMatchResult);
-export const useGetMatchResults = createQueryHook(api.matchResults.fetchMatchResultList.fetchMatchResultList);
+export const useGetMatchResult = createQueryHook(api.matchResults.getMatchResult);
+export const useGetMatchResults = createQueryHook(api.matchResults.getMatchResults);
+
+// Special Queries
+export const useGetMatchResultsByTournament = createQueryHook(api.matchResults.getMatchResultsByTournament);
+export const useGetMatchResultsByTournamentPairing = createQueryHook(api.matchResults.getMatchResultsByTournamentPairing);
+export const useGetMatchResultsByTournamentRound = createQueryHook(api.matchResults.getMatchResultsByTournamentRound);
 
 // Basic (C_UD) Mutations
-export const useCreateMatchResult = createMutationHook(api.matchResults.mutations.createMatchResult);
-export const useUpdateMatchResult = createMutationHook(api.matchResults.mutations.updateMatchResult);
-export const useDeleteMatchResult = createMutationHook(api.matchResults.mutations.deleteMatchResult);
+export const useCreateMatchResult = createMutationHook(api.matchResults.createMatchResult);
+export const useUpdateMatchResult = createMutationHook(api.matchResults.updateMatchResult);
+export const useDeleteMatchResult = createMutationHook(api.matchResults.deleteMatchResult);
 
 // Special Mutations
-export const useRemoveUserFromMatchResult = createMutationHook(api.matchResults.mutations.removeUserFromMatchResult);
+export const useAddPhotoToMatchResult = createMutationHook(api.matchResults.addPhotoToMatchResult);

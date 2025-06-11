@@ -1,5 +1,5 @@
 import { QueryCtx } from '../../../_generated/server';
-import { notNullOrUndefined } from '../../_helpers/notNullOrUndefined';
+import { notNullOrUndefined } from '../../common/_helpers/notNullOrUndefined';
 import { checkTournamentVisibility } from '../_helpers/checkTournamentVisibility';
 import { deepenTournament, TournamentDeep } from '../_helpers/deepenTournament';
 

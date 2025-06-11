@@ -1,0 +1,47 @@
+import { mutation, query } from './_generated/server';
+import * as model from './_model/matchResults';
+
+export const getMatchResult = query({
+  args: model.getMatchResultArgs,
+  handler: model.getMatchResult,
+});
+
+export const getMatchResults = query({
+  args: {},
+  handler: model.getMatchResults,
+});
+
+export const getMatchResultsByTournament = query({
+  args: model.getMatchResultsByTournamentArgs,
+  handler: model.getMatchResultsByTournament,
+});
+
+export const getMatchResultsByTournamentPairing = query({
+  args: model.getMatchResultsByTournamentPairingArgs,
+  handler: model.getMatchResultsByTournamentPairing,
+});
+
+export const getMatchResultsByTournamentRound = query({
+  args: model.getMatchResultsByTournamentRoundArgs,
+  handler: model.getMatchResultsByTournamentRound,
+});
+
+export const addPhotoToMatchResult = mutation({
+  args: model.addPhotoToMatchResultArgs,
+  handler: model.addPhotoToMatchResult,
+});
+
+export const createMatchResult = mutation({
+  args: model.createMatchResultArgs,
+  handler: model.createMatchResult,
+});
+
+export const updateMatchResult = mutation({
+  args: model.updateMatchResultArgs,
+  handler: model.updateMatchResult,
+});
+
+export const deleteMatchResult = mutation({
+  args: model.deleteMatchResultArgs,
+  handler: model.deleteMatchResult,
+});

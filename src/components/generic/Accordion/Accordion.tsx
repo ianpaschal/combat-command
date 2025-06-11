@@ -13,7 +13,7 @@ export const Accordion = ({
 }: AccordionProps): JSX.Element => {
   const [openKey, setOpenKey] = useState<string | null>(null);
   const toggle = (key: string) => {
-    setOpenKey(prev => (prev === key ? null : key));
+    setOpenKey((prev) => (prev === key ? null : key));
   };
   return (
     <div className={styles.Accordion}>

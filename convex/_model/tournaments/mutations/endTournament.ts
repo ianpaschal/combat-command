@@ -53,7 +53,7 @@ export const endTournament = async (
     round: tournament.currentRound,
   });
 
-  // End the tournament
+  // End the tournament:
   await ctx.db.patch(args.id, {
     status: 'archived',
   });

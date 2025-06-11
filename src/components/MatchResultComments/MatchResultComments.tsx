@@ -1,10 +1,10 @@
 import { sentenceCase } from 'change-case';
 import clsx from 'clsx';
-import { useQuery } from 'convex/react';
 import { formatDistance } from 'date-fns';
 
-import { api, MatchResultId } from '~/api';
+import { MatchResultId } from '~/api';
 import { Avatar } from '~/components/generic/Avatar';
+import { useGetMatchResultCommentsByMatchResult } from '~/services/matchResultComments';
 import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
 
 import styles from './MatchResultComments.module.scss';
@@ -18,12 +18,12 @@ export const MatchResultComments = ({
   className,
   matchResultId,
 }: MatchResultCommentsProps): JSX.Element => {
-  const comments = useQuery(api.matchResultComments.queries.getMatchResultCommentsByMatchResultId, {
+  const { data: matchResultComments } = useGetMatchResultCommentsByMatchResult({
     matchResultId,
   });
   return (
     <div className={clsx(styles.MatchResultComments, className)}>
-      {(comments || []).map((comment) => (
+      {(matchResultComments || []).map((comment) => (
         <div key={comment._id} className={styles.Comment}>
           <Avatar url={comment.user.avatarUrl} className={styles.Avatar} />
           <div className={styles.Name}>

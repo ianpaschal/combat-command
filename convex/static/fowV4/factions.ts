@@ -23,6 +23,10 @@ export const fowV4Factions: FowV4Faction[] = [
     displayName: 'Great Britain & Commonwealth',
   },
   {
+    id: 'flames_of_war_v4::faction::australia',
+    displayName: 'Australia',
+  },
+  {
     id: 'flames_of_war_v4::faction::italy',
     displayName: 'Italy',
   },
