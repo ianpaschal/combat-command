@@ -6,6 +6,7 @@ import {
 
 import { MutationCtx } from '../../../_generated/server';
 import { getErrorMessage } from '../../../common/errors';
+import { deleteTournamentTimerByTournament } from '../../tournamentTimers';
 import { checkTournamentAuth } from '../_helpers/checkTournamentAuth';
 import { getTournamentShallow } from '../_helpers/getTournamentShallow';
 
@@ -44,7 +45,11 @@ export const closeTournamentRound = async (
   }
 
   // ---- PRIMARY ACTIONS ----
-  // TODO: Clean up TournamentRoundTimer
+  // Clean up TournamentTimer:
+  await deleteTournamentTimerByTournament(ctx, {
+    tournamentId: tournament._id,
+    round: tournament.currentRound,
+  });
 
   // Close the round
   await ctx.db.patch(args. id, {

@@ -33,6 +33,14 @@ export type MatchResultId = Id<'matchResults'>;
 // Photos
 export type PhotoId = Id<'photos'>;
 
+// Tournament Timers
+export {
+  convertRoundStructureToMs,
+  type TournamentRoundStructure,
+  type TournamentTimerDeep,
+  type TournamentTimerId,
+} from '../convex/_model/tournamentTimers';
+
 // Tournament Competitors
 export type FetchTournamentCompetitorListResponse = typeof api.tournamentCompetitors.getTournamentCompetitorList._returnType;
 export type FetchTournamentCompetitorListResponseItem = FetchTournamentCompetitorListResponse[number];
@@ -85,6 +93,9 @@ export {
   tournamentPairingMethodDisplayNames,
   tournamentPairingMethodOptions,
 } from '../convex/static/tournamentPairingMethods';
+export {
+  type TournamentPhase,
+} from '../convex/static/tournamentPhases';
 
 // TODO: Move around...
 export type {

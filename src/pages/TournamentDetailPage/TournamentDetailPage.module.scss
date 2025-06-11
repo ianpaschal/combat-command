@@ -11,39 +11,12 @@
   flex-direction: column;
   align-items: center;
 
-  &_Banner {
-    @include flex.column;
-    @include backgrounds.topography;
-
-    position: relative;
-    right: 50%;
-    left: 50%;
-
-    width: 100vw;
-    height: 12rem;
-    margin-right: -50vw;
-    margin-left: -50vw;
-  }
-
-  &_BannerContent {
-    @include flex.row;
-
-    overflow: hidden;
-    flex: 1;
-
-    width: 100%;
-    margin: variables.$app-bar-height auto 0;
-    padding: 1rem var(--modal-outer-gutter);
-
-    color: white;
-  }
-
   // Everything under the banner:
   &_Content {
     @include flex.column;
 
     // NO FLEX WEIGHT CLEVERNESS! A bit redundant but very idiot proof and easy to figure out later.
-    &[data-device="desktop"] {
+    &[data-device="wide"] {
       display: grid;
       grid-template-areas:
         "sidebar tabs tabs"
@@ -73,103 +46,3 @@
     max-width: 100%;
   }
 }
-
-// .Root {
-//   display: flex;
-//   flex-direction: column;
-//   gap: 1rem;
-// }
-
-// .Photos {
-//   @include shadows.surface;
-//   @include corners.normal;
-
-//   grid-area: photos;
-//   aspect-ratio: 4 / 3;
-// }
-
-// .PhotosEmpty {
-//   @include flex.column($gap: 0.25rem, $yAlign: center);
-//   @include borders.normal;
-
-//   flex-grow: 1;
-//   min-height: 6rem;
-//   border-style: dashed;
-// }
-
-// .Players {
-//   grid-area: players;
-//   height: min-content;
-// }
-
-// .DetailsCard {
-//   grid-area: details;
-// }
-
-// .Details {
-//   @include flex.stretchy;
-
-//   padding: 1rem var(--container-padding-x);
-// }
-
-// .DetailsFooter {
-//   @include text.small($muted: true);
-//   @include flex.row($gap: 0.5rem);
-
-//   padding: 1rem var(--container-padding-x);
-// }
-
-// .Socials {
-//   padding: 0.75rem var(--container-padding-x);
-// }
-
-// // 2 x 320px + 3 x 16px
-// @media (width >= 688px) {
-//   .Photos {
-//     aspect-ratio: 5 / 3;
-//   }
-// }
-
-@media (width >= 480px) {
-  .TournamentDetailPage_Banner {
-    height: 16rem;
-  }
-}
-
-// 3 x 320px + 4 x 16px
-@media (width >= 1024px) {
-  .TournamentDetailPage_Content {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    height: 100%;
-  }
-}
-
-.Logo {
-  max-height: 100%;
-}
-
-// &_RoundTimer {
-//   @include flex.column($gap: 0.25rem, $xAlign: center);
-
-//   padding: 1rem var(--container-padding-x);
-
-//   &_Round {
-//     @include text.small;
-
-//     display: block;
-//   }
-
-//   &_TimeRemaining {
-//     display: block;
-//     font-family: Rajdhani, sans-serif;
-//     font-size: 3rem;
-//     line-height: 2.5rem;
-//   }
-
-//   &_EndTime {
-//     display: block;
-
-//     @include text.small;
-//   }
-// }
