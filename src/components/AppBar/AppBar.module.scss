@@ -11,7 +11,7 @@
   left: 0;
 
   width: 100vw;
-  height: variables.$app-bar-height;
+  height: var(--app-bar-height);
 
   background-color: var(--card-bg);
   border-bottom: variables.$border-width solid var(--border-color-default);
@@ -44,7 +44,7 @@
   @include borders.normal($side: bottom);
 
   position: relative;
-  height: variables.$app-bar-height;
+  height: var(--app-bar-height);
   padding-left: 1rem;
 }
 
