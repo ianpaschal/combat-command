@@ -29,6 +29,7 @@
     @include flex.row;
     @include borders.normal($side: bottom);
 
+    overflow: hidden;
     padding: 0.5rem 1rem;
 
     h2 {
