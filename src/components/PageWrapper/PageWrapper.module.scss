@@ -9,6 +9,7 @@ $header-height: 2.5rem;
 
   flex-grow: 1;
   min-height: 0;
+  padding-bottom: calc(100vh - 100dvh); // Prevent browser toolbar from cutting off bottom of page
 
   &_Banner {
     @include flex.column;
