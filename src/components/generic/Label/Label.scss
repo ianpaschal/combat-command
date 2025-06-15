@@ -2,8 +2,8 @@
 
 .Label {
   @include text.ui($bold: true);
+  @include text.single-line;
 
   display: block;
   line-height: 1rem;
-  white-space: nowrap;
 }

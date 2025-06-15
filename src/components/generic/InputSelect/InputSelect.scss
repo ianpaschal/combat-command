@@ -78,6 +78,7 @@
 .SelectItem {
   @include variants.ghost;
   @include text.ui;
+  @include text.single-line;
 
   position: relative;
 

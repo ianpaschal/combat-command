@@ -56,7 +56,7 @@ export const FowV4MatchResultForm = ({
   const [
     tournamentPairingId,
     setTournamentPairingId,
-  ] = useAsyncState<TournamentPairingId | undefined>(undefined, matchResult?.tournamentPairingId);
+  ] = useAsyncState<TournamentPairingId | 'single'>('single', matchResult?.tournamentPairingId);
 
   const {
     open: openConfirmMatchResultDialog,
@@ -94,7 +94,7 @@ export const FowV4MatchResultForm = ({
       if (tournamentPairingId) {
         openConfirmMatchResultDialog();
       } else {
-        createMatchResult({ ...data, tournamentPairingId });
+        createMatchResult({ ...data });
       }
     }
   };
@@ -102,7 +102,10 @@ export const FowV4MatchResultForm = ({
   const handleConfirm = (): void => {
     const data: FowV4MatchResultFormData = form.watch();
     closeConfirmMatchResultDialog();
-    createMatchResult({ ...data, tournamentPairingId });
+    createMatchResult({
+      ...data,
+      tournamentPairingId: tournamentPairingId as TournamentPairingId,
+    });
   };
 
   const resultForOptions = [
@@ -115,12 +118,7 @@ export const FowV4MatchResultForm = ({
 
   const handleChangeResultFor = (value?: SelectValue): void => {
     if (value) {
-      if (value === 'single') {
-        setTournamentPairingId(undefined);
-      } else {
-        // TODO: Remove cast
-        setTournamentPairingId(value as TournamentPairingId);
-      }
+      setTournamentPairingId(value as TournamentPairingId);
     }
   };
 
@@ -146,7 +144,7 @@ export const FowV4MatchResultForm = ({
           <Separator />
         </>
       )}
-      {tournamentPairingId ? (
+      {tournamentPairingId !== 'single' ? (
         <TournamentPlayersFields tournamentPairingId={tournamentPairingId} />
       ) : (
         <>
