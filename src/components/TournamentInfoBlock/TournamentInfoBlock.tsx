@@ -11,7 +11,11 @@ import {
   Weight,
 } from 'lucide-react';
 
-import { getGameSystemDisplayName, tournamentPairingMethodDisplayNames } from '~/api';
+import {
+  fowV4EraOptions,
+  getGameSystemDisplayName,
+  tournamentPairingMethodDisplayNames,
+} from '~/api';
 import { getLocalizedCompetitorFee } from '~/components/TournamentInfoBlock/TournamentInfoBlock.utils';
 import { useTournament } from '~/components/TournamentProvider';
 
@@ -69,7 +73,7 @@ export const TournamentInfoBlock = ({
           <div className={styles.TournamentInfoBlock_InfoLine}>
             <Weight />
             <span>{`${tournament.gameSystemConfig.points} pts`}</span>
-            <span>Late War</span>
+            <span>{fowV4EraOptions.find(({ value }) => value === tournament.gameSystemConfig.eraId)?.label}</span>
           </div>
           <div className={styles.TournamentInfoBlock_InfoLine}>
             <Swords />
