@@ -11,4 +11,6 @@
 .Player0Section,
 .Player1Section {
   @include flex.column;
+
+  overflow: hidden;
 }
