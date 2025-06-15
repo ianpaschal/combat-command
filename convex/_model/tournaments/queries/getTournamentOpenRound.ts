@@ -7,9 +7,13 @@ export const getTournamentOpenRoundArgs = v.object({
   id: v.id('tournaments'),
 });
 
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 /**
  * Gets the current open round for a Tournament, including its match submission progress.
- * 
+ *
+ * @remarks
+ * This method's return type is, by nature, the definition of a tournament rankings.
+ *
  * @param ctx - Convex query context
  * @param args - Convex query args
  * @param args.id - ID of the Tournament

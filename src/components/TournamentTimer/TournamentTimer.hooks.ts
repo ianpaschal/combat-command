@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 
-import { TournamentTimerDeep } from '~/api';
+import { TournamentTimer } from '~/api';
 
 export const useLocalTournamentTimer = (
-  remoteTimer: TournamentTimerDeep | null,
-): TournamentTimerDeep | null => {
+  remoteTimer: TournamentTimer | null,
+): TournamentTimer | null => {
   // Local copy that the UI will render.
   const [localTimer, setLocalTimer] =
-    useState<TournamentTimerDeep | null>(remoteTimer);
+    useState<TournamentTimer | null>(remoteTimer);
 
   // Always mirror the latest state coming from the backend.
   useEffect(() => {

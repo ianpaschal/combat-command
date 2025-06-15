@@ -1,7 +1,7 @@
 import { generatePath, useNavigate } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 
-import { FetchMatchResultListResponseItem } from '~/api';
+import { MatchResult } from '~/api';
 import { Button } from '~/components/generic/Button';
 import { Separator } from '~/components/generic/Separator';
 import { Timestamp } from '~/components/generic/Timestamp';
@@ -15,7 +15,7 @@ import { MatchResultPhotos } from './MatchResultPhotos';
 import styles from './MatchResultCard.module.scss';
 
 export interface MatchResultCardProps {
-  matchResult: FetchMatchResultListResponseItem;
+  matchResult: MatchResult;
 }
 
 export const MatchResultCard = ({

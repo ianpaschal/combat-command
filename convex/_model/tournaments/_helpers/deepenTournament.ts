@@ -1,7 +1,8 @@
 import { Doc, Id } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
-import { getStorageUrl } from '../../_helpers/getStorageUrl';
+import { getStorageUrl } from '../../common/_helpers/getStorageUrl';
 
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 /**
  * Deepens a Tournament by joining additional relevant data and adding computed fields.
  * 

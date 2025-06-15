@@ -1,7 +1,7 @@
-import { FetchTournamentCompetitorResponse } from '~/api';
+import { TournamentCompetitor } from '~/api';
 import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
 
-export const getCompetitorPlayerOptions = (competitor?: FetchTournamentCompetitorResponse | null) => {
+export const getCompetitorPlayerOptions = (competitor?: TournamentCompetitor | null) => {
   if (!competitor) {
     return [];
   }

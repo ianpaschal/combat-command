@@ -27,7 +27,7 @@ export const createTestTournament = async (
     lastRound,
     useNationalTeams,
   }: Infer<typeof createTestTournamentArgs>,
-) => {
+): Promise<void> => {
   const maxCompetitors = useTeams ? 12 : 24;
   const competitorSize = useTeams ? 3 : 1;
 

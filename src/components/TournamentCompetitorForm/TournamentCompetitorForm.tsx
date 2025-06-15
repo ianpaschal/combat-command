@@ -20,7 +20,7 @@ import { Label } from '~/components/generic/Label';
 import { Switch } from '~/components/generic/Switch';
 import { InputUser } from '~/components/InputUser';
 import { useTournament } from '~/components/TournamentProvider';
-import { useGetTournamentCompetitorsByTournamentId } from '~/services/tournamentCompetitors';
+import { useGetTournamentCompetitorsByTournament } from '~/services/tournamentCompetitors';
 import { getEtcCountryOptions } from '~/utils/common/getCountryOptions';
 import {
   createSchema,
@@ -56,7 +56,7 @@ export const TournamentCompetitorForm = ({
     useNationalTeams,
     playerUserIds: existingPlayerUserIds,
   } = useTournament();
-  const { data: tournamentCompetitors } = useGetTournamentCompetitorsByTournamentId({ tournamentId });
+  const { data: tournamentCompetitors } = useGetTournamentCompetitorsByTournament({ tournamentId });
 
   const form = useForm<FormData>({
     resolver: zodResolver(createSchema(competitorSize, tournamentCompetitors)),

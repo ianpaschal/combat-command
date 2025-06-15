@@ -8,7 +8,7 @@ import { useAuth } from '~/components/AuthProvider';
 import { Avatar } from '~/components/generic/Avatar';
 import { Button } from '~/components/generic/Button';
 import { InputTextArea } from '~/components/generic/InputTextArea';
-import { useAddMatchResultComment } from '~/services/matchResultComments/useAddMatchResultComment';
+import { useAddMatchResultComment } from '~/services/matchResultComments';
 import {
   defaultValues,
   MatchResultCommentFormData,
@@ -29,7 +29,7 @@ export const MatchResultCommentForm = ({
   onSuccess,
 }: MatchResultCommentFormProps): JSX.Element | null => {
   const user = useAuth();
-  const { addMatchResultComment } = useAddMatchResultComment({
+  const { mutation: addMatchResultComment } = useAddMatchResultComment({
     onSuccess: () => {
       form.reset();
       if (onSuccess) {

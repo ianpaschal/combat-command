@@ -18,6 +18,8 @@ module.exports = {
   rules: {
 
     // Style
+    '@stylistic/js/arrow-parens': ["error", "always"],
+    '@stylistic/js/arrow-spacing': ["error", { "before": true, "after": true }],
     '@stylistic/js/brace-style': "error",
     '@stylistic/js/comma-dangle': ["error", "always-multiline"],
     '@stylistic/js/eol-last': ["error", "always"],
@@ -40,6 +42,7 @@ module.exports = {
     "curly": ["error"],
     "arrow-body-style": ["error", "as-needed"],
     "no-console": ["warn", { allow: ["warn", "error", "info"] }],
+    "@typescript-eslint//explicit-function-return-type": "off",
 
     // Plugin configurations
     'import-newlines/enforce': ['error', 2],
@@ -53,4 +56,13 @@ module.exports = {
       ]
     }],
   },
+  "overrides": [
+    {
+      // enable the rule specifically for TypeScript files
+      "files": ["convex/**/*.ts"],
+      "rules": {
+        "@typescript-eslint/explicit-function-return-type": "error",
+      },
+    },
+  ],
 }

@@ -1,4 +1,4 @@
-import { TournamentPairingDeep } from '~/api';
+import { TournamentPairing } from '~/api';
 import { getTournamentCompetitorDisplayName } from '~/utils/common/getTournamentCompetitorDisplayName';
 
 /**
@@ -8,7 +8,7 @@ import { getTournamentCompetitorDisplayName } from '~/utils/common/getTournament
  * @returns  - A display name string.
  */
 export const getTournamentPairingDisplayName = (
-  tournamentPairing: TournamentPairingDeep,
+  tournamentPairing: TournamentPairing,
 ): string => {
   const {
     tournamentCompetitor0,

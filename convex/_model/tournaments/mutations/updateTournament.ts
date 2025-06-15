@@ -21,7 +21,7 @@ export const updateTournament = async (
   args: Infer<typeof updateTournamentArgs>,
 ): Promise<void> => {
   const { id, ...updated } = args;
-  const tournament = await getTournamentShallow(ctx, args.id);
+  const tournament = await getTournamentShallow(ctx, id);
   
   // --- CHECK AUTH ----
   checkTournamentAuth(ctx, tournament);
@@ -49,7 +49,8 @@ export const updateTournament = async (
     // Don't throw an error here... even if the file doesn't delete the changes can be saved
   }
   
-  return await ctx.db.patch(id, {
+  // ---- PRIMARY ACTIONS ----
+  await ctx.db.patch(id, {
     ...updated,
     modifiedAt: Date.now(),
   });

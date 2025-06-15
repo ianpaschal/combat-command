@@ -11,7 +11,7 @@ import { PageWrapper } from '~/components/PageWrapper';
 import { toast } from '~/components/ToastProvider';
 import { TournamentCompetitorsProvider } from '~/components/TournamentCompetitorsProvider';
 import { TournamentProvider } from '~/components/TournamentProvider';
-import { useGetTournamentCompetitorsByTournamentId } from '~/services/tournamentCompetitors';
+import { useGetTournamentCompetitorsByTournament } from '~/services/tournamentCompetitors';
 import { useGetTournament, useOpenTournamentRound } from '~/services/tournaments';
 import { PATHS } from '~/settings';
 import { PairingsStep } from './components/PairingsStep';
@@ -25,7 +25,7 @@ export const TournamentAdvanceRoundPage = (): JSX.Element => {
   const navigate = useNavigate();
   const tournamentId = params.id! as TournamentId; // Must exist or else how did we get to this route?
   const { data: tournament } = useGetTournament({ id: tournamentId });
-  const { data: tournamentCompetitors } = useGetTournamentCompetitorsByTournamentId({ tournamentId });
+  const { data: tournamentCompetitors } = useGetTournamentCompetitorsByTournament({ tournamentId });
   const { mutation: openTournamentRound } = useOpenTournamentRound({
     onSuccess: (): void => {
       toast.success(`Round ${nextRound + 1} pairings created!`);

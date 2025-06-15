@@ -3,7 +3,7 @@ import { v } from 'convex/values';
 import { getAvatarUrl } from './utils/getAvatarUrl';
 import { redactUserInfo } from './utils/redactUserInfo';
 import { query } from '../_generated/server';
-import { filterWithSearchTerm } from '../_model/_helpers/filterWithSearchTerm';
+import { filterWithSearchTerm } from '../_model/common/_helpers/filterWithSearchTerm';
 
 export const fetchUserList = query({
   args: {

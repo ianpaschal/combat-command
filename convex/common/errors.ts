@@ -11,6 +11,7 @@ export const errors = {
   CANNOT_MODIFY_PUBLISHED_TOURNAMENT_COMPETITORS: 'Cannot modify competitor format for a published tournament.',
   CANNOT_REMOVE_ANOTHER_PLAYER: 'Cannot remove another player.',
   CANNOT_REMOVE_COMPETITOR_FROM_ACTIVE_TOURNAMENT: 'Cannot add a competitor to an on-going tournament.',
+  CANNOT_MODIFY_ANOTHER_TOURNAMENT_COMPETITOR: 'Cannot modify another tournament competitor.',
 
   // Tournament (specific)
   CANNOT_ADD_PAIRINGS_TO_ARCHIVED_TOURNAMENT: 'Cannot add pairings to an archived tournament.',
@@ -57,9 +58,11 @@ export const errors = {
   TOURNAMENT_PAIRING_NOT_FOUND: 'Could not find a pairing with that ID.',
   TOURNAMENT_TIMER_NOT_FOUND: 'Could not find a tournament timer for that tournament and round.',
   USER_NOT_FOUND: 'Could not find a user with that ID.',
+  MATCH_RESULT_NOT_FOUND: 'Could not find a match result with that ID.',
 
   // General
   USER_NOT_AUTHENTICATED: 'Authentication required!',
+  USER_DOES_NOT_HAVE_PERMISSION: 'You do not have permission to do this.',
   
   // Rankings
   TOURNAMENT_RANKINGS_PAIRING_MISSING_COMPETITOR: {

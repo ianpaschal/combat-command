@@ -5,7 +5,7 @@ import {
   convertRoundStructureToMs,
   TournamentPhase,
   TournamentRoundStructure,
-  TournamentTimerDeep,
+  TournamentTimer,
 } from '~/api';
 
 import styles from './TournamentTimer.module.scss';
@@ -93,7 +93,7 @@ export const getCurrentPhaseTimeRemaining = (
 };
 
 export const getCurrentPhaseEndTime = (
-  timer: TournamentTimerDeep,
+  timer: TournamentTimer,
   structure: TournamentRoundStructure,
 ): string => {
   if (timer.startedAt === null || timer.pausedAt !== null) {

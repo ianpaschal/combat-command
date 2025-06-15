@@ -1,8 +1,8 @@
 import clsx from 'clsx';
-import { useQuery } from 'convex/react';
 
-import { api, MatchResultId } from '~/api';
+import { MatchResultId } from '~/api';
 import { Avatar } from '~/components/generic/Avatar';
+import { useGetMatchResultLikesByMatchResult } from '~/services/matchResultLikes';
 import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
 
 import styles from './MatchResultLikes.module.scss';
@@ -16,12 +16,12 @@ export const MatchResultLikes = ({
   className,
   matchResultId,
 }: MatchResultLikesProps): JSX.Element => {
-  const likes = useQuery(api.matchResultLikes.queries.getMatchResultLikesByMatchResultId, {
+  const { data: matchResultLikes } = useGetMatchResultLikesByMatchResult({
     matchResultId,
   });
   return (
     <div className={clsx(styles.MatchResultLikes, className)}>
-      {(likes || []).map((like) => (
+      {(matchResultLikes || []).map((like) => (
         <div className={styles.MatchResultLikes__Like} key={like._id}>
           <Avatar url={like.user.avatarUrl} />
           {getUserDisplayNameString(like.user)}

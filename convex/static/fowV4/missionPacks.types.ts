@@ -1,4 +1,4 @@
-import { FowV4MatchOutcomeType } from '../../common/fowV4/fowV4MatchOutcomeType';
+import { FowV4MatchOutcomeType } from '../../_model/fowV4/fowV4MatchOutcomeType';
 
 export type FowV4MissionPack = {
   id: string;

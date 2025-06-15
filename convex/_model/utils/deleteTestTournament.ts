@@ -9,7 +9,7 @@ export const deleteTestTournamentArgs = v.object({
 export const deleteTestTournament = async (
   ctx: MutationCtx,
   { id }: Infer<typeof deleteTestTournamentArgs>,
-) => {
+): Promise<void> => {
   // 1. Delete the tournament
   await ctx.db.delete(id);
 

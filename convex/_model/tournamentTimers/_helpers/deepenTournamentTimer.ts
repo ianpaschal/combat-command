@@ -2,6 +2,7 @@ import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
 import { getTournamentShallow } from '../../tournaments';
 
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 /**
  * Deepens a TournamentTimer by adding computed fields.
  * 
