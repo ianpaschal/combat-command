@@ -1,3 +1,4 @@
+import { useFormContext } from 'react-hook-form';
 import clsx from 'clsx';
 
 import { FormField } from '~/components/generic/Form';
@@ -7,6 +8,7 @@ import { InputText } from '~/components/generic/InputText';
 import { InputTextArea } from '~/components/generic/InputTextArea';
 import { Separator } from '~/components/generic/Separator';
 import { InputSingleFile } from '~/components/InputSingleFile/InputSingleFile';
+import { TournamentFormData } from '~/components/TournamentForm/TournamentForm.schema';
 
 import styles from './GeneralFields.module.scss';
 
@@ -19,10 +21,10 @@ export const GeneralFields = ({
   className,
   status = 'draft',
 }: GeneralFieldsProps): JSX.Element => {
+  const { resetField } = useFormContext<TournamentFormData>();
 
   // Once a tournament is active, lock some fields
-  const allowedEditStatuses = ['draft', 'published'];
-  const disableFields = !allowedEditStatuses.includes(status);
+  const disableFields = !['draft', 'published'].includes(status);
 
   return (
     <div className={clsx(styles.GeneralFields, className)}>
@@ -47,11 +49,11 @@ export const GeneralFields = ({
         </FormField>
       </div>
       <Separator />
-      <FormField name="logoFile" label="Logo" disabled={disableFields}>
-        <InputSingleFile name="logoFile" />
+      <FormField name="logoStorageId" label="Logo" disabled={disableFields}>
+        <InputSingleFile name="logoStorageId" onReset={(name) => resetField(name as keyof TournamentFormData)} />
       </FormField>
-      <FormField name="bannerFile" label="Banner Background" disabled={disableFields}>
-        <InputSingleFile name="bannerFile" />
+      <FormField name="bannerStorageId" label="Banner Background" disabled={disableFields}>
+        <InputSingleFile name="bannerStorageId" onReset={(name) => resetField(name as keyof TournamentFormData)} />
       </FormField>
     </div>
   );

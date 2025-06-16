@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import clsx from 'clsx';
@@ -7,9 +6,7 @@ import { StorageId, TournamentId } from '~/api';
 import { GameConfigFields } from '~/components/FowV4MatchResultForm/components/GameConfigFields';
 import { Card } from '~/components/generic/Card';
 import { Form } from '~/components/generic/Form';
-import { useFileFromUrl } from '~/hooks/useFileFromUrl';
 import { useGetTournament } from '~/services/tournaments';
-import { useUploadConvexImage } from '~/services/useUploadConvexFile';
 import { CompetitorFields } from './components/CompetitorFields';
 import { FormatFields } from './components/FormatFields';
 import { GeneralFields } from './components/GeneralFields';
@@ -40,9 +37,6 @@ export const TournamentForm = ({
   tournamentId,
 }: TournamentFormProps): JSX.Element => {
   const { data: tournament } = useGetTournament(tournamentId ? { id: tournamentId } : 'skip');
-
-  const { mutation: uploadConvexImage } = useUploadConvexImage();
-
   const form = useForm<TournamentFormData>({
     resolver: zodResolver(tournamentFormSchema),
     defaultValues: {
@@ -51,51 +45,9 @@ export const TournamentForm = ({
     },
     mode: 'onSubmit',
   });
-
-  // Async load images as files
-  const existingLogoFile = useFileFromUrl(tournament?.logoUrl);
-  useEffect(() => {
-    if (existingLogoFile && !form.watch('logoFile')) {
-      form.setValue('logoFile', existingLogoFile);
-    }
-  }, [form, existingLogoFile]);
-  const existingBannerFile = useFileFromUrl(tournament?.bannerUrl);
-  useEffect(() => {
-    if (existingBannerFile && !form.watch('bannerFile')) {
-      form.setValue('bannerFile', existingBannerFile);
-    }
-  }, [form, existingBannerFile]);
-
   const onSubmit: SubmitHandler<TournamentFormData> = async (formData) => {
-    const { data } = tournamentFormSchema.safeParse(formData);
-    if (!data) {
-      throw new Error('Failed to parse form schema!');
-    }
-
-    const { logoFile, bannerFile, ...restData } = data;
-    let logoStorageId;
-    if (form.formState.dirtyFields.logoFile) {
-      if (logoFile) {
-        logoStorageId = await uploadConvexImage(logoFile);
-      } else {
-        logoStorageId = null;
-      }
-    }
-    let bannerStorageId;
-    if (form.formState.dirtyFields.bannerFile) {
-      if (bannerFile) {
-        bannerStorageId = await uploadConvexImage(bannerFile);
-      } else {
-        bannerStorageId = null;
-      }
-    }
-    handleSubmit({
-      ...restData,
-      logoStorageId,
-      bannerStorageId,
-    });
+    handleSubmit(formData);
   };
-
   return (
     <Form id={id} form={form} onSubmit={onSubmit} className={clsx(styles.TournamentForm, className)}>
       <Card className={styles.TournamentForm_SectionCard}>

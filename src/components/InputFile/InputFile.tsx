@@ -13,8 +13,8 @@ import { Label } from '~/components/generic/Label';
 import styles from './InputFile.module.scss';
 
 interface InputFileProps extends Omit<DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, 'accept'> {
-  label?: string;
   accept?: Accept;
+  label?: string;
   name: string;
   description?: string;
 }
