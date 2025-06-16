@@ -28,7 +28,7 @@ export const PairableCompetitorCard = forwardRef<PairableCompetitorCardRef, Pair
   const { data: competitor, loading } = useGetTournamentCompetitor({ id: competitorId });
   return (
     <motion.div ref={ref} className={clsx(styles.PairableCompetitorCard, className)} {...props}>
-      <IdentityBadge competitor={competitor} loading={loading} className={styles.PairableCompetitorCard_Identity} />
+      <IdentityBadge competitor={competitor ?? undefined} loading={loading} className={styles.PairableCompetitorCard_Identity} />
       <div className={styles.PairableCompetitorCard_Rank}>
         {rank === null ? '-' : rank + 1}
       </div>

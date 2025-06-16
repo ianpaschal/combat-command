@@ -1,12 +1,12 @@
 import { v } from 'convex/values';
 
-import { fowV4GameSystemConfig } from '../../common/fowV4/fowV4GameSystemConfig';
 import { location } from '../../common/location';
 import { tournamentStatus } from '../../common/tournamentStatus';
 import { currencyCode } from '../../static/currencyCodes';
 import { fowV4RankingFactor } from '../../static/fowV4/fowV4RankingFactors';
 import { gameSystemId } from '../../static/gameSystems';
 import { tournamentPairingMethod } from '../../static/tournamentPairingMethods';
+import { fowV4GameSystemConfig } from '../fowV4/fowV4GameSystemConfig';
 
 export const editableFields = {
 

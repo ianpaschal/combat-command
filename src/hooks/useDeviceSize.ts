@@ -1,5 +1,6 @@
 import { useWindowWidth } from '@react-hook/window-size/throttled';
 
+// TODO: Give these better names (3-col, 2-col, etc.)
 import {
   MIN_WIDTH_DESKTOP,
   MIN_WIDTH_TABLET,
@@ -8,26 +9,26 @@ import {
 
 export enum DeviceSize {
   'Mobile',
+  'Narrow',
   'Default',
-  'Tablet',
-  'Desktop',
+  'Wide',
 }
 
-export const useDeviceSize = (): [DeviceSize, string] => {
+export const useDeviceSize = (): [DeviceSize, 'wide' | 'default' | 'narrow' | 'mobile'] => {
 
   const windowWidth = useWindowWidth();
 
   if (windowWidth >= MIN_WIDTH_DESKTOP) {
-    return [DeviceSize.Desktop, 'desktop'];
+    return [DeviceSize.Wide, 'wide'];
   }
 
   if (windowWidth >= MIN_WIDTH_TABLET) {
-    return [DeviceSize.Tablet, 'tablet'];
+    return [DeviceSize.Default, 'default'];
   }
 
-  if (windowWidth <= MOBILE_BREAKPOINT) {
-    return [DeviceSize.Mobile, 'mobile'];
+  if (windowWidth > MOBILE_BREAKPOINT) {
+    return [DeviceSize.Narrow, 'narrow'];
   }
 
-  return [DeviceSize.Default, 'default'];
+  return [DeviceSize.Mobile, 'mobile'];
 };

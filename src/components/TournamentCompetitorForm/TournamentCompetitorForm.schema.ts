@@ -15,7 +15,7 @@ export const createSchema = (
     }),
   ),
 }).superRefine((data, ctx) => {
-  const activeCount = data.players.filter(player => player.active).length;
+  const activeCount = data.players.filter((player) => player.active).length;
   if (activeCount < competitorSize) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,

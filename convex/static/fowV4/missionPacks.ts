@@ -404,7 +404,7 @@ export const getFowV4MissionMatrixesByMissionPackId = (id: string): FowV4Mission
 
 export const getFowV4MissionMatrixOptionsByMissionPackId = (
   id?: string,
-) => {
+): { value: string; label: string; }[] => {
   if (!id) {
     return [];
   }

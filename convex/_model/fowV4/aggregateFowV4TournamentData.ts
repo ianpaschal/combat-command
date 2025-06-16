@@ -1,8 +1,8 @@
 import { Id } from '../../_generated/dataModel';
 import { QueryCtx } from '../../_generated/server';
-import { getRange, Range } from '../_helpers/getRange';
-import { getMatchResultsByTournament } from '../matchResults/getMatchResultsByTournament';
-import { getTournamentCompetitorListByTournamentId } from '../tournamentCompetitors';
+import { getRange, Range } from '../common/_helpers/getRange';
+import { getMatchResultsByTournament } from '../matchResults/queries/getMatchResultsByTournament';
+import { getTournamentCompetitorsByTournament } from '../tournamentCompetitors';
 import { getTournamentPairings } from '../tournamentPairings';
 import { createFowV4TournamentExtendedStatMap } from './createFowV4TournamentExtendedStatMap';
 import { createTournamentCompetitorMetaMap } from './createTournamentCompetitorMetaMap';
@@ -12,14 +12,17 @@ import { flattenFowV4StatMap } from './flattenFowV4StatMap';
 import { sumFowV4BaseStats } from './sumFowV4BaseStats';
 import { FowV4TournamentDiscretePlayerStats } from './types';
 
-export type AggregateFowV4TournamentData = Awaited<ReturnType<typeof aggregateFowV4TournamentData>>;
-
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 /**
+ * Aggregates all tournament data for a Flames of War V4 tournament, organized by competitor and player.
  * 
- * @param ctx 
- * @param tournamentId 
- * @param range 
- * @returns 
+ * @remarks
+ * This method's return type is, by nature, the definition of aggregated Flames of War V4 tournament data.
+ * 
+ * @param ctx - Convex query context
+ * @param tournamentId - ID of the tournament
+ * @param range - Rounds to include in the calculation
+ * @returns Calculated results for a tournament, by competitor and player
  */
 export const aggregateFowV4TournamentData = async (
   ctx: QueryCtx,
@@ -27,7 +30,7 @@ export const aggregateFowV4TournamentData = async (
   range?: Range | number,
 ) => {
   // ---- 1. Gather base data ----
-  const tournamentCompetitors = await getTournamentCompetitorListByTournamentId(ctx, { tournamentId }); // TODO: No reason to get them not-by-tournament
+  const tournamentCompetitors = await getTournamentCompetitorsByTournament(ctx, { tournamentId }); // TODO: No reason to get them not-by-tournament
   const tournamentPairings = await getTournamentPairings(ctx, { tournamentId });
   const matchResults = await getMatchResultsByTournament(ctx, { tournamentId });
 
@@ -139,3 +142,8 @@ export const aggregateFowV4TournamentData = async (
     })),
   };
 };
+
+/**
+ * Calculated results for a tournament, by competitor and player.
+ */
+export type AggregateFowV4TournamentData = Awaited<ReturnType<typeof aggregateFowV4TournamentData>>;

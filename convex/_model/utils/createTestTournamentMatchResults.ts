@@ -9,7 +9,7 @@ export const createTestTournamentMatchResultsArgs = v.object({
 export const createTestTournamentMatchResults = async (
   ctx: MutationCtx,
   { tournamentId }: Infer<typeof createTestTournamentMatchResultsArgs>,
-) => {
+): Promise<void> => {
   const tournament = await ctx.db.get(tournamentId);
   if (!tournament) {
     throw new Error('Tournament doesn\'t exist!');

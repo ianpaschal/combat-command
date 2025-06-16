@@ -3,9 +3,10 @@ import { ConvexError } from 'convex/values';
 import { Doc, Id } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
 import { getErrorMessage } from '../../../common/errors';
-import { getDeepTournamentCompetitor } from '../../tournamentCompetitors/helpers';
+import { deepenTournamentCompetitor } from '../../tournamentCompetitors';
 import { getTournamentShallow } from '../../tournaments';
 
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 /**
  * Deepens a TournamentPairing by joining additional relevant data and adding computed fields.
  * 
@@ -38,7 +39,7 @@ export const deepenTournamentPairing = async (
   if (!rawTournamentCompetitor0) {
     throw new ConvexError(getErrorMessage('TOURNAMENT_COMPETITOR_NOT_FOUND'));
   }
-  const tournamentCompetitor0 = await getDeepTournamentCompetitor(ctx, rawTournamentCompetitor0 );
+  const tournamentCompetitor0 = await deepenTournamentCompetitor(ctx, rawTournamentCompetitor0 );
 
   let tournamentCompetitor1 = null;
   if (tournamentPairing.tournamentCompetitor1Id) {
@@ -46,7 +47,7 @@ export const deepenTournamentPairing = async (
     if (!rawTournamentCompetitor1) {
       throw new ConvexError(getErrorMessage('TOURNAMENT_COMPETITOR_NOT_FOUND'));
     }
-    tournamentCompetitor1 = await getDeepTournamentCompetitor(ctx, rawTournamentCompetitor1 );
+    tournamentCompetitor1 = await deepenTournamentCompetitor(ctx, rawTournamentCompetitor1 );
   }
 
   return {

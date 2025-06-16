@@ -1,32 +1,58 @@
 import { defineTable } from 'convex/server';
 
-import { computedFields, editableFields } from './fields';
+import { Id } from '../../_generated/dataModel';
+import {
+  computedFields,
+  createOnlyFields,
+  editableFields,
+} from './fields';
 
-export const tournamentCompetitors = defineTable({
+export const tournamentCompetitorsTable = defineTable({
   ...editableFields,
+  ...createOnlyFields,
   ...computedFields,
-}).index(
-  'by_tournament_id', ['tournamentId'],
-);
+})
+  .index('by_tournament_id', ['tournamentId']);
 
+export type TournamentCompetitorId = Id<'tournamentCompetitors'>;
+
+// Helpers
 export {
-  addPlayerToTournamentCompetitor,
-  addPlayerToTournamentCompetitorArgs,
+  deepenTournamentCompetitor,
+  type DeepTournamentCompetitor,
+} from './_helpers/deepenTournamentCompetitor';
+
+// Mutations
+export {
+  addTournamentCompetitorPlayer,
+  addTournamentCompetitorPlayerArgs,
+} from './mutations/addTournamentCompetitorPlayer';
+export {
   createTournamentCompetitor,
   createTournamentCompetitorArgs,
-  removePlayerFromTournamentCompetitor,
-  removePlayerFromTournamentCompetitorArgs,
-  substituteTournamentCompetitorPlayer,
-  substituteTournamentCompetitorPlayerArgs,
+} from './mutations/createTournamentCompetitor';
+export {
+  removeTournamentCompetitorPlayer,
+  removeTournamentCompetitorPlayerArgs,
+} from './mutations/removeTournamentCompetitorPlayer';
+export {
   toggleTournamentCompetitorActive,
   toggleTournamentCompetitorActiveArgs,
+} from './mutations/toggleTournamentCompetitorActive';
+export {
   updateTournamentCompetitor,
   updateTournamentCompetitorArgs,
-} from './mutations';
+} from './mutations/updateTournamentCompetitor';
+
+// Queries
 export {
   getTournamentCompetitor,
   getTournamentCompetitorArgs,
-  getTournamentCompetitorList,
-  getTournamentCompetitorListByTournamentId,
-  getTournamentCompetitorListByTournamentIdArgs,
-} from './queries';
+} from './queries/getTournamentCompetitor';
+export {
+  getTournamentCompetitors,
+} from './queries/getTournamentCompetitors';
+export {
+  getTournamentCompetitorsByTournament,
+  getTournamentCompetitorsByTournamentArgs,
+} from './queries/getTournamentCompetitorsByTournament';

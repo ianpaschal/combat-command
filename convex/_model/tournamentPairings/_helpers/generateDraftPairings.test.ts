@@ -64,7 +64,7 @@ describe('generateDraftPairings', () => {
     it('Assigns a bye to the lowest-ranked competitor if all have had byes.', () => {
       // ---- Arrange ----
       // All competitors have already had a bye:
-      competitors.forEach(p => (p.byeRounds = [ 1 ]));
+      competitors.forEach((p) => (p.byeRounds = [ 1 ]));
   
       // ---- Act ----
       const pairings = generateDraftPairings(competitors);

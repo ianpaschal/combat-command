@@ -4,62 +4,56 @@ import { Doc, Id } from '../convex/_generated/dataModel';
 // Re-export API for usage in services
 export { api };
 
-// Storage
-export type StorageId = Id<'_storage'>;
-
 // Match Result Comments
-export type AddMatchResultCommentInput = typeof api.matchResultComments.mutations.addMatchResultComment._args;
-export type GetMatchResultCommentResponse = typeof api.matchResultComments.queries.getMatchResultComment._returnType;
-export type GetMatchResultCommentsByMatchResultIdResponse = typeof api.matchResultComments.queries.getMatchResultCommentsByMatchResultId._returnType;
-export type GetMatchResultCommentsByUserIdResponse = typeof api.matchResultComments.queries.getMatchResultCommentsByUserId._returnType;
-export type MatchResultComment = GetMatchResultCommentResponse | GetMatchResultCommentsByMatchResultIdResponse[number] | GetMatchResultCommentsByUserIdResponse[number];
-export type MatchResultCommentId = Id<'matchResultComments'>;
+export {
+  type DeepMatchResultComment as MatchResultComment,
+  type MatchResultCommentId,
+} from '../convex/_model/matchResultComments';
 
 // Match Result Likes
-export type GetMatchResultLikeResponse = typeof api.matchResultLikes.queries.getMatchResultLike._returnType;
-export type GetMatchResultLikesByMatchResultIdResponse = typeof api.matchResultLikes.queries.getMatchResultLikesByMatchResultId._returnType;
-export type GetMatchResultLikesByUserIdResponse = typeof api.matchResultLikes.queries.getMatchResultLikesByUserId._returnType;
-export type MatchResultLike = GetMatchResultLikeResponse | GetMatchResultLikesByMatchResultIdResponse[number] | GetMatchResultLikesByUserIdResponse[number];
-export type MatchResultLikeId = Id<'matchResultLikes'>;
-export type ToggleMatchResultLikeInput = typeof api.matchResultLikes.mutations.toggleMatchResultLike._args;
+export {
+  type DeepMatchResultLike as MatchResultLike,
+  type MatchResultLikeId,
+} from '../convex/_model/matchResultLikes';
 
 // Match Results
-export type FetchMatchResultListResponse = typeof api.matchResults.fetchMatchResultList.fetchMatchResultList._returnType;
-export type FetchMatchResultListResponseItem = FetchMatchResultListResponse[number];
-export type FetchMatchResultResponse = typeof api.matchResults.fetchMatchResult.fetchMatchResult._returnType;
-export type MatchResult = FetchMatchResultListResponse[number];
-export type MatchResultId = Id<'matchResults'>;
+export {
+  type DeepMatchResult as MatchResult,
+  type MatchResultId,
+} from '../convex/_model/matchResults';
 
 // Photos
 export type PhotoId = Id<'photos'>;
 
+// Storage
+export type StorageId = Id<'_storage'>;
+
 // Tournament Competitors
-export type FetchTournamentCompetitorListResponse = typeof api.tournamentCompetitors.getTournamentCompetitorList._returnType;
-export type FetchTournamentCompetitorListResponseItem = FetchTournamentCompetitorListResponse[number];
-export type FetchTournamentCompetitorResponse = typeof api.tournamentCompetitors.getTournamentCompetitor._returnType;
-export type TournamentCompetitor = FetchTournamentCompetitorListResponseItem;
-export type TournamentCompetitorId = Id<'tournamentCompetitors'>;
-export type CreateTournamentCompetitorArgs = typeof api.tournamentCompetitors.createTournamentCompetitor._args;
-export type UpdateTournamentCompetitorArgs = typeof api.tournamentCompetitors.updateTournamentCompetitor._args;
+export {
+  type DeepTournamentCompetitor as TournamentCompetitor,
+  type TournamentCompetitorId,
+} from '../convex/_model/tournamentCompetitors';
 
 // Tournament Pairings
-export type TournamentPairingId = Id<'tournamentPairings'>;
-export type TournamentPairing = typeof api.tournamentPairings.getTournamentPairings._returnType[number];
-export type GetDraftTournamentPairingsArgs = typeof api.tournamentPairings.getDraftTournamentPairings._args;
 export {
-  type TournamentPairingDeep,
+  type TournamentPairingDeep as TournamentPairing,
+  type TournamentPairingId,
   type UnassignedTournamentPairing,
 } from '../convex/_model/tournamentPairings';
 
-// Tournaments
-export type CreateTournamentArgs = typeof api.tournaments.createTournament._args;
-export type FetchTournamentListResponse = typeof api.tournaments.getTournaments._returnType;
-export type FetchTournamentListResponseItem = FetchTournamentListResponse[number];
-export type FetchTournamentResponse = typeof api.tournaments.getTournament._returnType;
-export type Tournament = FetchTournamentListResponseItem;
-export type TournamentId = Id<'tournaments'>;
+// Tournament Timers
+export {
+  convertRoundStructureToMs,
+  type TournamentRoundStructure,
+  type TournamentTimerDeep as TournamentTimer,
+  type TournamentTimerId,
+} from '../convex/_model/tournamentTimers';
 
-export type Location = Tournament['location'];
+// Tournaments
+export {
+  type TournamentDeep as Tournament,
+  type TournamentId,
+} from '../convex/_model/tournaments';
 
 // Users
 export type User = Doc<'users'> & {
@@ -85,6 +79,9 @@ export {
   tournamentPairingMethodDisplayNames,
   tournamentPairingMethodOptions,
 } from '../convex/static/tournamentPairingMethods';
+export {
+  type TournamentPhase,
+} from '../convex/static/tournamentPhases';
 
 // TODO: Move around...
 export type {
@@ -131,8 +128,8 @@ export {
 } from '../convex/static/fowV4/lessonsFromTheFrontVersions';
 
 // Match Outcome Types
-export type { FowV4MatchOutcomeType } from '../convex/common/fowV4/fowV4MatchOutcomeType';
-export { fowV4MatchOutcomeTypeValues } from '../convex/common/fowV4/fowV4MatchOutcomeType';
+export type { FowV4MatchOutcomeType } from '../convex/_model/fowV4/fowV4MatchOutcomeType';
+export { fowV4MatchOutcomeTypeValues } from '../convex/_model/fowV4/fowV4MatchOutcomeType';
 
 // Ranking Factors
 export {
@@ -143,12 +140,12 @@ export {
 } from '../convex/static/fowV4/fowV4RankingFactors';
 
 // Missions
-export { getMission } from '../convex/common/fowV4/getMission';
+export { getMission } from '../convex/_model/fowV4/getMission';
 export type { FowV4MissionId } from '../convex/static/fowV4/missionPacks';
 export type { FowV4Mission } from '../convex/static/fowV4/missionPacks.types';
 
 // Mission Packs
-export { getMissionPack } from '../convex/common/fowV4/getMissionPack';
+export { getMissionPack } from '../convex/_model/fowV4/getMissionPack';
 export type { FowV4MissionPackId } from '../convex/static/fowV4/missionPacks';
 export { fowV4MissionPackOptions } from '../convex/static/fowV4/missionPacks';
 export type { FowV4MissionPack } from '../convex/static/fowV4/missionPacks.types';

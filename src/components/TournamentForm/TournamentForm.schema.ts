@@ -76,7 +76,7 @@ export const tournamentFormSchema = z.object({
   // Non-editable
   gameSystemId: z.string().transform((val) => val as GameSystemId),
   organizerUserIds: z.array(z.string().transform((val) => val as UserId)),
-}).refine(data => {
+}).refine((data) => {
   if (data.gameSystemId === 'flames_of_war_v4') {
     return fowV4GameSystemConfigFormSchema.safeParse(data.gameSystemConfig).success;
   }

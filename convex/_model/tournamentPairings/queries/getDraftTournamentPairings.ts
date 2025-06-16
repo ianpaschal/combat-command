@@ -2,7 +2,7 @@ import { Infer, v } from 'convex/values';
 
 import { QueryCtx } from '../../../_generated/server';
 import { tournamentPairingMethod } from '../../../static/tournamentPairingMethods';
-import { getTournamentCompetitorListByTournamentId } from '../../tournamentCompetitors';
+import { getTournamentCompetitorsByTournament } from '../../tournamentCompetitors';
 import { getTournamentRankings } from '../../tournaments';
 import { generateDraftPairings } from '../_helpers/generateDraftPairings';
 import { DraftTournamentPairing } from '../_helpers/generateDraftPairings';
@@ -29,7 +29,7 @@ export const getDraftTournamentPairings = async (
   ctx: QueryCtx,
   args: Infer<typeof getDraftTournamentPairingsArgs>,
 ): Promise<DraftTournamentPairing[]> => {
-  const competitors = await getTournamentCompetitorListByTournamentId(ctx, args);
+  const competitors = await getTournamentCompetitorsByTournament(ctx, args);
   const { competitors: rankedCompetitors } = await getTournamentRankings(ctx, {
     tournamentId: args.tournamentId,
     round: args.round - 1, // Get rankings for previous round

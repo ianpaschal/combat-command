@@ -14,9 +14,13 @@ export const getTournamentRankingsArgs = v.object({
   round: v.number(),
 });
 
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 /**
- * Gets rankings and other play data for a Tournament.
- * 
+ * Gets rankings and other play data for a tournament.
+ *
+ * @remarks
+ * This method's return type is, by nature, the definition of tournament rankings.
+ *
  * @param ctx - Convex query context
  * @param args - Convex query args
  * @param args.tournamentId - ID of the Tournament

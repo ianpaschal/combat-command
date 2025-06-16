@@ -1,8 +1,11 @@
-import { Id } from '../../_generated/dataModel';
+import { Doc, Id } from '../../_generated/dataModel';
 import { QueryCtx } from '../../_generated/server';
 import { redactUserInfo } from './redactUserInfo';
 
-export const getLimitedUser = async (ctx: QueryCtx, id?: Id<'users'>) => {
+export const getLimitedUser = async (
+  ctx: QueryCtx,
+  id?: Id<'users'>,
+): Promise<Doc<'users'> & { avatarUrl?: string } | undefined> => {
   if (!id) {
     return undefined;
   }

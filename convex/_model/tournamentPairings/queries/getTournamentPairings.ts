@@ -3,7 +3,7 @@ import { Infer, v } from 'convex/values';
 
 import { DataModel, Id } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
-import { notNullOrUndefined } from '../../_helpers/notNullOrUndefined';
+import { notNullOrUndefined } from '../../common/_helpers/notNullOrUndefined';
 import { deepenTournamentPairing, TournamentPairingDeep } from '../_helpers/deepenTournamentPairing';
 
 export const getTournamentPairingsArgs = v.object({
@@ -37,11 +37,9 @@ export const getTournamentPairings = async (
   }
 
   const result = await filteredQuery.collect();
-  const deepResults = await Promise.all(
-    result.map(
-      async (item) => await deepenTournamentPairing(ctx, item),
-    ),
-  );
+  const deepResults = await Promise.all(result.map(
+    async (item) => await deepenTournamentPairing(ctx, item),
+  ));
 
   // TODO: Add pagination
 

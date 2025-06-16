@@ -1,0 +1,1 @@
+export { TournamentDetailBanner } from './TournamentDetailBanner';

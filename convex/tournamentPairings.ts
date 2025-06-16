@@ -1,31 +1,22 @@
 import { query } from './_generated/server';
-import {
-  getActiveTournamentPairingsByUser as getActiveTournamentPairingsByUserHandler,
-  getActiveTournamentPairingsByUserArgs,
-  getDraftTournamentPairings as getDraftTournamentPairingsHandler,
-  getDraftTournamentPairingsArgs,
-  getTournamentPairing as getTournamentPairingHandler,
-  getTournamentPairingArgs,
-  getTournamentPairings as getTournamentPairingsHandler,
-  getTournamentPairingsArgs,
-} from './_model/tournamentPairings';
+import * as model from './_model/tournamentPairings';
 
 export const getTournamentPairing = query({
-  args: getTournamentPairingArgs,
-  handler: getTournamentPairingHandler,
+  args: model.getTournamentPairingArgs,
+  handler: model.getTournamentPairing,
 });
 
 export const getTournamentPairings = query({
-  args: getTournamentPairingsArgs,
-  handler: getTournamentPairingsHandler,
+  args: model.getTournamentPairingsArgs,
+  handler: model.getTournamentPairings,
 });
 
 export const getDraftTournamentPairings = query({
-  args: getDraftTournamentPairingsArgs,
-  handler: getDraftTournamentPairingsHandler,
+  args: model.getDraftTournamentPairingsArgs,
+  handler: model.getDraftTournamentPairings,
 });
 
 export const getActiveTournamentPairingsByUser = query({
-  args: getActiveTournamentPairingsByUserArgs,
-  handler: getActiveTournamentPairingsByUserHandler,
+  args: model.getActiveTournamentPairingsByUserArgs,
+  handler: model.getActiveTournamentPairingsByUser,
 });
