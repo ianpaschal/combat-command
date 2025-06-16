@@ -91,7 +91,7 @@ export const FowV4MatchResultForm = ({
     if (matchResult) {
       updateMatchResult({ ...data, id: matchResult._id, playedAt: matchResult.playedAt });
     } else {
-      if (tournamentPairingId) {
+      if (tournamentPairingId !== 'single') {
         openConfirmMatchResultDialog();
       } else {
         createMatchResult({ ...data });
