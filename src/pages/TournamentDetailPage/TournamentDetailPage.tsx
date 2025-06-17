@@ -84,7 +84,7 @@ export const TournamentDetailPage = (): JSX.Element => {
   return (
     <TournamentProvider tournament={tournament}>
       <TournamentCompetitorsProvider tournamentCompetitors={tournamentCompetitors}>
-        <PageWrapper banner={<TournamentDetailBanner />}>
+        <PageWrapper banner={<TournamentDetailBanner />} bannerBackgroundUrl={tournament.bannerUrl}>
           <div className={styles.TournamentDetailPage_Content} data-device={deviceType}>
             {showInfoSidebar && (
               <div className={styles.TournamentDetailPage_Sidebar}>

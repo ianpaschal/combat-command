@@ -5,7 +5,7 @@ import { DeviceSize, useDeviceSize } from '~/hooks/useDeviceSize';
 import styles from './TournamentDetailBanner.module.scss';
 
 export const TournamentDetailBanner = (): JSX.Element => {
-  const { logoUrl, currentRound, status } = useTournament();
+  const { title, logoUrl, currentRound, status } = useTournament();
   const [deviceSize] = useDeviceSize();
 
   const showTimer = status === 'active' && currentRound !== undefined;
@@ -17,7 +17,7 @@ export const TournamentDetailBanner = (): JSX.Element => {
         {logoUrl && (
           <img className={styles.TournamentDetailBanner_Logo} src={logoUrl} />
         )}
-        <h1>Some very long tournament name which clips</h1>
+        <h1>{title}</h1>
       </div>
       {showTimer && (
         <div className={styles.TournamentDetailBanner_TimerSection}>
