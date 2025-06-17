@@ -21,11 +21,20 @@ export const toggleTournamentTimer = async (
 
   // Resume (and start if not started):
   if (timer.pausedAt) {
-    await ctx.db.patch(timer._id, {
-      pausedAt: null,
-      startedAt: timer.startedAt ?? Date.now(),
-      pauseTime: timer.pauseTime + (Date.now() - timer.pausedAt),
-    });
+    if (timer.startedAt) {
+      // Resume:
+      await ctx.db.patch(timer._id, {
+        pausedAt: null,
+        pauseTime: timer.pauseTime + (Date.now() - timer.pausedAt),
+      });
+    } else {
+      // Start:
+      await ctx.db.patch(timer._id, {
+        pausedAt: null,
+        startedAt: Date.now(),
+        pauseTime: 0,
+      });
+    }
     return false;
   }
 
