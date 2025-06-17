@@ -70,6 +70,7 @@ import type * as _model_tournamentCompetitors_fields from "../_model/tournamentC
 import type * as _model_tournamentCompetitors_index from "../_model/tournamentCompetitors/index.js";
 import type * as _model_tournamentCompetitors_mutations_addTournamentCompetitorPlayer from "../_model/tournamentCompetitors/mutations/addTournamentCompetitorPlayer.js";
 import type * as _model_tournamentCompetitors_mutations_createTournamentCompetitor from "../_model/tournamentCompetitors/mutations/createTournamentCompetitor.js";
+import type * as _model_tournamentCompetitors_mutations_deleteTournamentCompetitor from "../_model/tournamentCompetitors/mutations/deleteTournamentCompetitor.js";
 import type * as _model_tournamentCompetitors_mutations_removeTournamentCompetitorPlayer from "../_model/tournamentCompetitors/mutations/removeTournamentCompetitorPlayer.js";
 import type * as _model_tournamentCompetitors_mutations_toggleTournamentCompetitorActive from "../_model/tournamentCompetitors/mutations/toggleTournamentCompetitorActive.js";
 import type * as _model_tournamentCompetitors_mutations_updateTournamentCompetitor from "../_model/tournamentCompetitors/mutations/updateTournamentCompetitor.js";
@@ -249,6 +250,7 @@ declare const fullApi: ApiFromModules<{
   "_model/tournamentCompetitors/index": typeof _model_tournamentCompetitors_index;
   "_model/tournamentCompetitors/mutations/addTournamentCompetitorPlayer": typeof _model_tournamentCompetitors_mutations_addTournamentCompetitorPlayer;
   "_model/tournamentCompetitors/mutations/createTournamentCompetitor": typeof _model_tournamentCompetitors_mutations_createTournamentCompetitor;
+  "_model/tournamentCompetitors/mutations/deleteTournamentCompetitor": typeof _model_tournamentCompetitors_mutations_deleteTournamentCompetitor;
   "_model/tournamentCompetitors/mutations/removeTournamentCompetitorPlayer": typeof _model_tournamentCompetitors_mutations_removeTournamentCompetitorPlayer;
   "_model/tournamentCompetitors/mutations/toggleTournamentCompetitorActive": typeof _model_tournamentCompetitors_mutations_toggleTournamentCompetitorActive;
   "_model/tournamentCompetitors/mutations/updateTournamentCompetitor": typeof _model_tournamentCompetitors_mutations_updateTournamentCompetitor;

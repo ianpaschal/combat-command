@@ -10,10 +10,9 @@ import { getErrorMessage } from '../../../common/errors';
 import { checkAuth } from '../../common/_helpers/checkAuth';
 import { intersectArrays } from '../../common/_helpers/intersectArrays';
 import { getTournamentUserIds } from '../../tournaments';
-import { createOnlyFields,editableFields } from '../fields';
+import { editableFields } from '../fields';
 
 export const createTournamentCompetitorArgs = v.object({
-  ...createOnlyFields,
   ...editableFields,
 });
 

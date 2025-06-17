@@ -52,6 +52,17 @@ export const RosterStep = forwardRef<RosterStepHandle, RosterStepProps>(({
         // TODO: Use a toast instead and return
         throw new Error('Too many competitors!');
       }
+      for (const competitor of sortedCompetitors.active) {
+        const activePlayers = competitor.players.filter(({ active }) => active);
+        if (activePlayers.length > tournament.competitorSize) {
+          // TODO: Use a toast instead and return
+          throw new Error('One or more competitors have too many players!');
+        }
+        if (activePlayers.length < tournament.competitorSize) {
+          // TODO: Use a toast instead and return
+          throw new Error('One or more competitors have too few players!');
+        }
+      }
       if (warnings.length > 0) {
         openTournamentRosterConfirmDialog();
       } else {

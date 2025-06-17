@@ -1,15 +1,10 @@
 import { defineTable } from 'convex/server';
 
 import { Id } from '../../_generated/dataModel';
-import {
-  computedFields,
-  createOnlyFields,
-  editableFields,
-} from './fields';
+import { computedFields, editableFields } from './fields';
 
 export const tournamentCompetitorsTable = defineTable({
   ...editableFields,
-  ...createOnlyFields,
   ...computedFields,
 })
   .index('by_tournament_id', ['tournamentId']);
@@ -31,6 +26,10 @@ export {
   createTournamentCompetitor,
   createTournamentCompetitorArgs,
 } from './mutations/createTournamentCompetitor';
+export {
+  deleteTournamentCompetitor,
+  deleteTournamentCompetitorArgs,
+} from './mutations/deleteTournamentCompetitor';
 export {
   removeTournamentCompetitorPlayer,
   removeTournamentCompetitorPlayerArgs,

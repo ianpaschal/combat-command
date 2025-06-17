@@ -1,14 +1,8 @@
 import { v } from 'convex/values';
 
 export const editableFields = {
-  teamName: v.optional(v.string()),
-};
-
-/**
- * Fields which an only be set on creation, and then should be considered to belong to the computed fields below.
- */
-export const createOnlyFields = {
   tournamentId: v.id('tournaments'),
+  teamName: v.optional(v.string()),
   players: v.array(v.object({
     userId: v.id('users'),
     active: v.boolean(),

@@ -13,6 +13,7 @@ import {
   TournamentId,
   UserId,
 } from '~/api';
+import { useAuth } from '~/components/AuthProvider';
 import { Form, FormField } from '~/components/generic/Form';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { InputText } from '~/components/generic/InputText';
@@ -49,17 +50,23 @@ export const TournamentCompetitorForm = ({
   onSubmit,
   tournamentCompetitor,
 }: TournamentCompetitorFormProps): JSX.Element => {
+  const user = useAuth();
   const {
     _id: tournamentId,
     competitorSize,
+    status,
     useTeams,
     useNationalTeams,
+    organizerUserIds,
     playerUserIds: existingPlayerUserIds,
   } = useTournament();
   const { data: tournamentCompetitors } = useGetTournamentCompetitorsByTournament({ tournamentId });
 
+  // Get other competitors, we can block repeat names:
+  const otherCompetitors = (tournamentCompetitors || []).filter((c) => c._id !== tournamentCompetitor?._id);
+
   const form = useForm<FormData>({
-    resolver: zodResolver(createSchema(competitorSize, tournamentCompetitors)),
+    resolver: zodResolver(createSchema(competitorSize, status, otherCompetitors)),
     defaultValues: getDefaultValues(competitorSize, tournamentCompetitor),
     mode: 'onSubmit',
   });
@@ -76,7 +83,7 @@ export const TournamentCompetitorForm = ({
   });
 
   const nationalTeamOptions = getEtcCountryOptions().filter(({ value }) => (
-    !(tournamentCompetitors || []).find((c) => c.teamName === value)
+    !otherCompetitors.find((c) => c.teamName === value)
   ));
 
   const handleChangeUser = (i: number, { userId }: { userId?: UserId, placeholder?: string }): void => {
@@ -96,12 +103,14 @@ export const TournamentCompetitorForm = ({
     ...players.map((player) => player.userId),
   ];
 
+  const isOrganizer = user && organizerUserIds.includes(user._id);
+
   return (
     <Form id={id} form={form} onSubmit={handleSubmit} className={clsx(styles.TournamentCompetitorForm, className)}>
       {useTeams && (
         <FormField name="teamName" label={useNationalTeams ? 'Country' : 'Team Name'}>
           {useNationalTeams ? (
-            <InputSelect options={nationalTeamOptions} />
+            <InputSelect options={nationalTeamOptions} disabled={!isOrganizer} />
           ) : (
             <InputText />
           )}
