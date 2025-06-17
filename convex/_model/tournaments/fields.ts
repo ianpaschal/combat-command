@@ -13,8 +13,8 @@ export const editableFields = {
   // Practical (in approximate UI order)
   title: v.string(),
   description: v.string(),
-  logoStorageId: v.optional(v.union(v.id('_storage'), v.null())),
-  bannerStorageId: v.optional(v.union(v.id('_storage'), v.null())),
+  logoStorageId: v.optional(v.union(v.id('_storage'))),
+  bannerStorageId: v.optional(v.union(v.id('_storage'))),
   location,
   startsAt: v.string(), // ISO date string
   endsAt: v.string(), // ISO date string

@@ -52,6 +52,7 @@ export const errors = {
   INVALID_PAIRING_LENGTH: 'foo',
 
   // Missing docs
+  FILE_NOT_FOUND: 'Could not find a file with that ID.',
   TOURNAMENT_COMPETITOR_NOT_FOUND: 'Could not find a competitor with that ID.',
   TOURNAMENT_CONTAINING_COMPETITOR_NOT_FOUND: 'Could not find a tournament containing this competitor.',
   TOURNAMENT_NOT_FOUND: 'Could not find a tournament with that ID.',

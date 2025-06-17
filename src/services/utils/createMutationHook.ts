@@ -4,8 +4,8 @@ import { FunctionReference } from 'convex/server';
 
 import { toast } from '~/components/ToastProvider';
 
-type MutationFn = FunctionReference<'mutation'>;
-type MutationHookConfig<T extends MutationFn> = {
+export type MutationFn = FunctionReference<'mutation'>;
+export type MutationHookConfig<T extends MutationFn> = {
   onSuccess?: (response: T['_returnType']) => void;
   onError?: (error: unknown) => void;
   successMessage?: string;
