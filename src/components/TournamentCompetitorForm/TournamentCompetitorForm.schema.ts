@@ -5,7 +5,8 @@ import { TournamentCompetitor, UserId } from '~/api';
 
 export const createSchema = (
   competitorSize: number,
-  existingCompetitors: TournamentCompetitor[] = [],
+  status: 'active' | 'published' | 'draft' | 'archived',
+  otherCompetitors: TournamentCompetitor[] = [],
 ) => z.object({
   teamName: z.string(),
   players: z.array(
@@ -16,14 +17,23 @@ export const createSchema = (
   ),
 }).superRefine((data, ctx) => {
   const activeCount = data.players.filter((player) => player.active).length;
-  if (activeCount < competitorSize) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: `At least ${competitorSize} player(s) must be active.`,
-      path: ['players'],
-    });
+  if (status === 'active') {
+    if (activeCount < competitorSize) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `At least ${competitorSize} player(s) must be active.`,
+        path: ['players'],
+      });
+    }
+    if (activeCount > competitorSize) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: `Only ${competitorSize} player(s) may be active.`,
+        path: ['players'],
+      });
+    }
   }
-  if (existingCompetitors.find((c) => c.teamName === data.teamName.trim())) {
+  if (otherCompetitors.find((c) => c.teamName?.toLowerCase() === data.teamName.trim().toLowerCase())) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
       message: 'A team with that name already exists.',

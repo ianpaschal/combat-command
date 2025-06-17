@@ -11,6 +11,7 @@ export const useGetTournamentCompetitorsByTournament = createQueryHook(api.tourn
 // Basic (C_UD) Mutations
 export const useCreateTournamentCompetitor = createMutationHook(api.tournamentCompetitors.createTournamentCompetitor);
 export const useUpdateTournamentCompetitor = createMutationHook(api.tournamentCompetitors.updateTournamentCompetitor);
+export const useDeleteTournamentCompetitor = createMutationHook(api.tournamentCompetitors.deleteTournamentCompetitor);
 
 // Special Mutations
 export const useAddTournamentCompetitorPlayer = createMutationHook(api.tournamentCompetitors.addTournamentCompetitorPlayer);

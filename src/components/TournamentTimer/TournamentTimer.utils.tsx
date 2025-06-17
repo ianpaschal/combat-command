@@ -25,7 +25,9 @@ export const getRemainingTimeElements = (duration: number | null): ReactElement[
   const hours = Math.floor(totalSeconds / 3600);
   const minutes = Math.floor((totalSeconds % 3600) / 60);
   const seconds = totalSeconds % 60;
-  const spacer = <span className={styles.TournamentTimer_TimeRemaining_Spacer}>:</span>;
+  const createSpacer = (key: string): ReactElement => (
+    <span key={key} className={styles.TournamentTimer_TimeRemaining_Spacer}>:</span>
+  );
   const createDigits = (key: 'h' | 'm' | 's', n: number, pad: number = 2): ReactElement[] => (
     n.toString().padStart(pad, '0').split('').map((digit, i) => (
       <span key={`${key}_${i}`} className={styles.TournamentTimer_TimeRemaining_Digit}>{digit}</span>
@@ -33,11 +35,11 @@ export const getRemainingTimeElements = (duration: number | null): ReactElement[
   );
   const hourDigits = [
     ...createDigits('h', hours, 1),
-    spacer,
+    createSpacer('spacer-h'),
   ];
   const minuteDigits = [
     ...createDigits('m', minutes),
-    spacer,
+    createSpacer('spacer-m'),
   ];
   const secondDigits = createDigits('s', seconds);
   return [

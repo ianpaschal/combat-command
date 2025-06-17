@@ -1,4 +1,8 @@
-import { ReactNode } from 'react';
+import {
+  MouseEvent,
+  ReactNode,
+  useState,
+} from 'react';
 import {
   Close,
   Content,
@@ -14,7 +18,7 @@ export interface PopoverMenuProps {
   menuItems: {
     icon?: JSX.Element;
     label: string;
-    onClick: () => void;
+    onClick: (e: MouseEvent) => void;
   }[];
 }
 
@@ -22,19 +26,28 @@ export const PopoverMenu = ({
   className,
   children,
   menuItems = [],
-}: PopoverMenuProps): JSX.Element => (
-  <Root>
-    <Trigger className={className} asChild>
-      {children}
-    </Trigger>
-    <Content className={styles.PopoverContent} align="end">
-      {menuItems.map((menuItem, i) => (
-        <Close key={i} asChild>
-          <div onClick={menuItem.onClick} className={styles.MenuItem}>
-            {menuItem.icon}{menuItem.label}
-          </div>
-        </Close>
-      ))}
-    </Content>
-  </Root>
-);
+}: PopoverMenuProps): JSX.Element => {
+  const [open, setOpen] = useState<boolean>(false);
+  return (
+    <Root open={open} onOpenChange={setOpen}>
+      <Trigger className={className} asChild onClick={(e) => e.stopPropagation()}>
+        {children}
+      </Trigger>
+      <Content className={styles.PopoverContent} align="end">
+        {menuItems.map((menuItem, i) => (
+          <Close key={i} asChild>
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                menuItem.onClick(e);
+              }}
+              className={styles.MenuItem}
+            >
+              {menuItem.icon}{menuItem.label}
+            </div>
+          </Close>
+        ))}
+      </Content>
+    </Root>
+  );
+};
