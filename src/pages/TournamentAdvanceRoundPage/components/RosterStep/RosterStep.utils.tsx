@@ -23,7 +23,7 @@ export const getWarnings = (tournament: Tournament, tournamentCompetitors: Tourn
     warnings.push(
       <>
         <p>
-          {`The following ${tournament.useTeams ? ('team' + (inactiveCompetitorCount > 1 ? 's are' : ' is')) : 'player(s)'} not listed as checked in and will not be included in the pairing process for round ${round}.`}
+          {`The following ${tournament.useTeams ? ('team' + (inactiveCompetitorCount > 1 ? 's are' : ' is')) : 'player(s)'} not listed as checked in and will not be included in the pairing process for round ${round + 1}.`}
         </p>
         {sortedCompetitors?.inactive.map((tournamentCompetitor) => (
           <IdentityBadge key={tournamentCompetitor._id} size="small" competitor={tournamentCompetitor} />
