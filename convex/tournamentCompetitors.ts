@@ -27,6 +27,11 @@ export const updateTournamentCompetitor = mutation({
   handler: model.updateTournamentCompetitor,
 });
 
+export const deleteTournamentCompetitor = mutation({
+  args: model.deleteTournamentCompetitorArgs,
+  handler: model.deleteTournamentCompetitor,
+});
+
 // Actions
 export const addTournamentCompetitorPlayer = mutation({
   args: model.addTournamentCompetitorPlayerArgs,

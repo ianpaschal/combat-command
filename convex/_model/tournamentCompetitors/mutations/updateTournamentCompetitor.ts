@@ -18,11 +18,12 @@ export const updateTournamentCompetitor = async (
   ctx: MutationCtx,
   args: Infer<typeof updateTournamentCompetitorArgs>,
 ): Promise<void> => {
+  const { id, ...updated } = args;
   // --- CHECK AUTH ----
   const userId = await checkAuth(ctx);
     
   // ---- VALIDATE ----
-  const tournamentCompetitor = await ctx.db.get(args.id);
+  const tournamentCompetitor = await ctx.db.get(id);
   if (!tournamentCompetitor) {
     throw new ConvexError(getErrorMessage('TOURNAMENT_COMPETITOR_NOT_FOUND'));
   }
@@ -48,8 +49,8 @@ export const updateTournamentCompetitor = async (
   }
 
   // ---- PRIMARY ACTIONS ----
-  await ctx.db.patch(args.id, {
-    ...args,
+  await ctx.db.patch(id, {
+    ...updated,
     modifiedAt: Date.now(),
   });
 };
