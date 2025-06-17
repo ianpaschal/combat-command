@@ -2,6 +2,7 @@ import { useCallback, useEffect } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import {
   Info,
+  Swords,
   Trophy,
   Users,
   Zap,
@@ -23,6 +24,7 @@ import { useGetTournamentCompetitorsByTournament } from '~/services/tournamentCo
 import { useGetTournament } from '~/services/tournaments';
 import { TournamentDetailBanner } from './components/TournamentDetailBanner';
 import { TournamentInfoCard } from './components/TournamentInfoCard';
+import { TournamentMatchResultsTab } from './components/TournamentMatchResultsTab';
 import { TournamentPairingsCard } from './components/TournamentPairingsCard';
 import { TournamentRankingsCard } from './components/TournamentRankingsCard';
 import { TournamentRosterCard } from './components/TournamentRosterCard';
@@ -54,8 +56,7 @@ export const TournamentDetailPage = (): JSX.Element => {
     { value: 'info', label: 'Info', icon: <Info /> },
     { value: 'pairings', label: 'Pairings', icon: <Zap /> },
     { value: 'rankings', label: 'Rankings', icon: <Trophy /> },
-    // TODO: Add match results later
-    // { value: 'matchResults', label: 'Match Results', icon: <Swords /> },
+    { value: 'matchResults', label: 'Match Results', icon: <Swords /> },
     { value: 'roster', label: 'Roster', icon: <Users /> },
   ];
   if (showInfoSidebar) {
@@ -108,11 +109,7 @@ export const TournamentDetailPage = (): JSX.Element => {
                 <TournamentRankingsCard />
               </TabsContent>
               {/* TODO: Add match results later */}
-              {/* <TabsContent className={styles.TournamentDetailPage_TabsContent} value="matchResults">
-                  <TournamentDetailsCard title="Match Results">
-                    Nothing here yet
-                  </TournamentDetailsCard>
-                </TabsContent> */}
+              <TournamentMatchResultsTab value="matchResults" />
               <TabsContent value="roster">
                 <TournamentRosterCard />
               </TabsContent>
