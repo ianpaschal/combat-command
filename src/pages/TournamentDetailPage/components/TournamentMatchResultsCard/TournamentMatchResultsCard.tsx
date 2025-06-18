@@ -1,24 +1,23 @@
 import { ReactElement, useState } from 'react';
 import clsx from 'clsx';
+import { Swords } from 'lucide-react';
 
 import { InputSelect } from '~/components/generic/InputSelect';
-import { TabsContent } from '~/components/generic/Tabs';
 import { MatchResultCard } from '~/components/MatchResultCard';
 import { useTournament } from '~/components/TournamentProvider';
-import { TournamentDetailsCard } from '~/pages/TournamentDetailPage/components/TournamentDetailsCard';
 import { useGetMatchResultsByTournamentRound } from '~/services/matchResults';
+import { TournamentDetailCard } from '../TournamentDetailCard';
+import { TournamentTabEmptyState } from '../TournamentTabEmptyState';
 
-import styles from './TournamentMatchResultsTab.module.scss';
+import styles from './TournamentMatchResultsCard.module.scss';
 
-export interface TournamentMatchResultsTabProps {
+export interface TournamentMatchResultsCardProps {
   className?: string;
-  value: string;
 }
 
-export const TournamentMatchResultsTab = ({
+export const TournamentMatchResultsCard = ({
   className,
-  value,
-}: TournamentMatchResultsTabProps): JSX.Element => {
+}: TournamentMatchResultsCardProps): JSX.Element => {
   const tournament = useTournament();
   const [round, setRound] = useState<number>(tournament.lastRound ?? 0);
   const { data: matchResults, loading } = useGetMatchResultsByTournamentRound({
@@ -26,8 +25,8 @@ export const TournamentMatchResultsTab = ({
     round,
   });
 
-  const showEmptyState = !matchResults?.length;
   const showLoadingState = loading;
+  const showEmptyState = !loading && !matchResults?.length;
 
   const getRoundIndexes = (): number[] => {
     if (tournament.lastRound !== undefined) {
@@ -50,30 +49,26 @@ export const TournamentMatchResultsTab = ({
   ];
 
   return (
-    <TabsContent value={value}>
-      <TournamentDetailsCard
-        className={clsx(className)}
-        title="Match Results"
-        buttons={getPrimaryButtons()}
-      >
-        {showLoadingState ? (
-          <div className={styles.TournamentMatchResultsTab_EmptyState}>
-            Loading...
-          </div>
+    <TournamentDetailCard
+      className={clsx(className)}
+      title="Match Results"
+      buttons={getPrimaryButtons()}
+    >
+      {showLoadingState ? (
+        <div className={styles.TournamentMatchResultsCard_EmptyState}>
+          Loading...
+        </div>
+      ) : (
+        showEmptyState ? (
+          <TournamentTabEmptyState icon={<Swords />} />
         ) : (
-          showEmptyState ? (
-            <div className={styles.TournamentMatchResultsTab_EmptyState}>
-              Nothing to show yet.
-            </div>
-          ) : (
-            <div className={styles.TournamentMatchResultsTab_MatchResults}>
-              {(matchResults || []).map((matchResult) => (
-                <MatchResultCard key={matchResult._id} matchResult={matchResult} />
-              ))}
-            </div>
-          )
-        )}
-      </TournamentDetailsCard>
-    </TabsContent >
+          <div className={styles.TournamentMatchResultsCard_MatchResults}>
+            {(matchResults || []).map((matchResult) => (
+              <MatchResultCard key={matchResult._id} matchResult={matchResult} />
+            ))}
+          </div>
+        )
+      )}
+    </TournamentDetailCard>
   );
 };

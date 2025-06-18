@@ -1,0 +1,20 @@
+@use "/src/style/variables";
+@use "/src/style/flex";
+@use "/src/style/text";
+
+.TournamentTabEmptyState {
+  @include flex.stretchy;
+  @include flex.column($xAlign: center, $yAlign: center);
+  @include text.ui($muted: true);
+
+  min-height: 16rem;
+  padding: 0 var(--container-padding-x) var(--container-padding-y);
+
+  &_Message {
+    color: var(--text-color-muted);
+  }
+
+  &_Icon {
+    color: var(--text-color-disabled);
+  }
+}

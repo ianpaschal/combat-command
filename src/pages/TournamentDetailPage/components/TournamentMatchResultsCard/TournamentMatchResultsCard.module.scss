@@ -2,7 +2,7 @@
 @use "/src/style/flex";
 @use "/src/style/text";
 
-.TournamentMatchResultsTab {
+.TournamentMatchResultsCard {
   &_EmptyState {
     @include flex.stretchy;
     @include flex.centered;
