@@ -54,25 +54,43 @@ export const TournamentDetailPage = (): JSX.Element => {
   const showInfoSidebar = deviceSize >= DeviceSize.Wide;
   const tabs = [
     { value: 'info', label: 'Info', icon: <Info /> },
+    { value: 'roster', label: 'Roster', icon: <Users /> },
     { value: 'pairings', label: 'Pairings', icon: <Zap /> },
     { value: 'rankings', label: 'Rankings', icon: <Trophy /> },
     { value: 'matchResults', label: 'Match Results', icon: <Swords /> },
-    { value: 'roster', label: 'Roster', icon: <Users /> },
   ];
   if (showInfoSidebar) {
     tabs.splice(tabs.findIndex((tab) => tab.value === 'info'), 1);
   }
-  const activeTab = !queryTab || tabs.findIndex((tab) => tab.value === queryTab) === -1 ? tabs[0].value : queryTab;
-
-  useEffect(() => {
-    if (activeTab !== queryTab) {
-      handleTabChange(activeTab);
+  const getDefaultTab = (): string => {
+    if (tournament?.status === 'archived') {
+      return 'rankings';
     }
-  }, [activeTab, queryTab, handleTabChange]);
-
-  const showTabLabels = deviceSize >= DeviceSize.Default;
+    if (tournament?.status === 'active') {
+      if (tournament.currentRound !== undefined) {
+        return 'pairings';
+      } else {
+        return 'rankings';
+      }
+    }
+    if (tournament?.status === 'published') {
+      return 'info';
+    }
+    return 'roster';
+  };
+  const activeTab = !queryTab || tabs.findIndex((tab) => tab.value === queryTab) === -1 ? getDefaultTab() : queryTab;
 
   const loading = tournamentLoading || tournamentCompetitorsLoading;
+
+  useEffect(() => {
+    /* Only do this when loading. Otherwise since the first render happens before we know the
+     * tournament status, getDefaultTab ALWAYS returns 'roster'. */
+    if (activeTab !== queryTab && !loading) {
+      handleTabChange(activeTab);
+    }
+  }, [activeTab, queryTab, handleTabChange, loading]);
+
+  const showTabLabels = deviceSize >= DeviceSize.Default;
 
   if (loading) {
     return <div>Loading...</div>;
