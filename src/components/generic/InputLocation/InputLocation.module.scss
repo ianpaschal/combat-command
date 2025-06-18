@@ -13,8 +13,10 @@
 
   @include flex.column($gap: 0.5rem);
 
+  min-width: 16rem;
   margin: 0.25rem 0;
   padding: 1rem;
+
   background-color: var(--card-bg);
   border-radius: variables.$corner-radius;
 }
