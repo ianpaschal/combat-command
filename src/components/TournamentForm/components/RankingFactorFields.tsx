@@ -57,7 +57,7 @@ export const RankingFactorFields = ({
             onChange={(value) => handleChange(i, value)}
             disabled={disableFields}
           />
-          {rankingFactors.length > 1 && (
+          {rankingFactors.length > 1 && i < rankingFactors.length && (
             <Button variant="ghost" disabled={disableFields} onClick={(e) => {
               e.preventDefault();
               handleRemove(i);
