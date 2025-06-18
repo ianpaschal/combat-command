@@ -1,1 +1,0 @@
-export { TournamentMatchResultsTab } from './TournamentMatchResultsTab';

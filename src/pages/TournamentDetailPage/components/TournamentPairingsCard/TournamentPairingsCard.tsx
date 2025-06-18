@@ -1,15 +1,24 @@
-import { useState } from 'react';
+import { ReactElement, useState } from 'react';
+import clsx from 'clsx';
+import { Zap } from 'lucide-react';
 
 import { InputSelect } from '~/components/generic/InputSelect';
 import { Table } from '~/components/generic/Table';
 import { useTournament } from '~/components/TournamentProvider';
-import { getTournamentPairingTableConfig } from '~/pages/TournamentDetailPage/components/TournamentPairingsCard.utils';
 import { useGetTournamentPairings } from '~/services/tournamentPairings';
-import { TournamentDetailsCard } from './TournamentDetailsCard';
+import { TournamentDetailCard } from '../TournamentDetailCard';
+import { TournamentTabEmptyState } from '../TournamentTabEmptyState';
+import { getTournamentPairingTableConfig } from './TournamentPairingsCard.utils';
 
 import styles from './TournamentPairingsCard.module.scss';
 
-export const TournamentPairingsCard = () => {
+export interface TournamentPairingsCardProps {
+  className?: string;
+}
+
+export const TournamentPairingsCard = ({
+  className,
+}: TournamentPairingsCardProps): JSX.Element => {
   const { _id: tournamentId, currentRound, lastRound } = useTournament();
   const [round, setRound] = useState<number>(currentRound ?? 0);
   const { data: tournamentPairings, loading } = useGetTournamentPairings({
@@ -18,6 +27,10 @@ export const TournamentPairingsCard = () => {
   });
   const columns = getTournamentPairingTableConfig();
   const rows = (tournamentPairings || []);
+
+  const showEmptyState = !loading && !rows.length;
+  const showLoadingState = loading;
+
   const getRoundIndexes = (): number[] => {
     if (currentRound === undefined && lastRound === undefined) {
       return [];
@@ -35,22 +48,20 @@ export const TournamentPairingsCard = () => {
     value: round,
   }));
 
-  const showEmptyState = !loading && !rows.length;
-  const showLoadingState = loading;
+  const getPrimaryButtons = (): ReactElement[] | undefined => [
+    <InputSelect
+      options={roundOptions}
+      value={round}
+      onChange={(selected) => setRound(selected as number)}
+      disabled={showLoadingState || showEmptyState}
+    />,
+  ];
 
   return (
-    <TournamentDetailsCard
+    <TournamentDetailCard
+      className={clsx(styles.TournamentPairingsCard, className)}
       title="Pairings"
-      buttons={[
-        <InputSelect
-          options={roundOptions}
-          value={round}
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          onChange={(selected) => setRound(selected)}
-          disabled={showLoadingState || showEmptyState}
-        />,
-      ]}
+      buttons={getPrimaryButtons()}
     >
       {showLoadingState ? (
         <div className={styles.TournamentPairingsCard_EmptyState}>
@@ -58,13 +69,11 @@ export const TournamentPairingsCard = () => {
         </div>
       ) : (
         showEmptyState ? (
-          <div className={styles.TournamentPairingsCard_EmptyState}>
-            Nothing to show yet.
-          </div>
+          <TournamentTabEmptyState icon={<Zap />} />
         ) : (
           <Table columns={columns} rows={rows} rowClassName={styles.TournamentPairingsCard_Row} />
         )
       )}
-    </TournamentDetailsCard >
+    </TournamentDetailCard>
   );
 };

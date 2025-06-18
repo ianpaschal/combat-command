@@ -24,7 +24,7 @@ import { useGetTournamentCompetitorsByTournament } from '~/services/tournamentCo
 import { useGetTournament } from '~/services/tournaments';
 import { TournamentDetailBanner } from './components/TournamentDetailBanner';
 import { TournamentInfoCard } from './components/TournamentInfoCard';
-import { TournamentMatchResultsTab } from './components/TournamentMatchResultsTab';
+import { TournamentMatchResultsCard } from './components/TournamentMatchResultsCard';
 import { TournamentPairingsCard } from './components/TournamentPairingsCard';
 import { TournamentRankingsCard } from './components/TournamentRankingsCard';
 import { TournamentRosterCard } from './components/TournamentRosterCard';
@@ -126,8 +126,9 @@ export const TournamentDetailPage = (): JSX.Element => {
               <TabsContent value="rankings">
                 <TournamentRankingsCard />
               </TabsContent>
-              {/* TODO: Add match results later */}
-              <TournamentMatchResultsTab value="matchResults" />
+              <TabsContent value="matchResults">
+                <TournamentMatchResultsCard />
+              </TabsContent>
               <TabsContent value="roster">
                 <TournamentRosterCard />
               </TabsContent>

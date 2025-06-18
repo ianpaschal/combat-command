@@ -3,6 +3,8 @@
 @use "/src/style/text";
 
 .TournamentPairingsCard {
+  padding-bottom: var(--container-padding-y);
+
   &_Filters {
     @include flex.row;
   }

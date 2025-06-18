@@ -1,7 +1,12 @@
 import { ReactElement } from 'react';
 import { generatePath } from 'react-router-dom';
 import clsx from 'clsx';
-import { Link, UserPlus } from 'lucide-react';
+import {
+  EyeOff,
+  Link,
+  UserPlus,
+  Users,
+} from 'lucide-react';
 
 import { useAuth } from '~/components/AuthProvider';
 import { Button } from '~/components/generic/Button';
@@ -11,10 +16,11 @@ import { TournamentCreateTeamDialog } from '~/components/TournamentCreateTeamDia
 import { useTournamentCreateTeamDialog } from '~/components/TournamentCreateTeamDialog/TournamentCreateTeamDialog.hooks';
 import { useTournament } from '~/components/TournamentProvider';
 import { TournamentRoster } from '~/components/TournamentRoster';
-import { TournamentDetailsCard } from '~/pages/TournamentDetailPage/components/TournamentDetailsCard';
 import { useCreateTournamentCompetitor, useGetTournamentCompetitorsByTournament } from '~/services/tournamentCompetitors';
 import { usePublishTournament } from '~/services/tournaments';
 import { PATHS } from '~/settings';
+import { TournamentDetailCard } from '../TournamentDetailCard';
+import { TournamentTabEmptyState } from '../TournamentTabEmptyState';
 
 import styles from './TournamentRosterCard.module.scss';
 
@@ -37,11 +43,10 @@ export const TournamentRosterCard = ({
     successMessage: `${tournament.title} is now live!`,
   });
 
-  const showEmptyState = !loading && tournamentCompetitors?.length == 0;
+  const showLoadingState = loading;
+  const showEmptyState = !loading && !tournamentCompetitors?.length;
 
   const isOrganizer = user && tournament.organizerUserIds.includes(user._id);
-  const isPlayer = user && tournament.playerUserIds.includes(user._id);
-  const isFull = competitors?.length >= tournament.competitorSize;
 
   const handleRegister = (): void => {
     if (!user) {
@@ -69,6 +74,8 @@ export const TournamentRosterCard = ({
   };
 
   const getPrimaryButtons = (): ReactElement[] | undefined => {
+    const isPlayer = user && tournament.playerUserIds.includes(user._id);
+    const isFull = competitors?.length >= tournament.competitorSize;
     if (!isOrganizer && !isPlayer && !isFull) {
       if (tournament.useTeams) {
         return [
@@ -85,37 +92,39 @@ export const TournamentRosterCard = ({
     }
   };
 
+  const emptyStateProps = tournament.status === 'draft' && isOrganizer ? {
+    icon: <EyeOff />,
+    message: 'Your tournament is not yet visible.',
+    children: <Button onClick={handlePublish}>Publish</Button>,
+  } : {
+    icon: <Users />,
+    message: 'No competitors registered yet.',
+    children: isOrganizer ? (
+      <Button onClick={handleCopyLink}>
+        <Link />
+        Copy Link
+      </Button>
+    ) : undefined,
+  };
+
   return (
-    <TournamentDetailsCard
+    <TournamentDetailCard
       className={clsx(className)}
       title="Roster"
       buttons={getPrimaryButtons()}
     >
-      {showEmptyState ? (
+      {showLoadingState ? (
         <div className={styles.TournamentRoster_EmptyState}>
-          {tournament.status === 'draft' && isOrganizer ? (
-            <>
-              <p>Your tournament is not yet visible.</p>
-              <Button onClick={handlePublish}>
-                Publish
-              </Button>
-            </>
-          ) : (
-            <>
-              <p>No competitors registered yet.</p>
-              {isOrganizer && (
-                <Button onClick={handleCopyLink}>
-                  <Link />
-                  Copy Link
-                </Button>
-              )}
-            </>
-          )}
+          Loading...
         </div>
       ) : (
-        <TournamentRoster className={styles.TournamentRoster_CompetitorList} />
+        showEmptyState ? (
+          <TournamentTabEmptyState {...emptyStateProps} />
+        ) : (
+          <TournamentRoster className={styles.TournamentRoster_CompetitorList} />
+        )
       )}
       <TournamentCreateTeamDialog />
-    </TournamentDetailsCard>
+    </TournamentDetailCard>
   );
 };
