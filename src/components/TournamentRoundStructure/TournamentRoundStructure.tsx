@@ -5,23 +5,26 @@ import { Label } from '~/components/generic/Label';
 
 import styles from './TournamentRoundStructure.module.scss';
 
+type GenericRoundStructure<T extends number | string> = {
+  pairingTime?: T;
+  setUpTime: T;
+  playingTime: T;
+};
+
 export interface TournamentRoundStructureProps {
   className?: string;
-  structure: {
-    pairingTime?: number;
-    setUpTime: number;
-    playingTime: number;
-  }
+  structure: GenericRoundStructure<number | string>;
 }
 
 export const TournamentRoundStructure = ({
   className,
-  structure,
+  structure: rawStructure,
 }: TournamentRoundStructureProps): JSX.Element => {
-  let totalRoundTime = structure.setUpTime + structure.playingTime;
-  if (structure.pairingTime) {
-    totalRoundTime += structure.pairingTime ?? 0;
-  }
+  const structure = Object.entries(rawStructure).reduce((acc, [stage, value]) => ({
+    ...acc,
+    [stage]: typeof value === 'string' ? parseInt(value, 10) : value,
+  }), {} as GenericRoundStructure<number>);
+  const totalRoundTime = (structure.pairingTime ?? 0) + structure.setUpTime + structure.playingTime;
   const hours = Math.floor(totalRoundTime / 60);
   const minutes = totalRoundTime % 60;
   return (
