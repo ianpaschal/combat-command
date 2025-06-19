@@ -68,10 +68,16 @@ export const FowV4MatchResultForm = ({
     loading: tournamentPairingsLoading,
   } = useGetActiveTournamentPairingsByUser(user ? { userId: user._id } : 'skip');
 
-  const { mutation: createMatchResult } = useCreateMatchResult({
+  const {
+    mutation: createMatchResult,
+    loading: createMatchResultLoading,
+  } = useCreateMatchResult({
     onSuccess,
   });
-  const { mutation: updateMatchResult } = useUpdateMatchResult({
+  const {
+    mutation: updateMatchResult,
+    loading: updateMatchResultLoading,
+  } = useUpdateMatchResult({
     onSuccess,
   });
 
@@ -100,8 +106,11 @@ export const FowV4MatchResultForm = ({
   };
 
   const handleConfirm = (): void => {
-    const data: FowV4MatchResultFormData = form.watch();
     closeConfirmMatchResultDialog();
+    const { data } = fowV4MatchResultFormSchema.safeParse(form.watch());
+    if (!data) {
+      throw new Error('Failed to parse form schema!');
+    }
     createMatchResult({
       ...data,
       tournamentPairingId: tournamentPairingId as TournamentPairingId,
@@ -121,6 +130,8 @@ export const FowV4MatchResultForm = ({
       setTournamentPairingId(value as TournamentPairingId);
     }
   };
+
+  const disableSubmit = createMatchResultLoading || updateMatchResultLoading;
 
   if (tournamentPairingsLoading || matchResultLoading) {
     return <div>Loading...</div>;
@@ -160,6 +171,7 @@ export const FowV4MatchResultForm = ({
         title="Are all details correct?"
         description="This match is for a tournament, so after you submit it the game configuration and outcome can no longer be changed!"
         onConfirm={handleConfirm}
+        disabled={disableSubmit}
       >
         <FowV4MatchResultDetails
           className={styles.FowV4MatchResultForm_ConfirmDialogDetails}

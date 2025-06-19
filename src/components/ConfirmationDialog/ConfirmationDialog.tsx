@@ -24,6 +24,7 @@ export interface ConfirmationDialogProps {
   onConfirm?: () => void;
   title: string;
   warnings?: ReactNode[];
+  disabled?: boolean;
 }
 
 export const ConfirmationDialog = ({
@@ -35,6 +36,7 @@ export const ConfirmationDialog = ({
   onConfirm,
   title,
   warnings = [],
+  disabled = false,
 }: ConfirmationDialogProps): JSX.Element => {
   const { close, data } = useConfirmationDialog(id);
   const handleConfirm = (): void => {
@@ -80,7 +82,7 @@ export const ConfirmationDialog = ({
         <Button variant="secondary" onClick={close}>
           Cancel
         </Button>
-        <Button intent={intent} onClick={handleConfirm}>
+        <Button intent={intent} onClick={handleConfirm} disabled={disabled}>
           Confirm
         </Button>
       </DialogActions>
