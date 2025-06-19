@@ -4,6 +4,7 @@ import { ImagePlus } from 'lucide-react';
 
 import { MatchResultId } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
+import { FowV4MatchResultDetails } from '~/components/FowV4MatchResultDetails';
 import { Button } from '~/components/generic/Button';
 import { Card } from '~/components/generic/Card';
 import { ScrollArea } from '~/components/generic/ScrollArea';
@@ -17,7 +18,6 @@ import { MatchResultSocials } from '~/components/MatchResultSocials';
 import { PageWrapper } from '~/components/PageWrapper';
 import { useGetMatchResult } from '~/services/matchResults';
 import { MIN_WIDTH_DESKTOP } from '~/settings';
-import { MatchResultDetails } from './components/MatchResultDetails';
 
 import styles from './MatchResultDetailPage.module.scss';
 
@@ -58,7 +58,10 @@ export const MatchResultDetailPage = (): JSX.Element => {
               <MatchResultSocials className={styles.Socials} />
               <Separator />
               <ScrollArea className={styles.DetailsScrollArea}>
-                <MatchResultDetails className={styles.Details} />
+                <FowV4MatchResultDetails
+                  className={styles.Details}
+                  matchResult={matchResult}
+                />
               </ScrollArea>
               <Separator />
               <div className={styles.DetailsFooter}>
