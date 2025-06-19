@@ -1,0 +1,19 @@
+@use "/src/style/variables";
+@use "/src/style/flex";
+@use "/src/style/text";
+
+.TournamentMatchResultsCard {
+  &_EmptyState {
+    @include flex.stretchy;
+    @include flex.centered;
+    @include text.ui($muted: true);
+
+    padding-bottom: 4rem;
+  }
+
+  &_MatchResults {
+    @include flex.column;
+
+    padding: 0 var(--container-padding-x) var(--container-padding-y);
+  }
+}

@@ -33,7 +33,7 @@ export const openTournamentRound = async (
   // --- CHECK AUTH ----
   checkTournamentAuth(ctx, tournament);
 
-  // ---- CHECK ELIGIBILITY ----
+  // ---- VALIDATE ----
   if (tournament.status === 'draft') {
     throw new ConvexError(getErrorMessage('CANNOT_OPEN_ROUND_ON_DRAFT_TOURNAMENT'));
   }
@@ -51,6 +51,7 @@ export const openTournamentRound = async (
   // TODO: Throw error if pairings are invalid
   // TODO: Throw error if there are too many pairings or some competitors are not active, etc.
   // TODO: Throw error if pairings for that round already exist
+  // TODO: Throw error if competitors have the wrong number of (active) players
 
   // ---- PRIMARY ACTIONS ----
   const tableCount = Math.ceil(tournament.maxCompetitors / 2);

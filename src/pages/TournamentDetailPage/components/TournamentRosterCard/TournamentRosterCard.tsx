@@ -2,23 +2,25 @@ import { ReactElement } from 'react';
 import { generatePath } from 'react-router-dom';
 import clsx from 'clsx';
 import {
+  EyeOff,
   Link,
-  UserMinus,
   UserPlus,
+  Users,
 } from 'lucide-react';
 
 import { useAuth } from '~/components/AuthProvider';
 import { Button } from '~/components/generic/Button';
-import { ScrollArea } from '~/components/generic/ScrollArea';
 import { toast } from '~/components/ToastProvider';
-import { TournamentCompetitorCard } from '~/components/TournamentCompetitorCard';
+import { useTournamentCompetitors } from '~/components/TournamentCompetitorsProvider';
 import { TournamentCreateTeamDialog } from '~/components/TournamentCreateTeamDialog';
 import { useTournamentCreateTeamDialog } from '~/components/TournamentCreateTeamDialog/TournamentCreateTeamDialog.hooks';
 import { useTournament } from '~/components/TournamentProvider';
-import { TournamentDetailsCard } from '~/pages/TournamentDetailPage/components/TournamentDetailsCard';
+import { TournamentRoster } from '~/components/TournamentRoster';
 import { useCreateTournamentCompetitor, useGetTournamentCompetitorsByTournament } from '~/services/tournamentCompetitors';
 import { usePublishTournament } from '~/services/tournaments';
 import { PATHS } from '~/settings';
+import { TournamentDetailCard } from '../TournamentDetailCard';
+import { TournamentTabEmptyState } from '../TournamentTabEmptyState';
 
 import styles from './TournamentRosterCard.module.scss';
 
@@ -31,11 +33,8 @@ export const TournamentRosterCard = ({
 }: TournamentRosterCardProps): JSX.Element => {
   const user = useAuth();
   const tournament = useTournament();
-  const userIsPlayer = !!(user && tournament.playerUserIds.includes(user._id));
-  const userIsOrganizer = !!(user && tournament.organizerUserIds.includes(user._id));
-
+  const competitors = useTournamentCompetitors();
   const { open: openTournamentCreateTeamDialog } = useTournamentCreateTeamDialog(tournament._id);
-
   const { data: tournamentCompetitors, loading } = useGetTournamentCompetitorsByTournament({ tournamentId: tournament._id });
   const { mutation: createTournamentCompetitor } = useCreateTournamentCompetitor({
     successMessage: `Successfully joined ${tournament.title}!`,
@@ -44,7 +43,10 @@ export const TournamentRosterCard = ({
     successMessage: `${tournament.title} is now live!`,
   });
 
-  const showEmptyState = !loading && tournamentCompetitors?.length == 0;
+  const showLoadingState = loading;
+  const showEmptyState = !loading && !tournamentCompetitors?.length;
+
+  const isOrganizer = user && tournament.organizerUserIds.includes(user._id);
 
   const handleRegister = (): void => {
     if (!user) {
@@ -72,69 +74,57 @@ export const TournamentRosterCard = ({
   };
 
   const getPrimaryButtons = (): ReactElement[] | undefined => {
-    if (userIsPlayer) {
-      return [
-        <Button variant="secondary">
-          <UserMinus />Leave
-        </Button>,
-      ];
-    }
-    if (!tournament.useTeams && user && !userIsOrganizer && !userIsPlayer) {
+    const isPlayer = user && tournament.playerUserIds.includes(user._id);
+    const isFull = competitors?.length >= tournament.competitorSize;
+    if (!isOrganizer && !isPlayer && !isFull) {
+      if (tournament.useTeams) {
+        return [
+          <Button onClick={openTournamentCreateTeamDialog}>
+            <UserPlus />New Team
+          </Button>,
+        ];
+      }
       return [
         <Button onClick={handleRegister}>
           <UserPlus />Register
         </Button>,
       ];
     }
-    if (tournament.useTeams && user && !userIsOrganizer && !userIsPlayer) {
-      return [
-        <Button onClick={openTournamentCreateTeamDialog}>
-          <UserPlus />New Team
-        </Button>,
-      ];
-    }
+  };
+
+  const emptyStateProps = tournament.status === 'draft' && isOrganizer ? {
+    icon: <EyeOff />,
+    message: 'Your tournament is not yet visible.',
+    children: <Button onClick={handlePublish}>Publish</Button>,
+  } : {
+    icon: <Users />,
+    message: 'No competitors registered yet.',
+    children: isOrganizer ? (
+      <Button onClick={handleCopyLink}>
+        <Link />
+        Copy Link
+      </Button>
+    ) : undefined,
   };
 
   return (
-    <TournamentDetailsCard
+    <TournamentDetailCard
       className={clsx(className)}
       title="Roster"
       buttons={getPrimaryButtons()}
     >
-      {showEmptyState ? (
+      {showLoadingState ? (
         <div className={styles.TournamentRoster_EmptyState}>
-          {tournament.status === 'draft' && userIsOrganizer ? (
-            <>
-              <p>Your tournament is not yet visible.</p>
-              <Button onClick={handlePublish}>
-                Publish
-              </Button>
-            </>
-          ) : (
-            <>
-              <p>No competitors registered yet.</p>
-              {userIsOrganizer && (
-                <Button onClick={handleCopyLink}>
-                  <Link />
-                  Copy Link
-                </Button>
-              )}
-            </>
-          )}
+          Loading...
         </div>
       ) : (
-        <ScrollArea indicatorBorders="top">
-          <div className={styles.TournamentRoster_CompetitorList}>
-            {(tournamentCompetitors || []).map((tournamentCompetitor) => (
-              <TournamentCompetitorCard
-                key={tournamentCompetitor._id}
-                tournamentCompetitor={tournamentCompetitor}
-              />
-            ))}
-          </div>
-        </ScrollArea>
+        showEmptyState ? (
+          <TournamentTabEmptyState {...emptyStateProps} />
+        ) : (
+          <TournamentRoster className={styles.TournamentRoster_CompetitorList} />
+        )
       )}
       <TournamentCreateTeamDialog />
-    </TournamentDetailsCard>
+    </TournamentDetailCard>
   );
 };

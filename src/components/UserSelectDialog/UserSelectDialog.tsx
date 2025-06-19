@@ -138,7 +138,7 @@ export const UserSelectDialog = ({
         )}
       </div>
       <DialogActions>
-        <Button variant="secondary" onClick={close}>Cancel</Button>
+        <Button variant="secondary" onClick={close}>Close</Button>
       </DialogActions>
     </ControlledDialog>
   );

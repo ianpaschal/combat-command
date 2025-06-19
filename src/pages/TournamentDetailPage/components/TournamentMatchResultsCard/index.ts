@@ -1,0 +1,1 @@
+export { TournamentMatchResultsCard } from './TournamentMatchResultsCard';

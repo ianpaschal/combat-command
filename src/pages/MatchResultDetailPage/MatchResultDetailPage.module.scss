@@ -6,8 +6,10 @@
 @use "/src/style/borders";
 
 .Root {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-areas: "players" "photos" "details";
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto auto;
   gap: 1rem;
 }
 

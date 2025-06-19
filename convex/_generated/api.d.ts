@@ -20,6 +20,8 @@ import type * as _model_common__helpers_getRange from "../_model/common/_helpers
 import type * as _model_common__helpers_getStorageUrl from "../_model/common/_helpers/getStorageUrl.js";
 import type * as _model_common__helpers_intersectArrays from "../_model/common/_helpers/intersectArrays.js";
 import type * as _model_common__helpers_notNullOrUndefined from "../_model/common/_helpers/notNullOrUndefined.js";
+import type * as _model_files_index from "../_model/files/index.js";
+import type * as _model_files_queries_getFileUrl from "../_model/files/queries/getFileUrl.js";
 import type * as _model_fowV4_aggregateFowV4TournamentData from "../_model/fowV4/aggregateFowV4TournamentData.js";
 import type * as _model_fowV4_calculateFowV4MatchResultScore from "../_model/fowV4/calculateFowV4MatchResultScore.js";
 import type * as _model_fowV4_calculateFowV4TournamentRankings from "../_model/fowV4/calculateFowV4TournamentRankings.js";
@@ -68,6 +70,7 @@ import type * as _model_tournamentCompetitors_fields from "../_model/tournamentC
 import type * as _model_tournamentCompetitors_index from "../_model/tournamentCompetitors/index.js";
 import type * as _model_tournamentCompetitors_mutations_addTournamentCompetitorPlayer from "../_model/tournamentCompetitors/mutations/addTournamentCompetitorPlayer.js";
 import type * as _model_tournamentCompetitors_mutations_createTournamentCompetitor from "../_model/tournamentCompetitors/mutations/createTournamentCompetitor.js";
+import type * as _model_tournamentCompetitors_mutations_deleteTournamentCompetitor from "../_model/tournamentCompetitors/mutations/deleteTournamentCompetitor.js";
 import type * as _model_tournamentCompetitors_mutations_removeTournamentCompetitorPlayer from "../_model/tournamentCompetitors/mutations/removeTournamentCompetitorPlayer.js";
 import type * as _model_tournamentCompetitors_mutations_toggleTournamentCompetitorActive from "../_model/tournamentCompetitors/mutations/toggleTournamentCompetitorActive.js";
 import type * as _model_tournamentCompetitors_mutations_updateTournamentCompetitor from "../_model/tournamentCompetitors/mutations/updateTournamentCompetitor.js";
@@ -135,6 +138,8 @@ import type * as common_errors from "../common/errors.js";
 import type * as common_location from "../common/location.js";
 import type * as common_tournamentStatus from "../common/tournamentStatus.js";
 import type * as common_userDataVisibilityLevel from "../common/userDataVisibilityLevel.js";
+import type * as crons from "../crons.js";
+import type * as files from "../files.js";
 import type * as friendships_confirmFriendship from "../friendships/confirmFriendship.js";
 import type * as friendships_createFriendship from "../friendships/createFriendship.js";
 import type * as friendships_deleteFriendship from "../friendships/deleteFriendship.js";
@@ -150,6 +155,7 @@ import type * as matchResults from "../matchResults.js";
 import type * as photos_index from "../photos/index.js";
 import type * as photos_mutations from "../photos/mutations.js";
 import type * as photos_queries from "../photos/queries.js";
+import type * as scheduledTasks from "../scheduledTasks.js";
 import type * as static_currencyCodes from "../static/currencyCodes.js";
 import type * as static_fowV4_dynamicPointsVersions from "../static/fowV4/dynamicPointsVersions.js";
 import type * as static_fowV4_eras from "../static/fowV4/eras.js";
@@ -194,6 +200,8 @@ declare const fullApi: ApiFromModules<{
   "_model/common/_helpers/getStorageUrl": typeof _model_common__helpers_getStorageUrl;
   "_model/common/_helpers/intersectArrays": typeof _model_common__helpers_intersectArrays;
   "_model/common/_helpers/notNullOrUndefined": typeof _model_common__helpers_notNullOrUndefined;
+  "_model/files/index": typeof _model_files_index;
+  "_model/files/queries/getFileUrl": typeof _model_files_queries_getFileUrl;
   "_model/fowV4/aggregateFowV4TournamentData": typeof _model_fowV4_aggregateFowV4TournamentData;
   "_model/fowV4/calculateFowV4MatchResultScore": typeof _model_fowV4_calculateFowV4MatchResultScore;
   "_model/fowV4/calculateFowV4TournamentRankings": typeof _model_fowV4_calculateFowV4TournamentRankings;
@@ -242,6 +250,7 @@ declare const fullApi: ApiFromModules<{
   "_model/tournamentCompetitors/index": typeof _model_tournamentCompetitors_index;
   "_model/tournamentCompetitors/mutations/addTournamentCompetitorPlayer": typeof _model_tournamentCompetitors_mutations_addTournamentCompetitorPlayer;
   "_model/tournamentCompetitors/mutations/createTournamentCompetitor": typeof _model_tournamentCompetitors_mutations_createTournamentCompetitor;
+  "_model/tournamentCompetitors/mutations/deleteTournamentCompetitor": typeof _model_tournamentCompetitors_mutations_deleteTournamentCompetitor;
   "_model/tournamentCompetitors/mutations/removeTournamentCompetitorPlayer": typeof _model_tournamentCompetitors_mutations_removeTournamentCompetitorPlayer;
   "_model/tournamentCompetitors/mutations/toggleTournamentCompetitorActive": typeof _model_tournamentCompetitors_mutations_toggleTournamentCompetitorActive;
   "_model/tournamentCompetitors/mutations/updateTournamentCompetitor": typeof _model_tournamentCompetitors_mutations_updateTournamentCompetitor;
@@ -309,6 +318,8 @@ declare const fullApi: ApiFromModules<{
   "common/location": typeof common_location;
   "common/tournamentStatus": typeof common_tournamentStatus;
   "common/userDataVisibilityLevel": typeof common_userDataVisibilityLevel;
+  crons: typeof crons;
+  files: typeof files;
   "friendships/confirmFriendship": typeof friendships_confirmFriendship;
   "friendships/createFriendship": typeof friendships_createFriendship;
   "friendships/deleteFriendship": typeof friendships_deleteFriendship;
@@ -324,6 +335,7 @@ declare const fullApi: ApiFromModules<{
   "photos/index": typeof photos_index;
   "photos/mutations": typeof photos_mutations;
   "photos/queries": typeof photos_queries;
+  scheduledTasks: typeof scheduledTasks;
   "static/currencyCodes": typeof static_currencyCodes;
   "static/fowV4/dynamicPointsVersions": typeof static_fowV4_dynamicPointsVersions;
   "static/fowV4/eras": typeof static_fowV4_eras;

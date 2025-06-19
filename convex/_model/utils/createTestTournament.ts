@@ -1,6 +1,7 @@
 import { Infer, v } from 'convex/values';
 
 import { mockTournamentData } from './_helpers/mockData';
+import { Id } from '../../_generated/dataModel';
 import { MutationCtx } from '../../_generated/server';
 import { tournamentStatus } from '../../common/tournamentStatus';
 
@@ -58,6 +59,8 @@ export const createTestTournament = async (
       setUpTime: 2,
       playingTime: 3,
     },
+    logoStorageId: 'kg208wxmb55v36bh9qnkqc0c397j1rmb' as Id<'_storage'>,
+    bannerStorageId: 'kg21scbttz4t1hxxcs9qjcsvkh7j0nkh' as Id<'_storage'>,
   });
 
   // 3. Create competitors

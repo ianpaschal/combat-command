@@ -6,6 +6,7 @@ import {
   CurrencyCode,
   FowV4RankingFactor,
   GameSystemId,
+  StorageId,
   TournamentPairingMethod,
   UserId,
 } from '~/api';
@@ -47,8 +48,8 @@ export const tournamentFormSchema = z.object({
   startsAt: z.string(), // Local time 0000-00-00T00:00
   endsAt: z.string(), // Local time 0000-00-00T00:00
   registrationClosesAt: z.string(),
-  logoFile: z.optional(z.instanceof(File)),
-  bannerFile: z.optional(z.instanceof(File)),
+  logoStorageId: z.optional(z.string().transform((val) => val as StorageId)),
+  bannerStorageId: z.optional(z.string().transform((val) => val as StorageId)),
 
   // Competitor Config
   maxCompetitors: z.coerce.number().min(2, 'Tournaments require at least two competitors.'),
@@ -109,6 +110,6 @@ export const defaultValues: DeepPartial<TournamentFormData> = {
     playingTime: 120,
   },
   rankingFactors: ['total_wins'],
-  logoFile: undefined,
-  bannerFile: undefined,
+  logoStorageId: '',
+  bannerStorageId: '',
 };

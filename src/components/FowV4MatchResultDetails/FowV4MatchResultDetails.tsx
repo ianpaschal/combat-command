@@ -52,7 +52,7 @@ export const FowV4MatchResultDetails = ({
       <div className={styles.FowV4MatchResultDetails_Column}>
         <div className={styles.FowV4MatchResultDetails_Section}>
           <h3>Outcome</h3>
-          <SingleRow label="Turns Played" value={playerNames[matchResult.details.turnsPlayed]} />
+          <SingleRow label="Turns Played" value={matchResult.details.turnsPlayed} />
           <PerPlayerRow label="Units Lost" playerNames={playerNames} values={unitsLost} />
           <SingleRow label="Outcome" value={formatOutcome(matchResult.details, playerNames)} />
           <PerPlayerRow label="Score" playerNames={playerNames} values={score} />

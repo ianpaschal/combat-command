@@ -45,7 +45,7 @@ export const addTournamentCompetitorPlayer = async (
    */
   const authorizedUserIds = [
     ...tournament.organizerUserIds,
-    ...args.playerUserId,
+    args.playerUserId,
   ];
   if (!authorizedUserIds.includes(userId)) {
     throw new ConvexError(getErrorMessage('USER_DOES_NOT_HAVE_PERMISSION'));

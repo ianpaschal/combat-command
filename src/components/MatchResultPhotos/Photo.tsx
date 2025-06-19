@@ -12,10 +12,9 @@ export const Photo = ({
 }: PhotoProps) => {
   const { data } = useFetchPhoto(id);
   return (
-    <div className={styles.Photo}>
-      {data?.url && (
-        <img className={styles.Image} src={data.url} />
-      )}
-    </div>
+    <div
+      className={styles.Photo}
+      style={data?.url ? { backgroundImage: `url(${data.url})` } : undefined}
+    />
   );
 };
