@@ -1,0 +1,110 @@
+@use "/src/style/flex";
+@use "/src/style/borders";
+@use "/src/style/shadows";
+@use "/src/style/variables";
+@use "/src/style/corners";
+@use "@radix-ui/colors/gray.css";
+
+.LandingPage {
+  @include flex.column;
+
+  flex-grow: 1;
+
+  // height: 100vh;
+  min-height: 0;
+  padding-bottom: calc(100vh - 100dvh); // Prevent browser toolbar from cutting off bottom of page
+  // background-color: aquamarine;
+
+  &_Content {
+    @include flex.column($gap: 2rem);
+
+    padding-bottom: 4rem;
+  }
+
+  &_Hero {
+    @include flex.row($xAlign: left);
+
+    height: calc(560px);
+    padding: calc(var(--app-bar-height) + 2rem) 0 2rem;
+
+    color: var(--primary-default-text);
+
+    background: var(--gray-12);
+    background: url("/splash.jpg") no-repeat center center;
+    background-size: cover;
+
+    h1 {
+      width: 50%;
+      font-size: 32px;
+      color: white;
+    }
+
+    p {
+      width: 50%;
+      font-size: 18px;
+      line-height: 24px;
+      color: white;
+    }
+  }
+
+  &_HeroContent {
+    @include flex.column;
+
+    flex-grow: 1;
+    max-width: calc(1280px + (2 * 1rem));
+    margin: 0 auto;
+    padding: 0 calc(1rem + var(--border-width) + var(--container-padding-x));
+  }
+
+  &_HeroCta {
+    align-self: flex-start;
+
+    // background-color: #0588f0;
+
+    // button:hover {
+    //   background-color: #0090ff;
+    // }
+  }
+
+  &_FullWidth {
+    min-height: 10rem;
+    background-color: slategray;
+  }
+
+  &_Normal {
+    max-width: calc(1280px + (2 * 1rem));
+    min-height: 10rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+
+  &_TripleBlock {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    grid-template-rows: min-content;
+    gap: 1rem;
+
+    width: 100%;
+  }
+
+  &_Block {
+    @include flex.column;
+    @include corners.normal;
+    @include shadows.surface;
+    @include borders.normal;
+
+    padding: var(--container-padding-x);
+    background-color: var(--card-bg);
+
+    p {
+      font-size: 16px;
+      line-height: 24px;
+    }
+  }
+}
+
+@media (width < 688px) {
+  .LandingPage_TripleBlock {
+    grid-template-columns: 1fr;
+  }
+}
