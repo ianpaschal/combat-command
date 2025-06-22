@@ -16,6 +16,11 @@
 
   position: relative;
   overflow: hidden;
+
+  &_Photos {
+    aspect-ratio: 4/3;
+    min-height: 4rem;
+  }
 }
 
 .Socials {

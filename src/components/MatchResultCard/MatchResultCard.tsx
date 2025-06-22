@@ -6,12 +6,13 @@ import { Button } from '~/components/generic/Button';
 import { Separator } from '~/components/generic/Separator';
 import { Timestamp } from '~/components/generic/Timestamp';
 import { MatchResultContextMenu } from '~/components/MatchResultContextMenu';
+import { MatchResultPhotos } from '~/components/MatchResultPhotos';
 import { MatchResultPlayers } from '~/components/MatchResultPlayers';
 import { MatchResultProvider } from '~/components/MatchResultProvider';
 import { MatchResultSocials } from '~/components/MatchResultSocials';
 import { PATHS } from '~/settings';
-import { MatchResultPhotos } from './MatchResultPhotos';
 
+// import { MatchResultPhotos } from './MatchResultPhotos';
 import styles from './MatchResultCard.module.scss';
 
 export interface MatchResultCardProps {
@@ -23,7 +24,7 @@ export const MatchResultCard = ({
 }: MatchResultCardProps): JSX.Element => {
   const navigate = useNavigate();
   // TODO: Replace with global feature flags
-  const usePhotos = false;
+  const usePhotos = true;
   const detailsPath = generatePath(PATHS.matchResultDetails, { id: matchResult._id });
   const handleClickDetails = (): void => {
     navigate(detailsPath);
@@ -31,7 +32,9 @@ export const MatchResultCard = ({
   return (
     <MatchResultProvider matchResult={matchResult}>
       <div className={styles.MatchResultCard}>
-        {usePhotos && <MatchResultPhotos />}
+        {usePhotos && (
+          <MatchResultPhotos className={styles.MatchResultCard_Photos} />
+        )}
         <MatchResultPlayers />
         <Separator />
         <MatchResultSocials className={styles.Socials} />
