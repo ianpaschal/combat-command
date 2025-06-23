@@ -16,6 +16,7 @@
     @include flex.row($yAlign: top, $gap: 0.5rem);
     @include text.ui;
 
+    overflow: hidden;
     min-width: 0;
 
     a {
@@ -23,11 +24,15 @@
       line-height: inherit;
     }
 
+    &_Content {
+      min-width: 0;
+    }
+
     span {
-      overflow: hidden;
+      @include text.single-line;
+
       display: block;
-      text-overflow: ellipsis;
-      text-wrap: nowrap;
+      min-width: 0;
     }
 
     svg {
