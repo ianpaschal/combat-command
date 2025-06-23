@@ -36,6 +36,7 @@ export const getEtcCountryOptions = (): InputSelectOption<string>[] => [
   'gb-sct',
   'gb-wls',
   'gr',
+  'ie',
   'is',
   'it',
   'nl',
