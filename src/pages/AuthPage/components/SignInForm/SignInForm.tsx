@@ -30,7 +30,7 @@ export const SignInForm = (): JSX.Element => {
   };
 
   return (
-    <Form className={styles.SignInForm} form={form} onSubmit={onSubmit}>
+    <Form className={styles.SignInForm} form={form} onSubmit={onSubmit} useBlocker={false}>
       <div className={styles.SignInForm__Header}>
         <h1>Welcome Back</h1>
         <p>Sign in to your account</p>
