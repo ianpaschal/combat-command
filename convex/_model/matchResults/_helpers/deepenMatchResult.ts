@@ -1,7 +1,7 @@
 import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
-import { getLimitedUser } from '../../../users/utils/getLimitedUser';
 import { getMission } from '../../fowV4/getMission';
+import { getUser } from '../../users/queries/getUser';
 
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /**
@@ -18,8 +18,12 @@ export const deepenMatchResult = async (
   ctx: QueryCtx,
   matchResult: Doc<'matchResults'>,
 ) => {
-  const player0User = await getLimitedUser(ctx, matchResult?.player0UserId);
-  const player1User = await getLimitedUser(ctx, matchResult?.player1UserId);
+  const player0User = matchResult?.player0UserId ? await getUser(ctx, {
+    id: matchResult.player0UserId,
+  }) : null;
+  const player1User = matchResult?.player1UserId ? await getUser(ctx, {
+    id: matchResult.player1UserId,
+  }) : null;
   const mission = getMission(matchResult.details.missionId);
   const comments = await ctx.db.query('matchResultComments')
     .withIndex('by_match_result_id',((q) => q.eq('matchResultId', matchResult._id)))

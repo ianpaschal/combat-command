@@ -52,7 +52,7 @@ export const useUploadAvatar = () => {
   const [isLoading, setLoading] = useState(false);
 
   const generateUploadUrl = useMutation(api.generateFileUploadUrl.generateFileUploadUrl);
-  const updateAvatar = useMutation(api.users.updateAvatar.updateAvatar);
+  const updateUser = useMutation(api.users.updateUser);
 
   return {
     uploadAvatar: async (userId: UserId, file: File) => {
@@ -78,8 +78,8 @@ export const useUploadAvatar = () => {
 
         const { storageId } = await uploadResponse.json(); // Get Convex file ID
 
-        await updateAvatar({
-          userId,
+        await updateUser({
+          id: userId,
           avatarStorageId: storageId,
         });
       } catch (error) {

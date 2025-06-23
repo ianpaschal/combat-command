@@ -1,10 +1,11 @@
 import { ReactElement } from 'react';
-import { useQuery } from 'convex/react';
 import { Ghost, HelpCircle } from 'lucide-react';
 
-import { api, TournamentCompetitor } from '~/api';
+import { TournamentCompetitor } from '~/api';
 import { Avatar } from '~/components/generic/Avatar';
 import { FlagCircle } from '~/components/generic/FlagCircle';
+import { useGetTournamentCompetitor } from '~/services/tournamentCompetitors';
+import { useGetUser } from '~/services/users';
 import { getCountryName } from '~/utils/common/getCountryName';
 import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
 import { Identity } from './IdentityBadge.types';
@@ -40,14 +41,8 @@ const getCompetitorDisplayName = (competitor: TournamentCompetitor): ReactElemen
 export const useIdentityElements = (identity: Identity, loading?: boolean): ReactElement[] => {
   const { user, userId, competitor, competitorId, placeholder } = identity;
 
-  // TODO: Replace with a service hook
-  const queryUser = useQuery(api.users.fetchUser.fetchUser, userId ? {
-    id: userId,
-  } : 'skip');
-  // TODO: Replace with a service hook
-  const queryCompetitor = useQuery(api.tournamentCompetitors.getTournamentCompetitor, competitorId ? {
-    id: competitorId,
-  } : 'skip');
+  const { data: queryUser } = useGetUser(userId ? { id: userId } : 'skip');
+  const { data: queryCompetitor } = useGetTournamentCompetitor(competitorId ? { id: competitorId } : 'skip');
 
   // Render loading skeleton if explicitly loading or an ID was provided and it is fetching
   if (loading || (userId && !queryUser) || competitorId && !queryCompetitor) {
