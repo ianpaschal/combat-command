@@ -100,6 +100,8 @@
 
 .Content {
   @include flex.column($gap: 0.25rem);
+
+  min-width: 0;
 }
 
 .Title {

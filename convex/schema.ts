@@ -8,9 +8,9 @@ import { tournamentCompetitorsTable } from './_model/tournamentCompetitors';
 import { tournamentPairingsTable } from './_model/tournamentPairings';
 import { tournamentsTable } from './_model/tournaments';
 import { tournamentTimersTable } from './_model/tournamentTimers';
+import { usersTable } from './_model/users';
 import { friendships } from './friendships';
 import { photos } from './photos';
-import { users } from './users';
 
 export default defineSchema({
   ...authTables,
@@ -23,5 +23,5 @@ export default defineSchema({
   tournamentPairings: tournamentPairingsTable,
   tournaments: tournamentsTable,
   tournamentTimers: tournamentTimersTable,
-  users,
+  users: usersTable,
 });

@@ -74,6 +74,9 @@ export const TournamentDetailPage = (): JSX.Element => {
       }
     }
     if (tournament?.status === 'published') {
+      if (showInfoSidebar) {
+        return 'roster';
+      }
       return 'info';
     }
     return 'roster';

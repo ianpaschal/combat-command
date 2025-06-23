@@ -1,9 +1,8 @@
 import { ChangeEvent, useState } from 'react';
 import { Close } from '@radix-ui/react-dialog';
-import { useQuery } from 'convex/react';
 import { Search } from 'lucide-react';
 
-import { api, UserId } from '~/api';
+import { UserId } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
 import { Avatar } from '~/components/generic/Avatar';
 import { Button } from '~/components/generic/Button';
@@ -12,6 +11,7 @@ import { InputText } from '~/components/generic/InputText';
 import { Label } from '~/components/generic/Label';
 import { ScrollArea } from '~/components/generic/ScrollArea';
 import { Separator } from '~/components/generic/Separator';
+import { useGetUsers } from '~/services/users';
 import { getUserDisplayNameReact } from '~/utils/common/getUserDisplayNameReact';
 
 import styles from './SelectPlayerDialog.module.scss';
@@ -30,7 +30,7 @@ export const SelectPlayerDialog = ({
   disabled = false,
 }: SelectMatchResultPlayerDialogProps): JSX.Element => {
   const user = useAuth();
-  const users = useQuery(api.users.fetchUserList.fetchUserList, {});
+  const { data: users } = useGetUsers({});
 
   const selectableUsers = (users || []).filter((u) => u._id !== user?._id && userId !== u._id);
   const existingUser = (users || []).find((u) => u._id === userId);

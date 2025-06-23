@@ -1,8 +1,6 @@
 import { useFormContext } from 'react-hook-form';
-import { useQuery } from 'convex/react';
 
 import {
-  api,
   FowV4MatchOutcomeType,
   getMission,
   getMissionPack,
@@ -13,7 +11,7 @@ import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameStrin
 
 export const usePlayerDisplayName = ({ userId, placeholder }: { userId?: UserId, placeholder?: string }): string => {
   const currentUser = useAuth();
-  const user = useQuery(api.users.fetchUser.fetchUser, userId ? { id: userId } : 'skip');
+  const { data: user } = useGetUser(userId ? { id: userId } : 'skip');
   if (!userId && placeholder) {
     return placeholder;
   }
@@ -42,6 +40,8 @@ export const usePlayerOptions = (): { value: number, label: string }[] => {
 };
 
 import { useMemo } from 'react';
+
+import { useGetUser } from '~/services/users';
 
 export const useMissionOptions = () => {
   const { watch } = useFormContext();
