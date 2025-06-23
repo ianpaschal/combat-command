@@ -64,7 +64,7 @@ export const CompetitorActions = ({
   const isFull = competitor.players.length >= tournament.competitorSize;
 
   const showCheckInToggle = user && isOrganizer && tournament.status === 'active' && tournament.currentRound === undefined;
-  const showJoinButton = user && !isFull && !isOrganizer && !tournament.playerUserIds.includes(user._id) && tournament.status === 'published';
+  const showJoinButton = user && !isFull && !tournament.playerUserIds.includes(user._id) && tournament.status === 'published';
 
   // TODO: Add list submissions
   // const showListsButton = user && (isOrganizer || isPlayer) && status !== 'archived';
