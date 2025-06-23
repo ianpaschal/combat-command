@@ -1,5 +1,5 @@
 import { api } from '../convex/_generated/api';
-import { Doc, Id } from '../convex/_generated/dataModel';
+import { Id } from '../convex/_generated/dataModel';
 
 // Re-export API for usage in services
 export { api };
@@ -56,12 +56,10 @@ export {
 } from '../convex/_model/tournaments';
 
 // Users
-export type User = Doc<'users'> & {
-  avatarUrl?: string;
-};
-export type UserId = Id<'users'>;
-export type UpdateUserInput = typeof api.users.updateUser.updateUser._args;
-export type UpdateUserResponse = typeof api.users.updateUser.updateUser._returnType;
+export {
+  type LimitedUser as User,
+  type UserId,
+} from '../convex/_model/users';
 
 // Static Data & Interfaces (Common)
 export {

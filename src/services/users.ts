@@ -2,8 +2,11 @@ import { api } from '~/api';
 import { createMutationHook, createQueryHook } from '~/services/utils';
 
 // Basic Queries
-export const useGetUser = createQueryHook(api.users.fetchUser.fetchUser);
-export const useGetUsers = createQueryHook(api.users.fetchUserList.fetchUserList);
+export const useGetUser = createQueryHook(api.users.getUser);
+export const useGetUsers = createQueryHook(api.users.getUsers);
+
+// Special Queries
+export const useGetCurrentUser = createQueryHook(api.users.getCurrentUser);
 
 // Basic (C_UD) Mutations
-export const useUpdateUser = createMutationHook(api.users.updateUser.updateUser);
+export const useUpdateUser = createMutationHook(api.users.updateUser);

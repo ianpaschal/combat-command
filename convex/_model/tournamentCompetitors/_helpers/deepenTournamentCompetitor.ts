@@ -1,7 +1,7 @@
 import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
-import { redactUserInfo } from '../../../users/utils/redactUserInfo';
-import { getStorageUrl } from '../../common/_helpers/getStorageUrl';
+import { LimitedUser } from '../../users/_helpers/redactUser';
+import { getUser } from '../../users/queries/getUser';
 
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /**
@@ -18,27 +18,18 @@ export const deepenTournamentCompetitor = async (
   ctx: QueryCtx,
   tournamentCompetitor: Doc<'tournamentCompetitors'>,
 ) => {
-  const players = await Promise.all(tournamentCompetitor.players.map(async ({ active, userId }) => {
-    // TODO: Replace with proper user helper
-    const user = await ctx.db.get(userId);
-    if (!user) {
-      return {
-        active,
-        user: null,
-      };
-    }
-    const avatarUrl = await getStorageUrl(ctx, user.avatarStorageId);
-    return {
-      active,
-      user: {
-        ...await redactUserInfo(ctx, user),
-        avatarUrl,
-      },
-    };
-  }));
+  const players = await Promise.all(tournamentCompetitor.players.map(async ({ active, userId }) => ({
+    active,
+    user: await getUser(ctx, { id: userId }),
+  })));
+
+  function playerHasUser(player: { active: boolean; user: LimitedUser | null }): player is { active: boolean; user: LimitedUser } {
+    return player.user !== null;
+  }
+  
   return {
     ...tournamentCompetitor,
-    players: players.filter((player) => !!player.user),
+    players: players.filter(playerHasUser),
   };
 };
 

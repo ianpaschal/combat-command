@@ -22,7 +22,9 @@ import styles from './UserProfileForm.module.scss';
 export const UserProfileForm = (): JSX.Element => {
   const user = useAuth();
 
-  const { mutation: updateUser } = useUpdateUser();
+  const { mutation: updateUser } = useUpdateUser({
+    successMessage: 'Profile updated!',
+  });
 
   const form = useForm<UserProfileFormData>({
     resolver: zodResolver(userProfileFormSchema),
@@ -54,19 +56,17 @@ export const UserProfileForm = (): JSX.Element => {
       <FormField name="nameVisibility" label="Name Visibility" className={styles.NameVisibilityField}>
         <InputSelect options={userProfileNameVisibilityOptions} />
       </FormField>
-      {/* 
       <h3>About Name Privacy</h3>
       <p>You can configure if you want your name to be hidden, visible to friends, tournament organizers & participants, or public. A brief explanation of what these levels mean is as follows:</p>
       <ul>
         <li>Hidden: No one but you can view your name.</li>
-        <li>Friends: Only you and users you've added as a friend can view your name.</li>
+        {/* <li>Friends: Only you and users you've added as a friend can view your name.</li> */}
         <li>Tournaments: Only you, and the participants and organizers of tournaments you attend can view your name.</li>
         <li>Public: Your name will be publicly visible.</li>
       </ul>
       <p>To everyone who <i>can't</i> view your name, your username will be displayed.</p>
       <p>Keep in mind, some tournaments (such as the European Team Championship) require players to use their full name. If you register for a tournament which requires this, you will be prompted to increase your setting to 'Tournament' if it is set to 'Hidden' or 'Friends'.</p>
       <Separator />
-      */}
       <FormField name="countryCode" label="Country" description="Hidden, but required for some badges and some tournament organizers try to create initial pairings which avoid pairing players from the same local community if possible.">
         <InputSelect options={countryOptions} />
       </FormField>
