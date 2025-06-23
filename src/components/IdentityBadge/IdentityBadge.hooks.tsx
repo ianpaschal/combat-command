@@ -13,9 +13,6 @@ const fallbackAvatar: ReactElement = <Avatar icon={<HelpCircle />} muted />;
 const fallbackDisplayName: ReactElement = <span>Unknown</span>;
 
 const getCompetitorAvatar = (competitor: TournamentCompetitor): ReactElement => {
-  if (competitor.players.length === 1) {
-    return <Avatar url={competitor.players[0]?.user?.avatarUrl} />;
-  }
   if (competitor.teamName) {
     const countryName = getCountryName(competitor.teamName);
     if (countryName) {
@@ -23,16 +20,19 @@ const getCompetitorAvatar = (competitor: TournamentCompetitor): ReactElement => 
     }
     return <Avatar isTeam />;
   }
+  if (competitor.players.length === 1) {
+    return <Avatar url={competitor.players[0]?.user?.avatarUrl} />;
+  }
   return fallbackAvatar;
 };
 
 const getCompetitorDisplayName = (competitor: TournamentCompetitor): ReactElement => {
-  if (competitor.players.length === 1 && competitor.players[0].user) {
-    return <span>{getUserDisplayNameString(competitor.players[0].user)}</span >;
-  }
   if (competitor.teamName) {
     const countryName = getCountryName(competitor.teamName);
     return <span>{countryName ?? competitor.teamName}</span>;
+  }
+  if (competitor.players.length === 1 && competitor.players[0].user) {
+    return <span>{getUserDisplayNameString(competitor.players[0].user)}</span >;
   }
   return fallbackDisplayName;
 };
