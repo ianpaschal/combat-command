@@ -1,6 +1,8 @@
 import { Password } from '@convex-dev/auth/providers/Password';
 import { convexAuth } from '@convex-dev/auth/server';
 
+import { api } from './_generated/api';
+import { MutationCtx } from './_generated/server';
 import { ResendOtpPasswordReset } from './auth/ResendOtpPasswordReset';
 import { UserDataVisibilityLevel } from './common/userDataVisibilityLevel';
 
@@ -34,4 +36,12 @@ export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
       // verify: ResendOtpVerification,
     }),
   ],
+  callbacks: {
+    afterUserCreatedOrUpdated: async (ctx: MutationCtx, { userId }) => {
+      // Use scheduler so that we can trigger an action rather than a mutation:
+      await ctx.scheduler.runAfter(0, api.users.setUserDefaultAvatar, {
+        userId,
+      });
+    },
+  },
 });

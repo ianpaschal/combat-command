@@ -20,6 +20,7 @@ export interface FormProps<T extends FieldValues> {
   children: ReactNode;
   onSubmit: SubmitHandler<T>;
   className?: string;
+  useBlocker?: boolean;
 }
 
 export const Form = <T extends FieldValues>({
@@ -27,12 +28,13 @@ export const Form = <T extends FieldValues>({
   form,
   children,
   className,
+  useBlocker: block = true,
   onSubmit,
 }: FormProps<T>) => {
   const { isDirty } = form.formState;
   const blockNavigation = useRef(true);
   const navigation = useNavigation();
-  const blocker = useBlocker(() => isDirty && blockNavigation.current);
+  const blocker = useBlocker(() => block && isDirty && blockNavigation.current);
   const handleSubmit = async (e: BaseSyntheticEvent): Promise<void> => {
     e.stopPropagation();
     blockNavigation.current = false;

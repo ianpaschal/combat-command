@@ -19,7 +19,7 @@ export interface AuthProviderProps {
 export const AuthProvider = ({
   children,
 }: AuthProviderProps) => {
-  const user = useQuery(api.users.fetchCurrentUser.fetchCurrentUser);
+  const user = useQuery(api.users.getCurrentUser);
   const [loading, setLoading] = useState<boolean>(true);
   const [updatePasswordDialogOpen, setUpdatePasswordDialogOpen] = useState<boolean>(false);
 

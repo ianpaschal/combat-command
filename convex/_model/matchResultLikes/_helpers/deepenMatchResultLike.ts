@@ -1,6 +1,9 @@
+import { ConvexError } from 'convex/values';
+
 import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
-import { getLimitedUser } from '../../../users/utils/getLimitedUser';
+import { getErrorMessage } from '../../../common/errors';
+import { getUser } from '../../users/queries/getUser';
 
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /**
@@ -17,9 +20,9 @@ export const deepenMatchResultLike = async (
   ctx: QueryCtx,
   matchResultLike: Doc<'matchResultLikes'>,
 ) => {
-  const user = await getLimitedUser(ctx, matchResultLike.userId);
+  const user = await getUser(ctx, { id: matchResultLike.userId });
   if (!user) {
-    throw Error('Could not find user!');
+    throw new ConvexError(getErrorMessage('USER_NOT_FOUND'));
   }
   return {
     ...matchResultLike,

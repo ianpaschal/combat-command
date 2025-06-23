@@ -18,7 +18,7 @@ export const usePlayerName = (
   const { user, userId, placeholder } = identity;
 
   // TODO: Replace with a service hook
-  const queryUser = useQuery(api.users.fetchUser.fetchUser, userId ? {
+  const queryUser = useQuery(api.users.getUser, userId ? {
     id: userId,
   } : 'skip');
 

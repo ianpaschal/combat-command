@@ -59,9 +59,13 @@ const repoData = await graphql(`
           title
           fields(first: 20) {
             nodes {
-              id
-              name
+              ... on ProjectV2Field {
+                id
+                name
+              }
               ... on ProjectV2SingleSelectField {
+                id
+                name
                 options {
                   id
                   name
