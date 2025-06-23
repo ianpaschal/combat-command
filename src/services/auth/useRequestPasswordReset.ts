@@ -22,7 +22,7 @@ export const useRequestPasswordReset = () => {
         flow: 'reset',
       }).catch((error) => {
         console.error(error);
-        toast.error(error.message);
+        toast.error('Error', { description: error.message });
       }).finally(() => {
         setLoading(false);
         toast.success('Code sent!');

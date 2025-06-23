@@ -48,7 +48,7 @@ export const useSignIn = () => {
       }).catch((error) => {
         setLoading(false);
         console.error(error);
-        toast.error(error.message);
+        toast.error('Error', { description: error.message });
       });
     },
     loading,
