@@ -1,6 +1,5 @@
 import { Id } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
-import { getTournamentShallow } from './getTournamentShallow';
 
 /**
  * Gets all user IDs linked by a common tournament.
@@ -13,7 +12,6 @@ export const getTournamentUserIds = async (
   ctx: QueryCtx,
   id: Id<'tournaments'>,
 ): Promise<Id<'users'>[]> => {
-  const { organizerUserIds } = await getTournamentShallow(ctx, id);
   const tournamentCompetitors = await ctx.db.query('tournamentCompetitors')
     .withIndex('by_tournament_id', (q) => q.eq('tournamentId', id))
     .collect();
@@ -23,8 +21,5 @@ export const getTournamentUserIds = async (
   ], [] as Id<'users'>[]);
 
   // Pass through Set() to remove duplicates
-  return Array.from(new Set([
-    ...organizerUserIds,
-    ...playerUserIds,
-  ]));
+  return Array.from(new Set(playerUserIds));
 };
