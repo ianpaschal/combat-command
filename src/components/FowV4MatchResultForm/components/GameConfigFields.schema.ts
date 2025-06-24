@@ -16,7 +16,7 @@ export const fowV4GameSystemConfigFormSchema = z.object({
 
   // Basic options
   eraId: z.string().transform((val) => val as FowV4EraId),
-  points: z.number(),
+  points: z.coerce.number(),
 
   // Advanced options (hidden by default)
   lessonsFromTheFrontVersionId: z.string().transform((val) => val as FowV4LessonsFromTheFrontVersionId),
