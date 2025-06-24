@@ -75,7 +75,7 @@ export const TournamentRosterCard = ({
   const getPrimaryButtons = (): ReactElement[] | undefined => {
     const isPlayer = user && tournament.playerUserIds.includes(user._id);
     const hasMaxTeams = (competitors || []).length >= tournament.maxCompetitors;
-    if (!isPlayer && !hasMaxTeams) {
+    if (user && !isPlayer && !hasMaxTeams) {
       if (tournament.useTeams) {
         return [
           <Button onClick={openTournamentCreateTeamDialog}>
