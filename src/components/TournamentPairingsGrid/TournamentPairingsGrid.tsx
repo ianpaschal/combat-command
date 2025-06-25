@@ -1,5 +1,7 @@
 import {
+  forwardRef,
   useEffect,
+  useImperativeHandle,
   useMemo,
   useState,
 } from 'react';
@@ -11,20 +13,22 @@ import {
   rectIntersection,
 } from '@dnd-kit/core';
 import { restrictToWindowEdges } from '@dnd-kit/modifiers';
+import isEqual from 'fast-deep-equal';
 import { AnimatePresence } from 'framer-motion';
 
-import { DraftTournamentPairing, TournamentCompetitorId } from '~/api';
+import { TournamentCompetitorId, TournamentCompetitorRanked } from '~/api';
 import { Label } from '~/components/generic/Label';
-import {
-  buildGridState,
-  buildPairingResult,
-  convertPairingResultToCompetitorList,
-} from '~/components/TournamentPairingsGrid/TournamentPairingsGrid.utils';
 import { useTournament } from '~/components/TournamentProvider';
 import { Draggable } from './Draggable';
 import { Droppable } from './Droppable';
 import { PairableCompetitorCard } from './PairableCompetitorCard';
 import { PairingsGridRow } from './PairingsGridRow';
+import { DraftTournamentPairing, PairingsGridState } from './TournamentPairingsGrid.types';
+import {
+  buildGridState,
+  buildPairingResult,
+  convertPairingResultToCompetitorList,
+} from './TournamentPairingsGrid.utils';
 
 import styles from './TournamentPairingsGrid.module.scss';
 
@@ -45,22 +49,50 @@ const grabAnimationProps = {
 };
 
 export interface TournamentPairingsGridProps {
-  value?: DraftTournamentPairing[];
+  defaultValue?: DraftTournamentPairing[];
   onChange: (value: DraftTournamentPairing[]) => void;
 }
 
-export const TournamentPairingsGrid = ({
-  value,
+export interface TournamentPairingsGridHandle {
+  reset: (pairings: DraftTournamentPairing[]) => void;
+  isDirty: boolean;
+}
+
+export const TournamentPairingsGrid = forwardRef<TournamentPairingsGridHandle, TournamentPairingsGridProps>(({
+  defaultValue,
   onChange,
-}: TournamentPairingsGridProps): JSX.Element => {
+}: TournamentPairingsGridProps, ref): JSX.Element => {
   const tournament = useTournament();
   const pairingIndexes = Array.from({ length: Math.ceil(tournament.maxCompetitors / 2) }, (_, i) => i);
 
-  // Store competitors with their opponentIds so we can check pairing validity
-  const competitors = useMemo(() => convertPairingResultToCompetitorList(value), [value]);
-  const state = useMemo(() => buildGridState(value), [value]);
+  // Store competitors with their opponentIds so we can check pairing validity:
+  const competitors = useMemo(() => convertPairingResultToCompetitorList(defaultValue), [defaultValue]);
 
+  // State:
   const [activeCompetitorId, setActiveCompetitorId] = useState<TournamentCompetitorId | null>(null);
+  const [gridState, setGridState] = useState<PairingsGridState | null>(null);
+
+  // Set internal state from parent:
+  useEffect(() => {
+    if (defaultValue && !gridState) {
+      setGridState(buildGridState(defaultValue));
+    }
+  }, [defaultValue, gridState]);
+
+  const pairingResult = useMemo(() => buildPairingResult(competitors, gridState), [competitors, gridState]);
+  const isDirty = !isEqual(defaultValue, pairingResult);
+
+  // Emit change to parent components:
+  useEffect(() => {
+    onChange(pairingResult);
+  }, [pairingResult, onChange]);
+
+  // Allow parent to reset and track dirty state:
+  useImperativeHandle(ref, () => ({
+    reset: (pairings: DraftTournamentPairing[]): void => setGridState(buildGridState(pairings)),
+    pairingResult,
+    isDirty,
+  }));
 
   useEffect(() => {
     document.body.style.cursor = activeCompetitorId ? 'grabbing' : 'default';
@@ -76,28 +108,36 @@ export const TournamentPairingsGrid = ({
   };
 
   const handleDragEnd = ({ active, over }: DragEndEvent) => {
-    if (!over) {
+    if (!over || !gridState) {
       return;
     }
     setActiveCompetitorId(null);
-    const updatedInternalState = Object.entries(state).map(([pairingCompetitorId, slotId]) => {
-      if (pairingCompetitorId === active.id) {
-        return [pairingCompetitorId, over.id];
+    setGridState(Object.entries(gridState).map(([competitorId, slotId]) => {
+
+      // If this ID is the active one, we're dragging it. Set it's slotID to 'over':
+      if (competitorId === active.id) {
+        return [competitorId, over.id];
       }
+
+      // If this slot is the target, move its competitor to 'unpaired':
       if (slotId === over.id) {
-        return [pairingCompetitorId, 'unpaired'];
+        return [competitorId, 'unpaired'];
       }
-      return [pairingCompetitorId, slotId];
+
+      // Otherwise do nothing:
+      return [competitorId, slotId];
     }).reduce((acc, [pairingCompetitorId, slotId]) => ({
       ...acc,
       [pairingCompetitorId as TournamentCompetitorId]: slotId,
-    }), {});
-    onChange(buildPairingResult(competitors, updatedInternalState));
+    }), {}));
   };
 
-  const fullPairings = (value || []).filter((pairing) => pairing[0] && pairing[1]);
-  const unpairedCompetitors = (value || []).filter((pairing) => !!pairing[0] && pairing[1] === null).map((pairing) => pairing[0]);
+  const unpairedCompetitors = competitors.filter((c) => gridState && gridState[c.id] === 'unpaired');
   const activeCompetitor = competitors.find((c) => c.id === activeCompetitorId);
+  const gridStatePivoted = Object.entries(gridState ?? {}).reduce((acc, [competitorId, slotId]) => ({
+    ...acc,
+    [slotId]: competitors.find((c) => c.id === competitorId),
+  }), {} as Record<string, TournamentCompetitorRanked | undefined>);
 
   return (
     <DndContext
@@ -109,9 +149,15 @@ export const TournamentPairingsGrid = ({
       <div className={styles.PairingsGrid}>
         <div className={styles.PairedSection}>
           <Label>Pairings</Label>
-          {pairingIndexes.map((i) => (
-            <PairingsGridRow key={i} index={i} activeCompetitor={activeCompetitor} pairing={fullPairings[i]} />
-          ))}
+          {pairingIndexes.map((i) => {
+            const pairing: DraftTournamentPairing = [
+              gridStatePivoted[`${i}_0`] ?? null,
+              gridStatePivoted[`${i}_1`] ?? null,
+            ];
+            return (
+              <PairingsGridRow key={i} index={i} activeCompetitor={activeCompetitor} pairing={pairing} />
+            );
+          })}
         </div>
         <div className={styles.UnpairedSection}>
           <Label>Unpaired Competitors</Label>
@@ -148,4 +194,4 @@ export const TournamentPairingsGrid = ({
       </AnimatePresence>
     </DndContext>
   );
-};
+});

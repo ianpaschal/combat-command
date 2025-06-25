@@ -1,6 +1,7 @@
-import { DraftTournamentPairing, UnassignedTournamentPairing } from '~/api';
+import { UnassignedTournamentPairing } from '~/api';
 import { ConfirmationDialog } from '~/components/ConfirmationDialog';
 import { TournamentPairingRow } from '~/components/TournamentPairingRow';
+import { DraftTournamentPairing } from '~/components/TournamentPairingsGrid';
 import { convertDraftPairingsToUnassignedPairings } from '../PairingsStep/PairingsStep.utils';
 
 import styles from './ConfirmPairingsDialog.module.scss';
