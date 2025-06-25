@@ -1,8 +1,5 @@
-import {
-  DraftTournamentPairing,
-  TournamentCompetitorId,
-  TournamentCompetitorRanked,
-} from '~/api';
+import { TournamentCompetitorId, TournamentCompetitorRanked } from '~/api';
+import { DraftTournamentPairing, PairingsGridState } from './TournamentPairingsGrid.types';
 
 export const convertPairingResultToCompetitorList = (draftPairings?: DraftTournamentPairing[]): TournamentCompetitorRanked[] => {
   if (!draftPairings) {
@@ -25,22 +22,31 @@ export const buildGridState = (draftPairings?: DraftTournamentPairing[]): Record
     return {};
   }
   return draftPairings.reduce((acc, pairing, i) => {
-    if (!pairing[1]) {
+    if (pairing[0] && !pairing[1]) {
       return {
         ...acc,
         [pairing[0].id]: 'unpaired',
       };
     }
-    return {
-      ...acc,
-      [pairing[0].id]: `${i}_0`,
-      [pairing[1].id]: `${i}_1`,
-    };
+    if (!pairing[0] && pairing[1]) {
+      return {
+        ...acc,
+        [pairing[1].id]: 'unpaired',
+      };
+    }
+    if (pairing[0] && pairing[1]) {
+      return {
+        ...acc,
+        [pairing[0].id]: `${i}_0`,
+        [pairing[1].id]: `${i}_1`,
+      };
+    }
+    return acc;
   }, {} as Record<TournamentCompetitorId, string>);
 };
 
-export const buildPairingResult = (competitors: TournamentCompetitorRanked[], state: Record<TournamentCompetitorId, string>): DraftTournamentPairing[] => {
-  if (!competitors?.length || !Object.keys(state).length) {
+export const buildPairingResult = (competitors: TournamentCompetitorRanked[], state: PairingsGridState | null): DraftTournamentPairing[] => {
+  if (!competitors?.length || !state || !Object.keys(state).length) {
     return [];
   }
   const statefulCompetitors = competitors.map((competitor) => ({

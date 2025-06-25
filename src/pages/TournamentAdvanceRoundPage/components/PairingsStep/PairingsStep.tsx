@@ -2,12 +2,11 @@ import {
   forwardRef,
   useEffect,
   useImperativeHandle,
+  useRef,
   useState,
 } from 'react';
-import isEqual from 'fast-deep-equal';
 
 import {
-  DraftTournamentPairing,
   TournamentPairingMethod,
   tournamentPairingMethodOptions,
   UnassignedTournamentPairing,
@@ -17,7 +16,11 @@ import { Button } from '~/components/generic/Button';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { Label } from '~/components/generic/Label';
 import { Separator } from '~/components/generic/Separator';
-import { TournamentPairingsGrid } from '~/components/TournamentPairingsGrid';
+import {
+  DraftTournamentPairing,
+  TournamentPairingsGrid,
+  TournamentPairingsGridHandle,
+} from '~/components/TournamentPairingsGrid';
 import { useTournament } from '~/components/TournamentProvider';
 import { useGetDraftTournamentPairings } from '~/services/tournamentPairings';
 import { ConfirmPairingsDialog, confirmPairingsDialogId } from '../ConfirmPairingsDialog';
@@ -39,7 +42,7 @@ export interface PairingsStepHandle {
 export const PairingsStep = forwardRef<PairingsStepHandle, PairingsStepProps>(({
   nextRound,
   onConfirm,
-}: PairingsStepProps, ref) => {
+}: PairingsStepProps, ref): JSX.Element => {
   const tournament = useTournament();
 
   // Pairing state
@@ -51,14 +54,15 @@ export const PairingsStep = forwardRef<PairingsStepHandle, PairingsStepProps>(({
     round: nextRound,
     method: pairingMethod,
   });
-  const [manualPairings, setManualPairings] = useState<DraftTournamentPairing[] | undefined>(draftPairingResults);
+  const [manualPairings, setManualPairings] = useState<DraftTournamentPairing[] | undefined>();
   useEffect(() => {
     if (draftPairingResults) {
       setManualPairings(draftPairingResults);
     }
   }, [draftPairingResults]);
 
-  const isDirty = manualPairings && !isEqual(manualPairings, draftPairingResults);
+  const pairingsGridRef = useRef<TournamentPairingsGridHandle>(null);
+  const isDirty = pairingsGridRef.current?.isDirty ?? false;
 
   const { open: openChangePairingMethodConfirmDialog } = useConfirmationDialog(changePairingMethodConfirmDialogId);
   const { open: openResetPairingsConfirmDialog } = useConfirmationDialog(resetPairingsConfirmDialogId);
@@ -78,7 +82,7 @@ export const PairingsStep = forwardRef<PairingsStepHandle, PairingsStepProps>(({
     if (draftPairingResults) {
       if (isDirty) {
         openResetPairingsConfirmDialog({
-          onConfirm: () => setManualPairings(draftPairingResults),
+          onConfirm: () => pairingsGridRef.current?.reset(draftPairingResults),
         });
       } else {
         setManualPairings(draftPairingResults);
@@ -102,12 +106,12 @@ export const PairingsStep = forwardRef<PairingsStepHandle, PairingsStepProps>(({
           value={pairingMethod}
           disabled={isFirstRound}
         />
-        <Button onClick={handleReset} variant="secondary" disabled={isEqual(manualPairings, draftPairingResults)}>
+        <Button onClick={handleReset} variant="secondary" disabled={!isDirty}>
           Reset
         </Button>
       </div>
       <Separator />
-      <TournamentPairingsGrid value={manualPairings} onChange={setManualPairings} />
+      <TournamentPairingsGrid ref={pairingsGridRef} defaultValue={draftPairingResults} onChange={setManualPairings} />
       <ConfirmationDialog
         id={changePairingMethodConfirmDialogId}
         title="Confirm Change Pairing Method"

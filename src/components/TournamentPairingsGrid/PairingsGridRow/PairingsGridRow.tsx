@@ -1,10 +1,11 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { CircleCheck, CircleX } from 'lucide-react';
 
-import { DraftTournamentPairing, TournamentCompetitorRanked } from '~/api';
+import { TournamentCompetitorRanked } from '~/api';
 import { Draggable } from '../Draggable';
 import { Droppable } from '../Droppable/Droppable';
 import { PairableCompetitorCard } from '../PairableCompetitorCard';
+import { DraftTournamentPairing } from '../TournamentPairingsGrid.types';
 import { checkDraftPairingIsValid } from './PairingsGridRow.utils';
 
 import styles from './PairingsGridRow.module.scss';
