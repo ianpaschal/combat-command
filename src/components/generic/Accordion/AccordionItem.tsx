@@ -41,15 +41,18 @@ export const AccordionItem = ({
     <div key={id} className={clsx(styles.AccordionItem, classNames?.root)}>
       <div
         className={clsx(styles.AccordionItem_Header, classNames?.header)}
+        data-enabled={!disabled}
         onClick={handleToggle}
       >
-        <motion.div
-          className={styles.AccordionItem_Header_Chevron}
-          animate={{ rotate: isOpen ? 90 : 0 }}
-          transition={{ ease: 'easeInOut', duration }}
-        >
-          <ChevronRight />
-        </motion.div>
+        {!disabled && (
+          <motion.div
+            className={styles.AccordionItem_Header_Chevron}
+            animate={{ rotate: isOpen ? 90 : 0 }}
+            transition={{ ease: 'easeInOut', duration }}
+          >
+            <ChevronRight />
+          </motion.div>
+        )}
         {header}
       </div>
       <AnimatePresence initial={false}>
