@@ -37,6 +37,7 @@ export const deepenTournament = async (
 
   // Computed properties (easy to do, but used so frequently, it's nice to include them by default)
   const playerCount = playerUserIds.length;
+  const activePlayerCount = activePlayerUserIds.length;
   const maxPlayers = tournament.maxCompetitors * tournament.competitorSize;
   const useTeams = tournament.competitorSize > 1;
 
@@ -45,6 +46,7 @@ export const deepenTournament = async (
     logoUrl,
     bannerUrl,
     competitorCount,
+    activePlayerCount,
     playerCount,
     playerUserIds,
     activePlayerUserIds,
