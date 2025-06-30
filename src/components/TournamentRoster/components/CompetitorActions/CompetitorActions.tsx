@@ -79,17 +79,17 @@ export const CompetitorActions = ({
         playerUserId: user!._id,
         tournamentCompetitorId: competitor._id,
       }),
-      visible: user && isPlayer && tournament.status !== 'archived',
+      visible: isPlayer && !['active', 'archived'].includes(tournament.status),
     },
     {
       label: 'Edit',
       onClick: () => openEditDialog({ tournamentCompetitor: competitor }),
-      visible: user && (isOrganizer || (isPlayer && tournament.useTeams)) && tournament.status !== 'archived' && tournament.currentRound === undefined,
+      visible: (isOrganizer || (isPlayer && tournament.useTeams)) && tournament.status !== 'archived' && tournament.currentRound === undefined,
     },
     {
       label: 'Delete',
       onClick: () => openConfirmDeleteDialog(),
-      visible: user && isOrganizer && tournament.status === 'published',
+      visible: isOrganizer && tournament.status === 'published',
     },
   ];
 
