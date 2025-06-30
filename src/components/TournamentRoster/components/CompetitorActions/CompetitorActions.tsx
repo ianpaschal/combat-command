@@ -1,4 +1,5 @@
 import { MouseEvent } from 'react';
+import clsx from 'clsx';
 import { Ellipsis, UserPlus } from 'lucide-react';
 
 import { TournamentCompetitor } from '~/api';
@@ -20,10 +21,12 @@ import {
 import styles from './CompetitorActions.module.scss';
 
 export interface CompetitorActionsProps {
+  className?: string;
   competitor: TournamentCompetitor;
 }
 
 export const CompetitorActions = ({
+  className,
   competitor,
 }: CompetitorActionsProps): JSX.Element => {
   const user = useAuth();
@@ -94,7 +97,7 @@ export const CompetitorActions = ({
 
   return (
     <>
-      <div className={styles.CompetitorActions}>
+      <div className={clsx(styles.CompetitorActions, className)}>
         {showCheckInToggle && (
           <>
             <Label>Checked In</Label>

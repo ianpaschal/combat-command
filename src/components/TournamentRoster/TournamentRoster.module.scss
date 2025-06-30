@@ -8,14 +8,25 @@
 
 .TournamentRoster {
   &_Header {
-    @include flex.row;
-    @include flex.stretchy;
+    display: grid;
+    grid-template-areas: "Identity PlayerCount Actions";
+    grid-template-columns: 1fr auto auto;
+    grid-template-rows: 2.5rem;
+    gap: 1rem;
 
-    &_Actions {
-      @include flex.row;
+    width: 100%;
+  }
 
-      margin-left: auto;
-    }
+  &_Identity {
+    grid-area: Identity;
+  }
+
+  &_PlayerCount {
+    grid-area: PlayerCount;
+  }
+
+  &_Actions {
+    grid-area: Actions;
   }
 
   &_Content {
