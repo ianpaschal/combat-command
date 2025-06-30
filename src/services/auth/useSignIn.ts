@@ -14,6 +14,19 @@ type SignInInput = {
   password: string;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function mapConvexAuthError(error: any): string {
+  if (!error?.message) {
+    return 'An unexpected error occurred. Please try again.';
+  }
+
+  if (error.message.includes('InvalidAccountId')) {
+    return 'Your email or password is incorrect.';
+  }
+
+  return 'Sign-in failed. Please check your details and try again.';
+}
+
 export const useSignIn = () => {
   const { signIn } = useAuthActions();
   const navigate = useNavigate();
@@ -47,8 +60,9 @@ export const useSignIn = () => {
         flow: 'signIn',
       }).catch((error) => {
         setLoading(false);
+        const description = mapConvexAuthError(error);
         console.error(error);
-        toast.error('Error', { description: error.message });
+        toast.error('Error', { description: description });
       });
     },
     loading,
