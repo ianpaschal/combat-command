@@ -40,7 +40,10 @@ export const createTournamentCompetitor = async (
   }
   const playerUserIds = args.players.map((player) => player.userId);
   const registeredUserIds = await getTournamentUserIds(ctx, args.tournamentId);
-  if (!playerUserIds.includes(userId) && !tournament.organizerUserIds.includes(userId)) {
+
+  const otherUserIds = playerUserIds.filter((playerUserId) => playerUserId !== userId);
+
+  if (otherUserIds.length && !tournament.organizerUserIds.includes(userId)) {
     throw new ConvexError(getErrorMessage('CANNOT_ADD_ANOTHER_PLAYER'));
   }
   if (intersectArrays(registeredUserIds, playerUserIds).length) {

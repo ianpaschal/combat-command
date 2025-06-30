@@ -1,6 +1,7 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
+import { useAuth } from '~/components/AuthProvider';
 import { Button } from '~/components/generic/Button';
 import {
   ControlledDialog,
@@ -23,6 +24,7 @@ import {
 import styles from './TournamentCreateTeamDialog.module.scss';
 
 export const TournamentCreateTeamDialog = (): JSX.Element => {
+  const user = useAuth();
   const tournament = useTournament();
   const { id, close } = useTournamentCreateTeamDialog(tournament._id);
 
@@ -33,10 +35,17 @@ export const TournamentCreateTeamDialog = (): JSX.Element => {
   });
   const { mutation: createTournamentCompetitor, loading } = useCreateTournamentCompetitor({ onSuccess: close });
   const onSubmit: SubmitHandler<TournamentCreateTeamFormData> = ({ teamName }) => {
+    if (!user) {
+      return;
+    }
+    const autoJoin = !tournament.playerUserIds.includes(user._id) && !tournament.organizerUserIds.includes(user._id);
     createTournamentCompetitor({
       tournamentId: tournament._id,
       teamName,
-      players: [],
+      players: autoJoin ? [{
+        active: true,
+        userId: user._id,
+      }] : [],
     });
   };
   return (

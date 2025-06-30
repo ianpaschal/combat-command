@@ -52,6 +52,7 @@ export const redactUser = async (
   // If user is querying someone they are in a tournament with
   const hasTournamentRelationship = await checkUserTournamentRelationship(ctx, userId, user._id);
 
+
   // If user is querying someone they are in a tournament with which requires real names
   const requiredByTournament = await checkUserTournamentForcedName(ctx, userId, user._id);
 
