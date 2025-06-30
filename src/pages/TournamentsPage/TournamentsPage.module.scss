@@ -11,15 +11,12 @@
 }
 
 .FilterPopover {
-  @include variants.card;
-  @include shadows.elevated;
+  @include variants.card($elevated: true);
   @include animate.duration-quick;
   @include animate.style-pop;
 
   margin: 0.25rem 0;
   padding: 1rem;
-  background-color: var(--card-bg);
-  border-radius: variables.$corner-radius;
 }
 
 .List {

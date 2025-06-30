@@ -10,9 +10,7 @@
 .PopoverContent {
   @include flex.column($gap: 0.25rem);
   @include animate.duration-quick;
-  @include corners.normal;
-  @include shadows.elevated;
-  @include variants.card;
+  @include variants.card($elevated: true);
 
   z-index: 1;
   margin: 0.25rem 0;

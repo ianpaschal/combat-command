@@ -1,5 +1,7 @@
 @use "variables";
 @use "/src/style/borders";
+@use "/src/style/corners";
+@use "/src/style/shadows";
 
 // TODO: Move to utils
 @mixin reset {
@@ -190,9 +192,14 @@
   }
 }
 
-@mixin card {
+@mixin card($elevated: false) {
   @include borders.normal;
+  @include corners.normal;
+  @include shadows.surface;
 
   background-color: var(--card-bg);
-  border-color: var(--border-color-default);
+
+  @if $elevated {
+    @include shadows.elevated;
+  }
 }

@@ -27,14 +27,11 @@ $row-height: 3rem;
 }
 
 .PopoverContent {
-  @include shadows.elevated;
   @include animate.duration-quick;
-  @include variants.card;
+  @include variants.card($elevated: true);
 
   margin: 0.25rem 0;
   padding: 1rem;
-  background-color: var(--card-bg);
-  border-radius: variables.$corner-radius;
 
   @include animate.style-pop; // Must list last because it contains nested declarations
 }
