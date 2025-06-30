@@ -26,8 +26,7 @@
 .Root {
   --icon-size: 1.25rem;
 
-  @include corners.wide;
-  @include variants.card;
+  @include variants.card($elevated: true);
   @include text.small;
 
   display: flex;

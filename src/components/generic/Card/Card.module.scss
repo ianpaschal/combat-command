@@ -8,11 +8,8 @@
 .Card {
   @include flex.column($gap: 0);
   @include variants.card;
-  @include shadows.surface;
-  @include corners.normal;
   @include flex.stretchy;
 
   min-height: 0;
   max-height: 100%;
-  background-color: var(--card-bg);
 }

@@ -25,14 +25,11 @@
 .ActionsMenu {
   @include flex.column($gap: 0.25rem);
   @include animate.duration-quick;
-  @include corners.normal;
-  @include shadows.elevated;
-  @include variants.card;
+  @include variants.card($elevated: true);
 
   z-index: 10000;
   margin: 0.25rem 0;
   padding: 0.25rem;
-  background-color: var(--card-bg);
 
   @include animate.style-pop; // Must list last because it contains nested declarations
 }

@@ -16,14 +16,11 @@
 
 .Content {
   @include flex.column($gap: 0.25rem);
+  @include variants.card($elevated: true);
   @include animate.duration-quick;
-  @include corners.normal;
-  @include shadows.elevated;
-  @include variants.card;
 
   margin: 0.25rem 0;
   padding: 0.25rem;
-  background-color: var(--card-bg);
 
   @include animate.style-pop; // Must list last because it contains nested declarations
 }
