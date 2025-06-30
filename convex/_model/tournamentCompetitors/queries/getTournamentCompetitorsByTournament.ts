@@ -22,10 +22,10 @@ export const getTournamentCompetitorsByTournament = async (
       if (competitor.teamName) {
         return competitor.teamName;
       }
-      if (competitor.players[0].user.familyName) {
+      if (competitor.players[0]?.user.familyName) {
         return competitor.players[0].user.familyName;
       }
-      if (competitor.players[0].user.username) {
+      if (competitor.players[0]?.user.username) {
         return competitor.players[0].user.username;
       }
       return '';
