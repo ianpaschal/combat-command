@@ -16,7 +16,7 @@ export const PlayerCount = ({
   competitor,
   competitorSize,
 }: PlayerCountProps): JSX.Element => {
-  const playerCount = competitor.players.filter((p) => p.active).length;
+  const playerCount = (competitor.players ?? []).filter((p) => p.active).length;
   return (
     <div className={clsx(styles.PlayerCount, className)} data-full={playerCount === competitorSize}>
       <Users />
