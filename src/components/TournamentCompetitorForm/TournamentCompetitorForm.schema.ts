@@ -17,21 +17,19 @@ export const createSchema = (
   ),
 }).superRefine((data, ctx) => {
   const activeCount = data.players.filter((player) => player.active).length;
-  if (status === 'active') {
-    if (activeCount < competitorSize) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: `At least ${competitorSize} player(s) must be active.`,
-        path: ['players'],
-      });
-    }
-    if (activeCount > competitorSize) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: `Only ${competitorSize} player(s) may be active.`,
-        path: ['players'],
-      });
-    }
+  if (activeCount < competitorSize && status === 'active') {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: `At least ${competitorSize} players must be active.`,
+      path: ['players'],
+    });
+  }
+  if (activeCount > competitorSize) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: `Only ${competitorSize} players may be active.`,
+      path: ['players'],
+    });
   }
   if (otherCompetitors.find((c) => c.teamName?.toLowerCase() === data.teamName.trim().toLowerCase())) {
     ctx.addIssue({
@@ -49,17 +47,10 @@ export const defaultValues: DeepPartial<FormData> = {
   players: [],
 };
 
-export const getDefaultValues = (competitorSize: number, existingCompetitor?: TournamentCompetitor): DeepPartial<FormData> => {
-  const emptyPlayers = Array.from({ length: competitorSize }, () => ({
-    active: true,
-    userId: '',
-  }));
-  const existingPlayers = (existingCompetitor?.players || []).map(({ active, user }) => ({
+export const getDefaultValues = (competitorSize: number, existingCompetitor?: TournamentCompetitor): DeepPartial<FormData> => ({
+  teamName: existingCompetitor?.teamName ?? '',
+  players: (existingCompetitor?.players || []).map(({ active, user }) => ({
     active,
     userId: user._id,
-  }));
-  return {
-    teamName: existingCompetitor?.teamName ?? '',
-    players: existingPlayers.length ? existingPlayers : emptyPlayers,
-  };
-};
+  })),
+});

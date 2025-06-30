@@ -4,6 +4,7 @@ import {
   DialogActions,
   DialogHeader,
 } from '~/components/generic/Dialog';
+import { ScrollArea } from '~/components/generic/ScrollArea';
 import { TournamentCompetitorForm, TournamentCompetitorSubmitData } from '~/components/TournamentCompetitorForm';
 import { useUpdateTournamentCompetitor } from '~/services/tournamentCompetitors';
 import { useTournamentCompetitorEditDialog } from './TournamentCompetitorEditDialog.hooks';
@@ -25,22 +26,27 @@ export const TournamentCompetitorEditDialog = (): JSX.Element => {
     if (!data) {
       return;
     }
+
+    const { players, ...restData } = formData;
     updateTournamentCompetitor({
       id: data?.tournamentCompetitor._id,
-      ...formData,
+      ...restData,
+      players: players.filter((player) => player.userId),
     });
   };
 
   return (
     <ControlledDialog id={id} disabled={loading} width="small">
       <DialogHeader title="Edit Team" onCancel={close} />
-      <TournamentCompetitorForm
-        id={FORM_ID}
-        className={styles.Form}
-        tournamentCompetitor={data?.tournamentCompetitor}
-        onSubmit={handleSubmit}
-        loading={loading}
-      />
+      <ScrollArea>
+        <TournamentCompetitorForm
+          id={FORM_ID}
+          className={styles.Form}
+          tournamentCompetitor={data?.tournamentCompetitor}
+          onSubmit={handleSubmit}
+          loading={loading}
+        />
+      </ScrollArea>
       <DialogActions>
         <Button variant="secondary" onClick={close} disabled={loading}>Cancel</Button>
         <Button form={FORM_ID} type="submit" disabled={loading}>Save Changes</Button>
