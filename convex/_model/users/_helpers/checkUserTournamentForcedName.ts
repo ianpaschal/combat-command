@@ -14,8 +14,8 @@ export const checkUserTournamentForcedName = async (
   const tournaments = await ctx.db.query('tournaments').collect();
 
   // Check each tournament for a relationship, return true if one is found
-  return tournaments.some(async ({ _id, organizerUserIds, requireRealNames }) => {
-
+  // Check each tournament for a relationship, return true if one is found
+  for (const { _id, organizerUserIds, requireRealNames } of tournaments) {
     const playerUserIds = await getTournamentUserIds(ctx, _id);
 
     // Merge all organizer IDs and player IDs into one set
@@ -25,6 +25,10 @@ export const checkUserTournamentForcedName = async (
     ]);
 
     // If the set contains both user IDs, they were at the same tournament
-    return allTournamentUserIds.has(userIdA) && allTournamentUserIds.has(userIdB) && requireRealNames;
-  });
+    if (allTournamentUserIds.has(userIdA) && allTournamentUserIds.has(userIdB) && requireRealNames) {
+      return true;
+    }
+  }
+
+  return false;
 };
