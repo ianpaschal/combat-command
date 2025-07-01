@@ -1,4 +1,4 @@
-import { DraftTournamentPairing } from '~/api';
+import { DraftTournamentPairing } from '../TournamentPairingsGrid.types';
 
 /**
  * Checks if a DraftPairing is valid.

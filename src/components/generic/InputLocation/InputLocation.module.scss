@@ -6,8 +6,7 @@
 @use "/src/style/flex";
 
 .InputDatePopoverContent {
-  @include variants.card;
-  @include shadows.elevated;
+  @include variants.card($elevated: true);
   @include animate.duration-quick;
   @include animate.style-pop;
 

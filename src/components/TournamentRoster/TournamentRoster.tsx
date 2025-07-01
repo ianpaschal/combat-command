@@ -4,6 +4,7 @@ import { TournamentCompetitorEditDialog } from '~/components/TournamentCompetito
 import { useTournamentCompetitors } from '~/components/TournamentCompetitorsProvider';
 import { useTournament } from '~/components/TournamentProvider';
 import { CompetitorActions } from '~/components/TournamentRoster/components/CompetitorActions';
+import { PlayerCount } from '~/components/TournamentRoster/components/PlayerCount';
 
 import styles from './TournamentRoster.module.scss';
 
@@ -14,7 +15,7 @@ export interface TournamentRosterProps {
 export const TournamentRoster = ({
   className,
 }: TournamentRosterProps): JSX.Element => {
-  const { useTeams } = useTournament();
+  const { useTeams, competitorSize } = useTournament();
   const competitors = useTournamentCompetitors();
   return (
     <>
@@ -22,8 +23,11 @@ export const TournamentRoster = ({
         {(competitors || []).map((competitor) => (
           <AccordionItem id={competitor._id} disabled={!useTeams} key={competitor._id}>
             <div className={styles.TournamentRoster_Header}>
-              <IdentityBadge competitor={competitor} />
-              <CompetitorActions competitor={competitor} />
+              <IdentityBadge className={styles.TournamentRoster_Identity} competitor={competitor} />
+              {useTeams && (
+                <PlayerCount className={styles.TournamentRoster_PlayerCount} competitorSize={competitorSize} competitor={competitor} />
+              )}
+              <CompetitorActions className={styles.TournamentRoster_Actions} competitor={competitor} />
             </div>
             <div className={styles.TournamentRoster_Content}>
               {competitor.players.filter((player) => player.active).map((player) => (

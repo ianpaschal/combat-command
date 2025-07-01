@@ -1,4 +1,5 @@
 import { MouseEvent } from 'react';
+import clsx from 'clsx';
 import { Ellipsis, UserPlus } from 'lucide-react';
 
 import { TournamentCompetitor } from '~/api';
@@ -20,10 +21,12 @@ import {
 import styles from './CompetitorActions.module.scss';
 
 export interface CompetitorActionsProps {
+  className?: string;
   competitor: TournamentCompetitor;
 }
 
 export const CompetitorActions = ({
+  className,
   competitor,
 }: CompetitorActionsProps): JSX.Element => {
   const user = useAuth();
@@ -76,17 +79,17 @@ export const CompetitorActions = ({
         playerUserId: user!._id,
         tournamentCompetitorId: competitor._id,
       }),
-      visible: user && isPlayer && tournament.status !== 'archived',
+      visible: isPlayer && !['active', 'archived'].includes(tournament.status),
     },
     {
       label: 'Edit',
       onClick: () => openEditDialog({ tournamentCompetitor: competitor }),
-      visible: user && (isOrganizer || (isPlayer && tournament.useTeams)) && tournament.status !== 'archived' && tournament.currentRound === undefined,
+      visible: (isOrganizer || (isPlayer && tournament.useTeams)) && tournament.status !== 'archived' && tournament.currentRound === undefined,
     },
     {
       label: 'Delete',
       onClick: () => openConfirmDeleteDialog(),
-      visible: user && isOrganizer && tournament.status === 'published',
+      visible: isOrganizer && tournament.status === 'published',
     },
   ];
 
@@ -94,7 +97,7 @@ export const CompetitorActions = ({
 
   return (
     <>
-      <div className={styles.CompetitorActions}>
+      <div className={clsx(styles.CompetitorActions, className)}>
         {showCheckInToggle && (
           <>
             <Label>Checked In</Label>

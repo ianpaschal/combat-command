@@ -2,7 +2,11 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import clsx from 'clsx';
 
-import { MatchResultId, TournamentPairingId } from '~/api';
+import {
+  MatchResultId,
+  TournamentPairingId,
+  UserId,
+} from '~/api';
 import { useAuth } from '~/components/AuthProvider';
 import { ConfirmationDialog, useConfirmationDialog } from '~/components/ConfirmationDialog';
 import { FowV4MatchResultDetails } from '~/components/FowV4MatchResultDetails';
@@ -119,7 +123,7 @@ export const FowV4MatchResultForm = ({
 
   const resultForOptions = [
     { value: 'single', label: 'Single Match' },
-    ...(tournamentPairings || []).map((pairing) => ({
+    ...(tournamentPairings || []).filter((pairing) => pairing.matchResultsProgress.submitted < pairing.matchResultsProgress.required).map((pairing) => ({
       value: pairing._id,
       label: getTournamentPairingDisplayName(pairing),
     })),
@@ -128,6 +132,10 @@ export const FowV4MatchResultForm = ({
   const handleChangeResultFor = (value?: SelectValue): void => {
     if (value) {
       setTournamentPairingId(value as TournamentPairingId);
+      if (user && value === 'single') {
+        form.setValue('player0UserId', user._id);
+        form.setValue('player1UserId', '' as UserId);
+      }
     }
   };
 

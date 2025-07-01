@@ -9,10 +9,7 @@
 
 .MatchResultCard {
   @include flex.column($gap: 0);
-
   @include variants.card;
-  @include shadows.surface;
-  @include corners.normal;
 
   position: relative;
   overflow: hidden;

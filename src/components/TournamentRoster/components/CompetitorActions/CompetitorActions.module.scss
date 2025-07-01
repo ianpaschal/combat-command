@@ -9,5 +9,5 @@
 .CompetitorActions {
   @include flex.row;
 
-  margin-left: auto;
+  flex-shrink: 0;
 }

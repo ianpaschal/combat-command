@@ -1,3 +1,4 @@
+import { MouseEvent } from 'react';
 import { Fragment } from 'react/jsx-runtime';
 import {
   SubmitHandler,
@@ -7,6 +8,7 @@ import {
 } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import clsx from 'clsx';
+import { Plus } from 'lucide-react';
 
 import {
   TournamentCompetitor,
@@ -14,6 +16,7 @@ import {
   UserId,
 } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
+import { Button } from '~/components/generic/Button';
 import { Form, FormField } from '~/components/generic/Form';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { InputText } from '~/components/generic/InputText';
@@ -70,7 +73,7 @@ export const TournamentCompetitorForm = ({
     defaultValues: getDefaultValues(competitorSize, tournamentCompetitor),
     mode: 'onSubmit',
   });
-  const { fields } = useFieldArray({
+  const { fields, append } = useFieldArray({
     control: form.control,
     name: 'players',
     rules: {
@@ -91,11 +94,25 @@ export const TournamentCompetitorForm = ({
       form.setValue(`players.${i}.userId`, userId);
     }
   };
+
   const handleChangePlayerActive = (i: number, active: boolean): void => {
     form.setValue(`players.${i}.active`, active);
   };
-  const handleSubmit: SubmitHandler<FormData> = async (formData): Promise<void> => {
-    onSubmit({ tournamentId, ...formData });
+
+  const handleAddPlayer = (e: MouseEvent): void => {
+    e.preventDefault();
+    append({
+      active: players.filter((p) => p.active).length < competitorSize,
+      userId: '' as UserId,
+    });
+  };
+
+  const handleSubmit: SubmitHandler<FormData> = async ({ players, ...formData }): Promise<void> => {
+    onSubmit({
+      tournamentId,
+      players: players.filter((p) => p.userId.length),
+      ...formData,
+    });
   };
 
   const excludedUserIds = [
@@ -104,6 +121,8 @@ export const TournamentCompetitorForm = ({
   ];
 
   const isOrganizer = user && organizerUserIds.includes(user._id);
+
+  const emptyPlayerSlots = players.filter((player) => !player.userId.length).length;
 
   return (
     <Form id={id} form={form} onSubmit={handleSubmit} className={clsx(styles.TournamentCompetitorForm, className)}>
@@ -124,20 +143,29 @@ export const TournamentCompetitorForm = ({
             <Fragment key={field.id}>
               <Switch
                 name={`players.${i}.active`}
-                checked={players[i].active}
+                checked={players[i]?.active ?? false}
                 onCheckedChange={(value) => handleChangePlayerActive(i, value)}
                 disabled={loading}
               />
               <InputUser
                 name={`players.${i}.userId`}
-                value={{ userId: players[i].userId }}
+                value={{ userId: players[i]?.userId }}
                 onChange={(value) => handleChangeUser(i, value)}
                 excludedUserIds={excludedUserIds}
-                disabled={loading}
+                disabled={loading || (!!players[i]?.userId && status !== 'published')}
                 allowPlaceholder={false}
               />
             </Fragment>
           ))}
+          <div className={styles.TournamentCompetitorForm_TeamPlayers_AddButton}>
+            <Button
+              onClick={handleAddPlayer}
+              disabled={loading || emptyPlayerSlots > 0}
+            >
+              <Plus />
+              Add Player Slot
+            </Button>
+          </div>
         </div>
       ) : (
         <>

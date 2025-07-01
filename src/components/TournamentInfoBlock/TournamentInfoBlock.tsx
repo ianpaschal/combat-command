@@ -53,7 +53,7 @@ export const TournamentInfoBlock = ({
           </div>
           <div className={styles.TournamentInfoBlock_InfoLine}>
             <Users />
-            <span>{`${tournament.playerCount} / ${tournament.maxPlayers}`}</span>
+            <span>{`${tournament.activePlayerCount} / ${tournament.maxPlayers}`}</span>
             {tournament.useTeams && (
               <span>{`(${tournament.competitorCount} / ${tournament.maxCompetitors} teams)`}</span>
             )}
