@@ -1,5 +1,6 @@
 import { useStore } from '@tanstack/react-store';
 import { Store } from '@tanstack/store';
+import { v4 } from 'uuid';
 
 interface Modal<T extends object> {
   id: string;
@@ -24,7 +25,8 @@ export const closeModal = (id: string): void => {
   openModals.setState((state) => state.filter((modal) => modal.id !== id));
 };
 
-export const useModal = <T extends object>(id: string) => {
+export const useModal = <T extends object>(key?: string) => {
+  const id = key ?? v4();
   const modal: Modal<T> | undefined = useStore(openModals, (state) => state.find((openModal) => openModal.id === id));
   return {
     id,

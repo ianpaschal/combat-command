@@ -8,11 +8,13 @@ import styles from './Table.module.scss';
 export interface TableCellProps<T extends RowData> {
   column: ColumnDef<T>;
   row?: T;
+  index: number;
 }
 
 export const TableCell = <T extends RowData>({
   column,
   row,
+  index,
 }: TableCellProps<T>): JSX.Element => {
   const className = clsx(styles.Table_Cell, column.className);
   const renderInner = (): ReactElement | null => {
@@ -25,7 +27,7 @@ export const TableCell = <T extends RowData>({
     }
     if (row) {
       if (column.renderCell) {
-        const el = column.renderCell(row);
+        const el = column.renderCell(row, index);
         return isValidElement(el) ? el : <span className={styles.Table_Cell_Text}>{el}</span>;
       }
       return <span className={styles.Table_Cell_Text}>{`${row?.[column.key]}`}</span>;

@@ -7,7 +7,7 @@ import { assignBye } from './assignBye';
 /**
  * A tuple of TournamentCompetitorRanked's to be paired.
  */
-export type DraftTournamentPairing = [TournamentCompetitorRanked, TournamentCompetitorRanked | null];
+export type CompetitorPair = [TournamentCompetitorRanked, TournamentCompetitorRanked | null];
 
 /**
  * Generates draft pairings for an array of ranked TournamentCompetitors.
@@ -23,8 +23,8 @@ export type DraftTournamentPairing = [TournamentCompetitorRanked, TournamentComp
 export const generateDraftPairings = (
   orderedCompetitors: TournamentCompetitorRanked[],
   allowRepeats: boolean = false,
-): DraftTournamentPairing[] => {
-  const pairings: DraftTournamentPairing[] = [];
+): CompetitorPair[] => {
+  const pairings: CompetitorPair[] = [];
     
   // Handle byes:
   const [byeCompetitor, restCompetitors]= assignBye(orderedCompetitors);
@@ -52,7 +52,7 @@ export const generateDraftPairings = (
 export const recursivePair = (
   pool: TournamentCompetitorRanked[],
   allowRepeats: boolean,
-): DraftTournamentPairing[] | null => {
+): CompetitorPair[] | null => {
   if (pool.length === 0) {
     return []; // everyone paired
   }

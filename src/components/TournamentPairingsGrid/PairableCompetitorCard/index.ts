@@ -1,1 +1,0 @@
-export { PairableCompetitorCard } from './PairableCompetitorCard';

@@ -11,6 +11,7 @@ import {
 import { useAuth } from '~/components/AuthProvider';
 import { Button } from '~/components/generic/Button';
 import { toast } from '~/components/ToastProvider';
+import { TournamentCompetitorCreateDialog, useTournamentCompetitorCreateDialog } from '~/components/TournamentCompetitorCreateDialog';
 import { useTournamentCompetitors } from '~/components/TournamentCompetitorsProvider';
 import { TournamentCreateTeamDialog } from '~/components/TournamentCreateTeamDialog';
 import { useTournamentCreateTeamDialog } from '~/components/TournamentCreateTeamDialog/TournamentCreateTeamDialog.hooks';
@@ -42,6 +43,7 @@ export const TournamentRosterCard = ({
   const { mutation: publishTournament } = usePublishTournament({
     successMessage: `${tournament.title} is now live!`,
   });
+  const { open: openTournamentCompetitorCreateDialog } = useTournamentCompetitorCreateDialog();
 
   const showLoadingState = loading;
   const showEmptyState = !loading && !tournamentCompetitors?.length;
@@ -74,8 +76,10 @@ export const TournamentRosterCard = ({
 
   const getPrimaryButtons = (): ReactElement[] | undefined => {
     const isPlayer = user && tournament.playerUserIds.includes(user._id);
+    const isOrganizer = user && tournament.organizerUserIds.includes(user._id);
     const hasMaxTeams = (competitors || []).length >= tournament.maxCompetitors;
-    if (user && !isPlayer && !hasMaxTeams) {
+
+    if (tournament.status === 'published' && user && !isPlayer && !hasMaxTeams) {
       if (tournament.useTeams) {
         return [
           <Button onClick={openTournamentCreateTeamDialog}>
@@ -86,6 +90,13 @@ export const TournamentRosterCard = ({
       return [
         <Button onClick={handleRegister}>
           <UserPlus />Register
+        </Button>,
+      ];
+    }
+    if (tournament.status === 'active' && tournament.currentRound === undefined && isOrganizer) {
+      return [
+        <Button key="create-competitor" onClick={openTournamentCompetitorCreateDialog}>
+          <UserPlus />{`Add ${tournament.useTeams ? 'Team' : 'Player'}`}
         </Button>,
       ];
     }
@@ -124,6 +135,7 @@ export const TournamentRosterCard = ({
         )
       )}
       <TournamentCreateTeamDialog />
+      <TournamentCompetitorCreateDialog />
     </TournamentDetailCard>
   );
 };

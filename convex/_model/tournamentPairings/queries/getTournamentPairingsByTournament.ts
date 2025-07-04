@@ -26,5 +26,13 @@ export const getTournamentPairingsByTournament = async (
   const deepTournamentPairings = await Promise.all(
     tournamentPairings.map(async (tournamentPairing) => await deepenTournamentPairing(ctx, tournamentPairing)),
   );
-  return deepTournamentPairings.filter(notNullOrUndefined);
+  return deepTournamentPairings.filter(notNullOrUndefined).sort((a, b) => {
+    if (a.table === null) {
+      return 1;
+    }
+    if (b.table === null) {
+      return -1;
+    }
+    return a.table - b.table;
+  });
 };

@@ -1,5 +1,6 @@
 import { QueryCtx } from '../../../_generated/server';
 import { deepenTournamentCompetitor, DeepTournamentCompetitor } from '../_helpers/deepenTournamentCompetitor';
+import { sortTournamentCompetitorsByName } from '../_helpers/sortTournamentCompetitorsByName';
 
 export const getTournamentCompetitors = async (
   ctx: QueryCtx,
@@ -8,19 +9,5 @@ export const getTournamentCompetitors = async (
   const deepTournamentCompetitors = await Promise.all(tournamentCompetitors.map(
     async (item) => await deepenTournamentCompetitor(ctx, item),
   ));
-  return deepTournamentCompetitors.sort((a, b) => {
-    const getSortValue = (competitor: DeepTournamentCompetitor): string => {
-      if (competitor.teamName) {
-        return competitor.teamName;
-      }
-      if (competitor.players[0].user.familyName) {
-        return competitor.players[0].user.familyName;
-      }
-      if (competitor.players[0].user.username) {
-        return competitor.players[0].user.username;
-      }
-      return '';
-    };
-    return getSortValue(a).localeCompare(getSortValue(b));
-  });
+  return deepTournamentCompetitors.sort(sortTournamentCompetitorsByName);
 };

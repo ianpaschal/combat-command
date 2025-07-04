@@ -13,11 +13,6 @@ export const errors = {
   CANNOT_REMOVE_COMPETITOR_FROM_ACTIVE_TOURNAMENT: 'Cannot add a competitor to an on-going tournament.',
   CANNOT_MODIFY_ANOTHER_TOURNAMENT_COMPETITOR: 'Cannot modify another tournament competitor.',
 
-  // Tournament (specific)
-  CANNOT_ADD_PAIRINGS_TO_ARCHIVED_TOURNAMENT: 'Cannot add pairings to an archived tournament.',
-  CANNOT_ADD_PAIRINGS_TO_DRAFT_TOURNAMENT: 'Cannot add pairings to a draft tournament.',
-  CANNOT_ADD_PAIRINGS_TO_PUBLISHED_TOURNAMENT: 'Cannot add pairings to a tournament that hasn\'t started yet.',
-
   // Tournament Lifecycle
   CANNOT_CLOSE_ROUND_ON_ARCHIVED_TOURNAMENT: 'Cannot close a round on an archived tournament.',
   CANNOT_CLOSE_ROUND_ON_DRAFT_TOURNAMENT: 'Cannot close a round on a tournament which is still a draft.',
@@ -78,6 +73,18 @@ export const errors = {
   // Pairings
   NO_VALID_PAIRINGS_POSSIBLE: 'No valid pairing result possible.',
   NO_VALID_PAIRINGS_POSSIBLE_WITHOUT_REPEAT: 'No valid pairing result possible without allowing a repeat.',
+  CANNOT_ADD_EMPTY_PAIRINGS_LIST: 'Cannot add an empty list of pairings.',
+  CANNOT_ADD_PAIRING_FOR_ALREADY_PAIRED_COMPETITOR: 'Cannot add pairing for competitor who is already paired.',
+  CANNOT_ADD_PAIRING_FOR_INACTIVE_COMPETITOR: 'Cannot add pairing for competitor which is not checked in.',
+  CANNOT_ADD_PAIRING_FOR_MISSING_COMPETITOR: 'Cannot add pairing for a competitor which does not exist.',
+  CANNOT_ADD_PAIRING_FOR_OVER_STRENGTH_COMPETITOR: 'Cannot add pairing for competitor which is over strength.',
+  CANNOT_ADD_PAIRING_FOR_UNDER_STRENGTH_COMPETITOR: 'Cannot add pairing for competitor which is under strength.',
+  CANNOT_ADD_PAIRINGS_TO_ARCHIVED_TOURNAMENT: 'Cannot add pairings to an archived tournament.',
+  CANNOT_ADD_PAIRINGS_TO_DRAFT_TOURNAMENT: 'Cannot add pairings to a draft tournament.',
+  CANNOT_ADD_PAIRINGS_TO_IN_PROGRESS_ROUND: 'Cannot add pairings while round is already in-progress.',
+  CANNOT_ADD_PAIRINGS_TO_PUBLISHED_TOURNAMENT: 'Cannot add pairings to a tournament that hasn\'t started yet.',
+  CANNOT_ADD_TOO_MANY_PAIRINGS: 'Cannot add more pairings than the tournament is set-up for.',
+  TOURNAMENT_ALREADY_HAS_PAIRINGS_FOR_ROUND: 'Tournament already has pairings for this round.',
 };
 
 export function getErrorMessage(code: keyof typeof errors): { message: string, code: string } {

@@ -1,21 +1,10 @@
 import { ChevronRight } from 'lucide-react';
 
-import {
-  DraftTournamentPairing,
-  TournamentPairing,
-  UnassignedTournamentPairing,
-} from '~/api';
+import { DraftTournamentPairing, TournamentPairing } from '~/api';
 import { IdentityBadgeProps } from '~/components/IdentityBadge';
+import { TournamentPairingFormItem } from '~/pages/TournamentPairingsPage/TournamentPairingsPage.schema';
 
-export function isDraftPairing(pairing: unknown): pairing is DraftTournamentPairing {
-  return Array.isArray(pairing) &&
-    pairing.length > 0 &&
-    typeof pairing[0] === 'object' &&
-    pairing[0] !== null &&
-    'id' in pairing[0];
-}
-
-export function isUnassignedPairingInput(pairing: unknown): pairing is UnassignedTournamentPairing {
+export function isUnassignedPairingInput(pairing: unknown): pairing is DraftTournamentPairing {
   return typeof pairing === 'object' &&
     pairing !== null &&
     'tournamentCompetitor0Id' in pairing;
@@ -28,21 +17,8 @@ export function isTournamentPairing(pairing: unknown): pairing is TournamentPair
 }
 
 export const getIdentityBadgeProps = (
-  pairing?: TournamentPairing | DraftTournamentPairing | UnassignedTournamentPairing,
+  pairing?: TournamentPairing | TournamentPairingFormItem | DraftTournamentPairing,
 ): [Partial<IdentityBadgeProps>, Partial<IdentityBadgeProps>] => {
-  if (isDraftPairing(pairing)) {
-    if (pairing[1]) {
-      return [
-        { competitorId: pairing[0].id },
-        { competitorId: pairing[1].id },
-      ];
-    }
-    return [
-      { competitorId: pairing[0].id },
-      { placeholder: { displayName: 'Bye', icon: <ChevronRight /> } },
-    ];
-  }
-
   if (isUnassignedPairingInput(pairing)) {
     if (pairing.tournamentCompetitor1Id) {
       return [
