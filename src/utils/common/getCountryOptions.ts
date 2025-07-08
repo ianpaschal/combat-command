@@ -39,7 +39,6 @@ export const getEtcCountryOptions = (): InputSelectOption<string>[] => [
   'ie',
   'is',
   'it',
-  'merc',
   'nl',
   'nz',
   'pl',
@@ -47,6 +46,12 @@ export const getEtcCountryOptions = (): InputSelectOption<string>[] => [
   'ro',
   'se',
   'us',
+
+  // Mercenary teams
+  'xx-lkt', // Landsknecht
+  'xx-mrc', // Mercenaries
+  'xx-prt', // Pirates
+  'un', // United Nations
 ].map(
   (code) => ({ label: getCountryName(code) || 'Unknown Country', value: code }),
 ).sort(

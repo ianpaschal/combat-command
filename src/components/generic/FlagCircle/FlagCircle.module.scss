@@ -1,0 +1,31 @@
+@use "/src/style/variables";
+
+.FlagCircle {
+  flex-shrink: 0;
+
+  aspect-ratio: 1;
+  width: 100%;
+
+  border-radius: 100%;
+
+  // A normal border pushes the background image 1px away from the edges giving the circle "flat sides"
+  box-shadow: inset var(--border-color-default) 0 0 0 1px;
+}
+
+.FlagCircleCustom {
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  &[data-code="xx-lkt"] {
+    background-image: url("./customFlags/1x1/xx-lkt.svg");
+  }
+
+  &[data-code="xx-mrc"] {
+    background-color: black;
+  }
+
+  &[data-code="xx-prt"] {
+    background-image: url("./customFlags/1x1/xx-prt.svg");
+  }
+}
