@@ -6,4 +6,4 @@ type ConfirmationDialogData = {
   onConfirm: () => void;
 };
 
-export const useConfirmationDialog = (id: string) => useModal<ConfirmationDialogData>(id);
+export const useConfirmationDialog = (id?: string) => useModal<ConfirmationDialogData>(id);

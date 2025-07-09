@@ -36,8 +36,8 @@ export const createTournamentTimer = async (
   }
   return await ctx.db.insert('tournamentTimers', {
     ...args,
-    pausedAt: Date.now(),
+    pausedAt: null,
     pauseTime: 0,
-    startedAt: null,
+    startedAt: Date.now(),
   });
 };

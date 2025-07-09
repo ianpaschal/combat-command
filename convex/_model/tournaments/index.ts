@@ -21,10 +21,6 @@ export { getTournamentUserIds } from './_helpers/getTournamentUserIds';
 
 // Mutations
 export {
-  closeTournamentRound,
-  closeTournamentRoundArgs,
-} from './mutations/closeTournamentRound';
-export {
   createTournament,
   createTournamentArgs,
 } from './mutations/createTournament';
@@ -37,9 +33,9 @@ export {
   endTournamentArgs,
 } from './mutations/endTournament';
 export {
-  openTournamentRound,
-  openTournamentRoundArgs,
-} from './mutations/openTournamentRound';
+  endTournamentRound,
+  endTournamentRoundArgs,
+} from './mutations/endTournamentRound';
 export {
   publishTournament,
   publishTournamentArgs,
@@ -48,6 +44,10 @@ export {
   startTournament,
   startTournamentArgs,
 } from './mutations/startTournament';
+export {
+  startTournamentRound,
+  startTournamentRoundArgs,
+} from './mutations/startTournamentRound';
 export {
   updateTournament,
   updateTournamentArgs,

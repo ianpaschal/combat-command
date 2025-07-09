@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { generatePath, useNavigate } from 'react-router-dom';
 import { Ellipsis } from 'lucide-react';
 
@@ -5,15 +6,19 @@ import { useAuth } from '~/components/AuthProvider';
 import { Button } from '~/components/generic/Button';
 import { PopoverMenu } from '~/components/generic/PopoverMenu';
 import { toast } from '~/components/ToastProvider';
+import { ConfirmConfigureRoundDialog } from '~/components/TournamentContextMenu/components/ConfirmConfigureRoundDialog';
+import { ConfirmConfigureRoundDialogHandle } from '~/components/TournamentContextMenu/components/ConfirmConfigureRoundDialog/ConfirmConfigureRoundDialog';
 import { getRemainingRequiredMatchResults } from '~/components/TournamentContextMenu/TournamentContextMenu.utils';
 import { useTournament } from '~/components/TournamentProvider';
+import { useGetTournamentPairings } from '~/services/tournamentPairings';
 import {
-  useCloseTournamentRound,
   useDeleteTournament,
   useEndTournament,
+  useEndTournamentRound,
   useGetTournamentOpenRound,
   usePublishTournament,
   useStartTournament,
+  useStartTournamentRound,
 } from '~/services/tournaments';
 import { PATHS } from '~/settings';
 import { ElementSize } from '~/types/componentLib';
@@ -29,6 +34,8 @@ export const TournamentContextMenu = ({
   size = 'normal',
   variant = 'secondary',
 }: TournamentContextMenuProps): JSX.Element | null => {
+  const navigate = useNavigate();
+
   const user = useAuth();
   const {
     _id: id,
@@ -38,8 +45,15 @@ export const TournamentContextMenu = ({
     title,
     organizerUserIds,
   } = useTournament();
-  const navigate = useNavigate();
+  const nextRound = (lastRound ?? -1) + 1;
+  const nextRoundLabel = nextRound + 1;
+  const currentRoundLabel = (currentRound ?? 0) + 1;
+
   const { data: openRound } = useGetTournamentOpenRound({ id });
+  const { data: nextRoundPairings } = useGetTournamentPairings({
+    tournamentId: id,
+    round: nextRound,
+  });
 
   const { mutation: deleteTournament } = useDeleteTournament({
     onSuccess: (): void => {
@@ -56,7 +70,13 @@ export const TournamentContextMenu = ({
 
   const { mutation: startTournament } = useStartTournament({
     onSuccess: (): void => {
-      toast.success(`${title} has started!`);
+      toast.success(`${title} started!`);
+    },
+  });
+
+  const { mutation: startTournamentRound } = useStartTournamentRound({
+    onSuccess: (): void => {
+      toast.success(`Round ${currentRoundLabel} started!`);
     },
   });
 
@@ -66,11 +86,13 @@ export const TournamentContextMenu = ({
     },
   });
 
-  const { mutation: closeTournamentRound } = useCloseTournamentRound({
+  const { mutation: endTournamentRound } = useEndTournamentRound({
     onSuccess: (): void => {
-      toast.success(`Round ${(currentRound ?? 0) + 1} completed!`);
+      toast.success(`Round ${currentRoundLabel} completed!`);
     },
   });
+
+  const confirmConfigureRoundDialogRef = useRef<ConfirmConfigureRoundDialogHandle>(null);
 
   const menuItems = [
     {
@@ -96,13 +118,18 @@ export const TournamentContextMenu = ({
       visible: status === 'published',
     },
     {
-      label: `Configure Round ${(lastRound ?? -1) + 2}`,
-      onClick: () => navigate(generatePath(PATHS.tournamentAdvanceRound, { id })),
-      visible: status === 'active' && currentRound === undefined,
+      label: `Configure Round ${nextRoundLabel}`,
+      onClick: () => confirmConfigureRoundDialogRef.current?.open(),
+      visible: status === 'active' && !openRound && !nextRoundPairings?.length,
     },
     {
-      label: `Close Round ${currentRound! + 1}`,
-      onClick: () => closeTournamentRound({ id }),
+      label: `Start Round ${nextRoundLabel}`,
+      onClick: () => startTournamentRound({ id }),
+      visible: status === 'active' && !openRound && nextRoundPairings?.length,
+    },
+    {
+      label: `End Round ${(currentRound ?? 0) + 1}`,
+      onClick: () => endTournamentRound({ id }),
       visible: openRound && getRemainingRequiredMatchResults(openRound) === 0,
     },
     {
@@ -121,10 +148,13 @@ export const TournamentContextMenu = ({
     return null;
   }
   return (
-    <PopoverMenu menuItems={visibleMenuItems}>
-      <Button variant={variant} size={size} className={className}>
-        <Ellipsis />
-      </Button>
-    </PopoverMenu>
+    <>
+      <PopoverMenu menuItems={visibleMenuItems}>
+        <Button variant={variant} size={size} className={className}>
+          <Ellipsis />
+        </Button>
+      </PopoverMenu>
+      <ConfirmConfigureRoundDialog ref={confirmConfigureRoundDialogRef} />
+    </>
   );
 };

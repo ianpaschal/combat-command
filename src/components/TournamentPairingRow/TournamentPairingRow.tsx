@@ -1,11 +1,7 @@
 import { useWindowWidth } from '@react-hook/window-size/throttled';
 import clsx from 'clsx';
 
-import {
-  DraftTournamentPairing,
-  TournamentPairing,
-  UnassignedTournamentPairing,
-} from '~/api';
+import { DraftTournamentPairing, TournamentPairing } from '~/api';
 import { IdentityBadge } from '~/components/IdentityBadge';
 import { MOBILE_BREAKPOINT } from '~/settings';
 import { getIdentityBadgeProps } from './TournamentPairingRow.utils';
@@ -13,7 +9,7 @@ import { getIdentityBadgeProps } from './TournamentPairingRow.utils';
 import styles from './TournamentPairingRow.module.scss';
 
 export interface TournamentPairingRowProps {
-  pairing?: TournamentPairing | DraftTournamentPairing | UnassignedTournamentPairing;
+  pairing?: TournamentPairing | DraftTournamentPairing;
   loading?: boolean;
   className?: string;
 }

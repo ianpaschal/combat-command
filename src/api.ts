@@ -36,9 +36,9 @@ export {
 
 // Tournament Pairings
 export {
+  type ShallowTournamentPairing,
   type TournamentPairingDeep as TournamentPairing,
   type TournamentPairingId,
-  type UnassignedTournamentPairing,
 } from '../convex/_model/tournamentPairings';
 
 // Tournament Timers

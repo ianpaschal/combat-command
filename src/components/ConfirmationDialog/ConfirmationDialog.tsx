@@ -1,6 +1,5 @@
 import { ReactNode } from 'react';
 import clsx from 'clsx';
-import { TriangleAlert } from 'lucide-react';
 
 import { Button } from '~/components/generic/Button';
 import {
@@ -23,8 +22,8 @@ export interface ConfirmationDialogProps {
   intent?: ElementIntent;
   onConfirm?: () => void;
   title: string;
-  warnings?: ReactNode[];
   disabled?: boolean;
+  disablePadding?: boolean;
 }
 
 export const ConfirmationDialog = ({
@@ -35,8 +34,8 @@ export const ConfirmationDialog = ({
   intent = 'default',
   onConfirm,
   title,
-  warnings = [],
   disabled = false,
+  disablePadding = false,
 }: ConfirmationDialogProps): JSX.Element => {
   const { close, data } = useConfirmationDialog(id);
   const handleConfirm = (): void => {
@@ -57,26 +56,9 @@ export const ConfirmationDialog = ({
             {data?.description || description}
           </DialogDescription>
         )}
-        {warnings.length > 0 && (
-          <div className={styles.ConfirmationDialog_WarningsList}>
-            {warnings.map((warning, i) => (
-              <div key={i} className={styles.ConfirmationDialog_WarningBlurb}>
-                <TriangleAlert className={styles.ConfirmationDialog_WarningBlurb_Icon} />
-                <h3 className={styles.ConfirmationDialog_WarningBlurb_Header}>
-                  Warning
-                </h3>
-                <div className={styles.ConfirmationDialog_WarningBlurb_Body}>
-                  {warning}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-        {children && (
-          <div className={styles.ConfirmationDialog_Children}>
-            {children}
-          </div>
-        )}
+        <div className={styles.ConfirmationDialog_Body} data-padding={!disablePadding}>
+          {children}
+        </div>
       </ScrollArea>
       <DialogActions>
         <Button variant="secondary" onClick={close}>

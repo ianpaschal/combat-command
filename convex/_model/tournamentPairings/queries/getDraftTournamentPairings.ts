@@ -3,11 +3,15 @@ import { Infer, v } from 'convex/values';
 import { QueryCtx } from '../../../_generated/server';
 import { tournamentPairingMethod } from '../../../static/tournamentPairingMethods';
 import { getTournamentCompetitorsByTournament } from '../../tournamentCompetitors';
-import { getTournamentRankings } from '../../tournaments';
+import { getTournamentRankings, TournamentCompetitorRanked } from '../../tournaments';
 import { generateDraftPairings } from '../_helpers/generateDraftPairings';
-import { DraftTournamentPairing } from '../_helpers/generateDraftPairings';
 import { shuffle } from '../_helpers/shuffle';
 import { sortByRank } from '../_helpers/sortByRank';
+import { sortCompetitorPairs } from '../_helpers/sortCompetitorPairs';
+import { uniqueFields } from '../fields';
+
+const draftTournamentPairing = v.object(uniqueFields);
+export type DraftTournamentPairing = Infer<typeof draftTournamentPairing>;
 
 export const getDraftTournamentPairingsArgs = v.object({
   method: tournamentPairingMethod,
@@ -34,14 +38,21 @@ export const getDraftTournamentPairings = async (
     tournamentId: args.tournamentId,
     round: args.round - 1, // Get rankings for previous round
   });
-  const activeCompetitors = rankedCompetitors.filter(({ id }) => !!competitors.find((c) => c._id === id && c.active));
+  const activeCompetitors = rankedCompetitors.filter(({ id }) => (
+    !!competitors.find((c) => c._id === id && c.active)
+  ));
+  const orderedCompetitors: TournamentCompetitorRanked[] = [];
   if (args.method === 'adjacent') {
-    const orderedCompetitors = sortByRank(activeCompetitors);
-    return generateDraftPairings(orderedCompetitors);
+    orderedCompetitors.push(...sortByRank(activeCompetitors));
   }
   if (args.method === 'random') {
-    const orderedCompetitors = shuffle(activeCompetitors);
-    return generateDraftPairings(orderedCompetitors);
+    orderedCompetitors.push(...shuffle(activeCompetitors));
   }
-  return [];
+  return generateDraftPairings(orderedCompetitors).sort(sortCompetitorPairs).map((draftPairing) => ({
+    tournamentId: args.tournamentId,
+    tournamentCompetitor0Id: draftPairing[0].id,
+    tournamentCompetitor1Id: draftPairing[1]?.id ?? null,
+    table: -1,
+    round: args.round,
+  }));
 };

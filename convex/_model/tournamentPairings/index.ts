@@ -1,6 +1,6 @@
 import { defineTable } from 'convex/server';
 
-import { Id } from '../../_generated/dataModel';
+import { Doc, Id } from '../../_generated/dataModel';
 import { computedFields, editableFields } from './fields';
 
 export const tournamentPairingsTable = defineTable({
@@ -10,21 +10,14 @@ export const tournamentPairingsTable = defineTable({
   .index('by_tournament_id', ['tournamentId']);
 
 export type TournamentPairingId = Id<'tournamentPairings'>;
+export type ShallowTournamentPairing = Doc<'tournamentPairings'>;
 
 // Helpers
 export {
   deepenTournamentPairing,
   type TournamentPairingDeep,
 } from './_helpers/deepenTournamentPairing';
-export {
-  type DraftTournamentPairing,
-  generateDraftPairings,
-} from './_helpers/generateDraftPairings';
-export {
-  generateTableAssignments,
-  type UnassignedTournamentPairing,
-  unassignedTournamentPairingFields,
-} from './_helpers/generateTableAssignments';
+export { generateDraftPairings } from './_helpers/generateDraftPairings';
 export { getTournamentPairingDeep } from './_helpers/getTournamentPairingDeep';
 export { getTournamentPairingShallow } from './_helpers/getTournamentPairingShallow';
 export { shuffle } from './_helpers/shuffle';
@@ -36,6 +29,7 @@ export {
   getActiveTournamentPairingsByUserArgs,
 } from './queries/getActiveTournamentPairingsByUser';
 export {
+  type DraftTournamentPairing,
   getDraftTournamentPairings,
   getDraftTournamentPairingsArgs,
 } from './queries/getDraftTournamentPairings';
@@ -51,3 +45,9 @@ export {
   getTournamentPairingsByTournament,
   getTournamentPairingsByTournamentArgs,
 } from './queries/getTournamentPairingsByTournament';
+
+// Mutations
+export {
+  createTournamentPairings,
+  createTournamentPairingsArgs,
+} from './mutations/createTournamentPairings';

@@ -5,54 +5,11 @@
 @use "/src/style/variables";
 
 .ConfirmationDialog {
-  &_WarningsList {
-    @include flex.column($gap: 1rem);
+  &_Body {
+    @include flex.column;
 
-    padding: 0 var(--container-padding-x);
-  }
-
-  &_WarningBlurb {
-    @include text.ui;
-    @include corners.normal;
-    @include borders.warning;
-
-    display: grid;
-    grid-template-areas:
-      "icon header"
-      ". body";
-    grid-template-columns: 1rem 1fr;
-    grid-template-rows: auto auto;
-    row-gap: 0.25rem;
-    column-gap: 0.5rem;
-
-    padding: 1rem;
-
-    color: var(--text-color-warning);
-
-    background-color: var(--card-bg-warning);
-
-    &_Icon {
-      grid-area: icon;
-      width: 1rem;
-      height: 1rem;
+    &[data-padding="true"] {
+      padding: 0 var(--container-padding-x);
     }
-
-    &_Header {
-      grid-area: header;
-    }
-
-    &_Body {
-      @include flex.column($gap: 0.5rem);
-
-      grid-area: body;
-
-      p {
-        color: inherit;
-      }
-    }
-  }
-
-  &_Children {
-    padding: 0 var(--container-padding-x);
   }
 }
