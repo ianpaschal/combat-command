@@ -11,6 +11,17 @@ export const tournamentsTable = defineTable({
   .index('by_status', ['status']);
 
 export type TournamentId = Id<'tournaments'>;
+export enum TournamentActionKey {
+  Edit = 'edit',
+  Delete = 'delete',
+  Publish = 'publish',
+  Cancel = 'cancel',
+  Start = 'start',
+  ConfigureRound = 'configureRound',
+  StartRound = 'startRound',
+  EndRound = 'endRound',
+  End = 'end',
+}
 
 // Helpers
 export { checkTournamentAuth } from './_helpers/checkTournamentAuth';

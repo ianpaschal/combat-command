@@ -11,4 +11,8 @@
   @include flex.column($gap: 0.5rem);
 
   padding: 0 var(--modal-inner-gutter);
+
+  strong {
+    font-weight: 500;
+  }
 }

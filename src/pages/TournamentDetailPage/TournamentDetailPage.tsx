@@ -16,6 +16,7 @@ import {
 } from '~/components/generic/Tabs';
 import { NotFoundView } from '~/components/NotFoundView';
 import { PageWrapper } from '~/components/PageWrapper';
+import { TournamentActionsProvider } from '~/components/TournamentActionsProvider';
 import { TournamentCompetitorsProvider } from '~/components/TournamentCompetitorsProvider';
 import { TournamentContextMenu } from '~/components/TournamentContextMenu';
 import { TournamentProvider } from '~/components/TournamentProvider';
@@ -105,40 +106,42 @@ export const TournamentDetailPage = (): JSX.Element => {
 
   return (
     <TournamentProvider tournament={tournament}>
-      <TournamentCompetitorsProvider tournamentCompetitors={tournamentCompetitors}>
-        <PageWrapper banner={<TournamentDetailBanner />} bannerBackgroundUrl={tournament.bannerUrl}>
-          <div className={styles.TournamentDetailPage_Content} data-device={deviceType}>
-            {showInfoSidebar && (
-              <div className={styles.TournamentDetailPage_Sidebar}>
-                <TournamentInfoCard />
-              </div>
-            )}
-            <Tabs className={styles.TournamentDetailPage_Tabs} value={activeTab} onValueChange={handleTabChange}>
-              <div className={styles.TournamentDetailPage_TabBar}>
-                {tabs.length > 1 && (
-                  <TabsList hideLabels={!showTabLabels} tabs={tabs} />
-                )}
-                <TournamentContextMenu variant="primary" size="large" />
-              </div>
-              <TabsContent value="info">
-                <TournamentInfoCard />
-              </TabsContent>
-              <TabsContent value="pairings">
-                <TournamentPairingsCard />
-              </TabsContent>
-              <TabsContent value="rankings">
-                <TournamentRankingsCard />
-              </TabsContent>
-              <TabsContent value="matchResults">
-                <TournamentMatchResultsCard />
-              </TabsContent>
-              <TabsContent value="roster">
-                <TournamentRosterCard />
-              </TabsContent>
-            </Tabs>
-          </div>
-        </PageWrapper>
-      </TournamentCompetitorsProvider>
+      <TournamentActionsProvider>
+        <TournamentCompetitorsProvider tournamentCompetitors={tournamentCompetitors}>
+          <PageWrapper banner={<TournamentDetailBanner />} bannerBackgroundUrl={tournament.bannerUrl}>
+            <div className={styles.TournamentDetailPage_Content} data-device={deviceType}>
+              {showInfoSidebar && (
+                <div className={styles.TournamentDetailPage_Sidebar}>
+                  <TournamentInfoCard />
+                </div>
+              )}
+              <Tabs className={styles.TournamentDetailPage_Tabs} value={activeTab} onValueChange={handleTabChange}>
+                <div className={styles.TournamentDetailPage_TabBar}>
+                  {tabs.length > 1 && (
+                    <TabsList hideLabels={!showTabLabels} tabs={tabs} />
+                  )}
+                  <TournamentContextMenu variant="primary" size="large" />
+                </div>
+                <TabsContent value="info">
+                  <TournamentInfoCard />
+                </TabsContent>
+                <TabsContent value="pairings">
+                  <TournamentPairingsCard />
+                </TabsContent>
+                <TabsContent value="rankings">
+                  <TournamentRankingsCard />
+                </TabsContent>
+                <TabsContent value="matchResults">
+                  <TournamentMatchResultsCard />
+                </TabsContent>
+                <TabsContent value="roster">
+                  <TournamentRosterCard />
+                </TabsContent>
+              </Tabs>
+            </div>
+          </PageWrapper>
+        </TournamentCompetitorsProvider>
+      </TournamentActionsProvider>
     </TournamentProvider>
   );
 };
