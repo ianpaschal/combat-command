@@ -17,7 +17,7 @@ export const getTournamentCompetitorsByTournament = async (
   const tournamentCompetitors = await ctx.db.query('tournamentCompetitors')
     .withIndex('by_tournament_id', (q) => q.eq('tournamentId', args.tournamentId))
     .collect();
-  const rankings = args.includeRankings && args.includeRankings > -1 ? await getTournamentRankings(ctx, {
+  const rankings = args.includeRankings !== undefined && args.includeRankings > -1 ? await getTournamentRankings(ctx, {
     tournamentId: args.tournamentId,
     round: args.includeRankings,
   }) : undefined;
