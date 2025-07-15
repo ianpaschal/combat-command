@@ -13,6 +13,7 @@ export const getMatchResultsByTournamentPairing = async (
 ): Promise<DeepMatchResult[]> => {
   const matchResults = await ctx.db.query('matchResults')
     .withIndex('by_tournament_pairing_id', (q) => q.eq('tournamentPairingId', args.tournamentPairingId))
+    .order('desc')
     .collect();
   return await Promise.all(matchResults.map(
     async (item) => await deepenMatchResult(ctx, item),

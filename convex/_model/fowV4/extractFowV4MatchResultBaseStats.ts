@@ -1,4 +1,5 @@
 import { Doc } from '../../_generated/dataModel';
+import { DeepMatchResult } from '../matchResults';
 import { calculateFowV4MatchResultScore } from './calculateFowV4MatchResultScore';
 import { FowV4BaseStats } from './types';
 
@@ -9,7 +10,7 @@ import { FowV4BaseStats } from './types';
  * @returns
  */
 
-export const extractFowV4MatchResultBaseStats = (matchResult: Doc<'matchResults'>): [FowV4BaseStats, FowV4BaseStats] => {
+export const extractFowV4MatchResultBaseStats = (matchResult: Doc<'matchResults'> | DeepMatchResult): [FowV4BaseStats, FowV4BaseStats] => {
   const score = calculateFowV4MatchResultScore(matchResult);
   return [
     {
