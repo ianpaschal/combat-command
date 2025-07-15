@@ -18,6 +18,7 @@ export const getMatchResultsByTournamentRound = async (
     .collect();
   const matchResults = await ctx.db.query('matchResults')
     .withIndex('by_tournament_id', (q) => q.eq('tournamentId', args.tournamentId))
+    .order('desc')
     .collect();
   const filteredMatchResults = matchResults.filter((result) => (
     !!tournamentPairings.find((item) => item._id === result.tournamentPairingId)
