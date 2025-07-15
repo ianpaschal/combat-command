@@ -25,6 +25,7 @@ export {
 } from './mutations/addPhotoToMatchResult';
 export {
   createMatchResult,
+  type CreateMatchResultArgs,
   createMatchResultArgs,
 } from './mutations/createMatchResult';
 export {
