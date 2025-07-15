@@ -1,9 +1,4 @@
 import { useModal } from '~/modals';
-
-type ConfirmationDialogData = {
-  title?: string;
-  description?: string;
-  onConfirm: () => void;
-};
+import { ConfirmationDialogData } from './ConfirmationDialog.types';
 
 export const useConfirmationDialog = (id?: string) => useModal<ConfirmationDialogData>(id);

@@ -10,7 +10,8 @@ export const errors = {
   CANNOT_MODIFY_ARCHIVED_TOURNAMENT: 'Cannot modify an archived tournament.',
   CANNOT_MODIFY_PUBLISHED_TOURNAMENT_COMPETITORS: 'Cannot modify competitor format for a published tournament.',
   CANNOT_REMOVE_ANOTHER_PLAYER: 'Cannot remove another player.',
-  CANNOT_REMOVE_COMPETITOR_FROM_ACTIVE_TOURNAMENT: 'Cannot add a competitor to an on-going tournament.',
+  CANNOT_REMOVE_COMPETITOR_FROM_ACTIVE_TOURNAMENT: 'Cannot remove a competitor from an on-going tournament.',
+  CANNOT_REMOVE_PLAYER_FROM_ACTIVE_TOURNAMENT: 'Cannot remove a player from an on-going tournament.',
   CANNOT_MODIFY_ANOTHER_TOURNAMENT_COMPETITOR: 'Cannot modify another tournament competitor.',
 
   // Tournament Lifecycle
@@ -29,6 +30,7 @@ export const errors = {
   CANNOT_PUBLISH_ACTIVE_TOURNAMENT: 'Cannot publish a tournament which is already active.',
   CANNOT_END_PUBLISHED_TOURNAMENT: 'Cannot end a tournament which has not started.',
   CANNOT_END_DRAFT_TOURNAMENT: 'Cannot end a tournament which is still a draft.',
+  CANNOT_END_TOURNAMENT_MID_ROUND: 'Cannot end a tournament which mid-round.',
   TOURNAMENT_ALREADY_HAS_OPEN_ROUND: 'Tournament already has an open round.',
   TOURNAMENT_DOES_NOT_HAVE_OPEN_ROUND: 'Tournament does not have a currently open round.',
 
@@ -43,8 +45,6 @@ export const errors = {
   TOURNAMENT_TIMER_ALREADY_PAUSED: 'Tournament timer is already paused.',
   TOURNAMENT_TIMER_ALREADY_RUNNING: 'Tournament timer is already running.',
   TOURNAMENT_TIMER_ALREADY_EXISTS: 'Tournament already has a timer for this round.',
-  CANNOT_SUBSTITUTE_ONLY_ONE_PLAYER: 'Cannot substitute only one player.',
-  INVALID_PAIRING_LENGTH: 'foo',
 
   // Missing docs
   FILE_NOT_FOUND: 'Could not find a file with that ID.',

@@ -36,22 +36,20 @@ export const deepenTournament = async (
   ], [] as Id<'users'>[]);
 
   // Computed properties (easy to do, but used so frequently, it's nice to include them by default)
-  const playerCount = playerUserIds.length;
-  const activePlayerCount = activePlayerUserIds.length;
-  const maxPlayers = tournament.maxCompetitors * tournament.competitorSize;
-  const useTeams = tournament.competitorSize > 1;
+  const nextRound = (tournament.currentRound ?? tournament.lastRound ?? -1) + 1;
 
   return {
     ...tournament,
     logoUrl,
     bannerUrl,
     competitorCount,
-    activePlayerCount,
-    playerCount,
+    activePlayerCount: activePlayerUserIds.length,
+    playerCount: playerUserIds.length,
     playerUserIds,
     activePlayerUserIds,
-    maxPlayers,
-    useTeams,
+    maxPlayers : tournament.maxCompetitors * tournament.competitorSize,
+    useTeams: tournament.competitorSize > 1,
+    nextRound: nextRound < tournament.roundCount ? nextRound : undefined,
   };
 };
 
