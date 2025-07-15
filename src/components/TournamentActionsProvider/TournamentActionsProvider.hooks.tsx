@@ -190,7 +190,7 @@ export const useActions = (openDialog: (data?: ConfirmationDialogData) => void):
               </>
             ),
             confirmLabel: 'End Round',
-            onConfirm: () => configureTournamentRound(),
+            onConfirm: () => endTournamentRound({ id: tournament._id }),
           });
         } else {
           endTournamentRound({ id: tournament._id });
