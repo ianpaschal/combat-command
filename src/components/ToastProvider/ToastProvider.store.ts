@@ -1,7 +1,7 @@
 import { Store } from '@tanstack/store';
 
 interface ToastItem {
-  description?: string;
+  description?: string | string[];
   icon?: JSX.Element;
   severity: ToastSeverity;
   title: string;

@@ -1,6 +1,6 @@
-import { ReactNode } from 'react';
 import clsx from 'clsx';
 
+import { ConfirmationDialogProps } from '~/components/ConfirmationDialog/ConfirmationDialog.types';
 import { Button } from '~/components/generic/Button';
 import {
   ControlledDialog,
@@ -9,22 +9,9 @@ import {
   DialogHeader,
 } from '~/components/generic/Dialog';
 import { ScrollArea } from '~/components/generic/ScrollArea';
-import { ElementIntent } from '~/types/componentLib';
 import { useConfirmationDialog } from './ConfirmationDialog.hooks';
 
 import styles from './ConfirmationDialog.module.scss';
-
-export interface ConfirmationDialogProps {
-  children?: ReactNode;
-  className?: string;
-  description?: string;
-  id: string;
-  intent?: ElementIntent;
-  onConfirm?: () => void;
-  title: string;
-  disabled?: boolean;
-  disablePadding?: boolean;
-}
 
 export const ConfirmationDialog = ({
   children,
@@ -36,6 +23,8 @@ export const ConfirmationDialog = ({
   title,
   disabled = false,
   disablePadding = false,
+  cancelLabel = 'Cancel',
+  confirmLabel = 'Confirm',
 }: ConfirmationDialogProps): JSX.Element => {
   const { close, data } = useConfirmationDialog(id);
   const handleConfirm = (): void => {
@@ -49,7 +38,7 @@ export const ConfirmationDialog = ({
   };
   return (
     <ControlledDialog id={id} width="small" className={clsx(className)}>
-      <DialogHeader title={data?.title ?? title} onCancel={close} />
+      <DialogHeader title={data?.title ?? title ?? 'Confirmation'} onCancel={close} />
       <ScrollArea>
         {(data?.description || description) && (
           <DialogDescription>
@@ -57,15 +46,16 @@ export const ConfirmationDialog = ({
           </DialogDescription>
         )}
         <div className={styles.ConfirmationDialog_Body} data-padding={!disablePadding}>
+          {data?.children}
           {children}
         </div>
       </ScrollArea>
       <DialogActions>
         <Button variant="secondary" onClick={close}>
-          Cancel
+          {data?.cancelLabel ?? cancelLabel}
         </Button>
         <Button intent={intent} onClick={handleConfirm} disabled={disabled}>
-          Confirm
+          {data?.confirmLabel ?? confirmLabel}
         </Button>
       </DialogActions>
     </ControlledDialog>
