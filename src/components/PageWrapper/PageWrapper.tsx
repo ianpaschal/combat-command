@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import { ArrowLeft } from 'lucide-react';
@@ -17,6 +17,7 @@ export interface PageWrapperProps {
   maxWidth?: number;
   showBackButton?: boolean;
   title?: string;
+  hideTitle?: boolean;
   banner?: ReactNode;
   bannerBackgroundUrl?: string;
 }
@@ -28,11 +29,19 @@ export const PageWrapper = ({
   maxWidth = MAX_WIDTH,
   showBackButton = false,
   title,
+  hideTitle = false,
   banner,
   bannerBackgroundUrl,
 }: PageWrapperProps): JSX.Element => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+
+  useEffect(() => {
+    if (title?.length) {
+      document.title = `Combat Command | ${title}`;
+    }
+  }, [title]);
+
   const handleClickBack = (): void => {
     if (window.history.length > 1) {
       navigate(-1);
@@ -60,7 +69,7 @@ export const PageWrapper = ({
           </div>
         )}
         <div className={styles.PageWrapper_Content} style={{ maxWidth }}>
-          {(showBackButton || title) && (
+          {(showBackButton || (title && !hideTitle)) && (
             <div className={styles.PageWrapper_Header}>
               {showBackButton && (
                 <Button onClick={handleClickBack} variant="outlined">
