@@ -16,9 +16,9 @@ export const PATHS = {
   dashboard: '/dashboard',
   matchResultDetails: '/match-results/:id',
   matchResults: '/match-results',
-  tournamentAdvanceRound: '/tournaments/:id/advance',
   tournamentCreate: '/tournaments/create',
   tournamentDetails: '/tournaments/:id',
   tournamentEdit: '/tournaments/:id/edit',
+  tournamentPairings: '/tournaments/:id/pairings',
   tournaments: '/tournaments',
 } as const;

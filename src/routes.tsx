@@ -25,11 +25,10 @@ import {
   SettingsPage,
   UserProfileForm,
 } from '~/pages/SettingsPage';
-import { TournamentAdvanceRoundPage } from '~/pages/TournamentAdvanceRoundPage';
 import { TournamentCreatePage } from '~/pages/TournamentCreatePage';
-import { TournamentDetailPage } from '~/pages/TournamentDetailPage/TournamentDetailPage';
+import { TournamentDetailPage } from '~/pages/TournamentDetailPage';
 import { TournamentEditPage } from '~/pages/TournamentEditPage/TournamentEditPage';
-// import { TournamentDetailPage } from '~/pages/TournamentDetailPage';
+import { TournamentPairingsPage } from '~/pages/TournamentPairingsPage';
 import { TournamentsPage } from '~/pages/TournamentsPage';
 import { PATHS } from '~/settings';
 
@@ -134,9 +133,9 @@ export const routes = [
     element: <TournamentDetailPage />,
   },
   {
-    path: PATHS.tournamentAdvanceRound,
+    path: PATHS.tournamentPairings,
     visibility: [],
-    element: <TournamentAdvanceRoundPage />,
+    element: <TournamentPairingsPage />,
   },
   {
     path: PATHS.tournamentEdit,

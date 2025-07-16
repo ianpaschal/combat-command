@@ -7,7 +7,7 @@ export type ColumnDef<T extends RowData> = {
   className?: string;
   key: string;
   label?: string;
-  renderCell?: (row: T) => ReactNode;
+  renderCell?: (row: T, index: number) => ReactNode;
   renderHeader?: () => ReactNode;
   width?: number;
 };

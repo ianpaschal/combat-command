@@ -4,6 +4,7 @@ import { ChevronRight } from 'lucide-react';
 import { Tournament } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
 import { Button } from '~/components/generic/Button';
+import { TournamentActionsProvider } from '~/components/TournamentActionsProvider';
 import { TournamentContextMenu } from '~/components/TournamentContextMenu';
 import { TournamentInfoBlock } from '~/components/TournamentInfoBlock/';
 import { TournamentProvider } from '~/components/TournamentProvider';
@@ -43,32 +44,34 @@ export const TournamentCard = ({
 
   return (
     <TournamentProvider tournament={tournament}>
-      <div className={styles.TournamentCard} data-layout={layout} ref={ref}>
-        <div className={styles.TournamentCard_Banner} style={tournament.bannerUrl ? {
-          backgroundImage: `url(${tournament.bannerUrl}`,
-          backgroundSize: 'cover',
-        } : undefined}>
-          {tournament?.logoUrl && (
-            <img src={tournament.logoUrl} alt={tournament.title} />
-          )}
-        </div>
-        <div className={styles.TournamentCard_Title}>
-          <h2>{tournament.title}</h2>
-          <div className={styles.TournamentCard_Buttons}>
-            {showContextMenu && (
-              <TournamentContextMenu />
+      <TournamentActionsProvider>
+        <div className={styles.TournamentCard} data-layout={layout} ref={ref}>
+          <div className={styles.TournamentCard_Banner} style={tournament.bannerUrl ? {
+            backgroundImage: `url(${tournament.bannerUrl}`,
+            backgroundSize: 'cover',
+          } : undefined}>
+            {tournament?.logoUrl && (
+              <img src={tournament.logoUrl} alt={tournament.title} />
             )}
-            <Button onClick={handleClickDetails}>
-              {layout !== 'narrow' && (
-                'View'
-              )}
-              <ChevronRight />
-            </Button>
           </div>
+          <div className={styles.TournamentCard_Title}>
+            <h2>{tournament.title}</h2>
+            <div className={styles.TournamentCard_Buttons}>
+              {showContextMenu && (
+                <TournamentContextMenu />
+              )}
+              <Button onClick={handleClickDetails}>
+                {layout !== 'narrow' && (
+                  'View'
+                )}
+                <ChevronRight />
+              </Button>
+            </div>
+          </div>
+          <TournamentInfoBlock type="practical" className={styles.InfoBlock} />
+          <TournamentInfoBlock type="gameSystem" className={styles.InfoBlock} />
         </div>
-        <TournamentInfoBlock type="practical" className={styles.InfoBlock} />
-        <TournamentInfoBlock type="gameSystem" className={styles.InfoBlock} />
-      </div>
+      </TournamentActionsProvider>
     </TournamentProvider>
   );
 };

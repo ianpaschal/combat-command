@@ -1,4 +1,4 @@
-import { Doc } from '../../../_generated/dataModel';
+import { Doc, Id } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
 import { LimitedUser } from '../../users/_helpers/redactUser';
 import { getUser } from '../../users/queries/getUser';
@@ -17,6 +17,12 @@ import { getUser } from '../../users/queries/getUser';
 export const deepenTournamentCompetitor = async (
   ctx: QueryCtx,
   tournamentCompetitor: Doc<'tournamentCompetitors'>,
+  results?: {
+    playedTables: (number | null)[];
+    opponentIds: Id<'tournamentCompetitors'>[];
+    byeRounds: number[];
+    rank: number;
+  },
 ) => {
   const players = await Promise.all(tournamentCompetitor.players.map(async ({ active, userId }) => ({
     active,
@@ -29,6 +35,7 @@ export const deepenTournamentCompetitor = async (
   
   return {
     ...tournamentCompetitor,
+    ...results,
     players: players.filter(playerHasUser),
   };
 };

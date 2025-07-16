@@ -9,6 +9,7 @@ export const editableFields = {
   tournamentPairingId: v.optional(v.id('tournamentPairings')),
   // Denormalized so that we can filter match results by tournament.
   // The duplicate data is worth the efficiency in querying.
+  // Calculated from tournamentPairingId.
   tournamentId: v.optional(v.id('tournaments')),
 
   // Players
@@ -18,13 +19,11 @@ export const editableFields = {
   player1Placeholder: v.optional(v.string()),
 
   // General
-  playedAt: v.string(),
+  playedAt: v.union(v.string(), v.number()),
   details: v.union(fowV4MatchResultDetails),
 
   // Game System
   gameSystemConfig: v.union(fowV4GameSystemConfig),
-  // Denormalized so that we can filter tournaments by game system.
-  // The duplicate data is worth the efficiency in querying.
   gameSystemId: gameSystemId,
 
   photoIds: v.optional(v.array(v.id('photos'))),

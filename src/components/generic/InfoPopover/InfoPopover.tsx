@@ -10,6 +10,7 @@ export interface InfoPopoverProps {
   className?: string;
   content: string;
   disableAutoHide?: boolean;
+  orientation?: 'vertical' | 'horizontal';
 }
 
 export const InfoPopover = ({
@@ -18,6 +19,7 @@ export const InfoPopover = ({
   className,
   content,
   disableAutoHide = false,
+  orientation = 'vertical',
 }: InfoPopoverProps): JSX.Element => {
   const [open, setOpen] = useState<boolean>(false);
   const handleOpenChange = (open: boolean) => {
@@ -34,7 +36,7 @@ export const InfoPopover = ({
         {children}
       </Popover.Trigger>
       <Popover.Portal>
-        <Popover.Content className={styles.InfoPopover_Content} sideOffset={2} side="top" align="center">
+        <Popover.Content className={styles.InfoPopover_Content} sideOffset={2} side={orientation === 'vertical' ? 'top' : 'left'} align="center">
           {content}
           <Popover.Arrow className={styles.InfoPopover_Arrow} />
         </Popover.Content>

@@ -16,8 +16,8 @@ export const useUpdateTournament = createMutationHook(api.tournaments.updateTour
 export const useDeleteTournament = createMutationHook(api.tournaments.deleteTournament);
 
 // Special Mutations
-export const useCloseTournamentRound = createMutationHook(api.tournaments.closeTournamentRound);
 export const useEndTournament = createMutationHook(api.tournaments.endTournament);
-export const useOpenTournamentRound = createMutationHook(api.tournaments.openTournamentRound);
+export const useEndTournamentRound = createMutationHook(api.tournaments.endTournamentRound);
 export const usePublishTournament = createMutationHook(api.tournaments.publishTournament);
 export const useStartTournament = createMutationHook(api.tournaments.startTournament);
+export const useStartTournamentRound = createMutationHook(api.tournaments.startTournamentRound);

@@ -46,8 +46,9 @@ export const getTournamentOpenRound = async (
   return {
     round: tournament.currentRound,
     matchResultsProgress: {
-      submitted: relevantPairingIds.length * tournament.competitorSize,
-      required: relevantMatchResultIds.length,
+      required: relevantPairingIds.length * tournament.competitorSize,
+      submitted: relevantMatchResultIds.length,
+      remaining: (relevantPairingIds.length * tournament.competitorSize) - relevantMatchResultIds.length,
     },
     // TODO: Get timer
   };

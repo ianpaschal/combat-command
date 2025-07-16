@@ -42,7 +42,7 @@ export const fowV4MatchResultFormSchema = z.object({
 
   // Non-editable
   gameSystemId: z.string().transform((val) => val as GameSystemId),
-  playedAt: z.string(), // TODO: not visible, enable later
+  playedAt: z.union([z.string(), z.number()]), // TODO: not visible, enable later
 }).superRefine((values, ctx) => {
   if (values.details.outcomeType !== 'time_out' && values.details.winner === undefined) {
     ctx.addIssue({

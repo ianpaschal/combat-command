@@ -60,7 +60,7 @@ export const createTestTournament = async (
       playingTime: 3,
     },
     logoStorageId: 'kg208wxmb55v36bh9qnkqc0c397j1rmb' as Id<'_storage'>,
-    bannerStorageId: 'kg21scbttz4t1hxxcs9qjcsvkh7j0nkh' as Id<'_storage'>,
+    bannerStorageId: 'kg250q9ezj209wpxgn0xqfca297kckc8' as Id<'_storage'>,
   });
 
   // 3. Create competitors

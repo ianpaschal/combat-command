@@ -11,6 +11,8 @@ export const createMatchResultArgs = v.object({
   ...editableFields,
 });
 
+export type CreateMatchResultArgs = Infer<typeof createMatchResultArgs>;
+
 /**
  * Creates a new match result.
  * 
@@ -20,7 +22,7 @@ export const createMatchResultArgs = v.object({
  */
 export const createMatchResult = async (
   ctx: MutationCtx,
-  args: Infer<typeof createMatchResultArgs>,
+  args: CreateMatchResultArgs,
 ): Promise<Id<'matchResults'>> => {
   const userId = await checkAuth(ctx);
 

@@ -24,7 +24,7 @@ export const Table = <T extends RowData>({
     <ScrollArea className={styles.Table_ScrollArea}>
       <div className={styles.Table_Inner}>
         {rows.map((r, i) => (
-          <TableRow key={`row_${i}`} columns={columns} row={[r, i]} className={rowClassName} />
+          <TableRow key={`row_${i}`} columns={columns} row={[r, i]} index={i} className={rowClassName} />
         ))}
       </div>
     </ScrollArea>
