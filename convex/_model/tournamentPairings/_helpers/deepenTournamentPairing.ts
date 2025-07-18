@@ -62,6 +62,7 @@ export const deepenTournamentPairing = async (
     matchResultsProgress: {
       submitted: matchResults.length,
       required: competitorSize,
+      remaining: competitorSize - matchResults.length,
     },
   };
 };

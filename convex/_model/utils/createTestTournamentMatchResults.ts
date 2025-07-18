@@ -79,7 +79,6 @@ export const createTestTournamentMatchResults = async (
       const matchResultId = await ctx.db.insert('matchResults', createMockFowV4MatchResultData({
         ...playerData,
         tournamentPairingId: pairing._id,
-        tournamentId: tournament._id,
         gameSystemConfig: tournament.gameSystemConfig,
         gameSystemId: tournament.gameSystemId,
       }));
