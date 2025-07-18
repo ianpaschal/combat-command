@@ -49,8 +49,8 @@ export const defaultValues: DeepPartial<FormData> = {
 
 export const getDefaultValues = (competitorSize: number, existingCompetitor?: TournamentCompetitor): DeepPartial<FormData> => ({
   teamName: existingCompetitor?.teamName ?? '',
-  players: (existingCompetitor?.players || []).map(({ active, user }) => ({
-    active,
-    userId: user._id,
+  players: Array.from({ length: competitorSize }).map((_, i) => ({
+    active: existingCompetitor?.players[i]?.active ?? true,
+    userId: existingCompetitor?.players[i]?.user._id ?? '',
   })),
 });

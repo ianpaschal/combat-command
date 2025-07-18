@@ -1,7 +1,6 @@
-import { ReactNode } from 'react';
 import clsx from 'clsx';
-import { TriangleAlert } from 'lucide-react';
 
+import { ConfirmationDialogProps } from '~/components/ConfirmationDialog/ConfirmationDialog.types';
 import { Button } from '~/components/generic/Button';
 import {
   ControlledDialog,
@@ -10,22 +9,9 @@ import {
   DialogHeader,
 } from '~/components/generic/Dialog';
 import { ScrollArea } from '~/components/generic/ScrollArea';
-import { ElementIntent } from '~/types/componentLib';
 import { useConfirmationDialog } from './ConfirmationDialog.hooks';
 
 import styles from './ConfirmationDialog.module.scss';
-
-export interface ConfirmationDialogProps {
-  children?: ReactNode;
-  className?: string;
-  description?: string;
-  id: string;
-  intent?: ElementIntent;
-  onConfirm?: () => void;
-  title: string;
-  warnings?: ReactNode[];
-  disabled?: boolean;
-}
 
 export const ConfirmationDialog = ({
   children,
@@ -35,8 +21,10 @@ export const ConfirmationDialog = ({
   intent = 'default',
   onConfirm,
   title,
-  warnings = [],
   disabled = false,
+  disablePadding = false,
+  cancelLabel = 'Cancel',
+  confirmLabel = 'Confirm',
 }: ConfirmationDialogProps): JSX.Element => {
   const { close, data } = useConfirmationDialog(id);
   const handleConfirm = (): void => {
@@ -50,40 +38,24 @@ export const ConfirmationDialog = ({
   };
   return (
     <ControlledDialog id={id} width="small" className={clsx(className)}>
-      <DialogHeader title={data?.title ?? title} onCancel={close} />
+      <DialogHeader title={data?.title ?? title ?? 'Confirmation'} onCancel={close} />
       <ScrollArea>
         {(data?.description || description) && (
           <DialogDescription>
             {data?.description || description}
           </DialogDescription>
         )}
-        {warnings.length > 0 && (
-          <div className={styles.ConfirmationDialog_WarningsList}>
-            {warnings.map((warning, i) => (
-              <div key={i} className={styles.ConfirmationDialog_WarningBlurb}>
-                <TriangleAlert className={styles.ConfirmationDialog_WarningBlurb_Icon} />
-                <h3 className={styles.ConfirmationDialog_WarningBlurb_Header}>
-                  Warning
-                </h3>
-                <div className={styles.ConfirmationDialog_WarningBlurb_Body}>
-                  {warning}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-        {children && (
-          <div className={styles.ConfirmationDialog_Children}>
-            {children}
-          </div>
-        )}
+        <div className={styles.ConfirmationDialog_Body} data-padding={!disablePadding}>
+          {data?.children}
+          {children}
+        </div>
       </ScrollArea>
       <DialogActions>
         <Button variant="secondary" onClick={close}>
-          Cancel
+          {data?.cancelLabel ?? cancelLabel}
         </Button>
         <Button intent={intent} onClick={handleConfirm} disabled={disabled}>
-          Confirm
+          {data?.confirmLabel ?? confirmLabel}
         </Button>
       </DialogActions>
     </ControlledDialog>

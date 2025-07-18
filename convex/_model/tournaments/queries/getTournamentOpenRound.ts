@@ -28,26 +28,26 @@ export const getTournamentOpenRound = async (
   if (tournament.status !== 'active' || tournament.currentRound === undefined) {
     return null;
   }
-
-  const pairings = await ctx.db.query('tournamentPairings')
+  const tournamentPairings = await ctx.db.query('tournamentPairings')
     .withIndex('by_tournament_id', (q) => q.eq('tournamentId', args.id))
     .filter((q) => q.eq(q.field('round'), tournament.currentRound))
     .collect();
-
   const matchResults = await ctx.db.query('matchResults')
     .withIndex('by_tournament_id', (q) => q.eq('tournamentId', args.id))
+    .order('desc')
     .collect();
-
-  const relevantPairingIds = pairings.map((pairing) => pairing._id);
-  const relevantMatchResultIds = matchResults.filter((matchResult) => (
-    matchResult.tournamentPairingId && relevantPairingIds.includes(matchResult.tournamentPairingId)
-  )).map((matchResult) => matchResult._id);
+  const filteredMatchResults = matchResults.filter((result) => (
+    !!tournamentPairings.find((item) => item._id === result.tournamentPairingId)
+  ));
+  const required = tournamentPairings.length * tournament.competitorSize;
+  const submitted = filteredMatchResults.length;
 
   return {
     round: tournament.currentRound,
     matchResultsProgress: {
-      submitted: relevantPairingIds.length * tournament.competitorSize,
-      required: relevantMatchResultIds.length,
+      required,
+      submitted,
+      remaining: Math.max(0, required - submitted),
     },
     // TODO: Get timer
   };

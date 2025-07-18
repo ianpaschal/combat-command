@@ -1,4 +1,5 @@
 import { Doc } from '../../_generated/dataModel';
+import { DeepMatchResult } from '../matchResults';
 
 /**
  * Calculate the Victory Points (i.e. score) for a given match result.
@@ -9,7 +10,7 @@ import { Doc } from '../../_generated/dataModel';
  * @param matchResult - The match result to score
  * @returns - A tuple with the scores for player 0 and 1 respectively
  */
-export const calculateFowV4MatchResultScore = (matchResult: Doc<'matchResults'>): [number, number] => {
+export const calculateFowV4MatchResultScore = (matchResult: Doc<'matchResults'> | DeepMatchResult): [number, number] => {
 
   // TODO: Add some guards in case matchResult is not FowV4
 

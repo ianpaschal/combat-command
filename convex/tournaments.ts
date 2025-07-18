@@ -36,9 +36,9 @@ export const deleteTournament = mutation({
   handler: model.deleteTournament,
 });
 
-export const closeTournamentRound = mutation({
-  args: model.closeTournamentRoundArgs,
-  handler: model.closeTournamentRound,
+export const endTournamentRound = mutation({
+  args: model.endTournamentRoundArgs,
+  handler: model.endTournamentRound,
 });
 
 export const endTournament = mutation({
@@ -46,9 +46,9 @@ export const endTournament = mutation({
   handler: model.endTournament,
 });
 
-export const openTournamentRound = mutation({
-  args: model.openTournamentRoundArgs,
-  handler: model.openTournamentRound,
+export const startTournamentRound = mutation({
+  args: model.startTournamentRoundArgs,
+  handler: model.startTournamentRound,
 });
 
 export const publishTournament = mutation({

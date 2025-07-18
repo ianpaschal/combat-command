@@ -1,5 +1,7 @@
 import { Infer, v } from 'convex/values';
 
+import { createMockFowV4MatchResultData } from '../../_fixtures/fowV4/createMockFowV4MatchResultData';
+import { Doc, Id } from '../../_generated/dataModel';
 import { MutationCtx } from '../../_generated/server';
 
 export const createTestTournamentMatchResultsArgs = v.object({
@@ -28,38 +30,68 @@ export const createTestTournamentMatchResults = async (
     throw new Error('No pairings to create results for!');
   }
   tournamentPairings.forEach(async (pairing) => {
-    const tournamentCompetitor0 = await ctx.db.get(pairing.tournamentCompetitor0Id);
-    const tournamentCompetitor1 = pairing.tournamentCompetitor1Id ? await ctx.db.get(pairing.tournamentCompetitor1Id) : null;
-    if (!tournamentCompetitor0) {
-      throw new Error('Pairing needs at least 1 competitor!');
-    }
-    const tournamentCompetitor0UserIds = tournamentCompetitor0.players.filter((player) => player.active).map((player) => player.userId);
-    const tournamentCompetitor1UserIds = tournamentCompetitor1 ? tournamentCompetitor1.players.filter((player) => player.active).map((player) => player.userId) : [];
-    for (let i = 0; i < tournament.competitorSize; i++) {
-      const outcomeType = Math.random() > 0.25 ? 'objective_taken' : 'time_out';
-      await ctx.db.insert('matchResults', {
+    const existingMatchResults = await ctx.db.query('matchResults')
+      .withIndex('by_tournament_pairing_id', (q) => q.eq('tournamentPairingId', pairing._id))
+      .collect();
+
+    const matchResultIds = existingMatchResults.map((matchResult) => matchResult._id);
+    const usedPlayerIds = existingMatchResults.reduce((acc, result) => {
+      if (result.player0UserId) {
+        acc.push(result.player0UserId);
+      }
+      if (result.player1UserId) {
+        acc.push(result.player1UserId);
+      }
+      return acc;
+    }, [] as Id<'users'>[]);
+
+    let i = 0;
+    while (matchResultIds.length < tournament.competitorSize) {
+      i += 1;
+
+      if (i > tournament.competitorSize * 2) {
+        throw new Error('Adding way too many match results! Something is wrong!');
+      }
+
+      const playerData: Pick<Doc<'matchResults'>, 'player0UserId' | 'player1UserId' | 'player1Placeholder' | 'player0Placeholder'> = {};
+      const tournamentCompetitor0 = await ctx.db.get(pairing.tournamentCompetitor0Id);
+      const tournamentCompetitor0UserIds = tournamentCompetitor0 ? tournamentCompetitor0.players.filter((player) => (
+        player.active && !usedPlayerIds.includes(player.userId)
+      )).map((player) => player.userId) : [];
+      const player0UserId = tournamentCompetitor0UserIds.pop();
+      if (player0UserId) {
+        playerData.player0UserId = player0UserId;
+      } else {
+        playerData.player0Placeholder = 'Bye';
+      }
+
+      if (pairing.tournamentCompetitor1Id) {
+        const tournamentCompetitor1 = await ctx.db.get(pairing.tournamentCompetitor1Id);
+        const tournamentCompetitor1UserIds = tournamentCompetitor1 ? tournamentCompetitor1.players.filter((player) => (
+          player.active && !usedPlayerIds.includes(player.userId)
+        )).map((player) => player.userId) : [];
+        const player1UserId = tournamentCompetitor1UserIds.pop();
+        playerData.player1UserId = player1UserId;
+      } else {
+        playerData.player1Placeholder = 'Bye';
+      }
+
+      const matchResultId = await ctx.db.insert('matchResults', createMockFowV4MatchResultData({
+        ...playerData,
         tournamentPairingId: pairing._id,
-        tournamentId: tournament._id,
-        player0UserId: tournamentCompetitor0UserIds[i],
-        player1UserId: tournamentCompetitor1UserIds[i],
-        player0Confirmed: true,
-        player1Confirmed: true,
-        playedAt: new Date().toISOString(),
-        details: {
-          attacker: 0,
-          firstTurn: 0,
-          missionId: 'flames_of_war_v4::mission::2023_04_spearpoint',
-          outcomeType,
-          player0BattlePlan: 'attack',
-          player0UnitsLost: Math.round(Math.random() * 5) + 2,
-          player1BattlePlan: 'attack',
-          player1UnitsLost: Math.round(Math.random() * 5) + 2,
-          turnsPlayed: Math.round(Math.random() * 5) + 2,
-          winner: outcomeType === 'time_out' ? -1 : (Math.random() > 0.5 ? 1 : 0),
-        },
         gameSystemConfig: tournament.gameSystemConfig,
         gameSystemId: tournament.gameSystemId,
-      });
+      }));
+
+      if (matchResultId) {
+        matchResultIds.push(matchResultId);
+        if (playerData.player0UserId) {
+          usedPlayerIds.push(playerData.player0UserId);
+        }
+        if (playerData.player1UserId) {
+          usedPlayerIds.push(playerData.player1UserId);
+        }
+      }
     }
   });
 };

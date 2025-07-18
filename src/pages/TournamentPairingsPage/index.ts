@@ -1,0 +1,3 @@
+export {
+  TournamentPairingsPage,
+} from './TournamentPairingsPage';

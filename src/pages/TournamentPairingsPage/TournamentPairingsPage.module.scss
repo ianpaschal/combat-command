@@ -1,0 +1,78 @@
+@use "/src/style/flex";
+@use "/src/style/variables";
+@use "/src/style/borders";
+@use "/src/style/corners";
+@use "/src/style/shadows";
+@use "/src/style/text";
+@use "/src/style/variants";
+
+.TournamentPairingsPage {
+  @include flex.column;
+  @include variants.card;
+
+  &_Header {
+    @include flex.row;
+
+    padding: var(--container-padding-y) var(--container-padding-x) 0;
+  }
+
+  &_TableRow {
+    padding: 0 var(--container-padding-x);
+  }
+
+  &_Form {
+    display: grid;
+    grid-template-areas:
+      ". tableHeader competitorsHeader"
+      "alerts tableInputs competitorsGrid";
+    grid-template-columns: auto 6rem  1fr;
+    grid-template-rows: auto auto;
+    gap: 1rem;
+
+    padding: 0 var(--container-padding-x) var(--container-padding-y);
+
+    &_Alerts {
+      display: grid;
+      grid-area: alerts;
+      gap: 0.5rem;
+      place-items: center;
+      justify-content: center;
+
+      width: 1.5rem;
+    }
+
+    &_TableHeader {
+      grid-area: tableHeader;
+    }
+
+    &_CompetitorsHeader {
+      grid-area: competitorsHeader;
+    }
+
+    &_CompetitorsGrid {
+      grid-area: competitorsGrid;
+    }
+
+    &_CompetitorCard {
+      @include flex.row;
+
+      padding: 0.5rem;
+    }
+
+    &_TableInputs {
+      display: grid;
+      grid-area: tableInputs;
+      gap: 0.5rem;
+    }
+
+    &_TableInput {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+}

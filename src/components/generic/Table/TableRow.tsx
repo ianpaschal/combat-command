@@ -13,19 +13,21 @@ export interface TableRowProps<T extends RowData> {
   className?: string;
   columns: ColumnDef<T>[];
   row?: Row<T>;
+  index?: number;
 }
 
 export const TableRow = <T extends RowData>({
   className,
   columns,
   row,
+  index = -1,
 }: TableRowProps<T>): JSX.Element => {
   const gridTemplateColumns = columns.map((c) => c.width ? `${c.width}px` : '1fr').join(' ');
   if (!row) {
     return (
       <div className={clsx(styles.Table_HeaderRow, className)} style={{ gridTemplateColumns }}>
         {columns.map((c) => (
-          <TableCell key={`cell_head_${String(c.key)}`} column={c} />
+          <TableCell key={`cell_head_${String(c.key)}`} column={c} index={-1} />
         ))}
       </div>
     );
@@ -34,7 +36,7 @@ export const TableRow = <T extends RowData>({
     return (
       <div key={`row_${i}`} className={clsx(styles.Table_Row, className)} style={{ gridTemplateColumns }}>
         {columns.map((c) => (
-          <TableCell key={`cell_${i}_${String(c.key)}`} column={c} row={r} />
+          <TableCell key={`cell_${i}_${String(c.key)}`} column={c} row={r} index={index} />
         ))}
       </div>
     );

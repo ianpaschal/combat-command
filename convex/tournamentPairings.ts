@@ -1,4 +1,4 @@
-import { query } from './_generated/server';
+import { mutation, query } from './_generated/server';
 import * as model from './_model/tournamentPairings';
 
 export const getTournamentPairing = query({
@@ -19,4 +19,9 @@ export const getDraftTournamentPairings = query({
 export const getActiveTournamentPairingsByUser = query({
   args: model.getActiveTournamentPairingsByUserArgs,
   handler: model.getActiveTournamentPairingsByUser,
+});
+
+export const createTournamentPairings = mutation({
+  args: model.createTournamentPairingsArgs,
+  handler: model.createTournamentPairings,
 });

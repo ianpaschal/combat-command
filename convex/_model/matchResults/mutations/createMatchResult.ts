@@ -11,6 +11,8 @@ export const createMatchResultArgs = v.object({
   ...editableFields,
 });
 
+export type CreateMatchResultArgs = Infer<typeof createMatchResultArgs>;
+
 /**
  * Creates a new match result.
  * 
@@ -20,15 +22,20 @@ export const createMatchResultArgs = v.object({
  */
 export const createMatchResult = async (
   ctx: MutationCtx,
-  args: Infer<typeof createMatchResultArgs>,
+  args: CreateMatchResultArgs,
 ): Promise<Id<'matchResults'>> => {
   const userId = await checkAuth(ctx);
+
+  let tournamentId: Id<'tournaments'> | undefined = undefined;
 
   // ---- CHECK ELIGIBILITY ----
   if (args.tournamentPairingId) {
     // Perform tournament-based auth checks for matches with a tournament pairing:
     const tournamentPairing = await getTournamentPairingDeep(ctx, args.tournamentPairingId);
     const tournament = await getTournamentShallow(ctx, tournamentPairing.tournamentId);
+
+    // Add computed value:
+    tournamentId = tournament._id;
 
     const isPlayerInPairing = tournamentPairing.playerUserIds.includes(userId);
     const isTournamentOrganizer = tournament.organizerUserIds.includes(userId);
@@ -63,6 +70,7 @@ export const createMatchResult = async (
   // Create the match result:
   return await ctx.db.insert('matchResults', {
     ...args,
+    tournamentId,
     player0Confirmed: true, // TODO: Default to false, require users to approve
     player1Confirmed: true, // TODO: Default to false, require users to approve
   });

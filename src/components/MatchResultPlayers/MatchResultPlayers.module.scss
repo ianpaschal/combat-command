@@ -40,8 +40,8 @@
 
   &[data-orientation="horizontal"] {
     /* stylelint-disable-next-line @stylistic/max-line-length */
-    grid-template-areas: "player0name player0avatar player0faction player0score separator player1score player1faction player1avatar player1name";
-    grid-template-columns: 1fr 3rem 2rem 2rem variables.$border-width 2rem 2rem 3rem 1fr;
+    grid-template-areas: "player0identity player0faction player0score separator player1score player1faction player1identity";
+    grid-template-columns: 1fr 2rem 2rem variables.$border-width 2rem 2rem 1fr;
     grid-template-rows: auto;
     gap: 1rem;
 
@@ -55,14 +55,22 @@
 
   &[data-orientation="vertical"] {
     grid-template-areas:
-      "player0avatar player0name player0faction player0score"
-      "separator separator separator ."
-      "player1avatar player1name player1faction player1score";
-    grid-template-columns: 3rem 1fr 2rem 3rem;
+      "player0identity player0faction player0score"
+      "separator separator ."
+      "player1identity player1faction player1score";
+    grid-template-columns: 1fr 2rem 2rem;
     grid-template-rows: auto variables.$border-width auto;
     row-gap: var(--vertical-spacing);
     column-gap: 1rem;
   }
+}
+
+.Player0Identity {
+  grid-area: player0identity;
+}
+
+.Player1Identity {
+  grid-area: player1identity;
 }
 
 .Player0Avatar {

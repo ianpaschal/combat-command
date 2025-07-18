@@ -11,6 +11,17 @@ export const tournamentsTable = defineTable({
   .index('by_status', ['status']);
 
 export type TournamentId = Id<'tournaments'>;
+export enum TournamentActionKey {
+  Edit = 'edit',
+  Delete = 'delete',
+  Publish = 'publish',
+  Cancel = 'cancel',
+  Start = 'start',
+  ConfigureRound = 'configureRound',
+  StartRound = 'startRound',
+  EndRound = 'endRound',
+  End = 'end',
+}
 
 // Helpers
 export { checkTournamentAuth } from './_helpers/checkTournamentAuth';
@@ -20,10 +31,6 @@ export { getTournamentShallow } from './_helpers/getTournamentShallow';
 export { getTournamentUserIds } from './_helpers/getTournamentUserIds';
 
 // Mutations
-export {
-  closeTournamentRound,
-  closeTournamentRoundArgs,
-} from './mutations/closeTournamentRound';
 export {
   createTournament,
   createTournamentArgs,
@@ -37,9 +44,9 @@ export {
   endTournamentArgs,
 } from './mutations/endTournament';
 export {
-  openTournamentRound,
-  openTournamentRoundArgs,
-} from './mutations/openTournamentRound';
+  endTournamentRound,
+  endTournamentRoundArgs,
+} from './mutations/endTournamentRound';
 export {
   publishTournament,
   publishTournamentArgs,
@@ -48,6 +55,10 @@ export {
   startTournament,
   startTournamentArgs,
 } from './mutations/startTournament';
+export {
+  startTournamentRound,
+  startTournamentRoundArgs,
+} from './mutations/startTournamentRound';
 export {
   updateTournament,
   updateTournamentArgs,
