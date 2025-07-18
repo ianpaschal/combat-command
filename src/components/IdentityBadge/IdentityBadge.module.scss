@@ -7,6 +7,10 @@
 
   @include flex.row($gap:  var(--avatar-spacing));
 
+  &[data-flipped="true"] {
+    justify-content: flex-end;
+  }
+
   &_Avatar {
     place-self: center center;
     width: var(--avatar-size);

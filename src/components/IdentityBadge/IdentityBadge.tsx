@@ -60,7 +60,7 @@ export const IdentityBadge = ({
     // TODO: Add claim button
   ];
   return (
-    <div className={clsx(styles.IdentityBadge, sizeClasses[size], className)}>
+    <div className={clsx(styles.IdentityBadge, sizeClasses[size], className)} data-flipped={flipped}>
       {flipped ? elements.reverse() : elements}
       {/* TODO: Add factions */}
     </div>

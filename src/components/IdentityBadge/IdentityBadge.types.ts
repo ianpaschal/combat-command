@@ -22,7 +22,7 @@ export type Identity = {
 };
 
 export type IdentityBadgePlaceholder = {
-  displayName: string;
+  displayName?: string;
   icon?: ReactElement;
   allowClaim?: boolean;
 };
