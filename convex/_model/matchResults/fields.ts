@@ -5,12 +5,7 @@ import { fowV4GameSystemConfig } from '../fowV4/fowV4GameSystemConfig';
 import { fowV4MatchResultDetails } from '../fowV4/fowV4MatchResultDetails';
 
 export const editableFields = {
-  // Tournament
   tournamentPairingId: v.optional(v.id('tournamentPairings')),
-  // Denormalized so that we can filter match results by tournament.
-  // The duplicate data is worth the efficiency in querying.
-  // Calculated from tournamentPairingId.
-  tournamentId: v.optional(v.id('tournaments')),
 
   // Players
   player0UserId: v.optional(v.id('users')),
@@ -30,6 +25,10 @@ export const editableFields = {
 };
 
 export const computedFields = {
+  // Denormalized so that we can filter match results by tournament.
+  // The duplicate data is worth the efficiency in querying.
+  // Calculated from tournamentPairingId.
+  tournamentId: v.optional(v.id('tournaments')),
   player0Confirmed: v.optional(v.boolean()),
   player1Confirmed: v.optional(v.boolean()),
   modifiedAt: v.optional(v.number()),
