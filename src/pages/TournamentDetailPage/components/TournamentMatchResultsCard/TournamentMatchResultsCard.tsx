@@ -2,12 +2,12 @@ import { ReactElement, useState } from 'react';
 import clsx from 'clsx';
 import { Swords } from 'lucide-react';
 
+import { EmptyState } from '~/components/EmptyState';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { MatchResultCard } from '~/components/MatchResultCard';
 import { useTournament } from '~/components/TournamentProvider';
 import { useGetMatchResultsByTournamentRound } from '~/services/matchResults';
 import { TournamentDetailCard } from '../TournamentDetailCard';
-import { TournamentTabEmptyState } from '../TournamentTabEmptyState';
 
 import styles from './TournamentMatchResultsCard.module.scss';
 
@@ -60,7 +60,7 @@ export const TournamentMatchResultsCard = ({
         </div>
       ) : (
         showEmptyState ? (
-          <TournamentTabEmptyState icon={<Swords />} />
+          <EmptyState icon={<Swords />} />
         ) : (
           <div className={styles.TournamentMatchResultsCard_MatchResults}>
             {(matchResults || []).map((matchResult) => (

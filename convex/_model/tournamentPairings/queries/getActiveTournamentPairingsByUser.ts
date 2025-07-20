@@ -6,6 +6,7 @@ import { deepenTournamentPairing, TournamentPairingDeep } from '../_helpers/deep
 
 export const getActiveTournamentPairingsByUserArgs = v.object({
   userId: v.id('users'),
+  round: v.optional(v.number()),
 });
 
 /**
@@ -37,8 +38,10 @@ export const getActiveTournamentPairingsByUser = async (
   return (await Promise.all(tournamentPairings.map(async (tournamentPairing) => {
     const tournament = activeTournaments.find((activeTournament) => activeTournament._id === tournamentPairing.tournamentId);
 
-    // If pairing belongs to an inactive tournament OR an active tournament but not the current round, exclude it:
-    if (!tournament || tournament.currentRound !== tournamentPairing.round) {
+    const round = args.round ?? tournament?.currentRound;
+
+    // If pairing belongs to an inactive tournament OR an active tournament but not the correct round, exclude it:
+    if (!tournament || round !== tournamentPairing.round) {
       return null;
     }
 

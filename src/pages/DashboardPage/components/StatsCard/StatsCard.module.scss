@@ -1,0 +1,8 @@
+@use "/src/style/flex";
+@use "/src/style/variants";
+@use "/src/style/variables";
+
+.StatsCard {
+  @include flex.column;
+  @include variants.card;
+}

@@ -76,12 +76,17 @@ export const createTestTournamentMatchResults = async (
         playerData.player1Placeholder = 'Bye';
       }
 
-      const matchResultId = await ctx.db.insert('matchResults', createMockFowV4MatchResultData({
-        ...playerData,
-        tournamentPairingId: pairing._id,
-        gameSystemConfig: tournament.gameSystemConfig,
-        gameSystemId: tournament.gameSystemId,
-      }));
+      // TODO: Replace with actual call to the create mutation
+      const matchResultId = await ctx.db.insert('matchResults', {
+        ...createMockFowV4MatchResultData({
+          ...playerData,
+          tournamentPairingId: pairing._id,
+     
+          gameSystemConfig: tournament.gameSystemConfig,
+          gameSystemId: tournament.gameSystemId,
+        }),
+        tournamentId: tournament._id,
+      });
 
       if (matchResultId) {
         matchResultIds.push(matchResultId);

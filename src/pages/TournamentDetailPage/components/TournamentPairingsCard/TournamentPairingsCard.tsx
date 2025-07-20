@@ -2,6 +2,7 @@ import { ReactElement, useState } from 'react';
 import clsx from 'clsx';
 import { Zap } from 'lucide-react';
 
+import { EmptyState } from '~/components/EmptyState';
 import { Button } from '~/components/generic/Button';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { Table } from '~/components/generic/Table';
@@ -9,7 +10,6 @@ import { useTournamentActions } from '~/components/TournamentActionsProvider/Tou
 import { useTournament } from '~/components/TournamentProvider';
 import { useGetTournamentPairings } from '~/services/tournamentPairings';
 import { TournamentDetailCard } from '../TournamentDetailCard';
-import { TournamentTabEmptyState } from '../TournamentTabEmptyState';
 import { getTournamentPairingTableConfig } from './TournamentPairingsCard.utils';
 
 import styles from './TournamentPairingsCard.module.scss';
@@ -67,13 +67,13 @@ export const TournamentPairingsCard = ({
           </div>
         ) : (
           showEmptyState ? (
-            <TournamentTabEmptyState icon={<Zap />}>
+            <EmptyState icon={<Zap />}>
               {actions?.configureRound && (
                 <Button onClick={actions.configureRound.handler}>
                   {actions.configureRound.label}
                 </Button>
               )}
-            </TournamentTabEmptyState>
+            </EmptyState>
           ) : (
             <Table columns={columns} rows={rows} rowClassName={styles.TournamentPairingsCard_Row} />
           )

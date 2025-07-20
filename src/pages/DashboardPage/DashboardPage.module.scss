@@ -1,0 +1,50 @@
+@use "/src/style/flex";
+@use "/src/style/text";
+@use "/src/style/variables";
+@use "/src/style/corners";
+@use "/src/style/shadows";
+@use "/src/style/borders";
+
+.DashboardPage {
+  flex-grow: 1;
+  gap: 1rem;
+  min-height: 0;
+
+  &[data-orientation="horizontal"] {
+    display: grid;
+    grid-template-areas: "tournaments matchResults stats";
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+  }
+
+  &[data-orientation="vertical"] {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &_Tournaments {
+    grid-area: tournaments;
+    flex-grow: 1;
+  }
+
+  &_MatchResults {
+    grid-area: matchResults;
+    flex-grow: 1;
+  }
+
+  &_Stats {
+    grid-area: stats;
+    flex-grow: 1;
+  }
+
+  &_Tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    flex-grow: 1;
+    gap: 0.5rem;
+  }
+
+  &_TabTrigger {
+    @include flex.centered;
+  }
+}

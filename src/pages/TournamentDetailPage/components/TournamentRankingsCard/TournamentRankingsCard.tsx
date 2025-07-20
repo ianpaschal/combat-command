@@ -2,6 +2,7 @@ import { ReactElement, useState } from 'react';
 import clsx from 'clsx';
 import { Trophy } from 'lucide-react';
 
+import { EmptyState } from '~/components/EmptyState';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { Table } from '~/components/generic/Table';
 import { useTournamentCompetitors } from '~/components/TournamentCompetitorsProvider';
@@ -9,7 +10,6 @@ import { useTournament } from '~/components/TournamentProvider';
 import { getTournamentRankingTableConfig, RankingRow } from '~/pages/TournamentDetailPage/components/TournamentRankingsCard/TournamentRankingsCard.utils';
 import { useGetTournamentRankings } from '~/services/tournaments';
 import { TournamentDetailCard } from '../TournamentDetailCard';
-import { TournamentTabEmptyState } from '../TournamentTabEmptyState';
 
 import styles from './TournamentRankingsCard.module.scss';
 
@@ -97,7 +97,7 @@ export const TournamentRankingsCard = ({
         </div>
       ) : (
         showEmptyState ? (
-          <TournamentTabEmptyState icon={<Trophy />} />
+          <EmptyState icon={<Trophy />} />
         ) : (
           <Table columns={columns} rows={rows} rowClassName={styles.TournamentRankingsCard_Row} />
         )

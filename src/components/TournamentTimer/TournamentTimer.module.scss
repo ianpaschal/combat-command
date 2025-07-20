@@ -20,13 +20,8 @@
   --digit-width: 1.5rem;
 
   @include flex.column($gap: 0);
-  @include borders.normal;
-  @include shadows.elevated;
-  @include corners.normal;
 
-  min-width: 17.5rem; // Hardcoded for simplicity
   height: min-content;
-  min-height: 8rem; // Hardcoded for simplicity
   background-color: var(--card-bg);
 
   &_TimeSection {
@@ -39,7 +34,7 @@
     grid-template-rows: 1rem var(--digit-height) 1rem;
     gap: 1rem;
 
-    padding: calc(1rem - var(--border-width));
+    padding: var(--container-padding-x);
 
     color: var(--text-color-default);
   }
@@ -130,7 +125,7 @@
     @include flex.row($gap: 0.25rem, $xAlign: center);
     @include borders.normal($side: top);
 
-    padding: 0.5rem;
+    padding: 0.5rem var(--container-padding-x);
   }
 
   &_LoadingIcon {
