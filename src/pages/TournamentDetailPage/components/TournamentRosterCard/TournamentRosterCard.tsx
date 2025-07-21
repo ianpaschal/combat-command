@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 
 import { useAuth } from '~/components/AuthProvider';
+import { EmptyState } from '~/components/EmptyState';
 import { Button } from '~/components/generic/Button';
 import { toast } from '~/components/ToastProvider';
 import { TournamentCompetitorCreateDialog, useTournamentCompetitorCreateDialog } from '~/components/TournamentCompetitorCreateDialog';
@@ -21,7 +22,6 @@ import { useCreateTournamentCompetitor, useGetTournamentCompetitorsByTournament 
 import { usePublishTournament } from '~/services/tournaments';
 import { PATHS } from '~/settings';
 import { TournamentDetailCard } from '../TournamentDetailCard';
-import { TournamentTabEmptyState } from '../TournamentTabEmptyState';
 
 import styles from './TournamentRosterCard.module.scss';
 
@@ -129,7 +129,7 @@ export const TournamentRosterCard = ({
         </div>
       ) : (
         showEmptyState ? (
-          <TournamentTabEmptyState {...emptyStateProps} />
+          <EmptyState {...emptyStateProps} />
         ) : (
           <TournamentRoster className={styles.TournamentRoster_CompetitorList} />
         )

@@ -1,0 +1,39 @@
+@use "/src/style/flex";
+@use "/src/style/variants";
+@use "/src/style/variables";
+@use "/src/style/text";
+@use "/src/style/borders";
+@use "/src/style/corners";
+
+.TournamentsList {
+  @include flex.column($gap: 0);
+  @include variants.card;
+
+  overflow: hidden;
+  min-height: 0;
+
+  &_ScrollArea {
+    flex-grow: 1;
+  }
+
+  &_List {
+    @include flex.column($gap: 0.5rem);
+
+    flex-grow: 1;
+    height: 100%;
+    padding: 0.5rem;
+
+    &_ViewAllButton {
+      @include flex.centered;
+
+      flex-grow: 1;
+      padding: 1rem;
+    }
+  }
+
+  &_EmptyState {
+    @include flex.centered;
+
+    flex-grow: 1;
+  }
+}

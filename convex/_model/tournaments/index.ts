@@ -83,8 +83,13 @@ export {
 } from './queries/getTournamentRankings';
 export {
   getTournaments,
+  getTournamentsArgs,
 } from './queries/getTournaments';
 export {
   getTournamentsByStatus,
   getTournamentsByStatusArgs,
 } from './queries/getTournamentsByStatus';
+export {
+  getTournamentsByUser,
+  getTournamentsByUserArgs,
+} from './queries/getTournamentsByUser';

@@ -7,8 +7,18 @@ export const getTournament = query({
 });
 
 export const getTournaments = query({
-  args: {},
+  args: model.getTournamentsArgs,
   handler: model.getTournaments,
+});
+
+export const getTournamentsByStatus = query({
+  args: model.getTournamentsByStatusArgs,
+  handler: model.getTournamentsByStatus,
+});
+
+export const getTournamentsByUser = query({
+  args: model.getTournamentsByUserArgs,
+  handler: model.getTournamentsByUser,
 });
 
 export const getTournamentOpenRound = query({

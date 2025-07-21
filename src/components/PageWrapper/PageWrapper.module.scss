@@ -58,13 +58,13 @@ $header-height: 2.5rem;
 
     height: inherit;
     margin: 0 auto;
-    padding: 1rem var(--modal-outer-gutter);
+    padding: 1rem var(--modal-outer-gutter) var(--modal-outer-gutter);
   }
 
   &_Header {
     @include flex.row;
 
-    height: $header-height;
+    min-height: $header-height;
   }
 
   &_Body {

@@ -41,6 +41,7 @@ export interface FowV4MatchResultFormProps {
   id: string;
   className?: string;
   matchResultId?: MatchResultId;
+  tournamentPairingId?: TournamentPairingId;
   onSuccess?: () => void;
 }
 
@@ -48,6 +49,7 @@ export const FowV4MatchResultForm = ({
   id,
   className,
   matchResultId,
+  tournamentPairingId: forcedTournamentPairingId,
   onSuccess,
 }: FowV4MatchResultFormProps): JSX.Element => {
   const user = useAuth();
@@ -60,7 +62,7 @@ export const FowV4MatchResultForm = ({
   const [
     tournamentPairingId,
     setTournamentPairingId,
-  ] = useAsyncState<TournamentPairingId | 'single'>('single', matchResult?.tournamentPairingId);
+  ] = useAsyncState<TournamentPairingId | 'single'>('single', forcedTournamentPairingId ?? matchResult?.tournamentPairingId);
 
   const {
     open: openConfirmMatchResultDialog,
@@ -157,7 +159,7 @@ export const FowV4MatchResultForm = ({
               options={resultForOptions}
               value={tournamentPairingId}
               onChange={handleChangeResultFor}
-              disabled={!!matchResult}
+              disabled={!!forcedTournamentPairingId || !!matchResult}
             />
           </div>
           <Separator />
