@@ -30,11 +30,22 @@ export const TournamentPairingRow = ({
       className={clsx(styles.TournamentPairingRow, className)}
       data-orientation={orientation}
     >
-      <IdentityBadge flipped={orientation === 'horizontal'} loading={loading} {...competitor0Props} />
+      <IdentityBadge
+        className={styles.TournamentPairingRow_Competitor0}
+        size={orientation === 'vertical' ? 'small' : 'normal'}
+        flipped={orientation === 'horizontal'}
+        loading={loading}
+        {...competitor0Props}
+      />
       <span className={styles.TournamentPairingRow_Versus}>
         VS
       </span>
-      <IdentityBadge loading={loading} {...competitor1Props} />
+      <IdentityBadge
+        className={styles.TournamentPairingRow_Competitor1}
+        size={orientation === 'vertical' ? 'small' : 'normal'}
+        loading={loading}
+        {...competitor1Props}
+      />
     </div>
   );
 };
