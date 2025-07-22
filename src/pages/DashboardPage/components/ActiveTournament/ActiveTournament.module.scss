@@ -6,7 +6,6 @@
 
 .ActiveTournament {
   @include flex.column($gap: 0);
-  @include variants.card;
 
   overflow: hidden;
   min-height: 0;
