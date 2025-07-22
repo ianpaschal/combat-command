@@ -40,7 +40,7 @@ export const TournamentsList = ({
         <ScrollArea className={clsx(styles.TournamentsList_ScrollArea, className)}>
           <div className={styles.TournamentsList_List}>
             {tournaments.slice(0, limit).map((tournament) => (
-              <TournamentCard tournament={tournament} />
+              <TournamentCard key={tournament._id} tournament={tournament} />
             ))}
             {tournaments.length > limit && (
               <div className={styles.TournamentsList_List_ViewAllButton} onClick={handleViewMore}>
