@@ -31,9 +31,10 @@ export const Form = <T extends FieldValues>({
   useBlocker: block = true,
   onSubmit,
 }: FormProps<T>) => {
-  const { isDirty } = form.formState;
+  const { dirtyFields } = form.formState;
   const blockNavigation = useRef(true);
   const navigation = useNavigation();
+  const isDirty = Object.keys(dirtyFields).length > 0;
   const blocker = useBlocker(() => block && isDirty && blockNavigation.current);
   const handleSubmit = async (e: BaseSyntheticEvent): Promise<void> => {
     e.stopPropagation();
