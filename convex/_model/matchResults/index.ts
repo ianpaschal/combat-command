@@ -44,6 +44,7 @@ export {
 } from './queries/getMatchResult';
 export {
   getMatchResults,
+  getMatchResultsArgs,
 } from './queries/getMatchResults';
 export {
   getMatchResultsByTournament,
