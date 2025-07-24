@@ -28,15 +28,11 @@ export const TournamentMatchResultsCard = ({
   const showLoadingState = loading;
   const showEmptyState = !loading && !matchResults?.length;
 
-  const getRoundIndexes = (): number[] => {
-    if (tournament.lastRound !== undefined) {
-      return Array.from({ length: tournament.lastRound + 1 }, (_, i) => i);
-    }
-    return [0];
-  };
-  const roundOptions = getRoundIndexes().map((round) => ({
-    label: `Round ${round + 1}`,
-    value: round,
+  const roundOptions = Array.from({
+    length: (tournament.currentRound ?? tournament.lastRound ?? 0) + 1,
+  }, (_, i) => ({
+    label: `Round ${i + 1}`,
+    value: i,
   }));
 
   const getPrimaryButtons = (): ReactElement[] | undefined => [

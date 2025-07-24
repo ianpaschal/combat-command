@@ -99,6 +99,7 @@ export const useActions = (openDialog: (data?: ConfirmationDialogData) => void):
     tournamentId: tournament._id,
   });
   const isOrganizer = !!user && tournament.organizerUserIds.includes(user._id);
+  const isPlayer = !!user && tournament.playerUserIds.includes(user._id);
   const isBetweenRounds = tournament.status === 'active' && !openRound;
   const hasNextRound = tournament.nextRound !== undefined;
 
@@ -176,7 +177,7 @@ export const useActions = (openDialog: (data?: ConfirmationDialogData) => void):
     {
       key: TournamentActionKey.SubmitMatchResult,
       label: 'Submit Match Result',
-      available: !!openRound,
+      available: !!openRound && (isOrganizer || isPlayer),
       handler: () => openMatchResultCreateDialog(),
     },
     {
