@@ -131,11 +131,11 @@ export const aggregateFowV4TournamentData = async (
   }
 
   return {
-    players: flattenFowV4StatMap(playerStats).filter(({ gamesPlayed }) => gamesPlayed).map(({ id, stats }) => ({
+    players: flattenFowV4StatMap(playerStats).map(({ id, stats }) => ({
       id,
       stats,
     })),
-    competitors: flattenFowV4StatMap(competitorStats).filter(({ gamesPlayed }) => gamesPlayed).map(({ id, stats }) => ({
+    competitors: flattenFowV4StatMap(competitorStats).map(({ id, stats }) => ({
       id,
       stats,
       ...competitorMeta[id],
