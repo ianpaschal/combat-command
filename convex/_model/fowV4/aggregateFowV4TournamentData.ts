@@ -84,7 +84,7 @@ export const aggregateFowV4TournamentData = async (
       tournamentCompetitor0Id,
       tournamentCompetitor1Id,
     } = tournamentPairing;
-    const wasBye = !table || !tournamentCompetitor1Id;
+    const wasBye = table === null || !tournamentCompetitor1Id;
     if (wasBye) {
       competitorMeta[tournamentCompetitor0Id].byeRounds.push(round);
     } else {
