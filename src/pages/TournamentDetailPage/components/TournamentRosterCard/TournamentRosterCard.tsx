@@ -93,7 +93,7 @@ export const TournamentRosterCard = ({
         </Button>,
       ];
     }
-    if (tournament.status === 'active' && tournament.currentRound === undefined && isOrganizer) {
+    if (['published', 'active'].includes(tournament.status) && tournament.currentRound === undefined && isOrganizer) {
       return [
         <Button key="create-competitor" onClick={openTournamentCompetitorCreateDialog}>
           <UserPlus />{`Add ${tournament.useTeams ? 'Team' : 'Player'}`}

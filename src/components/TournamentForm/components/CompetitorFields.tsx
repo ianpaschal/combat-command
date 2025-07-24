@@ -48,12 +48,20 @@ export const CompetitorFields = ({
         competitorSize: 1,
         maxCompetitors: totalPlayers,
         useNationalTeams: false,
+        roundStructure: {
+          ...prev.roundStructure,
+          pairingTime: 0,
+        },
       }));
     } else {
       reset((prev) => ({
         ...prev,
         competitorSize: 2,
         maxCompetitors: Math.ceil(totalPlayers / 2),
+        roundStructure: {
+          ...prev.roundStructure,
+          pairingTime: 30,
+        },
       }));
     }
   };
