@@ -1,9 +1,6 @@
 import { Id } from '../../_generated/dataModel';
 import { QueryCtx } from '../../_generated/server';
 import { getRange, Range } from '../common/_helpers/getRange';
-import { getMatchResultsByTournament } from '../matchResults/queries/getMatchResultsByTournament';
-import { getTournamentCompetitorsByTournament } from '../tournamentCompetitors';
-import { getTournamentPairings } from '../tournamentPairings';
 import { createFowV4TournamentExtendedStatMap } from './createFowV4TournamentExtendedStatMap';
 import { createTournamentCompetitorMetaMap } from './createTournamentCompetitorMetaMap';
 import { divideFowV4BaseStats } from './divideFowV4BaseStats';
@@ -30,9 +27,15 @@ export const aggregateFowV4TournamentData = async (
   range?: Range | number,
 ) => {
   // ---- 1. Gather base data ----
-  const tournamentCompetitors = await getTournamentCompetitorsByTournament(ctx, { tournamentId }); // TODO: No reason to get them not-by-tournament
-  const tournamentPairings = await getTournamentPairings(ctx, { tournamentId });
-  const matchResults = await getMatchResultsByTournament(ctx, { tournamentId });
+  const tournamentCompetitors = await ctx.db.query('tournamentCompetitors')
+    .withIndex('by_tournament_id', (q) => q.eq('tournamentId', tournamentId))
+    .collect();
+  const tournamentPairings = await ctx.db.query('tournamentPairings')
+    .withIndex('by_tournament_id', (q) => q.eq('tournamentId', tournamentId))
+    .collect();
+  const matchResults = await ctx.db.query('matchResults')
+    .withIndex('by_tournament_id', (q) => q.eq('tournamentId', tournamentId))
+    .collect();
 
   // ---- End of async portion ----
 
@@ -40,7 +43,7 @@ export const aggregateFowV4TournamentData = async (
   const tournamentCompetitorIds = tournamentCompetitors.map((c) => c._id);
   const tournamentPlayerIds = Array.from(new Set(tournamentCompetitors.reduce((acc, c) => [
     ...acc,
-    ...c.players.map((p) => p.user._id),
+    ...c.players.map((p) => p.userId),
   ], [] as Id<'users'>[])));
   // TODO: Replace the above with a re-usable function
 
@@ -112,14 +115,14 @@ export const aggregateFowV4TournamentData = async (
   // ---- 7. Compute stats for each competitor ----
   for (const tournamentCompetitor of tournamentCompetitors) {
     const id = tournamentCompetitor._id;
-    const gamesPlayed = tournamentCompetitor.players.reduce((acc, { user }) => (
-      acc + playerStats[user._id].gamesPlayed
+    const gamesPlayed = tournamentCompetitor.players.reduce((acc, { userId }) => (
+      acc + playerStats[userId].gamesPlayed
     ), 0);
-    const total = sumFowV4BaseStats(tournamentCompetitor.players.map(({ user }) => (
-      playerStats[user._id].total
+    const total = sumFowV4BaseStats(tournamentCompetitor.players.map(({ userId }) => (
+      playerStats[userId].total
     )));
-    const total_opponent = sumFowV4BaseStats(tournamentCompetitor.players.map(({ user }) => (
-      playerStats[user._id].total_opponent
+    const total_opponent = sumFowV4BaseStats(tournamentCompetitor.players.map(({ userId }) => (
+      playerStats[userId].total_opponent
     )));
     competitorStats[id] = {
       total,
