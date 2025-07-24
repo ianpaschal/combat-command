@@ -7,7 +7,7 @@ export const getMatchResult = query({
 });
 
 export const getMatchResults = query({
-  args: {},
+  args: model.getMatchResultsArgs,
   handler: model.getMatchResults,
 });
 
