@@ -1,4 +1,5 @@
 import { ReactElement } from 'react';
+import { Trophy } from 'lucide-react';
 
 import {
   Tournament,
@@ -7,6 +8,7 @@ import {
   TournamentPairing,
   UserId,
 } from '~/api';
+import { EmptyState } from '~/components/EmptyState';
 import { Pulsar } from '~/components/generic/Pulsar';
 import { Table } from '~/components/generic/Table';
 import { IdentityBadge } from '~/components/IdentityBadge';
@@ -48,35 +50,39 @@ export const renderTitle = (title: string): ReactElement => (
 
 export const renderRankings = (
   tournament: Tournament,
-  competitors?: TournamentCompetitorRanked[],
+  competitors: TournamentCompetitorRanked[] = [],
 ): ReactElement => (
-  <Table
-    className={styles.ActiveTournament_Rankings}
-    rowClassName={styles.ActiveTournament_Rankings_Row}
-    rows={competitors ?? []}
-    columns={[
-      {
-        key: 'rank',
-        label: 'Rank',
-        width: 40,
-        align: 'center',
-        renderCell: (r) => (
-          <div>
-            {tournament.lastRound !== undefined ? r.rank + 1 : '-'}
-          </div>
-        ),
-      },
-      {
-        key: 'identity',
-        label: tournament?.useTeams ? 'Team' : 'Player',
-        renderCell: (r) => (
-          <IdentityBadge
-            size="small"
-            competitorId={r.id}
-            className={styles.TournamentRankingsCard_IdentityBadge}
-          />
-        ),
-      },
-    ]}
-  />
+  !competitors.length ? (
+    <EmptyState icon={<Trophy />} />
+  ) : (
+    <Table
+      className={styles.ActiveTournament_Rankings}
+      rowClassName={styles.ActiveTournament_Rankings_Row}
+      rows={competitors ?? []}
+      columns={[
+        {
+          key: 'rank',
+          label: 'Rank',
+          width: 40,
+          align: 'center',
+          renderCell: (r) => (
+            <div>
+              {tournament.lastRound !== undefined ? r.rank + 1 : '-'}
+            </div>
+          ),
+        },
+        {
+          key: 'identity',
+          label: tournament?.useTeams ? 'Team' : 'Player',
+          renderCell: (r) => (
+            <IdentityBadge
+              size="small"
+              competitorId={r.id}
+              className={styles.TournamentRankingsCard_IdentityBadge}
+            />
+          ),
+        },
+      ]}
+    />
+  )
 );
