@@ -1,9 +1,13 @@
 import { api } from '~/api';
-import { createMutationHook, createQueryHook } from '~/services/utils';
+import {
+  createMutationHook,
+  createPaginatedQueryHook,
+  createQueryHook,
+} from '~/services/utils';
 
 // Basic Queries
 export const useGetMatchResult = createQueryHook(api.matchResults.getMatchResult);
-export const useGetMatchResults = createQueryHook(api.matchResults.getMatchResults);
+export const useGetMatchResults = createPaginatedQueryHook(api.matchResults.getMatchResults);
 
 // Special Queries
 export const useGetMatchResultsByTournament = createQueryHook(api.matchResults.getMatchResultsByTournament);

@@ -30,8 +30,8 @@ export const DashboardPage = (): JSX.Element => {
     <PageWrapper title="Dashboard" fitToWindow footer={!isDesktop ? (
       <div className={styles.DashboardPage_Tabs}>
         {Object.entries(tabs).map(([key, icon]) => (
-          <div className={styles.DashboardPage_TabTrigger}>
-            <Button key={key} variant="ghost" size="large" onClick={() => setView(key as TabKey)}>
+          <div key={key} className={styles.DashboardPage_TabTrigger}>
+            <Button variant="ghost" size="large" onClick={() => setView(key as TabKey)}>
               {icon}
             </Button>
           </div>

@@ -23,7 +23,10 @@ export const MatchResultsPage = (): JSX.Element => {
   const showFilters = false;
   const showAddMatchResultButton = !!user;
   const showButtonText = useWindowWidth() > MIN_WIDTH_TABLET;
-  const { data: matchResults } = useGetMatchResults({});
+  const { data: matchResults, loadMore } = useGetMatchResults({});
+  const handleLoadMore = (): void => {
+    loadMore(10);
+  };
   return (
     <PageWrapper title="Match Results">
       {showFilters && (
@@ -50,6 +53,9 @@ export const MatchResultsPage = (): JSX.Element => {
         {(matchResults || []).map((matchResult) => (
           <MatchResultCard key={matchResult._id} matchResult={matchResult} />
         ))}
+      </div>
+      <div className={styles.List_LoadMoreButton} onClick={handleLoadMore}>
+        <Button>Load More</Button>
       </div>
       {showAddMatchResultButton && (
         <CheckInMatchDialog>

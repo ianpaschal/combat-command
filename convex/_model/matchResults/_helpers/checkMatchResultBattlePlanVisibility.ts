@@ -2,8 +2,6 @@ import { getAuthUserId } from '@convex-dev/auth/server';
 
 import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
-import { getTournamentShallow } from '../../../_model/tournaments';
-import { deepenTournamentPairing } from '../../tournamentPairings';
 
 /**
  * Checks if a match result's battle plans should be visible or not.
@@ -23,17 +21,15 @@ export const checkMatchResultBattlePlanVisibility = async (
     return true;
   }
 
-  const tournamentPairing = await ctx.db.get(matchResult.tournamentPairingId);
-
   // If the match result's pairing has gone missing, treat it the same as a single match:
+  const tournamentPairing = await ctx.db.get(matchResult.tournamentPairingId);
   if (!tournamentPairing) {
     return true;
   }
-  const deepTournamentPairing = await deepenTournamentPairing(ctx, tournamentPairing);
-  const tournament = await getTournamentShallow(ctx, deepTournamentPairing.tournamentId);
 
   // If the match result is not from an on-going tournament, battle plans should be visible:
-  if (tournament?.status !== 'active') {
+  const tournament = await ctx.db.get(tournamentPairing.tournamentId);
+  if (!tournament || tournament?.status !== 'active') {
     return true;
   }
 
@@ -45,7 +41,7 @@ export const checkMatchResultBattlePlanVisibility = async (
     }
 
     // If the requesting user is a player within that pairing, battle plans should be visible:
-    if (deepTournamentPairing.playerUserIds.includes(userId)) {
+    if (matchResult.player0UserId === userId || matchResult.player1UserId === userId) {
       return true;
     }
   }

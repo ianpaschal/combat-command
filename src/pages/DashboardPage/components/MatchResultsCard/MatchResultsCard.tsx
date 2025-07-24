@@ -52,14 +52,12 @@ export const MatchResultsCard = ({
           {(matchResults ?? []).length ? (
             <ScrollArea className={styles.MatchResultsCard_ScrollArea}>
               <div className={styles.MatchResultsCard_List}>
-                {(matchResults ?? []).slice(0, 5).map((matchResult) => (
-                  <MatchResultCard matchResult={matchResult} />
+                {(matchResults ?? []).map((matchResult) => (
+                  <MatchResultCard key={matchResult._id} matchResult={matchResult} />
                 ))}
-                {/* {(tournaments ?? []).length > 5 && ( */}
                 <div className={styles.MatchResultsCard_List_ViewAllButton} onClick={handleViewMore}>
                   <Button>View All<ChevronRight /></Button>
                 </div>
-                {/* )} */}
               </div>
             </ScrollArea>
           ) : (

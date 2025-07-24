@@ -21,6 +21,7 @@ export enum TournamentActionKey {
   StartRound = 'startRound',
   EndRound = 'endRound',
   End = 'end',
+  SubmitMatchResult = 'submitMatchResult',
 }
 
 // Helpers

@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 
 import { ConfirmationDialog, useConfirmationDialog } from '~/components/ConfirmationDialog';
+import { MatchResultCreateDialog } from '~/components/MatchResultCreateDialog';
 import { TournamentActionsContext } from './TournamentActionsProvider.context';
 import { useActions } from './TournamentActionsProvider.hooks';
 
@@ -17,6 +18,7 @@ export const TournamentActionsProvider = ({
     <TournamentActionsContext.Provider value={actions}>
       {children}
       <ConfirmationDialog id={id} />
+      <MatchResultCreateDialog />
     </TournamentActionsContext.Provider>
   );
 };
