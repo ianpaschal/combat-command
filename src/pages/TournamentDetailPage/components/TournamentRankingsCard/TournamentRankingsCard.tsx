@@ -49,7 +49,7 @@ export const TournamentRankingsCard = ({
   }));
   const rows = view === 'players' ? playerRows : competitorRows;
 
-  const showEmptyState = lastRound === undefined;
+  const showEmptyState = lastRound === undefined || !(rankings?.[view] ?? []).length;
   const showLoadingState = loading;
 
   const getRoundIndexes = (): number[] => {
