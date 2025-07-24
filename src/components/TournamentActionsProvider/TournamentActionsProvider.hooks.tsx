@@ -5,6 +5,7 @@ import { TournamentActionKey } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
 import { ConfirmationDialogData } from '~/components/ConfirmationDialog';
 import { Warning } from '~/components/generic/Warning';
+import { useMatchResultCreateDialog } from '~/components/MatchResultCreateDialog';
 import { toast } from '~/components/ToastProvider';
 import { useTournament } from '~/components/TournamentProvider';
 import { useGetTournamentCompetitorsByTournament } from '~/services/tournamentCompetitors';
@@ -48,6 +49,7 @@ export const useActions = (openDialog: (data?: ConfirmationDialogData) => void):
   const configureTournamentRound = (): void => {
     navigate(generatePath(PATHS.tournamentPairings, { id: tournament._id }));
   };
+  const { open: openMatchResultCreateDialog } = useMatchResultCreateDialog();
   const { mutation: deleteTournament } = useDeleteTournament({
     onSuccess: (): void => {
       toast.success(`${tournament.title} deleted!`);
@@ -170,6 +172,12 @@ export const useActions = (openDialog: (data?: ConfirmationDialogData) => void):
       label: `Start Round ${nextRoundLabel}`,
       available: isOrganizer && isBetweenRounds && hasNextRound && (nextRoundPairings ?? []).length > 0,
       handler: () => startTournamentRound({ id: tournament._id }),
+    },
+    {
+      key: TournamentActionKey.SubmitMatchResult,
+      label: 'Submit Match Result',
+      available: !!openRound,
+      handler: () => openMatchResultCreateDialog(),
     },
     {
       key: TournamentActionKey.EndRound,
