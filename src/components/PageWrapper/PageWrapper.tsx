@@ -25,7 +25,7 @@ export interface PageWrapperProps {
 export const PageWrapper = ({
   footer: footerChildren,
   children,
-  fitToWindow = false, // WARNING! Can't be used with footer
+  fitToWindow = false,
   maxWidth = MAX_WIDTH,
   showBackButton = false,
   title,
@@ -49,9 +49,6 @@ export const PageWrapper = ({
       navigate(`${pathname.split('/').slice(0, -1).join('/')}`);
     }
   };
-  if (fitToWindow && footerChildren) {
-    console.warn('PageWrapper: fitToWindow can\'t be used with footer!');
-  }
 
   const bannerBackgroundStyle = bannerBackgroundUrl ? {
     backgroundImage: `url(${bannerBackgroundUrl}`,

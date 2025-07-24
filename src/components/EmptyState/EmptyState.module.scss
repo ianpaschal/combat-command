@@ -2,7 +2,7 @@
 @use "/src/style/flex";
 @use "/src/style/text";
 
-.TournamentTabEmptyState {
+.EmptyState {
   @include flex.stretchy;
   @include flex.column($xAlign: center, $yAlign: center);
   @include text.ui($muted: true);

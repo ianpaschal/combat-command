@@ -27,11 +27,27 @@
   }
 
   &[data-orientation="vertical"] {
-    @include flex.column($gap: 0.5rem);
+    display: grid;
+    grid-template-areas:
+      "identity0 identity0"
+      "versus ."
+      "identity1 identity1";
+    grid-template-columns: 2rem 1fr;
+    grid-template-rows: 2rem 1rem 2rem;
+    flex-grow: 1;
+    gap: 0.5rem;
 
     .TournamentPairingRow_Versus {
-      justify-self: start;
-      width: 2.5rem;
+      grid-area: versus;
+      place-self: center;
+    }
+
+    .TournamentPairingRow_Competitor0 {
+      grid-area: identity0;
+    }
+
+    .TournamentPairingRow_Competitor1 {
+      grid-area: identity1;
     }
   }
 }

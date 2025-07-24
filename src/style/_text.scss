@@ -38,6 +38,17 @@
   }
 }
 
+@mixin large($bold: false, $muted: false) {
+  font-size: 1.5rem;
+  font-weight: 300;
+  line-height: 2rem;
+  color: var(--text-color-default);
+
+  @if $muted == true {
+    color: var(--text-color-muted);
+  }
+}
+
 // - `text.uiBold` 0.875rem x 1.25rem, 700
 // - `text.uiMuted` 0.875rem x 1.25rem, 700
 // - `text.normal` 0.875rem, muted color

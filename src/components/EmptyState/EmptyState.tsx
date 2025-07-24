@@ -6,31 +6,31 @@ import {
 import clsx from 'clsx';
 import { Satellite } from 'lucide-react';
 
-import styles from './TournamentTabEmptyState.module.scss';
+import styles from './EmptyState.module.scss';
 
-export interface TournamentTabEmptyStateProps {
+export interface EmptyStateProps {
   className?: string;
   children?: ReactNode;
   icon?: ReactElement;
   message?: string;
 }
 
-export const TournamentTabEmptyState = ({
+export const EmptyState = ({
   className,
   message,
   icon,
   children,
-}: TournamentTabEmptyStateProps): JSX.Element => {
+}: EmptyStateProps): JSX.Element => {
   const iconProps = {
-    className: styles.TournamentTabEmptyState_Icon,
+    className: styles.EmptyState_Icon,
     size: 96,
     absoluteStrokeWidth: true,
     strokeWidth: 4,
   };
   return (
-    <div className={clsx(styles.TournamentTabEmptyState, className)}>
+    <div className={clsx(styles.EmptyState, className)}>
       {icon ? cloneElement(icon, iconProps) : <Satellite {...iconProps} />}
-      <div className={styles.TournamentTabEmptyState_Message}>
+      <div className={styles.EmptyState_Message}>
         {message ?? 'Nothing to show yet.'}
       </div>
       {children && (

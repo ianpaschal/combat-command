@@ -9,7 +9,7 @@ export type ColumnDef<T extends RowData> = {
   label?: string;
   renderCell?: (row: T, index: number) => ReactNode;
   renderHeader?: () => ReactNode;
-  width?: number;
+  width?: number | 'auto';
 };
 
 export type Row<T extends RowData> = [T, number];

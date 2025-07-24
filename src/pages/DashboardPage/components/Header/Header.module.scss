@@ -1,0 +1,27 @@
+@use "/src/style/flex";
+@use "/src/style/variables";
+@use "/src/style/text";
+@use "/src/style/borders";
+
+.Header {
+  @include flex.row;
+  @include borders.normal($side: bottom);
+
+  box-sizing: unset;
+  min-height: 2.5rem;
+  padding:
+    calc(1rem - var(--border-width))
+    calc(1rem - var(--border-width))
+    1rem
+    var(--container-padding-x);
+
+  h2 {
+    @include text.single-line;
+  }
+
+  &_Actions {
+    @include flex.row;
+
+    margin-left: auto;
+  }
+}

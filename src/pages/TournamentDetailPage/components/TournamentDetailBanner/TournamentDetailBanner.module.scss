@@ -1,5 +1,8 @@
 @use "/src/style/flex";
 @use "/src/style/text";
+@use "/src/style/borders";
+@use "/src/style/shadows";
+@use "/src/style/corners";
 
 .TournamentDetailBanner {
   display: flex;
@@ -33,6 +36,11 @@
   &_TimerSection {
     @include flex.centered;
 
+    @include borders.normal;
+    @include shadows.elevated;
+    @include corners.normal;
+
+    overflow: hidden;
     grid-area: timer;
     align-items: stretch;
   }
