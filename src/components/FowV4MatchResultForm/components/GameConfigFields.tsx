@@ -5,7 +5,7 @@ import {
   fowV4EraOptions,
   fowV4LessonsFromTheFrontVersionOptions,
   fowV4MissionPackOptions,
-  getFowV4MissionMatrixOptionsByMissionPackId,
+  getFowV4MissionsByMissionPackId,
 } from '~/api';
 import { Animate } from '~/components/generic/Animate';
 import { FormField } from '~/components/generic/Form';
@@ -35,7 +35,11 @@ export const GameConfigFields = ({
 
   const missionPackId = watch(`${formPath}.missionPackId`);
 
-  const matrixOptions = getFowV4MissionMatrixOptionsByMissionPackId(missionPackId);
+  const missionOptions = (getFowV4MissionsByMissionPackId(missionPackId) ?? []).map((mission) => ({
+    label: mission.displayName,
+    value: mission.id,
+  }));
+
   return (
     <div className={styles.Root}>
       <div className={styles.CoreConfig}>
@@ -63,8 +67,8 @@ export const GameConfigFields = ({
             <FormField name={`${formPath}.missionPackId`} label="Mission Pack" disabled={fowV4MissionPackOptions.length < 2}>
               <InputSelect options={fowV4MissionPackOptions} />
             </FormField>
-            <FormField name={`${formPath}.missionMatrixId`} label="Mission Matrix" disabled={matrixOptions.length < 2}>
-              <InputSelect options={matrixOptions} />
+            <FormField name={`${formPath}.missionMatrixId`} label="Mission Matrix" disabled={missionOptions.length < 2}>
+              <InputSelect options={missionOptions} />
             </FormField>
             <FormField name={`${formPath}.useExperimentalMissions`} label="Prefer experimental missions">
               <Switch />

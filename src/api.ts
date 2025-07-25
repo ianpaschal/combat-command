@@ -154,5 +154,6 @@ export type { FowV4MissionMatrixId } from '../convex/static/fowV4/missionPacks';
 export {
   getFowV4MissionMatrixesByMissionPackId,
   getFowV4MissionMatrixOptionsByMissionPackId,
+  getFowV4MissionsByMissionPackId,
 } from '../convex/static/fowV4/missionPacks';
 export type { FowV4MissionMatrix } from '../convex/static/fowV4/missionPacks.types';

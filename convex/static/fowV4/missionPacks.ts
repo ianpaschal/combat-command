@@ -402,6 +402,10 @@ export const getFowV4MissionMatrixesByMissionPackId = (id: string): FowV4Mission
   missionPacks.find((missionPack) => missionPack.id === id)?.matrixes
 );
 
+export const getFowV4MissionsByMissionPackId = (id: string): FowV4Mission[] | undefined => (
+  missionPacks.find((missionPack) => missionPack.id === id)?.missions
+);
+
 export const getFowV4MissionMatrixOptionsByMissionPackId = (
   id?: string,
 ): { value: string; label: string; }[] => {
