@@ -28,6 +28,7 @@ import {
 import { TournamentCreatePage } from '~/pages/TournamentCreatePage';
 import { TournamentDetailPage } from '~/pages/TournamentDetailPage';
 import { TournamentEditPage } from '~/pages/TournamentEditPage/TournamentEditPage';
+import { TournamentPairingDetailPage } from '~/pages/TournamentPairingDetailPage';
 import { TournamentPairingsPage } from '~/pages/TournamentPairingsPage';
 import { TournamentsPage } from '~/pages/TournamentsPage';
 import { PATHS } from '~/settings';
@@ -136,6 +137,11 @@ export const routes = [
     path: PATHS.tournamentPairings,
     visibility: [],
     element: <TournamentPairingsPage />,
+  },
+  {
+    path: PATHS.tournamentPairingDetails,
+    visibility: [],
+    element: <TournamentPairingDetailPage />,
   },
   {
     path: PATHS.tournamentEdit,

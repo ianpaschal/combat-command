@@ -1,0 +1,17 @@
+@use "/src/style/flex";
+@use "/src/style/text";
+@use "/src/style/variables";
+@use "/src/style/corners";
+@use "/src/style/variants";
+@use "/src/style/shadows";
+@use "/src/style/borders";
+
+.TournamentPairingDetailPage {
+  @include variants.card;
+
+  display: grid;
+  grid-template-areas: "players" "photos" "details";
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto auto;
+  gap: 1rem;
+}

@@ -1,4 +1,5 @@
 import { ReactElement, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import { Zap } from 'lucide-react';
 
@@ -21,6 +22,7 @@ export interface TournamentPairingsCardProps {
 export const TournamentPairingsCard = ({
   className,
 }: TournamentPairingsCardProps): JSX.Element => {
+  const navigate = useNavigate();
   const { _id: tournamentId, lastRound, roundCount } = useTournament();
   const actions = useTournamentActions();
 
@@ -34,7 +36,7 @@ export const TournamentPairingsCard = ({
     round,
   });
 
-  const columns = getTournamentPairingTableConfig();
+  const columns = getTournamentPairingTableConfig(navigate);
   const rows = (tournamentPairings || []);
 
   const showEmptyState = !loading && !rows.length;
