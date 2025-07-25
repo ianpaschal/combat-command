@@ -67,9 +67,18 @@ export const createTournamentCompetitor = async (
   }
 
   // ---- PRIMARY ACTIONS ----
-  const { ...restArgs } = args;
-  const tournamentCompetitorId = await ctx.db.insert('tournamentCompetitors', {
-    ...restArgs,
+
+  if (tournament.requireRealNames) {
+    for (const { userId } of args.players) {
+      const user = await ctx.db.get(userId);
+      if (user?.nameVisibility && ['hidden', 'friends'].includes(user.nameVisibility)) {
+        await ctx.db.patch(userId, { nameVisibility: 'tournaments' });
+      }
+    }
+  }
+
+  return await ctx.db.insert('tournamentCompetitors', {
+    ...args,
     active: false,
   });
 

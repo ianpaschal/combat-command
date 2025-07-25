@@ -17,13 +17,20 @@ export const checkUserTournamentRelationship = async (
     .withIndex('by_user', (q) => q.eq('userId', userIdB))
     .collect();
 
-  const userATournamentIds = [
-    ...userARegistrations.map((r) => r.tournamentId),
-  ];
+  // Check each tournament for a relationship, return true if one is found
+  for (const { _id, organizerUserIds } of tournaments) {
+    const playerUserIds = await getTournamentUserIds(ctx, _id);
 
-  const userBTournamentIds = [
-    ...userBRegistrations.map((r) => r.tournamentId),
-  ];
+    // Merge all organizer IDs and player IDs into one set
+    const allTournamentUserIds = new Set([
+      ...organizerUserIds,
+      ...playerUserIds,
+    ]);
 
-  return userATournamentIds.some((id) => new Set(userBTournamentIds).has(id));
+    // If the set contains both user IDs, they were at the same tournament
+    if (allTournamentUserIds.has(userIdA) && allTournamentUserIds.has(userIdB)) {
+      return true;
+    }
+  }
+  return false;
 };

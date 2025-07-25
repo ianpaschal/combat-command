@@ -3,8 +3,7 @@ import { getAuthUserId } from '@convex-dev/auth/server';
 import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
 import { getStorageUrl } from '../../common/_helpers/getStorageUrl';
-import { checkUserRelationshipLevel } from './checkUserRelationshipLevel';
-import { formatUserRealName } from './formatUserRealName';
+import { checkUserTournamentRelationship } from './checkUserTournamentRelationship';
 
 /**
  * User with some personal information hidden based on their preferences.
@@ -50,13 +49,24 @@ export const redactUser = async (
   const nameVisibility = typeof user?.nameVisibility === 'number' ? user.nameVisibility : 0;
   const nameVisible = nameVisibility >= relationshipLevel;
 
-  const locationVisibility = typeof user?.locationVisibility === 'number' ? user.locationVisibility : 0;
-  const locationVisible = locationVisibility >= relationshipLevel;
+  // Add name information if allowed
+  if (
+    (user?.nameVisibility === 'public') ||
+    (user?.nameVisibility === 'friends' && hasFriendRelationship) ||
+    (user?.nameVisibility === 'tournaments' && (hasFriendRelationship || hasTournamentRelationship))
+  ) {
+    limitedUser.givenName = user.givenName;
+    limitedUser.familyName = user.familyName;
+  }
 
-  return {
-    ...restFields,
-    avatarUrl,
-    displayName: nameVisible ? formatUserRealName(user) : user.username ?? 'Ghost',
-    countryCode: locationVisible ? user.countryCode : undefined,
-  };
+  // Add location information if allowed
+  if (
+    (user?.locationVisibility === 'public') ||
+    (user?.locationVisibility === 'friends' && hasFriendRelationship) ||
+    (user?.locationVisibility === 'tournaments' && (hasFriendRelationship || hasTournamentRelationship))
+  ) {
+    limitedUser.countryCode = user.countryCode;
+  }
+
+  return limitedUser;
 };

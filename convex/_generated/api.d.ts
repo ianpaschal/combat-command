@@ -177,7 +177,6 @@ import type * as _model_userPreferences_mutations from "../_model/userPreference
 import type * as _model_userPreferences_queries from "../_model/userPreferences/queries.js";
 import type * as _model_userPreferences_table from "../_model/userPreferences/table.js";
 import type * as _model_users__helpers_checkUserAuth from "../_model/users/_helpers/checkUserAuth.js";
-import type * as _model_users__helpers_checkUserRelationshipLevel from "../_model/users/_helpers/checkUserRelationshipLevel.js";
 import type * as _model_users__helpers_checkUserTournamentRelationship from "../_model/users/_helpers/checkUserTournamentRelationship.js";
 import type * as _model_users__helpers_createClaimToken from "../_model/users/_helpers/createClaimToken.js";
 import type * as _model_users__helpers_extractSearchTokens from "../_model/users/_helpers/extractSearchTokens.js";
@@ -422,7 +421,6 @@ declare const fullApi: ApiFromModules<{
   "_model/userPreferences/queries": typeof _model_userPreferences_queries;
   "_model/userPreferences/table": typeof _model_userPreferences_table;
   "_model/users/_helpers/checkUserAuth": typeof _model_users__helpers_checkUserAuth;
-  "_model/users/_helpers/checkUserRelationshipLevel": typeof _model_users__helpers_checkUserRelationshipLevel;
   "_model/users/_helpers/checkUserTournamentRelationship": typeof _model_users__helpers_checkUserTournamentRelationship;
   "_model/users/_helpers/createClaimToken": typeof _model_users__helpers_createClaimToken;
   "_model/users/_helpers/extractSearchTokens": typeof _model_users__helpers_extractSearchTokens;
