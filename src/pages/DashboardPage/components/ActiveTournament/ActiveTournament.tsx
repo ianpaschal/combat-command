@@ -100,12 +100,11 @@ export const ActiveTournament = ({
               <span className={styles.ActiveTournament_OpponentSection_Table}>
                 {(pairing?.table ?? 0) + 1}
               </span>
-              <Button
-                className={styles.ActiveTournament_OpponentSection_CheckInButton}
-                onClick={handleViewMatchResults}
-              >
-                Match Results <ChevronRight />
-              </Button>
+              <CheckInMatchDialog tournamentPairingId={pairing._id}>
+                <Button className={styles.ActiveTournamentCard_OpponentSection_CheckInButton}>
+                  <Plus /> Add Match Result
+                </Button>
+              </CheckInMatchDialog>
             </div>
             <Separator />
           </>
