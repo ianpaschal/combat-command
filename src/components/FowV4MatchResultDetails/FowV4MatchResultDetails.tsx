@@ -27,8 +27,8 @@ export const FowV4MatchResultDetails = ({
   const score = calculateMatchScore(matchResult.details);
   const missionName = matchResult.details.missionName ?? getMission(matchResult.details.missionId)?.displayName;
   const battlePlans: [string, string] = [
-    fowV4BattlePlanOptions.find((option) => option.value === matchResult.details.player0BattlePlan)?.label ?? '',
-    fowV4BattlePlanOptions.find((option) => option.value === matchResult.details.player0BattlePlan)?.label ?? '',
+    fowV4BattlePlanOptions.find((option) => option.value === matchResult.details.player0BattlePlan)?.label ?? 'Hidden',
+    fowV4BattlePlanOptions.find((option) => option.value === matchResult.details.player1BattlePlan)?.label ?? 'Hidden',
   ];
   const unitsLost: [number, number] = [
     matchResult.details.player0UnitsLost,
