@@ -90,7 +90,7 @@ export const ActiveTournament = ({
               </span>
               <CheckInMatchDialog tournamentPairingId={pairing._id}>
                 <Button className={styles.ActiveTournamentCard_OpponentSection_CheckInButton}>
-                  <Plus /> Check-In
+                  <Plus /> Add Match Result
                 </Button>
               </CheckInMatchDialog>
             </div>
