@@ -45,8 +45,8 @@ export const FowV4MatchResultDetails = ({
     matchResult?.player1User?.displayName ?? player1User?.displayName ?? 'Ghost',
   ];
   const battlePlans: [string, string] = [
-    getBattlePlanDisplayName(matchResult.details.player0BattlePlan) ?? 'Hidden',
-    getBattlePlanDisplayName(matchResult.details.player1BattlePlan) ?? 'Hidden',
+    fowV4BattlePlanOptions.find((option) => option.value === matchResult.details.player0BattlePlan)?.label ?? 'Hidden',
+    fowV4BattlePlanOptions.find((option) => option.value === matchResult.details.player1BattlePlan)?.label ?? 'Hidden',
   ];
   const unitsLost: [number, number] = [
     matchResult.details.player0UnitsLost,
