@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import {
-  eraOptions,
-  getMissionMatrixOptions,
-  lessonsFromTheFrontVersionOptions,
-  missionPackVersionOptions,
-} from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
-
+  fowV4EraOptions,
+  fowV4LessonsFromTheFrontVersionOptions,
+  fowV4MissionPackOptions,
+  getFowV4MissionsByMissionPackId,
+} from '~/api';
 import { Animate } from '~/components/generic/Animate';
 import { FormField } from '~/components/generic/Form';
 import { InputSelect } from '~/components/generic/InputSelect';
@@ -36,6 +35,11 @@ export const GameConfigFields = ({
   const missionPackVersion = watch(`${formPath}.missionPackVersion`);
   const missionMatrixOptions = getMissionMatrixOptions(missionPackVersion);
 
+  const missionOptions = (getFowV4MissionsByMissionPackId(missionPackId) ?? []).map((mission) => ({
+    label: mission.displayName,
+    value: mission.id,
+  }));
+
   return (
     <div className={styles.Root}>
       <div className={styles.CoreConfig}>
@@ -63,8 +67,8 @@ export const GameConfigFields = ({
             <FormField name={`${formPath}.missionPackVersion`} label="Mission Pack" disabled={missionPackVersionOptions.length < 2}>
               <InputSelect options={missionPackVersionOptions} />
             </FormField>
-            <FormField name={`${formPath}.missionMatrix`} label="Mission Matrix" disabled={missionMatrixOptions.length < 2}>
-              <InputSelect options={missionMatrixOptions} />
+            <FormField name={`${formPath}.missionMatrixId`} label="Mission Matrix" disabled={missionOptions.length < 2}>
+              <InputSelect options={missionOptions} />
             </FormField>
             <FormField name={`${formPath}.useExperimentalMissions`} label="Prefer experimental missions">
               <Switch />
