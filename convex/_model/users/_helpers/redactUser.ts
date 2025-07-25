@@ -3,7 +3,6 @@ import { getAuthUserId } from '@convex-dev/auth/server';
 import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
 import { getStorageUrl } from '../../common/_helpers/getStorageUrl';
-import { checkUserTournamentForcedName } from './checkUserTournamentForcedName';
 import { checkUserTournamentRelationship } from './checkUserTournamentRelationship';
 
 /**
@@ -52,15 +51,11 @@ export const redactUser = async (
   // If user is querying someone they are in a tournament with
   const hasTournamentRelationship = await checkUserTournamentRelationship(ctx, userId, user._id);
 
-  // If user is querying someone they are in a tournament with which requires real names
-  const requiredByTournament = await checkUserTournamentForcedName(ctx, userId, user._id);
-
   // Add name information if allowed
   if (
     (user?.nameVisibility === 'public') ||
     (user?.nameVisibility === 'friends' && hasFriendRelationship) ||
-    (user?.nameVisibility === 'tournaments' && (hasFriendRelationship || hasTournamentRelationship)) ||
-    requiredByTournament
+    (user?.nameVisibility === 'tournaments' && (hasFriendRelationship || hasTournamentRelationship))
   ) {
     limitedUser.givenName = user.givenName;
     limitedUser.familyName = user.familyName;

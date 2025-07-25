@@ -8,13 +8,14 @@ import { Form, FormField } from '~/components/generic/Form';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { InputText } from '~/components/generic/InputText';
 import { Separator } from '~/components/generic/Separator';
+import { useGetTournamentsByUser } from '~/services/tournaments';
 import { useUpdateUser } from '~/services/users';
 import { userProfileNameVisibilityOptions } from '~/types/UserProfileNameVisibility';
 import { getCountryOptions } from '~/utils/common/getCountryOptions';
 import {
+  createSchema,
   defaultValues,
   UserProfileFormData,
-  userProfileFormSchema,
 } from './UserProfileForm.utils';
 
 import styles from './UserProfileForm.module.scss';
@@ -22,12 +23,16 @@ import styles from './UserProfileForm.module.scss';
 export const UserProfileForm = (): JSX.Element => {
   const user = useAuth();
 
+  const { data: tournaments } = useGetTournamentsByUser(user ? {
+    userId: user._id,
+  } : 'skip');
+
   const { mutation: updateUser } = useUpdateUser({
     successMessage: 'Profile updated!',
   });
 
   const form = useForm<UserProfileFormData>({
-    resolver: zodResolver(userProfileFormSchema),
+    resolver: zodResolver(createSchema(tournaments ?? [])),
     defaultValues,
     values: { ...defaultValues, ...(user ?? {}) },
   });
