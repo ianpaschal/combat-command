@@ -27,12 +27,8 @@ export const TournamentPlayersFields = ({
   const player0Label = `${getTournamentCompetitorDisplayName(selectedPairing?.tournamentCompetitor0)} Player`;
   const player1Label = `${getTournamentCompetitorDisplayName(selectedPairing?.tournamentCompetitor1)} Player`;
 
-  const player0Options = useMemo(() => (
-    getCompetitorPlayerOptions(selectedPairing?.tournamentCompetitor0)
-  ), [selectedPairing]);
-  const player1Options = useMemo(() => (
-    getCompetitorPlayerOptions(selectedPairing?.tournamentCompetitor1)
-  ), [selectedPairing]);
+  const player0Options = getCompetitorPlayerOptions(selectedPairing?.tournamentCompetitor0);
+  const player1Options = getCompetitorPlayerOptions(selectedPairing?.tournamentCompetitor1);
 
   // Automatically set "Player 1" if possible
   useEffect(() => {
@@ -47,6 +43,10 @@ export const TournamentPlayersFields = ({
       setValue('player1UserId', player1Options[0].value);
     }
   }, [player1Options, player1UserId, setValue]);
+
+  if (!selectedPairing) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className={styles.Root}>
