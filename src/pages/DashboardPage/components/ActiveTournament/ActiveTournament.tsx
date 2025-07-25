@@ -68,28 +68,28 @@ export const ActiveTournament = ({
         </Header>
         {showTimer && (
           <>
-            <TournamentTimer className={styles.ActiveTournamentCard_Timer} />
+            <TournamentTimer className={styles.ActiveTournament_Timer} />
             <Separator />
           </>
         )}
         {showOpponent && (
           <>
-            <div className={styles.ActiveTournamentCard_OpponentSection}>
-              <h3 className={styles.ActiveTournamentCard_OpponentSection_OpponentLabel}>
+            <div className={styles.ActiveTournament_OpponentSection}>
+              <h3 className={styles.ActiveTournament_OpponentSection_OpponentLabel}>
                 {tournament.currentRound !== undefined ? 'Current Opponent' : 'Next Opponent'}
               </h3>
               <IdentityBadge
-                className={styles.ActiveTournamentCard_OpponentSection_Opponent}
+                className={styles.ActiveTournament_OpponentSection_Opponent}
                 competitor={opponent}
               />
-              <h3 className={styles.ActiveTournamentCard_OpponentSection_TableLabel}>
+              <h3 className={styles.ActiveTournament_OpponentSection_TableLabel}>
                 Table
               </h3>
-              <span className={styles.ActiveTournamentCard_OpponentSection_Table}>
+              <span className={styles.ActiveTournament_OpponentSection_Table}>
                 {(pairing?.table ?? 0) + 1}
               </span>
               <CheckInMatchDialog tournamentPairingId={pairing._id}>
-                <Button className={styles.ActiveTournamentCard_OpponentSection_CheckInButton}>
+                <Button className={styles.ActiveTournament_OpponentSection_CheckInButton}>
                   <Plus /> Add Match Result
                 </Button>
               </CheckInMatchDialog>
