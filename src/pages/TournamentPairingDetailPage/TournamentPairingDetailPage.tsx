@@ -35,7 +35,7 @@ export const TournamentPairingDetailPage = (): JSX.Element => {
   const isPlayer = user && tournamentPairing?.playerUserIds.includes(user._id);
   const isOrganizer = user && tournament?.organizerUserIds.includes(user._id);
   const isComplete = tournamentPairing && tournamentPairing.matchResultsProgress.submitted === tournamentPairing?.matchResultsProgress.required;
-  const showAddMatchResult = (isPlayer || isOrganizer) && !isComplete;
+  const showAddMatchResult = (isPlayer || isOrganizer) && !isComplete && tournament?.currentRound !== undefined;
 
   return (
     <PageWrapper
