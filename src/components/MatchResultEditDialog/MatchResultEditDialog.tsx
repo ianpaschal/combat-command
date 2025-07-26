@@ -22,7 +22,7 @@ export const MatchResultEditDialog = (): JSX.Element => {
       <ScrollArea type="scroll" indicatorBorders={['top', 'bottom']}>
         <FowV4MatchResultForm
           id="fow-v4-match-result-form"
-          matchResultId={matchResult._id}
+          matchResult={matchResult}
           className={styles.Form}
           onSuccess={close}
         />

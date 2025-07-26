@@ -1,6 +1,6 @@
 import { generatePath, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
-import { ChevronRight, Plus } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 
 import {
   Tournament,
@@ -8,7 +8,6 @@ import {
   TournamentPairing,
 } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
-import { CheckInMatchDialog } from '~/components/CheckInMatchDialog';
 import { Button } from '~/components/generic/Button';
 import { Separator } from '~/components/generic/Separator';
 import { IdentityBadge } from '~/components/IdentityBadge';
@@ -47,6 +46,12 @@ export const ActiveTournament = ({
   const handleViewMore = (): void => {
     navigate(generatePath(PATHS.tournamentDetails, { id: tournament._id }));
   };
+  const handleViewMatchResults = (): void => {
+    if (!pairing) {
+      return;
+    }
+    navigate(generatePath(PATHS.tournamentPairingDetails, { id: pairing._id }));
+  };
 
   const isOrganizer = user && tournament && tournament.organizerUserIds.includes(user._id);
   const showTimer = tournament && tournament.currentRound !== undefined;
@@ -68,31 +73,32 @@ export const ActiveTournament = ({
         </Header>
         {showTimer && (
           <>
-            <TournamentTimer className={styles.ActiveTournamentCard_Timer} />
+            <TournamentTimer className={styles.ActiveTournament_Timer} />
             <Separator />
           </>
         )}
         {showOpponent && (
           <>
-            <div className={styles.ActiveTournamentCard_OpponentSection}>
-              <h3 className={styles.ActiveTournamentCard_OpponentSection_OpponentLabel}>
+            <div className={styles.ActiveTournament_OpponentSection}>
+              <h3 className={styles.ActiveTournament_OpponentSection_OpponentLabel}>
                 {tournament.currentRound !== undefined ? 'Current Opponent' : 'Next Opponent'}
               </h3>
               <IdentityBadge
-                className={styles.ActiveTournamentCard_OpponentSection_Opponent}
+                className={styles.ActiveTournament_OpponentSection_Opponent}
                 competitor={opponent}
               />
-              <h3 className={styles.ActiveTournamentCard_OpponentSection_TableLabel}>
+              <h3 className={styles.ActiveTournament_OpponentSection_TableLabel}>
                 Table
               </h3>
-              <span className={styles.ActiveTournamentCard_OpponentSection_Table}>
+              <span className={styles.ActiveTournament_OpponentSection_Table}>
                 {(pairing?.table ?? 0) + 1}
               </span>
-              <CheckInMatchDialog tournamentPairingId={pairing._id}>
-                <Button className={styles.ActiveTournamentCard_OpponentSection_CheckInButton}>
-                  <Plus /> Add Match Result
-                </Button>
-              </CheckInMatchDialog>
+              <Button
+                className={styles.ActiveTournament_OpponentSection_CheckInButton}
+                onClick={handleViewMatchResults}
+              >
+                Match Results <ChevronRight />
+              </Button>
             </div>
             <Separator />
           </>

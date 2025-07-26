@@ -53,7 +53,6 @@ export const useMissionOptions = () => {
   const {
     missionMatrixId,
     missionPackId,
-    useExperimentalMissions,
   } = gameSystemConfig;
   return useMemo(() => {
     const missionPack = getMissionPack(missionPackId);
@@ -78,15 +77,12 @@ export const useMissionOptions = () => {
     
     const matrixEntryMissionIds = matrixEntry.missions.reduce((acc: string[], item) => {
       if (Array.isArray(item)) {
-        if (item[1] && useExperimentalMissions) {
-          return [...acc, item[1]];
-        }
         return [ ...acc, ...item];
       }
-      return [ ...acc,item];
+      return [ ...acc, item];
     }, []);
     return missionsOptions.filter((option) => matrixEntryMissionIds.includes(option.value));
-  }, [player0BattlePlan, player1BattlePlan, missionPackId, missionMatrixId, useExperimentalMissions]);
+  }, [player0BattlePlan, player1BattlePlan, missionPackId, missionMatrixId ]);
 };
 
 export const useOutcomeTypeOptions = () => {

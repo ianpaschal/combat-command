@@ -14,7 +14,7 @@ import { getTournamentShallow } from '../../tournaments';
  * This method's return type is, by nature, the definition of a deep TournamentPairing.
  * 
  * @param ctx - Convex query context
- * @param tournament - Raw TournamentPairing document
+ * @param tournamentPairing - Raw TournamentPairing document
  * @returns A deep TournamentPairing
  */
 export const deepenTournamentPairing = async (

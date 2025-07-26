@@ -3,7 +3,7 @@ import { MatchResult, User } from '~/api';
 export type FowV4MatchResultDetailsData = Pick<MatchResult, 'player0User' | 'player0UserId' | 'player0Placeholder' | 'player1User' | 'player1UserId' | 'player1Placeholder'> & {
   player0User?: User;
   player1User?: User;
-  details: Omit<MatchResult['details'], 'missionName'> & {
+  details: Omit<MatchResult['details'], 'missionName' | 'player0Score' | 'player1Score'> & {
     missionName?: string;
   }
 };

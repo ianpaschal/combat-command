@@ -1,16 +1,19 @@
-import { Swords } from 'lucide-react';
+import { generatePath, NavigateFunction } from 'react-router-dom';
+import { ChevronRight, Swords } from 'lucide-react';
 
 import { TournamentPairing } from '~/api';
+import { Button } from '~/components/generic/Button';
 import { CircularProgress } from '~/components/generic/CircularProgress';
 import { InfoPopover } from '~/components/generic/InfoPopover';
 import { ColumnDef } from '~/components/generic/Table';
 import { TournamentPairingRow } from '~/components/TournamentPairingRow';
+import { PATHS } from '~/settings';
 
 import styles from './TournamentPairingsCard.module.scss';
 
 const matchIndicatorSize = 40; // 2.5rem
 
-export const getTournamentPairingTableConfig = (): ColumnDef<TournamentPairing>[] => [
+export const getTournamentPairingTableConfig = (navigate: NavigateFunction): ColumnDef<TournamentPairing>[] => [
   {
     key: 'table',
     label: 'Table',
@@ -47,5 +50,19 @@ export const getTournamentPairingTableConfig = (): ColumnDef<TournamentPairing>[
         <Swords className={styles.TournamentPairingsCard_MatchIndicatorIcon} />
       </InfoPopover>
     ),
+  },
+  {
+    key: 'viewPairing',
+    width: matchIndicatorSize,
+    align: 'center',
+    renderCell: ({ _id }) => (
+      <Button
+        variant="secondary"
+        onClick={() => navigate(generatePath(PATHS.tournamentPairingDetails, { id: _id }))}
+      >
+        <ChevronRight />
+      </Button>
+    ),
+    renderHeader: () => null,
   },
 ];
