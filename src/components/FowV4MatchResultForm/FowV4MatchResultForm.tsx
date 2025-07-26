@@ -89,6 +89,7 @@ export const FowV4MatchResultForm = ({
   }, [onStatusChange, disabled]);
 
   const form = useForm<FowV4MatchResultFormData>({
+    resolver: zodResolver(fowV4MatchResultFormSchema),
     defaultValues: {
       ...defaultValues,
       ...(matchResult ? fowV4MatchResultFormSchema.parse(matchResult) : {}),
@@ -142,18 +143,14 @@ export const FowV4MatchResultForm = ({
     }
   };
 
+  const disableSubmit = createMatchResultLoading || updateMatchResultLoading;
+
   if (tournamentPairingsLoading) {
     return <div>Loading...</div>;
   }
 
   return (
-    <Form
-      id={id}
-      form={form}
-      onSubmit={onSubmit}
-      className={clsx(styles.FowV4MatchResultForm, className)}
-      disabled={disabled}
-    >
+    <Form id={id} form={form} onSubmit={onSubmit} className={clsx(styles.FowV4MatchResultForm, className)}>
       {!matchResult && !forcedTournamentPairingId && (
         <>
           <div className={styles.FowV4MatchResultForm_ResultForSection}>

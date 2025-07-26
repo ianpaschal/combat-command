@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { TournamentPairingId } from '~/api';
 import { FowV4MatchResultForm } from '~/components/FowV4MatchResultForm';
 import { Button } from '~/components/generic/Button';
@@ -22,7 +20,6 @@ export const MatchResultCreateDialog = ({
   tournamentPairingId,
 }: MatchResultCreateDialogProps): JSX.Element => {
   const { id, close, data } = useMatchResultCreateDialog();
-  const [actionsDisabled, setActionsDisabled] = useState<boolean>(false);
   return (
     <ControlledDialog id={id} className={styles.MatchResultCreateDialog}>
       <DialogHeader title="Check-In Match Result" onCancel={close} />

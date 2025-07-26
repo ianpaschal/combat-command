@@ -7,7 +7,6 @@ import { MatchResultDeleteDialog, useMatchResultDeleteDialog } from '~/component
 import { MatchResultEditDialog, useMatchResultEditDialog } from '~/components/MatchResultEditDialog';
 import { useMatchResult } from '~/components/MatchResultProvider';
 import { useGetTournament } from '~/services/tournaments';
-import { isUserTournamentOrganizer } from '~/utils/common/isUserTournamentOrganizer';
 
 export interface MatchResultContextMenuProps {
   size?: 'small' | 'normal' | 'large';
@@ -26,7 +25,7 @@ export const MatchResultContextMenu = ({
   const { open: openDeleteDialog } = useMatchResultDeleteDialog(matchResult._id);
 
   // TODO: Make better check for showing context menu
-  const isOrganizer = isUserTournamentOrganizer(user, tournament);
+  const isOrganizer = user && tournament?.organizerUserIds.includes(user._id) && tournament?.status === 'active';
   const isPlayer = user && [matchResult.player0UserId, matchResult.player1UserId].includes(user._id);
 
   const showContextMenu = isOrganizer || (isPlayer && !matchResult.tournamentId); // Don't allow editing of tournament results

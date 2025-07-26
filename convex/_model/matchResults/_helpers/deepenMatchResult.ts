@@ -3,7 +3,7 @@ import { getMissionDisplayName } from '@ianpaschal/combat-command-static-data/fl
 import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
 import { calculateFowV4MatchResultScore } from '../../fowV4/calculateFowV4MatchResultScore';
-import { getList } from '../../lists';
+import { getMission } from '../../fowV4/getMission';
 import { getUser } from '../../users/queries/getUser';
 import { checkMatchResultBattlePlanVisibility } from './checkMatchResultBattlePlanVisibility';
 
@@ -60,7 +60,7 @@ export const deepenMatchResult = async (
       ...matchResult.details,
       player0BattlePlan: battlePlansVisible ? matchResult.details.player0BattlePlan : undefined,
       player1BattlePlan: battlePlansVisible ? matchResult.details.player1BattlePlan : undefined,
-      missionName,
+      missionName: mission?.displayName,
       player0Score,
       player1Score,
     },

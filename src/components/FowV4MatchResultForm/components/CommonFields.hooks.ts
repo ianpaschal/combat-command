@@ -54,9 +54,40 @@ export const useMissionOptions = () => {
   return useMemo(() => getMissionOptions(missionPackVersion, missionMatrix, [player0BattlePlan, player1BattlePlan]), [
     player0BattlePlan,
     player1BattlePlan,
-    missionPackVersion,
-    missionMatrix,
-  ]);
+  } = details;
+  const {
+    missionMatrixId,
+    missionPackId,
+  } = gameSystemConfig;
+  return useMemo(() => {
+    const missionPack = getMissionPack(missionPackId);
+    const missionsOptions = (missionPack?.missions || []).map((mission) => ({
+      label: mission.displayName,
+      value: mission.id,
+    }));
+    const activeMatrix = missionPack?.matrixes.find((matrix) => matrix.id === missionMatrixId);
+        
+    if (!player0BattlePlan || !player1BattlePlan || !missionMatrixId ) {
+      return missionsOptions;
+    }
+    
+    if (!activeMatrix) {
+      throw Error('Could not find a mission matrix with that ID!');
+    }
+    
+    const matrixEntry = activeMatrix.entries.find(({ battlePlans }) => (
+      (player0BattlePlan === battlePlans[0] && player1BattlePlan === battlePlans[1])
+      || (player1BattlePlan === battlePlans[0] && player0BattlePlan === battlePlans[1])
+    ))!;
+    
+    const matrixEntryMissionIds = matrixEntry.missions.reduce((acc: string[], item) => {
+      if (Array.isArray(item)) {
+        return [ ...acc, ...item];
+      }
+      return [ ...acc, item];
+    }, []);
+    return missionsOptions.filter((option) => matrixEntryMissionIds.includes(option.value));
+  }, [player0BattlePlan, player1BattlePlan, missionPackId, missionMatrixId ]);
 };
 
 export const useOutcomeTypeOptions = () => {
