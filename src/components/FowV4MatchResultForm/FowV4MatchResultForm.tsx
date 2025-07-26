@@ -4,7 +4,6 @@ import clsx from 'clsx';
 
 import {
   MatchResult,
-  MatchResultId,
   TournamentPairingId,
   UserId,
 } from '~/api';
@@ -17,11 +16,7 @@ import { SelectValue } from '~/components/generic/InputSelect/InputSelect.types'
 import { Label } from '~/components/generic/Label';
 import { Separator } from '~/components/generic/Separator';
 import { useAsyncState } from '~/hooks/useAsyncState';
-import {
-  useCreateMatchResult,
-  useGetMatchResult,
-  useUpdateMatchResult,
-} from '~/services/matchResults';
+import { useCreateMatchResult, useUpdateMatchResult } from '~/services/matchResults';
 import { useGetActiveTournamentPairingsByUser } from '~/services/tournamentPairings';
 import { getTournamentPairingDisplayName } from '~/utils/common/getTournamentPairingDisplayName';
 import { CommonFields } from './components/CommonFields';
@@ -143,8 +138,6 @@ export const FowV4MatchResultForm = ({
   if (tournamentPairingsLoading) {
     return <div>Loading...</div>;
   }
-
-  console.log(form.watch());
 
   return (
     <Form id={id} form={form} onSubmit={onSubmit} className={clsx(styles.FowV4MatchResultForm, className)}>

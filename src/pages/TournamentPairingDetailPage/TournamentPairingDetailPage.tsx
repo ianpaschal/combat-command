@@ -1,9 +1,9 @@
 import { useParams } from 'react-router-dom';
+import { Plus } from 'lucide-react';
 
 import { TournamentPairingId } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
 import { Button } from '~/components/generic/Button';
-import { Separator } from '~/components/generic/Separator';
 import { Spinner } from '~/components/generic/Spinner';
 import { MatchResultCard } from '~/components/MatchResultCard';
 import { MatchResultCreateDialog, useMatchResultCreateDialog } from '~/components/MatchResultCreateDialog';
@@ -12,7 +12,6 @@ import { TournamentPairingRow } from '~/components/TournamentPairingRow';
 import { useGetMatchResultsByTournamentPairing } from '~/services/matchResults';
 import { useGetTournamentPairing } from '~/services/tournamentPairings';
 import { useGetTournament } from '~/services/tournaments';
-import { MAX_WIDTH } from '~/settings';
 
 import styles from './TournamentPairingDetailPage.module.scss';
 
@@ -39,32 +38,35 @@ export const TournamentPairingDetailPage = (): JSX.Element => {
   const showAddMatchResult = (isPlayer || isOrganizer) && !isComplete;
 
   return (
-    <PageWrapper showBackButton maxWidth={MAX_WIDTH} title="Pairing Details">
+    <PageWrapper
+      showBackButton
+      maxWidth={540}
+      title="Pairing Details"
+      footer={showAddMatchResult ? (
+        <div>
+          <Button onClick={() => openMatchResultCreateDialog({ tournamentPairingId })}>
+            <Plus />Add Match Result
+          </Button>
+        </div>
+      ) : null}
+    >
       <div className={styles.TournamentPairingDetailPage}>
         {showLoading ? (
           <Spinner />
         ) : (
           <>
-            <div>
+            <div className={styles.TournamentPairingDetailPage_Details}>
               <TournamentPairingRow pairing={tournamentPairing} />
+              <p>
+                {`Submitted Match Results: ${tournamentPairing.matchResultsProgress.submitted}/${tournamentPairing.matchResultsProgress.required}`}
+              </p>
             </div>
-            <div>
-              {`Submitted Match Results: ${tournamentPairing.matchResultsProgress.submitted}/${tournamentPairing.matchResultsProgress.required}`}
-            </div>
-            <Separator />
-            <div>
+
+            <div className={styles.TournamentPairingDetailPage_MatchResults}>
               {(matchResults ?? []).map((matchResult) => (
                 <MatchResultCard key={matchResult._id} matchResult={matchResult} />
               ))}
             </div>
-            {showAddMatchResult && (
-              <>
-                <Separator />
-                <div>
-                  <Button onClick={() => openMatchResultCreateDialog({ tournamentPairingId })}>Add Match Result</Button>
-                </div>
-              </>
-            )}
           </>
         )}
       </div>

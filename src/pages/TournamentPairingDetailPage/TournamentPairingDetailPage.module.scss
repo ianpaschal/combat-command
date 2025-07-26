@@ -7,11 +7,16 @@
 @use "/src/style/borders";
 
 .TournamentPairingDetailPage {
-  @include variants.card;
+  @include flex.column;
 
-  display: grid;
-  grid-template-areas: "players" "photos" "details";
-  grid-template-columns: 1fr;
-  grid-template-rows: auto auto auto;
-  gap: 1rem;
+  &_Details {
+    @include variants.card;
+    @include flex.column;
+
+    padding: var(--container-padding-x);
+  }
+
+  &_MatchResults {
+    @include flex.column;
+  }
 }

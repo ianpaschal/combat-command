@@ -1,6 +1,6 @@
 import { generatePath, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
-import { ChevronRight, Plus } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 
 import {
   Tournament,
@@ -8,7 +8,6 @@ import {
   TournamentPairing,
 } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
-import { CheckInMatchDialog } from '~/components/CheckInMatchDialog';
 import { Button } from '~/components/generic/Button';
 import { Separator } from '~/components/generic/Separator';
 import { IdentityBadge } from '~/components/IdentityBadge';
@@ -46,6 +45,12 @@ export const ActiveTournament = ({
 
   const handleViewMore = (): void => {
     navigate(generatePath(PATHS.tournamentDetails, { id: tournament._id }));
+  };
+  const handleViewMatchResults = (): void => {
+    if (!pairing) {
+      return;
+    }
+    navigate(generatePath(PATHS.tournamentPairingDetails, { id: pairing._id }));
   };
 
   const isOrganizer = user && tournament && tournament.organizerUserIds.includes(user._id);
@@ -88,11 +93,12 @@ export const ActiveTournament = ({
               <span className={styles.ActiveTournament_OpponentSection_Table}>
                 {(pairing?.table ?? 0) + 1}
               </span>
-              <CheckInMatchDialog tournamentPairingId={pairing._id}>
-                <Button className={styles.ActiveTournament_OpponentSection_CheckInButton}>
-                  <Plus /> Add Match Result
-                </Button>
-              </CheckInMatchDialog>
+              <Button
+                className={styles.ActiveTournament_OpponentSection_CheckInButton}
+                onClick={handleViewMatchResults}
+              >
+                Match Results <ChevronRight />
+              </Button>
             </div>
             <Separator />
           </>
