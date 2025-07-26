@@ -1,3 +1,4 @@
+import { TournamentPairingId } from '~/api';
 import { useModal } from '~/modals';
 
-export const useMatchResultCreateDialog = () => useModal('match-result-create-dialog');
+export const useMatchResultCreateDialog = () => useModal<{ tournamentPairingId: TournamentPairingId }>('match-result-create-dialog');

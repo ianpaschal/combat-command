@@ -6,6 +6,7 @@ import { PopoverMenu } from '~/components/generic/PopoverMenu';
 import { MatchResultDeleteDialog, useMatchResultDeleteDialog } from '~/components/MatchResultDeleteDialog';
 import { MatchResultEditDialog, useMatchResultEditDialog } from '~/components/MatchResultEditDialog';
 import { useMatchResult } from '~/components/MatchResultProvider';
+import { useGetTournament } from '~/services/tournaments';
 
 export interface MatchResultContextMenuProps {
   size?: 'small' | 'normal' | 'large';
@@ -16,12 +17,18 @@ export const MatchResultContextMenu = ({
 }: MatchResultContextMenuProps): JSX.Element | null => {
   const user = useAuth();
   const matchResult = useMatchResult();
+  const { data: tournament } = useGetTournament(matchResult.tournamentId ? {
+    id: matchResult.tournamentId,
+  } : 'skip');
 
   const { open: openEditDialog } = useMatchResultEditDialog(matchResult._id);
   const { open: openDeleteDialog } = useMatchResultDeleteDialog(matchResult._id);
 
   // TODO: Make better check for showing context menu
-  const showContextMenu = user && !matchResult.tournamentPairingId && [matchResult.player0UserId, matchResult.player1UserId].includes(user._id);
+  const isOrganizer = user && tournament?.organizerUserIds.includes(user._id) && tournament?.status === 'active';
+  const isPlayer = user && [matchResult.player0UserId, matchResult.player1UserId].includes(user._id);
+
+  const showContextMenu = isOrganizer || (isPlayer && !matchResult.tournamentId); // Don't allow editing of tournament results
   const contextMenuItems = [
     { label: 'Edit', onClick: openEditDialog },
     { label: 'Delete', onClick: openDeleteDialog },

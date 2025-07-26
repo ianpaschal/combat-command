@@ -21,4 +21,5 @@ export const PATHS = {
   tournamentEdit: '/tournaments/:id/edit',
   tournamentPairings: '/tournaments/:id/pairings',
   tournaments: '/tournaments',
+  tournamentPairingDetails: '/pairings/:id',
 } as const;

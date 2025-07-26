@@ -27,7 +27,7 @@ export const DashboardPage = (): JSX.Element => {
     stats: <LineChart />,
   };
   return (
-    <PageWrapper title="Dashboard" fitToWindow footer={!isDesktop ? (
+    <PageWrapper title="Dashboard" fitToWindow={isDesktop} footer={!isDesktop ? (
       <div className={styles.DashboardPage_Tabs}>
         {Object.entries(tabs).map(([key, icon]) => (
           <div key={key} className={styles.DashboardPage_TabTrigger}>

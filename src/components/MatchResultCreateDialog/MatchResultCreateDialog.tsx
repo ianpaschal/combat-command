@@ -1,3 +1,4 @@
+import { TournamentPairingId } from '~/api';
 import { FowV4MatchResultForm } from '~/components/FowV4MatchResultForm';
 import { Button } from '~/components/generic/Button';
 import {
@@ -11,8 +12,14 @@ import { useMatchResultCreateDialog } from './MatchResultCreateDialog.hooks';
 
 import styles from './MatchResultCreateDialog.module.scss';
 
-export const MatchResultCreateDialog = (): JSX.Element => {
-  const { id, close } = useMatchResultCreateDialog();
+export interface MatchResultCreateDialogProps {
+  tournamentPairingId?: TournamentPairingId;
+}
+
+export const MatchResultCreateDialog = ({
+  tournamentPairingId,
+}: MatchResultCreateDialogProps): JSX.Element => {
+  const { id, close, data } = useMatchResultCreateDialog();
   return (
     <ControlledDialog id={id} className={styles.MatchResultCreateDialog}>
       <DialogHeader title="Create Match Result" onCancel={close} />
@@ -20,6 +27,7 @@ export const MatchResultCreateDialog = (): JSX.Element => {
       <ScrollArea type="scroll" indicatorBorders={['top', 'bottom']}>
         <FowV4MatchResultForm
           id="fow-v4-match-result-form"
+          tournamentPairingId={tournamentPairingId ?? data?.tournamentPairingId}
           className={styles.Form}
           onSuccess={close}
         />

@@ -1,5 +1,6 @@
 import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
+import { calculateFowV4MatchResultScore } from '../../fowV4/calculateFowV4MatchResultScore';
 import { getMission } from '../../fowV4/getMission';
 import { getUser } from '../../users/queries/getUser';
 import { checkMatchResultBattlePlanVisibility } from './checkMatchResultBattlePlanVisibility';
@@ -38,6 +39,9 @@ export const deepenMatchResult = async (
   const mission = getMission(matchResult.details.missionId);
   const battlePlansVisible = await checkMatchResultBattlePlanVisibility(ctx, matchResult);
 
+  // TODO: This is FowV4 specific, needs to be made generic!
+  const [player0Score, player1Score] = calculateFowV4MatchResultScore(matchResult);
+
   return {
     ...matchResult,
     ...(player0User ? { player0User } : {}),
@@ -47,6 +51,8 @@ export const deepenMatchResult = async (
       player0BattlePlan: battlePlansVisible ? matchResult.details.player0BattlePlan : undefined,
       player1BattlePlan: battlePlansVisible ? matchResult.details.player1BattlePlan : undefined,
       missionName: mission?.displayName,
+      player0Score,
+      player1Score,
     },
     likedByUserIds: likes.map((like) => like.userId),
     commentCount: comments.length,

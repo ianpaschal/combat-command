@@ -3,7 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import clsx from 'clsx';
 
 import {
-  MatchResultId,
+  MatchResult,
   TournamentPairingId,
   UserId,
 } from '~/api';
@@ -16,11 +16,7 @@ import { SelectValue } from '~/components/generic/InputSelect/InputSelect.types'
 import { Label } from '~/components/generic/Label';
 import { Separator } from '~/components/generic/Separator';
 import { useAsyncState } from '~/hooks/useAsyncState';
-import {
-  useCreateMatchResult,
-  useGetMatchResult,
-  useUpdateMatchResult,
-} from '~/services/matchResults';
+import { useCreateMatchResult, useUpdateMatchResult } from '~/services/matchResults';
 import { useGetActiveTournamentPairingsByUser } from '~/services/tournamentPairings';
 import { getTournamentPairingDisplayName } from '~/utils/common/getTournamentPairingDisplayName';
 import { CommonFields } from './components/CommonFields';
@@ -40,7 +36,7 @@ const confirmMatchResultDialogId = 'confirm-match-result';
 export interface FowV4MatchResultFormProps {
   id: string;
   className?: string;
-  matchResultId?: MatchResultId;
+  matchResult?: MatchResult;
   tournamentPairingId?: TournamentPairingId;
   onSuccess?: () => void;
 }
@@ -48,16 +44,11 @@ export interface FowV4MatchResultFormProps {
 export const FowV4MatchResultForm = ({
   id,
   className,
-  matchResultId,
+  matchResult,
   tournamentPairingId: forcedTournamentPairingId,
   onSuccess,
 }: FowV4MatchResultFormProps): JSX.Element => {
   const user = useAuth();
-
-  const {
-    data: matchResult,
-    loading: matchResultLoading,
-  } = useGetMatchResult(matchResultId ? { id: matchResultId } : 'skip');
 
   const [
     tournamentPairingId,
@@ -89,9 +80,10 @@ export const FowV4MatchResultForm = ({
 
   const form = useForm<FowV4MatchResultFormData>({
     resolver: zodResolver(fowV4MatchResultFormSchema),
-    defaultValues,
-    // React-Hook-Form is stupid and doesn't allow applying a partial record to the form values
-    values: { ...matchResult as FowV4MatchResultFormData },
+    defaultValues: {
+      ...defaultValues,
+      ...(matchResult ? fowV4MatchResultFormSchema.parse(matchResult) : {}),
+    },
     mode: 'onSubmit',
   });
 
@@ -143,13 +135,13 @@ export const FowV4MatchResultForm = ({
 
   const disableSubmit = createMatchResultLoading || updateMatchResultLoading;
 
-  if (tournamentPairingsLoading || matchResultLoading) {
+  if (tournamentPairingsLoading) {
     return <div>Loading...</div>;
   }
 
   return (
     <Form id={id} form={form} onSubmit={onSubmit} className={clsx(styles.FowV4MatchResultForm, className)}>
-      {!matchResultId && (
+      {!matchResult && !forcedTournamentPairingId && (
         <>
           <div className={styles.FowV4MatchResultForm_ResultForSection}>
             <Label>
