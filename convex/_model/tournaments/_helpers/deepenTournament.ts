@@ -1,6 +1,7 @@
 import { Doc, Id } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
 import { getStorageUrl } from '../../common/_helpers/getStorageUrl';
+import { getTournamentNextRound } from './getTournamentNextRound';
 
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /**
@@ -35,9 +36,6 @@ export const deepenTournament = async (
     ...c.players.filter((p) => p.active).map((p) => p.userId),
   ], [] as Id<'users'>[]);
 
-  // Computed properties (easy to do, but used so frequently, it's nice to include them by default)
-  const nextRound = (tournament.currentRound ?? tournament.lastRound ?? -1) + 1;
-
   return {
     ...tournament,
     logoUrl,
@@ -49,7 +47,7 @@ export const deepenTournament = async (
     activePlayerUserIds,
     maxPlayers : tournament.maxCompetitors * tournament.competitorSize,
     useTeams: tournament.competitorSize > 1,
-    nextRound: nextRound < tournament.roundCount ? nextRound : undefined,
+    nextRound: getTournamentNextRound(tournament),
   };
 };
 
