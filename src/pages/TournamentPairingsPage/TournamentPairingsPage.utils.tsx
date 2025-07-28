@@ -167,7 +167,7 @@ export const renderCompetitorCard = (
 
   return (
     <div className={styles.TournamentPairingsPage_Form_CompetitorCard}>
-      <IdentityBadge competitorId={id as TournamentCompetitorId} />
+      <IdentityBadge competitor={rankedCompetitor} />
       <div>{rankedCompetitor.rank !== undefined ? rankedCompetitor.rank + 1 : '-'}</div>
       <Pulsar color={isValid ? 'green' : 'red'} visible={!!state.activeId && !state.isActive} />
     </div>

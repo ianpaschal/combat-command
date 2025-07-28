@@ -15,6 +15,7 @@ import { TournamentActionsProvider } from '~/components/TournamentActionsProvide
 import { TournamentContextMenu } from '~/components/TournamentContextMenu';
 import { TournamentProvider } from '~/components/TournamentProvider';
 import { TournamentTimer } from '~/components/TournamentTimer';
+import { useGetTournamentCompetitorsByTournament } from '~/services/tournamentCompetitors';
 import { PATHS } from '~/settings';
 import { Header } from '../Header';
 import {
@@ -40,6 +41,11 @@ export const ActiveTournament = ({
 }: ActiveTournamentProps): JSX.Element => {
   const navigate = useNavigate();
   const user = useAuth();
+
+  const { data: tournamentCompetitors } = useGetTournamentCompetitorsByTournament({
+    tournamentId: tournament._id,
+    includeRankings: tournament.lastRound,
+  });
 
   const opponent = getOpponent(user?._id, pairing);
 
@@ -103,7 +109,7 @@ export const ActiveTournament = ({
             <Separator />
           </>
         )}
-        {showRankings && renderRankings(tournament, rankedCompetitors)}
+        {showRankings && renderRankings(tournament, tournamentCompetitors)}
       </TournamentProvider>
     </div>
   );

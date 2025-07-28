@@ -1,15 +1,17 @@
 import { useWindowWidth } from '@react-hook/window-size/throttled';
 import clsx from 'clsx';
 
-import { DraftTournamentPairing, TournamentPairing } from '~/api';
+import { TournamentPairing } from '~/api';
 import { IdentityBadge } from '~/components/IdentityBadge';
 import { MOBILE_BREAKPOINT } from '~/settings';
 import { getIdentityBadgeProps } from './TournamentPairingRow.utils';
 
 import styles from './TournamentPairingRow.module.scss';
 
+export type TournamentPairingRowData = Pick<TournamentPairing, 'tournamentCompetitor0' | 'tournamentCompetitor1' | 'table'>;
+
 export interface TournamentPairingRowProps {
-  pairing?: TournamentPairing | DraftTournamentPairing;
+  pairing?: TournamentPairingRowData;
   loading?: boolean;
   className?: string;
 }

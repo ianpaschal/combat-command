@@ -4,8 +4,6 @@ import { Ghost, HelpCircle } from 'lucide-react';
 import { TournamentCompetitor } from '~/api';
 import { Avatar } from '~/components/generic/Avatar';
 import { FlagCircle } from '~/components/generic/FlagCircle';
-import { useGetTournamentCompetitor } from '~/services/tournamentCompetitors';
-import { useGetUser } from '~/services/users';
 import { getCountryName } from '~/utils/common/getCountryName';
 import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
 import { Identity } from './IdentityBadge.types';
@@ -39,13 +37,10 @@ const getCompetitorDisplayName = (competitor: TournamentCompetitor): ReactElemen
 };
 
 export const useIdentityElements = (identity: Identity, loading?: boolean): ReactElement[] => {
-  const { user, userId, competitor, competitorId, placeholder } = identity;
+  const { user, competitor, placeholder } = identity;
 
-  const { data: queryUser } = useGetUser(userId ? { id: userId } : 'skip');
-  const { data: queryCompetitor } = useGetTournamentCompetitor(competitorId ? { id: competitorId } : 'skip');
-
-  // Render loading skeleton if explicitly loading or an ID was provided and it is fetching
-  if (loading || (userId && !queryUser) || competitorId && !queryCompetitor) {
+  // Render loading skeleton if explicitly loading 
+  if (loading) {
     return [
       <Avatar loading />,
       <span>Loading...</span>,
@@ -59,24 +54,10 @@ export const useIdentityElements = (identity: Identity, loading?: boolean): Reac
     ];
   }
 
-  if (userId && queryUser) {
-    return [
-      <Avatar url={queryUser?.avatarUrl} />,
-      <span>{getUserDisplayNameString(queryUser)}</span>,
-    ];
-  }
-
   if (competitor) {
     return [
       getCompetitorAvatar(competitor),
       getCompetitorDisplayName(competitor),
-    ];
-  }
-
-  if (competitorId && queryCompetitor) {
-    return [
-      getCompetitorAvatar(queryCompetitor),
-      getCompetitorDisplayName(queryCompetitor),
     ];
   }
 
