@@ -5,7 +5,7 @@ import { QueryCtx } from '../../../_generated/server';
 import { calculateFowV4MatchResultScore } from '../../fowV4/calculateFowV4MatchResultScore';
 import { getMission } from '../../fowV4/getMission';
 import { getUser } from '../../users/queries/getUser';
-import { checkMatchResultDetailsVisibility } from './checkMatchResultDetailsVisibility';
+import { checkMatchResultBattlePlanVisibility } from './checkMatchResultBattlePlanVisibility';
 
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /**
@@ -44,8 +44,8 @@ export const deepenMatchResult = async (
     .collect();
 
   // Details
-  const detailsVisible = await checkMatchResultDetailsVisibility(ctx, matchResult);
   const mission = getMission(matchResult.details.missionId);
+  const battlePlansVisible = await checkMatchResultBattlePlanVisibility(ctx, matchResult);
 
   // TODO: This is FowV4 specific, needs to be made generic!
   const [player0Score, player1Score] = calculateFowV4MatchResultScore(matchResult);
@@ -55,12 +55,11 @@ export const deepenMatchResult = async (
     ...(player0User ? { player0User } : {}),
     ...(player0List ? { player0List } : {}),
     ...(player1User ? { player1User } : {}),
-    details: detailsVisible ? {
+    details: {
       ...matchResult.details,
+      player0BattlePlan: battlePlansVisible ? matchResult.details.player0BattlePlan : undefined,
+      player1BattlePlan: battlePlansVisible ? matchResult.details.player1BattlePlan : undefined,
       missionName: mission?.displayName,
-      player0Score,
-      player1Score,
-    } : {
       player0Score,
       player1Score,
     },
