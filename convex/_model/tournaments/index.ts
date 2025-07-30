@@ -67,6 +67,10 @@ export {
 
 // Queries
 export {
+  getAvailableTournamentActions,
+  getAvailableTournamentActionsArgs,
+} from './queries/getAvailableTournamentActions';
+export {
   getTournament,
   getTournamentArgs,
 } from './queries/getTournament';

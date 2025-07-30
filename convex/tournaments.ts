@@ -31,6 +31,11 @@ export const getTournamentRankings = query({
   handler: model.getTournamentRankings,
 });
 
+export const getAvailableTournamentActions = query({
+  args: model.getAvailableTournamentActionsArgs,
+  handler: model.getAvailableTournamentActions,
+});
+
 export const createTournament = mutation({
   args: model.createTournamentArgs,
   handler: model.createTournament,

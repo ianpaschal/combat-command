@@ -4,7 +4,6 @@ import { Trophy } from 'lucide-react';
 import {
   Tournament,
   TournamentCompetitor,
-  TournamentCompetitorRanked,
   TournamentPairing,
   UserId,
 } from '~/api';
@@ -50,7 +49,7 @@ export const renderTitle = (title: string): ReactElement => (
 
 export const renderRankings = (
   tournament: Tournament,
-  competitors: TournamentCompetitorRanked[] = [],
+  competitors: TournamentCompetitor[] = [],
 ): ReactElement => (
   !competitors.length ? (
     <EmptyState icon={<Trophy />} />
@@ -65,19 +64,19 @@ export const renderRankings = (
           label: 'Rank',
           width: 40,
           align: 'center',
-          renderCell: (r) => (
+          renderCell: ({ rank }) => (
             <div>
-              {tournament.lastRound !== undefined ? r.rank + 1 : '-'}
+              {tournament.lastRound !== undefined && rank !== undefined ? rank + 1 : '-'}
             </div>
           ),
         },
         {
           key: 'identity',
           label: tournament?.useTeams ? 'Team' : 'Player',
-          renderCell: (r) => (
+          renderCell: (competitor) => (
             <IdentityBadge
               size="small"
-              competitorId={r.id}
+              competitor={competitor}
               className={styles.TournamentRankingsCard_IdentityBadge}
             />
           ),

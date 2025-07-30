@@ -6,6 +6,7 @@ export const useGetTournament = createQueryHook(api.tournaments.getTournament);
 export const useGetTournaments = createQueryHook(api.tournaments.getTournaments);
 
 // Special Queries
+export const useGetAvailableTournamentActions = createQueryHook(api.tournaments.getAvailableTournamentActions);
 export const useGetTournamentOpenRound = createQueryHook(api.tournaments.getTournamentOpenRound);
 export type TournamentOpenRound = typeof api.tournaments.getTournamentOpenRound._returnType; // TODO: Move to back-end
 export const useGetTournamentRankings = createQueryHook(api.tournaments.getTournamentRankings);

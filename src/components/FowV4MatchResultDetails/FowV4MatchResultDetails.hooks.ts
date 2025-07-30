@@ -1,6 +1,3 @@
-import { useQuery } from 'convex/react';
-
-import { api } from '~/api';
 import { Identity } from '~/components/IdentityBadge';
 import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
 import { FowV4MatchResultDetailsData } from './FowV4MatchResultDetails.types';
@@ -15,14 +12,9 @@ export const usePlayerName = (
   identity: Identity,
   loading?: boolean,
 ): UserPlayerNameResult => {
-  const { user, userId, placeholder } = identity;
+  const { user, placeholder } = identity;
 
-  // TODO: Replace with a service hook
-  const queryUser = useQuery(api.users.getUser, userId ? {
-    id: userId,
-  } : 'skip');
-
-  if (loading || (userId && !queryUser)) {
+  if (loading) {
     return {
       loading: true,
     };
@@ -33,13 +25,6 @@ export const usePlayerName = (
       loading: false,
       displayName: getUserDisplayNameString(user),
     };
-  }
-  
-  if (userId && queryUser) {
-    return {
-      loading: false,
-      displayName: getUserDisplayNameString(queryUser),
-    };  
   }
 
   if (placeholder) {
@@ -62,14 +47,12 @@ export const usePlayerNames = (
 ): UserPlayerNamesResult => {
   const { displayName: player0DisplayName, loading: player0Loading } = usePlayerName({
     user: matchResult.player0User,
-    userId: matchResult.player0UserId,
     placeholder: matchResult.player0Placeholder ? {
       displayName: matchResult.player0Placeholder,
     } : undefined,
   });
   const { displayName: player1DisplayName, loading: player1Loading } = usePlayerName({
     user: matchResult.player1User,
-    userId: matchResult.player1UserId,
     placeholder: matchResult.player1Placeholder ? {
       displayName: matchResult.player1Placeholder,
     } : undefined,
