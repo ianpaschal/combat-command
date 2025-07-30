@@ -53,7 +53,7 @@ import type * as _model_matchResultLikes_queries_getMatchResultLike from "../_mo
 import type * as _model_matchResultLikes_queries_getMatchResultLikesByMatchResult from "../_model/matchResultLikes/queries/getMatchResultLikesByMatchResult.js";
 import type * as _model_matchResultLikes_queries_getMatchResultLikesByUser from "../_model/matchResultLikes/queries/getMatchResultLikesByUser.js";
 import type * as _model_matchResults__helpers_checkMatchResultAuth from "../_model/matchResults/_helpers/checkMatchResultAuth.js";
-import type * as _model_matchResults__helpers_checkMatchResultBattlePlanVisibility from "../_model/matchResults/_helpers/checkMatchResultBattlePlanVisibility.js";
+import type * as _model_matchResults__helpers_checkMatchResultBattlePlanVisibility from "../_model/matchResults/_helpers/checkMatchResultDetailsVisibility.js";
 import type * as _model_matchResults__helpers_deepenMatchResult from "../_model/matchResults/_helpers/deepenMatchResult.js";
 import type * as _model_matchResults__helpers_getShallowMatchResult from "../_model/matchResults/_helpers/getShallowMatchResult.js";
 import type * as _model_matchResults_fields from "../_model/matchResults/fields.js";
