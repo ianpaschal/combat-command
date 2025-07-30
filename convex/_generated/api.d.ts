@@ -53,7 +53,7 @@ import type * as _model_matchResultLikes_queries_getMatchResultLike from "../_mo
 import type * as _model_matchResultLikes_queries_getMatchResultLikesByMatchResult from "../_model/matchResultLikes/queries/getMatchResultLikesByMatchResult.js";
 import type * as _model_matchResultLikes_queries_getMatchResultLikesByUser from "../_model/matchResultLikes/queries/getMatchResultLikesByUser.js";
 import type * as _model_matchResults__helpers_checkMatchResultAuth from "../_model/matchResults/_helpers/checkMatchResultAuth.js";
-import type * as _model_matchResults__helpers_checkMatchResultBattlePlanVisibility from "../_model/matchResults/_helpers/checkMatchResultBattlePlanVisibility.js";
+import type * as _model_matchResults__helpers_checkMatchResultDetailsVisibility from "../_model/matchResults/_helpers/checkMatchResultDetailsVisibility.js";
 import type * as _model_matchResults__helpers_deepenMatchResult from "../_model/matchResults/_helpers/deepenMatchResult.js";
 import type * as _model_matchResults__helpers_getShallowMatchResult from "../_model/matchResults/_helpers/getShallowMatchResult.js";
 import type * as _model_matchResults_fields from "../_model/matchResults/fields.js";
@@ -244,7 +244,7 @@ declare const fullApi: ApiFromModules<{
   "_model/matchResultLikes/queries/getMatchResultLikesByMatchResult": typeof _model_matchResultLikes_queries_getMatchResultLikesByMatchResult;
   "_model/matchResultLikes/queries/getMatchResultLikesByUser": typeof _model_matchResultLikes_queries_getMatchResultLikesByUser;
   "_model/matchResults/_helpers/checkMatchResultAuth": typeof _model_matchResults__helpers_checkMatchResultAuth;
-  "_model/matchResults/_helpers/checkMatchResultBattlePlanVisibility": typeof _model_matchResults__helpers_checkMatchResultBattlePlanVisibility;
+  "_model/matchResults/_helpers/checkMatchResultDetailsVisibility": typeof _model_matchResults__helpers_checkMatchResultDetailsVisibility;
   "_model/matchResults/_helpers/deepenMatchResult": typeof _model_matchResults__helpers_deepenMatchResult;
   "_model/matchResults/_helpers/getShallowMatchResult": typeof _model_matchResults__helpers_getShallowMatchResult;
   "_model/matchResults/fields": typeof _model_matchResults_fields;
