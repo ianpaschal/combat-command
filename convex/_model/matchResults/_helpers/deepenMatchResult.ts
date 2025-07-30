@@ -5,7 +5,7 @@ import { QueryCtx } from '../../../_generated/server';
 import { calculateFowV4MatchResultScore } from '../../fowV4/calculateFowV4MatchResultScore';
 import { getMission } from '../../fowV4/getMission';
 import { getUser } from '../../users/queries/getUser';
-import { checkMatchResultBattlePlanVisibility } from './checkMatchResultBattlePlanVisibility';
+import { checkMatchResultDetailsVisibility } from './checkMatchResultDetailsVisibility';
 
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /**
@@ -45,7 +45,7 @@ export const deepenMatchResult = async (
 
   // Details
   const mission = getMission(matchResult.details.missionId);
-  const battlePlansVisible = await checkMatchResultBattlePlanVisibility(ctx, matchResult);
+  const battlePlansVisible = await checkMatchResultDetailsVisibility(ctx, matchResult);
 
   // TODO: This is FowV4 specific, needs to be made generic!
   const [player0Score, player1Score] = calculateFowV4MatchResultScore(matchResult);
