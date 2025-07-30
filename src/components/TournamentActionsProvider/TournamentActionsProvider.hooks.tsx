@@ -2,18 +2,17 @@ import { useContext } from 'react';
 import { generatePath, useNavigate } from 'react-router-dom';
 
 import { TournamentActionKey } from '~/api';
-import { useAuth } from '~/components/AuthProvider';
 import { ConfirmationDialogData } from '~/components/ConfirmationDialog';
 import { Warning } from '~/components/generic/Warning';
 import { useMatchResultCreateDialog } from '~/components/MatchResultCreateDialog';
 import { toast } from '~/components/ToastProvider';
 import { useTournament } from '~/components/TournamentProvider';
 import { useGetTournamentCompetitorsByTournament } from '~/services/tournamentCompetitors';
-import { useGetTournamentPairings } from '~/services/tournamentPairings';
 import {
   useDeleteTournament,
   useEndTournament,
   useEndTournamentRound,
+  useGetAvailableTournamentActions,
   useGetTournamentOpenRound,
   usePublishTournament,
   useStartTournament,
@@ -37,11 +36,9 @@ export const useTournamentActions = () => {
 
 type ActionDefinition = Action & {
   key: TournamentActionKey;
-  available: boolean;
 };
 
 export const useActions = (openDialog: (data?: ConfirmationDialogData) => void): TournamentActions => {
-  const user = useAuth();
   const tournament = useTournament();
 
   // ---- HANDLERS ----
@@ -88,9 +85,8 @@ export const useActions = (openDialog: (data?: ConfirmationDialogData) => void):
   });
 
   // ---- DATA ----
-  const { data: nextRoundPairings } = useGetTournamentPairings({
-    tournamentId: tournament._id,
-    round: tournament.nextRound,
+  const { data: availableActions } = useGetAvailableTournamentActions({
+    id: tournament._id,
   });
   const { data: openRound } = useGetTournamentOpenRound({
     id: tournament._id,
@@ -98,10 +94,6 @@ export const useActions = (openDialog: (data?: ConfirmationDialogData) => void):
   const { data: tournamentCompetitors } = useGetTournamentCompetitorsByTournament({
     tournamentId: tournament._id,
   });
-  const isOrganizer = !!user && tournament.organizerUserIds.includes(user._id);
-  const isPlayer = !!user && tournament.playerUserIds.includes(user._id);
-  const isBetweenRounds = tournament.status === 'active' && !openRound;
-  const hasNextRound = tournament.nextRound !== undefined;
 
   // Labels for messages:
   const nextRoundLabel = (tournament.nextRound ?? 0) + 1;
@@ -113,13 +105,11 @@ export const useActions = (openDialog: (data?: ConfirmationDialogData) => void):
     {
       key: TournamentActionKey.Edit,
       label: 'Edit',
-      available: isOrganizer && ['draft', 'published'].includes(tournament.status),
       handler: () => navigate(generatePath(PATHS.tournamentEdit, { id: tournament._id })),
     },
     {
       key: TournamentActionKey.Delete,
       label: 'Delete',
-      available: isOrganizer && tournament.status === 'draft',
       handler: () => {
         // TODO: Implement confirmation dialog
         deleteTournament({ id: tournament._id });
@@ -128,7 +118,6 @@ export const useActions = (openDialog: (data?: ConfirmationDialogData) => void):
     {
       key: TournamentActionKey.Publish,
       label: 'Publish',
-      available: isOrganizer && tournament.status === 'draft',
       handler: () => {
         // TODO: Implement confirmation dialog
         publishTournament({ id: tournament._id });
@@ -137,7 +126,6 @@ export const useActions = (openDialog: (data?: ConfirmationDialogData) => void):
     {
       key: TournamentActionKey.Start,
       label: 'Start',
-      available: isOrganizer && tournament.status === 'published',
       handler: () => {
         // TODO: Implement confirmation dialog
         startTournament({ id: tournament._id });
@@ -146,7 +134,6 @@ export const useActions = (openDialog: (data?: ConfirmationDialogData) => void):
     {
       key: TournamentActionKey.ConfigureRound,
       label: `Configure Round ${nextRoundLabel}`,
-      available: isOrganizer && isBetweenRounds && hasNextRound && nextRoundPairings?.length === 0,
       handler: () => {
         const { errors, warnings } = validateConfigureRound(tournament, tournamentCompetitors);
         if (errors.length) {
@@ -171,19 +158,16 @@ export const useActions = (openDialog: (data?: ConfirmationDialogData) => void):
     {
       key: TournamentActionKey.StartRound,
       label: `Start Round ${nextRoundLabel}`,
-      available: isOrganizer && isBetweenRounds && hasNextRound && (nextRoundPairings ?? []).length > 0,
       handler: () => startTournamentRound({ id: tournament._id }),
     },
     {
       key: TournamentActionKey.SubmitMatchResult,
       label: 'Submit Match Result',
-      available: !!openRound && (isOrganizer || isPlayer),
       handler: () => openMatchResultCreateDialog(),
     },
     {
       key: TournamentActionKey.EndRound,
       label: `End Round ${currentRoundLabel}`,
-      available: isOrganizer && !!openRound,
       handler: () => {
         if (openRound && openRound.matchResultsProgress.remaining > 0) {
           openDialog({
@@ -209,7 +193,6 @@ export const useActions = (openDialog: (data?: ConfirmationDialogData) => void):
     {
       key: TournamentActionKey.End,
       label: 'End Tournament',
-      available: isOrganizer && isBetweenRounds,
       handler: () => {
         if (tournament.nextRound !== undefined && tournament.nextRound < tournament.roundCount) {
           openDialog({
@@ -231,7 +214,7 @@ export const useActions = (openDialog: (data?: ConfirmationDialogData) => void):
     },
   ];
 
-  return actions.filter(({ available }) => available).reduce((acc, { key, ...action }) => ({
+  return actions.filter(({ key }) => (availableActions ?? []).includes(key)).reduce((acc, { key, ...action }) => ({
     ...acc,
     [key]: action,
   }), {} as TournamentActions);

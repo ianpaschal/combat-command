@@ -1,5 +1,45 @@
-import { DraftTournamentPairing } from '~/api';
+import { DraftTournamentPairing, TournamentCompetitor } from '~/api';
+import { ColumnDef } from '~/components/generic/Table';
+import { TournamentPairingRow } from '~/components/TournamentPairingRow';
 import { TournamentPairingFormItem } from '../../TournamentPairingsPage.schema';
+
+import styles from './ConfirmPairingsDialog.module.scss';
+
+export const getTableColumns = (competitors: TournamentCompetitor[]): ColumnDef<DraftTournamentPairing>[] => [
+  {
+    key: 'table',
+    label: 'Table',
+    width: 40,
+    align: 'center',
+    renderCell: (r) => (
+      <div className={styles.ConfirmPairingsDialog_Table}>
+        {r.table === null ? '-' : r.table + 1}
+      </div>
+    ),
+  },
+  {
+    key: 'pairing',
+    label: 'Pairing',
+    align: 'center',
+    renderCell: (r) => {
+      const tournamentCompetitor0 = competitors.find((c) => c._id === r.tournamentCompetitor0Id) ?? null;
+      const tournamentCompetitor1 = competitors.find((c) => c._id === r.tournamentCompetitor1Id) ?? null;
+      if (!tournamentCompetitor0) {
+        return null;
+      }
+      return (
+        <TournamentPairingRow
+          pairing={{
+            table: r.table,
+            tournamentCompetitor0,
+            tournamentCompetitor1,
+          }}
+          className={styles.ConfirmPairingsDialog_Pairing}
+        />
+      );
+    },
+  },
+];
 
 export const assignTables = (
   pairings: (TournamentPairingFormItem & {

@@ -1,12 +1,7 @@
 import { cloneElement } from 'react';
 import clsx from 'clsx';
 
-import {
-  TournamentCompetitor,
-  TournamentCompetitorId,
-  User,
-  UserId,
-} from '~/api';
+import { TournamentCompetitor, User } from '~/api';
 import { ElementSize } from '~/types/componentLib';
 import { useIdentityElements } from './IdentityBadge.hooks';
 import { IdentityBadgePlaceholder } from './IdentityBadge.types';
@@ -23,32 +18,26 @@ const sizeClasses: Record<ElementSize, string | undefined> = {
 export interface IdentityBadgeProps {
   className?: string;
   competitor?: TournamentCompetitor;
-  competitorId?: TournamentCompetitorId;
   flipped?: boolean;
   loading?: boolean;
   placeholder?: IdentityBadgePlaceholder;
   size?: ElementSize;
   user?: User;
-  userId?: UserId;
 }
 
 export const IdentityBadge = ({
   className,
   competitor,
-  competitorId,
   flipped = false,
   loading = false,
   placeholder,
   size = 'normal',
   user,
-  userId,
 }: IdentityBadgeProps): JSX.Element | null => {
   const [displayAvatar, displayName] = useIdentityElements({
     user,
     competitor,
     placeholder,
-    competitorId,
-    userId,
   }, loading);
   const elements = [
     cloneElement(displayAvatar, { className: styles.IdentityBadge_Avatar, key: 'avatar' }),

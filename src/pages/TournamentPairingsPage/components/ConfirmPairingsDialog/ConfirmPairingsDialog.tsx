@@ -1,11 +1,10 @@
 import { DraftTournamentPairing, TournamentCompetitor } from '~/api';
 import { ConfirmationDialog } from '~/components/ConfirmationDialog';
-import { ColumnDef, Table } from '~/components/generic/Table';
+import { Table } from '~/components/generic/Table';
 import { Warning } from '~/components/generic/Warning';
-import { TournamentPairingRow } from '~/components/TournamentPairingRow';
 import { useTournament } from '~/components/TournamentProvider';
 import { TournamentPairingFormItem } from '../../TournamentPairingsPage.schema';
-import { assignTables } from './ConfirmPairingsDialog.utils';
+import { assignTables, getTableColumns } from './ConfirmPairingsDialog.utils';
 
 import styles from './ConfirmPairingsDialog.module.scss';
 
@@ -38,30 +37,7 @@ export const ConfirmPairingsDialog = ({
     onConfirm(assignedPairings);
   };
 
-  const columns: ColumnDef<DraftTournamentPairing>[] = [
-    {
-      key: 'table',
-      label: 'Table',
-      width: 40,
-      align: 'center',
-      renderCell: (r) => (
-        <div className={styles.ConfirmPairingsDialog_Table}>
-          {r.table === null ? '-' : r.table + 1}
-        </div>
-      ),
-    },
-    {
-      key: 'pairing',
-      label: 'Pairing',
-      align: 'center',
-      renderCell: (r) => (
-        <TournamentPairingRow
-          pairing={r}
-          className={styles.ConfirmPairingsDialog_Pairing}
-        />
-      ),
-    },
-  ];
+  const columns = getTableColumns(competitors);
 
   return (
     <ConfirmationDialog
