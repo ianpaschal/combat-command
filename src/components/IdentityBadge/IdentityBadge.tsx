@@ -3,7 +3,6 @@ import { generatePath, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 
 import { TournamentCompetitor, User } from '~/api';
-import { PATHS } from '~/settings';
 import { ElementSize } from '~/types/componentLib';
 import { useIdentityElements } from './IdentityBadge.hooks';
 import { IdentityBadgePlaceholder } from './IdentityBadge.types';
@@ -19,13 +18,12 @@ const sizeClasses: Record<ElementSize, string | undefined> = {
 
 export interface IdentityBadgeProps {
   className?: string;
-  competitor?: TournamentCompetitor | null;
+  competitor?: TournamentCompetitor;
   flipped?: boolean;
   loading?: boolean;
   placeholder?: IdentityBadgePlaceholder;
   size?: ElementSize;
-  user?: User | null;
-  disableLink?: boolean;
+  user?: User;
 }
 
 export const IdentityBadge = ({
@@ -36,7 +34,6 @@ export const IdentityBadge = ({
   placeholder,
   size = 'normal',
   user,
-  disableLink = false,
 }: IdentityBadgeProps): JSX.Element | null => {
   const navigate = useNavigate();
 

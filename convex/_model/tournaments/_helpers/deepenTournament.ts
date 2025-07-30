@@ -1,7 +1,6 @@
 import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
 import { getStorageUrl } from '../../common/_helpers/getStorageUrl';
-import { getTournamentOrganizersByTournament } from '../../tournamentOrganizers';
 import { getTournamentNextRound } from './getTournamentNextRound';
 
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
@@ -32,8 +31,14 @@ export const deepenTournament = async (
     .withIndex('by_tournament', (q) => q.eq('tournamentId', tournament._id))
     .collect();
 
-  const playerUserIds = tournamentRegistrations.map((r) => r.userId);
-  const activePlayerUserIds = tournamentRegistrations.filter((r) => r.active).map((p) => p.userId);
+  const playerUserIds = tournamentCompetitors.reduce((acc, c) => [
+    ...acc,
+    ...c.players.map((p) => p.userId),
+  ], [] as Id<'users'>[]);
+  const activePlayerUserIds = tournamentCompetitors.reduce((acc, c) => [
+    ...acc,
+    ...c.players.filter((p) => p.active).map((p) => p.userId),
+  ], [] as Id<'users'>[]);
 
   return {
     ...tournament,
@@ -48,6 +53,7 @@ export const deepenTournament = async (
     playerCount: playerUserIds.length,
     playerUserIds,
     useTeams: tournament.competitorSize > 1,
+    nextRound: getTournamentNextRound(tournament),
   };
 };
 

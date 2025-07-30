@@ -49,7 +49,7 @@ export const useIdentityElements = (identity: Identity, loading?: boolean): Reac
   if (user) {
     return [
       <Avatar url={user?.avatarUrl} />,
-      <span>{user.displayName}</span>,
+      <span>{getUserDisplayNameString(user)}</span>,
     ];
   }
 

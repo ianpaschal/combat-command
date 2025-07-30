@@ -2,11 +2,10 @@ import { getAuthUserId } from '@convex-dev/auth/server';
 import { Infer, v } from 'convex/values';
 
 import { QueryCtx } from '../../../_generated/server';
-import { checkUserIsTournamentOrganizer } from '../../tournamentOrganizers';
-import { checkUserIsRegistered } from '../../tournamentRegistrations/_helpers/checkUserIsRegistered';
 import { TournamentActionKey } from '..';
 import { checkTournamentVisibility } from '../_helpers/checkTournamentVisibility';
 import { getTournamentNextRound } from '../_helpers/getTournamentNextRound';
+import { getTournamentPlayerUserIds } from '../_helpers/getTournamentPlayerUserIds';
 
 export const getAvailableTournamentActionsArgs = v.object({
   id: v.id('tournaments'),
@@ -34,15 +33,18 @@ export const getAvailableTournamentActions = async (
   if (!(await checkTournamentVisibility(ctx, tournament))) {
     return [];
   }
-  const isOrganizer = await checkUserIsTournamentOrganizer(ctx, args.id, userId);
-  const isPlayer = await checkUserIsRegistered(ctx, args.id, userId);
 
   // ---- GATHER DATA ----
   const nextRound = getTournamentNextRound(tournament);
   const nextRoundPairings = await ctx.db.query('tournamentPairings')
-    .withIndex('by_tournament_round', (q) => q.eq('tournamentId', args.id).eq('round', nextRound ?? -1))
+    .withIndex('by_tournament_id', (q) => q.eq('tournamentId', args.id))
     .collect();
   const nextRoundPairingCount = (nextRoundPairings ?? []).length;
+  const playerUserIds = await getTournamentPlayerUserIds(ctx, tournament._id);
+
+  const isOrganizer = !!userId && tournament.organizerUserIds.includes(userId);
+  const isPlayer = !!userId && playerUserIds.includes(userId);
+
   const hasCurrentRound = tournament.currentRound !== undefined;
   const hasNextRound = nextRound !== undefined;
 
@@ -65,11 +67,11 @@ export const getAvailableTournamentActions = async (
     actions.push(TournamentActionKey.Start);
   }
 
-  if (isOrganizer && tournament.status === 'active' && !hasCurrentRound && hasNextRound && nextRoundPairingCount === 0) {
+  if (isOrganizer && !hasCurrentRound && hasNextRound && nextRoundPairingCount === 0) {
     actions.push(TournamentActionKey.ConfigureRound);
   }
 
-  if (isOrganizer && tournament.status === 'active' && !hasCurrentRound && hasNextRound && nextRoundPairingCount > 0) {
+  if (isOrganizer && !hasCurrentRound && hasNextRound && nextRoundPairingCount > 0) {
     actions.push(TournamentActionKey.StartRound);
   }
 
@@ -81,7 +83,7 @@ export const getAvailableTournamentActions = async (
     actions.push(TournamentActionKey.EndRound);
   }
 
-  if (isOrganizer && tournament.status === 'active' && !hasCurrentRound) {
+  if (isOrganizer && !hasCurrentRound) {
     actions.push(TournamentActionKey.End);
   }
 
