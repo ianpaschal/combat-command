@@ -48,8 +48,8 @@ export const tournamentFormSchema = z.object({
   startsAt: z.string(), // Local time 0000-00-00T00:00
   endsAt: z.string(), // Local time 0000-00-00T00:00
   registrationClosesAt: z.string(),
-  logoStorageId: z.optional(z.string().transform((val) => val as StorageId)),
-  bannerStorageId: z.optional(z.string().transform((val) => val as StorageId)),
+  logoStorageId: z.preprocess((val) => val === '' ? undefined : val, z.string().optional().transform((val) => val as StorageId)),
+  bannerStorageId: z.preprocess((val) => val === '' ? undefined : val, z.string().optional().transform((val) => val as StorageId)),
 
   // Competitor Config
   maxCompetitors: z.coerce.number().min(2, 'Tournaments require at least two competitors.'),
