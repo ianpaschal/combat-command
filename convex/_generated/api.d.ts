@@ -67,6 +67,7 @@ import type * as _model_matchResults_queries_getMatchResults from "../_model/mat
 import type * as _model_matchResults_queries_getMatchResultsByTournament from "../_model/matchResults/queries/getMatchResultsByTournament.js";
 import type * as _model_matchResults_queries_getMatchResultsByTournamentPairing from "../_model/matchResults/queries/getMatchResultsByTournamentPairing.js";
 import type * as _model_matchResults_queries_getMatchResultsByTournamentRound from "../_model/matchResults/queries/getMatchResultsByTournamentRound.js";
+import type * as _model_matchResults_queries_getMatchResultsByUser from "../_model/matchResults/queries/getMatchResultsByUser.js";
 import type * as _model_tournamentCompetitors__helpers_deepenTournamentCompetitor from "../_model/tournamentCompetitors/_helpers/deepenTournamentCompetitor.js";
 import type * as _model_tournamentCompetitors__helpers_sortTournamentCompetitorsByName from "../_model/tournamentCompetitors/_helpers/sortTournamentCompetitorsByName.js";
 import type * as _model_tournamentCompetitors_fields from "../_model/tournamentCompetitors/fields.js";
@@ -258,6 +259,7 @@ declare const fullApi: ApiFromModules<{
   "_model/matchResults/queries/getMatchResultsByTournament": typeof _model_matchResults_queries_getMatchResultsByTournament;
   "_model/matchResults/queries/getMatchResultsByTournamentPairing": typeof _model_matchResults_queries_getMatchResultsByTournamentPairing;
   "_model/matchResults/queries/getMatchResultsByTournamentRound": typeof _model_matchResults_queries_getMatchResultsByTournamentRound;
+  "_model/matchResults/queries/getMatchResultsByUser": typeof _model_matchResults_queries_getMatchResultsByUser;
   "_model/tournamentCompetitors/_helpers/deepenTournamentCompetitor": typeof _model_tournamentCompetitors__helpers_deepenTournamentCompetitor;
   "_model/tournamentCompetitors/_helpers/sortTournamentCompetitorsByName": typeof _model_tournamentCompetitors__helpers_sortTournamentCompetitorsByName;
   "_model/tournamentCompetitors/fields": typeof _model_tournamentCompetitors_fields;

@@ -13,6 +13,7 @@ export const useGetMatchResults = createPaginatedQueryHook(api.matchResults.getM
 export const useGetMatchResultsByTournament = createQueryHook(api.matchResults.getMatchResultsByTournament);
 export const useGetMatchResultsByTournamentPairing = createQueryHook(api.matchResults.getMatchResultsByTournamentPairing);
 export const useGetMatchResultsByTournamentRound = createQueryHook(api.matchResults.getMatchResultsByTournamentRound);
+export const useGetMatchResultsByUser = createPaginatedQueryHook(api.matchResults.getMatchResultsByUser);
 
 // Basic (C_UD) Mutations
 export const useCreateMatchResult = createMutationHook(api.matchResults.createMatchResult);

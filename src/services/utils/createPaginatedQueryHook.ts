@@ -19,9 +19,10 @@ export const createPaginatedQueryHook = <T extends QueryFn>(queryFn: T) => {
         data: undefined,
         loading: false,
         loadMore: (_n: number) => undefined,
+        status: null,
       };
     }
-    const { results: data, isLoading, loadMore } = usePaginatedQuery(queryFn, args, { initialNumItems: 10 });
+    const { results: data, isLoading, loadMore, status } = usePaginatedQuery(queryFn, args, { initialNumItems: 10 });
     const stored = useRef(data);
     if (data !== undefined) {
       stored.current = data;
@@ -30,6 +31,7 @@ export const createPaginatedQueryHook = <T extends QueryFn>(queryFn: T) => {
       data: stored.current,
       loading: isLoading || stored.current === undefined,
       loadMore,
+      status,
     };
   };
 };
