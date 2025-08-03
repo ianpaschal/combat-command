@@ -11,6 +11,7 @@
   }
 
   @if $muted == true {
+    font-weight: 300;
     color: var(--text-color-muted);
   }
 

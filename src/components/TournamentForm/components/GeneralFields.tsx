@@ -4,12 +4,13 @@ import clsx from 'clsx';
 import { FormField } from '~/components/generic/Form';
 import { InputDateTime } from '~/components/generic/InputDateTime';
 import { InputLocation } from '~/components/generic/InputLocation';
-import { InputSelect } from '~/components/generic/InputSelect';
+import { InputSelect, InputSelectOption } from '~/components/generic/InputSelect';
 import { InputText } from '~/components/generic/InputText';
 import { InputTextArea } from '~/components/generic/InputTextArea';
 import { Separator } from '~/components/generic/Separator';
 import { InputSingleFile } from '~/components/InputSingleFile/InputSingleFile';
 import { TournamentFormData } from '~/components/TournamentForm/TournamentForm.schema';
+import { getTournamentDisplayName } from '~/utils/common/getTournamentDisplayName';
 
 import styles from './GeneralFields.module.scss';
 
@@ -22,21 +23,26 @@ export const GeneralFields = ({
   className,
   status = 'draft',
 }: GeneralFieldsProps): JSX.Element => {
-  const { resetField } = useFormContext<TournamentFormData>();
+  const { resetField, watch } = useFormContext<TournamentFormData>();
 
   // Once a tournament is active, lock some fields
   const disableFields = !['draft', 'published'].includes(status);
 
   const getYearOptions = () => {
-    const options = [];
+    const options: InputSelectOption<string>[] = [{
+      value: '0',
+      label: 'None',
+    }];
     for (let i = 2010; i < 2027; i += 1) {
       options.push({
-        value: i,
+        value: i.toString(),
         label: i.toString(),
       });
     }
     return options;
   };
+
+  const tournament = watch();
 
   return (
     <div className={clsx(styles.GeneralFields, className)}>
@@ -48,6 +54,12 @@ export const GeneralFields = ({
           <InputSelect options={getYearOptions()} />
         </FormField>
       </div>
+      {tournament.editionYear > 0 && (
+        <div className={styles.GeneralFields_Preview}>
+          <p className={styles.GeneralFields_Preview_Description}>Your tournament's name will render as:</p>
+          <h2>{getTournamentDisplayName(tournament)}</h2>
+        </div>
+      )}
       <FormField name="description" label="Description" disabled={disableFields}>
         <InputTextArea />
       </FormField>

@@ -17,7 +17,7 @@ import { fowV4GameSystemConfigDefaultValues, fowV4GameSystemConfigFormSchema } f
 export const tournamentFormSchema = z.object({
 
   // General
-  title: z.string().min(5, 'Title must be at least 5 characters.').max(40, 'Titles are limited to 50 characters.'),
+  title: z.string().min(3, 'Title must be at least 3 characters.').max(40, 'Titles are limited to 40 characters.'),
   editionYear: z.coerce.number(),
   description: z.string().min(10, 'Please add a description.').max(1000, 'Descriptions are limited to 1000 characters.'),
   rulesPackUrl: z.union([z.string().url('Please provide a valid URL.'), z.literal('')]),
