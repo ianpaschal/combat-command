@@ -16,6 +16,11 @@ export const getMatchResultsByTournament = query({
   handler: model.getMatchResultsByTournament,
 });
 
+export const getMatchResultsByUser = query({
+  args: model.getMatchResultsByUserArgs,
+  handler: model.getMatchResultsByUser,
+});
+
 export const getMatchResultsByTournamentPairing = query({
   args: model.getMatchResultsByTournamentPairingArgs,
   handler: model.getMatchResultsByTournamentPairing,

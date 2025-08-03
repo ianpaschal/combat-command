@@ -1,0 +1,30 @@
+@use "/src/style/flex";
+@use "/src/style/text";
+@use "/src/style/variables";
+@use "/src/style/corners";
+@use "/src/style/shadows";
+@use "/src/style/borders";
+@use "/src/style/variants";
+
+.UserTournamentItem {
+  @include corners.normal;
+  @include flex.column($xAlign: center);
+  @include variants.ghost;
+
+  margin: -1rem;
+  padding: 1rem;
+
+  &_LogoWrapper {
+    @include corners.round;
+    @include flex.centered;
+
+    width: 8rem;
+    height: 8rem;
+    background-color: red;
+  }
+
+  &_Logo {
+    width: 5.5rem;
+    height: 5.5rem;
+  }
+}

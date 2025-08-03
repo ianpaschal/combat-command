@@ -1,0 +1,13 @@
+@use "/src/style/flex";
+@use "/src/style/text";
+@use "/src/style/variables";
+@use "/src/style/corners";
+@use "/src/style/shadows";
+@use "/src/style/borders";
+
+.UserTournamentsCard {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 10rem);
+  gap: 1rem;
+  padding: 1rem var(--container-padding-x);
+}

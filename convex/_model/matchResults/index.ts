@@ -58,3 +58,7 @@ export {
   getMatchResultsByTournamentRound,
   getMatchResultsByTournamentRoundArgs,
 } from './queries/getMatchResultsByTournamentRound';
+export {
+  getMatchResultsByUser,
+  getMatchResultsByUserArgs,
+} from './queries/getMatchResultsByUser';

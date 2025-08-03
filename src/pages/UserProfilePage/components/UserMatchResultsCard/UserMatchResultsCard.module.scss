@@ -1,0 +1,21 @@
+@use "/src/style/flex";
+@use "/src/style/text";
+@use "/src/style/variables";
+@use "/src/style/corners";
+@use "/src/style/shadows";
+@use "/src/style/borders";
+
+.UserMatchResultsCard {
+  &_List {
+    @include flex.column($gap: 0.5rem);
+
+    padding: 0.5rem;
+
+    &_ViewAllButton {
+      @include flex.centered;
+
+      flex-grow: 1;
+      padding: 1rem;
+    }
+  }
+}
