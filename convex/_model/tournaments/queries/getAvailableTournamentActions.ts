@@ -67,11 +67,11 @@ export const getAvailableTournamentActions = async (
     actions.push(TournamentActionKey.Start);
   }
 
-  if (isOrganizer && !hasCurrentRound && hasNextRound && nextRoundPairingCount === 0) {
+  if (isOrganizer && tournament.status === 'active' && !hasCurrentRound && hasNextRound && nextRoundPairingCount === 0) {
     actions.push(TournamentActionKey.ConfigureRound);
   }
 
-  if (isOrganizer && !hasCurrentRound && hasNextRound && nextRoundPairingCount > 0) {
+  if (isOrganizer && tournament.status === 'active' && !hasCurrentRound && hasNextRound && nextRoundPairingCount > 0) {
     actions.push(TournamentActionKey.StartRound);
   }
 
@@ -83,7 +83,7 @@ export const getAvailableTournamentActions = async (
     actions.push(TournamentActionKey.EndRound);
   }
 
-  if (isOrganizer && !hasCurrentRound) {
+  if (isOrganizer && tournament.status === 'active' && !hasCurrentRound) {
     actions.push(TournamentActionKey.End);
   }
 
