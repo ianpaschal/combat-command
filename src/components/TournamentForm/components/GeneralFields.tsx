@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { FormField } from '~/components/generic/Form';
 import { InputDateTime } from '~/components/generic/InputDateTime';
 import { InputLocation } from '~/components/generic/InputLocation';
+import { InputSelect } from '~/components/generic/InputSelect';
 import { InputText } from '~/components/generic/InputText';
 import { InputTextArea } from '~/components/generic/InputTextArea';
 import { Separator } from '~/components/generic/Separator';
@@ -26,11 +27,27 @@ export const GeneralFields = ({
   // Once a tournament is active, lock some fields
   const disableFields = !['draft', 'published'].includes(status);
 
+  const getYearOptions = () => {
+    const options = [];
+    for (let i = 2010; i < 2027; i += 1) {
+      options.push({
+        value: i,
+        label: i.toString(),
+      });
+    }
+    return options;
+  };
+
   return (
     <div className={clsx(styles.GeneralFields, className)}>
-      <FormField name="title" label="Title" description="Avoid including points and other rules in the title." disabled={disableFields}>
-        <InputText type="text" />
-      </FormField>
+      <div className={styles.GeneralFields_TitleRow}>
+        <FormField name="title" label="Title" description="Avoid including points and other rules in the title." disabled={disableFields}>
+          <InputText type="text" />
+        </FormField>
+        <FormField name="editionYear" label="Year" disabled={disableFields}>
+          <InputSelect options={getYearOptions()} />
+        </FormField>
+      </div>
       <FormField name="description" label="Description" disabled={disableFields}>
         <InputTextArea />
       </FormField>

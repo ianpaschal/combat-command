@@ -22,6 +22,7 @@ export const editableFields = {
   requireRealNames: v.boolean(),
   organizerUserIds: v.array(v.id('users')),
   rulesPackUrl: v.optional(v.string()),
+  editionYear: v.optional(v.number()),
 
   // Denormalized so that we can filter tournaments by game system, and all related fields.
   // The duplicate data is worth the efficiency in querying.

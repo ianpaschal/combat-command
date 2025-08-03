@@ -42,6 +42,13 @@ export const TournamentCard = ({
 
   const showContextMenu = user && tournament.organizerUserIds.includes(user._id);
 
+  const getTournamentTitle = (): string => {
+    if (tournament.editionYear) {
+      return `${tournament.title} ${tournament.editionYear}`;
+    }
+    return tournament.title;
+  };
+
   return (
     <TournamentProvider tournament={tournament}>
       <TournamentActionsProvider>
@@ -55,7 +62,7 @@ export const TournamentCard = ({
             )}
           </div>
           <div className={styles.TournamentCard_Title}>
-            <h2>{tournament.title}</h2>
+            <h2>{getTournamentTitle()}</h2>
             <div className={styles.TournamentCard_Buttons}>
               {showContextMenu && (
                 <TournamentContextMenu />

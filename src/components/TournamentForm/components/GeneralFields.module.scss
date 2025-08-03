@@ -2,6 +2,12 @@
 
 .GeneralFields {
   @include flex.column;
+
+  &_TitleRow {
+    display: grid;
+    grid-template-columns: 1fr 6rem;
+    gap: 1rem;
+  }
 }
 
 .Stackable {
