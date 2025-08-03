@@ -1,7 +1,22 @@
 @use "/src/style/flex";
+@use "/src/style/text";
 
 .GeneralFields {
   @include flex.column;
+
+  &_TitleRow {
+    display: grid;
+    grid-template-columns: 1fr 6rem;
+    gap: 1rem;
+  }
+
+  &_Preview {
+    @include flex.column($gap: 0.25rem);
+
+    &_Description {
+      @include text.ui($muted: true);
+    }
+  }
 }
 
 .Stackable {
