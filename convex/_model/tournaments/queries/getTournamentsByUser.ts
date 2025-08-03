@@ -39,7 +39,7 @@ export const getTournamentsByUser = async (
     }
     const userIds = [
       ...tournament.organizerUserIds,
-      ...tournament.activePlayerUserIds,
+      ...tournament.playerUserIds,
     ];
     if (!userIds.includes(args.userId)) {
       return false;
