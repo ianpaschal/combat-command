@@ -31,6 +31,7 @@ import { TournamentEditPage } from '~/pages/TournamentEditPage/TournamentEditPag
 import { TournamentPairingDetailPage } from '~/pages/TournamentPairingDetailPage';
 import { TournamentPairingsPage } from '~/pages/TournamentPairingsPage';
 import { TournamentsPage } from '~/pages/TournamentsPage';
+import { UserProfilePage } from '~/pages/UserProfilePage';
 import { PATHS } from '~/settings';
 
 export interface AppRoute {
@@ -147,6 +148,11 @@ export const routes = [
     path: PATHS.tournamentEdit,
     visibility: [],
     element: <TournamentEditPage />,
+  },
+  {
+    path: PATHS.userProfile,
+    visibility: [],
+    element: <UserProfilePage />,
   },
   {
     path: '/settings',

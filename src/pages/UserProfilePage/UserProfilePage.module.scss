@@ -1,0 +1,121 @@
+@use "/src/style/flex";
+@use "/src/style/text";
+@use "/src/style/variables";
+@use "/src/style/corners";
+@use "/src/style/shadows";
+@use "/src/style/borders";
+
+.UserProfilePage {
+  overflow: hidden;
+  flex-grow: 1;
+  gap: 1rem;
+
+  &[data-layout="extra-wide"] {
+    display: grid;
+    grid-template-areas: "profile tabs tabs";
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+  }
+
+  &[data-layout="wide"],
+  &[data-layout="narrow"] {
+    @include flex.column;
+  }
+
+  &_ProfileCard {
+    @include flex.column;
+
+    &_Avatar {
+      width: 8rem;
+      height: 8rem;
+    }
+
+    &_Identity {
+      padding: var(--container-padding-x);
+
+      @include flex.row;
+    }
+
+    &_Awards {
+      @include borders.normal($side: top);
+
+      padding: 1rem var(--container-padding-x);
+    }
+
+    &_Badges {
+      @include borders.normal($side: right);
+
+      padding: var(--container-padding-x);
+
+      // background-color: red;
+    }
+
+    &_Teams {
+      padding: var(--container-padding-x);
+
+      // background-color: red;
+    }
+
+    &_Achievements {
+      @include borders.normal($side: right);
+
+      padding: var(--container-padding-x);
+
+      // background-color: red;
+    }
+
+    &_Avatar {
+      max-width: 8rem;
+    }
+
+    &_DisplayName {
+      @include text.large;
+    }
+  }
+
+  &[data-layout="narrow"] {
+    .UserProfilePage_Profile {
+      grid-template-columns: 1fr;
+      grid-template-rows: 1fr 1fr 1fr;
+
+      &_Badges {
+        @include borders.normal($side: bottom);
+      }
+
+      &_Achievements {
+        @include borders.normal($side: bottom);
+      }
+    }
+  }
+
+  &_Tournaments {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 10rem);
+    gap: 1rem;
+    padding: 1rem var(--container-padding-x);
+  }
+
+  &_MatchResults {
+    grid-area: matchResults;
+
+    &_List {
+      @include flex.column($gap: 0.5rem);
+
+      padding: 0.5rem;
+
+      &_ViewAllButton {
+        @include flex.centered;
+
+        flex-grow: 1;
+        padding: 1rem;
+      }
+    }
+  }
+
+  &_Tabs {
+    @include flex.column;
+
+    grid-area: tabs;
+    min-height: 0;
+  }
+}

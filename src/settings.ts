@@ -22,4 +22,5 @@ export const PATHS = {
   tournamentPairings: '/tournaments/:id/pairings',
   tournaments: '/tournaments',
   tournamentPairingDetails: '/pairings/:id',
+  userProfile: '/users/:id',
 } as const;
