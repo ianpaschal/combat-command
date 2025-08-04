@@ -15,7 +15,6 @@ try {
 
   execSync('git checkout main', { stdio: 'inherit' });
   execSync('git pull origin main', { stdio: 'inherit' });
-  execSync(`git merge --no-ff ${releaseBranch} -m "Merge release ${version} into main"`, { stdio: 'inherit' });
 
   execSync(`git tag -a ${tagName} -m "Release ${tagName}"`, { stdio: 'inherit' });
   execSync('git push origin main');
@@ -23,7 +22,7 @@ try {
 
   execSync('git checkout develop', { stdio: 'inherit' });
   execSync('git pull origin develop', { stdio: 'inherit' });
-  execSync(`git merge --no-ff ${releaseBranch} -m "Merge release ${version} into develop"`, { stdio: 'inherit' });
+  execSync(`git merge origin/main --strategy=ours -m "Sync main into develop after release ${version}"`, { stdio: 'inherit' });
   execSync('git push origin develop');
 
   execSync(`git branch -d ${releaseBranch}`, { stdio: 'inherit' });
