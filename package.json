@@ -1,7 +1,7 @@
 {
   "name": "combat-command",
   "private": true,
-  "version": "1.8.5",
+  "version": "1.9.0",
   "type": "module",
   "scripts": {
     "dev": "npm-run-all --parallel dev:frontend dev:backend",
@@ -18,7 +18,9 @@
     "test:coverage": "vitest run --coverage --coverage.reporter=text",
     "test:debug": "vitest --inspect-brk --no-file-parallelism",
     "test": "vitest run --reporter verbose",
-    "gen:component": "node generateComponent.js"
+    "gen:component": "node scripts/generateComponent.js",
+    "release:prepare": "node scripts/prepareRelease.js",
+    "release:finish": "node scripts/finishRelease.js"
   },
   "dependencies": {
     "@convex-dev/auth": "^0.0.80",
@@ -120,6 +122,7 @@
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "husky": "^9.1.7",
     "sass": "^1.77.8",
+    "semver": "^7.7.2",
     "stylelint": "^16.9.0",
     "stylelint-config-clean-order": "^6.1.0",
     "stylelint-config-standard": "^36.0.1",

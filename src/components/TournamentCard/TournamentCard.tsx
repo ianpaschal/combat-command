@@ -10,6 +10,7 @@ import { TournamentInfoBlock } from '~/components/TournamentInfoBlock/';
 import { TournamentProvider } from '~/components/TournamentProvider';
 import { useElementSize } from '~/hooks/useElementSize';
 import { MIN_WIDTH_TABLET, PATHS } from '~/settings';
+import { getTournamentDisplayName } from '~/utils/common/getTournamentDisplayName';
 
 import styles from './TournamentCard.module.scss';
 
@@ -55,7 +56,7 @@ export const TournamentCard = ({
             )}
           </div>
           <div className={styles.TournamentCard_Title}>
-            <h2>{tournament.title}</h2>
+            <h2>{getTournamentDisplayName(tournament)}</h2>
             <div className={styles.TournamentCard_Buttons}>
               {showContextMenu && (
                 <TournamentContextMenu />

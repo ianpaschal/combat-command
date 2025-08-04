@@ -1,11 +1,21 @@
 @use "/src/style/flex";
+@use "/src/style/corners";
 @use "/src/style/text";
+@use "/src/style/variants";
 
 .IdentityBadge {
   --avatar-size: 2.5rem;
   --avatar-spacing: 0.75rem;
 
+  margin: -0.5rem;
+  padding: 0.5rem;
+
   @include flex.row($gap:  var(--avatar-spacing));
+  @include corners.normal;
+
+  &[data-type="user"] {
+    @include variants.ghost;
+  }
 
   &[data-flipped="true"] {
     justify-content: flex-end;

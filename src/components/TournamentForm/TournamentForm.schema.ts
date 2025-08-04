@@ -17,7 +17,8 @@ import { fowV4GameSystemConfigDefaultValues, fowV4GameSystemConfigFormSchema } f
 export const tournamentFormSchema = z.object({
 
   // General
-  title: z.string().min(5, 'Title must be at least 5 characters.').max(40, 'Titles are limited to 50 characters.'),
+  title: z.string().min(3, 'Title must be at least 3 characters.').max(40, 'Titles are limited to 40 characters.'),
+  editionYear: z.coerce.number(),
   description: z.string().min(10, 'Please add a description.').max(1000, 'Descriptions are limited to 1000 characters.'),
   rulesPackUrl: z.union([z.string().url('Please provide a valid URL.'), z.literal('')]),
   location: z.object({
@@ -48,8 +49,8 @@ export const tournamentFormSchema = z.object({
   startsAt: z.string(), // Local time 0000-00-00T00:00
   endsAt: z.string(), // Local time 0000-00-00T00:00
   registrationClosesAt: z.string(),
-  logoStorageId: z.optional(z.string().transform((val) => val as StorageId)),
-  bannerStorageId: z.optional(z.string().transform((val) => val as StorageId)),
+  logoStorageId: z.preprocess((val) => val === '' ? undefined : val, z.string().optional().transform((val) => val as StorageId)),
+  bannerStorageId: z.preprocess((val) => val === '' ? undefined : val, z.string().optional().transform((val) => val as StorageId)),
 
   // Competitor Config
   maxCompetitors: z.coerce.number().min(2, 'Tournaments require at least two competitors.'),
@@ -105,11 +106,12 @@ export const defaultValues: DeepPartial<TournamentFormData> = {
   gameSystemId: 'flames_of_war_v4',
   gameSystemConfig: fowV4GameSystemConfigDefaultValues,
   roundStructure: {
-    pairingTime: 15,
+    pairingTime: 0,
     setUpTime: 30,
     playingTime: 120,
   },
   rankingFactors: ['total_wins'],
   logoStorageId: '',
   bannerStorageId: '',
+  editionYear: 2025,
 };

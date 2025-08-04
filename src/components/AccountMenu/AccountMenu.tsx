@@ -1,24 +1,35 @@
-import { useNavigate } from 'react-router-dom';
+import { generatePath, useNavigate } from 'react-router-dom';
 import * as Popover from '@radix-ui/react-popover';
-import { Cog, LogOut } from 'lucide-react';
+import {
+  Cog,
+  LogOut,
+  User,
+} from 'lucide-react';
 
 import { useAuth } from '~/components/AuthProvider';
 import { Avatar } from '~/components/generic/Avatar';
-import { Button } from '~/components/generic/Button';
 import { Separator } from '~/components/generic/Separator';
 import { useSignOut } from '~/services/auth/useSignOut';
+import { PATHS } from '~/settings';
 import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
 
 import styles from './AccountMenu.module.scss';
 
 export const AccountMenu = (): JSX.Element => {
+  const navigate = useNavigate();
   const user = useAuth();
   const { signOut } = useSignOut();
 
   const displayName = user ? getUserDisplayNameString(user) : 'Unknown User';
 
-  const navigate = useNavigate();
   const items = [
+    {
+      icon: <User />,
+      label: 'Profile',
+      onClick: (): void => {
+        navigate(generatePath(PATHS.userProfile, { id: user!._id }));
+      },
+    },
     {
       icon: <Cog />,
       label: 'Settings',
@@ -38,17 +49,19 @@ export const AccountMenu = (): JSX.Element => {
         <Avatar url={user?.avatarUrl} />
       </Popover.Trigger>
       <Popover.Content className={styles.Content} align="end">
-        <span className={styles.UserDisplayName}>
+        <div className={styles.UserDisplayName}>
           {displayName}
-        </span>
+        </div>
         <Separator />
-        {items.map((item, i) => (
-          <Popover.Close key={i} asChild>
-            <Button variant="ghost" onClick={item.onClick}>
-              {item.icon}{item.label}
-            </Button>
-          </Popover.Close>
-        ))}
+        <div className={styles.Items} >
+          {items.map((item, i) => (
+            <Popover.Close key={i} asChild>
+              <div className={styles.Item} onClick={item.onClick}>
+                {item.icon}{item.label}
+              </div>
+            </Popover.Close>
+          ))}
+        </div>
       </Popover.Content>
     </Popover.Root>
   );

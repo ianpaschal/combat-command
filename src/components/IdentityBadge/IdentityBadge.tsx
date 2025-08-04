@@ -1,7 +1,9 @@
 import { cloneElement } from 'react';
+import { generatePath, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 
 import { TournamentCompetitor, User } from '~/api';
+import { PATHS } from '~/settings';
 import { ElementSize } from '~/types/componentLib';
 import { useIdentityElements } from './IdentityBadge.hooks';
 import { IdentityBadgePlaceholder } from './IdentityBadge.types';
@@ -34,6 +36,8 @@ export const IdentityBadge = ({
   size = 'normal',
   user,
 }: IdentityBadgeProps): JSX.Element | null => {
+  const navigate = useNavigate();
+
   const [displayAvatar, displayName] = useIdentityElements({
     user,
     competitor,
@@ -48,8 +52,14 @@ export const IdentityBadge = ({
     }),
     // TODO: Add claim button
   ];
+  const type = user ? 'user' : 'competitor';
   return (
-    <div className={clsx(styles.IdentityBadge, sizeClasses[size], className)} data-flipped={flipped}>
+    <div
+      className={clsx(styles.IdentityBadge, sizeClasses[size], className)}
+      data-flipped={flipped}
+      data-type={type}
+      onClick={() => user ? navigate(generatePath(PATHS.userProfile, { id: user._id })) : null}
+    >
       {flipped ? elements.reverse() : elements}
       {/* TODO: Add factions */}
     </div>
