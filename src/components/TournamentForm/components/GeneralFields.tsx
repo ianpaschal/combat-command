@@ -42,7 +42,7 @@ export const GeneralFields = ({
     return options;
   };
 
-  const tournament = watch();
+  const [title, editionYear] = watch(['title', 'editionYear']);
 
   return (
     <div className={clsx(styles.GeneralFields, className)}>
@@ -54,10 +54,10 @@ export const GeneralFields = ({
           <InputSelect options={getYearOptions()} />
         </FormField>
       </div>
-      {tournament.editionYear > 0 && (
+      {editionYear > 0 && (
         <div className={styles.GeneralFields_Preview}>
           <p className={styles.GeneralFields_Preview_Description}>Your tournament's name will render as:</p>
-          <h2>{getTournamentDisplayName(tournament)}</h2>
+          <h2>{getTournamentDisplayName({ title, editionYear })}</h2>
         </div>
       )}
       <FormField name="description" label="Description" disabled={disableFields}>
