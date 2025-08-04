@@ -50,7 +50,7 @@ export const TournamentCreatePage = (): JSX.Element => {
       footer={
         <>
           <Button variant="secondary" onClick={handleCancel} key={0} disabled={loading}>Cancel</Button>
-          <Button type="submit" form={FORM_ID} key={1} disabled={loading}>Create</Button>
+          <Button type="submit" form={FORM_ID} key={1} disabled={loading}>Save & Close</Button>
         </>
       }
     >

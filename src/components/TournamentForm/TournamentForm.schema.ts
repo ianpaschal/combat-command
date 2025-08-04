@@ -106,7 +106,7 @@ export const defaultValues: DeepPartial<TournamentFormData> = {
   gameSystemId: 'flames_of_war_v4',
   gameSystemConfig: fowV4GameSystemConfigDefaultValues,
   roundStructure: {
-    pairingTime: 15,
+    pairingTime: 0,
     setUpTime: 30,
     playingTime: 120,
   },
