@@ -15,7 +15,6 @@ try {
 
   execSync('git checkout main', { stdio: 'inherit' });
   execSync('git pull origin main', { stdio: 'inherit' });
-  execSync(`git merge --no-ff ${releaseBranch} -m "Merge release ${version} into main"`, { stdio: 'inherit' });
 
   execSync(`git tag -a ${tagName} -m "Release ${tagName}"`, { stdio: 'inherit' });
   execSync('git push origin main');
