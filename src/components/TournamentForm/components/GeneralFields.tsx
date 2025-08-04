@@ -29,13 +29,14 @@ export const GeneralFields = ({
   const disableFields = !['draft', 'published'].includes(status);
 
   const getYearOptions = () => {
-    const options: InputSelectOption<string>[] = [{
-      value: '0',
+    const options: InputSelectOption<number>[] = [{
+      value: 0,
       label: 'None',
     }];
-    for (let i = 2010; i < 2027; i += 1) {
+    const current = new Date().getFullYear() + 1; // cover next release
+    for (let i = 2010; i <= current; i += 1) {
       options.push({
-        value: i.toString(),
+        value: i,
         label: i.toString(),
       });
     }
