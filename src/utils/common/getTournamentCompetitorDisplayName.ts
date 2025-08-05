@@ -1,6 +1,5 @@
 import { TournamentCompetitor } from '~/api';
 import { getCountryName } from '~/utils/common/getCountryName';
-import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
 
 /**
  * Gets the display name for a tournament competitor.
@@ -18,7 +17,7 @@ export const getTournamentCompetitorDisplayName = (
 
   // If competitor has only 1 player, just use the player's name:
   if (competitor.players.length === 1 && competitor.players[0].user) {
-    return getUserDisplayNameString(competitor.players[0].user);
+    return competitor.players[0].user.displayName;
   }
 
   // Use the country name if there is one, otherwise just use the team name:

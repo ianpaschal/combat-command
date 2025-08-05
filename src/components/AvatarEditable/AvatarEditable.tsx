@@ -41,7 +41,7 @@ export const AvatarEditable = (): JSX.Element => {
           <Popover.Close asChild>
             <Button variant="ghost">
               <label className={styles.UploadButton} htmlFor="single">
-                {user?.avatarStorageId ? 'Replace' : 'Upload'}
+                {user?.avatarUrl ? 'Replace' : 'Upload'}
               </label>
             </Button>
           </Popover.Close>

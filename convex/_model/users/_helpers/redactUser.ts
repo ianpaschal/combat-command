@@ -3,20 +3,21 @@ import { getAuthUserId } from '@convex-dev/auth/server';
 import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
 import { getStorageUrl } from '../../common/_helpers/getStorageUrl';
-import { checkUserTournamentRelationship } from './checkUserTournamentRelationship';
+import { checkUserRelationshipLevel } from './checkUserRelationshipLevel';
+import { compareVisibilityLevels } from './compareVisibilityLevels';
+import { formatUserRealName } from './formatUserRealName';
 
 /**
  * User with some personal information hidden based on their preferences.
  */
-export type LimitedUser = Omit<Doc<'users'>, 'givenName' | 'familyName' | 'countryCode'> & {
-  givenName?: string;
-  familyName?: string;
-  countryCode?: string;
+export type LimitedUser = Pick<Doc<'users'>, '_id' | 'username'> & {
   avatarUrl?: string;
+  countryCode?: string;
+  displayName: string;
 };
 
 /**
- * Removes a users's real name or location based on their preferences, also adds avatarUrl.
+ * Removes a users's real name or location based on their preferences, also adds avatarUrl and displayName.
  * 
  * @remarks
  * This is essentially the user equivalent to the deepen[Resource]() pattern.
@@ -32,43 +33,28 @@ export const redactUser = async (
   const userId = await getAuthUserId(ctx);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { givenName, familyName, countryCode, ...restFields } = user;
+  const { givenName, familyName, countryCode, email, ...restFields } = user;
   const avatarUrl = await getStorageUrl(ctx, user.avatarStorageId);
-
-  const limitedUser: LimitedUser = {
-    ...restFields,
-    avatarUrl,
-  };
 
   // If user is querying own profile, simply return it
   if (userId === user._id) {
-    return { ...user, avatarUrl };
+    return {
+      ...user,
+      avatarUrl,
+      displayName: formatUserRealName(user),
+    };
   }
 
-  // If user is querying someone they are in a friendship or club with
-  const hasFriendRelationship = false;
+  // Otherwise check for relationships:
+  const relationshipLevel = await checkUserRelationshipLevel(ctx, user, userId);
 
-  // If user is querying someone they are in a tournament with
-  const hasTournamentRelationship = await checkUserTournamentRelationship(ctx, userId, user._id);
+  const nameVisible = compareVisibilityLevels(user?.nameVisibility ?? 'hidden', relationshipLevel);
+  const locationVisible = compareVisibilityLevels(user?.locationVisibility ?? 'hidden', relationshipLevel);
 
-  // Add name information if allowed
-  if (
-    (user?.nameVisibility === 'public') ||
-    (user?.nameVisibility === 'friends' && hasFriendRelationship) ||
-    (user?.nameVisibility === 'tournaments' && (hasFriendRelationship || hasTournamentRelationship))
-  ) {
-    limitedUser.givenName = user.givenName;
-    limitedUser.familyName = user.familyName;
-  }
-
-  // Add location information if allowed
-  if (
-    (user?.locationVisibility === 'public') ||
-    (user?.locationVisibility === 'friends' && hasFriendRelationship) ||
-    (user?.locationVisibility === 'tournaments' && (hasFriendRelationship || hasTournamentRelationship))
-  ) {
-    limitedUser.countryCode = user.countryCode;
-  }
-
-  return limitedUser;
+  return {
+    ...restFields,
+    avatarUrl,
+    displayName: nameVisible ? formatUserRealName(user) : user.username ?? 'Ghost',
+    countryCode: locationVisible ? user.countryCode : undefined,
+  };
 };

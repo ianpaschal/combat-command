@@ -3,7 +3,6 @@ import clsx from 'clsx';
 import { MatchResultId } from '~/api';
 import { Avatar } from '~/components/generic/Avatar';
 import { useGetMatchResultLikesByMatchResult } from '~/services/matchResultLikes';
-import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
 
 import styles from './MatchResultLikes.module.scss';
 
@@ -23,8 +22,9 @@ export const MatchResultLikes = ({
     <div className={clsx(styles.MatchResultLikes, className)}>
       {(matchResultLikes || []).map((like) => (
         <div className={styles.MatchResultLikes__Like} key={like._id}>
+          {/* TODO: Replace with identity badge */}
           <Avatar url={like.user.avatarUrl} />
-          {getUserDisplayNameString(like.user)}
+          {like.user.displayName}
         </div>
       ))}
     </div>

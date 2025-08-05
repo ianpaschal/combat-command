@@ -1,5 +1,5 @@
 import { createContext } from 'react';
 
-import { User } from '~/api';
+import { CurrentUser } from '~/api';
 
-export const AuthContext = createContext<User | null | undefined>(undefined);
+export const AuthContext = createContext<CurrentUser | null | undefined>(undefined);
