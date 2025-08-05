@@ -24,8 +24,7 @@ export const getUsers = async (
   const limitedUsers = await Promise.all(users.map(async (user) => await redactUser(ctx, user)));
   if (args.search) {
     return filterWithSearchTerm(limitedUsers, args.search, [
-      'familyName',
-      'givenName',
+      'displayName',
       'username',
     ]);
   }

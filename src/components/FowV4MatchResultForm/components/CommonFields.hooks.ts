@@ -7,7 +7,6 @@ import {
   UserId,
 } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
-import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
 
 export const usePlayerDisplayName = ({ userId, placeholder }: { userId?: UserId, placeholder?: string }): string => {
   const currentUser = useAuth();
@@ -19,7 +18,7 @@ export const usePlayerDisplayName = ({ userId, placeholder }: { userId?: UserId,
     if (user?._id === currentUser?._id) {
       return 'You';
     }
-    return getUserDisplayNameString(user);
+    return user?.displayName ?? 'Unknown Player';
   }
   return 'Unknown Player';
 };

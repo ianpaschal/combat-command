@@ -30,6 +30,7 @@ export {
   updateUserAvatarNoAuthArgs,
 } from './mutations/updateUserAvatarNoAuth';
 export {
+  type CurrentUser,
   getCurrentUser,
 } from './queries/getCurrentUser';
 export {

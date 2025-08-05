@@ -11,16 +11,17 @@ import { Avatar } from '~/components/generic/Avatar';
 import { Separator } from '~/components/generic/Separator';
 import { useSignOut } from '~/services/auth/useSignOut';
 import { PATHS } from '~/settings';
-import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
 
 import styles from './AccountMenu.module.scss';
 
-export const AccountMenu = (): JSX.Element => {
+export const AccountMenu = (): JSX.Element | null => {
   const navigate = useNavigate();
   const user = useAuth();
   const { signOut } = useSignOut();
 
-  const displayName = user ? getUserDisplayNameString(user) : 'Unknown User';
+  if (!user) {
+    return null;
+  }
 
   const items = [
     {
@@ -50,7 +51,7 @@ export const AccountMenu = (): JSX.Element => {
       </Popover.Trigger>
       <Popover.Content className={styles.Content} align="end">
         <div className={styles.UserDisplayName}>
-          {displayName}
+          {user.displayName}
         </div>
         <Separator />
         <div className={styles.Items} >

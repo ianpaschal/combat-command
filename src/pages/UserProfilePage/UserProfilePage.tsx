@@ -16,7 +16,6 @@ import { DeviceSize, useDeviceSize } from '~/hooks/useDeviceSize';
 import { UserMatchResultsCard } from '~/pages/UserProfilePage/components/UserMatchResultsCard';
 import { useGetUser } from '~/services/users';
 import { MIN_WIDTH_DESKTOP, MIN_WIDTH_TABLET } from '~/settings';
-import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
 
 import styles from './UserProfilePage.module.scss';
 
@@ -65,13 +64,13 @@ export const UserProfilePage = (): JSX.Element => {
           <div className={styles.UserProfilePage_ProfileCard_Identity}>
             <Avatar className={styles.UserProfilePage_ProfileCard_Avatar} url={user?.avatarUrl} />
             <div>
-              <h1>{getUserDisplayNameString(user)}</h1>
+              <h1>{user?.displayName}</h1>
               <p>{user?.username}</p>
             </div>
           </div>
           {/* {(awards ?? []).length > 0 && (
             <div className={styles.UserProfilePage_ProfileCard_Awards}>
-              <h1>{getUserDisplayNameString(user)}</h1>
+              <h1>{user?.displayName}</h1>
               <p>{user?.username}</p>
             </div>
           )} */}

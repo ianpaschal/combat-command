@@ -1,5 +1,4 @@
 import { Identity } from '~/components/IdentityBadge';
-import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
 import { FowV4MatchResultDetailsData } from './FowV4MatchResultDetails.types';
 
 type UserPlayerNameResult = {
@@ -23,7 +22,7 @@ export const usePlayerName = (
   if (user) {
     return {
       loading: false,
-      displayName: getUserDisplayNameString(user),
+      displayName: user.displayName,
     };
   }
 
