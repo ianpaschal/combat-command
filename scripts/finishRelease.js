@@ -15,15 +15,13 @@ try {
 
   execSync('git checkout main', { stdio: 'inherit' });
   execSync('git pull origin main', { stdio: 'inherit' });
+  execSync(`git merge --ff-only ${releaseBranch}`, { stdio: 'inherit' });
 
   execSync(`git tag -a ${tagName} -m "Release ${tagName}"`, { stdio: 'inherit' });
   execSync('git push origin main');
   execSync(`git push origin ${tagName}`);
 
   execSync('git checkout develop', { stdio: 'inherit' });
-  execSync('git pull origin develop', { stdio: 'inherit' });
-  execSync(`git merge origin/main --strategy=ours -m "Sync main into develop after release ${version}"`, { stdio: 'inherit' });
-  execSync('git push origin develop');
 
   execSync(`git branch -d ${releaseBranch}`, { stdio: 'inherit' });
   execSync(`git push origin --delete ${releaseBranch}`, { stdio: 'inherit' });
