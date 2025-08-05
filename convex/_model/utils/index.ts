@@ -10,3 +10,7 @@ export {
   deleteTestTournament,
   deleteTestTournamentArgs,
 } from './deleteTestTournament';
+export {
+  mergeUser,
+  mergeUserArgs,
+} from './mergeUser';

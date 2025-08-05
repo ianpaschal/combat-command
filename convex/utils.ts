@@ -1,24 +1,22 @@
 import { mutation } from './_generated/server';
-import {
-  createTestTournament as createTestTournamentHandler,
-  createTestTournamentArgs,
-  createTestTournamentMatchResults as createTestTournamentMatchResultsHandler,
-  createTestTournamentMatchResultsArgs,
-  deleteTestTournament as deleteTestTournamentHandler,
-  deleteTestTournamentArgs,
-} from './_model/utils';
+import * as model from './_model/utils';
 
 export const createTestTournament = mutation({
-  args: createTestTournamentArgs,
-  handler: createTestTournamentHandler,
+  args: model.createTestTournamentArgs,
+  handler: model.createTestTournament,
 });
 
 export const createTestTournamentMatchResults = mutation({
-  args: createTestTournamentMatchResultsArgs,
-  handler: createTestTournamentMatchResultsHandler,
+  args: model.createTestTournamentMatchResultsArgs,
+  handler: model.createTestTournamentMatchResults,
 });
 
 export const deleteTestTournament = mutation({
-  args: deleteTestTournamentArgs,
-  handler: deleteTestTournamentHandler,
+  args: model.deleteTestTournamentArgs,
+  handler: model.deleteTestTournament,
+});
+
+export const mergeUser = mutation({
+  args: model.mergeUserArgs,
+  handler: model.mergeUser,
 });

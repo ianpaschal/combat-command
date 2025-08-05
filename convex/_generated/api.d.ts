@@ -159,6 +159,7 @@ import type * as _model_utils_createTestTournament from "../_model/utils/createT
 import type * as _model_utils_createTestTournamentMatchResults from "../_model/utils/createTestTournamentMatchResults.js";
 import type * as _model_utils_deleteTestTournament from "../_model/utils/deleteTestTournament.js";
 import type * as _model_utils_index from "../_model/utils/index.js";
+import type * as _model_utils_mergeUser from "../_model/utils/mergeUser.js";
 import type * as auth_ResendOtpPasswordReset from "../auth/ResendOtpPasswordReset.js";
 import type * as auth_ResendOtpVerification from "../auth/ResendOtpVerification.js";
 import type * as auth from "../auth.js";
@@ -357,6 +358,7 @@ declare const fullApi: ApiFromModules<{
   "_model/utils/createTestTournamentMatchResults": typeof _model_utils_createTestTournamentMatchResults;
   "_model/utils/deleteTestTournament": typeof _model_utils_deleteTestTournament;
   "_model/utils/index": typeof _model_utils_index;
+  "_model/utils/mergeUser": typeof _model_utils_mergeUser;
   "auth/ResendOtpPasswordReset": typeof auth_ResendOtpPasswordReset;
   "auth/ResendOtpVerification": typeof auth_ResendOtpVerification;
   auth: typeof auth;
