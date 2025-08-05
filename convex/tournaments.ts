@@ -1,4 +1,8 @@
-import { mutation, query } from './_generated/server';
+import {
+  action,
+  mutation,
+  query,
+} from './_generated/server';
 import * as model from './_model/tournaments';
 
 export const getTournament = query({
@@ -74,4 +78,9 @@ export const publishTournament = mutation({
 export const startTournament = mutation({
   args: model.startTournamentArgs,
   handler: model.startTournament,
+});
+
+export const exportFowV4TournamentMatchData = action({
+  args: model.exportFowV4TournamentMatchDataArgs,
+  handler: model.exportFowV4TournamentMatchData,
 });

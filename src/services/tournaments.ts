@@ -1,3 +1,5 @@
+import { useAction } from 'convex/react';
+
 import { api } from '~/api';
 import { createMutationHook, createQueryHook } from '~/services/utils';
 
@@ -24,3 +26,6 @@ export const useEndTournamentRound = createMutationHook(api.tournaments.endTourn
 export const usePublishTournament = createMutationHook(api.tournaments.publishTournament);
 export const useStartTournament = createMutationHook(api.tournaments.startTournament);
 export const useStartTournamentRound = createMutationHook(api.tournaments.startTournamentRound);
+
+// Actions
+export const useExportFowV4TournamentMatchData = () => useAction(api.tournaments.exportFowV4TournamentMatchData);

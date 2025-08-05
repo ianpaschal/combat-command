@@ -121,6 +121,7 @@ import type * as _model_tournaments__helpers_getTournamentNextRound from "../_mo
 import type * as _model_tournaments__helpers_getTournamentPlayerUserIds from "../_model/tournaments/_helpers/getTournamentPlayerUserIds.js";
 import type * as _model_tournaments__helpers_getTournamentShallow from "../_model/tournaments/_helpers/getTournamentShallow.js";
 import type * as _model_tournaments__helpers_getTournamentUserIds from "../_model/tournaments/_helpers/getTournamentUserIds.js";
+import type * as _model_tournaments_actions_exportFowV4TournamentMatchData from "../_model/tournaments/actions/exportFowV4TournamentMatchData.js";
 import type * as _model_tournaments_fields from "../_model/tournaments/fields.js";
 import type * as _model_tournaments_index from "../_model/tournaments/index.js";
 import type * as _model_tournaments_mutations_createTournament from "../_model/tournaments/mutations/createTournament.js";
@@ -316,6 +317,7 @@ declare const fullApi: ApiFromModules<{
   "_model/tournaments/_helpers/getTournamentPlayerUserIds": typeof _model_tournaments__helpers_getTournamentPlayerUserIds;
   "_model/tournaments/_helpers/getTournamentShallow": typeof _model_tournaments__helpers_getTournamentShallow;
   "_model/tournaments/_helpers/getTournamentUserIds": typeof _model_tournaments__helpers_getTournamentUserIds;
+  "_model/tournaments/actions/exportFowV4TournamentMatchData": typeof _model_tournaments_actions_exportFowV4TournamentMatchData;
   "_model/tournaments/fields": typeof _model_tournaments_fields;
   "_model/tournaments/index": typeof _model_tournaments_index;
   "_model/tournaments/mutations/createTournament": typeof _model_tournaments_mutations_createTournament;
