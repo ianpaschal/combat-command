@@ -10,8 +10,6 @@
   margin: -0.5rem;
   padding: 0.5rem;
 
-  // background-color: blue;
-
   @include flex.row($gap:  var(--avatar-spacing));
   @include corners.normal;
 

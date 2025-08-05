@@ -31,7 +31,7 @@ export const UserMatchResultsCard = ({
       <CardHeader title="Match Results">
         {user?._id === userId && (
           <Button onClick={() => open()}>
-            Check-In<Plus />
+            <Plus />Check-In
           </Button>
         )}
       </CardHeader>

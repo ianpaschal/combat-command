@@ -1,6 +1,6 @@
 import { Tournament, UserId } from '~/api';
 import { useGetTournamentCompetitorsByTournament } from '~/services/tournamentCompetitors';
-import { useGetTournamentRankings } from '~/services/tournaments';
+// import { useGetTournamentRankings } from '~/services/tournaments';
 import { getTournamentCompetitorDisplayName } from '~/utils/common/getTournamentCompetitorDisplayName';
 
 import styles from './UserTournamentItem.module.scss';
@@ -14,10 +14,10 @@ export const UserTournamentItem = ({
   userId,
   tournament,
 }: UserTournamentItemProps): JSX.Element => {
-  const { data: rankings } = useGetTournamentRankings({
-    tournamentId: tournament._id,
-    round: tournament.roundCount - 1,
-  });
+  // const { data: rankings } = useGetTournamentRankings({
+  //   tournamentId: tournament._id,
+  //   round: tournament.roundCount - 1,
+  // });
   const { data: competitors } = useGetTournamentCompetitorsByTournament({
     tournamentId: tournament._id,
   });

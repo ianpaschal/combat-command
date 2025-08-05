@@ -1,7 +1,7 @@
 {
   "name": "combat-command",
   "private": true,
-  "version": "1.8.5",
+  "version": "1.9.1",
   "type": "module",
   "scripts": {
     "dev": "npm-run-all --parallel dev:frontend dev:backend",

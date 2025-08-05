@@ -66,7 +66,7 @@ export const MatchResultsCard = ({
             ) : (
               <div className={styles.MatchResultsCard_EmptyState}>
                 <Button onClick={handleCreate}>
-                  Check-In<Plus />
+                  <Plus />Check-In
                 </Button>
               </div>
             )}
