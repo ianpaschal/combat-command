@@ -2,6 +2,7 @@ import { useCallback, useEffect } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import {
   Info,
+  LineChart,
   Swords,
   Trophy,
   Users,
@@ -29,6 +30,7 @@ import { TournamentMatchResultsCard } from './components/TournamentMatchResultsC
 import { TournamentPairingsCard } from './components/TournamentPairingsCard';
 import { TournamentRankingsCard } from './components/TournamentRankingsCard';
 import { TournamentRosterCard } from './components/TournamentRosterCard';
+import { TournamentStatsCard } from './components/TournamentStatsCard';
 
 import styles from './TournamentDetailPage.module.scss';
 
@@ -59,6 +61,7 @@ export const TournamentDetailPage = (): JSX.Element => {
     { value: 'pairings', label: 'Pairings', icon: <Zap /> },
     { value: 'rankings', label: 'Rankings', icon: <Trophy /> },
     { value: 'matchResults', label: 'Match Results', icon: <Swords /> },
+    { value: 'stats', label: 'Stats', icon: <LineChart /> },
   ];
   if (showInfoSidebar) {
     tabs.splice(tabs.findIndex((tab) => tab.value === 'info'), 1);
@@ -140,6 +143,9 @@ export const TournamentDetailPage = (): JSX.Element => {
                 </TabsContent>
                 <TabsContent value="roster">
                   <TournamentRosterCard />
+                </TabsContent>
+                <TabsContent value="stats">
+                  <TournamentStatsCard />
                 </TabsContent>
               </Tabs>
             </div>
