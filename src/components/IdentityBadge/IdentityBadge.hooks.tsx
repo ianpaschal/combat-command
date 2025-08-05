@@ -5,7 +5,6 @@ import { TournamentCompetitor } from '~/api';
 import { Avatar } from '~/components/generic/Avatar';
 import { FlagCircle } from '~/components/generic/FlagCircle';
 import { getCountryName } from '~/utils/common/getCountryName';
-import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
 import { Identity } from './IdentityBadge.types';
 
 const fallbackAvatar: ReactElement = <Avatar icon={<HelpCircle />} muted />;
@@ -31,7 +30,7 @@ const getCompetitorDisplayName = (competitor: TournamentCompetitor): ReactElemen
     return <span>{countryName ?? competitor.teamName}</span>;
   }
   if (competitor.players.length === 1 && competitor.players[0].user) {
-    return <span>{getUserDisplayNameString(competitor.players[0].user)}</span >;
+    return <span>{competitor.players[0].user.displayName}</span >;
   }
   return fallbackDisplayName;
 };
@@ -50,7 +49,7 @@ export const useIdentityElements = (identity: Identity, loading?: boolean): Reac
   if (user) {
     return [
       <Avatar url={user?.avatarUrl} />,
-      <span>{getUserDisplayNameString(user)}</span>,
+      <span>{user.displayName}</span>,
     ];
   }
 

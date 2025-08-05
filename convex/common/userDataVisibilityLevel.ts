@@ -5,6 +5,7 @@ export const userDataVisibilityLevel = v.union(
   v.literal('friends'),
   v.literal('clubs'),
   v.literal('tournaments'),
+  v.literal('community'),
   v.literal('public'),
 );
 

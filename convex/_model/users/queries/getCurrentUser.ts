@@ -1,8 +1,13 @@
-import { getAuthUserId } from '@convex-dev/auth/server';
+import { Doc, getAuthUserId } from '@convex-dev/auth/server';
 
 import { QueryCtx } from '../../../_generated/server';
-import { LimitedUser } from '../_helpers/redactUser';
-import { getUser } from './getUser';
+import { getStorageUrl } from '../../common/_helpers/getStorageUrl';
+import { formatUserRealName } from '../_helpers/formatUserRealName';
+
+export type CurrentUser = Doc<'users'> & {
+  avatarUrl?: string;
+  displayName: string; 
+};
 
 /**
  * Gets the querying user.
@@ -14,10 +19,18 @@ import { getUser } from './getUser';
  */
 export const getCurrentUser = async (
   ctx: QueryCtx,
-): Promise<LimitedUser | null> => {
+): Promise<CurrentUser | null> => {
   const userId = await getAuthUserId(ctx);
   if (!userId) {
     return null;
   }
-  return await getUser(ctx, { id: userId });
+  const user = await ctx.db.get(userId);
+  if (!user) {
+    return null;
+  }
+  return {
+    ...user,
+    avatarUrl : await getStorageUrl(ctx, user.avatarStorageId),
+    displayName: formatUserRealName(user),
+  };
 };

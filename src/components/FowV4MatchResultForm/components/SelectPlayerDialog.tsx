@@ -12,7 +12,6 @@ import { Label } from '~/components/generic/Label';
 import { ScrollArea } from '~/components/generic/ScrollArea';
 import { Separator } from '~/components/generic/Separator';
 import { useGetUsers } from '~/services/users';
-import { getUserDisplayNameReact } from '~/utils/common/getUserDisplayNameReact';
 
 import styles from './SelectPlayerDialog.module.scss';
 
@@ -55,9 +54,7 @@ export const SelectPlayerDialog = ({
           <Avatar url={existingUser?.avatarUrl} className={styles.UserAvatar} />
           <div className={styles.UserDisplayName}>
             {existingPlaceholder}
-            {existingUser && (
-              getUserDisplayNameReact(existingUser)
-            )}
+            {existingUser?.displayName}
           </div>
         </button>
       }
@@ -72,7 +69,7 @@ export const SelectPlayerDialog = ({
                 <div className={styles.UserListItem} key={i}>
                   <Avatar url={user.avatarUrl} className={styles.UserAvatar} />
                   <div className={styles.UserDisplayName}>
-                    {getUserDisplayNameReact(user)}
+                    {user.displayName}
                   </div>
                   <Close asChild>
                     <Button

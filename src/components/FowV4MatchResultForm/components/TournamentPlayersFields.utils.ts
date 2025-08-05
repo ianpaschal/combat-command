@@ -1,12 +1,11 @@
 import { TournamentCompetitor } from '~/api';
-import { getUserDisplayNameString } from '~/utils/common/getUserDisplayNameString';
 
 export const getCompetitorPlayerOptions = (competitor?: TournamentCompetitor | null) => {
   if (!competitor) {
     return [];
   }
   return competitor.players.map((player) => ({
-    value: player.user?._id || '', // TODO: Remove once Convex code is changed to always return users
-    label: getUserDisplayNameString(player.user),
+    value: player.user._id,
+    label: player.user.displayName,
   })); 
 };
