@@ -139,7 +139,10 @@ import type * as _model_tournaments_queries_getTournaments from "../_model/tourn
 import type * as _model_tournaments_queries_getTournamentsByStatus from "../_model/tournaments/queries/getTournamentsByStatus.js";
 import type * as _model_tournaments_queries_getTournamentsByUser from "../_model/tournaments/queries/getTournamentsByUser.js";
 import type * as _model_users__helpers_checkUserAuth from "../_model/users/_helpers/checkUserAuth.js";
+import type * as _model_users__helpers_checkUserRelationshipLevel from "../_model/users/_helpers/checkUserRelationshipLevel.js";
 import type * as _model_users__helpers_checkUserTournamentRelationship from "../_model/users/_helpers/checkUserTournamentRelationship.js";
+import type * as _model_users__helpers_compareVisibilityLevels from "../_model/users/_helpers/compareVisibilityLevels.js";
+import type * as _model_users__helpers_formatUserRealName from "../_model/users/_helpers/formatUserRealName.js";
 import type * as _model_users__helpers_getShallowUser from "../_model/users/_helpers/getShallowUser.js";
 import type * as _model_users__helpers_redactUser from "../_model/users/_helpers/redactUser.js";
 import type * as _model_users_actions_setUserDefaultAvatar from "../_model/users/actions/setUserDefaultAvatar.js";
@@ -334,7 +337,10 @@ declare const fullApi: ApiFromModules<{
   "_model/tournaments/queries/getTournamentsByStatus": typeof _model_tournaments_queries_getTournamentsByStatus;
   "_model/tournaments/queries/getTournamentsByUser": typeof _model_tournaments_queries_getTournamentsByUser;
   "_model/users/_helpers/checkUserAuth": typeof _model_users__helpers_checkUserAuth;
+  "_model/users/_helpers/checkUserRelationshipLevel": typeof _model_users__helpers_checkUserRelationshipLevel;
   "_model/users/_helpers/checkUserTournamentRelationship": typeof _model_users__helpers_checkUserTournamentRelationship;
+  "_model/users/_helpers/compareVisibilityLevels": typeof _model_users__helpers_compareVisibilityLevels;
+  "_model/users/_helpers/formatUserRealName": typeof _model_users__helpers_formatUserRealName;
   "_model/users/_helpers/getShallowUser": typeof _model_users__helpers_getShallowUser;
   "_model/users/_helpers/redactUser": typeof _model_users__helpers_redactUser;
   "_model/users/actions/setUserDefaultAvatar": typeof _model_users_actions_setUserDefaultAvatar;

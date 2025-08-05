@@ -58,6 +58,7 @@ export {
 
 // Users
 export {
+  type CurrentUser,
   type LimitedUser as User,
   type UserId,
 } from '../convex/_model/users';

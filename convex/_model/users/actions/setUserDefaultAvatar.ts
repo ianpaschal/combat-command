@@ -16,7 +16,9 @@ export const setUserDefaultAvatar = async (
   const user = await ctx.runQuery(api.users.getUser, {
     id: args.userId,
   });
-  if (!user || !!user.avatarStorageId) {
+
+  // If user is not found, or it already has an avatar set:
+  if (!user || !!user.avatarUrl) {
     return;
   }
 
