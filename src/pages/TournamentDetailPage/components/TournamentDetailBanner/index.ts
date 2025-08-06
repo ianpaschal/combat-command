@@ -1,1 +1,0 @@
-export { TournamentDetailBanner } from './TournamentDetailBanner';

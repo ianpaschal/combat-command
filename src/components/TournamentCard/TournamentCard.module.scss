@@ -18,6 +18,11 @@
   overflow: hidden;
   display: grid;
 
+  &_Logo {
+    width: 10rem;
+    height: 10rem;
+  }
+
   &_Banner {
     @include flex.centered;
     @include backgrounds.topography;
@@ -51,11 +56,11 @@
     .TournamentCard_Banner {
       grid-column: 1/-1;
       grid-row: 1/2;
+    }
 
-      img {
-        width: 6rem;
-        height: 6rem;
-      }
+    .TournamentCard_Logo {
+      width: 6rem;
+      height: 6rem;
     }
 
     .TournamentCard_Title {
