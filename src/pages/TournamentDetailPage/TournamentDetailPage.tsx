@@ -17,13 +17,13 @@ import {
 import { NotFoundView } from '~/components/NotFoundView';
 import { PageWrapper } from '~/components/PageWrapper';
 import { TournamentActionsProvider } from '~/components/TournamentActionsProvider';
+import { TournamentBanner } from '~/components/TournamentBanner';
 import { TournamentCompetitorsProvider } from '~/components/TournamentCompetitorsProvider';
 import { TournamentContextMenu } from '~/components/TournamentContextMenu';
 import { TournamentProvider } from '~/components/TournamentProvider';
 import { DeviceSize, useDeviceSize } from '~/hooks/useDeviceSize';
 import { useGetTournamentCompetitorsByTournament } from '~/services/tournamentCompetitors';
 import { useGetTournament } from '~/services/tournaments';
-import { TournamentDetailBanner } from './components/TournamentDetailBanner';
 import { TournamentInfoCard } from './components/TournamentInfoCard';
 import { TournamentMatchResultsCard } from './components/TournamentMatchResultsCard';
 import { TournamentPairingsCard } from './components/TournamentPairingsCard';
@@ -109,8 +109,7 @@ export const TournamentDetailPage = (): JSX.Element => {
       <TournamentActionsProvider>
         <TournamentCompetitorsProvider tournamentCompetitors={tournamentCompetitors}>
           <PageWrapper
-            banner={<TournamentDetailBanner />}
-            bannerBackgroundUrl={tournament.bannerUrl}
+            banner={<TournamentBanner />}
             title={tournament.title}
             hideTitle
           >

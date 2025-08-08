@@ -7,6 +7,7 @@ import { Button } from '~/components/generic/Button';
 import { TournamentActionsProvider } from '~/components/TournamentActionsProvider';
 import { TournamentContextMenu } from '~/components/TournamentContextMenu';
 import { TournamentInfoBlock } from '~/components/TournamentInfoBlock/';
+import { TournamentLogo } from '~/components/TournamentLogo';
 import { TournamentProvider } from '~/components/TournamentProvider';
 import { useElementSize } from '~/hooks/useElementSize';
 import { MIN_WIDTH_TABLET, PATHS } from '~/settings';
@@ -52,7 +53,10 @@ export const TournamentCard = ({
             backgroundSize: 'cover',
           } : undefined}>
             {tournament?.logoUrl && (
-              <img src={tournament.logoUrl} alt={tournament.title} />
+              <TournamentLogo
+                className={styles.TournamentCard_Logo}
+                url={tournament.logoUrl}
+              />
             )}
           </div>
           <div className={styles.TournamentCard_Title}>

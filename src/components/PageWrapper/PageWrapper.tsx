@@ -19,7 +19,6 @@ export interface PageWrapperProps {
   title?: string;
   hideTitle?: boolean;
   banner?: ReactNode;
-  bannerBackgroundUrl?: string;
 }
 
 export const PageWrapper = ({
@@ -31,7 +30,6 @@ export const PageWrapper = ({
   title,
   hideTitle = false,
   banner,
-  bannerBackgroundUrl,
 }: PageWrapperProps): JSX.Element => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -50,21 +48,10 @@ export const PageWrapper = ({
     }
   };
 
-  const bannerBackgroundStyle = bannerBackgroundUrl ? {
-    backgroundImage: `url(${bannerBackgroundUrl}`,
-    backgroundSize: 'cover',
-  } : undefined;
-
   return (
     <div className={clsx(styles.PageWrapper, styles.AppBarPadding)} data-fitted={fitToWindow}>
       <ScrollArea className={styles.PageWrapper_ScrollArea}>
-        {banner && (
-          <div className={styles.PageWrapper_Banner} style={bannerBackgroundStyle}>
-            <div className={styles.PageWrapper_BannerContent} style={{ maxWidth }}>
-              {banner}
-            </div>
-          </div>
-        )}
+        {banner}
         <div className={styles.PageWrapper_Content} style={{ maxWidth }}>
           {(showBackButton || (title && !hideTitle)) && (
             <div className={styles.PageWrapper_Header}>
