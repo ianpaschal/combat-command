@@ -14,6 +14,11 @@ export const editableFields = {
   title: v.string(),
   description: v.string(),
   logoStorageId: v.optional(v.union(v.id('_storage'))),
+  logoWrapper: v.optional(v.object({
+    shape: v.union(v.literal('round'), v.literal('hexagon'), v.literal('shield'), v.literal('square')),
+    borderColor: v.optional(v.string()),
+    backgroundColor: v.string(),
+  })),
   bannerStorageId: v.optional(v.union(v.id('_storage'))),
   location,
   startsAt: v.string(), // ISO date string
