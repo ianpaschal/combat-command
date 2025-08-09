@@ -7,7 +7,8 @@ export const tournamentPairingsTable = defineTable({
   ...editableFields,
   ...computedFields,
 })
-  .index('by_tournament_id', ['tournamentId']);
+  .index('by_tournament_id', ['tournamentId'])
+  .index('by_tournament_round', ['tournamentId', 'round']);
 
 export type TournamentPairingId = Id<'tournamentPairings'>;
 export type ShallowTournamentPairing = Doc<'tournamentPairings'>;
