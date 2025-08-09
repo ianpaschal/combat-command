@@ -13,8 +13,7 @@ export const getMatchResultsByTournamentRound = async (
   args: Infer<typeof getMatchResultsByTournamentRoundArgs>,
 ): Promise<DeepMatchResult[]> => {
   const tournamentPairings = await ctx.db.query('tournamentPairings')
-    .withIndex('by_tournament_id', (q) => q.eq('tournamentId', args.tournamentId))
-    .filter((q) => q.eq(q.field('round'), args.round))
+    .withIndex('by_tournament_round', (q) => q.eq('tournamentId', args.tournamentId).eq('round', args.round))
     .collect();
   const matchResults = await ctx.db.query('matchResults')
     .withIndex('by_tournament_id', (q) => q.eq('tournamentId', args.tournamentId))

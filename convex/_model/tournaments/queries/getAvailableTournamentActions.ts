@@ -37,7 +37,7 @@ export const getAvailableTournamentActions = async (
   // ---- GATHER DATA ----
   const nextRound = getTournamentNextRound(tournament);
   const nextRoundPairings = await ctx.db.query('tournamentPairings')
-    .withIndex('by_tournament_id', (q) => q.eq('tournamentId', args.id))
+    .withIndex('by_tournament_round', (q) => q.eq('tournamentId', args.id).eq('round', nextRound ?? -1))
     .collect();
   const nextRoundPairingCount = (nextRoundPairings ?? []).length;
   const playerUserIds = await getTournamentPlayerUserIds(ctx, tournament._id);

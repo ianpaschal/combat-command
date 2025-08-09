@@ -23,8 +23,7 @@ export const createTestTournamentMatchResults = async (
     throw new Error('Tournament does not have a current round!');
   }
   const tournamentPairings = await ctx.db.query('tournamentPairings')
-    .withIndex('by_tournament_id', (q) => q.eq('tournamentId', tournamentId))
-    .filter((q) => q.eq(q.field('round'), tournament.currentRound))
+    .withIndex('by_tournament_round', (q) => q.eq('tournamentId', tournamentId).eq('round', tournament.currentRound ?? -1))
     .collect();
   if (tournamentPairings.length < 1) {
     throw new Error('No pairings to create results for!');
