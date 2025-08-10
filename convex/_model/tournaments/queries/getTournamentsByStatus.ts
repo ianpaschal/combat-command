@@ -23,7 +23,8 @@ export const getTournamentsByStatus = async (
   args: Infer<typeof getTournamentsByStatusArgs>,
 ): Promise<TournamentDeep[]> => {
   const tournaments = await ctx.db.query('tournaments')
-    .withIndex('by_status', ((q) => q.eq('status', args.status)))
+    .withIndex('by_status_starts_at', ((q) => q.eq('status', args.status)))
+    .order(args.status === 'archived' ? 'desc' : 'asc')
     .collect();
   const deepTournaments = await Promise.all(
     tournaments.map(async (tournament) => {
