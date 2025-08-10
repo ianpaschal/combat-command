@@ -8,16 +8,12 @@
  * @module
  */
 
-import type {
-  ApiFromModules,
-  FilterApi,
-  FunctionReference,
-} from "convex/server";
 import type * as _fixtures_fowV4_createMockFowV4MatchResultData from "../_fixtures/fowV4/createMockFowV4MatchResultData.js";
 import type * as _model_common__helpers_checkAuth from "../_model/common/_helpers/checkAuth.js";
 import type * as _model_common__helpers_clamp from "../_model/common/_helpers/clamp.js";
 import type * as _model_common__helpers_filterWithSearchTerm from "../_model/common/_helpers/filterWithSearchTerm.js";
 import type * as _model_common__helpers_getRange from "../_model/common/_helpers/getRange.js";
+import type * as _model_common__helpers_getStaticEnumConvexValidator from "../_model/common/_helpers/getStaticEnumConvexValidator.js";
 import type * as _model_common__helpers_getStorageUrl from "../_model/common/_helpers/getStorageUrl.js";
 import type * as _model_common__helpers_intersectArrays from "../_model/common/_helpers/intersectArrays.js";
 import type * as _model_common__helpers_notNullOrUndefined from "../_model/common/_helpers/notNullOrUndefined.js";
@@ -35,8 +31,6 @@ import type * as _model_fowV4_fowV4GameSystemConfig from "../_model/fowV4/fowV4G
 import type * as _model_fowV4_fowV4ListData from "../_model/fowV4/fowV4ListData.js";
 import type * as _model_fowV4_fowV4MatchOutcomeType from "../_model/fowV4/fowV4MatchOutcomeType.js";
 import type * as _model_fowV4_fowV4MatchResultDetails from "../_model/fowV4/fowV4MatchResultDetails.js";
-import type * as _model_fowV4_getMission from "../_model/fowV4/getMission.js";
-import type * as _model_fowV4_getMissionPack from "../_model/fowV4/getMissionPack.js";
 import type * as _model_fowV4_sumFowV4BaseStats from "../_model/fowV4/sumFowV4BaseStats.js";
 import type * as _model_fowV4_types from "../_model/fowV4/types.js";
 import type * as _model_lists_fields from "../_model/lists/fields.js";
@@ -181,11 +175,11 @@ import type * as http from "../http.js";
 import type * as matchResultComments from "../matchResultComments.js";
 import type * as matchResultLikes from "../matchResultLikes.js";
 import type * as matchResults from "../matchResults.js";
+import type * as migrations from "../migrations.js";
 import type * as photos_index from "../photos/index.js";
 import type * as photos_mutations from "../photos/mutations.js";
 import type * as photos_queries from "../photos/queries.js";
 import type * as scheduledTasks from "../scheduledTasks.js";
-import type * as static_currencyCodes from "../static/currencyCodes.js";
 import type * as static_fowV4_dynamicPointsVersions from "../static/fowV4/dynamicPointsVersions.js";
 import type * as static_fowV4_eras from "../static/fowV4/eras.js";
 import type * as static_fowV4_factions from "../static/fowV4/factions.js";
@@ -203,6 +197,12 @@ import type * as tournaments from "../tournaments.js";
 import type * as users from "../users.js";
 import type * as utils from "../utils.js";
 
+import type {
+  ApiFromModules,
+  FilterApi,
+  FunctionReference,
+} from "convex/server";
+
 /**
  * A utility for referencing Convex functions in your app's API.
  *
@@ -217,6 +217,7 @@ declare const fullApi: ApiFromModules<{
   "_model/common/_helpers/clamp": typeof _model_common__helpers_clamp;
   "_model/common/_helpers/filterWithSearchTerm": typeof _model_common__helpers_filterWithSearchTerm;
   "_model/common/_helpers/getRange": typeof _model_common__helpers_getRange;
+  "_model/common/_helpers/getStaticEnumConvexValidator": typeof _model_common__helpers_getStaticEnumConvexValidator;
   "_model/common/_helpers/getStorageUrl": typeof _model_common__helpers_getStorageUrl;
   "_model/common/_helpers/intersectArrays": typeof _model_common__helpers_intersectArrays;
   "_model/common/_helpers/notNullOrUndefined": typeof _model_common__helpers_notNullOrUndefined;
@@ -234,8 +235,6 @@ declare const fullApi: ApiFromModules<{
   "_model/fowV4/fowV4ListData": typeof _model_fowV4_fowV4ListData;
   "_model/fowV4/fowV4MatchOutcomeType": typeof _model_fowV4_fowV4MatchOutcomeType;
   "_model/fowV4/fowV4MatchResultDetails": typeof _model_fowV4_fowV4MatchResultDetails;
-  "_model/fowV4/getMission": typeof _model_fowV4_getMission;
-  "_model/fowV4/getMissionPack": typeof _model_fowV4_getMissionPack;
   "_model/fowV4/sumFowV4BaseStats": typeof _model_fowV4_sumFowV4BaseStats;
   "_model/fowV4/types": typeof _model_fowV4_types;
   "_model/lists/fields": typeof _model_lists_fields;
@@ -380,11 +379,11 @@ declare const fullApi: ApiFromModules<{
   matchResultComments: typeof matchResultComments;
   matchResultLikes: typeof matchResultLikes;
   matchResults: typeof matchResults;
+  migrations: typeof migrations;
   "photos/index": typeof photos_index;
   "photos/mutations": typeof photos_mutations;
   "photos/queries": typeof photos_queries;
   scheduledTasks: typeof scheduledTasks;
-  "static/currencyCodes": typeof static_currencyCodes;
   "static/fowV4/dynamicPointsVersions": typeof static_fowV4_dynamicPointsVersions;
   "static/fowV4/eras": typeof static_fowV4_eras;
   "static/fowV4/factions": typeof static_fowV4_factions;
@@ -402,11 +401,101 @@ declare const fullApi: ApiFromModules<{
   users: typeof users;
   utils: typeof utils;
 }>;
+declare const fullApiWithMounts: typeof fullApi;
+
 export declare const api: FilterApi<
-  typeof fullApi,
+  typeof fullApiWithMounts,
   FunctionReference<any, "public">
 >;
 export declare const internal: FilterApi<
-  typeof fullApi,
+  typeof fullApiWithMounts,
   FunctionReference<any, "internal">
 >;
+
+export declare const components: {
+  migrations: {
+    lib: {
+      cancel: FunctionReference<
+        "mutation",
+        "internal",
+        { name: string },
+        {
+          batchSize?: number;
+          cursor?: string | null;
+          error?: string;
+          isDone: boolean;
+          latestEnd?: number;
+          latestStart: number;
+          name: string;
+          next?: Array<string>;
+          processed: number;
+          state: "inProgress" | "success" | "failed" | "canceled" | "unknown";
+        }
+      >;
+      cancelAll: FunctionReference<
+        "mutation",
+        "internal",
+        { sinceTs?: number },
+        Array<{
+          batchSize?: number;
+          cursor?: string | null;
+          error?: string;
+          isDone: boolean;
+          latestEnd?: number;
+          latestStart: number;
+          name: string;
+          next?: Array<string>;
+          processed: number;
+          state: "inProgress" | "success" | "failed" | "canceled" | "unknown";
+        }>
+      >;
+      clearAll: FunctionReference<
+        "mutation",
+        "internal",
+        { before?: number },
+        null
+      >;
+      getStatus: FunctionReference<
+        "query",
+        "internal",
+        { limit?: number; names?: Array<string> },
+        Array<{
+          batchSize?: number;
+          cursor?: string | null;
+          error?: string;
+          isDone: boolean;
+          latestEnd?: number;
+          latestStart: number;
+          name: string;
+          next?: Array<string>;
+          processed: number;
+          state: "inProgress" | "success" | "failed" | "canceled" | "unknown";
+        }>
+      >;
+      migrate: FunctionReference<
+        "mutation",
+        "internal",
+        {
+          batchSize?: number;
+          cursor?: string | null;
+          dryRun: boolean;
+          fnHandle: string;
+          name: string;
+          next?: Array<{ fnHandle: string; name: string }>;
+        },
+        {
+          batchSize?: number;
+          cursor?: string | null;
+          error?: string;
+          isDone: boolean;
+          latestEnd?: number;
+          latestStart: number;
+          name: string;
+          next?: Array<string>;
+          processed: number;
+          state: "inProgress" | "success" | "failed" | "canceled" | "unknown";
+        }
+      >;
+    };
+  };
+};

@@ -1,15 +1,14 @@
 import { DeepPartial } from 'react-hook-form';
+import { GameSystem } from '@ianpaschal/combat-command-static-data/common';
+import {
+  BattlePlan,
+  Faction,
+  MatchOutcomeType,
+  MissionName,
+} from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
 import { z } from 'zod';
 
-import {
-  FowV4BattlePlan,
-  FowV4FactionId,
-  fowV4MatchOutcomeTypeValues,
-  FowV4MissionId,
-  GameSystemId,
-  MatchResult,
-  UserId,
-} from '~/api';
+import { MatchResult, UserId } from '~/api';
 import { fowV4GameSystemConfigDefaultValues, fowV4GameSystemConfigFormSchema } from './components/GameConfigFields.schema';
 
 export const fowV4MatchResultFormSchema = z.object({
@@ -22,18 +21,21 @@ export const fowV4MatchResultFormSchema = z.object({
 
   details: z.object({
     // Handled by <TournamentPlayersForm /> or <SingleMatchPlayersForm />
-    player0BattlePlan: z.string({ message: 'Please select a battle plan.' }).transform((val) => val as FowV4BattlePlan),
-    player0FactionId: z.optional(z.string({ message: 'Please select a faction.' }).transform((val) => val as FowV4FactionId)),
+    player0BattlePlan: z.string({ message: 'Please select a battle plan.' }).transform((val) => val as BattlePlan),
+    player0FactionId: z.optional(z.union([z.string({ message: 'Please select a faction.' }).transform((val) => val as Faction), z.string()])), // TODO: REMOVE UNION AFTER MIGRATION
     player0UnitsLost: z.coerce.number(),
-    player1BattlePlan: z.string({ message: 'Please select a battle plan.' }).transform((val) => val as FowV4BattlePlan),
-    player1FactionId: z.optional(z.string({ message: 'Please select a faction.' }).transform((val) => val as FowV4FactionId)),
+    player1BattlePlan: z.string({ message: 'Please select a battle plan.' }).transform((val) => val as BattlePlan),
+    player1FactionId: z.optional(z.union([z.string({ message: 'Please select a faction.' }).transform((val) => val as Faction), z.string()])), // TODO: REMOVE UNION AFTER MIGRATION
     player1UnitsLost: z.coerce.number(),
 
     // Handled by <CommonForm />
     attacker: z.union([z.literal(0), z.literal(1)], { message: 'Please select an attacker.' }),
     firstTurn: z.union([z.literal(0), z.literal(1)], { message: 'Please who had the first turn.' }),
-    missionId: z.string({ message: 'Please select a mission.' }).transform((val) => val as FowV4MissionId),
-    outcomeType: z.enum(fowV4MatchOutcomeTypeValues, { message: 'Please select an outcome type.' }),
+    missionId: z.optional(z.string({ message: 'Please select a mission.' })), // TODO: REMOVE UNION AFTER MIGRATION
+    mission: z.optional(z.string({ message: 'Please select a mission.' }).transform((val) => val as MissionName)),
+    outcomeType: z.enum(Object.values(MatchOutcomeType) as [MatchOutcomeType, ...MatchOutcomeType[]], {
+      message: 'Please select an outcome type.',
+    }),
     turnsPlayed: z.coerce.number().min(1),
     winner: z.union([z.literal(-1), z.literal(0), z.literal(1)], { message: 'Please select a winner.' }),
   }),
@@ -41,7 +43,7 @@ export const fowV4MatchResultFormSchema = z.object({
   gameSystemConfig: fowV4GameSystemConfigFormSchema,
 
   // Non-editable
-  gameSystemId: z.string().transform((val) => val as GameSystemId),
+  gameSystem: z.string().transform((val) => val as GameSystem),
   playedAt: z.union([z.string(), z.number()]), // TODO: not visible, enable later
 }).superRefine((values, ctx) => {
   if (values.details.outcomeType !== 'time_out' && values.details.winner === undefined) {
@@ -64,7 +66,7 @@ export const defaultValues: DeepPartial<MatchResult> = {
     player1UnitsLost: 0,
     attacker: undefined,
     firstTurn: undefined,
-    missionId: undefined,
+    mission: undefined,
     outcomeType: undefined,
     turnsPlayed: 1,
     winner: undefined,
@@ -75,7 +77,7 @@ export const defaultValues: DeepPartial<MatchResult> = {
   player0UserId: '' as UserId,
   player1Placeholder: '',
   player1UserId: '' as UserId,
-  gameSystemId: 'flames_of_war_v4',
+  gameSystem: GameSystem.FlamesOfWarV4,
   gameSystemConfig: fowV4GameSystemConfigDefaultValues,
   playedAt: new Date().toISOString(),
 };

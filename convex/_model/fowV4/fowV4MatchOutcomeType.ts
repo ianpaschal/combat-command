@@ -4,6 +4,7 @@ import { Infer, v } from 'convex/values';
 export const fowV4MatchOutcomeTypeValues = [
   'objective_taken',
   'attack_repelled',
+  'max_points_reached',
   'force_broken',
   'time_out',
 ] as const;

@@ -1,10 +1,13 @@
+import { GameSystem } from '@ianpaschal/combat-command-static-data/common';
 import { v } from 'convex/values';
 
-import { gameSystemId } from '../../static/gameSystems';
+import { getStaticEnumConvexValidator } from '../common/_helpers/getStaticEnumConvexValidator';
 import { fowV4ListData } from '../fowV4/fowV4ListData';
 
+const gameSystem = getStaticEnumConvexValidator(GameSystem);
+
 export const editableFields = {
-  gameSystemId: gameSystemId,
+  gameSystem: gameSystem,
   data: fowV4ListData,
   ownerUserId: v.id('users'),
 };

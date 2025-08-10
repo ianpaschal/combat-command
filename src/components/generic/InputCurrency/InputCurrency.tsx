@@ -5,9 +5,9 @@ import {
   useEffect,
   useState,
 } from 'react';
+import { currencyOptions } from '@ianpaschal/combat-command-static-data/common';
 import clsx from 'clsx';
 
-import { currencyCodeOptions } from '~/api';
 import { InputSelect } from '~/components/generic/InputSelect';
 
 import styles from './InputCurrency.module.scss';
@@ -106,7 +106,7 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(({
         <InputSelect
           value={value?.currency}
           defaultValue={currency}
-          options={currencyCodeOptions}
+          options={currencyOptions}
           onChange={handleCurrencyChange}
         />
         <input name="amount" value="" onKeyDown={handleAmountChange} onChange={() => null} />

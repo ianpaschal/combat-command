@@ -1,22 +1,23 @@
+import { ForceDiagram } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
 import { v } from 'convex/values';
 
-import { fowV4FactionId } from '../../static/fowV4/factions';
+import { getStaticEnumConvexValidator } from '../common/_helpers/getStaticEnumConvexValidator';
+
+const forceDiagram = getStaticEnumConvexValidator(ForceDiagram);
 
 export const fowV4ListData = v.object({
   meta: v.object({
-    alignment: v.union(v.literal('axis'), v.literal('allies')),
-    faction: fowV4FactionId,
-    diagram: v.string(),
-    points: v.number(),
+    forceDiagram,
+    pointsLimit: v.number(),
   }),
   formations: v.array(v.object({
-    id: v.string(),
+    id: v.string(), // NanoId
     sourceId: v.string(),
   })),
   units: v.array(v.object({
-    id: v.string(),
+    id: v.string(), // NanoId
     sourceId: v.string(),
-    formationId: v.string(), // Formation ID or 'support'
+    formationId: v.string(), // Formation NanoId or 'support'
     slotId: v.string(), // e.g. Armour 1
   })),
   commandCards: v.array(v.object({

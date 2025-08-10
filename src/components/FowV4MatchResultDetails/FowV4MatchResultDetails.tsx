@@ -1,6 +1,6 @@
+import { getBattlePlanDisplayName, getMissionDisplayName } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
 import clsx from 'clsx';
 
-import { fowV4BattlePlanOptions, getMission } from '~/api';
 import { useElementSize } from '~/hooks/useElementSize';
 import { calculateMatchScore } from '~/utils/flamesOfWarV4Utils/calculateMatchScore';
 import { PerPlayerRow } from './components/PerPlayerRow';
@@ -25,10 +25,10 @@ export const FowV4MatchResultDetails = ({
 
   const playerNames = usePlayerNames(matchResult);
   const score = calculateMatchScore(matchResult.details);
-  const missionName = matchResult.details.missionName ?? getMission(matchResult.details.missionId)?.displayName;
+  const missionName = getMissionDisplayName(matchResult.details.mission) ?? 'Hidden';
   const battlePlans: [string, string] = [
-    fowV4BattlePlanOptions.find((option) => option.value === matchResult.details.player0BattlePlan)?.label ?? 'Hidden',
-    fowV4BattlePlanOptions.find((option) => option.value === matchResult.details.player1BattlePlan)?.label ?? 'Hidden',
+    getBattlePlanDisplayName(matchResult.details.player0BattlePlan) ?? 'Hidden',
+    getBattlePlanDisplayName(matchResult.details.player1BattlePlan) ?? 'Hidden',
   ];
   const unitsLost: [number, number] = [
     matchResult.details.player0UnitsLost,

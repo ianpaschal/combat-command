@@ -1,3 +1,9 @@
+import {
+  getGameSystemDisplayName,
+  getTournamentPairingMethodDisplayName,
+  TournamentPairingMethod,
+} from '@ianpaschal/combat-command-static-data/common';
+import { eraOptions } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
 import clsx from 'clsx';
 import { format } from 'date-fns';
 import {
@@ -11,11 +17,6 @@ import {
   Weight,
 } from 'lucide-react';
 
-import {
-  fowV4EraOptions,
-  getGameSystemDisplayName,
-  tournamentPairingMethodDisplayNames,
-} from '~/api';
 import { getLocalizedCompetitorFee } from '~/components/TournamentInfoBlock/TournamentInfoBlock.utils';
 import { useTournament } from '~/components/TournamentProvider';
 
@@ -68,17 +69,19 @@ export const TournamentInfoBlock = ({
         <>
           <div className={styles.TournamentInfoBlock_InfoLine}>
             <Dices />
-            <span>{getGameSystemDisplayName(tournament.gameSystemId)}</span>
+            {/* TODO: REMOVE NON-NULL ASSERTION AFTER MIGRATION */}
+            <span>{getGameSystemDisplayName(tournament.gameSystem!)}</span>
           </div>
           <div className={styles.TournamentInfoBlock_InfoLine}>
             <Weight />
             <span>{`${tournament.gameSystemConfig.points} pts`}</span>
-            <span>{fowV4EraOptions.find(({ value }) => value === tournament.gameSystemConfig.eraId)?.label}</span>
+            <span>{eraOptions.find(({ value }) => value === tournament.gameSystemConfig.eraId)?.label}</span>
           </div>
           <div className={styles.TournamentInfoBlock_InfoLine}>
             <Swords />
             <span>{`${tournament.roundCount} rounds`}</span>
-            <span>{`${tournamentPairingMethodDisplayNames[tournament.pairingMethod]} pairing`}</span>
+            {/* TODO: REMOVE ENUM ASSERTION AFTER MIGRATION */}
+            <span>{`${getTournamentPairingMethodDisplayName(tournament.pairingMethod as TournamentPairingMethod)} pairing`}</span>
           </div>
           {tournament.rulesPackUrl && (
             <div className={styles.TournamentInfoBlock_InfoLine}>

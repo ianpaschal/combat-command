@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
+import { battlePlanOptions } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
 
-import { fowV4BattlePlanOptions, TournamentPairingId } from '~/api';
+import { TournamentPairingId } from '~/api';
 import { FormField } from '~/components/generic/Form';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { InputText } from '~/components/generic/InputText';
@@ -55,7 +56,7 @@ export const TournamentPlayersFields = ({
           <InputSelect options={player0Options} />
         </FormField>
         <FormField name="details.player0BattlePlan" label="Battle Plan">
-          <InputSelect options={fowV4BattlePlanOptions} />
+          <InputSelect options={battlePlanOptions} />
         </FormField>
         <FormField name="details.player0UnitsLost" label="Units Lost">
           <InputText type="number" />
@@ -73,7 +74,7 @@ export const TournamentPlayersFields = ({
           </FormField>
         )}
         <FormField name="details.player1BattlePlan" label="Battle Plan">
-          <InputSelect options={fowV4BattlePlanOptions} />
+          <InputSelect options={battlePlanOptions} />
         </FormField>
         <FormField name="details.player1UnitsLost" label="Units Lost">
           <InputText type="number" />

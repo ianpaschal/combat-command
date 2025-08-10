@@ -1,14 +1,14 @@
 import { useFormContext } from 'react-hook-form';
+import { RankingFactor, rankingFactorOptions } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
 import { X } from 'lucide-react';
 
-import { FowV4RankingFactor, fowV4RankingFactorOptions } from '~/api';
 import { Button } from '~/components/generic/Button';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { TournamentFormData } from '~/components/TournamentForm/TournamentForm.schema';
 
 import styles from './RankingFactorFields.module.scss';
 
-const isValidFactor = (factor: string | number | undefined): factor is FowV4RankingFactor => (factor as FowV4RankingFactor) !== undefined;
+const isValidFactor = (factor: string | number | undefined): factor is RankingFactor => (factor as RankingFactor) !== undefined;
 
 export interface RankingFactorFieldsProps {
   status?: 'draft' | 'published' | 'active' | 'archived';
@@ -21,7 +21,7 @@ export const RankingFactorFields = ({
   const rankingFactors = watch('rankingFactors');
 
   // TODO: Get different options depending on game system
-  const options = fowV4RankingFactorOptions;
+  const options = rankingFactorOptions;
 
   const handleChange = (i: number, factor: string | number | undefined): void => {
     if (isValidFactor(factor)) {

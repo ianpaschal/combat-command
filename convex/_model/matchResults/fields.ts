@@ -1,8 +1,11 @@
+import { GameSystem } from '@ianpaschal/combat-command-static-data/common';
 import { v } from 'convex/values';
 
-import { gameSystemId } from '../../static/gameSystems';
+import { getStaticEnumConvexValidator } from '../common/_helpers/getStaticEnumConvexValidator';
 import { fowV4GameSystemConfig } from '../fowV4/fowV4GameSystemConfig';
 import { fowV4MatchResultDetails } from '../fowV4/fowV4MatchResultDetails';
+
+const gameSystem = getStaticEnumConvexValidator(GameSystem);
 
 export const editableFields = {
   tournamentPairingId: v.optional(v.id('tournamentPairings')),
@@ -19,7 +22,8 @@ export const editableFields = {
 
   // Game System
   gameSystemConfig: v.union(fowV4GameSystemConfig),
-  gameSystemId: gameSystemId,
+  gameSystemId: v.optional(gameSystem), // TODO: REMOVE AFTER MIGRATION
+  gameSystem: v.optional(gameSystem),
 
   photoIds: v.optional(v.array(v.id('photos'))),
 };

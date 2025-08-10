@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
+import { battlePlanOptions, factionOptions } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
 
-import { fowV4BattlePlanOptions, fowV4FactionOptions } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
 import { FormField } from '~/components/generic/Form';
 import { InputSelect } from '~/components/generic/InputSelect';
@@ -60,10 +60,10 @@ export const SingleMatchPlayersFields = (): JSX.Element => {
               disabled={editingPlayer === i}
             />
             <FormField name={`details.player${i}FactionId`} label="Faction">
-              <InputSelect options={fowV4FactionOptions} />
+              <InputSelect options={factionOptions} />
             </FormField>
             <FormField name={`details.player${i}BattlePlan`} label="Battle Plan">
-              <InputSelect options={fowV4BattlePlanOptions} />
+              <InputSelect options={battlePlanOptions} />
             </FormField>
             <FormField name={`details.player${i}UnitsLost`} label="Units Lost">
               <InputText type="number" />

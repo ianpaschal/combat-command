@@ -1,7 +1,8 @@
+import { TournamentPairingMethod } from '@ianpaschal/combat-command-static-data/common';
 import { Infer, v } from 'convex/values';
 
 import { QueryCtx } from '../../../_generated/server';
-import { tournamentPairingMethod } from '../../../static/tournamentPairingMethods';
+import { getStaticEnumConvexValidator } from '../../common/_helpers/getStaticEnumConvexValidator';
 import { getTournamentCompetitorsByTournament } from '../../tournamentCompetitors';
 import { getTournamentRankings, TournamentCompetitorRanked } from '../../tournaments';
 import { generateDraftPairings } from '../_helpers/generateDraftPairings';
@@ -12,6 +13,7 @@ import { uniqueFields } from '../fields';
 
 const draftTournamentPairing = v.object(uniqueFields);
 export type DraftTournamentPairing = Infer<typeof draftTournamentPairing>;
+const tournamentPairingMethod = getStaticEnumConvexValidator(TournamentPairingMethod);
 
 export const getDraftTournamentPairingsArgs = v.object({
   method: tournamentPairingMethod,

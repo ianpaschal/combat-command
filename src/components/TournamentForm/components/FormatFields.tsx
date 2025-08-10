@@ -1,6 +1,6 @@
 import { useFormContext } from 'react-hook-form';
+import { tournamentPairingMethodOptions } from '@ianpaschal/combat-command-static-data/common';
 
-import { tournamentPairingMethodOptions } from '~/api';
 import { Animate } from '~/components/generic/Animate';
 import { FormField } from '~/components/generic/Form';
 import { InputSelect } from '~/components/generic/InputSelect';

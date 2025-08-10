@@ -16,13 +16,9 @@ import {
 } from 'react-router-dom';
 import { UniqueIdentifier } from '@dnd-kit/core';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { TournamentPairingMethod, tournamentPairingMethodOptions } from '@ianpaschal/combat-command-static-data/common';
 
-import {
-  DraftTournamentPairing,
-  TournamentId,
-  TournamentPairingMethod,
-  tournamentPairingMethodOptions,
-} from '~/api';
+import { DraftTournamentPairing, TournamentId } from '~/api';
 import { ConfirmationDialog, useConfirmationDialog } from '~/components/ConfirmationDialog';
 import { Button } from '~/components/generic/Button';
 import { InfoPopover } from '~/components/generic/InfoPopover';
@@ -69,7 +65,11 @@ export const TournamentPairingsPage = (): JSX.Element => {
     includeRankings: lastRound,
   });
   const isFirstRound = (tournament?.lastRound ?? -1) < 0;
-  const defaultPairingMethod = isFirstRound ? 'random' : (tournament?.pairingMethod ?? 'adjacent');
+  const defaultPairingMethod = isFirstRound ? (
+    TournamentPairingMethod.Random
+  ) : (
+    tournament?.pairingMethod ?? TournamentPairingMethod.Adjacent
+  );
   const [pairingMethod, setPairingMethod] = useState<TournamentPairingMethod>(defaultPairingMethod);
 
   const round = lastRound + 1;
