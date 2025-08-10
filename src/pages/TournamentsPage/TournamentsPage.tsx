@@ -7,6 +7,7 @@ import {
   Search,
 } from 'lucide-react';
 
+import { Tournament } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
 import { FloatingActionButton } from '~/components/FloatingActionButton';
 import { Button } from '~/components/generic/Button';
@@ -28,6 +29,19 @@ export const TournamentsPage = (): JSX.Element => {
   const handleClickCreateTournament = (): void => {
     navigate(PATHS.tournamentCreate);
   };
+
+  type StatusGroup = Exclude<Tournament['status'], 'draft'>;
+  const { active, archived, published } = (tournaments ?? []).reduce((acc, t) => {
+    if (t.status in acc) {
+      acc[t.status as StatusGroup].push(t);
+    }
+    return acc;
+  }, {
+    active: [],
+    archived: [],
+    published: [],
+  } as Record<StatusGroup, Tournament[]>);
+
   return (
     <PageWrapper title="Tournaments">
       {showFilters && (
@@ -56,10 +70,31 @@ export const TournamentsPage = (): JSX.Element => {
           </Button>
         </div>
       )}
-      <div className={styles.List}>
-        {(tournaments || []).map((tournament) => (
-          <TournamentCard key={tournament._id} tournament={tournament} />
-        ))}
+      <div className={styles.TournamentsPage_Content}>
+        {active.length > 0 && (
+          <div className={styles.TournamentsPage_Section}>
+            <h2>On-Going</h2>
+            {active.map((tournament) => (
+              <TournamentCard key={tournament._id} tournament={tournament} />
+            ))}
+          </div>
+        )}
+        {published.length > 0 && (
+          <div className={styles.TournamentsPage_Section}>
+            <h2>Upcoming</h2>
+            {published.map((tournament) => (
+              <TournamentCard key={tournament._id} tournament={tournament} />
+            ))}
+          </div>
+        )}
+        {archived.length > 0 && (
+          <div className={styles.TournamentsPage_Section}>
+            <h2>Past</h2>
+            {archived.reverse().map((tournament) => (
+              <TournamentCard key={tournament._id} tournament={tournament} />
+            ))}
+          </div>
+        )}
       </div>
       {showCreateTournamentButton && (
         <FloatingActionButton onClick={handleClickCreateTournament}>

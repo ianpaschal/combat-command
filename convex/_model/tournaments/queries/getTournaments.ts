@@ -22,7 +22,10 @@ export const getTournaments = async (
   args: Infer<typeof getTournamentsArgs>,
 ): Promise<TournamentDeep[]> => {
 
-  const tournaments = await ctx.db.query('tournaments').collect();
+  const tournaments = await ctx.db.query('tournaments')
+    .withIndex('by_starts_at')
+    .order('asc')
+    .collect();
   const deepTournaments = await Promise.all(
     tournaments.filter((tournament) => {
       if (args.startsAfter) {

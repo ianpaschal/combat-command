@@ -8,6 +8,8 @@ export const tournamentsTable = defineTable({
   ...computedFields,
 })
   .index('by_game_system_id', ['gameSystemId'])
+  .index('by_starts_at', ['startsAt'])
+  .index('by_status_starts_at', ['status', 'startsAt'])
   .index('by_status', ['status']);
 
 export type TournamentId = Id<'tournaments'>;
