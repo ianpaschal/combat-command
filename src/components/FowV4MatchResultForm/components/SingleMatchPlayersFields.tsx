@@ -59,7 +59,7 @@ export const SingleMatchPlayersFields = (): JSX.Element => {
               onConfirm={(data) => handleConfirmPlayer(i, data)}
               disabled={editingPlayer === i}
             />
-            <FormField name={`details.player${i}FactionId`} label="Faction">
+            <FormField name={`details.player${i}Faction`} label="Faction">
               <InputSelect options={factionOptions} />
             </FormField>
             <FormField name={`details.player${i}BattlePlan`} label="Battle Plan">
