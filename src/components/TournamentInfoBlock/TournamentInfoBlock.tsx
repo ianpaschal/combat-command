@@ -75,7 +75,7 @@ export const TournamentInfoBlock = ({
           <div className={styles.TournamentInfoBlock_InfoLine}>
             <Weight />
             <span>{`${tournament.gameSystemConfig.points} pts`}</span>
-            <span>{eraOptions.find(({ value }) => value === tournament.gameSystemConfig.eraId)?.label}</span>
+            <span>{eraOptions.find(({ value }) => value === tournament.gameSystemConfig.era)?.label}</span>
           </div>
           <div className={styles.TournamentInfoBlock_InfoLine}>
             <Swords />

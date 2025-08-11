@@ -63,11 +63,6 @@ export {
   type UserId,
 } from '../convex/_model/users';
 
-// Tournament Phases
-export {
-  type TournamentPhase,
-} from '../convex/static/tournamentPhases';
-
 // TODO: Move around...
 export type {
   DraftTournamentPairing,

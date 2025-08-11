@@ -1,4 +1,5 @@
-import { fowV4StatKeys } from '../../static/fowV4/fowV4RankingFactors';
+import { StatKey } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
+
 import { FowV4BaseStats } from './types';
 
 /**
@@ -15,7 +16,7 @@ export const sumFowV4BaseStats = (statsArr: FowV4BaseStats[]): FowV4BaseStats =>
     points: 0,
   };
   return statsArr.reduce((acc, stats) => {
-    for (const key of fowV4StatKeys) {
+    for (const key of Object.values(StatKey)) {
       acc[key] = (acc[key] ?? 0) + (stats[key] ?? 0);
     }
     return acc;

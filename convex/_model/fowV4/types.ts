@@ -1,5 +1,6 @@
+import { RankingFactor } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
+
 import { Id } from '../../_generated/dataModel';
-import { FowV4RankingFactor } from '../../static/fowV4/fowV4RankingFactors';
 
 /**
  * The base stats which all other values are calculated from.
@@ -41,7 +42,7 @@ export type FowV4TournamentExtendedStats = {
  * The extended stats which include all ranking factors, flattened.
  * Can pertain to a competitor/team or player/user.
  */
-export type FowV4TournamentFlatExtendedStats = Record<FowV4RankingFactor, number>;
+export type FowV4TournamentFlatExtendedStats = Record<RankingFactor, number>;
 
 /**
  * Virtually identical to AggregateFowV4TournamentData, but includes a rank property.

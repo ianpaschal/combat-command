@@ -1,4 +1,5 @@
-import { fowV4RankingFactorGroups, fowV4StatKeys } from '../../static/fowV4/fowV4RankingFactors';
+import { RankingFactorGroup, StatKey } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
+
 import {
   FowV4StatId,
   FowV4TournamentExtendedStats,
@@ -17,9 +18,9 @@ export const flattenFowV4StatMap = <T extends FowV4StatId>(
   const statList = Object.entries(statMap) as [T, FowV4TournamentExtendedStats][];
   return statList.map(([key, stats]) => {
     const flatStats = {} as FowV4TournamentFlatExtendedStats;
-    for (const prefix of fowV4RankingFactorGroups) {
+    for (const prefix of Object.values(RankingFactorGroup)) {
       const statGroup = stats[prefix];
-      for (const statKey of fowV4StatKeys) {
+      for (const statKey of Object.values(StatKey)) {
         const flatKey = `${prefix}_${statKey}` as keyof FowV4TournamentFlatExtendedStats;
         flatStats[flatKey] = statGroup[statKey];
       }

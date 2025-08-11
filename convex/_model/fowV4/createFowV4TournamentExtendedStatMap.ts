@@ -1,4 +1,5 @@
-import { fowV4RankingFactorGroups } from '../../static/fowV4/fowV4RankingFactors';
+import { RankingFactorGroup } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
+
 import { FowV4StatId, FowV4TournamentExtendedStats } from './types';
 
 /**
@@ -11,7 +12,7 @@ export const createFowV4TournamentExtendedStatMap = <T extends FowV4StatId>(
 ): Record<T, FowV4TournamentExtendedStats> => ids.reduce((acc, id) => ({
   ...acc,
   [id]: {
-    ...fowV4RankingFactorGroups.reduce((key) => ({
+    ...Object.values(RankingFactorGroup).reduce((key) => ({
       ...acc,
       [key as keyof FowV4TournamentExtendedStats]: {
         points: 0,

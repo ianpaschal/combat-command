@@ -1,21 +1,14 @@
 import { ReactElement } from 'react';
+import { TournamentRoundPhase } from '@ianpaschal/combat-command-static-data/common';
 import { format } from 'date-fns';
 
 import {
   convertRoundStructureToMs,
-  TournamentPhase,
   TournamentRoundStructure,
   TournamentTimer,
 } from '~/api';
 
 import styles from './TournamentTimer.module.scss';
-
-export const phaseLabels: Record<TournamentPhase, string> = {
-  setUp: 'Set-Up',
-  pairing: 'Pairing',
-  playing: 'Playing',
-  completed: 'Completed',
-} as const;
 
 export const getRemainingTimeElements = (duration: number | null): ReactElement[] => {
   if (duration === null) {
@@ -52,18 +45,18 @@ export const getRemainingTimeElements = (duration: number | null): ReactElement[
 export const getCurrentPhase = (
   elapsed: number,
   structure: TournamentRoundStructure,
-): TournamentPhase => {
+): TournamentRoundPhase => {
   const roundStructureMs = convertRoundStructureToMs(structure);
   if (elapsed < roundStructureMs.pairingTime) {
-    return 'pairing';
+    return TournamentRoundPhase.Pairing;
   }
   if (elapsed < roundStructureMs.pairingTime + roundStructureMs.setUpTime) {
-    return 'setUp';
+    return TournamentRoundPhase.SetUp;
   }
   if (elapsed < roundStructureMs.pairingTime + roundStructureMs.setUpTime + roundStructureMs.playingTime) {
-    return 'playing';
+    return TournamentRoundPhase.Playing;
   }
-  return 'completed';
+  return TournamentRoundPhase.SetUp;
 };
 
 export const getCurrentPhaseTimeRemaining = (

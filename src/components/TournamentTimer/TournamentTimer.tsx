@@ -1,3 +1,4 @@
+import { getTournamentRoundPhaseDisplayName } from '@ianpaschal/combat-command-static-data/common';
 import clsx from 'clsx';
 import { LoaderCircle } from 'lucide-react';
 
@@ -11,7 +12,6 @@ import {
   getCurrentPhaseEndTime,
   getCurrentPhaseTimeRemaining,
   getRemainingTimeElements,
-  phaseLabels,
 } from './TournamentTimer.utils';
 
 import styles from './TournamentTimer.module.scss';
@@ -40,7 +40,7 @@ export const TournamentTimer = ({
 
   const currentPhaseRemaining = getCurrentPhaseTimeRemaining(timer.elapsed, roundStructure);
   const currentPhase = getCurrentPhase(timer.elapsed, roundStructure);
-  const currentPhaseLabel = phaseLabels[currentPhase];
+  const currentPhaseLabel = getTournamentRoundPhaseDisplayName(currentPhase);
   const currentPhaseEndTime = getCurrentPhaseEndTime(timer, roundStructure);
   const remainingTimeElements = getRemainingTimeElements(currentPhaseRemaining);
 

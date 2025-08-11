@@ -1,4 +1,5 @@
-import { fowV4StatKeys } from '../../static/fowV4/fowV4RankingFactors';
+import { StatKey } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
+
 import { FowV4BaseStats } from './types';
 
 /**
@@ -14,7 +15,7 @@ export const divideFowV4BaseStats = (stats: FowV4BaseStats, divisor: number): Fo
     units_lost: 0,
     points: 0,
   };
-  for (const key of fowV4StatKeys) {
+  for (const key of Object.values(StatKey)) {
     averagedStats[key] = (stats[key] ?? 0) / Math.max(divisor, 1);
   }
   return averagedStats;
