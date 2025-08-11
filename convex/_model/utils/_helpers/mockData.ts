@@ -1,6 +1,14 @@
-import { CurrencyCode } from '../../../static/currencyCodes';
-import { FowV4RankingFactor } from '../../../static/fowV4/fowV4RankingFactors';
-import { TournamentPairingMethod } from '../../../static/tournamentPairingMethods';
+import {
+  CurrencyCode,
+  GameSystem,
+  TournamentPairingMethod,
+} from '@ianpaschal/combat-command-static-data/common';
+import {
+  Era,
+  LessonsFromTheFrontVersion,
+  MissionPackVersion,
+  RankingFactor,
+} from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
 
 export const mockTournamentData = {
   title: 'Test Tournament',
@@ -31,17 +39,21 @@ export const mockTournamentData = {
     // })),
     // dynamicPointsVersionId: v.optional(fowV4DynamicPointsVersionId),
     points: 100,
-    eraId: 'flames_of_war_v4::era::late_war',
-    lessonsFromTheFrontVersionId: 'flames_of_war_v4::lessons_from_the_front_version::2024_03' as const,
-    missionPackId: 'flames_of_war_v4::mission_pack::2023_04' as const,
-    missionMatrixId: 'flames_of_war_v4::mission_matrix::2023_04_extended' as const,
+    era: Era.LW,
+    lessonsFromTheFrontVersion: LessonsFromTheFrontVersion.Mar2024,
+    missionPackVersion: MissionPackVersion.Apr2023,
+    missionMatrix: 'extended' as const,
   },
-  gameSystemId: 'flames_of_war_v4' as const,
+  gameSystem: GameSystem.FlamesOfWarV4,
   competitorFee: {
     amount: 1000,
-    currency: 'eur' as CurrencyCode,
+    currency: CurrencyCode.EUR,
   },
   roundCount: 5,
-  pairingMethod: 'adjacent' as TournamentPairingMethod,
-  rankingFactors: ['total_wins', 'total_points', 'total_units_destroyed'] as FowV4RankingFactor[],
+  pairingMethod: TournamentPairingMethod.Adjacent,
+  rankingFactors: [
+    RankingFactor.TotalWins,
+    RankingFactor.TotalPoints,
+    RankingFactor.TotalUnitsDestroyed,
+  ],
 };

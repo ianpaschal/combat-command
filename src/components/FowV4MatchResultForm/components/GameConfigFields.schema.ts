@@ -1,12 +1,10 @@
-import { z } from 'zod';
-
+import { MissionPackVersion } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
 import {
-  FowV4DynamicPointsVersionId,
-  FowV4EraId,
-  FowV4LessonsFromTheFrontVersionId,
-  FowV4MissionMatrixId,
-  FowV4MissionPackId,
-} from '~/api';
+  DynamicPointsVersion,
+  Era,
+  LessonsFromTheFrontVersion,
+} from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
+import { z } from 'zod';
 
 export const fowV4GameSystemConfigFormSchema = z.object({
   // Tournament restrictions
@@ -15,16 +13,16 @@ export const fowV4GameSystemConfigFormSchema = z.object({
   })),
 
   // Basic options
-  eraId: z.string().transform((val) => val as FowV4EraId),
+  era: z.string().transform((val) => val as Era),
   points: z.coerce.number(),
 
   // Advanced options (hidden by default)
-  lessonsFromTheFrontVersionId: z.string().transform((val) => val as FowV4LessonsFromTheFrontVersionId),
+  lessonsFromTheFrontVersion: z.string().transform((val) => val as LessonsFromTheFrontVersion),
 
   // Non-editable
-  dynamicPointsVersionId: z.optional(z.string().transform((val) => val as FowV4DynamicPointsVersionId)),
-  missionMatrixId: z.string().transform((val) => val as FowV4MissionMatrixId),
-  missionPackId: z.string().transform((val) => val as FowV4MissionPackId),
+  dynamicPointsVersion: z.optional(z.string().transform((val) => val as DynamicPointsVersion)),
+  missionMatrix: z.union([z.literal('default'), z.literal('extended')]),
+  missionPackVersion: z.string().transform((val) => val as MissionPackVersion),
   useExperimentalMissions: z.optional(z.boolean()),
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 }).superRefine((values, ctx) => {
@@ -46,15 +44,15 @@ export const fowV4GameSystemConfigDefaultValues: FowV4GameSystemConfigFormData =
   additionalRules: {},
 
   // Basic options
-  eraId: 'flames_of_war_v4::era::late_war',
+  era: Era.LW,
   points: 100,
 
   // Advanced options (hidden by default)
-  lessonsFromTheFrontVersionId: 'flames_of_war_v4::lessons_from_the_front_version::2024_03',
+  lessonsFromTheFrontVersion: LessonsFromTheFrontVersion.Mar2024,
 
   // Non-editable
-  dynamicPointsVersionId: undefined,
-  missionMatrixId: 'flames_of_war_v4::mission_matrix::2023_04_extended',
-  missionPackId: 'flames_of_war_v4::mission_pack::2023_04',
+  dynamicPointsVersion: undefined,
+  missionMatrix: 'extended',
+  missionPackVersion: MissionPackVersion.Apr2023,
   useExperimentalMissions: true,
 };

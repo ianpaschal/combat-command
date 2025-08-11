@@ -1,9 +1,7 @@
+import { getRankingFactorDisplayName, RankingFactor } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
 import { FowV4TournamentFlatExtendedStats } from 'convex/_model/fowV4/types';
 
 import {
-  FowV4RankingFactor,
-  fowV4RankingFactorDisplayNames,
-  fowV4RankingFactorShortNames,
   TournamentCompetitor,
   TournamentCompetitorId,
   User,
@@ -24,7 +22,7 @@ export type RankingRow = {
 export type UseTournamentRankingColumnsConfig = {
   view: 'competitors' | 'players';
   useTeams: boolean;
-  rankingFactors: FowV4RankingFactor[];
+  rankingFactors: RankingFactor[];
   competitors: TournamentCompetitor[];
 };
 
@@ -75,11 +73,14 @@ export const getTournamentRankingTableConfig = (
       width: 32,
       align: 'center',
       renderCell: (r) => r.stats[key],
-      renderHeader: () => (
-        <InfoPopover key={key} content={fowV4RankingFactorDisplayNames[key]}>
-          <h3>{fowV4RankingFactorShortNames[key]}</h3>
-        </InfoPopover>
-      ),
+      renderHeader: () => {
+        const displayName = getRankingFactorDisplayName(key);
+        return (
+          <InfoPopover key={key} content={displayName?.full ?? 'Unknown Factor'}>
+            <h3>{displayName?.short ?? '?'}</h3>
+          </InfoPopover>
+        );
+      },
     })),
   ];
 };

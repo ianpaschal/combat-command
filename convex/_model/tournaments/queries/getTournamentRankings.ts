@@ -1,3 +1,4 @@
+import { GameSystem } from '@ianpaschal/combat-command-static-data/common';
 import {
   ConvexError,
   Infer,
@@ -31,8 +32,8 @@ export const getTournamentRankings = async (
   ctx: QueryCtx,
   args: Infer<typeof getTournamentRankingsArgs>,
 ) => {
-  const { rankingFactors, gameSystemId } = await getTournamentShallow(ctx, args.tournamentId);
-  if (gameSystemId !== 'flames_of_war_v4') {
+  const { rankingFactors, gameSystem } = await getTournamentShallow(ctx, args.tournamentId);
+  if (gameSystem !== GameSystem.FlamesOfWarV4) {
     throw new ConvexError('Game systems other than Flames of War are not yet supported!');
     // TODO: Support other game systems
   }

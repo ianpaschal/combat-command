@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-
 import {
-  fowV4EraOptions,
-  fowV4LessonsFromTheFrontVersionOptions,
-  fowV4MissionPackOptions,
-  getFowV4MissionMatrixOptionsByMissionPackId,
-} from '~/api';
+  eraOptions,
+  getMissionMatrixOptions,
+  lessonsFromTheFrontVersionOptions,
+  missionPackVersionOptions,
+} from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
+
 import { Animate } from '~/components/generic/Animate';
 import { FormField } from '~/components/generic/Form';
 import { InputSelect } from '~/components/generic/InputSelect';
@@ -33,9 +33,8 @@ export const GameConfigFields = ({
   // const dynamicPointsVersionOptions = getDynamicPointsVersionOptions(era);
   // Show the drop down if options are available
 
-  const missionPackId = watch(`${formPath}.missionPackId`);
-
-  const missionMatrixOptions = getFowV4MissionMatrixOptionsByMissionPackId(missionPackId);
+  const missionPackVersion = watch(`${formPath}.missionPackVersion`);
+  const missionMatrixOptions = getMissionMatrixOptions(missionPackVersion);
 
   return (
     <div className={styles.Root}>
@@ -43,8 +42,8 @@ export const GameConfigFields = ({
         <FormField name={`${formPath}.points`} label="Points">
           <InputText type="number" />
         </FormField>
-        <FormField name={`${formPath}.eraId`} label="Era">
-          <InputSelect options={fowV4EraOptions} />
+        <FormField name={`${formPath}.era`} label="Era">
+          <InputSelect options={eraOptions} />
         </FormField>
       </div>
       {!showAdvancedOptions && (
@@ -56,15 +55,15 @@ export const GameConfigFields = ({
         <div className={styles.AdvancedOptions}>
           <Separator />
           <div className={styles.Rules}>
-            <FormField name={`${formPath}.lessonsFromTheFrontVersionId`} label="Lessons from the Front Version" disabled={fowV4LessonsFromTheFrontVersionOptions.length < 2}>
-              <InputSelect options={fowV4LessonsFromTheFrontVersionOptions} />
+            <FormField name={`${formPath}.lessonsFromTheFrontVersion`} label="Lessons from the Front Version" disabled={lessonsFromTheFrontVersionOptions.length < 2}>
+              <InputSelect options={lessonsFromTheFrontVersionOptions} />
             </FormField>
           </div>
           <div className={styles.Missions}>
-            <FormField name={`${formPath}.missionPackId`} label="Mission Pack" disabled={fowV4MissionPackOptions.length < 2}>
-              <InputSelect options={fowV4MissionPackOptions} />
+            <FormField name={`${formPath}.missionPackVersion`} label="Mission Pack" disabled={missionPackVersionOptions.length < 2}>
+              <InputSelect options={missionPackVersionOptions} />
             </FormField>
-            <FormField name={`${formPath}.missionMatrixId`} label="Mission Matrix" disabled={missionMatrixOptions.length < 2}>
+            <FormField name={`${formPath}.missionMatrix`} label="Mission Matrix" disabled={missionMatrixOptions.length < 2}>
               <InputSelect options={missionMatrixOptions} />
             </FormField>
             <FormField name={`${formPath}.useExperimentalMissions`} label="Prefer experimental missions">

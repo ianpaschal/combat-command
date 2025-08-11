@@ -1,12 +1,11 @@
-import { z } from 'zod';
-
 import {
-  FowV4DynamicPointsVersionId,
-  FowV4EraId,
-  FowV4LessonsFromTheFrontVersionId,
-  FowV4MissionMatrixId,
-  FowV4MissionPackId,
-} from '~/api';
+  DynamicPointsVersion,
+  Era,
+  LessonsFromTheFrontVersion,
+  MissionMatrix,
+  MissionPackVersion,
+} from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
+import { z } from 'zod';
 
 export const fowV4GameSystemConfigSchema = z.object({
   // Tournament restrictions
@@ -15,16 +14,16 @@ export const fowV4GameSystemConfigSchema = z.object({
   })),
 
   // Basic options
-  eraId: z.string().transform((val) => val as FowV4EraId),
+  era: z.string().transform((val) => val as Era),
   points: z.number(),
 
   // Advanced option (hidden by default)
-  lessonsFromTheFrontVersionId: z.string().transform((val) => val as FowV4LessonsFromTheFrontVersionId),
+  lessonsFromTheFrontVersion: z.string().transform((val) => val as LessonsFromTheFrontVersion),
 
   // Non-editable
-  dynamicPointsVersionId: z.optional(z.string().transform((val) => val as FowV4DynamicPointsVersionId)),
-  missionMatrixId: z.string().transform((val) => val as FowV4MissionMatrixId),
-  missionPackId: z.string().transform((val) => val as FowV4MissionPackId),
+  dynamicPointsVersion: z.optional(z.string().transform((val) => val as DynamicPointsVersion)),
+  missionMatrixId: z.string().transform((val) => val as MissionMatrix),
+  missionPackVersion: z.string().transform((val) => val as MissionPackVersion),
   useExperimentalMissions: z.optional(z.boolean()),
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 }).superRefine((values, ctx) => {

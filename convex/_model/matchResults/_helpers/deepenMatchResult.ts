@@ -1,7 +1,8 @@
+import { getMissionDisplayName } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
+
 import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
 import { calculateFowV4MatchResultScore } from '../../fowV4/calculateFowV4MatchResultScore';
-import { getMission } from '../../fowV4/getMission';
 import { getUser } from '../../users/queries/getUser';
 import { checkMatchResultBattlePlanVisibility } from './checkMatchResultBattlePlanVisibility';
 
@@ -36,7 +37,7 @@ export const deepenMatchResult = async (
     .collect();
 
   // Details
-  const mission = getMission(matchResult.details.missionId);
+  const missionName = getMissionDisplayName(matchResult.details.mission);
   const battlePlansVisible = await checkMatchResultBattlePlanVisibility(ctx, matchResult);
 
   // TODO: This is FowV4 specific, needs to be made generic!
@@ -50,7 +51,7 @@ export const deepenMatchResult = async (
       ...matchResult.details,
       player0BattlePlan: battlePlansVisible ? matchResult.details.player0BattlePlan : undefined,
       player1BattlePlan: battlePlansVisible ? matchResult.details.player1BattlePlan : undefined,
-      missionName: mission?.displayName,
+      missionName,
       player0Score,
       player1Score,
     },

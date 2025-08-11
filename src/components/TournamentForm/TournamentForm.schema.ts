@@ -1,15 +1,14 @@
 import { DeepPartial } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-
 import {
   CurrencyCode,
-  FowV4RankingFactor,
-  GameSystemId,
-  StorageId,
+  GameSystem,
   TournamentPairingMethod,
-  UserId,
-} from '~/api';
+} from '@ianpaschal/combat-command-static-data/common';
+import { RankingFactor } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
+import { z } from 'zod';
+
+import { StorageId, UserId } from '~/api';
 import { fowV4GameSystemConfigDefaultValues, fowV4GameSystemConfigFormSchema } from '~/components/FowV4MatchResultForm/components/GameConfigFields.schema';
 
 // TODO: Add competitor groups
@@ -70,16 +69,16 @@ export const tournamentFormSchema = z.object({
     playingTime: z.coerce.number().min(0).max(240),
   }),
   pairingMethod: z.string().transform((val) => val as TournamentPairingMethod),
-  rankingFactors: z.array(z.string().transform((val) => val as FowV4RankingFactor)),
+  rankingFactors: z.array(z.string().transform((val) => val as RankingFactor)),
 
   // Game Config
   gameSystemConfig: fowV4GameSystemConfigFormSchema,
 
   // Non-editable
-  gameSystemId: z.string().transform((val) => val as GameSystemId),
+  gameSystem: z.string().transform((val) => val as GameSystem),
   organizerUserIds: z.array(z.string().transform((val) => val as UserId)),
 }).refine((data) => {
-  if (data.gameSystemId === 'flames_of_war_v4') {
+  if (data.gameSystem === GameSystem.FlamesOfWarV4) {
     return fowV4GameSystemConfigFormSchema.safeParse(data.gameSystemConfig).success;
   }
   return false; // Return false if no valid game_system_id matches
@@ -100,17 +99,17 @@ export const defaultValues: DeepPartial<TournamentFormData> = {
   description: '',
   roundCount: 3,
   rulesPackUrl: '',
-  pairingMethod: 'adjacent',
+  pairingMethod: TournamentPairingMethod.Adjacent,
   title: '',
   organizerUserIds: [],
-  gameSystemId: 'flames_of_war_v4',
+  gameSystem: GameSystem.FlamesOfWarV4,
   gameSystemConfig: fowV4GameSystemConfigDefaultValues,
   roundStructure: {
     pairingTime: 0,
     setUpTime: 30,
     playingTime: 120,
   },
-  rankingFactors: ['total_wins'],
+  rankingFactors: [RankingFactor.TotalWins],
   logoStorageId: '',
   bannerStorageId: '',
   editionYear: 2025,

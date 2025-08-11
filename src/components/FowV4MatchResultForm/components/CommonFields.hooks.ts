@@ -1,12 +1,16 @@
+import { useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
-
 import {
-  FowV4MatchOutcomeType,
-  getMission,
-  getMissionPack,
-  UserId,
-} from '~/api';
+  BattlePlan,
+  getMissionOptions,
+  getMissionOutcomeOptions,
+  MatchOutcomeType,
+  MissionData,
+} from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
+
+import { UserId } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
+import { useGetUser } from '~/services/users';
 
 export const usePlayerDisplayName = ({ userId, placeholder }: { userId?: UserId, placeholder?: string }): string => {
   const currentUser = useAuth();
@@ -38,78 +42,42 @@ export const usePlayerOptions = (): { value: number, label: string }[] => {
   return playerNames.map((label, value) => ({ label, value })); // Will be coerced back to number by Zod
 };
 
-import { useMemo } from 'react';
-
-import { useGetUser } from '~/services/users';
-
 export const useMissionOptions = () => {
   const { watch } = useFormContext();
-  const { details, gameSystemConfig } = watch();
-  const {
+  const [player0BattlePlan, player1BattlePlan, missionPackVersion, missionMatrix] = watch([
+    'details.player0BattlePlan',
+    'details.player1BattlePlan',
+    'gameSystemConfig.missionPackVersion',
+    'gameSystemConfig.missionMatrix',
+  ]);
+  return useMemo(() => getMissionOptions(missionPackVersion, missionMatrix, [player0BattlePlan, player1BattlePlan]), [
     player0BattlePlan,
     player1BattlePlan,
-  } = details;
-  const {
-    missionMatrixId,
-    missionPackId,
-  } = gameSystemConfig;
-  return useMemo(() => {
-    const missionPack = getMissionPack(missionPackId);
-    const missionsOptions = (missionPack?.missions || []).map((mission) => ({
-      label: mission.displayName,
-      value: mission.id,
-    }));
-    const activeMatrix = missionPack?.matrixes.find((matrix) => matrix.id === missionMatrixId);
-        
-    if (!player0BattlePlan || !player1BattlePlan || !missionMatrixId ) {
-      return missionsOptions;
-    }
-    
-    if (!activeMatrix) {
-      throw Error('Could not find a mission matrix with that ID!');
-    }
-    
-    const matrixEntry = activeMatrix.entries.find(({ battlePlans }) => (
-      (player0BattlePlan === battlePlans[0] && player1BattlePlan === battlePlans[1])
-      || (player1BattlePlan === battlePlans[0] && player0BattlePlan === battlePlans[1])
-    ))!;
-    
-    const matrixEntryMissionIds = matrixEntry.missions.reduce((acc: string[], item) => {
-      if (Array.isArray(item)) {
-        return [ ...acc, ...item];
-      }
-      return [ ...acc, item];
-    }, []);
-    return missionsOptions.filter((option) => matrixEntryMissionIds.includes(option.value));
-  }, [player0BattlePlan, player1BattlePlan, missionPackId, missionMatrixId ]);
+    missionPackVersion,
+    missionMatrix,
+  ]);
 };
 
 export const useOutcomeTypeOptions = () => {
   const { watch } = useFormContext();
-  const data = watch();
-  const missionPack = getMissionPack(data.gameSystemConfig.missionPackId);
-  const mission = missionPack ? getMission(data.details.missionId) : null;
-  const options: { value: FowV4MatchOutcomeType, label: string }[] = [
-    { label: 'Force Broken', value: 'force_broken' },
-    { label: 'Time Out / Draw', value: 'time_out' },
-  ];
-  if (mission?.victoryConditions.includes('objective_taken')) {
-    options.push({ label: 'Objective Captured', value: 'objective_taken' });
-  }
-  if (mission?.victoryConditions.includes('attack_repelled')) {
-    options.push({ label: 'Attack Repelled', value: 'attack_repelled' });
-  }
-  return options;
+  const [missionPackVersion, mission] = watch([
+    'gameSystemConfig.missionPackVersion',
+    'details.mission',
+  ]);
+  return useMemo(() => getMissionOutcomeOptions(missionPackVersion, mission), [
+    missionPackVersion,
+    mission,
+  ]);
 };
 
-export const computeAttacker = (missionId?: string, player0BattlePlan?: string, player1BattlePlan?: string): 0 | 1 | undefined => {
-  if (!missionId || !player0BattlePlan || !player1BattlePlan) {
+export const computeAttacker = (
+  mission: MissionData | null,
+  battlePlans?: [BattlePlan, BattlePlan],
+): 0 | 1 | undefined => {
+  if (!mission || !battlePlans) {
     return undefined;
   }
-  const mission = getMission(missionId);
-  if (!mission) {
-    return undefined;
-  }
+  const [player0BattlePlan, player1BattlePlan] = battlePlans;
   if (mission.attacker === 'roll' || player0BattlePlan === player1BattlePlan) {
     return undefined;
   }
@@ -133,12 +101,11 @@ export const computeAttacker = (missionId?: string, player0BattlePlan?: string, 
   }
 };
 
-export const computeFirstTurn = (missionId?: string, attacker?: 0 | 1): 0 | 1 | undefined => {
-  if (!missionId || attacker === undefined) {
-    return undefined;
-  }
-  const mission = getMission(missionId);
-  if (!mission) {
+export const computeFirstTurn = (
+  mission: MissionData | null,
+  attacker?: 0 | 1,
+): 0 | 1 | undefined => {
+  if (!mission || attacker === undefined) {
     return undefined;
   }
   if (mission.firstTurn === 'roll') {
@@ -148,28 +115,26 @@ export const computeFirstTurn = (missionId?: string, attacker?: 0 | 1): 0 | 1 | 
     return attacker;
   }
   if (mission.firstTurn === 'defender') {
-    if (attacker === 0) {
-      return 1;
-    }
-    return 0;
+    return attacker === 0 ? 1 : 0; // Defender
   }
 };
 
-export const computeWinner = (missionId?: string, attacker?: 0 | 1, outcomeType?: FowV4MatchOutcomeType): -1 | 0 | 1 | undefined => {
-  if (!missionId || attacker === undefined || !outcomeType) {
+export const computeWinner = (
+  mission: MissionData | null,
+  attacker?: 0 | 1,
+  outcomeType?: MatchOutcomeType,
+): -1 | 0 | 1 | undefined => {
+  if (!mission || attacker === undefined || !outcomeType) {
     return undefined;
   }
-  const mission = getMission(missionId);
-  if (!mission) {
-    return undefined;
-  }
-  if (outcomeType === 'time_out') {
+  if (outcomeType === MatchOutcomeType.TimeOut) {
     return -1;
   }
-  if (outcomeType === 'objective_taken' && attacker !== undefined && mission?.victoryConditions.includes('attack_repelled')) {
+  const canRepel = mission.victoryConditions.includes(MatchOutcomeType.AttackRepelled);
+  if (outcomeType === MatchOutcomeType.ObjectiveTaken && attacker !== undefined && canRepel) {
     return attacker;
   }
-  if (outcomeType === 'attack_repelled' && attacker !== undefined) {
+  if (outcomeType === MatchOutcomeType.AttackRepelled && attacker !== undefined) {
     return attacker === 0 ? 1 : 0; // Defender
   }
 };
