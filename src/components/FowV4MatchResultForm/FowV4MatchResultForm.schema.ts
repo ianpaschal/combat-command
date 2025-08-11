@@ -22,10 +22,10 @@ export const fowV4MatchResultFormSchema = z.object({
   details: z.object({
     // Handled by <TournamentPlayersForm /> or <SingleMatchPlayersForm />
     player0BattlePlan: z.string({ message: 'Please select a battle plan.' }).transform((val) => val as BattlePlan),
-    player0FactionId: z.optional(z.string({ message: 'Please select a faction.' }).transform((val) => val as Faction)),
+    player0Faction: z.optional(z.string({ message: 'Please select a faction.' }).transform((val) => val as Faction)),
     player0UnitsLost: z.coerce.number(),
     player1BattlePlan: z.string({ message: 'Please select a battle plan.' }).transform((val) => val as BattlePlan),
-    player1FactionId: z.optional(z.string({ message: 'Please select a faction.' }).transform((val) => val as Faction)),
+    player1Faction: z.optional(z.string({ message: 'Please select a faction.' }).transform((val) => val as Faction)),
     player1UnitsLost: z.coerce.number(),
 
     // Handled by <CommonForm />
