@@ -174,7 +174,6 @@ import type * as http from "../http.js";
 import type * as matchResultComments from "../matchResultComments.js";
 import type * as matchResultLikes from "../matchResultLikes.js";
 import type * as matchResults from "../matchResults.js";
-import type * as migrations from "../migrations.js";
 import type * as photos_index from "../photos/index.js";
 import type * as photos_mutations from "../photos/mutations.js";
 import type * as photos_queries from "../photos/queries.js";
@@ -367,7 +366,6 @@ declare const fullApi: ApiFromModules<{
   matchResultComments: typeof matchResultComments;
   matchResultLikes: typeof matchResultLikes;
   matchResults: typeof matchResults;
-  migrations: typeof migrations;
   "photos/index": typeof photos_index;
   "photos/mutations": typeof photos_mutations;
   "photos/queries": typeof photos_queries;
