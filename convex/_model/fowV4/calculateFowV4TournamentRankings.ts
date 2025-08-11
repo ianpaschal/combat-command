@@ -1,19 +1,20 @@
-import { FowV4RankingFactor, fowV4RankingFactorDesirability } from '../../static/fowV4/fowV4RankingFactors';
+import { RankingFactor, rankingFactors } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
+
 import { FowV4TournamentFlatExtendedStats } from './types';
 
 /**
  * Sorts a list of Flames of War 4th Ed. tournament players or competitors by a set of ranking factors.
  * @param list 
- * @param rankingFactors 
+ * @param factors 
  * @returns 
  */
 export const calculateFowV4TournamentRankings = <T extends { stats: FowV4TournamentFlatExtendedStats }>(
   list: T[],
-  rankingFactors: FowV4RankingFactor[],
+  factors: RankingFactor[],
 ): (T & { rank: number })[] => {
   const sorted = [...list].sort((a, b) => {
-    for (const factor of rankingFactors) {
-      const desirability = fowV4RankingFactorDesirability[factor];
+    for (const factor of factors) {
+      const desirability = rankingFactors[factor].desirability;
       const aValue = a.stats[factor];
       const bValue = b.stats[factor];
       if (aValue !== bValue) {

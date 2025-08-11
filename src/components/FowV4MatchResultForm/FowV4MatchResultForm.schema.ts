@@ -22,17 +22,16 @@ export const fowV4MatchResultFormSchema = z.object({
   details: z.object({
     // Handled by <TournamentPlayersForm /> or <SingleMatchPlayersForm />
     player0BattlePlan: z.string({ message: 'Please select a battle plan.' }).transform((val) => val as BattlePlan),
-    player0FactionId: z.optional(z.union([z.string({ message: 'Please select a faction.' }).transform((val) => val as Faction), z.string()])), // TODO: REMOVE UNION AFTER MIGRATION
+    player0FactionId: z.optional(z.string({ message: 'Please select a faction.' }).transform((val) => val as Faction)),
     player0UnitsLost: z.coerce.number(),
     player1BattlePlan: z.string({ message: 'Please select a battle plan.' }).transform((val) => val as BattlePlan),
-    player1FactionId: z.optional(z.union([z.string({ message: 'Please select a faction.' }).transform((val) => val as Faction), z.string()])), // TODO: REMOVE UNION AFTER MIGRATION
+    player1FactionId: z.optional(z.string({ message: 'Please select a faction.' }).transform((val) => val as Faction)),
     player1UnitsLost: z.coerce.number(),
 
     // Handled by <CommonForm />
     attacker: z.union([z.literal(0), z.literal(1)], { message: 'Please select an attacker.' }),
     firstTurn: z.union([z.literal(0), z.literal(1)], { message: 'Please who had the first turn.' }),
-    missionId: z.optional(z.string({ message: 'Please select a mission.' })), // TODO: REMOVE UNION AFTER MIGRATION
-    mission: z.optional(z.string({ message: 'Please select a mission.' }).transform((val) => val as MissionName)),
+    mission: z.string({ message: 'Please select a mission.' }).transform((val) => val as MissionName),
     outcomeType: z.enum(Object.values(MatchOutcomeType) as [MatchOutcomeType, ...MatchOutcomeType[]], {
       message: 'Please select an outcome type.',
     }),

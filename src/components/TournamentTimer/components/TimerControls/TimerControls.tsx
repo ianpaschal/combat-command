@@ -1,3 +1,4 @@
+import { getTournamentRoundPhaseDisplayName, TournamentRoundPhase } from '@ianpaschal/combat-command-static-data/common';
 import clsx from 'clsx';
 import {
   ChevronFirst,
@@ -9,14 +10,14 @@ import {
   Undo,
 } from 'lucide-react';
 
-import { TournamentPhase, TournamentTimer } from '~/api';
+import { TournamentTimer } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
 import { ConfirmationDialog, useConfirmationDialog } from '~/components/ConfirmationDialog';
 import { Button } from '~/components/generic/Button';
 import { toast } from '~/components/ToastProvider';
 import { useTournament } from '~/components/TournamentProvider';
 import { useSetTournamentTimerPhase, useToggleTournamentTimer } from '~/services/tournamentTimers';
-import { getCurrentPhase, phaseLabels } from '../../TournamentTimer.utils';
+import { getCurrentPhase } from '../../TournamentTimer.utils';
 
 import styles from '../../TournamentTimer.module.scss';
 
@@ -59,25 +60,25 @@ export const TimerControls = ({
 
   const currentPhase = getCurrentPhase(timer.elapsed, roundStructure);
 
-  const handleJumpToPhase = (phase: TournamentPhase): void => openConfirmSetPhaseDialog({
-    title: `Confirm Jump to ${phaseLabels[phase]} Phase`,
-    description: `Are you sure you want to skip to ${phaseLabels[phase].toLocaleLowerCase()}? This can not be undone!`,
+  const handleJumpToPhase = (phase: TournamentRoundPhase): void => openConfirmSetPhaseDialog({
+    title: `Confirm Jump to ${getTournamentRoundPhaseDisplayName(phase)} Phase`,
+    description: `Are you sure you want to skip to ${getTournamentRoundPhaseDisplayName(phase)?.toLocaleLowerCase()}? This can not be undone!`,
     onConfirm: () => setTimerPhase({ id: timer._id, phase }),
   });
 
   const handleClickResetButton = (): void => {
-    handleJumpToPhase(roundStructure.pairingTime ? 'pairing' : 'setUp');
+    handleJumpToPhase(roundStructure.pairingTime ? TournamentRoundPhase.Pairing : TournamentRoundPhase.SetUp);
   };
 
   const handleClickLastPhaseButton = (): void => {
-    if (currentPhase === 'completed') {
-      handleJumpToPhase('playing');
+    if (currentPhase === TournamentRoundPhase.Completed) {
+      handleJumpToPhase(TournamentRoundPhase.Playing);
     }
-    if (currentPhase === 'playing') {
-      handleJumpToPhase('setUp');
+    if (currentPhase === TournamentRoundPhase.Playing) {
+      handleJumpToPhase(TournamentRoundPhase.SetUp);
     }
-    if (currentPhase === 'setUp' && roundStructure.pairingTime) {
-      handleJumpToPhase('pairing');
+    if (currentPhase === TournamentRoundPhase.SetUp && roundStructure.pairingTime) {
+      handleJumpToPhase(TournamentRoundPhase.Pairing);
     }
   };
 
@@ -94,23 +95,23 @@ export const TimerControls = ({
   };
 
   const handleClickNextPhaseButton = (): void => {
-    if (currentPhase === 'pairing') {
-      handleJumpToPhase('setUp');
+    if (currentPhase === TournamentRoundPhase.Pairing) {
+      handleJumpToPhase(TournamentRoundPhase.SetUp);
     }
-    if (currentPhase === 'setUp') {
-      handleJumpToPhase('playing');
+    if (currentPhase === TournamentRoundPhase.SetUp) {
+      handleJumpToPhase(TournamentRoundPhase.Playing);
     }
-    if (currentPhase === 'playing') {
-      handleJumpToPhase('completed');
+    if (currentPhase === TournamentRoundPhase.Playing) {
+      handleJumpToPhase(TournamentRoundPhase.Completed);
     }
   };
 
   const handleClickJumpToEndButton = (): void => {
-    handleJumpToPhase('completed');
+    handleJumpToPhase(TournamentRoundPhase.Completed);
   };
 
-  const isStartPhase = currentPhase === 'pairing' || (currentPhase === 'setUp' && !roundStructure.pairingTime);
-  const isEndPhase = currentPhase === 'completed';
+  const isStartPhase = currentPhase === TournamentRoundPhase.Pairing || (currentPhase === TournamentRoundPhase.SetUp && !roundStructure.pairingTime);
+  const isEndPhase = currentPhase === TournamentRoundPhase.Completed;
 
   return (
     <>
@@ -137,8 +138,8 @@ export const TimerControls = ({
       <ConfirmationDialog id={confirmSetPhaseDialogId} title="Confirm Jump to Phase" />
       <ConfirmationDialog
         id={confirmRepeatPhaseDialogId}
-        title={`Confirm Repeat ${phaseLabels[currentPhase]} Phase`}
-        description={`Are you sure you want to reset the timer to the beginning of ${phaseLabels[currentPhase].toLocaleLowerCase()}? This can not be undone!`}
+        title={`Confirm Repeat ${getTournamentRoundPhaseDisplayName(currentPhase)} Phase`}
+        description={`Are you sure you want to reset the timer to the beginning of ${getTournamentRoundPhaseDisplayName(currentPhase)?.toLocaleLowerCase()}? This can not be undone!`}
       />
     </>
   );
