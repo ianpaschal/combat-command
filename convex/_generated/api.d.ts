@@ -34,6 +34,7 @@ import type * as _model_fowV4_sumFowV4BaseStats from "../_model/fowV4/sumFowV4Ba
 import type * as _model_fowV4_types from "../_model/fowV4/types.js";
 import type * as _model_lists_fields from "../_model/lists/fields.js";
 import type * as _model_lists_index from "../_model/lists/index.js";
+import type * as _model_lists_mutations_importListData from "../_model/lists/mutations/importListData.js";
 import type * as _model_matchResultComments__helpers_deepenMatchResultComment from "../_model/matchResultComments/_helpers/deepenMatchResultComment.js";
 import type * as _model_matchResultComments_fields from "../_model/matchResultComments/fields.js";
 import type * as _model_matchResultComments_index from "../_model/matchResultComments/index.js";
@@ -171,6 +172,7 @@ import type * as friendships_fetchFriendshipUserIdsByUserId from "../friendships
 import type * as friendships_index from "../friendships/index.js";
 import type * as generateFileUploadUrl from "../generateFileUploadUrl.js";
 import type * as http from "../http.js";
+import type * as lists from "../lists.js";
 import type * as matchResultComments from "../matchResultComments.js";
 import type * as matchResultLikes from "../matchResultLikes.js";
 import type * as matchResults from "../matchResults.js";
@@ -226,6 +228,7 @@ declare const fullApi: ApiFromModules<{
   "_model/fowV4/types": typeof _model_fowV4_types;
   "_model/lists/fields": typeof _model_lists_fields;
   "_model/lists/index": typeof _model_lists_index;
+  "_model/lists/mutations/importListData": typeof _model_lists_mutations_importListData;
   "_model/matchResultComments/_helpers/deepenMatchResultComment": typeof _model_matchResultComments__helpers_deepenMatchResultComment;
   "_model/matchResultComments/fields": typeof _model_matchResultComments_fields;
   "_model/matchResultComments/index": typeof _model_matchResultComments_index;
@@ -363,6 +366,7 @@ declare const fullApi: ApiFromModules<{
   "friendships/index": typeof friendships_index;
   generateFileUploadUrl: typeof generateFileUploadUrl;
   http: typeof http;
+  lists: typeof lists;
   matchResultComments: typeof matchResultComments;
   matchResultLikes: typeof matchResultLikes;
   matchResults: typeof matchResults;
