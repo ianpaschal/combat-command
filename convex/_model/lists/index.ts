@@ -10,3 +10,8 @@ export const listsTable = defineTable({
   .index('by_owner_user_id', ['ownerUserId']);
 
 export type ListId = Id<'lists'>;
+
+export {
+  importListData,
+  importListDataArgs,
+} from './mutations/importListData';
