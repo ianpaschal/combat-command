@@ -2,10 +2,10 @@ import { getBattlePlanDisplayName, getMissionDisplayName } from '@ianpaschal/com
 import clsx from 'clsx';
 
 import { useElementSize } from '~/hooks/useElementSize';
+import { useGetUser } from '~/services/users';
 import { calculateMatchScore } from '~/utils/flamesOfWarV4Utils/calculateMatchScore';
 import { PerPlayerRow } from './components/PerPlayerRow';
 import { SingleRow } from './components/SingleRow';
-import { usePlayerNames } from './FowV4MatchResultDetails.hooks';
 import { FowV4MatchResultDetailsData } from './FowV4MatchResultDetails.types';
 import { formatOutcome } from './FowV4MatchResultDetails.utils';
 
@@ -13,19 +13,37 @@ import styles from './FowV4MatchResultDetails.module.scss';
 
 export interface FowV4MatchResultDetailsProps {
   className?: string;
-  matchResult: FowV4MatchResultDetailsData;
+  matchResult?: FowV4MatchResultDetailsData;
 }
 
 export const FowV4MatchResultDetails = ({
   className,
   matchResult,
-}: FowV4MatchResultDetailsProps): JSX.Element => {
+}: FowV4MatchResultDetailsProps): JSX.Element | null => {
   const [ref, width] = useElementSize();
   const orientation = Math.ceil(width) < 640 ? 'vertical' : 'horizontal'; // 2 x 320 + 1rem - 2x border
 
-  const playerNames = usePlayerNames(matchResult);
-  const score = calculateMatchScore(matchResult.details);
-  const missionName = getMissionDisplayName(matchResult.details.mission) ?? 'Hidden';
+  const {
+    data: player0User,
+    loading: player0UserLoading,
+  } = useGetUser(!matchResult?.player0User && matchResult?.player0UserId ? {
+    id: matchResult?.player0UserId,
+  } : 'skip');
+  const {
+    data: player1User,
+    loading: player1UserLoading,
+  } = useGetUser(!matchResult?.player1User && matchResult?.player1UserId ? {
+    id: matchResult?.player1UserId,
+  } : 'skip');
+
+  if (!matchResult) {
+    return null;
+  }
+
+  const playerNames: [string, string] = [
+    matchResult?.player0User?.displayName ?? player0User?.displayName ?? 'Ghost',
+    matchResult?.player1User?.displayName ?? player1User?.displayName ?? 'Ghost',
+  ];
   const battlePlans: [string, string] = [
     getBattlePlanDisplayName(matchResult.details.player0BattlePlan) ?? 'Hidden',
     getBattlePlanDisplayName(matchResult.details.player1BattlePlan) ?? 'Hidden',
@@ -34,7 +52,10 @@ export const FowV4MatchResultDetails = ({
     matchResult.details.player0UnitsLost,
     matchResult.details.player1UnitsLost,
   ];
-  if (!playerNames) {
+  const score = calculateMatchScore(matchResult.details);
+  const missionName = getMissionDisplayName(matchResult.details.mission) ?? 'Hidden';
+
+  if (player0UserLoading || player1UserLoading) {
     return <span>Loading...</span>;
   }
 

@@ -13,6 +13,7 @@ import {
 import { useBlocker, useNavigation } from 'react-router-dom';
 
 import { Dialog } from '~/components/generic/Dialog';
+import { FormStatusContext } from './Form.context';
 
 export interface FormProps<T extends FieldValues> {
   id?: string;
@@ -21,6 +22,7 @@ export interface FormProps<T extends FieldValues> {
   onSubmit: SubmitHandler<T>;
   className?: string;
   useBlocker?: boolean;
+  disabled?: boolean;
 }
 
 export const Form = <T extends FieldValues>({
@@ -30,6 +32,7 @@ export const Form = <T extends FieldValues>({
   className,
   useBlocker: block = true,
   onSubmit,
+  disabled = false,
 }: FormProps<T>) => {
   const { dirtyFields } = form.formState;
   const blockNavigation = useRef(true);
@@ -60,7 +63,9 @@ export const Form = <T extends FieldValues>({
         ]}
       />
       <form onSubmit={handleSubmit} className={className} id={id}>
-        {children}
+        <FormStatusContext.Provider value={{ disabled }}>
+          {children}
+        </FormStatusContext.Provider>
       </form>
     </FormProvider>
   );

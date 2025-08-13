@@ -75,12 +75,6 @@
       border-color: variables.$red;
     }
   }
-
-  &-disabled {
-    input {
-      border-color: transparent; // TODO: Implement proper disabled state
-    }
-  }
 }
 
 input::placeholder,

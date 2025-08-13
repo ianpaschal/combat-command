@@ -7,11 +7,11 @@ import {
 } from 'lucide-react';
 
 import { useAuth } from '~/components/AuthProvider';
-import { CheckInMatchDialog } from '~/components/CheckInMatchDialog';
 import { FloatingActionButton } from '~/components/FloatingActionButton';
 import { Button } from '~/components/generic/Button';
 import { InputText } from '~/components/generic/InputText';
 import { MatchResultCard } from '~/components/MatchResultCard';
+import { MatchResultCreateDialog, useMatchResultCreateDialog } from '~/components/MatchResultCreateDialog';
 import { PageWrapper } from '~/components/PageWrapper';
 import { useGetMatchResults } from '~/services/matchResults';
 import { MIN_WIDTH_TABLET } from '~/settings';
@@ -23,6 +23,7 @@ export const MatchResultsPage = (): JSX.Element => {
   const showFilters = false;
   const showAddMatchResultButton = !!user;
   const showButtonText = useWindowWidth() > MIN_WIDTH_TABLET;
+  const { open } = useMatchResultCreateDialog();
   const { data: matchResults, loadMore } = useGetMatchResults({});
   const handleLoadMore = (): void => {
     loadMore(10);
@@ -58,12 +59,11 @@ export const MatchResultsPage = (): JSX.Element => {
         <Button>Load More</Button>
       </div>
       {showAddMatchResultButton && (
-        <CheckInMatchDialog>
-          <FloatingActionButton>
-            <Plus />
-          </FloatingActionButton>
-        </CheckInMatchDialog>
+        <FloatingActionButton onClick={() => open()}>
+          <Plus />
+        </FloatingActionButton>
       )}
+      <MatchResultCreateDialog />
     </PageWrapper>
   );
 };

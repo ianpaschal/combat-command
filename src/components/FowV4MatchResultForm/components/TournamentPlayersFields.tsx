@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { battlePlanOptions } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
+import { battlePlanOptions, factionOptions } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
 
 import { TournamentPairingId } from '~/api';
 import { FormField } from '~/components/generic/Form';
@@ -55,6 +55,10 @@ export const TournamentPlayersFields = ({
         <FormField name="player0UserId" label={player0Label} disabled={player0Options.length < 2}>
           <InputSelect options={player0Options} />
         </FormField>
+        {/*  TODO: AUTO-FILTER OPTIONS TO 1 USING LIST INFO */}
+        <FormField name="details.player0Faction" label="Faction" disabled={factionOptions.length < 2}>
+          <InputSelect options={factionOptions} />
+        </FormField>
         <FormField name="details.player0BattlePlan" label="Battle Plan">
           <InputSelect options={battlePlanOptions} />
         </FormField>
@@ -73,6 +77,10 @@ export const TournamentPlayersFields = ({
             <InputText />
           </FormField>
         )}
+        {/*  TODO: AUTO-FILTER OPTIONS TO 1 USING LIST INFO */}
+        <FormField name="details.player1Faction" label="Faction" disabled={factionOptions.length < 2}>
+          <InputSelect options={factionOptions} />
+        </FormField>
         <FormField name="details.player1BattlePlan" label="Battle Plan">
           <InputSelect options={battlePlanOptions} />
         </FormField>

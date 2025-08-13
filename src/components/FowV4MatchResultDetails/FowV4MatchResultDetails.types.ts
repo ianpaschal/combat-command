@@ -1,8 +1,9 @@
-import { MatchResult, User } from '~/api';
+import { MatchResult } from '~/api';
 
-export type FowV4MatchResultDetailsData = Pick<MatchResult, 'player0User' | 'player0Placeholder' | 'player1User' | 'player1Placeholder'> & {
-  player0User?: User;
-  player1User?: User;
+type Player0Identity = 'player0User' | 'player0UserId' | 'player0Placeholder';
+type Player1Identity = 'player1User' | 'player1UserId' | 'player1Placeholder';
+
+export type FowV4MatchResultDetailsData = Pick<MatchResult, Player0Identity | Player1Identity> & {
   details: Omit<MatchResult['details'], 'missionName' | 'player0Score' | 'player1Score'> & {
     missionName?: string;
   }
