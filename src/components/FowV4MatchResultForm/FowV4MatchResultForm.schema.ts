@@ -11,6 +11,36 @@ import { z } from 'zod';
 import { MatchResult, UserId } from '~/api';
 import { fowV4GameSystemConfigDefaultValues, fowV4GameSystemConfigFormSchema } from './components/GameConfigFields.schema';
 
+export const fowV4MatchResultDetailsSchema = z.object({
+  // Handled by <TournamentPlayersForm /> or <SingleMatchPlayersForm />
+  player0BattlePlan: z.nativeEnum(BattlePlan, {
+    errorMap: () => ({ message: 'Please select a battle plan.' }),
+  }),
+  player0Faction: z.nativeEnum(Faction, {
+    errorMap: () => ({ message: 'Please select a faction.' }),
+  }),
+  player0UnitsLost: z.coerce.number(),
+  player1BattlePlan: z.nativeEnum(BattlePlan, {
+    errorMap: () => ({ message: 'Please select a battle plan.' }),
+  }),
+  player1Faction: z.nativeEnum(Faction, {
+    errorMap: () => ({ message: 'Please select a faction.' }),
+  }),
+  player1UnitsLost: z.coerce.number(),
+
+  // Handled by <CommonForm />
+  attacker: z.union([z.literal(0), z.literal(1)], { message: 'Please select an attacker.' }),
+  firstTurn: z.union([z.literal(0), z.literal(1)], { message: 'Please select who had the first turn.' }),
+  mission: z.nativeEnum(MissionName, {
+    errorMap: () => ({ message: 'Please select a mission.' }),
+  }),
+  outcomeType: z.enum(Object.values(MatchOutcomeType) as [MatchOutcomeType, ...MatchOutcomeType[]], {
+    message: 'Please select an outcome type.',
+  }),
+  turnsPlayed: z.coerce.number().min(1),
+  winner: z.union([z.literal(-1), z.literal(0), z.literal(1)], { message: 'Please select a winner.' }),
+});
+
 export const fowV4MatchResultFormSchema = z.object({
 
   // Handled by <TournamentPlayersForm /> or <SingleMatchPlayersForm />
@@ -19,30 +49,11 @@ export const fowV4MatchResultFormSchema = z.object({
   player1Placeholder: z.optional(z.string()),
   player1UserId: z.optional(z.string().transform((val) => val.length ? val as UserId : undefined)),
 
-  details: z.object({
-    // Handled by <TournamentPlayersForm /> or <SingleMatchPlayersForm />
-    player0BattlePlan: z.string({ message: 'Please select a battle plan.' }).transform((val) => val as BattlePlan),
-    player0Faction: z.optional(z.string({ message: 'Please select a faction.' }).transform((val) => val as Faction)),
-    player0UnitsLost: z.coerce.number(),
-    player1BattlePlan: z.string({ message: 'Please select a battle plan.' }).transform((val) => val as BattlePlan),
-    player1Faction: z.optional(z.string({ message: 'Please select a faction.' }).transform((val) => val as Faction)),
-    player1UnitsLost: z.coerce.number(),
-
-    // Handled by <CommonForm />
-    attacker: z.union([z.literal(0), z.literal(1)], { message: 'Please select an attacker.' }),
-    firstTurn: z.union([z.literal(0), z.literal(1)], { message: 'Please who had the first turn.' }),
-    mission: z.string({ message: 'Please select a mission.' }).transform((val) => val as MissionName),
-    outcomeType: z.enum(Object.values(MatchOutcomeType) as [MatchOutcomeType, ...MatchOutcomeType[]], {
-      message: 'Please select an outcome type.',
-    }),
-    turnsPlayed: z.coerce.number().min(1),
-    winner: z.union([z.literal(-1), z.literal(0), z.literal(1)], { message: 'Please select a winner.' }),
-  }),
-
+  details: fowV4MatchResultDetailsSchema,
   gameSystemConfig: fowV4GameSystemConfigFormSchema,
 
   // Non-editable
-  gameSystem: z.string().transform((val) => val as GameSystem),
+  gameSystem: z.nativeEnum(GameSystem),
   playedAt: z.union([z.string(), z.number()]), // TODO: not visible, enable later
 }).superRefine((values, ctx) => {
   if (values.details.outcomeType !== 'time_out' && values.details.winner === undefined) {
@@ -57,7 +68,9 @@ export const fowV4MatchResultFormSchema = z.object({
   // TODO: Verify that game system config and details match game system
 });
 
-export type FowV4MatchResultFormData = z.infer<typeof fowV4MatchResultFormSchema>;
+export type FowV4MatchResultFormData = DeepPartial<z.infer<typeof fowV4MatchResultFormSchema>>;
+
+export type FowV4MatchResultSubmitData = z.infer<typeof fowV4MatchResultFormSchema>;
 
 export const defaultValues: DeepPartial<MatchResult> = {
   details: {

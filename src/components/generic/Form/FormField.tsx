@@ -2,6 +2,7 @@ import {
   cloneElement,
   isValidElement,
   ReactElement,
+  useContext,
 } from 'react';
 import {
   Controller,
@@ -10,6 +11,7 @@ import {
 } from 'react-hook-form';
 import clsx from 'clsx';
 
+import { FormStatusContext } from '~/components/generic/Form/Form.context';
 import { Label } from '~/components/generic/Label';
 import { getComponentName } from '~/utils/componentLib/getComponentName';
 
@@ -34,6 +36,7 @@ export const FormField = ({
   ...props
 }: FormFieldProps): JSX.Element => {
   const { control, formState: { errors } } = useFormContext();
+  const { disabled: formDisabled } = useContext(FormStatusContext);
   const error = get(errors, name);
   const showErrorState = !!error;
   const nonTextual = isValidElement(children) && ['Switch', 'Checkbox'].includes(getComponentName(children));
@@ -60,7 +63,7 @@ export const FormField = ({
                 } : {}),
                 className: styles.Input,
                 hasError: showErrorState,
-                disabled,
+                disabled: formDisabled || disabled,
               })
             )}
             name={name}
@@ -70,7 +73,11 @@ export const FormField = ({
           )}
         </>
       ) : (
-        cloneElement(children, { ...props, className: clsx(styles.Input), disabled })
+        cloneElement(children, {
+          ...props,
+          className: clsx(styles.Input),
+          disabled: formDisabled || disabled,
+        })
       )}
       {description && (
         <div className={styles.Description}>{description}</div>

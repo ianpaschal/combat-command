@@ -20,53 +20,44 @@ import styles from './CommonFields.module.scss';
 export const CommonFields = (): JSX.Element => {
   const { watch, setValue } = useFormContext<FowV4MatchResultFormData>();
   const [missionPackVersion, details] = watch(['gameSystemConfig.missionPackVersion', 'details']);
-  const {
-    mission,
-    player0BattlePlan,
-    player1BattlePlan,
-    attacker,
-    firstTurn,
-    outcomeType,
-    winner,
-  } = details;
 
   const missionOptions = useMissionOptions();
   const outcomeTypeOptions = useOutcomeTypeOptions();
   const playerOptions = usePlayerOptions();
   const winnerOptions = [...playerOptions, { label: 'None', value: -1 }];
 
-  const selectedMission = getMission(missionPackVersion, mission);
+  const selectedMission = getMission(missionPackVersion, details?.mission);
 
   // Auto-fill attacker, if possible
-  const autoAttacker = computeAttacker(selectedMission, [player0BattlePlan, player1BattlePlan]);
+  const autoAttacker = computeAttacker(selectedMission, [details?.player0BattlePlan, details?.player1BattlePlan]);
   const disableAttackerField = autoAttacker !== undefined;
   useEffect(() => {
-    if (autoAttacker !== undefined && attacker !== autoAttacker) {
+    if (autoAttacker !== undefined && details?.attacker !== autoAttacker) {
       setValue('details.attacker', autoAttacker);
     }
-  }, [attacker, autoAttacker, setValue]);
+  }, [details, autoAttacker, setValue]);
 
   // Auto-fill firstTurn, if possible
-  const autoFirstTurn = computeFirstTurn(selectedMission, attacker);
+  const autoFirstTurn = computeFirstTurn(selectedMission, details?.attacker);
   const disableFirstTurnField = autoFirstTurn !== undefined;
   useEffect(() => {
-    if (autoFirstTurn !== undefined && firstTurn !== autoFirstTurn) {
+    if (autoFirstTurn !== undefined && details?.firstTurn !== autoFirstTurn) {
       setValue('details.firstTurn', autoFirstTurn);
     }
-  }, [firstTurn, autoFirstTurn, setValue]);
+  }, [details, autoFirstTurn, setValue]);
 
   // Auto-fill winner, if possible
-  const autoWinner = computeWinner(selectedMission, attacker, outcomeType);
+  const autoWinner = computeWinner(selectedMission, details?.attacker, details?.outcomeType);
   const disableWinner = autoWinner !== undefined;
   useEffect(() => {
-    if (autoWinner !== undefined && winner !== autoWinner) {
+    if (autoWinner !== undefined && details?.winner !== autoWinner) {
       setValue('details.winner', autoWinner);
     }
-  }, [winner, autoWinner, setValue]);
+  }, [details, autoWinner, setValue]);
 
   return (
     <div className={styles.Root}>
-      <FormField name="details.missionId" label="Mission">
+      <FormField name="details.mission" label="Mission">
         <InputSelect options={missionOptions} />
       </FormField>
       <FormField name="details.attacker" label="Attacker" disabled={disableAttackerField}>

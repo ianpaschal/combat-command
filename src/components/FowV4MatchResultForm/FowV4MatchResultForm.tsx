@@ -1,5 +1,5 @@
+import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import clsx from 'clsx';
 
 import {
@@ -10,7 +10,7 @@ import {
 import { useAuth } from '~/components/AuthProvider';
 import { ConfirmationDialog, useConfirmationDialog } from '~/components/ConfirmationDialog';
 import { FowV4MatchResultDetails } from '~/components/FowV4MatchResultDetails';
-import { Form } from '~/components/generic/Form';
+import { Form, FormStatus } from '~/components/generic/Form';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { SelectValue } from '~/components/generic/InputSelect/InputSelect.types';
 import { Label } from '~/components/generic/Label';
@@ -19,6 +19,7 @@ import { useAsyncState } from '~/hooks/useAsyncState';
 import { useCreateMatchResult, useUpdateMatchResult } from '~/services/matchResults';
 import { useGetActiveTournamentPairingsByUser } from '~/services/tournamentPairings';
 import { getTournamentPairingDisplayName } from '~/utils/common/getTournamentPairingDisplayName';
+import { validateForm } from '~/utils/validateForm';
 import { CommonFields } from './components/CommonFields';
 import { GameConfigFields } from './components/GameConfigFields';
 import { SingleMatchPlayersFields } from './components/SingleMatchPlayersFields';
@@ -39,6 +40,7 @@ export interface FowV4MatchResultFormProps {
   matchResult?: MatchResult;
   tournamentPairingId?: TournamentPairingId;
   onSuccess?: () => void;
+  onStatusChange?: (status: FormStatus) => void;
 }
 
 export const FowV4MatchResultForm = ({
@@ -47,6 +49,7 @@ export const FowV4MatchResultForm = ({
   matchResult,
   tournamentPairingId: forcedTournamentPairingId,
   onSuccess,
+  onStatusChange,
 }: FowV4MatchResultFormProps): JSX.Element => {
   const user = useAuth();
 
@@ -57,7 +60,6 @@ export const FowV4MatchResultForm = ({
 
   const {
     open: openConfirmMatchResultDialog,
-    close: closeConfirmMatchResultDialog,
   } = useConfirmationDialog(confirmMatchResultDialogId);
 
   const {
@@ -67,19 +69,26 @@ export const FowV4MatchResultForm = ({
 
   const {
     mutation: createMatchResult,
-    loading: createMatchResultLoading,
+    loading: createMatchResultPending,
   } = useCreateMatchResult({
     onSuccess,
   });
   const {
     mutation: updateMatchResult,
-    loading: updateMatchResultLoading,
+    loading: updateMatchResultPending,
   } = useUpdateMatchResult({
     onSuccess,
   });
 
+  const disabled = createMatchResultPending || updateMatchResultPending;
+
+  useEffect(() => {
+    if (onStatusChange) {
+      onStatusChange({ disabled });
+    }
+  }, [onStatusChange, disabled]);
+
   const form = useForm<FowV4MatchResultFormData>({
-    resolver: zodResolver(fowV4MatchResultFormSchema),
     defaultValues: {
       ...defaultValues,
       ...(matchResult ? fowV4MatchResultFormSchema.parse(matchResult) : {}),
@@ -88,31 +97,31 @@ export const FowV4MatchResultForm = ({
   });
 
   const onSubmit: SubmitHandler<FowV4MatchResultFormData> = (formData): void => {
-    const { data } = fowV4MatchResultFormSchema.safeParse(formData);
-    if (!data) {
-      throw new Error('Failed to parse form schema!');
-    }
-    if (matchResult) {
-      updateMatchResult({ ...data, id: matchResult._id, playedAt: matchResult.playedAt });
-    } else {
-      if (tournamentPairingId !== 'single') {
-        openConfirmMatchResultDialog();
+    const data = validateForm(fowV4MatchResultFormSchema, formData, form.setError);
+    if (data) {
+      if (matchResult) {
+        updateMatchResult({ ...data, id: matchResult._id, playedAt: matchResult.playedAt });
       } else {
-        createMatchResult({ ...data });
+        if (tournamentPairingId !== 'single') {
+          openConfirmMatchResultDialog({
+            children: (
+              <FowV4MatchResultDetails
+                className={styles.FowV4MatchResultForm_ConfirmDialogDetails}
+                matchResult={data}
+              />
+            ),
+            onConfirm: () => {
+              createMatchResult({
+                ...data,
+                tournamentPairingId: tournamentPairingId as TournamentPairingId,
+              });
+            },
+          });
+        } else {
+          createMatchResult({ ...data });
+        }
       }
     }
-  };
-
-  const handleConfirm = (): void => {
-    closeConfirmMatchResultDialog();
-    const { data } = fowV4MatchResultFormSchema.safeParse(form.watch());
-    if (!data) {
-      throw new Error('Failed to parse form schema!');
-    }
-    createMatchResult({
-      ...data,
-      tournamentPairingId: tournamentPairingId as TournamentPairingId,
-    });
   };
 
   const resultForOptions = [
@@ -133,14 +142,18 @@ export const FowV4MatchResultForm = ({
     }
   };
 
-  const disableSubmit = createMatchResultLoading || updateMatchResultLoading;
-
   if (tournamentPairingsLoading) {
     return <div>Loading...</div>;
   }
 
   return (
-    <Form id={id} form={form} onSubmit={onSubmit} className={clsx(styles.FowV4MatchResultForm, className)}>
+    <Form
+      id={id}
+      form={form}
+      onSubmit={onSubmit}
+      className={clsx(styles.FowV4MatchResultForm, className)}
+      disabled={disabled}
+    >
       {!matchResult && !forcedTournamentPairingId && (
         <>
           <div className={styles.FowV4MatchResultForm_ResultForSection}>
@@ -172,14 +185,7 @@ export const FowV4MatchResultForm = ({
         id={confirmMatchResultDialogId}
         title="Are all details correct?"
         description="This match is for a tournament, so after you submit it the game configuration and outcome can no longer be changed!"
-        onConfirm={handleConfirm}
-        disabled={disableSubmit}
-      >
-        <FowV4MatchResultDetails
-          className={styles.FowV4MatchResultForm_ConfirmDialogDetails}
-          matchResult={form.watch()}
-        />
-      </ConfirmationDialog>
+      />
     </Form>
   );
 };

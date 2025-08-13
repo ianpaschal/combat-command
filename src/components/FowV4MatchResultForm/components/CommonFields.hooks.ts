@@ -10,6 +10,7 @@ import {
 
 import { UserId } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
+import { FowV4MatchResultFormData } from '~/components/FowV4MatchResultForm/FowV4MatchResultForm.schema';
 import { useGetUser } from '~/services/users';
 
 export const usePlayerDisplayName = ({ userId, placeholder }: { userId?: UserId, placeholder?: string }): string => {
@@ -43,7 +44,7 @@ export const usePlayerOptions = (): { value: number, label: string }[] => {
 };
 
 export const useMissionOptions = () => {
-  const { watch } = useFormContext();
+  const { watch } = useFormContext<FowV4MatchResultFormData>();
   const [player0BattlePlan, player1BattlePlan, missionPackVersion, missionMatrix] = watch([
     'details.player0BattlePlan',
     'details.player1BattlePlan',
@@ -59,7 +60,7 @@ export const useMissionOptions = () => {
 };
 
 export const useOutcomeTypeOptions = () => {
-  const { watch } = useFormContext();
+  const { watch } = useFormContext<FowV4MatchResultFormData>();
   const [missionPackVersion, mission] = watch([
     'gameSystemConfig.missionPackVersion',
     'details.mission',
@@ -72,9 +73,9 @@ export const useOutcomeTypeOptions = () => {
 
 export const computeAttacker = (
   mission: MissionData | null,
-  battlePlans?: [BattlePlan, BattlePlan],
+  battlePlans?: [BattlePlan | undefined, BattlePlan | undefined],
 ): 0 | 1 | undefined => {
-  if (!mission || !battlePlans) {
+  if (!mission || !battlePlans || !battlePlans[0] || !battlePlans[1]) {
     return undefined;
   }
   const [player0BattlePlan, player1BattlePlan] = battlePlans;
