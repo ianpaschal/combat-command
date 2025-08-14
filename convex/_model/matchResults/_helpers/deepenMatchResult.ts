@@ -24,9 +24,11 @@ export const deepenMatchResult = async (
   const player0User = matchResult?.player0UserId ? await getUser(ctx, {
     id: matchResult.player0UserId,
   }) : null;
+  const player0List = matchResult?.player0ListId ? await ctx.db.get(matchResult.player0ListId) : null;
   const player1User = matchResult?.player1UserId ? await getUser(ctx, {
     id: matchResult.player1UserId,
   }) : null;
+  const player1List = matchResult?.player1ListId ? await ctx.db.get(matchResult.player1ListId) : null;
   
   // Social
   const comments = await ctx.db.query('matchResultComments')
@@ -46,7 +48,9 @@ export const deepenMatchResult = async (
   return {
     ...matchResult,
     ...(player0User ? { player0User } : {}),
+    ...(player0List ? { player0List } : {}),
     ...(player1User ? { player1User } : {}),
+    ...(player1List ? { player1List } : {}),
     details: {
       ...matchResult.details,
       player0BattlePlan: battlePlansVisible ? matchResult.details.player0BattlePlan : undefined,
