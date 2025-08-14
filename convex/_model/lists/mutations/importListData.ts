@@ -14,11 +14,13 @@ const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyz', 6);
 export const importListDataArgs = v.object({
   pointsLimit: v.number(),
   data: v.array(v.object({
-    playerUserId: v.id('users'),
-    tournamentCompetitorId: v.id('tournamentCompetitors'),
+    displayName: v.optional(v.string()), // Not used, but allowed because its handy in the raw data.
     forceDiagram,
     formations: v.array(formation),
+    playerUserId: v.id('users'),
+    tournamentCompetitorId: v.id('tournamentCompetitors'),
   })),
+  locked: v.boolean(),
 });
 
 export const importListData = async (
@@ -41,6 +43,7 @@ export const importListData = async (
         units: [],
         commandCards: [],
       },
+      locked: args.locked,
     });
     const competitor = await ctx.db.get(row.tournamentCompetitorId);
     if (competitor) {
