@@ -12,6 +12,7 @@ export const exportFowV4TournamentMatchData = async (
   args: Infer<typeof exportFowV4TournamentMatchDataArgs>,
 ): Promise<string | null> => {
 
+  // 1. Gater base data
   const tournamentPairings = await ctx.runQuery(
     api.tournamentPairings.getTournamentPairings, {
       tournamentId: args.tournamentId,
@@ -28,6 +29,7 @@ export const exportFowV4TournamentMatchData = async (
     },
   );
 
+  // 2. Construct CSV data
   const rows = matchResults.map((matchResult) => {
     const playerLetterIndexes = ['a', 'b'];
     const pairing = tournamentPairings.find((p) => p._id === matchResult.tournamentPairingId);
@@ -42,11 +44,11 @@ export const exportFowV4TournamentMatchData = async (
         [`player_${letter}_team`]: playerTeam?.teamName ?? '',
         [`player_${letter}_user_id`]: playerUser?._id ?? '',
         [`player_${letter}_name`]: playerUser?.displayName ?? matchResult[`player${i}Placeholder` as GeneralKey],
-        [`player_${letter}_force_diagram`]: 'foo',
-        [`player_${letter}_faction`]: 'foo',
-        [`player_${letter}_formation_0`]: 'foo',
-        [`player_${letter}_formation_1`]: 'foo',
-        [`player_${letter}_formation_2`]: 'foo',
+        [`player_${letter}_force_diagram`]: playerList?.data.meta.forceDiagram ?? '',
+        [`player_${letter}_faction`]: playerList?.data.meta ?? '',
+        [`player_${letter}_formation_0`]: playerList?.data.formations[0]?.sourceId ?? '',
+        [`player_${letter}_formation_1`]: playerList?.data.formations[1]?.sourceId ?? '',
+        [`player_${letter}_formation_2`]: playerList?.data.formations[2]?.sourceId ?? '',
         [`player_${letter}_battle_plan`]: matchResult.details[`player${i}BattlePlan` as DetailsKey],
         [`player_${letter}_units_lost`]: matchResult.details[`player${i}UnitsLost` as DetailsKey],
         [`player_${letter}_score`]: matchResult.details[`player${i}Score` as DetailsKey],
@@ -61,13 +63,13 @@ export const exportFowV4TournamentMatchData = async (
     });
   });
 
-  // 2. Convert to CSV
+  // 3. Convert to CSV
   const csv = [
     Object.keys(rows[0]).join(','), // Header
     ...rows.map((row) => Object.values(row).join(',')),
   ].join('\n');
 
-  // 3. Upload to storage
+  // 4. Upload to storage
   const storageId = await ctx.storage.store(new Blob([csv], { type: 'text/csv' }));
   return await ctx.storage.getUrl(storageId);
 };
