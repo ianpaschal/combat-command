@@ -4,7 +4,7 @@ import { Download } from 'lucide-react';
 import { useAuth } from '~/components/AuthProvider';
 import { Button } from '~/components/generic/Button';
 import { Card, CardHeader } from '~/components/generic/Card';
-import { useTournament } from '~/components/TournamentProvider';
+// import { useTournament } from '~/components/TournamentProvider';
 import { TournamentExportDataDialog, useTournamentExportDataDialog } from '~/pages/TournamentDetailPage/components/TournamentExportDataDialog';
 
 export interface TournamentStatsCardProps {
@@ -15,7 +15,7 @@ export const TournamentStatsCard = ({
   className,
 }: TournamentStatsCardProps): JSX.Element => {
   const user = useAuth();
-  const tournament = useTournament();
+  // const tournament = useTournament();
   const { open: openTournamentExportDataDialog } = useTournamentExportDataDialog();
   return (
     <>
