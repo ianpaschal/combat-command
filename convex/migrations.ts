@@ -9,19 +9,28 @@ export const run = migrations.runner();
 export const linkListsToTournamentMatchResults = migrations.define({
   table: 'matchResults',
   migrateOne: async (ctx, doc) => {
-    if (!doc.tournamentId) {
+    if (!doc.tournamentId || !doc.tournamentPairingId) {
       return doc;
     }
     const competitors = await ctx.db.query('tournamentCompetitors')
       .withIndex('by_tournament_id', (q) => q.eq('tournamentId', doc.tournamentId as Id<'tournaments'>))
       .collect();
- 
-    const player0ListId = doc.player0UserId ? (
-      competitors.find((c) => c.players.find((p) => p.userId === doc.player0UserId))?.players.find((p) => p.userId === doc.player0UserId)?.listId
-    ) : undefined;
-    if (doc.player1UserId) {
-      const player1ListId = competitors.find((c) => c.players.find((p) => p.userId === doc.player1UserId))?.players.find((p) => p.userId === doc.player1UserId)?.listId;
-    }
-
+    const getPlayerListId = (
+      userId?: Id<'users'>,
+    ): Id<'lists'> | undefined => {
+      if (!userId) {
+        return;
+      }
+      const competitor = competitors.find((c) => c.players.some((p) => p.userId === userId));
+      if (!competitor) {
+        return;
+      }
+      return competitor.players.find((p) => p.userId === userId)?.listId;
+    };
+    return {
+      ...doc,
+      player0ListId: getPlayerListId(doc.player0UserId),
+      player1ListId: getPlayerListId(doc.player1UserId),
+    };
   },
 });
