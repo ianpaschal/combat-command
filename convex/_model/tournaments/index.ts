@@ -100,3 +100,9 @@ export {
   getTournamentsByUser,
   getTournamentsByUserArgs,
 } from './queries/getTournamentsByUser';
+
+// Actions
+export {
+  exportFowV4TournamentMatchData,
+  exportFowV4TournamentMatchDataArgs,
+} from './actions/exportFowV4TournamentMatchData';

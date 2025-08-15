@@ -31,7 +31,7 @@
     "@fontsource/figtree": "^5.1.0",
     "@fontsource/rajdhani": "^5.2.5",
     "@hookform/resolvers": "^3.9.0",
-    "@ianpaschal/combat-command-static-data": "^3.18.3",
+    "@ianpaschal/combat-command-static-data": "^3.20.0",
     "@mapbox/search-js-core": "^1.0.0-beta.25",
     "@radix-ui/colors": "^3.0.0",
     "@radix-ui/react-aspect-ratio": "^1.1.0",
