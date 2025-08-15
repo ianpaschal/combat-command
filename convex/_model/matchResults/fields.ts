@@ -16,7 +16,7 @@ export const editableFields = {
   player0ListId: v.optional(v.id('lists')),
   player1UserId: v.optional(v.id('users')),
   player1Placeholder: v.optional(v.string()),
-  player1ListId: v.optional(v.id('lists')),  
+  player1ListId: v.optional(v.id('lists')),
 
   // General
   playedAt: v.union(v.string(), v.number()),
