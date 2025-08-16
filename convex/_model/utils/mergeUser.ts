@@ -59,27 +59,24 @@ export const mergeUser = async (
     }
   }
 
-  // Tournament Competitors
-  const tournamentCompetitors = await ctx.db.query('tournamentCompetitors').collect();
-  for (const record of tournamentCompetitors) {
-    if (record.players.find((p) => p.userId === args.secondaryId)) {
-      await ctx.db.patch(record._id, {
-        players: record.players.map((p) => p.userId === args.secondaryId ? {
-          ...p,
-          userId: args.primaryId,
-        } : p),
-      });
-    }
+  // Tournament Registrations
+  const tournamentRegistrations = await ctx.db.query('tournamentRegistrations')
+    .withIndex('by_user', (q) => q.eq('userId', args.secondaryId))
+    .collect();
+  for (const record of tournamentRegistrations) {
+    await ctx.db.patch(record._id, {
+      userId: args.primaryId,
+    });
   }
   
   // Tournament Organizers
-  const tournaments = await ctx.db.query('tournaments').collect();
-  for (const record of tournaments) {
-    if (record.organizerUserIds.includes(args.secondaryId)) {
-      await ctx.db.patch(record._id, {
-        organizerUserIds: record.organizerUserIds.map((id) => id === args.secondaryId ? args.primaryId : id),
-      });
-    }
+  const tournamentOrganizers = await ctx.db.query('tournamentOrganizers')
+    .withIndex('by_user', (q) => q.eq('userId', args.secondaryId))
+    .collect();
+  for (const record of tournamentOrganizers) {
+    await ctx.db.patch(record._id, {
+      userId: args.primaryId,
+    });
   }
 
   // Friendships

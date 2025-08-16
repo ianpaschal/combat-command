@@ -30,8 +30,8 @@ export const TournamentRoster = ({
               <CompetitorActions className={styles.TournamentRoster_Actions} competitor={competitor} />
             </div>
             <div className={styles.TournamentRoster_Content}>
-              {competitor.players.filter((player) => player.active).map((player) => (
-                <IdentityBadge key={player.user?._id} user={player.user} size="small" />
+              {competitor.registrations.filter((r) => r.active).map((r) => (
+                <IdentityBadge key={r.user?._id} user={r.user} size="small" />
               ))}
             </div>
           </AccordionItem>

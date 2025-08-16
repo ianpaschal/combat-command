@@ -33,7 +33,7 @@ export const editableFields = {
   endsAt: v.string(), // ISO date string
   registrationClosesAt: v.string(), // ISO date string
   requireRealNames: v.boolean(),
-  organizerUserIds: v.array(v.id('users')),
+  organizerUserIds: v.optional(v.array(v.id('users'))),
   rulesPackUrl: v.optional(v.string()),
   editionYear: v.optional(v.number()),
 

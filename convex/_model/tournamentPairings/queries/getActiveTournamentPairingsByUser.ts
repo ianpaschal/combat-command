@@ -2,6 +2,7 @@ import { Infer, v } from 'convex/values';
 
 import { QueryCtx } from '../../../_generated/server';
 import { notNullOrUndefined } from '../../common/_helpers/notNullOrUndefined';
+import { checkUserIsTournamentOrganizer } from '../../tournamentOrganizers';
 import { deepenTournamentPairing, TournamentPairingDeep } from '../_helpers/deepenTournamentPairing';
 
 export const getActiveTournamentPairingsByUserArgs = v.object({
@@ -47,7 +48,7 @@ export const getActiveTournamentPairingsByUser = async (
 
     const deepPairing = await deepenTournamentPairing(ctx, tournamentPairing);
 
-    const isOrganizer = tournament.organizerUserIds.includes(args.userId);
+    const isOrganizer = await checkUserIsTournamentOrganizer(ctx, tournament._id, args.userId);
     const isPlayer = deepPairing.playerUserIds.includes(args.userId);
 
     // If user is organizer of the pairing's tournament, or a player in the pairing, include it:

@@ -9,6 +9,7 @@ import { Separator } from '~/components/generic/Separator';
 import { TournamentInfoBlock } from '~/components/TournamentInfoBlock';
 import { useTournament } from '~/components/TournamentProvider';
 import { PATHS } from '~/settings';
+import { isUserTournamentOrganizer } from '~/utils/common/isUserTournamentOrganizer';
 import { TournamentDetailCard } from '../TournamentDetailCard';
 
 import styles from './TournamentInfoCard.module.scss';
@@ -26,8 +27,9 @@ export const TournamentInfoCard = ({
   const handleClickManage = () => {
     navigate(generatePath(PATHS.tournamentEdit, { id: tournament._id }));
   };
+
   const getPrimaryButtons = (): ReactElement[] | undefined => {
-    if (user && tournament.organizerUserIds.includes(user._id)) {
+    if (isUserTournamentOrganizer(user, tournament)) {
       return [
         <Button onClick={handleClickManage} variant="secondary">
           <Pencil />Edit

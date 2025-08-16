@@ -30,7 +30,7 @@ export const TournamentsCard = ({
   const liveTournament = (tournaments ?? []).filter((tournament) => (
     tournament.status === 'active' && user && [
       ...tournament.playerUserIds,
-      ...tournament.organizerUserIds,
+      ...tournament.organizers.map((r) => r.userId),
     ].includes(user._id)
   )).at(-1);
 

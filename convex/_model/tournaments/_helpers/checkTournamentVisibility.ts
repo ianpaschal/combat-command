@@ -2,6 +2,7 @@ import { getAuthUserId } from '@convex-dev/auth/server';
 
 import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
+import { checkUserIsTournamentOrganizer } from '../../tournamentOrganizers';
 
 /**
  * Checks if a User has permission to view a Tournament.
@@ -15,7 +16,8 @@ export const checkTournamentVisibility = async (
   tournament: Doc<'tournaments'>, // TODO: Make union with TournamentDeep
 ): Promise<boolean> => {
   const userId = await getAuthUserId(ctx);
-  if (tournament.status === 'draft' && (!userId || !tournament.organizerUserIds.includes(userId))) {
+  const isOrganizer = await checkUserIsTournamentOrganizer(ctx, tournament._id, userId);
+  if (tournament.status === 'draft' && !isOrganizer) {
     return false;
   }
   return true;

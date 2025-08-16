@@ -2,6 +2,7 @@ import { getAuthUserId } from '@convex-dev/auth/server';
 
 import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
+import { checkUserIsTournamentOrganizer } from '../../tournamentOrganizers';
 
 /**
  * Checks if a match result's battle plans should be visible or not.
@@ -36,7 +37,8 @@ export const checkMatchResultBattlePlanVisibility = async (
   if (userId) {
 
     // If the requesting user is an organizer, battle plans should be visible:
-    if (tournament.organizerUserIds.includes(userId)) {
+    const isOrganizer = await checkUserIsTournamentOrganizer(ctx, tournament._id, userId );
+    if (isOrganizer) {
       return true;
     }
 

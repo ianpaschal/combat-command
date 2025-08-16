@@ -4,8 +4,8 @@ export const getCompetitorPlayerOptions = (competitor?: TournamentCompetitor | n
   if (!competitor) {
     return [];
   }
-  return competitor.players.map((player) => ({
-    value: player.user._id,
-    label: player.user.displayName,
+  return competitor.registrations.map((r) => ({
+    value: r.user?._id ?? '',
+    label: r.user?.displayName ?? '',
   })); 
 };

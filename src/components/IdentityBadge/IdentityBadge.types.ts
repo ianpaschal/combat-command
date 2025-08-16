@@ -3,8 +3,8 @@ import { ReactElement } from 'react';
 import { TournamentCompetitor, User } from '~/api';
 
 export type Identity = {
-  user?: User;
-  competitor?: TournamentCompetitor;
+  user?: User | null;
+  competitor?: TournamentCompetitor | null;
   placeholder?: IdentityBadgePlaceholder;
 };
 

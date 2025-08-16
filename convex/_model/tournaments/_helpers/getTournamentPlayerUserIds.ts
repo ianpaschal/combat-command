@@ -14,12 +14,8 @@ export const getTournamentPlayerUserIds = async (
   tournamentId: Id<'tournaments'>,
   activeOnly = false,
 ): Promise<Id<'users'>[]> => {
-  const tournamentCompetitors = await ctx.db.query('tournamentCompetitors').withIndex(
-    'by_tournament_id',
-    (q) => q.eq('tournamentId', tournamentId),
-  ).collect();
-  return tournamentCompetitors.reduce((acc, c) => [
-    ...acc,
-    ...c.players.filter((p) => activeOnly ? p.active : true).map((p) => p.userId),
-  ], [] as Id<'users'>[]);
+  const tournamentRegistrations = await ctx.db.query('tournamentRegistrations')
+    .withIndex('by_tournament', (q) => q.eq('tournamentId', tournamentId))
+    .collect();
+  return tournamentRegistrations.filter((r) => activeOnly ? r.active : true).map((r) => r.userId);
 };

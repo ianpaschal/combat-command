@@ -1,7 +1,7 @@
 import { Doc, Id } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
+import { getTournamentOrganizersByTournament } from '../../tournamentOrganizers';
 import { getTournamentPairingDeep } from '../../tournamentPairings';
-import { getTournamentShallow } from '../../tournaments';
 
 /**
  * Checks if a user has permission to mutate match result.
@@ -20,9 +20,11 @@ export const checkMatchResultAuth = async (
   if (matchResult.tournamentPairingId) {
     // Perform tournament-based auth checks for matches with a tournament pairing:
     const tournamentPairing = await getTournamentPairingDeep(ctx, matchResult.tournamentPairingId);
-    const tournament = await getTournamentShallow(ctx, tournamentPairing.tournamentId);
+    const tournamentOrganizers = await getTournamentOrganizersByTournament(ctx, {
+      tournamentId: tournamentPairing.tournamentId,
+    });
 
-    const isTournamentOrganizer = tournament.organizerUserIds.includes(userId);
+    const isTournamentOrganizer = tournamentOrganizers.find((to) => to.user?._id === userId);
     if (!isTournamentOrganizer ) {
       // TODO: Proper convex error
       throw 'You do not have permission to do that.';

@@ -12,6 +12,7 @@ import { TournamentPairingRow } from '~/components/TournamentPairingRow';
 import { useGetMatchResultsByTournamentPairing } from '~/services/matchResults';
 import { useGetTournamentPairing } from '~/services/tournamentPairings';
 import { useGetTournament } from '~/services/tournaments';
+import { isUserTournamentOrganizer } from '~/utils/common/isUserTournamentOrganizer';
 
 import styles from './TournamentPairingDetailPage.module.scss';
 
@@ -33,7 +34,7 @@ export const TournamentPairingDetailPage = (): JSX.Element => {
   const showLoading = !tournamentPairing || tournamentPairingLoading || matchResultsLoading || tournamentLoading;
 
   const isPlayer = user && tournamentPairing?.playerUserIds.includes(user._id);
-  const isOrganizer = user && tournament?.organizerUserIds.includes(user._id);
+  const isOrganizer = isUserTournamentOrganizer(user, tournament);
   const isComplete = tournamentPairing && tournamentPairing.matchResultsProgress.submitted === tournamentPairing?.matchResultsProgress.required;
   const showAddMatchResult = (isPlayer || isOrganizer) && !isComplete && tournament?.currentRound !== undefined;
 

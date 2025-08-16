@@ -15,7 +15,7 @@ export const useTournamentCompetitorEditDialog = () => {
   return {
     id,
     data,
-    open: (updated: UseTournamentCompetitorEditDialogData) => openModal(id, updated),
+    open: (data?: UseTournamentCompetitorEditDialogData) => openModal(id, data),
     close: () => closeModal(id),
   };
 };

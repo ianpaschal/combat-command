@@ -16,8 +16,8 @@ export const getTournamentCompetitorDisplayName = (
   }
 
   // If competitor has only 1 player, just use the player's name:
-  if (competitor.players.length === 1 && competitor.players[0].user) {
-    return competitor.players[0].user.displayName;
+  if (competitor.registrations.length === 1 && competitor.registrations[0].user) {
+    return competitor.registrations[0].user.displayName;
   }
 
   // Use the country name if there is one, otherwise just use the team name:

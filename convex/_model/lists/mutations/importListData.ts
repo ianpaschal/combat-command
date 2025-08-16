@@ -18,7 +18,7 @@ export const importListDataArgs = v.object({
     forceDiagram,
     formations: v.array(formation),
     playerUserId: v.id('users'),
-    tournamentCompetitorId: v.id('tournamentCompetitors'),
+    tournamentRegistrationId: v.id('tournamentRegistrations'),
   })),
   locked: v.boolean(),
 });
@@ -45,13 +45,7 @@ export const importListData = async (
       },
       locked: args.locked,
     });
-    const competitor = await ctx.db.get(row.tournamentCompetitorId);
-    if (competitor) {
-      await ctx.db.patch(row.tournamentCompetitorId, {
-        players: competitor.players.map((p) => (
-          p.userId === row.playerUserId ? { ...p, listId } : p
-        )),
-      });
-    }
+
+    await ctx.db.patch(row.tournamentRegistrationId, { listId });
   }
 };

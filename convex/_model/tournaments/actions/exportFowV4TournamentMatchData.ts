@@ -38,7 +38,7 @@ export const exportFowV4TournamentMatchData = async (
       type DetailsKey = keyof typeof matchResult.details;
       const playerUser = i === 0 ? matchResult.player0User : matchResult.player1User;
       const playerList = i === 0 ? matchResult.player0List : matchResult.player1List;
-      const playerTeam = tournamentCompetitors.find((c) => c.players.find((p) => p.user._id === playerUser?._id));
+      const playerTeam = tournamentCompetitors.find((c) => c.registrations.find((r) => r.user?._id === playerUser?._id));
       return {
         ...acc,
         [`player_${letter}_team`]: playerTeam?.teamName ?? '',

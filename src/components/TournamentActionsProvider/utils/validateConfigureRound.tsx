@@ -28,7 +28,7 @@ export const validateConfigureRound = (
     `);
   }
   for (const competitor of active) {
-    const activePlayers = competitor.players.filter(({ active }) => active);
+    const activePlayers = competitor.registrations.filter(({ active }) => active);
     if (activePlayers.length > tournament.competitorSize) {
       errors.push(`${getTournamentCompetitorDisplayName(competitor)} has too many active players.`);
     }

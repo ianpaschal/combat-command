@@ -48,7 +48,6 @@ export const createTestTournament = async (
   const tournamentId = await ctx.db.insert('tournaments', {
     ...mockTournamentData,
     status,
-    organizerUserIds: [organizerUserId],
     currentRound,
     lastRound,
     maxCompetitors,
@@ -61,6 +60,11 @@ export const createTestTournament = async (
     },
     logoStorageId: 'kg208wxmb55v36bh9qnkqc0c397j1rmb' as Id<'_storage'>,
     bannerStorageId: 'kg250q9ezj209wpxgn0xqfca297kckc8' as Id<'_storage'>,
+  });
+  await ctx.db.insert('tournamentOrganizers', {
+    userId: organizerUserId,
+    tournamentId,
+    isOwner: true,
   });
 
   // 3. Create competitors
@@ -81,12 +85,22 @@ export const createTestTournament = async (
         }
       }
 
-      await ctx.db.insert('tournamentCompetitors', {
+      const tournamentCompetitorId = await ctx.db.insert('tournamentCompetitors', {
         teamName,
         tournamentId,
         active: status === 'active',
-        players,
       });
+
+      for (const player of players) {
+        await ctx.db.insert('tournamentRegistrations', {
+          tournamentId,
+          tournamentCompetitorId,
+          userId: player.userId,
+          active: true,
+          userConfirmed: true,
+          listApproved: true,
+        });
+      }
     }
   }
 };

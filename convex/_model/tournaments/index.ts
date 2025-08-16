@@ -31,7 +31,6 @@ export { checkTournamentAuth } from './_helpers/checkTournamentAuth';
 export { deepenTournament, type TournamentDeep } from './_helpers/deepenTournament';
 export { getTournamentDeep } from './_helpers/getTournamentDeep';
 export { getTournamentShallow } from './_helpers/getTournamentShallow';
-export { getTournamentUserIds } from './_helpers/getTournamentUserIds';
 
 // Mutations
 export {

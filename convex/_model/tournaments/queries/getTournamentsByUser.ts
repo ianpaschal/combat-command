@@ -24,24 +24,27 @@ export const getTournamentsByUser = async (
   ctx: QueryCtx,
   args: Infer<typeof getTournamentsByUserArgs>,
 ): Promise<TournamentDeep[]> => {
-  const tournaments = await ctx.db.query('tournaments').collect();
-  const deepTournaments = await Promise.all(
-    tournaments.map(async (tournament) => {
-      if (await checkTournamentVisibility(ctx, tournament)) {
-        return await deepenTournament(ctx, tournament);
-      }
-      return null;
-    }),
-  );
+
+  const tournamentRegistrations = await ctx.db.query('tournamentRegistrations')
+    .withIndex('by_user', (q) => q.eq('userId', args.userId))
+    .collect();
+  const tournamentOrganizers = await ctx.db.query('tournamentOrganizers')
+    .withIndex('by_user', (q) => q.eq('userId', args.userId))
+    .collect();
+
+  const tournamentIds = new Set([
+    ...tournamentRegistrations.map((r) => r.tournamentId),
+    ...tournamentOrganizers.map((r) => r.tournamentId),
+  ]);
+  const deepTournaments = await Promise.all([...tournamentIds].map(async (id) => {
+    const tournament = await ctx.db.get(id);
+    if (tournament && await checkTournamentVisibility(ctx, tournament)) {
+      return await deepenTournament(ctx, tournament);
+    }
+    return null;
+  }));
   return deepTournaments.filter((tournament): tournament is TournamentDeep => {
     if (!notNullOrUndefined(tournament)) {
-      return false;
-    }
-    const userIds = [
-      ...tournament.organizerUserIds,
-      ...tournament.playerUserIds,
-    ];
-    if (!userIds.includes(args.userId)) {
       return false;
     }
     if (args.status && tournament.status !== args.status) {

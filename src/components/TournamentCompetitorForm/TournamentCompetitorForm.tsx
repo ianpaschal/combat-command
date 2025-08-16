@@ -1,5 +1,4 @@
 import { MouseEvent } from 'react';
-import { Fragment } from 'react/jsx-runtime';
 import {
   SubmitHandler,
   useFieldArray,
@@ -20,12 +19,12 @@ import { Button } from '~/components/generic/Button';
 import { Form, FormField } from '~/components/generic/Form';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { InputText } from '~/components/generic/InputText';
-import { Label } from '~/components/generic/Label';
-import { Switch } from '~/components/generic/Switch';
 import { InputUser } from '~/components/InputUser';
 import { useTournament } from '~/components/TournamentProvider';
 import { useGetTournamentCompetitorsByTournament } from '~/services/tournamentCompetitors';
+import { useGetTournamentRegistrationsByTournament } from '~/services/tournamentRegistrations';
 import { getEtcCountryOptions } from '~/utils/common/getCountryOptions';
+import { isUserTournamentOrganizer } from '~/utils/common/isUserTournamentOrganizer';
 import {
   createSchema,
   FormData,
@@ -41,7 +40,7 @@ export type SubmitData = FormData & {
 export interface TournamentCompetitorFormProps {
   className?: string;
   id: string;
-  loading?: boolean;
+  disabled?: boolean;
   onSubmit: (data: SubmitData) => void;
   tournamentCompetitor?: TournamentCompetitor;
 }
@@ -49,144 +48,109 @@ export interface TournamentCompetitorFormProps {
 export const TournamentCompetitorForm = ({
   className,
   id,
-  loading = false,
+  disabled = false,
   onSubmit,
   tournamentCompetitor,
 }: TournamentCompetitorFormProps): JSX.Element => {
   const user = useAuth();
-  const {
-    _id: tournamentId,
-    competitorSize,
-    status,
-    useTeams,
-    useNationalTeams,
-    organizerUserIds,
-    playerUserIds: existingPlayerUserIds,
-  } = useTournament();
-  const { data: tournamentCompetitors } = useGetTournamentCompetitorsByTournament({ tournamentId });
+  const tournament = useTournament();
+  const { data: tournamentCompetitors, loading: tournamentCompetitorsLoading } = useGetTournamentCompetitorsByTournament({
+    tournamentId: tournament._id,
+  });
+  const { data: tournamentRegistrations, loading: tournamentRegistrationsLoading } = useGetTournamentRegistrationsByTournament({
+    tournamentId: tournament._id,
+  });
 
   // Get other competitors, we can block repeat names:
   const otherCompetitors = (tournamentCompetitors || []).filter((c) => c._id !== tournamentCompetitor?._id);
 
   const form = useForm<FormData>({
-    resolver: zodResolver(createSchema(competitorSize, status, otherCompetitors)),
-    defaultValues: getDefaultValues(competitorSize, tournamentCompetitor),
+    resolver: zodResolver(createSchema(otherCompetitors)),
+    defaultValues: getDefaultValues(user?._id, tournamentCompetitor),
     mode: 'onSubmit',
   });
   const { fields, append } = useFieldArray({
     control: form.control,
-    name: 'players',
+    name: 'addedPlayers',
     rules: {
-      minLength: competitorSize,
+      minLength: 1,
     },
   });
-  const players = useWatch({
+  const addedPlayers = useWatch({
     control: form.control,
-    name: 'players',
+    name: 'addedPlayers',
   });
 
   const nationalTeamOptions = getEtcCountryOptions().filter(({ value }) => (
     !otherCompetitors.find((c) => c.teamName === value)
   ));
 
-  const handleChangeUser = (i: number, { userId }: { userId?: UserId, placeholder?: string }): void => {
+  const handleChangeUser = (i: number, userId?: UserId): void => {
     if (userId !== undefined) {
-      form.setValue(`players.${i}.userId`, userId);
+      form.setValue(`addedPlayers.${i}.userId`, userId);
     }
-  };
-
-  const handleChangePlayerActive = (i: number, active: boolean): void => {
-    form.setValue(`players.${i}.active`, active);
   };
 
   const handleAddPlayer = (e: MouseEvent): void => {
     e.preventDefault();
-    append({
-      active: players.filter((p) => p.active).length < competitorSize,
-      userId: '' as UserId,
-    });
+    append({ userId: undefined });
   };
 
-  const handleSubmit: SubmitHandler<FormData> = async ({ players, ...formData }): Promise<void> => {
+  const handleSubmit: SubmitHandler<FormData> = async ({ ...formData }): Promise<void> => {
     onSubmit({
-      tournamentId,
-      players: players.filter((p) => p.userId.length),
+      tournamentId: tournament._id,
       ...formData,
     });
   };
 
+  const emptyPlayerSlots = addedPlayers.filter((id) => !id).length;
+
   const excludedUserIds = [
-    ...existingPlayerUserIds,
-    ...players.map((player) => player.userId),
+    ...(tournamentRegistrations ?? []).map((r) => r.userId),
+    ...addedPlayers.map(({ userId }) => userId).filter((userId): userId is UserId => !!userId),
   ];
 
-  const isOrganizer = user && organizerUserIds.includes(user._id);
+  const isOrganizer = isUserTournamentOrganizer(user, tournament);
 
-  const emptyPlayerSlots = players.filter((player) => !player.userId.length).length;
+  const loading = tournamentCompetitorsLoading || tournamentRegistrationsLoading;
 
   return (
-    <Form id={id} form={form} onSubmit={handleSubmit} className={clsx(styles.TournamentCompetitorForm, className)}>
-      {useTeams && (
-        <FormField name="teamName" label={useNationalTeams ? 'Country' : 'Team Name'}>
-          {useNationalTeams ? (
-            <InputSelect options={nationalTeamOptions} disabled={!isOrganizer} />
-          ) : (
-            <InputText />
-          )}
-        </FormField>
-      )}
-      {useTeams ? (
-        <div className={styles.TournamentCompetitorForm_TeamPlayers}>
-          <Label>Active</Label>
-          <Label>User</Label>
-          {fields.map((field, i) => (
-            <Fragment key={field.id}>
-              <Switch
-                name={`players.${i}.active`}
-                checked={players[i]?.active ?? false}
-                onCheckedChange={(value) => handleChangePlayerActive(i, value)}
-                disabled={loading}
-              />
-              <InputUser
-                name={`players.${i}.userId`}
-                value={{ userId: players[i]?.userId }}
-                onChange={(value) => handleChangeUser(i, value)}
-                excludedUserIds={excludedUserIds}
-                disabled={loading || (!!players[i]?.userId && status !== 'published')}
-                allowPlaceholder={false}
-              />
-            </Fragment>
-          ))}
-          <div className={styles.TournamentCompetitorForm_TeamPlayers_AddButton}>
-            <Button
-              onClick={handleAddPlayer}
-              disabled={loading || emptyPlayerSlots > 0}
-            >
-              <Plus />
-              Add Player Slot
-            </Button>
-          </div>
+    <Form
+      id={id}
+      form={form}
+      className={clsx(styles.TournamentCompetitorForm, className)}
+      onSubmit={handleSubmit}
+      disabled={disabled}
+    >
+      <FormField name="teamName" label={tournament.useNationalTeams ? 'Country' : 'Team Name'}>
+        {tournament.useNationalTeams ? (
+          <InputSelect options={nationalTeamOptions} />
+        ) : (
+          <InputText />
+        )}
+      </FormField>
+      {fields.map((field, i) => (
+        <InputUser
+          key={field.id}
+          name={`playerUserIds.${i}`}
+          value={addedPlayers[i]}
+          onChange={(value) => handleChangeUser(i, value.userId)}
+          excludedUserIds={excludedUserIds}
+          disabled={disabled || loading || !isOrganizer}
+          allowPlaceholder={false}
+        />
+      ))}
+      {isOrganizer && (
+        <div>
+          <Button
+            onClick={handleAddPlayer}
+            disabled={loading || emptyPlayerSlots > 0}
+          >
+            <Plus />
+            Add Player Slot
+          </Button>
         </div>
-      ) : (
-        <>
-          <Label>User</Label>
-          <InputUser
-            name={'players.0.userId'}
-            onChange={(value) => handleChangeUser(0, value)}
-            value={{ userId: players[0].userId }}
-            excludedUserIds={excludedUserIds}
-            disabled={loading}
-            allowPlaceholder={false}
-          />
-        </>
       )}
-      {
-        form.formState.errors['players'] && (
-          <span className={styles.TournamentCompetitorForm_PlayerErrors}>
-            {form.formState.errors['players'].message}
-          </span>
-        )
-      }
     </Form>
   );
 };

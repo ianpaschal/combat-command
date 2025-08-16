@@ -19,12 +19,12 @@ const sizeClasses: Record<ElementSize, string | undefined> = {
 
 export interface IdentityBadgeProps {
   className?: string;
-  competitor?: TournamentCompetitor;
+  competitor?: TournamentCompetitor | null;
   flipped?: boolean;
   loading?: boolean;
   placeholder?: IdentityBadgePlaceholder;
   size?: ElementSize;
-  user?: User;
+  user?: User | null;
 }
 
 export const IdentityBadge = ({
