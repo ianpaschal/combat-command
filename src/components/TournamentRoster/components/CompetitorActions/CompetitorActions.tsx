@@ -73,7 +73,7 @@ export const CompetitorActions = ({
   const ownRegistration = (registrations ?? []).find((r) => r.userId === user?._id);
   const competitorRegistrations = (registrations ?? []).filter((r) => r.tournamentCompetitorId === competitor._id);
   const isOrganizer = isUserTournamentOrganizer(user, tournament);
-  const isPlayer = !loading && !!ownRegistration;
+  const isPlayerForCompetitor = user && !loading && ownRegistration?.tournamentCompetitorId === competitor._id;
   const isCaptain = user && competitor.captainUserId === user._id;
   const isFull = competitorRegistrations.filter((r) => r.active).length >= tournament.competitorSize;
 
@@ -87,11 +87,11 @@ export const CompetitorActions = ({
     {
       label: 'Leave',
       onClick: () => {
-        if (isPlayer) {
+        if (isPlayerForCompetitor) {
           deleteRegistration({ id: ownRegistration._id });
         }
       },
-      visible: isPlayer && !['active', 'archived'].includes(tournament.status),
+      visible: isPlayerForCompetitor && !['active', 'archived'].includes(tournament.status),
     },
     {
       label: 'Edit',
