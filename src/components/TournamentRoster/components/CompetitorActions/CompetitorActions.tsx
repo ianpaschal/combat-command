@@ -9,13 +9,13 @@ import { Button } from '~/components/generic/Button';
 import { Label } from '~/components/generic/Label';
 import { PopoverMenu } from '~/components/generic/PopoverMenu';
 import { Switch } from '~/components/generic/Switch';
-import { useTournamentCompetitorEditDialog } from '~/components/TournamentCompetitorEditDialog';
+import { TournamentCompetitorEditDialog, useTournamentCompetitorEditDialog } from '~/components/TournamentCompetitorEditDialog';
 import { useTournament } from '~/components/TournamentProvider';
 import { useDeleteTournamentCompetitor, useToggleTournamentCompetitorActive } from '~/services/tournamentCompetitors';
 import {
   useCreateTournamentRegistration,
   useDeleteTournamentRegistration,
-  useGetTournamentRegistrationsByCompetitor,
+  useGetTournamentRegistrationsByTournament,
 } from '~/services/tournamentRegistrations';
 import { isUserTournamentOrganizer } from '~/utils/common/isUserTournamentOrganizer';
 
@@ -32,10 +32,13 @@ export const CompetitorActions = ({
 }: CompetitorActionsProps): JSX.Element => {
   const user = useAuth();
   const tournament = useTournament();
-  const { data: registrations } = useGetTournamentRegistrationsByCompetitor({
-    tournamentCompetitorId: competitor._id,
+  const {
+    data: registrations,
+    loading,
+  } = useGetTournamentRegistrationsByTournament({
+    tournamentId: competitor.tournamentId,
   });
-  const { open: openEditDialog } = useTournamentCompetitorEditDialog();
+  const { open: openEditDialog } = useTournamentCompetitorEditDialog(competitor._id);
   const confirmDeleteCompetitorDialogId = `confirm-delete-competitor-${competitor._id}`;
   const { open: openConfirmDeleteDialog } = useConfirmationDialog(confirmDeleteCompetitorDialogId);
   const { mutation: toggleActive } = useToggleTournamentCompetitorActive();
@@ -67,13 +70,15 @@ export const CompetitorActions = ({
     deleteCompetitor({ id: competitor._id });
   };
 
-  const registration = (registrations ?? []).find((r) => r.userId === user?._id);
+  const ownRegistration = (registrations ?? []).find((r) => r.userId === user?._id);
+  const competitorRegistrations = (registrations ?? []).filter((r) => r.tournamentCompetitorId === competitor._id);
   const isOrganizer = isUserTournamentOrganizer(user, tournament);
-  const isPlayer = user && !!(registrations ?? []).find((r) => r.user?._id === user._id);
-  const isFull = (registrations ?? []).length >= tournament.competitorSize;
+  const isPlayer = !loading && !!ownRegistration;
+  const isCaptain = user && competitor.captainUserId === user._id;
+  const isFull = competitorRegistrations.filter((r) => r.active).length >= tournament.competitorSize;
 
-  const showCheckInToggle = user && isOrganizer && tournament.status === 'active' && tournament.currentRound === undefined;
-  const showJoinButton = user && !isFull && !tournament.playerUserIds.includes(user._id) && tournament.status === 'published';
+  const showCheckInToggle = isOrganizer && tournament.status === 'active' && tournament.currentRound === undefined;
+  const showJoinButton = !isFull && !loading && !ownRegistration && tournament.useTeams && tournament.status === 'published';
 
   // TODO: Add list submissions
   // const showListsButton = user && (isOrganizer || isPlayer) && status !== 'archived';
@@ -82,8 +87,8 @@ export const CompetitorActions = ({
     {
       label: 'Leave',
       onClick: () => {
-        if (registration) {
-          deleteRegistration({ id: registration._id });
+        if (isPlayer) {
+          deleteRegistration({ id: ownRegistration._id });
         }
       },
       visible: isPlayer && !['active', 'archived'].includes(tournament.status),
@@ -91,7 +96,7 @@ export const CompetitorActions = ({
     {
       label: 'Edit',
       onClick: () => openEditDialog({ tournamentCompetitor: competitor }),
-      visible: (isOrganizer || (isPlayer && tournament.useTeams)) && tournament.status !== 'archived' && tournament.currentRound === undefined,
+      visible: (isOrganizer || isCaptain) && tournament.useTeams && tournament.status !== 'archived' && tournament.currentRound === undefined,
     },
     {
       label: 'Delete',
@@ -132,6 +137,7 @@ export const CompetitorActions = ({
         intent="danger"
         onConfirm={handleDelete}
       />
+      <TournamentCompetitorEditDialog competitor={competitor} />
     </>
   );
 };

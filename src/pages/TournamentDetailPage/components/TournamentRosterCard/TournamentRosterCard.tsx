@@ -34,7 +34,7 @@ export const TournamentRosterCard = ({
   const user = useAuth();
   const tournament = useTournament();
   const competitors = useTournamentCompetitors();
-  const { open: openTournamentCompetitorEditDialog } = useTournamentCompetitorEditDialog();
+  const { open: openCreateDialog } = useTournamentCompetitorEditDialog();
   const { data: tournamentCompetitors, loading } = useGetTournamentCompetitorsByTournament({ tournamentId: tournament._id });
   const { mutation: createTournamentCompetitor } = useCreateTournamentCompetitor({
     successMessage: `Successfully joined ${tournament.title}!`,
@@ -54,7 +54,7 @@ export const TournamentRosterCard = ({
     }
     createTournamentCompetitor({
       tournamentId: tournament._id,
-      playerUserIds: [user._id],
+      captainUserId: user._id,
     });
   };
 
@@ -79,7 +79,7 @@ export const TournamentRosterCard = ({
     if (tournament.status === 'published' && user && !isPlayer && !hasMaxTeams) {
       if (tournament.useTeams) {
         return [
-          <Button onClick={() => openTournamentCompetitorEditDialog()}>
+          <Button onClick={() => openCreateDialog()}>
             <UserPlus />New Team
           </Button>,
         ];
@@ -92,7 +92,7 @@ export const TournamentRosterCard = ({
     }
     if (['published', 'active'].includes(tournament.status) && tournament.currentRound === undefined && isOrganizer) {
       return [
-        <Button key="create-competitor" onClick={() => openTournamentCompetitorEditDialog()}>
+        <Button key="create-competitor" onClick={() => openCreateDialog()}>
           <UserPlus />{`Add ${tournament.useTeams ? 'Team' : 'Player'}`}
         </Button>,
       ];

@@ -100,6 +100,7 @@ export const UserSelectDialog = ({
                 className={styles.UserSelectDialog_SelectedUser_Badge}
                 user={selectedUser}
                 size="small"
+                disableLink
               />
               <Button
                 className={styles.UserSelectDialog_SelectedUser_Clear}
@@ -115,7 +116,7 @@ export const UserSelectDialog = ({
             <div className={styles.UserSelectDialog_UserList}>
               {selectableUsers.map((user, i) => (
                 <div className={styles.UserSelectDialog_UserListItem} key={i}>
-                  <IdentityBadge user={user} size="small" />
+                  <IdentityBadge user={user} size="small" disableLink />
                   <Button onClick={() => handleSelect(user?._id)}>
                     Select
                   </Button>

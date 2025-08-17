@@ -50,7 +50,7 @@ export const createTournamentRegistration = async (
     tournamentId: tournament._id,
   });
   const authorizedUserIds = [
-    ...tournamentOrganizers.map((r) => r.userId === userId),
+    ...tournamentOrganizers.map((r) => r.userId),
     args.userId,
   ];
   if (!authorizedUserIds.includes(userId)) {

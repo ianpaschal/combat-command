@@ -14,7 +14,7 @@ import { editableFields } from '../fields';
 
 export const createTournamentCompetitorArgs = v.object({
   ...editableFields,
-  playerUserIds: v.array(v.id('users')),
+  captainUserId: v.id('users'),
 });
 
 export const createTournamentCompetitor = async (
@@ -39,16 +39,14 @@ export const createTournamentCompetitor = async (
   if (args.teamName && existingTeamNames.includes(args.teamName)) {
     throw new ConvexError(getErrorMessage('TEAM_ALREADY_IN_TOURNAMENT'));
   }
-  for (const userId of args.playerUserIds) {
-    const existingTournamentRegistration = await ctx.db.query('tournamentRegistrations')
-      .withIndex('by_tournament_user', (q) => q.eq('tournamentId', tournament._id).eq('userId', userId))
-      .first();
-    if (existingTournamentRegistration) {
-      throw new ConvexError(getErrorMessage('USER_ALREADY_IN_TOURNAMENT'));
-    }
+ 
+  const existingTournamentRegistration = await ctx.db.query('tournamentRegistrations')
+    .withIndex('by_tournament_user', (q) => q.eq('tournamentId', tournament._id).eq('userId', args.captainUserId))
+    .first();
+  if (existingTournamentRegistration) {
+    throw new ConvexError({ userId: args.captainUserId, existingTournamentRegistration });
   }
-  const captainUserId = args.playerUserIds[0];
-  if (!captainUserId) {
+  if (!args.captainUserId) {
     throw new ConvexError(getErrorMessage('CANNOT_CREATE_COMPETITOR_WITH_0_PLAYERS'));
   }
 
@@ -61,26 +59,24 @@ export const createTournamentCompetitor = async (
   });
   const authorizedUserIds = [
     ...tournamentOrganizers.map((r) => r.userId),
-    ...args.playerUserIds,
+    ...args.captainUserId,
   ];
   if (!authorizedUserIds.includes(userId)) {
     throw new ConvexError(getErrorMessage('USER_DOES_NOT_HAVE_PERMISSION'));
   }
 
   // ---- PRIMARY ACTIONS ----
+  const { ...restArgs } = args;
   const tournamentCompetitorId = await ctx.db.insert('tournamentCompetitors', {
-    ...args,
+    ...restArgs,
     active: false,
-    captainUserId,
   });
 
-  for (const userId of args.playerUserIds) {
-    await createTournamentRegistration(ctx, {
-      userId,
-      tournamentId: args.tournamentId,
-      tournamentCompetitorId,
-    });
-  }
+  await createTournamentRegistration(ctx, {
+    userId: args.captainUserId,
+    tournamentId: args.tournamentId,
+    tournamentCompetitorId,
+  });
 
   return tournamentCompetitorId;
 };

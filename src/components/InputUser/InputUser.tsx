@@ -16,48 +16,55 @@ export type InputUserValue = {
 };
 
 export interface InputUserProps {
+  allowPlaceholder?: boolean;
   className?: string;
   disabled?: boolean;
   excludedUserIds?: UserId[];
-  allowPlaceholder?: boolean;
+  hasError?: boolean;
   loading?: boolean;
-  name: string;
-  onChange: (value: InputUserValue) => void;
-  value: InputUserValue;
+  name?: string;
+  onChange?: (value: InputUserValue) => void;
+  value?: InputUserValue;
 }
 
 export const InputUser = forwardRef<HTMLButtonElement, InputUserProps>(({
+  allowPlaceholder = true,
   className,
   disabled = false,
   excludedUserIds = [],
-  allowPlaceholder = true,
+  hasError,
   loading = false,
-  name,
+  name = 'unknown',
   onChange,
-  value,
+  value = {},
   ...props
 }, ref): JSX.Element => {
   const { open: openUserSelectDialog } = useUserSelectDialog(name);
-  const { userId, placeholder } = value;
-  const { data: replacementUser } = useGetUser(userId ? { id: userId } : 'skip');
+  const { data: replacementUser } = useGetUser(value?.userId ? { id: value.userId } : 'skip');
+  const handleChange = (v: InputUserValue): void => {
+    if (onChange) {
+      onChange(v);
+    }
+  };
   return (
     <>
       <Button
         className={clsx(styles.InputUser, className)} ref={ref} id={name} {...props}
+        data-error={hasError}
         variant="outlined"
         onClick={(e: MouseEvent) => {
           e.preventDefault();
-          openUserSelectDialog({ userId, placeholder });
+          openUserSelectDialog();
         }}
         disabled={disabled || loading}
       >
         {replacementUser ? (
-          <IdentityBadge user={replacementUser} size="small" />
+          <IdentityBadge user={replacementUser} size="small" disableLink />
         ) : (
           'Select'
         )}
       </Button>
-      <UserSelectDialog id={name} value={{ userId, placeholder }} onConfirm={onChange} excludeUserIds={excludedUserIds} allowPlaceholder={allowPlaceholder} />
+      <UserSelectDialog id={name} value={value} onConfirm={handleChange} excludeUserIds={excludedUserIds} allowPlaceholder={allowPlaceholder} />
     </>
   );
 });

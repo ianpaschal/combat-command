@@ -1,21 +1,8 @@
-import { MouseEvent } from 'react';
-import {
-  SubmitHandler,
-  useFieldArray,
-  useForm,
-  useWatch,
-} from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import clsx from 'clsx';
-import { Plus } from 'lucide-react';
 
-import {
-  TournamentCompetitor,
-  TournamentId,
-  UserId,
-} from '~/api';
+import { TournamentCompetitor, TournamentId } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
-import { Button } from '~/components/generic/Button';
 import { Form, FormField } from '~/components/generic/Form';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { InputText } from '~/components/generic/InputText';
@@ -25,15 +12,17 @@ import { useGetTournamentCompetitorsByTournament } from '~/services/tournamentCo
 import { useGetTournamentRegistrationsByTournament } from '~/services/tournamentRegistrations';
 import { getEtcCountryOptions } from '~/utils/common/getCountryOptions';
 import { isUserTournamentOrganizer } from '~/utils/common/isUserTournamentOrganizer';
+import { validateForm } from '~/utils/validateForm';
 import {
   createSchema,
-  FormData,
   getDefaultValues,
+  TournamentCompetitorFormData,
+  TournamentCompetitorSubmitData,
 } from './TournamentCompetitorForm.schema';
 
 import styles from './TournamentCompetitorForm.module.scss';
 
-export type SubmitData = FormData & {
+export type SubmitData = TournamentCompetitorSubmitData & {
   tournamentId: TournamentId;
 };
 
@@ -42,7 +31,7 @@ export interface TournamentCompetitorFormProps {
   id: string;
   disabled?: boolean;
   onSubmit: (data: SubmitData) => void;
-  tournamentCompetitor?: TournamentCompetitor;
+  tournamentCompetitor?: TournamentCompetitor | null;
 }
 
 export const TournamentCompetitorForm = ({
@@ -61,56 +50,35 @@ export const TournamentCompetitorForm = ({
     tournamentId: tournament._id,
   });
 
+  const isOrganizer = isUserTournamentOrganizer(user, tournament);
+
   // Get other competitors, we can block repeat names:
   const otherCompetitors = (tournamentCompetitors || []).filter((c) => c._id !== tournamentCompetitor?._id);
 
-  const form = useForm<FormData>({
-    resolver: zodResolver(createSchema(otherCompetitors)),
-    defaultValues: getDefaultValues(user?._id, tournamentCompetitor),
-    mode: 'onSubmit',
-  });
-  const { fields, append } = useFieldArray({
-    control: form.control,
-    name: 'addedPlayers',
-    rules: {
-      minLength: 1,
+  const formSchema = createSchema(!tournamentCompetitor ? 'create' : 'update', otherCompetitors);
+  const form = useForm<TournamentCompetitorFormData>({
+    defaultValues: {
+      ...getDefaultValues(!isOrganizer ? (user?._id) : undefined),
+      ...tournamentCompetitor,
     },
-  });
-  const addedPlayers = useWatch({
-    control: form.control,
-    name: 'addedPlayers',
+    mode: 'onSubmit',
   });
 
   const nationalTeamOptions = getEtcCountryOptions().filter(({ value }) => (
     !otherCompetitors.find((c) => c.teamName === value)
   ));
 
-  const handleChangeUser = (i: number, userId?: UserId): void => {
-    if (userId !== undefined) {
-      form.setValue(`addedPlayers.${i}.userId`, userId);
+  const handleSubmit: SubmitHandler<TournamentCompetitorFormData> = async ({ ...formData }): Promise<void> => {
+    const data = validateForm(formSchema, formData, form.setError);
+    if (data) {
+      onSubmit({
+        tournamentId: tournament._id,
+        ...data,
+      });
     }
   };
 
-  const handleAddPlayer = (e: MouseEvent): void => {
-    e.preventDefault();
-    append({ userId: undefined });
-  };
-
-  const handleSubmit: SubmitHandler<FormData> = async ({ ...formData }): Promise<void> => {
-    onSubmit({
-      tournamentId: tournament._id,
-      ...formData,
-    });
-  };
-
-  const emptyPlayerSlots = addedPlayers.filter((id) => !id).length;
-
-  const excludedUserIds = [
-    ...(tournamentRegistrations ?? []).map((r) => r.userId),
-    ...addedPlayers.map(({ userId }) => userId).filter((userId): userId is UserId => !!userId),
-  ];
-
-  const isOrganizer = isUserTournamentOrganizer(user, tournament);
+  const excludedUserIds = (tournamentRegistrations ?? []).map((r) => r.userId);
 
   const loading = tournamentCompetitorsLoading || tournamentRegistrationsLoading;
 
@@ -129,27 +97,14 @@ export const TournamentCompetitorForm = ({
           <InputText />
         )}
       </FormField>
-      {fields.map((field, i) => (
-        <InputUser
-          key={field.id}
-          name={`playerUserIds.${i}`}
-          value={addedPlayers[i]}
-          onChange={(value) => handleChangeUser(i, value.userId)}
-          excludedUserIds={excludedUserIds}
-          disabled={disabled || loading || !isOrganizer}
-          allowPlaceholder={false}
-        />
-      ))}
-      {isOrganizer && (
-        <div>
-          <Button
-            onClick={handleAddPlayer}
-            disabled={loading || emptyPlayerSlots > 0}
-          >
-            <Plus />
-            Add Player Slot
-          </Button>
-        </div>
+      {!tournamentCompetitor && (
+        <FormField name="captain" label="Captain">
+          <InputUser
+            excludedUserIds={excludedUserIds}
+            disabled={disabled || loading || !isOrganizer}
+            allowPlaceholder={false}
+          />
+        </FormField>
       )}
     </Form>
   );

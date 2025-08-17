@@ -14,7 +14,7 @@ export const checkUserTournamentRelationship = async (
     .withIndex('by_user', (q) => q.eq('userId', userIdA))
     .collect();
   const userBRegistrations = await ctx.db.query('tournamentRegistrations')
-    .withIndex('by_user', (q) => q.eq('userId', userIdA))
+    .withIndex('by_user', (q) => q.eq('userId', userIdB))
     .collect();
 
   const userATournamentIds = [

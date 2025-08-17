@@ -15,6 +15,9 @@ export const tournamentRegistrationsTable = defineTable({
 export type TournamentRegistrationId = Id<'tournamentRegistrations'>;
 
 export {
+  type DeepTournamentRegistration,
+} from './_helpers/deepenTournamentRegistration';
+export {
   createTournamentRegistration,
   createTournamentRegistrationArgs,
 } from './mutations/create';

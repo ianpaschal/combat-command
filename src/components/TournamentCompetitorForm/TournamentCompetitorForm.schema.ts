@@ -4,13 +4,21 @@ import { z } from 'zod';
 import { TournamentCompetitor, UserId } from '~/api';
 
 export const createSchema = (
+  mode: 'create' | 'update',
   otherCompetitors: TournamentCompetitor[] = [],
 ) => z.object({
-  teamName: z.string(),
-  addedPlayers: z.array(z.object({
-    userId: z.string().transform((val) => val.length ? val as UserId : undefined),
-  })),
+  teamName: z.string().min(1, 'Please provide a team name.'),
+  captain: z.object({
+    userId: z.optional(z.string().transform((val) => val.length ? val as UserId : undefined)),
+  }),
 }).superRefine((data, ctx) => {
+  if (mode === 'create' && !data.captain.userId) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'Please select a captain.',
+      path: ['captain'],
+    });
+  }
   if (otherCompetitors.find((c) => c.teamName?.toLowerCase() === data.teamName.trim().toLowerCase())) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
@@ -20,22 +28,13 @@ export const createSchema = (
   }
 });
 
-export type FormData = z.infer<ReturnType<typeof createSchema>>;
+export type TournamentCompetitorSubmitData = z.infer<ReturnType<typeof createSchema>>;
 
-export const defaultValues: DeepPartial<FormData> = {
+export type TournamentCompetitorFormData = Partial<TournamentCompetitorSubmitData>;
+
+export const getDefaultValues = (userId?: UserId): DeepPartial<TournamentCompetitorSubmitData> => ({
   teamName: '',
-  addedPlayers: [],
-};
-
-export const getDefaultValues = (userId?: UserId, existingCompetitor?: TournamentCompetitor): DeepPartial<FormData> => {
-  if (existingCompetitor) {
-    return {
-      teamName: existingCompetitor.teamName,
-    };
-  } else {
-    return {
-      teamName: '',
-      addedPlayers: [{ userId }],
-    };
-  }
-};
+  captain: {
+    userId,
+  },
+});

@@ -13,7 +13,6 @@ import { editableFields } from '../fields';
 export const updateTournamentCompetitorArgs = v.object({
   id: v.id('tournamentCompetitors'),
   ...editableFields,
-  playerUserIds: v.array(v.id('users')),
 });
 
 export const updateTournamentCompetitor = async (

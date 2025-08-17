@@ -13,7 +13,7 @@
   @include flex.row($gap:  var(--avatar-spacing));
   @include corners.normal;
 
-  &[data-type="user"] {
+  &[data-type="user"][data-clickable="true"] {
     @include variants.ghost;
   }
 

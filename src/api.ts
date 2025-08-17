@@ -41,6 +41,12 @@ export {
   type TournamentPairingId,
 } from '../convex/_model/tournamentPairings';
 
+// Tournament Registrations
+export {
+  type DeepTournamentRegistration as TournamentRegistration,
+  type TournamentRegistrationId,
+} from '../convex/_model/tournamentRegistrations';
+
 // Tournament Timers
 export {
   convertRoundStructureToMs,

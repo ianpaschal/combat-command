@@ -171,6 +171,7 @@ import type * as _model_utils__helpers_mockData from "../_model/utils/_helpers/m
 import type * as _model_utils__helpers_testUsers from "../_model/utils/_helpers/testUsers.js";
 import type * as _model_utils_createTestTournament from "../_model/utils/createTestTournament.js";
 import type * as _model_utils_createTestTournamentMatchResults from "../_model/utils/createTestTournamentMatchResults.js";
+import type * as _model_utils_createTestUsers from "../_model/utils/createTestUsers.js";
 import type * as _model_utils_deleteTestTournament from "../_model/utils/deleteTestTournament.js";
 import type * as _model_utils_index from "../_model/utils/index.js";
 import type * as _model_utils_mergeUser from "../_model/utils/mergeUser.js";
@@ -387,6 +388,7 @@ declare const fullApi: ApiFromModules<{
   "_model/utils/_helpers/testUsers": typeof _model_utils__helpers_testUsers;
   "_model/utils/createTestTournament": typeof _model_utils_createTestTournament;
   "_model/utils/createTestTournamentMatchResults": typeof _model_utils_createTestTournamentMatchResults;
+  "_model/utils/createTestUsers": typeof _model_utils_createTestUsers;
   "_model/utils/deleteTestTournament": typeof _model_utils_deleteTestTournament;
   "_model/utils/index": typeof _model_utils_index;
   "_model/utils/mergeUser": typeof _model_utils_mergeUser;

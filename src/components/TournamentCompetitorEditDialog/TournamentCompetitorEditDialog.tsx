@@ -1,4 +1,6 @@
-import { UserId } from '~/api';
+import { MouseEvent } from 'react';
+
+import { TournamentCompetitor } from '~/api';
 import { Button } from '~/components/generic/Button';
 import {
   ControlledDialog,
@@ -6,42 +8,54 @@ import {
   DialogHeader,
 } from '~/components/generic/Dialog';
 import { ScrollArea } from '~/components/generic/ScrollArea';
-import { Separator } from '~/components/generic/Separator';
 import { TournamentCompetitorForm, TournamentCompetitorSubmitData } from '~/components/TournamentCompetitorForm';
 import { useCreateTournamentCompetitor, useUpdateTournamentCompetitor } from '~/services/tournamentCompetitors';
+import { getTournamentCompetitorDisplayName } from '~/utils/common/getTournamentCompetitorDisplayName';
 import { useTournamentCompetitorEditDialog } from './TournamentCompetitorEditDialog.hooks';
 
 import styles from './TournamentCompetitorEditDialog.module.scss';
 
 const FORM_ID = 'tournament-competitor-edit-form';
 
-export const TournamentCompetitorEditDialog = (): JSX.Element => {
-  const { id, data, close } = useTournamentCompetitorEditDialog();
+export interface TournamentCompetitorEditDialogProps {
+  competitor?: TournamentCompetitor | null;
+}
+
+export const TournamentCompetitorEditDialog = ({
+  competitor,
+}: TournamentCompetitorEditDialogProps): JSX.Element => {
+  const { id: dialogId, close } = useTournamentCompetitorEditDialog(competitor?._id);
   const {
     mutation: createTournamentCompetitor,
     loading: createTournamentCompetitorLoading,
   } = useCreateTournamentCompetitor({
-    onSuccess: close,
+    onSuccess: () => {
+      close();
+    },
   });
   const {
     mutation: updateTournamentCompetitor,
     loading: updateTournamentCompetitorLoading,
   } = useUpdateTournamentCompetitor({
-    onSuccess: close,
+    onSuccess: () => {
+      close();
+    },
   });
 
-  const handleSubmit = ({ addedPlayers, ...restFormData }: TournamentCompetitorSubmitData): void => {
-    const id = data?.tournamentCompetitor._id;
-    const isUserId = (id: UserId | undefined): id is UserId => id !== undefined && id.length > 0;
-    if (id) {
+  const handleCancel = (e: MouseEvent): void => {
+    e.stopPropagation();
+    close();
+  };
+
+  const handleSubmit = ({ captain, ...restFormData }: TournamentCompetitorSubmitData): void => {
+    if (competitor) {
       updateTournamentCompetitor({
-        id: id,
-        playerUserIds: addedPlayers.map((p) => p.userId).filter(isUserId),
+        id: competitor._id,
         ...restFormData,
       });
     } else {
       createTournamentCompetitor({
-        playerUserIds: addedPlayers.map((p) => p.userId).filter(isUserId),
+        captainUserId: captain.userId!, // Already validated in form
         ...restFormData,
       });
     }
@@ -49,23 +63,24 @@ export const TournamentCompetitorEditDialog = (): JSX.Element => {
 
   const loading = createTournamentCompetitorLoading || updateTournamentCompetitorLoading;
 
+  const title = competitor ? `Edit Team ${getTournamentCompetitorDisplayName(competitor)}` : 'Create Team';
+  const submitLabel = competitor ? 'Save Changes' : 'Create';
+
   return (
-    <ControlledDialog id={id} disabled={loading} width="small">
-      <DialogHeader title="Edit Team" onCancel={close} />
-      <Separator />
+    <ControlledDialog id={dialogId} disabled={loading} width="small">
+      <DialogHeader title={title} onCancel={handleCancel} />
       <ScrollArea>
         <TournamentCompetitorForm
           id={FORM_ID}
           className={styles.Form}
-          tournamentCompetitor={data?.tournamentCompetitor}
+          tournamentCompetitor={competitor}
           onSubmit={handleSubmit}
           disabled={loading}
         />
       </ScrollArea>
-      <Separator />
       <DialogActions>
-        <Button variant="secondary" onClick={close} disabled={loading}>Done</Button>
-        <Button form={FORM_ID} type="submit" disabled={loading}>Save Changes</Button>
+        <Button variant="secondary" onClick={handleCancel} disabled={loading}>Cancel</Button>
+        <Button form={FORM_ID} type="submit" disabled={loading}>{submitLabel}</Button>
       </DialogActions>
     </ControlledDialog>
   );

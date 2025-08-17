@@ -5,6 +5,8 @@ import {
 } from 'react-hook-form';
 import { ZodTypeAny } from 'zod';
 
+import { toast } from '~/components/ToastProvider';
+
 export const validateForm = <T extends ZodTypeAny>(
   schema: T,
   formData: unknown,
@@ -15,6 +17,7 @@ export const validateForm = <T extends ZodTypeAny>(
     result.error.issues.forEach((issue) => {
       const fieldPath = issue.path.join('.') as Path<FieldValues>;
       setError(fieldPath, { message: issue.message });
+      toast.error('Error', { description: issue.message });
     });
   }
   return result.data;
