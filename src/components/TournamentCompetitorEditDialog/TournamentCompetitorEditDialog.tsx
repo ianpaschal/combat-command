@@ -9,6 +9,7 @@ import {
 } from '~/components/generic/Dialog';
 import { ScrollArea } from '~/components/generic/ScrollArea';
 import { TournamentCompetitorForm, TournamentCompetitorSubmitData } from '~/components/TournamentCompetitorForm';
+import { useTournament } from '~/components/TournamentProvider';
 import { useCreateTournamentCompetitor, useUpdateTournamentCompetitor } from '~/services/tournamentCompetitors';
 import { getTournamentCompetitorDisplayName } from '~/utils/common/getTournamentCompetitorDisplayName';
 import { useTournamentCompetitorEditDialog } from './TournamentCompetitorEditDialog.hooks';
@@ -24,6 +25,7 @@ export interface TournamentCompetitorEditDialogProps {
 export const TournamentCompetitorEditDialog = ({
   competitor,
 }: TournamentCompetitorEditDialogProps): JSX.Element => {
+  const tournament = useTournament();
   const { id: dialogId, close } = useTournamentCompetitorEditDialog(competitor?._id);
   const {
     mutation: createTournamentCompetitor,
@@ -63,12 +65,25 @@ export const TournamentCompetitorEditDialog = ({
 
   const loading = createTournamentCompetitorLoading || updateTournamentCompetitorLoading;
 
-  const title = competitor ? `Edit Team ${getTournamentCompetitorDisplayName(competitor)}` : 'Create Team';
-  const submitLabel = competitor ? 'Save Changes' : 'Create';
+  const getTitle = () => {
+    if (competitor) {
+      if (tournament.useTeams) {
+        return `Edit Team ${getTournamentCompetitorDisplayName(competitor)}`;
+      } else {
+        return 'Edit Player';
+      }
+    } else {
+      if (tournament.useTeams) {
+        return 'Create Team';
+      } else {
+        return 'Create Player';
+      }
+    }
+  };
 
   return (
     <ControlledDialog id={dialogId} disabled={loading} width="small">
-      <DialogHeader title={title} onCancel={handleCancel} />
+      <DialogHeader title={getTitle()} onCancel={handleCancel} />
       <ScrollArea>
         <TournamentCompetitorForm
           id={FORM_ID}
@@ -80,7 +95,7 @@ export const TournamentCompetitorEditDialog = ({
       </ScrollArea>
       <DialogActions>
         <Button variant="secondary" onClick={handleCancel} disabled={loading}>Cancel</Button>
-        <Button form={FORM_ID} type="submit" disabled={loading}>{submitLabel}</Button>
+        <Button form={FORM_ID} type="submit" disabled={loading}>{competitor ? 'Save Changes' : 'Create'}</Button>
       </DialogActions>
     </ControlledDialog>
   );

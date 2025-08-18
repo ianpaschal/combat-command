@@ -10,6 +10,7 @@ import { checkAuth } from '../../common/_helpers/checkAuth';
 
 export const deleteTournamentOrganizerArgs = v.object({
   id: v.id('tournamentOrganizers'),
+  newOwnerId: v.id('tournamentOrganizers'),
 });
 
 export const deleteTournamentOrganizer = async (
@@ -31,14 +32,17 @@ export const deleteTournamentOrganizer = async (
   if (tournamentOrganizers.length === 1) {
     throw new ConvexError(getErrorMessage('CANNOT_REMOVE_LAST_ORGANIZER_FROM_TOURNAMENT'));
   }
+  const ownerUserIds = tournamentOrganizers.filter((to) => to.isOwner).map((to) => to.userId);
+  if (ownerUserIds.length === 1 && tournamentOrganizer.isOwner) {
+    throw new ConvexError(getErrorMessage('CANNOT_REMOVE_LAST_OWNER_FROM_TOURNAMENT'));
+  }
 
   // ---- EXTENDED AUTH CHECK ----
   /* These user IDs can make changes to this tournament tournamentOrganizer:
    * - Tournament owners;
-   * - The user themselves;
    */
   const authorizedUserIds = [
-    ...tournamentOrganizers.filter((to) => to.isOwner).map((to) => to.userId),
+    ...ownerUserIds,
     tournamentOrganizer.userId,
   ];
   if (!authorizedUserIds.includes(userId)) {

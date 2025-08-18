@@ -90,15 +90,17 @@ export const TournamentCompetitorForm = ({
       onSubmit={handleSubmit}
       disabled={disabled}
     >
-      <FormField name="teamName" label={tournament.useNationalTeams ? 'Country' : 'Team Name'}>
-        {tournament.useNationalTeams ? (
-          <InputSelect options={nationalTeamOptions} />
-        ) : (
-          <InputText />
-        )}
-      </FormField>
+      {tournament.useTeams && (
+        <FormField name="teamName" label={tournament.useNationalTeams ? 'Country' : 'Team Name'}>
+          {tournament.useNationalTeams ? (
+            <InputSelect options={nationalTeamOptions} />
+          ) : (
+            <InputText />
+          )}
+        </FormField>
+      )}
       {!tournamentCompetitor && (
-        <FormField name="captain" label="Captain">
+        <FormField name="captain" label={tournament.useTeams ? 'Captain' : 'Player'}>
           <InputUser
             excludedUserIds={excludedUserIds}
             disabled={disabled || loading || !isOrganizer}

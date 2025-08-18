@@ -85,21 +85,21 @@ export const CompetitorActions = ({
 
   const menuItems = [
     {
+      label: 'Edit',
+      onClick: () => openEditDialog({ tournamentCompetitor: competitor }),
+      visible: (isOrganizer || isCaptain) && tournament.useTeams && tournament.status !== 'archived' && tournament.currentRound === undefined,
+    },
+    {
       label: 'Leave',
       onClick: () => {
         if (isPlayerForCompetitor) {
           deleteRegistration({ id: ownRegistration._id });
         }
       },
-      visible: isPlayerForCompetitor && !['active', 'archived'].includes(tournament.status),
+      visible: isPlayerForCompetitor && tournament.status === 'published',
     },
     {
-      label: 'Edit',
-      onClick: () => openEditDialog({ tournamentCompetitor: competitor }),
-      visible: (isOrganizer || isCaptain) && tournament.useTeams && tournament.status !== 'archived' && tournament.currentRound === undefined,
-    },
-    {
-      label: 'Delete',
+      label: 'Remove',
       onClick: () => openConfirmDeleteDialog(),
       visible: isOrganizer && tournament.status === 'published',
     },

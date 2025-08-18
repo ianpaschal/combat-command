@@ -16,6 +16,7 @@ export const errors = {
   CANNOT_REGISTER_FOR_DRAFT_TOURNAMENT: 'Cannot register for a tournament which is still a draft.',
   CANNOT_CREATE_COMPETITOR_WITH_0_PLAYERS: 'Cannot create a team with 0 players.',
   CANNOT_REMOVE_LAST_ORGANIZER_FROM_TOURNAMENT: 'Cannot remove the last organizer from tournament.',
+  CANNOT_REMOVE_LAST_OWNER_FROM_TOURNAMENT: 'Please appoint another organizer as owner before deleting this one.',
 
   // Tournament Lifecycle
   CANNOT_CLOSE_ROUND_ON_ARCHIVED_TOURNAMENT: 'Cannot close a round on an archived tournament.',
