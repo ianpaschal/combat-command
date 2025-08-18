@@ -46,6 +46,5 @@ export const createTournamentOrganizer = async (
   // ---- PRIMARY ACTIONS ----
   return await ctx.db.insert('tournamentOrganizers', {
     ...args,
-    isOwner: tournamentOrganizers.length === 0, // First organizer is owner (for now)...
   });
 };

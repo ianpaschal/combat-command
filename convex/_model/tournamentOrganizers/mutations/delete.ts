@@ -32,17 +32,13 @@ export const deleteTournamentOrganizer = async (
   if (tournamentOrganizers.length === 1) {
     throw new ConvexError(getErrorMessage('CANNOT_REMOVE_LAST_ORGANIZER_FROM_TOURNAMENT'));
   }
-  const ownerUserIds = tournamentOrganizers.filter((to) => to.isOwner).map((to) => to.userId);
-  if (ownerUserIds.length === 1 && tournamentOrganizer.isOwner) {
-    throw new ConvexError(getErrorMessage('CANNOT_REMOVE_LAST_OWNER_FROM_TOURNAMENT'));
-  }
 
   // ---- EXTENDED AUTH CHECK ----
   /* These user IDs can make changes to this tournament tournamentOrganizer:
    * - Tournament owners;
    */
   const authorizedUserIds = [
-    ...ownerUserIds,
+    ...tournamentOrganizers.map((to) => to.userId),
     tournamentOrganizer.userId,
   ];
   if (!authorizedUserIds.includes(userId)) {

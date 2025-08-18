@@ -59,7 +59,6 @@ export const createTestTournament = async (
   await ctx.db.insert('tournamentOrganizers', {
     userId: organizerUserId,
     tournamentId,
-    isOwner: true,
   });
 
   // 3. Create competitors
