@@ -9,6 +9,7 @@ import { MutationCtx } from '../../../_generated/server';
 import { getErrorMessage } from '../../../common/errors';
 import { checkAuth } from '../../common/_helpers/checkAuth';
 import { getTournamentOrganizersByTournament } from '../../tournamentOrganizers';
+import { checkUserIsRegistered } from '../_helpers/checkUserIsRegistered';
 import { editableFields } from '../fields';
 
 export const createTournamentRegistrationArgs = v.object({
@@ -33,11 +34,8 @@ export const createTournamentRegistration = async (
   if (tournament.status === 'draft') {
     throw new ConvexError(getErrorMessage('CANNOT_REGISTER_FOR_DRAFT_TOURNAMENT'));
   }
-  const ownTournamentRegistrations = await ctx.db.query('tournamentRegistrations')
-    .withIndex('by_user', (q) => q.eq('userId', args.userId)) // Fewer results to check
-    .collect();
-  const alreadyRegistered = ownTournamentRegistrations.find((reg) => reg.tournamentId === args.tournamentId);
-  if (alreadyRegistered) {
+  const isAlreadyRegistered = await checkUserIsRegistered(ctx, args.tournamentId, args.userId);
+  if (isAlreadyRegistered) {
     throw new ConvexError(getErrorMessage('USER_ALREADY_IN_TOURNAMENT'));
   }
 
