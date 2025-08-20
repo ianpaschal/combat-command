@@ -7,9 +7,6 @@
 
   &_PlayersList {
     @include flex.column($gap: 0.375rem);
-
-    // align-items: stretch;
-    // justify-content: stretch;
   }
 
   &_TeamPlayers {
