@@ -10,7 +10,7 @@ export const deepenTournamentOrganizer = async (
   const user = await getUser(ctx, { id: doc.userId });
   return {
     ...doc,
-    ...(user ? { user }: {}),
+    user,
   };
 };
 

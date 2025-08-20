@@ -1,8 +1,8 @@
 import { Infer, v } from 'convex/values';
 
 import { QueryCtx } from '../../../_generated/server';
-import { notNullOrUndefined } from '../../common/_helpers/notNullOrUndefined';
-import { deepenTournamentRegistration, DeepTournamentRegistration } from '../_helpers/deepenTournamentRegistration';
+import { deepenTournamentRegistration } from '../_helpers/deepenTournamentRegistration';
+import { TournamentRegistration } from '../types';
 
 export const getTournamentRegistrationsByUserArgs = v.object({
   userId: v.id('users'),
@@ -11,12 +11,11 @@ export const getTournamentRegistrationsByUserArgs = v.object({
 export const getTournamentRegistrationsByUser = async (
   ctx: QueryCtx,
   args: Infer<typeof getTournamentRegistrationsByUserArgs>,
-): Promise<DeepTournamentRegistration[]> => {
+): Promise<TournamentRegistration[]> => {
   const tournamentRegistrations = await ctx.db.query('tournamentRegistrations')
     .withIndex('by_user', (q) => q.eq('userId', args.userId))
     .collect();
-  const deepTournamentRegistrations = await Promise.all(
+  return await Promise.all(
     tournamentRegistrations.map(async (r) => await deepenTournamentRegistration(ctx, r)),
   );
-  return deepTournamentRegistrations.filter(notNullOrUndefined);
 };

@@ -1,6 +1,5 @@
 import { defineTable } from 'convex/server';
 
-import { Id } from '../../_generated/dataModel';
 import { computedFields, editableFields } from './fields';
 
 export const tournamentOrganizersTable = defineTable({
@@ -10,8 +9,6 @@ export const tournamentOrganizersTable = defineTable({
   .index('by_tournament', ['tournamentId'])
   .index('by_tournament_user', ['tournamentId', 'userId'])
   .index('by_user', ['userId']);
-
-export type TournamentRegistrationId = Id<'tournamentOrganizers'>;
 
 export {
   checkUserIsTournamentOrganizer,
@@ -32,3 +29,7 @@ export {
   getTournamentOrganizersByUser,
   getTournamentOrganizersByUserArgs,
 } from './queries/getTournamentOrganizersByUser';
+export type {
+  TournamentOrganizer,
+  TournamentOrganizerId,
+} from './types';

@@ -34,6 +34,12 @@ export {
   type TournamentCompetitorId,
 } from '../convex/_model/tournamentCompetitors';
 
+// Tournament Organizers
+export {
+  type TournamentOrganizer,
+  type TournamentOrganizerId,
+} from '../convex/_model/tournamentOrganizers';
+
 // Tournament Pairings
 export {
   type ShallowTournamentPairing,
@@ -43,7 +49,7 @@ export {
 
 // Tournament Registrations
 export {
-  type DeepTournamentRegistration as TournamentRegistration,
+  type TournamentRegistration,
   type TournamentRegistrationId,
 } from '../convex/_model/tournamentRegistrations';
 

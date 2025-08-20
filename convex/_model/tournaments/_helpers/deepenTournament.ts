@@ -24,7 +24,6 @@ export const deepenTournament = async (
 
   const tournamentOrganizers = await getTournamentOrganizersByTournament(ctx, {
     tournamentId: tournament._id,
-    deepen: true,
   });
   // await ctx.db.query('tournamentOrganizers')
   // .withIndex('by_tournament', (q) => q.eq('tournamentId', tournament._id))

@@ -14,8 +14,7 @@ export const getTournamentRegistrationsByTournament = async (
   const tournamentRegistrations = await ctx.db.query('tournamentRegistrations')
     .withIndex('by_tournament', (q) => q.eq('tournamentId', args.tournamentId))
     .collect();
-  const deepTournamentRegistrations = await Promise.all(
+  return await Promise.all(
     tournamentRegistrations.map(async (registration) => await deepenTournamentRegistration(ctx, registration)),
   );
-  return deepTournamentRegistrations;
 };
