@@ -25,3 +25,20 @@ export const convertPlayersToRegistrations = migrations.define({
     }
   },
 });
+
+export const convertTournamentOrganizers = migrations.define({
+  table: 'tournaments',
+  migrateOne: async (ctx, doc) => {
+    if (doc.organizerUserIds) {
+      for (const userId of doc.organizerUserIds) {
+        await ctx.db.insert('tournamentOrganizers', {
+          userId,
+          tournamentId: doc._id,
+        });
+      }
+      await ctx.db.patch(doc._id, {
+        organizerUserIds: undefined,
+      });
+    }
+  },
+});
