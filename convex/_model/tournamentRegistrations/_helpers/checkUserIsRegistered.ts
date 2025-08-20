@@ -9,8 +9,8 @@ export const checkUserIsRegistered = async (
   if (!userId) {
     return false;
   }
-  const records = await ctx.db.query('tournamentRegistrations')
+  const record = await ctx.db.query('tournamentRegistrations')
     .withIndex('by_tournament_user', (q) => q.eq('tournamentId', tournamentId).eq('userId', userId))
     .first();
-  return !!records;
+  return !!record;
 };
