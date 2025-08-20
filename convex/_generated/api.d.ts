@@ -112,6 +112,7 @@ import type * as _model_tournamentRegistrations_fields from "../_model/tournamen
 import type * as _model_tournamentRegistrations_index from "../_model/tournamentRegistrations/index.js";
 import type * as _model_tournamentRegistrations_mutations_create from "../_model/tournamentRegistrations/mutations/create.js";
 import type * as _model_tournamentRegistrations_mutations_delete from "../_model/tournamentRegistrations/mutations/delete.js";
+import type * as _model_tournamentRegistrations_mutations_toggleActive from "../_model/tournamentRegistrations/mutations/toggleActive.js";
 import type * as _model_tournamentRegistrations_queries_getTournamentRegistrationsByCompetitor from "../_model/tournamentRegistrations/queries/getTournamentRegistrationsByCompetitor.js";
 import type * as _model_tournamentRegistrations_queries_getTournamentRegistrationsByTournament from "../_model/tournamentRegistrations/queries/getTournamentRegistrationsByTournament.js";
 import type * as _model_tournamentRegistrations_queries_getTournamentRegistrationsByUser from "../_model/tournamentRegistrations/queries/getTournamentRegistrationsByUser.js";
@@ -329,6 +330,7 @@ declare const fullApi: ApiFromModules<{
   "_model/tournamentRegistrations/index": typeof _model_tournamentRegistrations_index;
   "_model/tournamentRegistrations/mutations/create": typeof _model_tournamentRegistrations_mutations_create;
   "_model/tournamentRegistrations/mutations/delete": typeof _model_tournamentRegistrations_mutations_delete;
+  "_model/tournamentRegistrations/mutations/toggleActive": typeof _model_tournamentRegistrations_mutations_toggleActive;
   "_model/tournamentRegistrations/queries/getTournamentRegistrationsByCompetitor": typeof _model_tournamentRegistrations_queries_getTournamentRegistrationsByCompetitor;
   "_model/tournamentRegistrations/queries/getTournamentRegistrationsByTournament": typeof _model_tournamentRegistrations_queries_getTournamentRegistrationsByTournament;
   "_model/tournamentRegistrations/queries/getTournamentRegistrationsByUser": typeof _model_tournamentRegistrations_queries_getTournamentRegistrationsByUser;

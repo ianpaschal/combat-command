@@ -9,5 +9,6 @@ export const editableFields = {
  * Fields which can only be edited using special mutations, or which are set programmatically.
  */
 export const computedFields = {
+  isOwner: v.optional(v.boolean()),
   modifiedAt: v.optional(v.number()),
 };

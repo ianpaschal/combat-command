@@ -17,6 +17,7 @@ export const errors = {
   CANNOT_CREATE_COMPETITOR_WITH_0_PLAYERS: 'Cannot create a team with 0 players.',
   CANNOT_REMOVE_LAST_ORGANIZER_FROM_TOURNAMENT: 'Cannot remove the last organizer from tournament.',
   CANNOT_REMOVE_LAST_OWNER_FROM_TOURNAMENT: 'Please appoint another organizer as owner before deleting this one.',
+  COMPETITOR_ALREADY_HAS_MAX_PLAYERS: 'Team already has the maximum number of active players.',
 
   // Tournament Lifecycle
   CANNOT_CLOSE_ROUND_ON_ARCHIVED_TOURNAMENT: 'Cannot close a round on an archived tournament.',
@@ -55,6 +56,7 @@ export const errors = {
   FILE_NOT_FOUND: 'Could not find a file with that ID.',
   TOURNAMENT_COMPETITOR_NOT_FOUND: 'Could not find a competitor with that ID.',
   TOURNAMENT_CONTAINING_COMPETITOR_NOT_FOUND: 'Could not find a tournament containing this competitor.',
+  TOURNAMENT_CONTAINING_REGISTRATION_NOT_FOUND: 'Could not find a tournament containing this registration.',
   TOURNAMENT_NOT_FOUND: 'Could not find a tournament with that ID.',
   TOURNAMENT_PAIRING_NOT_FOUND: 'Could not find a pairing with that ID.',
   TOURNAMENT_TIMER_NOT_FOUND: 'Could not find a tournament timer for that tournament and round.',

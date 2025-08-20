@@ -9,3 +9,6 @@ export const useGetTournamentRegistrationsByUser = createQueryHook(api.tournamen
 // Basic (C__D) Mutations
 export const useCreateTournamentRegistration = createMutationHook(api.tournamentRegistrations.createTournamentRegistration);
 export const useDeleteTournamentRegistration = createMutationHook(api.tournamentRegistrations.deleteTournamentRegistration);
+
+// Special Mutations
+export const useToggleTournamentRegistrationActive = createMutationHook(api.tournamentRegistrations.toggleTournamentRegistrationActive);

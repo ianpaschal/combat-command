@@ -26,3 +26,9 @@ export const deleteTournamentRegistration = mutation({
   args: model.deleteTournamentRegistrationArgs,
   handler: model.deleteTournamentRegistration,
 });
+
+// Actions
+export const toggleTournamentRegistrationActive = mutation({
+  args: model.toggleTournamentRegistrationActiveArgs,
+  handler: model.toggleTournamentRegistrationActive,
+});

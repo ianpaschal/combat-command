@@ -26,6 +26,10 @@ export {
   deleteTournamentRegistrationArgs,
 } from './mutations/delete';
 export {
+  toggleTournamentRegistrationActive,
+  toggleTournamentRegistrationActiveArgs,
+} from './mutations/toggleActive';
+export {
   getTournamentRegistrationsByCompetitor,
   getTournamentRegistrationsByCompetitorArgs,
 } from './queries/getTournamentRegistrationsByCompetitor';
