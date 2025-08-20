@@ -14,11 +14,11 @@ export const tournamentRegistrationsTable = defineTable({
 export {
   createTournamentRegistration,
   createTournamentRegistrationArgs,
-} from './mutations/create';
+} from './mutations/createTournamentRegistration';
 export {
   deleteTournamentRegistration,
   deleteTournamentRegistrationArgs,
-} from './mutations/delete';
+} from './mutations/deleteTournamentRegistration';
 export {
   toggleTournamentRegistrationActive,
   toggleTournamentRegistrationActiveArgs,

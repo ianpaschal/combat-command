@@ -84,8 +84,8 @@ import type * as _model_tournamentOrganizers__helpers_deepenTournamentOrganizer 
 import type * as _model_tournamentOrganizers__helpers_types from "../_model/tournamentOrganizers/_helpers/types.js";
 import type * as _model_tournamentOrganizers_fields from "../_model/tournamentOrganizers/fields.js";
 import type * as _model_tournamentOrganizers_index from "../_model/tournamentOrganizers/index.js";
-import type * as _model_tournamentOrganizers_mutations_create from "../_model/tournamentOrganizers/mutations/create.js";
-import type * as _model_tournamentOrganizers_mutations_delete from "../_model/tournamentOrganizers/mutations/delete.js";
+import type * as _model_tournamentOrganizers_mutations_create from "../_model/tournamentOrganizers/mutations/createTournamentOrganizer.js";
+import type * as _model_tournamentOrganizers_mutations_delete from "../_model/tournamentOrganizers/mutations/deleteTournamentOrganizer.js";
 import type * as _model_tournamentOrganizers_queries_getTournamentOrganizersByTournament from "../_model/tournamentOrganizers/queries/getTournamentOrganizersByTournament.js";
 import type * as _model_tournamentOrganizers_queries_getTournamentOrganizersByUser from "../_model/tournamentOrganizers/queries/getTournamentOrganizersByUser.js";
 import type * as _model_tournamentPairings__helpers_assignBye from "../_model/tournamentPairings/_helpers/assignBye.js";
@@ -110,8 +110,8 @@ import type * as _model_tournamentRegistrations__helpers_deepenTournamentRegistr
 import type * as _model_tournamentRegistrations__helpers_types from "../_model/tournamentRegistrations/_helpers/types.js";
 import type * as _model_tournamentRegistrations_fields from "../_model/tournamentRegistrations/fields.js";
 import type * as _model_tournamentRegistrations_index from "../_model/tournamentRegistrations/index.js";
-import type * as _model_tournamentRegistrations_mutations_create from "../_model/tournamentRegistrations/mutations/create.js";
-import type * as _model_tournamentRegistrations_mutations_delete from "../_model/tournamentRegistrations/mutations/delete.js";
+import type * as _model_tournamentRegistrations_mutations_create from "../_model/tournamentRegistrations/mutations/createTournamentRegistration.js";
+import type * as _model_tournamentRegistrations_mutations_delete from "../_model/tournamentRegistrations/mutations/deleteTournamentRegistration.js";
 import type * as _model_tournamentRegistrations_mutations_toggleActive from "../_model/tournamentRegistrations/mutations/toggleActive.js";
 import type * as _model_tournamentRegistrations_queries_getTournamentRegistrationsByCompetitor from "../_model/tournamentRegistrations/queries/getTournamentRegistrationsByCompetitor.js";
 import type * as _model_tournamentRegistrations_queries_getTournamentRegistrationsByTournament from "../_model/tournamentRegistrations/queries/getTournamentRegistrationsByTournament.js";

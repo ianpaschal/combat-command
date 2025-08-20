@@ -9,7 +9,7 @@ import { MutationCtx } from '../../../_generated/server';
 import { getErrorMessage } from '../../../common/errors';
 import { checkAuth } from '../../common/_helpers/checkAuth';
 import { getTournamentOrganizersByTournament } from '../../tournamentOrganizers';
-import { createTournamentRegistration } from '../../tournamentRegistrations/mutations/create';
+import { createTournamentRegistration } from '../../tournamentRegistrations/mutations/createTournamentRegistration';
 import { editableFields } from '../fields';
 
 export const createTournamentCompetitorArgs = v.object({

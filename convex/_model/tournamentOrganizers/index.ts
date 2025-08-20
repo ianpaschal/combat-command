@@ -16,11 +16,11 @@ export {
 export {
   createTournamentOrganizer,
   createTournamentOrganizerArgs,
-} from './mutations/create';
+} from './mutations/createTournamentOrganizer';
 export {
   deleteTournamentOrganizer,
   deleteTournamentOrganizerArgs,
-} from './mutations/delete';
+} from './mutations/deleteTournamentOrganizer';
 export {
   getTournamentOrganizersByTournament,
   getTournamentOrganizersByTournamentArgs,
