@@ -1,8 +1,10 @@
 @use "/src/style/flex";
 @use "/src/style/variables";
 
-.Form {
-  @include flex.column;
+.TournamentExportDataDialog {
+  &_Content {
+    @include flex.column;
 
-  padding: 0 var(--container-padding-x);
+    padding: 0 var(--container-padding-x);
+  }
 }
