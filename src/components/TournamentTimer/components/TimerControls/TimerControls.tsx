@@ -17,6 +17,7 @@ import { Button } from '~/components/generic/Button';
 import { toast } from '~/components/ToastProvider';
 import { useTournament } from '~/components/TournamentProvider';
 import { useSetTournamentTimerPhase, useToggleTournamentTimer } from '~/services/tournamentTimers';
+import { isUserTournamentOrganizer } from '~/utils/common/isUserTournamentOrganizer';
 import { getCurrentPhase } from '../../TournamentTimer.utils';
 
 import styles from '../../TournamentTimer.module.scss';
@@ -34,7 +35,7 @@ export const TimerControls = ({
   timer,
 }: TimerControlsProps): JSX.Element | null => {
   const user = useAuth();
-  const { organizerUserIds, roundStructure } = useTournament();
+  const tournament = useTournament();
 
   const { open: openConfirmSetPhaseDialog } = useConfirmationDialog(confirmSetPhaseDialogId);
   const { open: openConfirmRepeatPhaseDialog } = useConfirmationDialog(confirmRepeatPhaseDialogId);
@@ -50,7 +51,7 @@ export const TimerControls = ({
   });
   const { mutation: setTimerPhase } = useSetTournamentTimerPhase();
 
-  if (!user || !organizerUserIds.includes(user._id)) {
+  if (!isUserTournamentOrganizer(user, tournament)) {
     return null;
   }
 
@@ -58,7 +59,8 @@ export const TimerControls = ({
     return <>Loading...</>;
   }
 
-  const currentPhase = getCurrentPhase(timer.elapsed, roundStructure);
+  const currentPhase = getCurrentPhase(timer.elapsed, tournament.roundStructure);
+  const hasPairingTime = !!tournament.roundStructure.pairingTime;
 
   const handleJumpToPhase = (phase: TournamentRoundPhase): void => openConfirmSetPhaseDialog({
     title: `Confirm Jump to ${getTournamentRoundPhaseDisplayName(phase)} Phase`,
@@ -67,7 +69,7 @@ export const TimerControls = ({
   });
 
   const handleClickResetButton = (): void => {
-    handleJumpToPhase(roundStructure.pairingTime ? TournamentRoundPhase.Pairing : TournamentRoundPhase.SetUp);
+    handleJumpToPhase(hasPairingTime ? TournamentRoundPhase.Pairing : TournamentRoundPhase.SetUp);
   };
 
   const handleClickLastPhaseButton = (): void => {
@@ -77,7 +79,7 @@ export const TimerControls = ({
     if (currentPhase === TournamentRoundPhase.Playing) {
       handleJumpToPhase(TournamentRoundPhase.SetUp);
     }
-    if (currentPhase === TournamentRoundPhase.SetUp && roundStructure.pairingTime) {
+    if (currentPhase === TournamentRoundPhase.SetUp && hasPairingTime) {
       handleJumpToPhase(TournamentRoundPhase.Pairing);
     }
   };
@@ -110,7 +112,7 @@ export const TimerControls = ({
     handleJumpToPhase(TournamentRoundPhase.Completed);
   };
 
-  const isStartPhase = currentPhase === TournamentRoundPhase.Pairing || (currentPhase === TournamentRoundPhase.SetUp && !roundStructure.pairingTime);
+  const isStartPhase = currentPhase === TournamentRoundPhase.Pairing || (currentPhase === TournamentRoundPhase.SetUp && !hasPairingTime);
   const isEndPhase = currentPhase === TournamentRoundPhase.Completed;
 
   return (

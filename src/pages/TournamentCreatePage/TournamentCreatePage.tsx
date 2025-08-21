@@ -38,7 +38,7 @@ export const TournamentCreatePage = (): JSX.Element => {
   const handleCreate = (data: TournamentFormSubmitData): void => {
     createTournament({
       ...data,
-      organizerUserIds: [user!._id],
+      ownerUserId: user!._id,
     });
   };
 

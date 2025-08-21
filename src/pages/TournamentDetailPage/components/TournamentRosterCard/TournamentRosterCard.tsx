@@ -12,15 +12,14 @@ import { useAuth } from '~/components/AuthProvider';
 import { EmptyState } from '~/components/EmptyState';
 import { Button } from '~/components/generic/Button';
 import { toast } from '~/components/ToastProvider';
-import { TournamentCompetitorCreateDialog, useTournamentCompetitorCreateDialog } from '~/components/TournamentCompetitorCreateDialog';
+import { TournamentCompetitorEditDialog, useTournamentCompetitorEditDialog } from '~/components/TournamentCompetitorEditDialog';
 import { useTournamentCompetitors } from '~/components/TournamentCompetitorsProvider';
-import { TournamentCreateTeamDialog } from '~/components/TournamentCreateTeamDialog';
-import { useTournamentCreateTeamDialog } from '~/components/TournamentCreateTeamDialog/TournamentCreateTeamDialog.hooks';
 import { useTournament } from '~/components/TournamentProvider';
 import { TournamentRoster } from '~/components/TournamentRoster';
 import { useCreateTournamentCompetitor, useGetTournamentCompetitorsByTournament } from '~/services/tournamentCompetitors';
 import { usePublishTournament } from '~/services/tournaments';
 import { PATHS } from '~/settings';
+import { isUserTournamentOrganizer } from '~/utils/common/isUserTournamentOrganizer';
 import { TournamentDetailCard } from '../TournamentDetailCard';
 
 import styles from './TournamentRosterCard.module.scss';
@@ -35,7 +34,7 @@ export const TournamentRosterCard = ({
   const user = useAuth();
   const tournament = useTournament();
   const competitors = useTournamentCompetitors();
-  const { open: openTournamentCreateTeamDialog } = useTournamentCreateTeamDialog(tournament._id);
+  const { open: openCreateDialog } = useTournamentCompetitorEditDialog();
   const { data: tournamentCompetitors, loading } = useGetTournamentCompetitorsByTournament({ tournamentId: tournament._id });
   const { mutation: createTournamentCompetitor } = useCreateTournamentCompetitor({
     successMessage: `Successfully joined ${tournament.title}!`,
@@ -43,12 +42,11 @@ export const TournamentRosterCard = ({
   const { mutation: publishTournament } = usePublishTournament({
     successMessage: `${tournament.title} is now live!`,
   });
-  const { open: openTournamentCompetitorCreateDialog } = useTournamentCompetitorCreateDialog();
 
   const showLoadingState = loading;
   const showEmptyState = !loading && !tournamentCompetitors?.length;
 
-  const isOrganizer = user && tournament.organizerUserIds.includes(user._id);
+  const isOrganizer = isUserTournamentOrganizer(user, tournament);
 
   const handleRegister = (): void => {
     if (!user) {
@@ -56,7 +54,7 @@ export const TournamentRosterCard = ({
     }
     createTournamentCompetitor({
       tournamentId: tournament._id,
-      players: [{ userId: user._id, active: true }],
+      captainUserId: user._id,
     });
   };
 
@@ -76,13 +74,12 @@ export const TournamentRosterCard = ({
 
   const getPrimaryButtons = (): ReactElement[] | undefined => {
     const isPlayer = user && tournament.playerUserIds.includes(user._id);
-    const isOrganizer = user && tournament.organizerUserIds.includes(user._id);
     const hasMaxTeams = (competitors || []).length >= tournament.maxCompetitors;
 
     if (tournament.status === 'published' && user && !isPlayer && !hasMaxTeams) {
       if (tournament.useTeams) {
         return [
-          <Button onClick={openTournamentCreateTeamDialog}>
+          <Button onClick={() => openCreateDialog()}>
             <UserPlus />New Team
           </Button>,
         ];
@@ -95,7 +92,7 @@ export const TournamentRosterCard = ({
     }
     if (['published', 'active'].includes(tournament.status) && tournament.currentRound === undefined && isOrganizer) {
       return [
-        <Button key="create-competitor" onClick={openTournamentCompetitorCreateDialog}>
+        <Button key="create-competitor" onClick={() => openCreateDialog()}>
           <UserPlus />{`Add ${tournament.useTeams ? 'Team' : 'Player'}`}
         </Button>,
       ];
@@ -134,8 +131,7 @@ export const TournamentRosterCard = ({
           <TournamentRoster className={styles.TournamentRoster_CompetitorList} />
         )
       )}
-      <TournamentCreateTeamDialog />
-      <TournamentCompetitorCreateDialog />
+      <TournamentCompetitorEditDialog />
     </TournamentDetailCard>
   );
 };

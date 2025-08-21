@@ -45,15 +45,31 @@ export const deleteTournament = async (
   const tournamentCompetitors = await ctx.db.query('tournamentCompetitors')
     .withIndex('by_tournament_id', (q) => q.eq('tournamentId', args.id))
     .collect();
-  tournamentCompetitors.forEach( async (tournamentCompetitor) => {
-    await ctx.db.delete(tournamentCompetitor._id);
-  });
+  for (const record of tournamentCompetitors) {
+    await ctx.db.delete(record._id);
+  }
 
   // Cascade to Tournament Pairings:
   const tournamentPairings = await ctx.db.query('tournamentPairings')
     .withIndex('by_tournament_id', (q) => q.eq('tournamentId', args.id))
     .collect();
-  tournamentPairings.forEach( async (tournamentPairing) => {
-    await ctx.db.delete(tournamentPairing._id);
-  });
+  for (const record of tournamentPairings) {
+    await ctx.db.delete(record._id);
+  }
+
+  // Cascade to Tournament Registrations
+  const tournamentRegistrations = await ctx.db.query('tournamentRegistrations')
+    .withIndex('by_tournament', (q) => q.eq('tournamentId', args.id))
+    .collect();
+  for (const record of tournamentRegistrations) {
+    await ctx.db.delete(record._id);
+  }
+
+  // Cascade to Tournament Organizers
+  const tournamentOrganizers = await ctx.db.query('tournamentOrganizers')
+    .withIndex('by_tournament', (q) => q.eq('tournamentId', args.id))
+    .collect();
+  for (const record of tournamentOrganizers) {
+    await ctx.db.delete(record._id);
+  }
 };

@@ -6,31 +6,66 @@ import { DataModel, Id } from './_generated/dataModel.js';
 export const migrations = new Migrations<DataModel>(components.migrations);
 export const run = migrations.runner();
 
-export const linkListsToTournamentMatchResults = migrations.define({
+export const convertPlayersToRegistrations = migrations.define({
+  table: 'tournamentCompetitors',
+  migrateOne: async (ctx, doc) => {
+    if (doc.players) {
+      for (const player of doc.players) {
+        await ctx.db.insert('tournamentRegistrations', {
+          ...player,
+          tournamentCompetitorId: doc._id,
+          tournamentId: doc.tournamentId,
+          listApproved: true,
+          userConfirmed: true,
+        });
+      }
+      await ctx.db.patch(doc._id, {
+        players: undefined,
+      });
+    }
+  },
+});
+
+export const convertTournamentOrganizers = migrations.define({
+  table: 'tournaments',
+  migrateOne: async (ctx, doc) => {
+    if (doc.organizerUserIds) {
+      for (const userId of doc.organizerUserIds) {
+        await ctx.db.insert('tournamentOrganizers', {
+          userId,
+          tournamentId: doc._id,
+        });
+      }
+      await ctx.db.patch(doc._id, {
+        organizerUserIds: undefined,
+      });
+    }
+  },
+});
+
+export const fixMissingListData = migrations.define({
   table: 'matchResults',
   migrateOne: async (ctx, doc) => {
-    if (!doc.tournamentId || !doc.tournamentPairingId) {
-      return doc;
+    const patchData: { player0ListId?: Id<'lists'>, player1ListId?: Id<'lists'> } = {
+      player0ListId: undefined,
+      player1ListId: undefined,
+    };
+    if (doc.tournamentId && doc.player0UserId) {
+      const reg = await ctx.db.query('tournamentRegistrations')
+        .withIndex('by_tournament_user', (q) => q.eq('tournamentId', doc.tournamentId!).eq('userId', doc.player0UserId!))
+        .first();
+      if (reg) {
+        patchData.player0ListId = reg.listId;
+      }
     }
-    const competitors = await ctx.db.query('tournamentCompetitors')
-      .withIndex('by_tournament_id', (q) => q.eq('tournamentId', doc.tournamentId as Id<'tournaments'>))
-      .collect();
-    const getPlayerListId = (
-      userId?: Id<'users'>,
-    ): Id<'lists'> | undefined => {
-      if (!userId) {
-        return;
+    if (doc.tournamentId && doc.player1UserId) {
+      const reg = await ctx.db.query('tournamentRegistrations')
+        .withIndex('by_tournament_user', (q) => q.eq('tournamentId', doc.tournamentId!).eq('userId', doc.player1UserId!))
+        .first();
+      if (reg) {
+        patchData.player1ListId = reg.listId;
       }
-      const competitor = competitors.find((c) => c.players.some((p) => p.userId === userId));
-      if (!competitor) {
-        return;
-      }
-      return competitor.players.find((p) => p.userId === userId)?.listId;
-    };
-    return {
-      ...doc,
-      player0ListId: getPlayerListId(doc.player0UserId),
-      player1ListId: getPlayerListId(doc.player1UserId),
-    };
+    }
+    await ctx.db.patch(doc._id, patchData);
   },
 });

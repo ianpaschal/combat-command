@@ -3,6 +3,7 @@ import { getMissionDisplayName } from '@ianpaschal/combat-command-static-data/fl
 import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
 import { calculateFowV4MatchResultScore } from '../../fowV4/calculateFowV4MatchResultScore';
+import { getList } from '../../lists';
 import { getUser } from '../../users/queries/getUser';
 import { checkMatchResultBattlePlanVisibility } from './checkMatchResultBattlePlanVisibility';
 
@@ -24,11 +25,15 @@ export const deepenMatchResult = async (
   const player0User = matchResult?.player0UserId ? await getUser(ctx, {
     id: matchResult.player0UserId,
   }) : null;
-  const player0List = matchResult?.player0ListId ? await ctx.db.get(matchResult.player0ListId) : null;
+  const player0List = matchResult?.player0ListId ? await getList(ctx, {
+    id: matchResult.player0ListId,
+  }) : null;
   const player1User = matchResult?.player1UserId ? await getUser(ctx, {
     id: matchResult.player1UserId,
   }) : null;
-  const player1List = matchResult?.player1ListId ? await ctx.db.get(matchResult.player1ListId) : null;
+  const player1List = matchResult?.player1ListId ? await getList(ctx, {
+    id: matchResult.player1ListId,
+  }) : null;
   
   // Social
   const comments = await ctx.db.query('matchResultComments')

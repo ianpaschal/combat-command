@@ -19,12 +19,13 @@ const sizeClasses: Record<ElementSize, string | undefined> = {
 
 export interface IdentityBadgeProps {
   className?: string;
-  competitor?: TournamentCompetitor;
+  competitor?: TournamentCompetitor | null;
   flipped?: boolean;
   loading?: boolean;
   placeholder?: IdentityBadgePlaceholder;
   size?: ElementSize;
-  user?: User;
+  user?: User | null;
+  disableLink?: boolean;
 }
 
 export const IdentityBadge = ({
@@ -35,6 +36,7 @@ export const IdentityBadge = ({
   placeholder,
   size = 'normal',
   user,
+  disableLink = false,
 }: IdentityBadgeProps): JSX.Element | null => {
   const navigate = useNavigate();
 
@@ -58,7 +60,8 @@ export const IdentityBadge = ({
       className={clsx(styles.IdentityBadge, sizeClasses[size], className)}
       data-flipped={flipped}
       data-type={type}
-      onClick={() => user ? navigate(generatePath(PATHS.userProfile, { id: user._id })) : null}
+      data-clickable={!disableLink}
+      onClick={() => !disableLink && user ? navigate(generatePath(PATHS.userProfile, { id: user._id })) : null}
     >
       {flipped ? elements.reverse() : elements}
       {/* TODO: Add factions */}

@@ -53,10 +53,12 @@ export const createTestTournamentMatchResults = async (
       }
 
       const playerData: Pick<Doc<'matchResults'>, 'player0UserId' | 'player1UserId' | 'player1Placeholder' | 'player0Placeholder'> = {};
-      const tournamentCompetitor0 = await ctx.db.get(pairing.tournamentCompetitor0Id);
-      const tournamentCompetitor0UserIds = tournamentCompetitor0 ? tournamentCompetitor0.players.filter((player) => (
-        player.active && !usedPlayerIds.includes(player.userId)
-      )).map((player) => player.userId) : [];
+      const tournamentCompetitor0Registrations = await ctx.db.query('tournamentRegistrations')
+        .withIndex('by_tournament_competitor', (q) => q.eq('tournamentCompetitorId', pairing.tournamentCompetitor0Id))
+        .collect();
+      const tournamentCompetitor0UserIds = tournamentCompetitor0Registrations.filter((r) => (
+        r.active && !usedPlayerIds.includes(r.userId)
+      )).map((r) => r.userId);
       const player0UserId = tournamentCompetitor0UserIds.pop();
       if (player0UserId) {
         playerData.player0UserId = player0UserId;
@@ -64,11 +66,14 @@ export const createTestTournamentMatchResults = async (
         playerData.player0Placeholder = 'Bye';
       }
 
-      if (pairing.tournamentCompetitor1Id) {
-        const tournamentCompetitor1 = await ctx.db.get(pairing.tournamentCompetitor1Id);
-        const tournamentCompetitor1UserIds = tournamentCompetitor1 ? tournamentCompetitor1.players.filter((player) => (
-          player.active && !usedPlayerIds.includes(player.userId)
-        )).map((player) => player.userId) : [];
+      const competitor1Id = pairing.tournamentCompetitor1Id;
+      if (competitor1Id) {
+        const tournamentCompetitor1Registrations = await ctx.db.query('tournamentRegistrations')
+          .withIndex('by_tournament_competitor', (q) => q.eq('tournamentCompetitorId', competitor1Id))
+          .collect();
+        const tournamentCompetitor1UserIds = tournamentCompetitor1Registrations.filter((r) => (
+          r.active && !usedPlayerIds.includes(r.userId)
+        )).map((r) => r.userId);
         const player1UserId = tournamentCompetitor1UserIds.pop();
         playerData.player1UserId = player1UserId;
       } else {

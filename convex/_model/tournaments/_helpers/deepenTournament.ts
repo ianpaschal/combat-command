@@ -1,6 +1,7 @@
-import { Doc, Id } from '../../../_generated/dataModel';
+import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
 import { getStorageUrl } from '../../common/_helpers/getStorageUrl';
+import { getTournamentOrganizersByTournament } from '../../tournamentOrganizers';
 import { getTournamentNextRound } from './getTournamentNextRound';
 
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
@@ -21,33 +22,32 @@ export const deepenTournament = async (
   const logoUrl = await getStorageUrl(ctx, tournament.logoStorageId);
   const bannerUrl = await getStorageUrl(ctx, tournament.bannerStorageId);
 
-  const tournamentCompetitors = await ctx.db.query('tournamentCompetitors').withIndex(
-    'by_tournament_id',
-    (q) => q.eq('tournamentId', tournament._id),
-  ).collect();
-  const competitorCount = tournamentCompetitors.length;
+  const tournamentOrganizers = await getTournamentOrganizersByTournament(ctx, {
+    tournamentId: tournament._id,
+  });
+  const tournamentCompetitors = await ctx.db.query('tournamentCompetitors')
+    .withIndex('by_tournament_id', (q) => q.eq('tournamentId', tournament._id))
+    .collect();
+  const tournamentRegistrations = await ctx.db.query('tournamentRegistrations')
+    .withIndex('by_tournament', (q) => q.eq('tournamentId', tournament._id))
+    .collect();
 
-  const playerUserIds = tournamentCompetitors.reduce((acc, c) => [
-    ...acc,
-    ...c.players.map((p) => p.userId),
-  ], [] as Id<'users'>[]);
-  const activePlayerUserIds = tournamentCompetitors.reduce((acc, c) => [
-    ...acc,
-    ...c.players.filter((p) => p.active).map((p) => p.userId),
-  ], [] as Id<'users'>[]);
+  const playerUserIds = tournamentRegistrations.map((r) => r.userId);
+  const activePlayerUserIds = tournamentRegistrations.filter((r) => r.active).map((p) => p.userId);
 
   return {
     ...tournament,
-    logoUrl,
-    bannerUrl,
-    competitorCount,
+    organizers: tournamentOrganizers,
     activePlayerCount: activePlayerUserIds.length,
+    activePlayerUserIds,
+    bannerUrl,
+    competitorCount: tournamentCompetitors.length,
+    logoUrl,
+    maxPlayers : tournament.maxCompetitors * tournament.competitorSize,
+    nextRound: getTournamentNextRound(tournament),
     playerCount: playerUserIds.length,
     playerUserIds,
-    activePlayerUserIds,
-    maxPlayers : tournament.maxCompetitors * tournament.competitorSize,
     useTeams: tournament.competitorSize > 1,
-    nextRound: getTournamentNextRound(tournament),
   };
 };
 

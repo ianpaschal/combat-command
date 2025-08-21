@@ -8,7 +8,7 @@ import {
 import { RankingFactor } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
 import { z } from 'zod';
 
-import { StorageId, UserId } from '~/api';
+import { StorageId } from '~/api';
 import { fowV4GameSystemConfigDefaultValues, fowV4GameSystemConfigFormSchema } from '~/components/FowV4MatchResultForm/components/GameConfigFields.schema';
 
 // TODO: Add competitor groups
@@ -76,7 +76,6 @@ export const tournamentFormSchema = z.object({
 
   // Non-editable
   gameSystem: z.string().transform((val) => val as GameSystem),
-  organizerUserIds: z.array(z.string().transform((val) => val as UserId)),
 }).refine((data) => {
   if (data.gameSystem === GameSystem.FlamesOfWarV4) {
     return fowV4GameSystemConfigFormSchema.safeParse(data.gameSystemConfig).success;
@@ -101,7 +100,6 @@ export const defaultValues: DeepPartial<TournamentFormData> = {
   rulesPackUrl: '',
   pairingMethod: TournamentPairingMethod.Adjacent,
   title: '',
-  organizerUserIds: [],
   gameSystem: GameSystem.FlamesOfWarV4,
   gameSystemConfig: fowV4GameSystemConfigDefaultValues,
   roundStructure: {

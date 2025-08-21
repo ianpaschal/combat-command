@@ -66,7 +66,7 @@ export const createTournamentPairings = async (
     // ---- VALIDATE EACH PAIRING ----
     for (const id of [pairing.tournamentCompetitor0Id, pairing.tournamentCompetitor1Id]) {
       const competitor = competitors.find((c) => c._id === id);
-      const activePlayers = (competitor?.players ?? []).filter((p) => p.active);
+      const activePlayers = (competitor?.registrations ?? []).filter((p) => p.active);
       if (id !== null) {
         if (!competitor) {
           throw new ConvexError(getErrorMessage('CANNOT_ADD_PAIRING_FOR_MISSING_COMPETITOR'));

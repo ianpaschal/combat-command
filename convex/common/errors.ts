@@ -13,6 +13,11 @@ export const errors = {
   CANNOT_REMOVE_COMPETITOR_FROM_ACTIVE_TOURNAMENT: 'Cannot remove a competitor from an on-going tournament.',
   CANNOT_REMOVE_PLAYER_FROM_ACTIVE_TOURNAMENT: 'Cannot remove a player from an on-going tournament.',
   CANNOT_MODIFY_ANOTHER_TOURNAMENT_COMPETITOR: 'Cannot modify another tournament competitor.',
+  CANNOT_REGISTER_FOR_DRAFT_TOURNAMENT: 'Cannot register for a tournament which is still a draft.',
+  CANNOT_CREATE_COMPETITOR_WITH_0_PLAYERS: 'Cannot create a team with 0 players.',
+  CANNOT_REMOVE_LAST_ORGANIZER_FROM_TOURNAMENT: 'Cannot remove the last organizer from tournament.',
+  CANNOT_REMOVE_LAST_OWNER_FROM_TOURNAMENT: 'Please appoint another organizer as owner before deleting this one.',
+  COMPETITOR_ALREADY_HAS_MAX_PLAYERS: 'Team already has the maximum number of active players.',
 
   // Tournament Lifecycle
   CANNOT_CLOSE_ROUND_ON_ARCHIVED_TOURNAMENT: 'Cannot close a round on an archived tournament.',
@@ -37,6 +42,7 @@ export const errors = {
   TEAM_ALREADY_IN_TOURNAMENT: 'A team with that name is already registered.',
   TOURNAMENT_HAS_MAX_COMPETITORS: 'This tournament cannot field more competitors.',
   USER_ALREADY_IN_TOURNAMENT: 'A user with that ID is already registered.',
+  USER_ALREADY_ORGANIZER: 'A user with that ID is already an organizer.',
   USER_NOT_TOURNAMENT_ORGANIZER: 'User is not an organizer for this tournament.',
   USER_NOT_TOURNAMENT_PLAYER: 'User is not a player in this tournament.',
   INACTIVE_TOURNAMENT_CANNOT_USE_TIMERS: 'Tournament is not active or does not have a current round.',
@@ -50,11 +56,14 @@ export const errors = {
   FILE_NOT_FOUND: 'Could not find a file with that ID.',
   TOURNAMENT_COMPETITOR_NOT_FOUND: 'Could not find a competitor with that ID.',
   TOURNAMENT_CONTAINING_COMPETITOR_NOT_FOUND: 'Could not find a tournament containing this competitor.',
+  TOURNAMENT_CONTAINING_REGISTRATION_NOT_FOUND: 'Could not find a tournament containing this registration.',
   TOURNAMENT_NOT_FOUND: 'Could not find a tournament with that ID.',
   TOURNAMENT_PAIRING_NOT_FOUND: 'Could not find a pairing with that ID.',
   TOURNAMENT_TIMER_NOT_FOUND: 'Could not find a tournament timer for that tournament and round.',
   USER_NOT_FOUND: 'Could not find a user with that ID.',
   MATCH_RESULT_NOT_FOUND: 'Could not find a match result with that ID.',
+  TOURNAMENT_REGISTRATION_NOT_FOUND: 'Count not find a tournament registration with that ID.',
+  TOURNAMENT_ORGANIZER_NOT_FOUND: 'Count not find a tournament organizer with that ID.',
 
   // General
   USER_NOT_AUTHENTICATED: 'Authentication required!',

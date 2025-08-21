@@ -1,11 +1,11 @@
 import { Infer, v } from 'convex/values';
 
 import { mockTournamentData } from './_helpers/mockData';
-import { Id } from '../../_generated/dataModel';
 import { MutationCtx } from '../../_generated/server';
 import { tournamentStatus } from '../../common/tournamentStatus';
 
 export const createTestTournamentArgs = v.object({
+  organizerUserId: v.id('users'),
   useTeams: v.boolean(),
   status: tournamentStatus,
   currentRound: v.optional(v.number()),
@@ -22,6 +22,7 @@ const countryCodes = [
 export const createTestTournament = async (
   ctx: MutationCtx,
   {
+    organizerUserId,
     useTeams,
     status,
     currentRound,
@@ -39,16 +40,11 @@ export const createTestTournament = async (
     throw new Error('Not enough users');
   }
   const userIds = users.map((user) => user._id);
-  const organizerUserId = userIds.shift();
-  if (!organizerUserId) {
-    throw new Error('No organizer id');
-  }
 
   // 2. Create the tournament
   const tournamentId = await ctx.db.insert('tournaments', {
     ...mockTournamentData,
     status,
-    organizerUserIds: [organizerUserId],
     currentRound,
     lastRound,
     maxCompetitors,
@@ -59,8 +55,10 @@ export const createTestTournament = async (
       setUpTime: 2,
       playingTime: 3,
     },
-    logoStorageId: 'kg208wxmb55v36bh9qnkqc0c397j1rmb' as Id<'_storage'>,
-    bannerStorageId: 'kg250q9ezj209wpxgn0xqfca297kckc8' as Id<'_storage'>,
+  });
+  await ctx.db.insert('tournamentOrganizers', {
+    userId: organizerUserId,
+    tournamentId,
   });
 
   // 3. Create competitors
@@ -81,12 +79,22 @@ export const createTestTournament = async (
         }
       }
 
-      await ctx.db.insert('tournamentCompetitors', {
+      const tournamentCompetitorId = await ctx.db.insert('tournamentCompetitors', {
         teamName,
         tournamentId,
         active: status === 'active',
-        players,
       });
+
+      for (const player of players) {
+        await ctx.db.insert('tournamentRegistrations', {
+          tournamentId,
+          tournamentCompetitorId,
+          userId: player.userId,
+          active: true,
+          userConfirmed: true,
+          listApproved: true,
+        });
+      }
     }
   }
 };

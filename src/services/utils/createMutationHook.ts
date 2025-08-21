@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useMutation } from 'convex/react';
 import { FunctionReference } from 'convex/server';
+import { ConvexError } from 'convex/values';
 
 import { toast } from '~/components/ToastProvider';
 
@@ -26,12 +27,11 @@ export const createMutationHook = <T extends MutationFn>(mutationFn: T) => (conf
           config.onSuccess(response);
         }
       } catch (error) {
-        console.error(error);
-        if (error instanceof Error) {
-          toast.error('Error', { description: error.message });
-        }
-        if (config?.onError) {
-          config.onError(error);
+        if (error instanceof ConvexError) {
+          toast.error('Error', { description: error.data.message });
+          if (config?.onError) {
+            config.onError(error);
+          }
         }
       }
       setIsLoading(false);

@@ -3,6 +3,7 @@ import { Infer, v } from 'convex/values';
 import { Id } from '../../../_generated/dataModel';
 import { MutationCtx } from '../../../_generated/server';
 import { checkAuth } from '../../common/_helpers/checkAuth';
+import { checkUserIsTournamentOrganizer } from '../../tournamentOrganizers';
 import { getTournamentPairingDeep } from '../../tournamentPairings';
 import { getTournamentShallow } from '../../tournaments';
 import { editableFields } from '../fields';
@@ -38,7 +39,7 @@ export const createMatchResult = async (
     tournamentId = tournament._id;
 
     const isPlayerInPairing = tournamentPairing.playerUserIds.includes(userId);
-    const isTournamentOrganizer = tournament.organizerUserIds.includes(userId);
+    const isTournamentOrganizer = await checkUserIsTournamentOrganizer(ctx, tournament._id, userId);
     if (!isPlayerInPairing && !isTournamentOrganizer ) {
       // TODO: Convert to proper Convex error message:
       throw 'You do not have permission to do that.';

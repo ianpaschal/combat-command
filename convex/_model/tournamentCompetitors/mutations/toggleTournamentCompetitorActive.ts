@@ -7,6 +7,7 @@ import {
 import { MutationCtx } from '../../../_generated/server';
 import { getErrorMessage } from '../../../common/errors';
 import { checkAuth } from '../../common/_helpers/checkAuth';
+import { getTournamentOrganizersByTournament } from '../../tournamentOrganizers';
 
 export const toggleTournamentCompetitorActiveArgs = v.object({
   id: v.id('tournamentCompetitors'),
@@ -36,8 +37,11 @@ export const toggleTournamentCompetitorActive = async (
   /* These user IDs can make changes to this tournament competitor:
    * - Tournament organizers;
    */
+  const tournamentOrganizers = await getTournamentOrganizersByTournament(ctx, {
+    tournamentId: tournamentCompetitor.tournamentId,
+  });
   const authorizedUserIds = [
-    ...tournament.organizerUserIds,
+    ...tournamentOrganizers.map((r) => r.userId),
   ];
   if (!authorizedUserIds.includes(userId)) {
     throw new ConvexError(getErrorMessage('USER_DOES_NOT_HAVE_PERMISSION'));

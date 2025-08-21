@@ -2,10 +2,11 @@ import { getAuthUserId } from '@convex-dev/auth/server';
 import { Infer, v } from 'convex/values';
 
 import { QueryCtx } from '../../../_generated/server';
+import { checkUserIsTournamentOrganizer } from '../../tournamentOrganizers';
+import { checkUserIsRegistered } from '../../tournamentRegistrations/_helpers/checkUserIsRegistered';
 import { TournamentActionKey } from '..';
 import { checkTournamentVisibility } from '../_helpers/checkTournamentVisibility';
 import { getTournamentNextRound } from '../_helpers/getTournamentNextRound';
-import { getTournamentPlayerUserIds } from '../_helpers/getTournamentPlayerUserIds';
 
 export const getAvailableTournamentActionsArgs = v.object({
   id: v.id('tournaments'),
@@ -33,6 +34,8 @@ export const getAvailableTournamentActions = async (
   if (!(await checkTournamentVisibility(ctx, tournament))) {
     return [];
   }
+  const isOrganizer = await checkUserIsTournamentOrganizer(ctx, args.id, userId);
+  const isPlayer = await checkUserIsRegistered(ctx, args.id, userId);
 
   // ---- GATHER DATA ----
   const nextRound = getTournamentNextRound(tournament);
@@ -40,11 +43,6 @@ export const getAvailableTournamentActions = async (
     .withIndex('by_tournament_round', (q) => q.eq('tournamentId', args.id).eq('round', nextRound ?? -1))
     .collect();
   const nextRoundPairingCount = (nextRoundPairings ?? []).length;
-  const playerUserIds = await getTournamentPlayerUserIds(ctx, tournament._id);
-
-  const isOrganizer = !!userId && tournament.organizerUserIds.includes(userId);
-  const isPlayer = !!userId && playerUserIds.includes(userId);
-
   const hasCurrentRound = tournament.currentRound !== undefined;
   const hasNextRound = nextRound !== undefined;
 

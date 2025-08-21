@@ -14,6 +14,4 @@ export const useUpdateTournamentCompetitor = createMutationHook(api.tournamentCo
 export const useDeleteTournamentCompetitor = createMutationHook(api.tournamentCompetitors.deleteTournamentCompetitor);
 
 // Special Mutations
-export const useAddTournamentCompetitorPlayer = createMutationHook(api.tournamentCompetitors.addTournamentCompetitorPlayer);
-export const useRemoveTournamentCompetitorPlayer = createMutationHook(api.tournamentCompetitors.removeTournamentCompetitorPlayer);
 export const useToggleTournamentCompetitorActive = createMutationHook(api.tournamentCompetitors.toggleTournamentCompetitorActive);

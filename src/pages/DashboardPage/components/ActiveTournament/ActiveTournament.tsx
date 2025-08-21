@@ -17,6 +17,7 @@ import { TournamentProvider } from '~/components/TournamentProvider';
 import { TournamentTimer } from '~/components/TournamentTimer';
 import { useGetTournamentCompetitorsByTournament } from '~/services/tournamentCompetitors';
 import { PATHS } from '~/settings';
+import { isUserTournamentOrganizer } from '~/utils/common/isUserTournamentOrganizer';
 import { Header } from '../Header';
 import {
   getOpponent,
@@ -59,7 +60,7 @@ export const ActiveTournament = ({
     navigate(generatePath(PATHS.tournamentPairingDetails, { id: pairing._id }));
   };
 
-  const isOrganizer = user && tournament && tournament.organizerUserIds.includes(user._id);
+  const isOrganizer = isUserTournamentOrganizer(user, tournament);
   const showTimer = tournament && tournament.currentRound !== undefined;
   const showOpponent = tournament && pairing && opponent;
   const showRankings = tournament && rankedCompetitors;

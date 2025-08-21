@@ -1,3 +1,4 @@
+import { MouseEvent } from 'react';
 import { Close, Title } from '@radix-ui/react-dialog';
 import clsx from 'clsx';
 import { X } from 'lucide-react';
@@ -8,7 +9,7 @@ export interface DialogHeaderProps {
   className?: string;
   canCancel?: boolean;
   title: string;
-  onCancel?: () => void;
+  onCancel?: (e: MouseEvent) => void;
 }
 
 export const DialogHeader = ({

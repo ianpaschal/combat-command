@@ -7,6 +7,9 @@ export {
   createTestTournamentMatchResultsArgs,
 } from './createTestTournamentMatchResults';
 export {
+  createTestUsers,
+} from './createTestUsers';
+export {
   deleteTestTournament,
   deleteTestTournamentArgs,
 } from './deleteTestTournament';

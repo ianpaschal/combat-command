@@ -4,31 +4,19 @@ import { z } from 'zod';
 import { TournamentCompetitor, UserId } from '~/api';
 
 export const createSchema = (
-  competitorSize: number,
-  status: 'active' | 'published' | 'draft' | 'archived',
+  mode: 'create' | 'update',
   otherCompetitors: TournamentCompetitor[] = [],
 ) => z.object({
-  teamName: z.string(),
-  players: z.array(
-    z.object({
-      active: z.boolean(),
-      userId: z.string().transform((val) => val as UserId),
-    }),
-  ),
+  teamName: z.string().min(1, 'Please provide a team name.'),
+  captain: z.object({
+    userId: z.optional(z.string().transform((val) => val.length ? val as UserId : undefined)),
+  }),
 }).superRefine((data, ctx) => {
-  const activeCount = data.players.filter((player) => player.active).length;
-  if (activeCount < competitorSize && status === 'active') {
+  if (mode === 'create' && !data.captain.userId) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
-      message: `At least ${competitorSize} players must be active.`,
-      path: ['players'],
-    });
-  }
-  if (activeCount > competitorSize) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: `Only ${competitorSize} players may be active.`,
-      path: ['players'],
+      message: 'Please select a captain.',
+      path: ['captain'],
     });
   }
   if (otherCompetitors.find((c) => c.teamName?.toLowerCase() === data.teamName.trim().toLowerCase())) {
@@ -40,23 +28,13 @@ export const createSchema = (
   }
 });
 
-export type FormData = z.infer<ReturnType<typeof createSchema>>;
+export type TournamentCompetitorSubmitData = z.infer<ReturnType<typeof createSchema>>;
 
-export const defaultValues: DeepPartial<FormData> = {
+export type TournamentCompetitorFormData = Partial<TournamentCompetitorSubmitData>;
+
+export const getDefaultValues = (userId?: UserId): DeepPartial<TournamentCompetitorSubmitData> => ({
   teamName: '',
-  players: [],
-};
-
-export const getDefaultValues = (competitorSize: number, existingCompetitor?: TournamentCompetitor): DeepPartial<FormData> => {
-  const players = (existingCompetitor?.players ?? []).map((_, i) => ({
-    active: existingCompetitor?.players[i]?.active ?? true,
-    userId: existingCompetitor?.players[i]?.user._id ?? '',
-  }));
-  while (players.length < competitorSize) {
-    players.push({ active: true, userId: '' });
-  }
-  return {
-    teamName: existingCompetitor?.teamName ?? '',
-    players,
-  };
-};
+  captain: {
+    userId,
+  },
+});

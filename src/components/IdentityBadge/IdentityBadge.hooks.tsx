@@ -18,8 +18,8 @@ const getCompetitorAvatar = (competitor: TournamentCompetitor): ReactElement => 
     }
     return <Avatar isTeam />;
   }
-  if (competitor.players.length === 1) {
-    return <Avatar url={competitor.players[0]?.user?.avatarUrl} />;
+  if (competitor.registrations.length === 1) {
+    return <Avatar url={competitor.registrations[0]?.user?.avatarUrl} />;
   }
   return fallbackAvatar;
 };
@@ -29,8 +29,8 @@ const getCompetitorDisplayName = (competitor: TournamentCompetitor): ReactElemen
     const countryName = getCountryName(competitor.teamName);
     return <span>{countryName ?? competitor.teamName}</span>;
   }
-  if (competitor.players.length === 1 && competitor.players[0].user) {
-    return <span>{competitor.players[0].user.displayName}</span >;
+  if (competitor.registrations.length === 1 && competitor.registrations[0].user) {
+    return <span>{competitor.registrations[0].user.displayName}</span >;
   }
   return fallbackDisplayName;
 };

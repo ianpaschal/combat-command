@@ -7,6 +7,7 @@ import {
 import { MutationCtx } from '../../../_generated/server';
 import { getErrorMessage } from '../../../common/errors';
 import { checkAuth } from '../../common/_helpers/checkAuth';
+import { getTournamentOrganizersByTournament } from '../../tournamentOrganizers';
 import { editableFields } from '../fields';
 
 export const updateTournamentCompetitorArgs = v.object({
@@ -34,24 +35,18 @@ export const updateTournamentCompetitor = async (
   if (tournament.status === 'archived') {
     throw new ConvexError(getErrorMessage('CANNOT_MODIFY_ARCHIVED_TOURNAMENT'));
   }
-  // If a tournament is active, never allow existing players to be removed, as this will break tournament results/rankings:
-  if (tournament.status === 'active') {
-    const updatedUserIds = new Set(args.players.map((p) => p.userId));
-    for (const player of tournamentCompetitor.players) {
-      if (!updatedUserIds.has(player.userId)) {
-        throw new ConvexError(getErrorMessage('CANNOT_REMOVE_PLAYER_FROM_ACTIVE_TOURNAMENT'));
-      }
-    }
-  }
 
   // ---- EXTENDED AUTH CHECK ----
   /* These user IDs can make changes to this tournament competitor:
    * - Tournament organizers;
-   * - Players belonging to this tournament competitor;
+   * - This tournament competitor's captain;
    */
+  const tournamentOrganizers = await getTournamentOrganizersByTournament(ctx, {
+    tournamentId: tournamentCompetitor.tournamentId,
+  });
   const authorizedUserIds = [
-    ...tournament.organizerUserIds,
-    ...tournamentCompetitor.players.map((player) => player.userId),
+    ...tournamentOrganizers.map((r) => r.userId),
+    tournamentCompetitor.captainUserId,
   ];
   if (!authorizedUserIds.includes(userId)) {
     throw new ConvexError(getErrorMessage('USER_DOES_NOT_HAVE_PERMISSION'));

@@ -1,4 +1,4 @@
-import { mutation } from './_generated/server';
+import { internalMutation, mutation } from './_generated/server';
 import * as model from './_model/utils';
 
 export const createTestTournament = mutation({
@@ -19,4 +19,8 @@ export const deleteTestTournament = mutation({
 export const mergeUser = mutation({
   args: model.mergeUserArgs,
   handler: model.mergeUser,
+});
+
+export const createTestUsers = internalMutation({
+  handler: model.createTestUsers,
 });

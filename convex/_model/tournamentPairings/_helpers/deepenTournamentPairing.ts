@@ -55,8 +55,8 @@ export const deepenTournamentPairing = async (
     tournamentCompetitor0,
     tournamentCompetitor1,
     playerUserIds: [
-      ...tournamentCompetitor0.players.map((player) => player.user._id),
-      ...(tournamentCompetitor1?.players ?? []).map((player) => player.user._id),
+      ...tournamentCompetitor0.registrations.map((r) => r.user?._id),
+      ...(tournamentCompetitor1?.registrations ?? []).map((r) => r.user?._id),
     ],
     submittedUserIds,
     matchResultsProgress: {

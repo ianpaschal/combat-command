@@ -21,7 +21,7 @@ export const UserTournamentItem = ({
   const { data: competitors } = useGetTournamentCompetitorsByTournament({
     tournamentId: tournament._id,
   });
-  const competitor = (competitors ?? []).find((c) => c.players.find((p) => p.user._id === userId));
+  const competitor = (competitors ?? []).find((c) => c.registrations.find((p) => p.user?._id === userId));
   return (
     <div className={styles.UserTournamentCard}>
       <div className={styles.UserTournamentCard_LogoWrapper}>

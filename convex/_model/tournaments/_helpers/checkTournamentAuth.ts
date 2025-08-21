@@ -4,6 +4,7 @@ import { ConvexError } from 'convex/values';
 import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
 import { getErrorMessage } from '../../../common/errors';
+import { checkUserIsTournamentOrganizer } from '../../tournamentOrganizers';
 
 /**
  * Checks if a user has permission to perform actions on a Tournament.
@@ -22,7 +23,8 @@ export const checkTournamentAuth = async (
   if (!userId) {
     throw new ConvexError(getErrorMessage('USER_NOT_AUTHENTICATED'));
   }
-  if (!tournament.organizerUserIds.includes(userId)) {
+  const isOrganizer = await checkUserIsTournamentOrganizer(ctx, tournament._id, userId);
+  if (!isOrganizer) {
     throw new ConvexError(getErrorMessage('USER_NOT_TOURNAMENT_ORGANIZER'));
   }
 };

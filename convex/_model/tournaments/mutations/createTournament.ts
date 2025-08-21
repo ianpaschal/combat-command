@@ -2,10 +2,12 @@ import { Infer, v } from 'convex/values';
 
 import { Id } from '../../../_generated/dataModel';
 import { MutationCtx } from '../../../_generated/server';
+import { createTournamentOrganizer } from '../../tournamentOrganizers';
 import { editableFields } from '../fields';
 
 export const createTournamentArgs = v.object({
   ...editableFields,
+  ownerUserId: v.id('users'),
 });
 
 /**
@@ -18,7 +20,15 @@ export const createTournamentArgs = v.object({
 export const createTournament = async (
   ctx: MutationCtx,
   args: Infer<typeof createTournamentArgs>,
-): Promise<Id<'tournaments'>> => await ctx.db.insert('tournaments', {
-  ...args,
-  status: 'draft',
-});
+): Promise<Id<'tournaments'>> => {
+  const { ownerUserId, ...restArgs } = args;
+  const tournamentId = await ctx.db.insert('tournaments', {
+    ...restArgs,
+    status: 'draft',
+  });
+  await createTournamentOrganizer(ctx, {
+    tournamentId,
+    userId: ownerUserId,
+  });
+  return tournamentId;
+};

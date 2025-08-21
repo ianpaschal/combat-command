@@ -31,7 +31,7 @@ export const getTournamentRankingTableConfig = (
 ): ColumnDef<RankingRow>[] => {
   const players = config.competitors.reduce((acc, competitor) => [
     ...acc,
-    ...competitor.players.map((player) => player.user),
+    ...competitor.registrations.map((r) => r.user).filter((r) => r !== null),
   ], [] as User[]);
   return [
     {

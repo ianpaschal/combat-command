@@ -35,4 +35,14 @@
     padding: 1rem calc(1rem - var(--border-width));
     padding-left: calc(3.75rem - var(--border-width));
   }
+
+  &_RegistrationRow {
+    @include flex.row;
+  }
+
+  &_RegistrationSwitch {
+    @include flex.row;
+
+    margin-left: auto;
+  }
 }

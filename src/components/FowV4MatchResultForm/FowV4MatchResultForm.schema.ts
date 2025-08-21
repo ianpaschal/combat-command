@@ -68,9 +68,9 @@ export const fowV4MatchResultFormSchema = z.object({
   // TODO: Verify that game system config and details match game system
 });
 
-export type FowV4MatchResultFormData = DeepPartial<z.infer<typeof fowV4MatchResultFormSchema>>;
-
 export type FowV4MatchResultSubmitData = z.infer<typeof fowV4MatchResultFormSchema>;
+
+export type FowV4MatchResultFormData = DeepPartial<FowV4MatchResultSubmitData>;
 
 export const defaultValues: DeepPartial<MatchResult> = {
   details: {

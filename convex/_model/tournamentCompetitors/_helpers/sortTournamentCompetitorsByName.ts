@@ -8,8 +8,8 @@ export const sortTournamentCompetitorsByName = (
     if (competitor.teamName) {
       return competitor.teamName;
     }
-    if (competitor.players[0]?.user.displayName) {
-      return competitor.players[0].user.displayName;
+    if (competitor.registrations[0]?.user) {
+      return competitor.registrations[0].user.displayName;
     }
     return '';
   };

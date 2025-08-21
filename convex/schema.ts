@@ -6,7 +6,9 @@ import { matchResultCommentsTable } from './_model/matchResultComments';
 import { matchResultLikesTable } from './_model/matchResultLikes';
 import { matchResultsTable } from './_model/matchResults';
 import { tournamentCompetitorsTable } from './_model/tournamentCompetitors';
+import { tournamentOrganizersTable } from './_model/tournamentOrganizers';
 import { tournamentPairingsTable } from './_model/tournamentPairings';
+import { tournamentRegistrationsTable } from './_model/tournamentRegistrations';
 import { tournamentsTable } from './_model/tournaments';
 import { tournamentTimersTable } from './_model/tournamentTimers';
 import { usersTable } from './_model/users';
@@ -22,7 +24,9 @@ export default defineSchema({
   matchResults: matchResultsTable,
   photos,
   tournamentCompetitors: tournamentCompetitorsTable,
+  tournamentOrganizers: tournamentOrganizersTable,
   tournamentPairings: tournamentPairingsTable,
+  tournamentRegistrations: tournamentRegistrationsTable,
   tournaments: tournamentsTable,
   tournamentTimers: tournamentTimersTable,
   users: usersTable,

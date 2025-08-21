@@ -8,12 +8,13 @@ import { Id } from '../../../_generated/dataModel';
 import { MutationCtx } from '../../../_generated/server';
 import { getErrorMessage } from '../../../common/errors';
 import { checkAuth } from '../../common/_helpers/checkAuth';
-import { intersectArrays } from '../../common/_helpers/intersectArrays';
-import { getTournamentUserIds } from '../../tournaments';
+import { getTournamentOrganizersByTournament } from '../../tournamentOrganizers';
+import { createTournamentRegistration } from '../../tournamentRegistrations/mutations/createTournamentRegistration';
 import { editableFields } from '../fields';
 
 export const createTournamentCompetitorArgs = v.object({
   ...editableFields,
+  captainUserId: v.id('users'),
 });
 
 export const createTournamentCompetitor = async (
@@ -38,31 +39,46 @@ export const createTournamentCompetitor = async (
   if (args.teamName && existingTeamNames.includes(args.teamName)) {
     throw new ConvexError(getErrorMessage('TEAM_ALREADY_IN_TOURNAMENT'));
   }
-  const playerUserIds = args.players.map((player) => player.userId);
-  const registeredUserIds = await getTournamentUserIds(ctx, args.tournamentId);
-
-  const otherUserIds = playerUserIds.filter((playerUserId) => playerUserId !== userId);
-
-  if (otherUserIds.length && !tournament.organizerUserIds.includes(userId)) {
-    throw new ConvexError(getErrorMessage('CANNOT_ADD_ANOTHER_PLAYER'));
+ 
+  const existingTournamentRegistration = await ctx.db.query('tournamentRegistrations')
+    .withIndex('by_tournament_user', (q) => q.eq('tournamentId', tournament._id).eq('userId', args.captainUserId))
+    .first();
+  if (existingTournamentRegistration) {
+    throw new ConvexError({ userId: args.captainUserId, existingTournamentRegistration });
   }
-  if (intersectArrays(registeredUserIds, playerUserIds).length) {
-    throw new ConvexError(getErrorMessage('USER_ALREADY_IN_TOURNAMENT'));
+  if (!args.captainUserId) {
+    throw new ConvexError(getErrorMessage('CANNOT_CREATE_COMPETITOR_WITH_0_PLAYERS'));
+  }
+
+  // ---- EXTENDED AUTH CHECK ----
+  /* These user IDs can create a tournament competitor:
+   * - Tournament organizers;
+   * - The captain of the competitor;
+   */
+  const tournamentOrganizers = await getTournamentOrganizersByTournament(ctx, {
+    tournamentId: args.tournamentId,
+  });
+  const authorizedUserIds = [
+    ...tournamentOrganizers.map((r) => r.userId),
+    args.captainUserId,
+  ];
+  console.error(authorizedUserIds);
+  if (!authorizedUserIds.includes(userId)) {
+    throw new ConvexError(getErrorMessage('USER_DOES_NOT_HAVE_PERMISSION'));
   }
 
   // ---- PRIMARY ACTIONS ----
-
-  if (tournament.requireRealNames) {
-    for (const { userId } of args.players) {
-      const user = await ctx.db.get(userId);
-      if (user?.nameVisibility && ['hidden', 'friends'].includes(user.nameVisibility)) {
-        await ctx.db.patch(userId, { nameVisibility: 'tournaments' });
-      }
-    }
-  }
-
-  return await ctx.db.insert('tournamentCompetitors', {
-    ...args,
+  const { ...restArgs } = args;
+  const tournamentCompetitorId = await ctx.db.insert('tournamentCompetitors', {
+    ...restArgs,
     active: false,
   });
+
+  await createTournamentRegistration(ctx, {
+    userId: args.captainUserId,
+    tournamentId: args.tournamentId,
+    tournamentCompetitorId,
+  });
+
+  return tournamentCompetitorId;
 };

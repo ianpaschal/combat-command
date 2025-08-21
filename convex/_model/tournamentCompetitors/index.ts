@@ -19,10 +19,6 @@ export {
 
 // Mutations
 export {
-  addTournamentCompetitorPlayer,
-  addTournamentCompetitorPlayerArgs,
-} from './mutations/addTournamentCompetitorPlayer';
-export {
   createTournamentCompetitor,
   createTournamentCompetitorArgs,
 } from './mutations/createTournamentCompetitor';
@@ -30,10 +26,6 @@ export {
   deleteTournamentCompetitor,
   deleteTournamentCompetitorArgs,
 } from './mutations/deleteTournamentCompetitor';
-export {
-  removeTournamentCompetitorPlayer,
-  removeTournamentCompetitorPlayerArgs,
-} from './mutations/removeTournamentCompetitorPlayer';
 export {
   toggleTournamentCompetitorActive,
   toggleTournamentCompetitorActiveArgs,

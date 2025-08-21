@@ -12,6 +12,7 @@ import { TournamentProvider } from '~/components/TournamentProvider';
 import { useElementSize } from '~/hooks/useElementSize';
 import { MIN_WIDTH_TABLET, PATHS } from '~/settings';
 import { getTournamentDisplayName } from '~/utils/common/getTournamentDisplayName';
+import { isUserTournamentOrganizer } from '~/utils/common/isUserTournamentOrganizer';
 
 import styles from './TournamentCard.module.scss';
 
@@ -42,7 +43,7 @@ export const TournamentCard = ({
 
   const layout = getLayout();
 
-  const showContextMenu = user && tournament.organizerUserIds.includes(user._id);
+  const showContextMenu = isUserTournamentOrganizer(user, tournament);
 
   return (
     <TournamentProvider tournament={tournament}>

@@ -1,4 +1,4 @@
-import { TournamentCompetitor } from '~/api';
+import { TournamentCompetitor, TournamentCompetitorId } from '~/api';
 import {
   closeModal,
   openModal,
@@ -9,13 +9,13 @@ export type UseTournamentCompetitorEditDialogData = {
   tournamentCompetitor: TournamentCompetitor;
 };
 
-export const useTournamentCompetitorEditDialog = () => {
-  const id = 'tournament-competitor-edit-dialog';
-  const { data } = useModal<UseTournamentCompetitorEditDialogData>(id);
+export const useTournamentCompetitorEditDialog = (id?: TournamentCompetitorId) => {
+  const dialogId = `tournament-competitor-edit-dialog-${id ?? 'new'}`;
+  const { data } = useModal<UseTournamentCompetitorEditDialogData>(dialogId);
   return {
-    id,
+    id: dialogId,
     data,
-    open: (updated: UseTournamentCompetitorEditDialogData) => openModal(id, updated),
-    close: () => closeModal(id),
+    open: (data?: UseTournamentCompetitorEditDialogData) => openModal(dialogId, data),
+    close: () => closeModal(dialogId),
   };
 };

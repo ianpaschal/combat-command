@@ -4,5 +4,5 @@
 .Form {
   @include flex.column;
 
-  padding: 0 var(--container-padding-x);
+  padding: 1rem var(--container-padding-x);
 }

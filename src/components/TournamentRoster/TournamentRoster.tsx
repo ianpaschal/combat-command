@@ -1,10 +1,16 @@
+import { MouseEvent } from 'react';
+
+import { useAuth } from '~/components/AuthProvider';
 import { Accordion, AccordionItem } from '~/components/generic/Accordion';
+import { Label } from '~/components/generic/Label';
+import { Switch } from '~/components/generic/Switch';
 import { IdentityBadge } from '~/components/IdentityBadge';
-import { TournamentCompetitorEditDialog } from '~/components/TournamentCompetitorEditDialog';
 import { useTournamentCompetitors } from '~/components/TournamentCompetitorsProvider';
 import { useTournament } from '~/components/TournamentProvider';
 import { CompetitorActions } from '~/components/TournamentRoster/components/CompetitorActions';
 import { PlayerCount } from '~/components/TournamentRoster/components/PlayerCount';
+import { useToggleTournamentRegistrationActive } from '~/services/tournamentRegistrations';
+import { isUserTournamentOrganizer } from '~/utils/common/isUserTournamentOrganizer';
 
 import styles from './TournamentRoster.module.scss';
 
@@ -15,29 +21,44 @@ export interface TournamentRosterProps {
 export const TournamentRoster = ({
   className,
 }: TournamentRosterProps): JSX.Element => {
-  const { useTeams, competitorSize } = useTournament();
+  const user = useAuth();
+  const tournament = useTournament();
+  const isOrganizer = isUserTournamentOrganizer(user, tournament);
+
   const competitors = useTournamentCompetitors();
+  const { mutation: toggleActive } = useToggleTournamentRegistrationActive();
   return (
-    <>
-      <Accordion className={className}>
-        {(competitors || []).map((competitor) => (
-          <AccordionItem id={competitor._id} disabled={!useTeams} key={competitor._id}>
-            <div className={styles.TournamentRoster_Header}>
-              <IdentityBadge className={styles.TournamentRoster_Identity} competitor={competitor} />
-              {useTeams && (
-                <PlayerCount className={styles.TournamentRoster_PlayerCount} competitorSize={competitorSize} competitor={competitor} />
-              )}
-              <CompetitorActions className={styles.TournamentRoster_Actions} competitor={competitor} />
-            </div>
-            <div className={styles.TournamentRoster_Content}>
-              {competitor.players.filter((player) => player.active).map((player) => (
-                <IdentityBadge key={player.user?._id} user={player.user} size="small" />
-              ))}
-            </div>
-          </AccordionItem>
-        ))}
-      </Accordion>
-      <TournamentCompetitorEditDialog />
-    </>
+    <Accordion className={className}>
+      {(competitors || []).map((competitor) => (
+        <AccordionItem id={competitor._id} disabled={!tournament.useTeams} key={competitor._id}>
+          <div className={styles.TournamentRoster_Header}>
+            <IdentityBadge className={styles.TournamentRoster_Identity} competitor={competitor} />
+            {tournament.useTeams && (
+              <PlayerCount className={styles.TournamentRoster_PlayerCount} competitorSize={tournament.competitorSize} competitor={competitor} />
+            )}
+            <CompetitorActions className={styles.TournamentRoster_Actions} competitor={competitor} />
+          </div>
+          <div className={styles.TournamentRoster_Content}>
+            {competitor.registrations.map((r) => (
+              <div className={styles.TournamentRoster_RegistrationRow}>
+                <IdentityBadge key={r.user?._id} user={r.user} size="small" />
+                {isOrganizer && (
+                  <div className={styles.TournamentRoster_RegistrationSwitch}>
+                    <Label>Active</Label>
+                    <Switch
+                      onClick={(e: MouseEvent) => {
+                        e.stopPropagation();
+                        toggleActive({ id: r._id });
+                      }}
+                      checked={r.active}
+                    />
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </AccordionItem>
+      ))}
+    </Accordion>
   );
 };
