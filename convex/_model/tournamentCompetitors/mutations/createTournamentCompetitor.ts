@@ -51,16 +51,18 @@ export const createTournamentCompetitor = async (
   }
 
   // ---- EXTENDED AUTH CHECK ----
-  /* These user IDs can make changes to this tournament competitor:
+  /* These user IDs can create a tournament competitor:
    * - Tournament organizers;
+   * - The captain of the competitor;
    */
   const tournamentOrganizers = await getTournamentOrganizersByTournament(ctx, {
     tournamentId: args.tournamentId,
   });
   const authorizedUserIds = [
     ...tournamentOrganizers.map((r) => r.userId),
-    ...args.captainUserId,
+    args.captainUserId,
   ];
+  console.error(authorizedUserIds);
   if (!authorizedUserIds.includes(userId)) {
     throw new ConvexError(getErrorMessage('USER_DOES_NOT_HAVE_PERMISSION'));
   }
