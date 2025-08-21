@@ -7,6 +7,7 @@ import {
   DialogActions,
   DialogHeader,
 } from '~/components/generic/Dialog';
+import { Spinner } from '~/components/generic/Spinner';
 import { useTournament } from '~/components/TournamentProvider';
 import { useExportFowV4TournamentMatchData } from '~/services/tournaments';
 import { getTournamentDisplayName } from '~/utils/common/getTournamentDisplayName';
@@ -17,13 +18,16 @@ import styles from './TournamentExportDataDialog.module.scss';
 export const TournamentExportDataDialog = (): JSX.Element => {
   const tournament = useTournament();
   const { id, close } = useTournamentExportDataDialog();
-  const exportData = useExportFowV4TournamentMatchData();
+  const { action: exportData, loading } = useExportFowV4TournamentMatchData();
 
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
 
   const handleRequestUrl = async (): Promise<void> => {
     const url = await exportData({ tournamentId: tournament._id });
-    setDownloadUrl(url);
+    // TODO: Show error if url is missing
+    if (url) {
+      setDownloadUrl(url);
+    }
   };
 
   const handleDownload = async () => {
@@ -50,18 +54,19 @@ export const TournamentExportDataDialog = (): JSX.Element => {
     setDownloadUrl(null);
   };
 
-  const loading = false;
-
   return (
     <ControlledDialog id={id} disabled={loading} width="small" onCloseComplete={handleCloseComplete}>
-      <DialogHeader title="Create Team" onCancel={close} />
+      <DialogHeader title="Export Tournament Data" onCancel={close} />
       <div className={styles.TournamentExportDataDialog_Content}>
         {downloadUrl ? (
-          <Button onClick={handleDownload}>
-            Download<Download />
+          <Button onClick={handleDownload} disabled={loading}>
+            <Download />Download
           </Button>
         ) : (
-          <Button onClick={handleRequestUrl}>
+          <Button onClick={handleRequestUrl} disabled={loading}>
+            {loading && (
+              <Spinner />
+            )}
             Prepare Download
           </Button>
         )}
