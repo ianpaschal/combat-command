@@ -12,6 +12,8 @@ import { useExportFowV4TournamentMatchData } from '~/services/tournaments';
 import { getTournamentDisplayName } from '~/utils/common/getTournamentDisplayName';
 import { useTournamentExportDataDialog } from './TournamentExportDataDialog.hooks';
 
+import styles from './TournamentExportDataDialog.module.scss';
+
 export const TournamentExportDataDialog = (): JSX.Element => {
   const tournament = useTournament();
   const { id, close } = useTournamentExportDataDialog();
@@ -53,7 +55,7 @@ export const TournamentExportDataDialog = (): JSX.Element => {
   return (
     <ControlledDialog id={id} disabled={loading} width="small" onCloseComplete={handleCloseComplete}>
       <DialogHeader title="Create Team" onCancel={close} />
-      <div>
+      <div className={styles.TournamentExportDataDialog_Content}>
         {downloadUrl ? (
           <Button onClick={handleDownload}>
             Download<Download />

@@ -1,7 +1,8 @@
 import clsx from 'clsx';
-import { Download } from 'lucide-react';
+import { Construction, Download } from 'lucide-react';
 
 import { useAuth } from '~/components/AuthProvider';
+import { EmptyState } from '~/components/EmptyState';
 import { Button } from '~/components/generic/Button';
 import { Card, CardHeader } from '~/components/generic/Card';
 import { TournamentExportDataDialog, useTournamentExportDataDialog } from '~/pages/TournamentDetailPage/components/TournamentExportDataDialog';
@@ -25,7 +26,7 @@ export const TournamentStatsCard = ({
             </Button>
           )}
         </CardHeader>
-        Stats go here
+        <EmptyState icon={<Construction />} message="Under Construction" />
       </Card>
       <TournamentExportDataDialog />
     </>
