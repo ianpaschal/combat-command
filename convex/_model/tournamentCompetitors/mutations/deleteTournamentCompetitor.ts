@@ -44,12 +44,14 @@ export const deleteTournamentCompetitor = async (
   // ---- EXTENDED AUTH CHECK ----
   /* These user IDs can make changes to this tournament competitor:
    * - Tournament organizers;
+   * - This tournament competitor's captain;
    */
   const tournamentOrganizers = await getTournamentOrganizersByTournament(ctx, {
     tournamentId: tournamentCompetitor.tournamentId,
   });
   const authorizedUserIds = [
     ...tournamentOrganizers.map((r) => r.userId),
+    tournamentCompetitor.captainUserId,
   ];
   if (!authorizedUserIds.includes(userId)) {
     throw new ConvexError(getErrorMessage('USER_DOES_NOT_HAVE_PERMISSION'));
@@ -57,4 +59,12 @@ export const deleteTournamentCompetitor = async (
 
   // ---- PRIMARY ACTIONS ----
   await ctx.db.delete(id);
+
+  // Also delete the corresponding competitor:
+  const teamTournamentRegistrations = await ctx.db.query('tournamentRegistrations')
+    .withIndex('by_tournament_competitor', (q) => q.eq('tournamentCompetitorId', id))
+    .collect();
+  for (const registration of teamTournamentRegistrations) {
+    await ctx.db.delete(registration._id);
+  }
 };

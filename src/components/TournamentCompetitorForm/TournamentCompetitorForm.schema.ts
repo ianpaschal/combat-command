@@ -5,13 +5,21 @@ import { TournamentCompetitor, UserId } from '~/api';
 
 export const createSchema = (
   mode: 'create' | 'update',
+  useTeams: boolean,
   otherCompetitors: TournamentCompetitor[] = [],
 ) => z.object({
-  teamName: z.string().min(1, 'Please provide a team name.'),
+  teamName: z.string(),
   captain: z.object({
     userId: z.optional(z.string().transform((val) => val.length ? val as UserId : undefined)),
   }),
 }).superRefine((data, ctx) => {
+  if (useTeams && !data.teamName.length) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'Please provide a team name.',
+      path: ['teamName'],
+    });
+  }
   if (mode === 'create' && !data.captain.userId) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
@@ -19,7 +27,7 @@ export const createSchema = (
       path: ['captain'],
     });
   }
-  if (otherCompetitors.find((c) => c.teamName?.toLowerCase() === data.teamName.trim().toLowerCase())) {
+  if (useTeams && otherCompetitors.find((c) => c.teamName?.toLowerCase() === data.teamName.trim().toLowerCase())) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
       message: 'A team with that name already exists.',

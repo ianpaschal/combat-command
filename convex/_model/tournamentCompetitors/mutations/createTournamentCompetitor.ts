@@ -44,7 +44,7 @@ export const createTournamentCompetitor = async (
     .withIndex('by_tournament_user', (q) => q.eq('tournamentId', tournament._id).eq('userId', args.captainUserId))
     .first();
   if (existingTournamentRegistration) {
-    throw new ConvexError({ userId: args.captainUserId, existingTournamentRegistration });
+    throw new ConvexError(getErrorMessage('USER_ALREADY_IN_TOURNAMENT'));
   }
   if (!args.captainUserId) {
     throw new ConvexError(getErrorMessage('CANNOT_CREATE_COMPETITOR_WITH_0_PLAYERS'));
