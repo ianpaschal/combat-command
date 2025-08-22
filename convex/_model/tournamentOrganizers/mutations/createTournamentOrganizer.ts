@@ -38,7 +38,10 @@ export const createTournamentOrganizer = async (
   /* These user IDs can make changes to this tournament organizer:
    * - Tournament organizers;
    */
-  const authorizedUserIds = tournamentOrganizers.map((to) => to.userId);
+  const authorizedUserIds = [
+    ...tournamentOrganizers.map((to) => to.userId),
+    ...(tournamentOrganizers.length === 0 ? [args.userId] : []),
+  ];
   if (!authorizedUserIds.includes(userId)) {
     throw new ConvexError(getErrorMessage('USER_DOES_NOT_HAVE_PERMISSION'));
   }

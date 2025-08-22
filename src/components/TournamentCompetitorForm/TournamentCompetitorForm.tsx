@@ -55,7 +55,7 @@ export const TournamentCompetitorForm = ({
   // Get other competitors, we can block repeat names:
   const otherCompetitors = (tournamentCompetitors || []).filter((c) => c._id !== tournamentCompetitor?._id);
 
-  const formSchema = createSchema(!tournamentCompetitor ? 'create' : 'update', otherCompetitors);
+  const formSchema = createSchema(!tournamentCompetitor ? 'create' : 'update', tournament.useTeams, otherCompetitors);
   const form = useForm<TournamentCompetitorFormData>({
     defaultValues: {
       ...getDefaultValues(!isOrganizer ? (user?._id) : undefined),
