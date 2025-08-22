@@ -4,6 +4,7 @@ import { ChevronRight } from 'lucide-react';
 import { Tournament } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
 import { Button } from '~/components/generic/Button';
+import { Tag } from '~/components/generic/Tag';
 import { TournamentActionsProvider } from '~/components/TournamentActionsProvider';
 import { TournamentContextMenu } from '~/components/TournamentContextMenu';
 import { TournamentInfoBlock } from '~/components/TournamentInfoBlock/';
@@ -62,6 +63,9 @@ export const TournamentCard = ({
           </div>
           <div className={styles.TournamentCard_Title}>
             <h2>{getTournamentDisplayName(tournament)}</h2>
+            {tournament.status === 'draft' && (
+              <Tag>Draft</Tag>
+            )}
             <div className={styles.TournamentCard_Buttons}>
               {showContextMenu && (
                 <TournamentContextMenu />
