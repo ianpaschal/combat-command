@@ -40,17 +40,13 @@ export const TournamentInfoBlock = ({
         <>
           <div className={styles.TournamentInfoBlock_InfoLine}>
             <CalendarClock />
-            <div className={styles.TournamentInfoBlock_InfoLine_Content}>
-              <span>{format(tournament.startsAt, 'd MMM yyy, p')}</span>
-              <span>{format(tournament.endsAt, 'd MMM yyyy, p')}</span>
-            </div>
+            <span>{format(tournament.startsAt, 'd MMM yyy, p')}</span>
+            <span>{format(tournament.endsAt, 'd MMM yyyy, p')}</span>
           </div>
           <div className={styles.TournamentInfoBlock_InfoLine}>
             <MapPin />
-            <div className={styles.TournamentInfoBlock_InfoLine_Content}>
-              <span>{tournament.location.name}</span>
-              <span>{tournament.location.placeFormatted}</span>
-            </div>
+            <span>{tournament.location.name}</span>
+            <span>{tournament.location.placeFormatted}</span>
           </div>
           <div className={styles.TournamentInfoBlock_InfoLine}>
             <Users />

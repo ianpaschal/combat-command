@@ -10,13 +10,14 @@
 .TournamentInfoBlock {
   @include flex.column($gap: 0.5rem);
 
-  overflow: hidden;
-
   &_InfoLine {
-    @include flex.row($yAlign: top, $gap: 0.5rem);
     @include text.ui;
 
     overflow: hidden;
+    display: grid;
+    grid-template-columns: 1rem 1fr;
+    column-gap: 0.5rem;
+
     min-width: 0;
 
     a {
@@ -24,22 +25,19 @@
       line-height: inherit;
     }
 
-    &_Content {
-      min-width: 0;
+    svg {
+      grid-column: 1/2;
+      flex-shrink: 0;
+      width: 1rem;
+      height: 1rem;
     }
 
     span {
       @include text.single-line;
 
       display: block;
+      grid-column: 2/-1;
       min-width: 0;
-    }
-
-    svg {
-      flex-shrink: 0;
-      width: 1rem;
-      height: 1rem;
-      margin: calc((var(--line-height-normal) - 1rem) / 2);
     }
   }
 }
