@@ -32,7 +32,9 @@ export const TournamentsPage = (): JSX.Element => {
 
   type StatusGroup = Exclude<Tournament['status'], 'draft'>;
   const { active, archived, published } = (tournaments ?? []).reduce((acc, t) => {
-    if (t.status in acc) {
+    if (t.status === 'draft') {
+      acc.published.push(t);
+    } else {
       acc[t.status as StatusGroup].push(t);
     }
     return acc;

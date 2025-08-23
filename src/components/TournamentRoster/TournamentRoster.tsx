@@ -27,6 +27,8 @@ export const TournamentRoster = ({
 
   const competitors = useTournamentCompetitors();
   const { mutation: toggleActive } = useToggleTournamentRegistrationActive();
+
+  const showActiveToggle = isOrganizer && tournament.status === 'active' && tournament.currentRound === undefined;
   return (
     <Accordion className={className}>
       {(competitors || []).map((competitor) => (
@@ -40,9 +42,9 @@ export const TournamentRoster = ({
           </div>
           <div className={styles.TournamentRoster_Content}>
             {competitor.registrations.map((r) => (
-              <div className={styles.TournamentRoster_RegistrationRow}>
+              <div key={r._id} className={styles.TournamentRoster_RegistrationRow}>
                 <IdentityBadge key={r.user?._id} user={r.user} size="small" />
-                {isOrganizer && (
+                {showActiveToggle && (
                   <div className={styles.TournamentRoster_RegistrationSwitch}>
                     <Label>Active</Label>
                     <Switch
