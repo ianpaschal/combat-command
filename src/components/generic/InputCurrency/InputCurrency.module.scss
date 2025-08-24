@@ -26,6 +26,8 @@
     }
 
     input {
+      @include variants.outlined;
+
       flex: 1 auto;
 
       min-width: 0;
@@ -53,8 +55,6 @@
     justify-content: end;
 
     padding: 0 var(--input-padding-x);
-
-    background-color: white;
 
     span {
       width: 0.625rem;
