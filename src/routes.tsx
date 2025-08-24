@@ -23,6 +23,7 @@ import { MatchResultsPage } from '~/pages/MatchResultsPage';
 import {
   AccountSettings,
   SettingsPage,
+  UserPreferencesForm,
   UserProfileForm,
 } from '~/pages/SettingsPage';
 import { TournamentCreatePage } from '~/pages/TournamentCreatePage';
@@ -174,11 +175,11 @@ export const routes = [
         title: 'Account',
         element: <AccountSettings />,
       },
-      // {
-      //   path: '/settings/appearance',
-      //   title: 'Appearance',
-      //   element: <AppearanceForm />,
-      // },
+      {
+        path: '/settings/preferences',
+        title: 'Preferences',
+        element: <UserPreferencesForm />,
+      },
     ],
   },
   {

@@ -26,6 +26,7 @@
   &_Banner {
     @include flex.centered;
     @include backgrounds.topography;
+    @include borders.normal($side: right);
   }
 
   &_Title {
@@ -114,6 +115,10 @@
 @media (width <= 480px) {
   .TournamentCard[data-layout="narrow"] {
     grid-template-columns: 1fr;
+  }
+
+  .TournamentCard_Banner {
+    @include borders.normal($side: bottom);
   }
 
   .InfoBlock {
