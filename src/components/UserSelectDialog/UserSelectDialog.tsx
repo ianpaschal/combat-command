@@ -15,6 +15,7 @@ import { ScrollArea } from '~/components/generic/ScrollArea';
 import { Separator } from '~/components/generic/Separator';
 import { IdentityBadge } from '~/components/IdentityBadge';
 import { useUserSelectDialog } from '~/components/UserSelectDialog/UserSelectDialog.hooks';
+import { useInviteUser } from '~/services/invitations';
 import { useGetUsers } from '~/services/users';
 
 import styles from './UserSelectDialog.module.scss';
@@ -22,6 +23,7 @@ import styles from './UserSelectDialog.module.scss';
 export type UserSelectDialogValue = { userId?: UserId, placeholder?: string };
 
 export interface UserSelectDialogProps {
+  allowInvite?: boolean;
   allowPlaceholder?: boolean;
   disabled?: boolean;
   excludeUserIds?: UserId[];
@@ -32,6 +34,7 @@ export interface UserSelectDialogProps {
 }
 
 export const UserSelectDialog = ({
+  allowInvite = false,
   allowPlaceholder = true,
   excludeUserIds = [],
   id: key,
@@ -40,6 +43,11 @@ export const UserSelectDialog = ({
 }: UserSelectDialogProps): JSX.Element => {
   const user = useAuth();
   const { id, close } = useUserSelectDialog(key);
+  const { action: inviteUser } = useInviteUser({
+    onSuccess(response) {
+
+    },
+  });
 
   // Search
   const [search, setSearch] = useState<string>('');
@@ -50,11 +58,21 @@ export const UserSelectDialog = ({
 
   // Placeholder (hidden by default)
   const [placeholder, setPlaceholder] = useState<string>(value?.placeholder || '');
+  const [inviteEmail, setInviteEmail] = useState<string>('');
   const handleChangePlaceholder = (e: ChangeEvent<HTMLInputElement>): void => {
     setPlaceholder(e.target.value);
   };
   const handleSetPlaceholder = (): void => {
     onConfirm({ placeholder });
+    close();
+  };
+  const handleChangeInviteEmail = (e: ChangeEvent<HTMLInputElement>): void => {
+    setInviteEmail(e.target.value);
+  };
+  const handleInviteUser = (): void => {
+    // Check if the user exists
+    const userId = 'foo';
+    onConfirm({ userId });
     close();
   };
 
@@ -133,6 +151,18 @@ export const UserSelectDialog = ({
               <InputText value={placeholder} onChange={handleChangePlaceholder} />
               <Button onClick={handleSetPlaceholder}>
                 Set
+              </Button>
+            </div>
+          </>
+        )}
+        {allowInvite && (
+          <>
+            <Separator text="or" />
+            <Label>Invite by Email</Label>
+            <div className={styles.UserSelectDialog_PlaceholderInput}>
+              <InputText value={inviteEmail} onChange={handleChangeInviteEmail} />
+              <Button onClick={handleInviteUser}>
+                Invite
               </Button>
             </div>
           </>

@@ -1,12 +1,14 @@
-import * as React from 'react';
+import { TournamentDeep } from '../_model/tournaments';
 
-export interface InviteUserProps {
+export interface InviteUserViaTournamentProps {
   url: string;
+  tournament: TournamentDeep;
 }
 
-export const InviteUser = ({
+export const InviteUserViaTournament = ({
   url,
-}: InviteUserProps): JSX.Element => (
+  tournament,
+}: InviteUserViaTournamentProps): JSX.Element => (
   <div
     style={{
       fontFamily: 'Arial, sans-serif',
@@ -14,7 +16,9 @@ export const InviteUser = ({
       backgroundColor: '#f9f9f9',
     }}
   >
-    <h2 style={{ color: '#333' }}>You’ve been invited!</h2>
+    <h2 style={{ color: '#333' }}>
+      {`You've been added to ${tournament.title} on Combat Command!`}
+    </h2>
     <p style={{ fontSize: '14px', color: '#555' }}>
       Click the button below to accept your invitation and set your password.
     </p>

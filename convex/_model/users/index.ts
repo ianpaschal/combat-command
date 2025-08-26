@@ -7,6 +7,7 @@ export const usersTable = defineTable({
   ...editableFields,
   ...computedFields,
 })
+  .index('by_email', ['email'])
   .index('by_country_code', ['countryCode'])
   .index('by_name', ['givenName', 'familyName'])
   .index('by_username', ['username']);
@@ -21,6 +22,10 @@ export {
   setUserDefaultAvatar,
   setUserDefaultAvatarArgs,
 } from './actions/setUserDefaultAvatar';
+export {
+  createUser,
+  createUserArgs,
+} from './mutations/createUser';
 export {
   updateUser,
   updateUserArgs,
@@ -37,6 +42,10 @@ export {
   getUser,
   getUserArgs,
 } from './queries/getUser';
+export {
+  getUserByEmail,
+  getUserByEmailArgs,
+} from './queries/getUserByEmail';
 export {
   getUsers,
   getUsersArgs,

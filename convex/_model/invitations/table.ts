@@ -8,4 +8,4 @@ export const invitationsTable = defineTable({
 })
   .index('by_secret', ['secret'])
   .index('by_email', ['email'])
-  .index('by_invitedUser', ['invitedUserId']);
+  .index('by_user', ['userId']);

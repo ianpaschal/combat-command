@@ -26,9 +26,19 @@ export const getUser = query({
   handler: model.getUser,
 });
 
+export const getUserByEmail = query({
+  args: model.getUserByEmailArgs,
+  handler: model.getUserByEmail,
+});
+
 export const getUsers = query({
   args: model.getUsersArgs,
   handler: model.getUsers,
+});
+
+export const createUser = mutation({
+  args: model.createUserArgs,
+  handler: model.createUser,
 });
 
 export const updateUser = mutation({

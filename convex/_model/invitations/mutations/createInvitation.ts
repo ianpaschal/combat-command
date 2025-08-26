@@ -6,9 +6,8 @@ import { randomHex } from '../_helpers/randomHex';
 import { sha256Hex } from '../_helpers/sha256Hex';
 
 export const createInvitationArgs = v.object({
+  userId: v.id('users'),
   email: v.string(),
-  givenName: v.string(),
-  familyName: v.string(),
 });
 
 /**
@@ -21,26 +20,18 @@ export const createInvitation = async (
   ctx: MutationCtx,
   args: Infer<typeof createInvitationArgs>,
 ): Promise<string> => {
+  // --- CHECK AUTH ----
   const userId = await checkAuth(ctx);
 
-  // Provision a user:
-  const invitedUserId = await ctx.db.insert('users', {
-    email: args.email,
-    givenName: args.givenName,
-    familyName: args.familyName,
-    locationVisibility: 'hidden',
-    nameVisibility: 'tournaments',
-  });
-
+  // --- PRIMARY ACTIONS ----
   // Create a random secret:
   const token = randomHex(32);
   const secret = await sha256Hex(token);
 
   // Create the invitation:
   await ctx.db.insert('invitations', {
-    email: args.email,
+    ...args,
     invitedByUserId: userId,
-    invitedUserId,
     secret,
   });
 

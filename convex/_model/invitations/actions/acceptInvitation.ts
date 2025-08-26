@@ -21,6 +21,6 @@ export const acceptInvitation = async (
     account: { id: invitation.email, secret: args.password },
   });
   await ctx.runMutation(api.invitations.cleanUpInvitationsByInvitedUser, {
-    userId: invitation.invitedUserId,
+    userId: invitation.userId,
   });
 };

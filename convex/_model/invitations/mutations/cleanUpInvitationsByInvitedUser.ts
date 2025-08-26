@@ -21,7 +21,7 @@ export const cleanUpInvitationsByInvitedUser = async (
     throw new ConvexError(getErrorMessage('USER_DOES_NOT_HAVE_PERMISSION'));
   }
   const invitations = await ctx.db.query('invitations')
-    .withIndex('by_invitedUser', (q) => q.eq('invitedUserId', args.userId))
+    .withIndex('by_user', (q) => q.eq('userId', args.userId))
     .collect();
   for (const invitation of invitations) {
     await ctx.db.delete(invitation._id);
