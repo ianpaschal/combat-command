@@ -1,13 +1,4 @@
-import { defineTable } from 'convex/server';
-
 import { Id } from '../../_generated/dataModel';
-import { computedFields, editableFields } from './fields';
-
-export const invitationsTable = defineTable({
-  ...editableFields,
-  ...computedFields,
-})
-  .index('by_secret', ['secret']);
 
 export type InvitationId = Id<'invitations'>;
 
@@ -19,6 +10,10 @@ export {
   inviteUser,
   inviteUserArgs,
 } from './actions/inviteUser';
+export {
+  cleanUpInvitationsByInvitedUser,
+  cleanUpInvitationsByInvitedUserArgs,
+} from './mutations/cleanUpInvitationsByInvitedUser';
 export {
   createInvitation,
   createInvitationArgs,

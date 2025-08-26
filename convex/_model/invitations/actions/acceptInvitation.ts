@@ -20,7 +20,7 @@ export const acceptInvitation = async (
     provider: 'password',
     account: { id: invitation.email, secret: args.password },
   });
-  await ctx.runMutation(api.invitations.deleteInvitation, {
-    id: invitation._id,
+  await ctx.runMutation(api.invitations.cleanUpInvitationsByInvitedUser, {
+    userId: invitation.invitedUserId,
   });
 };

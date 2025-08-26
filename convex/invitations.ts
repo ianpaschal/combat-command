@@ -15,6 +15,11 @@ export const deleteInvitation = mutation({
   handler: model.deleteInvitation,
 });
 
+export const cleanUpInvitationsByInvitedUser = mutation({
+  args: model.cleanUpInvitationsByInvitedUserArgs,
+  handler: model.cleanUpInvitationsByInvitedUser,
+});
+
 export const createInvitation = mutation({
   args: model.createInvitationArgs,
   handler: model.createInvitation,

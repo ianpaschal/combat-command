@@ -39,6 +39,7 @@ import type * as _model_invitations_actions_acceptInvitation from "../_model/inv
 import type * as _model_invitations_actions_inviteUser from "../_model/invitations/actions/inviteUser.js";
 import type * as _model_invitations_fields from "../_model/invitations/fields.js";
 import type * as _model_invitations_index from "../_model/invitations/index.js";
+import type * as _model_invitations_mutations_cleanUpInvitationsByInvitedUser from "../_model/invitations/mutations/cleanUpInvitationsByInvitedUser.js";
 import type * as _model_invitations_mutations_createInvitation from "../_model/invitations/mutations/createInvitation.js";
 import type * as _model_invitations_mutations_deleteInvitation from "../_model/invitations/mutations/deleteInvitation.js";
 import type * as _model_invitations_queries_getInvitationByToken from "../_model/invitations/queries/getInvitationByToken.js";
@@ -275,6 +276,7 @@ declare const fullApi: ApiFromModules<{
   "_model/invitations/actions/inviteUser": typeof _model_invitations_actions_inviteUser;
   "_model/invitations/fields": typeof _model_invitations_fields;
   "_model/invitations/index": typeof _model_invitations_index;
+  "_model/invitations/mutations/cleanUpInvitationsByInvitedUser": typeof _model_invitations_mutations_cleanUpInvitationsByInvitedUser;
   "_model/invitations/mutations/createInvitation": typeof _model_invitations_mutations_createInvitation;
   "_model/invitations/mutations/deleteInvitation": typeof _model_invitations_mutations_deleteInvitation;
   "_model/invitations/queries/getInvitationByToken": typeof _model_invitations_queries_getInvitationByToken;
