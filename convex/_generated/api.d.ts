@@ -33,6 +33,8 @@ import type * as _model_fowV4_fowV4ListData from "../_model/fowV4/fowV4ListData.
 import type * as _model_fowV4_fowV4MatchResultDetails from "../_model/fowV4/fowV4MatchResultDetails.js";
 import type * as _model_fowV4_sumFowV4BaseStats from "../_model/fowV4/sumFowV4BaseStats.js";
 import type * as _model_fowV4_types from "../_model/fowV4/types.js";
+import type * as _model_invitations__helpers_randomHex from "../_model/invitations/_helpers/randomHex.js";
+import type * as _model_invitations__helpers_sha256Hex from "../_model/invitations/_helpers/sha256Hex.js";
 import type * as _model_invitations_actions_acceptInvitation from "../_model/invitations/actions/acceptInvitation.js";
 import type * as _model_invitations_actions_sendInvitation from "../_model/invitations/actions/sendInvitation.js";
 import type * as _model_invitations_fields from "../_model/invitations/fields.js";
@@ -266,6 +268,8 @@ declare const fullApi: ApiFromModules<{
   "_model/fowV4/fowV4MatchResultDetails": typeof _model_fowV4_fowV4MatchResultDetails;
   "_model/fowV4/sumFowV4BaseStats": typeof _model_fowV4_sumFowV4BaseStats;
   "_model/fowV4/types": typeof _model_fowV4_types;
+  "_model/invitations/_helpers/randomHex": typeof _model_invitations__helpers_randomHex;
+  "_model/invitations/_helpers/sha256Hex": typeof _model_invitations__helpers_sha256Hex;
   "_model/invitations/actions/acceptInvitation": typeof _model_invitations_actions_acceptInvitation;
   "_model/invitations/actions/sendInvitation": typeof _model_invitations_actions_sendInvitation;
   "_model/invitations/fields": typeof _model_invitations_fields;
