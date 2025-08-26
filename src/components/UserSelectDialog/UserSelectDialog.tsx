@@ -71,7 +71,9 @@ export const UserSelectDialog = ({
   };
   const handleInviteUser = (): void => {
     // Check if the user exists
-    const userId = 'foo';
+    const userId = inviteUser({
+
+    });
     onConfirm({ userId });
     close();
   };
