@@ -20,20 +20,7 @@ export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
           emailVerificationTime: params.emailVerificationTime as number,
         };
       },
-      // TODO: Uncomment this when the password requirements are implemented
-      // validatePasswordRequirements: (password: string) => {
-      //   if (
-      //     !password ||
-      //     password.length < 6 ||
-      //     !/\d/.test(password) ||
-      //     !/[a-z]/.test(password) ||
-      //     !/[A-Z]/.test(password)
-      //   ) {
-      //     throw new ConvexError(INVALID_PASSWORD);
-      //   }
-      // },
       reset: ResendOtpPasswordReset,
-      // verify: ResendOtpVerification,
     }),
   ],
   callbacks: {

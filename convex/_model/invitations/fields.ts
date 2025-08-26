@@ -1,0 +1,12 @@
+import { v } from 'convex/values';
+
+export const editableFields = {
+  email: v.string(),
+  invitedByUserId: v.id('users'),
+  invitedUserId: v.id('users'),
+  tokenHash: v.string(),
+};
+
+export const computedFields = {
+  modifiedAt: v.optional(v.number()),
+};

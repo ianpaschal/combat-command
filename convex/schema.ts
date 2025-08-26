@@ -1,6 +1,7 @@
 import { authTables } from '@convex-dev/auth/server';
 import { defineSchema } from 'convex/server';
 
+import { invitationsTable } from './_model/invitations';
 import { listsTable } from './_model/lists';
 import { matchResultCommentsTable } from './_model/matchResultComments';
 import { matchResultLikesTable } from './_model/matchResultLikes';
@@ -19,6 +20,7 @@ import { photosTable } from './photos';
 export default defineSchema({
   ...authTables,
   friendships,
+  invitations: invitationsTable,
   lists: listsTable,
   matchResultComments: matchResultCommentsTable,
   matchResultLikes: matchResultLikesTable,
