@@ -24,3 +24,8 @@ export const acceptInvitation = action({
   args: model.acceptInvitationArgs,
   handler: model.acceptInvitation,
 });
+
+export const inviteUser = action({
+  args: model.inviteUserArgs,
+  handler: model.inviteUser,
+});

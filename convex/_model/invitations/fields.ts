@@ -4,7 +4,7 @@ export const editableFields = {
   email: v.string(),
   invitedByUserId: v.id('users'),
   invitedUserId: v.id('users'),
-  tokenHash: v.string(),
+  secret: v.string(),
 };
 
 export const computedFields = {

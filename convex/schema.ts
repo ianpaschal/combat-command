@@ -1,7 +1,7 @@
 import { authTables } from '@convex-dev/auth/server';
 import { defineSchema } from 'convex/server';
 
-import { invitationsTable } from './_model/invitations';
+import { invitationsTable } from './_model/invitations/table';
 import { listsTable } from './_model/lists';
 import { matchResultCommentsTable } from './_model/matchResultComments';
 import { matchResultLikesTable } from './_model/matchResultLikes';

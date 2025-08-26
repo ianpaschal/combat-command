@@ -7,7 +7,7 @@ export const invitationsTable = defineTable({
   ...editableFields,
   ...computedFields,
 })
-  .index('by_token_hash', ['tokenHash']);
+  .index('by_secret', ['secret']);
 
 export type InvitationId = Id<'invitations'>;
 
@@ -15,6 +15,10 @@ export {
   acceptInvitation,
   acceptInvitationArgs,
 } from './actions/acceptInvitation';
+export {
+  inviteUser,
+  inviteUserArgs,
+} from './actions/inviteUser';
 export {
   createInvitation,
   createInvitationArgs,

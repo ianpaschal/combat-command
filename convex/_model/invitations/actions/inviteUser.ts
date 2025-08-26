@@ -1,19 +1,16 @@
-import { Infer, v } from 'convex/values';
+import { Infer } from 'convex/values';
 import { Resend } from 'resend';
 
 import { api } from '../../../_generated/api';
 import { ActionCtx } from '../../../_generated/server';
 import { InviteUser } from '../../../emails/InviteUser';
+import { createInvitationArgs } from '../mutations/createInvitation';
 
-export const sendInvitationArgs = v.object({
-  email: v.string(),
-  givenName: v.string(),
-  familyName: v.string(),
-});
+export const inviteUserArgs = createInvitationArgs;
 
-export const sendInvitation = async (
+export const inviteUser = async (
   ctx: ActionCtx,
-  args: Infer<typeof sendInvitationArgs>,
+  args: Infer<typeof inviteUserArgs>,
 ): Promise<void> => {
   const token = await ctx.runMutation(api.invitations.createInvitation, args);
   const resend = new Resend(process.env.AUTH_RESEND_KEY!);
