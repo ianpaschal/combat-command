@@ -74,7 +74,6 @@
     "jest-environment-jsdom": "^29.7.0",
     "lucide-react": "^0.438.0",
     "nanoid": "^5.1.5",
-    "npm": "^11.5.2",
     "oslo": "^1.2.1",
     "pdfjs-dist": "^4.4.168",
     "pica": "^9.0.1",
