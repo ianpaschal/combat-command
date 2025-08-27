@@ -7,14 +7,16 @@ import {
 import { MutationCtx } from '../../../../_generated/server';
 import { checkAuth } from '../../../common/_helpers/checkAuth';
 import { getErrorMessage } from '../../../common/errors';
+import { hashClaimToken } from '../../_helpers/hashClaimToken';
 
-export const removeUserClaimTokenArgs = v.object({
+export const updateUserClaimTokenArgs = v.object({
   userId: v.id('users'),
+  claimToken: v.string(),
 });
 
-export const removeUserClaimToken = async (
+export const updateUserClaimToken = async (
   ctx: MutationCtx,
-  args: Infer<typeof removeUserClaimTokenArgs>,
+  args: Infer<typeof updateUserClaimTokenArgs>,
 ): Promise<void> => {
   // --- CHECK AUTH ----
   const userId = await checkAuth(ctx);
@@ -24,6 +26,6 @@ export const removeUserClaimToken = async (
 
   // ---- PRIMARY ACTIONS ----
   await ctx.db.patch(args.userId, {
-    claimTokenHash: undefined,
+    claimTokenHash: await hashClaimToken(args.claimToken),
   });
 };

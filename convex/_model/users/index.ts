@@ -19,9 +19,13 @@ export {
   setUserDefaultAvatarArgs,
 } from './actions/setUserDefaultAvatar';
 export {
-  removeUserClaimToken,
-  removeUserClaimTokenArgs,
-} from './mutations/internal/removeUserClaimToken';
+  deleteUserClaimToken,
+  deleteUserClaimTokenArgs,
+} from './mutations/internal/deleteUserClaimToken';
+export {
+  updateUserClaimToken,
+  updateUserClaimTokenArgs,
+} from './mutations/internal/updateUserClaimToken';
 export {
   updateUser,
   updateUserArgs,

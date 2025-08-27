@@ -29,9 +29,14 @@ export const updateUserAvatarNoAuth = internalMutation({
   handler: model.updateUserAvatarNoAuth,
 });
 
-export const removeUserClaimToken = internalMutation({
-  args: model.removeUserClaimTokenArgs,
-  handler: model.removeUserClaimToken,
+export const updateUserClaimToken = internalMutation({
+  args: model.updateUserClaimTokenArgs,
+  handler: model.updateUserClaimToken,
+});
+
+export const deleteUserClaimToken = internalMutation({
+  args: model.deleteUserClaimTokenArgs,
+  handler: model.deleteUserClaimToken,
 });
 
 // PUBLIC

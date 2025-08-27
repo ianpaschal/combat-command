@@ -19,6 +19,7 @@ import { UserForm } from '~/components/UserSelectDialog/components/UserForm';
 import { UserSubmitData } from '~/components/UserSelectDialog/components/UserForm/UserForm.schema';
 import { useUserSelectDialog } from '~/components/UserSelectDialog/UserSelectDialog.hooks';
 import { useGetUsers, useInviteUser } from '~/services/users';
+import { PATHS } from '~/settings';
 
 import styles from './UserSelectDialog.module.scss';
 
@@ -70,7 +71,7 @@ export const UserSelectDialog = ({
   const handleInviteUser = async (data: UserSubmitData): Promise<void> => {
     const user = await inviteUser({
       ...data,
-      appUrl: window.location.origin,
+      claimUrl: `${window.location.origin}${PATHS.claim}`,
     });
     if (user) {
       onConfirm({ userId: user._id });
@@ -95,7 +96,7 @@ export const UserSelectDialog = ({
   };
   const handleClear = (): void => {
     onConfirm({ userId: '' as UserId });
-    // close();
+    close();
   };
 
   return (
