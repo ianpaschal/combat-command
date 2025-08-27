@@ -1,3 +1,6 @@
+import { styles } from './styles';
+import { Wrapper } from './Wrapper';
+
 export interface InviteUserEmailProps {
   url: string;
   title: string;
@@ -7,35 +10,15 @@ export const InviteUserEmail = ({
   url,
   title,
 }: InviteUserEmailProps): JSX.Element => (
-  <div
-    style={{
-      fontFamily: 'Arial, sans-serif',
-      padding: '20px',
-      backgroundColor: '#f9f9f9',
-    }}
-  >
-    <h2 style={{ color: '#333' }}>
+  <Wrapper>
+    <h2 style={styles.header}>
       {title}
     </h2>
-    <p style={{ fontSize: '14px', color: '#555' }}>
-      Click the button below to accept your invitation and set your password.
+    <p style={styles.description}>
+      Click the button below to accept the invitation and set your password on Combat Command.
     </p>
-    <a
-      href={url}
-      style={{
-        display: 'inline-block',
-        padding: '10px 20px',
-        backgroundColor: '#0070f3',
-        color: '#fff',
-        borderRadius: '4px',
-        textDecoration: 'none',
-        marginTop: '10px',
-      }}
-    >
+    <a style={styles.callToAction} href={url}>
       Accept Invitation
     </a>
-    <p style={{ fontSize: '12px', color: '#999', marginTop: '20px' }}>
-      If you didn’t expect this invitation, you can ignore this email.
-    </p>
-  </div>
+  </Wrapper >
 );

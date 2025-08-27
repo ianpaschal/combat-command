@@ -1,3 +1,6 @@
+import { styles } from './styles';
+import { Wrapper } from './Wrapper';
+
 export interface PasswordResetEmailProps {
   token: string;
   expires: Date;
@@ -7,21 +10,22 @@ export const PasswordResetEmail = ({
   token,
   expires,
 }: PasswordResetEmailProps): JSX.Element => (
-  <div
-    style={{
-      fontFamily: 'Arial, sans-serif',
-      padding: '20px',
-      backgroundColor: '#f9f9f9',
-    }}
-  >
-    <h2 style={{ color: '#333' }}>
+  <Wrapper>
+    <h2 style={styles.header}>
       Password Reset
     </h2>
-    <p style={{ fontSize: '14px', color: '#555' }}>
-      {`Your code is ${token}. It will expire at ${expires.toDateString()}.`}
+    <p style={styles.description}>
+      {`Your log-in code is below. It will expire at ${expires.toDateString()}.`}
     </p>
-    <p style={{ fontSize: '12px', color: '#999', marginTop: '20px' }}>
+    <div style={styles.token}>
+      {token.split('').map((char, i) => (
+        <span key={i} style={styles.tokenCharacter}>
+          {char}
+        </span>
+      ))}
+    </div>
+    <p style={styles.footer}>
       If you didn’t expect this message, you can ignore this email.
     </p>
-  </div>
+  </Wrapper>
 );
