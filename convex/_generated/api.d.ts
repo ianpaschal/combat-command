@@ -179,7 +179,6 @@ import type * as _model_users__helpers_redactUser from "../_model/users/_helpers
 import type * as _model_users_actions_setUserDefaultAvatar from "../_model/users/actions/setUserDefaultAvatar.js";
 import type * as _model_users_fields from "../_model/users/fields.js";
 import type * as _model_users_index from "../_model/users/index.js";
-import type * as _model_users_mutations_createUser from "../_model/users/mutations/createUser.js";
 import type * as _model_users_mutations_updateUser from "../_model/users/mutations/updateUser.js";
 import type * as _model_users_mutations_updateUserAvatarNoAuth from "../_model/users/mutations/updateUserAvatarNoAuth.js";
 import type * as _model_users_queries_getCurrentUser from "../_model/users/queries/getCurrentUser.js";
@@ -194,6 +193,7 @@ import type * as _model_utils_createTestUsers from "../_model/utils/createTestUs
 import type * as _model_utils_deleteTestTournament from "../_model/utils/deleteTestTournament.js";
 import type * as _model_utils_index from "../_model/utils/index.js";
 import type * as _model_utils_mergeUser from "../_model/utils/mergeUser.js";
+import type * as auth_CustomPassword from "../auth/CustomPassword.js";
 import type * as auth_ResendOtpPasswordReset from "../auth/ResendOtpPasswordReset.js";
 import type * as auth_ResendOtpVerification from "../auth/ResendOtpVerification.js";
 import type * as auth from "../auth.js";
@@ -419,7 +419,6 @@ declare const fullApi: ApiFromModules<{
   "_model/users/actions/setUserDefaultAvatar": typeof _model_users_actions_setUserDefaultAvatar;
   "_model/users/fields": typeof _model_users_fields;
   "_model/users/index": typeof _model_users_index;
-  "_model/users/mutations/createUser": typeof _model_users_mutations_createUser;
   "_model/users/mutations/updateUser": typeof _model_users_mutations_updateUser;
   "_model/users/mutations/updateUserAvatarNoAuth": typeof _model_users_mutations_updateUserAvatarNoAuth;
   "_model/users/queries/getCurrentUser": typeof _model_users_queries_getCurrentUser;
@@ -434,6 +433,7 @@ declare const fullApi: ApiFromModules<{
   "_model/utils/deleteTestTournament": typeof _model_utils_deleteTestTournament;
   "_model/utils/index": typeof _model_utils_index;
   "_model/utils/mergeUser": typeof _model_utils_mergeUser;
+  "auth/CustomPassword": typeof auth_CustomPassword;
   "auth/ResendOtpPasswordReset": typeof auth_ResendOtpPasswordReset;
   "auth/ResendOtpVerification": typeof auth_ResendOtpVerification;
   auth: typeof auth;

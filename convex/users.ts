@@ -1,6 +1,7 @@
 import {
   action,
   internalMutation,
+  internalQuery,
   mutation,
   query,
 } from './_generated/server';
@@ -31,14 +32,16 @@ export const getUserByEmail = query({
   handler: model.getUserByEmail,
 });
 
+export const getUserByEmailInternal = internalQuery({
+  args: model.getUserByEmailArgs,
+  handler: async (ctx, args) => (
+    await ctx.db.query('users').withIndex('by_email', (q) => q.eq('email', args.email)).unique()
+  ),
+});
+
 export const getUsers = query({
   args: model.getUsersArgs,
   handler: model.getUsers,
-});
-
-export const createUser = mutation({
-  args: model.createUserArgs,
-  handler: model.createUser,
 });
 
 export const updateUser = mutation({

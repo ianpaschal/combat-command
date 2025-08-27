@@ -23,10 +23,6 @@ export {
   setUserDefaultAvatarArgs,
 } from './actions/setUserDefaultAvatar';
 export {
-  createUser,
-  createUserArgs,
-} from './mutations/createUser';
-export {
   updateUser,
   updateUserArgs,
 } from './mutations/updateUser';

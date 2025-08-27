@@ -68,6 +68,8 @@ export const errors = {
   // General
   USER_NOT_AUTHENTICATED: 'Authentication required!',
   USER_DOES_NOT_HAVE_PERMISSION: 'You do not have permission to do this.',
+  USERNAME_ALREADY_EXISTS: 'A user is already registered with this username.',
+  EMAIL_REQUIRED_FOR_REGISTRATION: 'An email is required to register.',
   
   // Rankings
   TOURNAMENT_RANKINGS_PAIRING_MISSING_COMPETITOR: {

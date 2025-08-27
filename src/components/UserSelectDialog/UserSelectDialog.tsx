@@ -14,6 +14,9 @@ import { Label } from '~/components/generic/Label';
 import { ScrollArea } from '~/components/generic/ScrollArea';
 import { Separator } from '~/components/generic/Separator';
 import { IdentityBadge } from '~/components/IdentityBadge';
+import { toast } from '~/components/ToastProvider';
+import { UserForm } from '~/components/UserSelectDialog/components/UserForm';
+import { UserSubmitData } from '~/components/UserSelectDialog/components/UserForm/UserForm.schema';
 import { useUserSelectDialog } from '~/components/UserSelectDialog/UserSelectDialog.hooks';
 import { useInviteUser } from '~/services/invitations';
 import { useGetUsers } from '~/services/users';
@@ -45,7 +48,7 @@ export const UserSelectDialog = ({
   const { id, close } = useUserSelectDialog(key);
   const { action: inviteUser } = useInviteUser({
     onSuccess(response) {
-
+      toast.success(`Successfully invited ${response.givenName} ${response.familyName} to CombatCommand!`);
     },
   });
 
@@ -58,7 +61,6 @@ export const UserSelectDialog = ({
 
   // Placeholder (hidden by default)
   const [placeholder, setPlaceholder] = useState<string>(value?.placeholder || '');
-  const [inviteEmail, setInviteEmail] = useState<string>('');
   const handleChangePlaceholder = (e: ChangeEvent<HTMLInputElement>): void => {
     setPlaceholder(e.target.value);
   };
@@ -66,16 +68,12 @@ export const UserSelectDialog = ({
     onConfirm({ placeholder });
     close();
   };
-  const handleChangeInviteEmail = (e: ChangeEvent<HTMLInputElement>): void => {
-    setInviteEmail(e.target.value);
-  };
-  const handleInviteUser = (): void => {
-    // Check if the user exists
-    const userId = inviteUser({
-
-    });
-    onConfirm({ userId });
-    close();
+  const handleInviteUser = async (data: UserSubmitData): Promise<void> => {
+    const user = await inviteUser(data);
+    if (user) {
+      onConfirm({ userId: user._id });
+      close();
+    }
   };
 
   // Remove own user, and currently selected user
@@ -160,18 +158,17 @@ export const UserSelectDialog = ({
         {allowInvite && (
           <>
             <Separator text="or" />
-            <Label>Invite by Email</Label>
-            <div className={styles.UserSelectDialog_PlaceholderInput}>
-              <InputText value={inviteEmail} onChange={handleChangeInviteEmail} />
-              <Button onClick={handleInviteUser}>
-                Invite
-              </Button>
-            </div>
+            <UserForm id="invite-user-form" onSubmit={handleInviteUser} />
           </>
         )}
       </div>
       <DialogActions>
-        <Button variant="secondary" onClick={close}>Close</Button>
+        <Button variant="secondary" onClick={close}>
+          Close
+        </Button>
+        <Button type="submit" form="invite-user-form">
+          Invite
+        </Button>
       </DialogActions>
     </ControlledDialog>
   );
