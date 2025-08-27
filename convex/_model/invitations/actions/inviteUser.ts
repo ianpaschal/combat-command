@@ -56,8 +56,10 @@ export const inviteUser = async (
     throw new ConvexError(getErrorMessage('FILE_NOT_FOUND'));
   }
 
+  const userIsClaimed = existingUser && !existingUser.claimTokenHash;
+
   // If there was no existing user, or it has an outstanding claim token, send email:
-  if (!existingUser || !!existingUser?.claimTokenHash) {
+  if (!userIsClaimed) {
     await resend.emails.send({
       from: 'CombatCommand <noreply@combatcommand.net>',
       to: args.email,
