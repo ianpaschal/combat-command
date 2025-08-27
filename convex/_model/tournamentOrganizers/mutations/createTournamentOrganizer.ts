@@ -6,10 +6,10 @@ import {
 
 import { Id } from '../../../_generated/dataModel';
 import { MutationCtx } from '../../../_generated/server';
-import { getErrorMessage } from '../../../common/errors';
 import { checkAuth } from '../../common/_helpers/checkAuth';
-import { editableFields } from '../fields';
+import { getErrorMessage } from '../../common/errors';
 import { getTournamentOrganizersByTournament } from '../queries/getTournamentOrganizersByTournament';
+import { editableFields } from '../table';
 
 export const createTournamentOrganizerArgs = v.object({
   ...editableFields,

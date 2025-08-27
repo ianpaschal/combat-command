@@ -1,7 +1,7 @@
 import { Password } from '@convex-dev/auth/providers/Password';
 
 import { DataModel } from '../_generated/dataModel';
-import { UserDataVisibilityLevel } from '../common/userDataVisibilityLevel';
+import { UserDataVisibilityLevel } from '../_model/common/userDataVisibilityLevel';
 import { ResendOtpPasswordReset } from './ResendOtpPasswordReset';
  
 export default Password<DataModel>({

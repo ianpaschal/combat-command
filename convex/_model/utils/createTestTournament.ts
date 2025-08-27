@@ -2,7 +2,7 @@ import { Infer, v } from 'convex/values';
 
 import { mockTournamentData } from './_helpers/mockData';
 import { MutationCtx } from '../../_generated/server';
-import { tournamentStatus } from '../../common/tournamentStatus';
+import { tournamentStatus } from '../common/tournamentStatus';
 
 export const createTestTournamentArgs = v.object({
   organizerUserId: v.id('users'),

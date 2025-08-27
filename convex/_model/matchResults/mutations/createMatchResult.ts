@@ -6,7 +6,7 @@ import { checkAuth } from '../../common/_helpers/checkAuth';
 import { checkUserIsTournamentOrganizer } from '../../tournamentOrganizers';
 import { getTournamentPairingDeep } from '../../tournamentPairings';
 import { getTournamentShallow } from '../../tournaments';
-import { editableFields } from '../fields';
+import { editableFields } from '../table';
 
 export const createMatchResultArgs = v.object({
   ...editableFields,

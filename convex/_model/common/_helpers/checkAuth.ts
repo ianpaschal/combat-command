@@ -7,7 +7,7 @@ import {
   MutationCtx,
   QueryCtx,
 } from '../../../_generated/server';
-import { getErrorMessage } from '../../../common/errors';
+import { getErrorMessage } from '../errors';
 
 export async function checkAuth(
   ctx: QueryCtx | MutationCtx | ActionCtx,

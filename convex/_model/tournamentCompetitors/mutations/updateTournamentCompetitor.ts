@@ -5,10 +5,10 @@ import {
 } from 'convex/values';
 
 import { MutationCtx } from '../../../_generated/server';
-import { getErrorMessage } from '../../../common/errors';
 import { checkAuth } from '../../common/_helpers/checkAuth';
+import { getErrorMessage } from '../../common/errors';
 import { getTournamentOrganizersByTournament } from '../../tournamentOrganizers';
-import { editableFields } from '../fields';
+import { editableFields } from '../table';
 
 export const updateTournamentCompetitorArgs = v.object({
   id: v.id('tournamentCompetitors'),

@@ -3,7 +3,7 @@ import { Infer, v } from 'convex/values';
 import { MutationCtx } from '../../../_generated/server';
 import { checkTournamentAuth } from '../_helpers/checkTournamentAuth';
 import { getTournamentShallow } from '../_helpers/getTournamentShallow';
-import { editableFields } from '../fields';
+import { editableFields } from '../table';
 
 export const updateTournamentArgs = v.object({
   id: v.id('tournaments'),

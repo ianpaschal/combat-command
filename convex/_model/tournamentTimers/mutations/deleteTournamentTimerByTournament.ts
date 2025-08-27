@@ -5,7 +5,7 @@ import {
 } from 'convex/values';
 
 import { MutationCtx } from '../../../_generated/server';
-import { getErrorMessage } from '../../../common/errors';
+import { getErrorMessage } from '../../common/errors';
 
 export const deleteTournamentTimerByTournamentArgs = v.object({
   round: v.optional(v.number()),

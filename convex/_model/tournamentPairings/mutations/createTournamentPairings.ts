@@ -6,11 +6,11 @@ import {
 
 import { Id } from '../../../_generated/dataModel';
 import { MutationCtx } from '../../../_generated/server';
-import { getErrorMessage } from '../../../common/errors';
+import { getErrorMessage } from '../../common/errors';
 import { getTournamentCompetitorsByTournament } from '../../tournamentCompetitors';
 import { getTournamentPairings } from '../../tournamentPairings';
 import { checkTournamentAuth, getTournamentShallow } from '../../tournaments';
-import { sharedFields, uniqueFields } from '../fields';
+import { sharedFields, uniqueFields } from '../table';
 
 export const createTournamentPairingsArgs = v.object({
   ...sharedFields,

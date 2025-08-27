@@ -6,7 +6,7 @@ import {
 } from 'vitest';
 
 import { Id } from '../../../_generated/dataModel';
-import { errors } from '../../../common/errors';
+import { errors } from '../../common/errors';
 import { TournamentCompetitorRanked } from '../../tournaments';
 import { generateDraftPairings } from './generateDraftPairings';
 

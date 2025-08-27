@@ -1,13 +1,4 @@
-import { defineTable } from 'convex/server';
-
 import { Id } from '../../_generated/dataModel';
-import { fields } from './fields';
-
-export const tournamentTimersTable = defineTable({
-  ...fields,
-}).index(
-  'by_tournament_id', ['tournamentId'],
-);
 
 export type TournamentTimerId = Id<'tournamentTimers'>;
 export {

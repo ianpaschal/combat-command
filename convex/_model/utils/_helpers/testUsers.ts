@@ -1,5 +1,5 @@
 import { Id } from '../../../_generated/dataModel';
-import { UserDataVisibilityLevel } from '../../../common/userDataVisibilityLevel';
+import { UserDataVisibilityLevel } from '../../common/userDataVisibilityLevel';
 
 // 
 export const testUserIds = [

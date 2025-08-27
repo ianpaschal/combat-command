@@ -2,7 +2,7 @@ import { ConvexError } from 'convex/values';
 
 import { Doc, Id } from '../../../_generated/dataModel';
 import { MutationCtx, QueryCtx } from '../../../_generated/server';
-import { getErrorMessage } from '../../../common/errors';
+import { getErrorMessage } from '../../common/errors';
 
 /**
  * Gets a TournamentTimer from the database without joining any additional data (shallow).

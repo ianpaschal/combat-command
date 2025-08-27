@@ -1,14 +1,4 @@
-import { defineTable } from 'convex/server';
-
 import { Id } from '../../_generated/dataModel';
-import { computedFields, editableFields } from './fields';
-
-export const matchResultCommentsTable = defineTable({
-  ...editableFields,
-  ...computedFields,
-})
-  .index('by_user_id', ['userId'])
-  .index('by_match_result_id', ['matchResultId']);
 
 export type MatchResultCommentId = Id<'matchResultComments'>;
   

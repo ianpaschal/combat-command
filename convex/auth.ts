@@ -2,13 +2,13 @@ import { convexAuth } from '@convex-dev/auth/server';
 import { ConvexError } from 'convex/values';
 import { Resend } from 'resend';
 
-import { api } from './_generated/api';
+import { internal } from './_generated/api';
 import { Doc } from './_generated/dataModel';
 import { MutationCtx } from './_generated/server';
+import { getErrorMessage } from './_model/common/errors';
+import { UserDataVisibilityLevel } from './_model/common/userDataVisibilityLevel';
 import { generateUsername } from './_model/users/_helpers/generateUsername';
 import CustomPassword from './auth/CustomPassword';
-import { getErrorMessage } from './common/errors';
-import { UserDataVisibilityLevel } from './common/userDataVisibilityLevel';
 
 type Profile = Partial<{
   claimTokenHash: string;
@@ -73,7 +73,7 @@ export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
     },
     afterUserCreatedOrUpdated: async (ctx: MutationCtx, { userId }) => {
       // Use scheduler so that we can trigger an action rather than a mutation:
-      await ctx.scheduler.runAfter(0, api.users.setUserDefaultAvatar, {
+      await ctx.scheduler.runAfter(0, internal.users.setUserDefaultAvatar, {
         userId,
       });
     },

@@ -5,7 +5,7 @@ import {
 } from 'convex/values';
 
 import { MutationCtx } from '../../../_generated/server';
-import { getErrorMessage } from '../../../common/errors';
+import { getErrorMessage } from '../../common/errors';
 import { checkTournamentAuth } from '../_helpers/checkTournamentAuth';
 
 export const endTournamentArgs = v.object({
