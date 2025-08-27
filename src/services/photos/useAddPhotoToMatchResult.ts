@@ -9,7 +9,7 @@ export const useAddPhotoToMatchResult = (config?: MutationHookConfig) => {
   const [loading, setLoading] = useState(false);
 
   const generateUploadUrl = useMutation(api.generateFileUploadUrl.generateFileUploadUrl);
-  const addPhoto = useMutation(api.photos.mutations.addPhoto);
+  const addPhoto = useMutation(api.photos.createPhoto);
   const addPhotoToMatchResult = useMutation(api.matchResults.addPhotoToMatchResult);
 
   return {

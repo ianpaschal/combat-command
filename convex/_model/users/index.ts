@@ -7,6 +7,10 @@ export {
   redactUser,
 } from './_helpers/redactUser';
 export {
+  claimUser,
+  claimUserArgs,
+} from './actions/claimUser';
+export {
   inviteUser,
   inviteUserArgs,
 } from './actions/inviteUser';

@@ -1,4 +1,5 @@
 import {
+  action,
   internalAction,
   internalMutation,
   internalQuery,
@@ -51,4 +52,14 @@ export const getUsers = query({
 export const updateUser = mutation({
   args: model.updateUserArgs,
   handler: model.updateUser,
+});
+
+export const inviteUser = action({
+  args: model.inviteUserArgs,
+  handler: model.inviteUser,
+});
+
+export const claimUser = action({
+  args: model.claimUserArgs,
+  handler: model.claimUser,
 });

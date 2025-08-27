@@ -1,5 +1,5 @@
 import { PhotoId } from '~/api';
-import { useFetchPhoto } from '~/services/photos/useFetchPhoto';
+import { useGetPhoto } from '~/services/photos';
 
 import styles from './Photo.module.scss';
 
@@ -10,7 +10,7 @@ export interface PhotoProps {
 export const Photo = ({
   id,
 }: PhotoProps) => {
-  const { data } = useFetchPhoto(id);
+  const { data } = useGetPhoto({ id });
   return (
     <div
       className={styles.Photo}

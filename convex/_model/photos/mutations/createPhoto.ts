@@ -7,7 +7,6 @@ import { fields } from '../table';
 
 export const createPhotoArgs = v.object({
   ...fields,
-  captainUserId: v.id('users'),
 });
 
 export const createPhoto = async (

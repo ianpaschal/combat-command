@@ -18,8 +18,7 @@ import { toast } from '~/components/ToastProvider';
 import { UserForm } from '~/components/UserSelectDialog/components/UserForm';
 import { UserSubmitData } from '~/components/UserSelectDialog/components/UserForm/UserForm.schema';
 import { useUserSelectDialog } from '~/components/UserSelectDialog/UserSelectDialog.hooks';
-import { useInviteUser } from '~/services/invitations';
-import { useGetUsers } from '~/services/users';
+import { useGetUsers, useInviteUser } from '~/services/users';
 
 import styles from './UserSelectDialog.module.scss';
 
