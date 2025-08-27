@@ -1,3 +1,4 @@
+export { createActionHook } from './createActionHook';
 export {
   createMutationHook,
   type MutationFn,
