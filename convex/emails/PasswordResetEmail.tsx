@@ -12,7 +12,7 @@ export const PasswordResetEmail = ({
 }: PasswordResetEmailProps): JSX.Element => (
   <Wrapper>
     <h2 style={styles.header}>
-      Password Reset
+      Password Reset Code
     </h2>
     <p style={styles.description}>
       {`Your log-in code is below. It will expire ${expires.toLocaleString()}.`}

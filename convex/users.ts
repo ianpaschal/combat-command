@@ -14,6 +14,11 @@ export const setUserDefaultAvatar = internalAction({
   handler: model.setUserDefaultAvatar,
 });
 
+export const addContactToResend = internalAction({
+  args: model.addContactToResendArgs,
+  handler: model.addContactToResend,
+});
+
 export const getUserByEmail = internalQuery({
   args: model.getUserByEmailArgs,
   handler: model.getUserByEmail,

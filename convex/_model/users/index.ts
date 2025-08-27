@@ -11,13 +11,17 @@ export {
   claimUserArgs,
 } from './actions/claimUser';
 export {
-  inviteUser,
-  inviteUserArgs,
-} from './actions/inviteUser';
+  addContactToResend,
+  addContactToResendArgs,
+} from './actions/internal/addContactToResend';
 export {
   setUserDefaultAvatar,
   setUserDefaultAvatarArgs,
-} from './actions/setUserDefaultAvatar';
+} from './actions/internal/setUserDefaultAvatar';
+export {
+  inviteUser,
+  inviteUserArgs,
+} from './actions/inviteUser';
 export {
   deleteUserClaimToken,
   deleteUserClaimTokenArgs,

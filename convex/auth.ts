@@ -4,7 +4,6 @@ import { convexAuth } from '@convex-dev/auth/server';
 import { ConvexError } from 'convex/values';
 import { alphabet, generateRandomString } from 'oslo/crypto';
 import { Resend } from 'resend';
-import { Resend as ResendAPI } from 'resend';
 
 import { internal } from './_generated/api';
 import { DataModel, Doc } from './_generated/dataModel';
@@ -45,10 +44,10 @@ export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
       apiKey: process.env.AUTH_RESEND_KEY,
       maxAge: 60 * 15, // 15 minutes
       async generateVerificationToken() {
-        return generateRandomString(8, alphabet('0-9'));
+        return generateRandomString(6, alphabet('0-9'));
       },
       async sendVerificationRequest(params) {
-        const resend = new ResendAPI(params.provider.apiKey);
+        const resend = new Resend(params.provider.apiKey);
         const { error } = await resend.emails.send({
           from: 'CombatCommand <noreply@combatcommand.net>',
           to: [params.identifier],
@@ -89,28 +88,28 @@ export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
             .first();
         } while (existing);
       }
-  
-      // Update the email address in Resend:
+
+      // Create the user:
       const email = args.profile.email;
       if (!email) {
         throw new ConvexError(getErrorMessage('EMAIL_REQUIRED_FOR_REGISTRATION'));
       }
-      new Resend(process.env.AUTH_RESEND_KEY!).contacts.create({
-        email,
-        firstName: profile.givenName ?? '',
-        lastName: profile.familyName ?? '',
-        unsubscribed: false,
-        audienceId: 'bfe8504e-9cfa-4986-a533-4e1e39a40a0e',
-      });
-
-      // Create the user:
       const userId = await ctx.db.insert('users', {
         ...args.profile,
         email,
         username,
       });
 
-      // Use scheduler so that we can trigger an action rather than a mutation:
+      // Use schedulers so that we can trigger actions rather than a mutations...
+
+      // Update the email address in Resend:
+      await ctx.scheduler.runAfter(0, internal.users.addContactToResend, {
+        email,
+        firstName: profile.givenName,
+        lastName: profile.familyName,
+      });
+
+      // Set a default avatar:
       await ctx.scheduler.runAfter(0, internal.users.setUserDefaultAvatar, {
         userId,
       });

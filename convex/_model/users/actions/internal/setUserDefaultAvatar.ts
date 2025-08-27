@@ -2,8 +2,8 @@
 
 import { Infer, v } from 'convex/values';
 
-import { api, internal } from '../../../_generated/api';
-import { ActionCtx } from '../../../_generated/server';
+import { api, internal } from '../../../../_generated/api';
+import { ActionCtx } from '../../../../_generated/server';
 
 export const setUserDefaultAvatarArgs = v.object({
   userId: v.id('users'),

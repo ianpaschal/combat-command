@@ -185,8 +185,9 @@ import type * as _model_users__helpers_getShallowUser from "../_model/users/_hel
 import type * as _model_users__helpers_hashClaimToken from "../_model/users/_helpers/hashClaimToken.js";
 import type * as _model_users__helpers_redactUser from "../_model/users/_helpers/redactUser.js";
 import type * as _model_users_actions_claimUser from "../_model/users/actions/claimUser.js";
+import type * as _model_users_actions_internal_addContactToResend from "../_model/users/actions/internal/addContactToResend.js";
+import type * as _model_users_actions_internal_setUserDefaultAvatar from "../_model/users/actions/internal/setUserDefaultAvatar.js";
 import type * as _model_users_actions_inviteUser from "../_model/users/actions/inviteUser.js";
-import type * as _model_users_actions_setUserDefaultAvatar from "../_model/users/actions/setUserDefaultAvatar.js";
 import type * as _model_users_index from "../_model/users/index.js";
 import type * as _model_users_mutations_internal_deleteUserClaimToken from "../_model/users/mutations/internal/deleteUserClaimToken.js";
 import type * as _model_users_mutations_internal_updateUserClaimToken from "../_model/users/mutations/internal/updateUserClaimToken.js";
@@ -424,8 +425,9 @@ declare const fullApi: ApiFromModules<{
   "_model/users/_helpers/hashClaimToken": typeof _model_users__helpers_hashClaimToken;
   "_model/users/_helpers/redactUser": typeof _model_users__helpers_redactUser;
   "_model/users/actions/claimUser": typeof _model_users_actions_claimUser;
+  "_model/users/actions/internal/addContactToResend": typeof _model_users_actions_internal_addContactToResend;
+  "_model/users/actions/internal/setUserDefaultAvatar": typeof _model_users_actions_internal_setUserDefaultAvatar;
   "_model/users/actions/inviteUser": typeof _model_users_actions_inviteUser;
-  "_model/users/actions/setUserDefaultAvatar": typeof _model_users_actions_setUserDefaultAvatar;
   "_model/users/index": typeof _model_users_index;
   "_model/users/mutations/internal/deleteUserClaimToken": typeof _model_users_mutations_internal_deleteUserClaimToken;
   "_model/users/mutations/internal/updateUserClaimToken": typeof _model_users_mutations_internal_updateUserClaimToken;
