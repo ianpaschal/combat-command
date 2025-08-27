@@ -64,7 +64,7 @@ export const inviteUser = async (
       to: args.email,
       subject: subject ?? 'You\'ve been added on Combat Command',
       react: InviteUserEmail({
-        url: `${process.env.APP_URL}/invite?claimToken=${claimToken}`,
+        url: `${process.env.APP_URL}/claim?email=${args.email}&claimToken=${claimToken}`,
         title: header ?? '',
       }),
     });

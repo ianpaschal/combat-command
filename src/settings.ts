@@ -13,6 +13,7 @@ export const PATHS = {
   authResetPassword: '/auth/reset-password',
   authSignIn: '/auth/sign-in',
   authSignUp: '/auth/sign-up',
+  claim: '/claim',
   dashboard: '/dashboard',
   matchResultDetails: '/matches/:id',
   matchResults: '/matches',

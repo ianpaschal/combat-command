@@ -16,6 +16,7 @@ import {
   SignInForm,
   SignUpForm,
 } from '~/pages/AuthPage';
+import { ClaimUserPage } from '~/pages/ClaimUserPage';
 import { DashboardPage } from '~/pages/DashboardPage';
 import { LandingPage } from '~/pages/LandingPage';
 import { MatchResultDetailPage } from '~/pages/MatchResultDetailPage';
@@ -106,6 +107,11 @@ export const routes = [
     ...mainRoutes,
     ...additionalRoutes,
   ]),
+  {
+    path: PATHS.claim,
+    visibility: [],
+    element: <ClaimUserPage />,
+  },
 
   // {
   //   path: '/tournaments/:tournamentId/add-match',

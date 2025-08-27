@@ -14,13 +14,18 @@ export const claimUser = async (
   ctx: ActionCtx,
   args: Infer<typeof claimUserArgs>,
 ): Promise<void> => {
+  // Validate the claim token:
   const user: Doc<'users'> = await ctx.runQuery(internal.users.getUserByClaimToken, {
     claimToken: args.claimToken,
   });
+
+  // Update the account password:
   await modifyAccountCredentials(ctx, {
     provider: 'password',
     account: { id: user.email, secret: args.password },
   });
+
+  // Clean up claim token:
   await ctx.runMutation(internal.users.removeUserClaimToken, {
     userId: user._id,
   });
