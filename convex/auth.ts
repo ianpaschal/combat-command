@@ -1,14 +1,18 @@
+import { Email } from '@convex-dev/auth/providers/Email';
+import { Password } from '@convex-dev/auth/providers/Password';
 import { convexAuth } from '@convex-dev/auth/server';
 import { ConvexError } from 'convex/values';
+import { alphabet, generateRandomString } from 'oslo/crypto';
 import { Resend } from 'resend';
+import { Resend as ResendAPI } from 'resend';
 
 import { internal } from './_generated/api';
-import { Doc } from './_generated/dataModel';
+import { DataModel, Doc } from './_generated/dataModel';
 import { MutationCtx } from './_generated/server';
 import { getErrorMessage } from './_model/common/errors';
 import { UserDataVisibilityLevel } from './_model/common/userDataVisibilityLevel';
 import { generateUsername } from './_model/users/_helpers/generateUsername';
-import CustomPassword from './auth/CustomPassword';
+import { PasswordResetEmail } from './emails/PasswordResetEmail';
 
 type Profile = Partial<{
   claimTokenHash: string;
@@ -22,7 +26,42 @@ type Profile = Partial<{
 }>;
 
 export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
-  providers: [CustomPassword],
+  providers: [Password<DataModel>({
+    profile(params) {
+      return {
+        email: params.email as string,
+        username: params.username as string,
+        givenName: params.givenName as string,
+        familyName: params.familyName as string,
+        locationVisibility: params.locationVisibility as UserDataVisibilityLevel,
+        nameVisibility: params.nameVisibility as UserDataVisibilityLevel,
+        emailVerificationTime: params.emailVerificationTime as number,
+        claimTokenHash: params.claimTokenHash as string,
+      };
+    },
+    // verify: Email, // TODO: Add email verification
+    reset: Email({
+      id: 'resend-otp-password-reset',
+      apiKey: process.env.AUTH_RESEND_KEY,
+      maxAge: 60 * 15, // 15 minutes
+      async generateVerificationToken() {
+        return generateRandomString(8, alphabet('0-9'));
+      },
+      async sendVerificationRequest(params) {
+        const resend = new ResendAPI(params.provider.apiKey);
+        const { error } = await resend.emails.send({
+          from: 'CombatCommand <noreply@combatcommand.net>',
+          to: [params.identifier],
+          subject: 'Password Reset Code',
+          react: PasswordResetEmail(params),
+        });
+        if (error) {
+          console.error(error);
+          throw new ConvexError(getErrorMessage('PASSWORD_RESET_FAILED_TO_SEND'));
+        }
+      },
+    }),
+  })],
   callbacks: {
     createOrUpdateUser: async (ctx: MutationCtx, args) => {
       // If user already exists, do nothing:

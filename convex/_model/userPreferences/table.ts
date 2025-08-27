@@ -1,7 +1,7 @@
 import { defineTable } from 'convex/server';
 import { v } from 'convex/values';
 
-import { themePreference } from '../../static/themes';
+import { themePreference } from '../common/themes';
 
 export const editableFields = {
   theme: v.optional(themePreference),

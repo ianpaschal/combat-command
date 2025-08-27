@@ -1,12 +1,12 @@
-export interface InviteUserViaTournamentProps {
+export interface InviteUserEmailProps {
   url: string;
   title: string;
 }
 
-export const InviteUserViaTournament = ({
+export const InviteUserEmail = ({
   url,
   title,
-}: InviteUserViaTournamentProps): JSX.Element => (
+}: InviteUserEmailProps): JSX.Element => (
   <div
     style={{
       fontFamily: 'Arial, sans-serif',

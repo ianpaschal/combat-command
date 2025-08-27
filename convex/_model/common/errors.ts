@@ -102,6 +102,10 @@ export const errors = {
   CANNOT_ADD_PAIRINGS_TO_PUBLISHED_TOURNAMENT: 'Cannot add pairings to a tournament that hasn\'t started yet.',
   CANNOT_ADD_TOO_MANY_PAIRINGS: 'Cannot add more pairings than the tournament is set-up for.',
   TOURNAMENT_ALREADY_HAS_PAIRINGS_FOR_ROUND: 'Tournament already has pairings for this round.',
+
+  // Emails
+  PASSWORD_RESET_FAILED_TO_SEND: 'Could not send password reset email. Please try again in a minute.',
+  USER_INVITATION_FAILED_TO_SEND: 'Could not send invitation email. Please try again in a minute.',
 };
 
 export function getErrorMessage(code: keyof typeof errors): { message: string, code: string } {

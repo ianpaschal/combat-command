@@ -9,7 +9,7 @@ import { Resend } from 'resend';
 import { internal } from '../../../_generated/api';
 import { Doc } from '../../../_generated/dataModel';
 import { ActionCtx } from '../../../_generated/server';
-import { InviteUserViaTournament } from '../../../emails/InviteUserViaTournament';
+import { InviteUserEmail } from '../../../emails/InviteUserEmail';
 import { checkAuth } from '../../common/_helpers/checkAuth';
 import { getErrorMessage } from '../../common/errors';
 import { createClaimToken } from '../_helpers/createClaimToken';
@@ -59,15 +59,19 @@ export const inviteUser = async (
   const userIsClaimed = existingUser && !existingUser.claimTokenHash;
   if (!userIsClaimed) {
     const resend = new Resend(process.env.AUTH_RESEND_KEY!);
-    await resend.emails.send({
+    const { error } = await resend.emails.send({
       from: 'CombatCommand <noreply@combatcommand.net>',
       to: args.email,
       subject: subject ?? 'You\'ve been added on Combat Command',
-      react: InviteUserViaTournament({
+      react: InviteUserEmail({
         url: `${process.env.APP_URL}/invite?claimToken=${claimToken}`,
         title: header ?? '',
       }),
     });
+    if (error) {
+      console.error(error);
+      throw new ConvexError(getErrorMessage('PASSWORD_RESET_FAILED_TO_SEND'));
+    }
   }
 
   return user;
