@@ -104,17 +104,18 @@ export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
       });
 
       // Create the user:
-      return await ctx.db.insert('users', {
+      const userId = await ctx.db.insert('users', {
         ...args.profile,
         email,
         username,
       });
-    },
-    afterUserCreatedOrUpdated: async (ctx: MutationCtx, { userId }) => {
+
       // Use scheduler so that we can trigger an action rather than a mutation:
       await ctx.scheduler.runAfter(0, internal.users.setUserDefaultAvatar, {
         userId,
       });
+
+      return userId;
     },
   },
 });

@@ -207,7 +207,6 @@ import type * as _model_utils_index from "../_model/utils/index.js";
 import type * as _model_utils_mergeUser from "../_model/utils/mergeUser.js";
 import type * as auth from "../auth.js";
 import type * as crons from "../crons.js";
-import type * as emails_AppLogo from "../emails/AppLogo.js";
 import type * as emails_InviteUserEmail from "../emails/InviteUserEmail.js";
 import type * as emails_PasswordResetEmail from "../emails/PasswordResetEmail.js";
 import type * as emails_Wrapper from "../emails/Wrapper.js";
@@ -446,7 +445,6 @@ declare const fullApi: ApiFromModules<{
   "_model/utils/mergeUser": typeof _model_utils_mergeUser;
   auth: typeof auth;
   crons: typeof crons;
-  "emails/AppLogo": typeof emails_AppLogo;
   "emails/InviteUserEmail": typeof emails_InviteUserEmail;
   "emails/PasswordResetEmail": typeof emails_PasswordResetEmail;
   "emails/Wrapper": typeof emails_Wrapper;

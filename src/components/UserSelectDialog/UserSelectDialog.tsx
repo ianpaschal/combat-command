@@ -68,7 +68,10 @@ export const UserSelectDialog = ({
     close();
   };
   const handleInviteUser = async (data: UserSubmitData): Promise<void> => {
-    const user = await inviteUser(data);
+    const user = await inviteUser({
+      ...data,
+      appUrl: window.location.origin,
+    });
     if (user) {
       onConfirm({ userId: user._id });
       close();

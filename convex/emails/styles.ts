@@ -5,14 +5,15 @@ export const styles: Record<string, CSSProperties> = {
   body: {
     fontFamily: 'Figtree, sans-serif',
     padding: '16px',
-    backgroundColor: gray.gray2,
   },
   callToAction: {
-    display: 'inline-block',
-    padding: '10px 20px',
     backgroundColor: gray.gray12,
-    color: 'white',
     borderRadius: '4px',
+    color: 'white',
+    display: 'inline-block',
+    fontWeight: 500,
+    padding: '8px 16px',
+    textAlign: 'center',
     textDecoration: 'none',
   },
   description: {
@@ -20,18 +21,22 @@ export const styles: Record<string, CSSProperties> = {
     fontSize: '14px',
     fontWeight: 300,
     lineHeight: '20px',
+    textAlign: 'center',
   },
   footer: {
     color: gray.gray11,
     fontSize: '10px',
     lineHeight: '16px',
+    textAlign: 'center',
   },
   header: {
     color: gray.gray12,
     fontSize: '20px',
     lineHeight: '24px',
+    textAlign: 'center',
   },
   logo: {
+    color: gray.gray12,
     fill: gray.gray12,
   },
   token: {
@@ -50,8 +55,9 @@ export const styles: Record<string, CSSProperties> = {
   },
   wrapper: {
     alignItems: 'center',
+    backgroundColor: 'white',
     borderColor: gray.gray4,
-    borderRadius: '16px',
+    borderRadius: '8px',
     borderStyle: 'solid',
     borderWidth: '1px',
     display: 'flex',

@@ -23,7 +23,7 @@ export const setUserDefaultAvatar = async (
   }
 
   // Fetch avatar
-  const avatarUrl = `https://api.dicebear.com/7.x/bottts-neutral/svg?seed=${args.userId}&scale=75`;
+  const avatarUrl = `https://api.dicebear.com/7.x/bottts-neutral/svg?seed=${Math.random()}&scale=75`;
   const avatarResponse = await fetch(avatarUrl);
   if (!avatarResponse.ok) {
     throw new Error('Failed to fetch avatar');
