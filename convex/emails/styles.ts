@@ -40,18 +40,12 @@ export const styles: Record<string, CSSProperties> = {
     fill: gray.gray12,
   },
   token: {
-    alignItems: 'center',
-    display: 'flex',
-    flexDirection: 'row',
-    gap: '2px',
-    justifyContent: 'center',
-  },
-  tokenCharacter: {
     color: gray.gray12,
     display: 'block',
     fontSize: '40px',
     fontWeight: 500,
     lineHeight: '32px',
+    textAlign: 'center',
   },
   wrapper: {
     alignItems: 'center',

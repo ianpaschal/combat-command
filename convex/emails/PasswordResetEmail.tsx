@@ -15,14 +15,10 @@ export const PasswordResetEmail = ({
       Password Reset
     </h2>
     <p style={styles.description}>
-      {`Your log-in code is below. It will expire at ${expires.toDateString()}.`}
+      {`Your log-in code is below. It will expire ${expires.toLocaleString()}.`}
     </p>
     <div style={styles.token}>
-      {token.split('').map((char, i) => (
-        <span key={i} style={styles.tokenCharacter}>
-          {char}
-        </span>
-      ))}
+      {token}
     </div>
     <p style={styles.footer}>
       If you didn’t expect this message, you can ignore this email.
