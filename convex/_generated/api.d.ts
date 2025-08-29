@@ -12,6 +12,7 @@ import type * as _fixtures_fowV4_createMockFowV4MatchResultData from "../_fixtur
 import type * as _model_common__helpers_checkAuth from "../_model/common/_helpers/checkAuth.js";
 import type * as _model_common__helpers_clamp from "../_model/common/_helpers/clamp.js";
 import type * as _model_common__helpers_filterWithSearchTerm from "../_model/common/_helpers/filterWithSearchTerm.js";
+import type * as _model_common__helpers_getEnvironment from "../_model/common/_helpers/getEnvironment.js";
 import type * as _model_common__helpers_getRange from "../_model/common/_helpers/getRange.js";
 import type * as _model_common__helpers_getStaticEnumConvexValidator from "../_model/common/_helpers/getStaticEnumConvexValidator.js";
 import type * as _model_common__helpers_getStorageUrl from "../_model/common/_helpers/getStorageUrl.js";
@@ -252,6 +253,7 @@ declare const fullApi: ApiFromModules<{
   "_model/common/_helpers/checkAuth": typeof _model_common__helpers_checkAuth;
   "_model/common/_helpers/clamp": typeof _model_common__helpers_clamp;
   "_model/common/_helpers/filterWithSearchTerm": typeof _model_common__helpers_filterWithSearchTerm;
+  "_model/common/_helpers/getEnvironment": typeof _model_common__helpers_getEnvironment;
   "_model/common/_helpers/getRange": typeof _model_common__helpers_getRange;
   "_model/common/_helpers/getStaticEnumConvexValidator": typeof _model_common__helpers_getStaticEnumConvexValidator;
   "_model/common/_helpers/getStorageUrl": typeof _model_common__helpers_getStorageUrl;

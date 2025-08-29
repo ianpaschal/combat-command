@@ -8,6 +8,7 @@ import { Resend } from 'resend';
 import { internal } from './_generated/api';
 import { DataModel, Doc } from './_generated/dataModel';
 import { MutationCtx } from './_generated/server';
+import { getEnvironment } from './_model/common/_helpers/getEnvironment';
 import { getErrorMessage } from './_model/common/errors';
 import { UserDataVisibilityLevel } from './_model/common/userDataVisibilityLevel';
 import { generateUsername } from './_model/users/_helpers/generateUsername';
@@ -103,11 +104,13 @@ export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
       // Use schedulers so that we can trigger actions rather than a mutations...
 
       // Update the email address in Resend:
-      await ctx.scheduler.runAfter(0, internal.users.addContactToResend, {
-        email,
-        firstName: profile.givenName,
-        lastName: profile.familyName,
-      });
+      if (getEnvironment()?.env === 'prod') {
+        await ctx.scheduler.runAfter(0, internal.users.addContactToResend, {
+          email,
+          firstName: profile.givenName,
+          lastName: profile.familyName,
+        });
+      }
 
       // Set a default avatar:
       await ctx.scheduler.runAfter(0, internal.users.setUserDefaultAvatar, {

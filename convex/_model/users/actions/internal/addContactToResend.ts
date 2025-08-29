@@ -12,7 +12,7 @@ export const addContactToResendArgs = v.object({
 });
 
 export const addContactToResend = async (
-  _: ActionCtx,
+  ctx: ActionCtx,
   args: Infer<typeof addContactToResendArgs>,
 ): Promise<void> => {
   const resend = new Resend(process.env.AUTH_RESEND_KEY!);
