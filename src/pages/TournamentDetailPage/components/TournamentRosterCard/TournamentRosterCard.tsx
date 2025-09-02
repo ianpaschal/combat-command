@@ -75,7 +75,13 @@ export const TournamentRosterCard = ({
   const getPrimaryButtons = (): ReactElement[] | undefined => {
     const isPlayer = user && tournament.playerUserIds.includes(user._id);
     const hasMaxTeams = (competitors || []).length >= tournament.maxCompetitors;
-
+    if (['published', 'active'].includes(tournament.status) && tournament.currentRound === undefined && isOrganizer) {
+      return [
+        <Button key="create-competitor" onClick={() => openCreateDialog()}>
+          <UserPlus />{`Add ${tournament.useTeams ? 'Team' : 'Player'}`}
+        </Button>,
+      ];
+    }
     if (tournament.status === 'published' && user && !isPlayer && !hasMaxTeams) {
       if (tournament.useTeams) {
         return [
@@ -87,13 +93,6 @@ export const TournamentRosterCard = ({
       return [
         <Button onClick={handleRegister}>
           <UserPlus />Register
-        </Button>,
-      ];
-    }
-    if (['published', 'active'].includes(tournament.status) && tournament.currentRound === undefined && isOrganizer) {
-      return [
-        <Button key="create-competitor" onClick={() => openCreateDialog()}>
-          <UserPlus />{`Add ${tournament.useTeams ? 'Team' : 'Player'}`}
         </Button>,
       ];
     }
