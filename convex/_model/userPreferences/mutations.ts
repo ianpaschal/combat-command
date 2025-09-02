@@ -6,8 +6,8 @@ import {
 } from 'convex/values';
 
 import { MutationCtx } from '../../_generated/server';
-import { getErrorMessage } from '../../common/errors';
-import { editableFields } from './fields';
+import { getErrorMessage } from '../common/errors';
+import { editableFields } from './table';
 
 // CRUD Operations
 export const setUserPreferencesArgs = v.object({

@@ -3,7 +3,7 @@ import { Infer, v } from 'convex/values';
 
 import { Id } from '../../../_generated/dataModel';
 import { MutationCtx } from '../../../_generated/server';
-import { editableFields } from '../fields';
+import { editableFields } from '../table';
 
 export const addMatchResultCommentArgs = v.object({
   ...editableFields,

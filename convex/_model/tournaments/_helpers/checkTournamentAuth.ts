@@ -3,7 +3,7 @@ import { ConvexError } from 'convex/values';
 
 import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
-import { getErrorMessage } from '../../../common/errors';
+import { getErrorMessage } from '../../common/errors';
 import { checkUserIsTournamentOrganizer } from '../../tournamentOrganizers';
 
 /**

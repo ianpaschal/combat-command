@@ -2,7 +2,7 @@ import { getAuthUserId } from '@convex-dev/auth/server';
 
 import { Doc, Id } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
-import { UserDataVisibilityLevel } from '../../../common/userDataVisibilityLevel';
+import { UserDataVisibilityLevel } from '../../common/userDataVisibilityLevel';
 import { checkUserTournamentRelationship } from './checkUserTournamentRelationship';
 
 export const checkUserRelationshipLevel = async (

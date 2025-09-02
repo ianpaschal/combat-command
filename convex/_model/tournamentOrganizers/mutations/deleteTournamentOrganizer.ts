@@ -5,8 +5,8 @@ import {
 } from 'convex/values';
 
 import { MutationCtx } from '../../../_generated/server';
-import { getErrorMessage } from '../../../common/errors';
 import { checkAuth } from '../../common/_helpers/checkAuth';
+import { getErrorMessage } from '../../common/errors';
 
 export const deleteTournamentOrganizerArgs = v.object({
   id: v.id('tournamentOrganizers'),

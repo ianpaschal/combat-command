@@ -3,7 +3,7 @@ import { Infer, v } from 'convex/values';
 import { MutationCtx } from '../../../_generated/server';
 import { checkUserAuth } from '../_helpers/checkUserAuth';
 import { getShallowUser } from '../_helpers/getShallowUser';
-import { editableFields } from '../fields';
+import { editableFields } from '../table';
 
 export const updateUserArgs = v.object({
   id: v.id('users'),

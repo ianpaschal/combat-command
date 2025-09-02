@@ -5,7 +5,7 @@ import {
 } from 'convex/values';
 
 import { QueryCtx } from '../../../_generated/server';
-import { getErrorMessage } from '../../../common/errors';
+import { getErrorMessage } from '../../common/errors';
 
 export const getFileUrlArgs = v.object({
   id: v.id('_storage'),

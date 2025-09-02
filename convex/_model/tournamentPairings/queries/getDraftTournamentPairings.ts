@@ -9,7 +9,7 @@ import { generateDraftPairings } from '../_helpers/generateDraftPairings';
 import { shuffle } from '../_helpers/shuffle';
 import { sortByRank } from '../_helpers/sortByRank';
 import { sortCompetitorPairs } from '../_helpers/sortCompetitorPairs';
-import { uniqueFields } from '../fields';
+import { uniqueFields } from '../table';
 
 const draftTournamentPairing = v.object(uniqueFields);
 export type DraftTournamentPairing = Infer<typeof draftTournamentPairing>;

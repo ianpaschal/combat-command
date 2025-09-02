@@ -16,6 +16,7 @@ export type InputUserValue = {
 };
 
 export interface InputUserProps {
+  allowInvite?: boolean;
   allowPlaceholder?: boolean;
   className?: string;
   disabled?: boolean;
@@ -28,6 +29,7 @@ export interface InputUserProps {
 }
 
 export const InputUser = forwardRef<HTMLButtonElement, InputUserProps>(({
+  allowInvite = false,
   allowPlaceholder = true,
   className,
   disabled = false,
@@ -64,7 +66,14 @@ export const InputUser = forwardRef<HTMLButtonElement, InputUserProps>(({
           'Select'
         )}
       </Button>
-      <UserSelectDialog id={name} value={value} onConfirm={handleChange} excludeUserIds={excludedUserIds} allowPlaceholder={allowPlaceholder} />
+      <UserSelectDialog
+        id={name}
+        value={value}
+        onConfirm={handleChange}
+        excludeUserIds={excludedUserIds}
+        allowPlaceholder={allowPlaceholder}
+        allowInvite={allowInvite}
+      />
     </>
   );
 });

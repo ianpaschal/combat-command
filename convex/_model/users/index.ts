@@ -1,15 +1,4 @@
-import { defineTable } from 'convex/server';
-
 import { Id } from '../../_generated/dataModel';
-import { computedFields, editableFields } from './fields';
-
-export const usersTable = defineTable({
-  ...editableFields,
-  ...computedFields,
-})
-  .index('by_country_code', ['countryCode'])
-  .index('by_name', ['givenName', 'familyName'])
-  .index('by_username', ['username']);
 
 export type UserId = Id<'users'>;
 
@@ -18,9 +7,29 @@ export {
   redactUser,
 } from './_helpers/redactUser';
 export {
+  claimUser,
+  claimUserArgs,
+} from './actions/claimUser';
+export {
+  addContactToResend,
+  addContactToResendArgs,
+} from './actions/internal/addContactToResend';
+export {
   setUserDefaultAvatar,
   setUserDefaultAvatarArgs,
-} from './actions/setUserDefaultAvatar';
+} from './actions/internal/setUserDefaultAvatar';
+export {
+  inviteUser,
+  inviteUserArgs,
+} from './actions/inviteUser';
+export {
+  deleteUserClaimToken,
+  deleteUserClaimTokenArgs,
+} from './mutations/internal/deleteUserClaimToken';
+export {
+  updateUserClaimToken,
+  updateUserClaimTokenArgs,
+} from './mutations/internal/updateUserClaimToken';
 export {
   updateUser,
   updateUserArgs,
@@ -41,3 +50,11 @@ export {
   getUsers,
   getUsersArgs,
 } from './queries/getUsers'; 
+export {
+  getUserByClaimToken,
+  getUserByClaimTokenArgs,
+} from './queries/internal/getUserByClaimToken';
+export {
+  getUserByEmail,
+  getUserByEmailArgs,
+} from './queries/internal/getUserByEmail';

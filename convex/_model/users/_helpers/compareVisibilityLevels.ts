@@ -1,4 +1,4 @@
-import { UserDataVisibilityLevel } from '../../../common/userDataVisibilityLevel';
+import { UserDataVisibilityLevel } from '../../common/userDataVisibilityLevel';
 
 /**
  * Compares two user data visibility levels to determine if the querying user's relationship level satisfies the subject's required level.

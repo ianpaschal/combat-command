@@ -14,14 +14,19 @@ import { Label } from '~/components/generic/Label';
 import { ScrollArea } from '~/components/generic/ScrollArea';
 import { Separator } from '~/components/generic/Separator';
 import { IdentityBadge } from '~/components/IdentityBadge';
+import { toast } from '~/components/ToastProvider';
+import { UserForm } from '~/components/UserSelectDialog/components/UserForm';
+import { UserSubmitData } from '~/components/UserSelectDialog/components/UserForm/UserForm.schema';
 import { useUserSelectDialog } from '~/components/UserSelectDialog/UserSelectDialog.hooks';
-import { useGetUsers } from '~/services/users';
+import { useGetUsers, useInviteUser } from '~/services/users';
+import { PATHS } from '~/settings';
 
 import styles from './UserSelectDialog.module.scss';
 
 export type UserSelectDialogValue = { userId?: UserId, placeholder?: string };
 
 export interface UserSelectDialogProps {
+  allowInvite?: boolean;
   allowPlaceholder?: boolean;
   disabled?: boolean;
   excludeUserIds?: UserId[];
@@ -32,6 +37,7 @@ export interface UserSelectDialogProps {
 }
 
 export const UserSelectDialog = ({
+  allowInvite = false,
   allowPlaceholder = true,
   excludeUserIds = [],
   id: key,
@@ -40,6 +46,11 @@ export const UserSelectDialog = ({
 }: UserSelectDialogProps): JSX.Element => {
   const user = useAuth();
   const { id, close } = useUserSelectDialog(key);
+  const { action: inviteUser } = useInviteUser({
+    onSuccess(response) {
+      toast.success(`Successfully invited ${response.givenName} ${response.familyName} to CombatCommand!`);
+    },
+  });
 
   // Search
   const [search, setSearch] = useState<string>('');
@@ -56,6 +67,16 @@ export const UserSelectDialog = ({
   const handleSetPlaceholder = (): void => {
     onConfirm({ placeholder });
     close();
+  };
+  const handleInviteUser = async (data: UserSubmitData): Promise<void> => {
+    const user = await inviteUser({
+      ...data,
+      claimUrl: `${window.location.origin}${PATHS.claim}`,
+    });
+    if (user) {
+      onConfirm({ userId: user._id });
+      close();
+    }
   };
 
   // Remove own user, and currently selected user
@@ -75,7 +96,7 @@ export const UserSelectDialog = ({
   };
   const handleClear = (): void => {
     onConfirm({ userId: '' as UserId });
-    // close();
+    close();
   };
 
   return (
@@ -137,9 +158,20 @@ export const UserSelectDialog = ({
             </div>
           </>
         )}
+        {allowInvite && (
+          <>
+            <Separator text="or" />
+            <UserForm id="invite-user-form" onSubmit={handleInviteUser} />
+          </>
+        )}
       </div>
       <DialogActions>
-        <Button variant="secondary" onClick={close}>Close</Button>
+        <Button variant="secondary" onClick={close}>
+          Close
+        </Button>
+        <Button type="submit" form="invite-user-form">
+          Invite
+        </Button>
       </DialogActions>
     </ControlledDialog>
   );

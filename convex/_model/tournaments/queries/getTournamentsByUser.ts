@@ -1,8 +1,8 @@
 import { Infer, v } from 'convex/values';
 
 import { QueryCtx } from '../../../_generated/server';
-import { tournamentStatus } from '../../../common/tournamentStatus';
 import { notNullOrUndefined } from '../../common/_helpers/notNullOrUndefined';
+import { tournamentStatus } from '../../common/tournamentStatus';
 import { checkTournamentVisibility } from '../_helpers/checkTournamentVisibility';
 import { deepenTournament, TournamentDeep } from '../_helpers/deepenTournament';
 

@@ -1,16 +1,4 @@
-import { defineTable } from 'convex/server';
-
 import { Id } from '../../_generated/dataModel';
-import { computedFields, editableFields } from './fields';
-
-export const matchResultsTable = defineTable({
-  ...editableFields,
-  ...computedFields,
-})
-  .index('by_game_system_id', ['gameSystemId'])
-  .index('by_tournament_id', ['tournamentId'])
-  .index('by_tournament_pairing_id', ['tournamentPairingId'])
-  .index('by_user_id', ['player0UserId', 'player1UserId']);
 
 export type MatchResultId = Id<'matchResults'>;
 

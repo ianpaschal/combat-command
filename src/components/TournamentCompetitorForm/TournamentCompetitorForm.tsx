@@ -105,6 +105,7 @@ export const TournamentCompetitorForm = ({
             excludedUserIds={excludedUserIds}
             disabled={disabled || loading || !isOrganizer}
             allowPlaceholder={false}
+            allowInvite
           />
         </FormField>
       )}

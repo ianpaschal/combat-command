@@ -4,7 +4,7 @@ import { MutationCtx } from '../../../_generated/server';
 import { checkAuth } from '../../common/_helpers/checkAuth';
 import { checkMatchResultAuth } from '../_helpers/checkMatchResultAuth';
 import { getShallowMatchResult } from '../_helpers/getShallowMatchResult';
-import { editableFields } from '../fields';
+import { editableFields } from '../table';
 
 export const updateMatchResultArgs = v.object({
   id: v.id('matchResults'),

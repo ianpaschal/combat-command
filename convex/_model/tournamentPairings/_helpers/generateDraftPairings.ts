@@ -1,6 +1,6 @@
 import { ConvexError } from 'convex/values';
 
-import { getErrorMessage } from '../../../common/errors';
+import { getErrorMessage } from '../../common/errors';
 import { TournamentCompetitorRanked } from '../../tournaments';
 import { assignBye } from './assignBye';
 

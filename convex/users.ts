@@ -1,22 +1,50 @@
 import {
   action,
+  internalAction,
   internalMutation,
+  internalQuery,
   mutation,
   query,
 } from './_generated/server';
 import * as model from './_model/users';
 
-// INTERNAL MUTATIONS
+// INTERNAL
+export const setUserDefaultAvatar = internalAction({
+  args: model.setUserDefaultAvatarArgs,
+  handler: model.setUserDefaultAvatar,
+});
+
+export const addContactToResend = internalAction({
+  args: model.addContactToResendArgs,
+  handler: model.addContactToResend,
+});
+
+export const getUserByEmail = internalQuery({
+  args: model.getUserByEmailArgs,
+  handler: model.getUserByEmail,
+});
+
+export const getUserByClaimToken = internalQuery({
+  args: model.getUserByClaimTokenArgs,
+  handler: model.getUserByClaimToken,
+});
+
 export const updateUserAvatarNoAuth = internalMutation({
   args: model.updateUserAvatarNoAuthArgs,
   handler: model.updateUserAvatarNoAuth,
 });
 
-export const setUserDefaultAvatar = action({
-  args: model.setUserDefaultAvatarArgs,
-  handler: model.setUserDefaultAvatar,
+export const updateUserClaimToken = internalMutation({
+  args: model.updateUserClaimTokenArgs,
+  handler: model.updateUserClaimToken,
 });
 
+export const deleteUserClaimToken = internalMutation({
+  args: model.deleteUserClaimTokenArgs,
+  handler: model.deleteUserClaimToken,
+});
+
+// PUBLIC
 export const getCurrentUser = query({
   handler: model.getCurrentUser,
 });
@@ -34,4 +62,14 @@ export const getUsers = query({
 export const updateUser = mutation({
   args: model.updateUserArgs,
   handler: model.updateUser,
+});
+
+export const inviteUser = action({
+  args: model.inviteUserArgs,
+  handler: model.inviteUser,
+});
+
+export const claimUser = action({
+  args: model.claimUserArgs,
+  handler: model.claimUser,
 });

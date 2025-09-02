@@ -1,0 +1,21 @@
+@use "/src/style/flex";
+
+.UserForm {
+  display: grid;
+  grid-template-areas: "email email" "givenName familyName";
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 1rem;
+
+  &_EmailField {
+    grid-area: email;
+  }
+
+  &_GivenNameField {
+    grid-area: givenName;
+  }
+
+  &_FamilyNameField {
+    grid-area: familyName;
+  }
+}

@@ -1,15 +1,3 @@
-import { defineTable } from 'convex/server';
-
-import { computedFields, editableFields } from './fields';
-
-export const tournamentOrganizersTable = defineTable({
-  ...editableFields,
-  ...computedFields,
-})
-  .index('by_tournament', ['tournamentId'])
-  .index('by_tournament_user', ['tournamentId', 'userId'])
-  .index('by_user', ['userId']);
-
 export {
   checkUserIsTournamentOrganizer,
 } from './_helpers/checkUserIsTournamentOrganizer';

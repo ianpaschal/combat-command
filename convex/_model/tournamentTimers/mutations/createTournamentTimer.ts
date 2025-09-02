@@ -6,8 +6,8 @@ import {
 
 import { Id } from '../../../_generated/dataModel';
 import { MutationCtx } from '../../../_generated/server';
-import { getErrorMessage } from '../../../common/errors';
-import { editableFields } from '../fields';
+import { getErrorMessage } from '../../common/errors';
+import { editableFields } from '../table';
 
 export const createTournamentTimerArgs = v.object({
   ...editableFields,

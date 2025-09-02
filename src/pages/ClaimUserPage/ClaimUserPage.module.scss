@@ -1,0 +1,27 @@
+@use "/src/style/flex";
+@use "/src/style/variants";
+@use "/src/style/variables";
+
+.ClaimUserPage {
+  @include flex.column($xAlign: center, $yAlign: center);
+
+  width: 100vw;
+  min-height: 100vh;
+  padding: var(--modal-outer-gutter);
+
+  &_Card {
+    @include variants.card;
+
+    max-width: 360px;
+  }
+
+  &_Form {
+    @include flex.column;
+
+    padding: 1rem var(--container-padding-x) var(--container-padding-y);
+  }
+
+  &_Footer {
+    @include flex.row($xAlign: right);
+  }
+}
