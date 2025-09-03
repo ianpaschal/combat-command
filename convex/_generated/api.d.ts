@@ -216,6 +216,7 @@ import type * as emails_Wrapper from "../emails/Wrapper.js";
 import type * as emails_styles from "../emails/styles.js";
 import type * as files from "../files.js";
 import type * as friendships from "../friendships.js";
+import type * as functions from "../functions.js";
 import type * as generateFileUploadUrl from "../generateFileUploadUrl.js";
 import type * as http from "../http.js";
 import type * as lists from "../lists.js";
@@ -457,6 +458,7 @@ declare const fullApi: ApiFromModules<{
   "emails/styles": typeof emails_styles;
   files: typeof files;
   friendships: typeof friendships;
+  functions: typeof functions;
   generateFileUploadUrl: typeof generateFileUploadUrl;
   http: typeof http;
   lists: typeof lists;
