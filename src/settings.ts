@@ -7,6 +7,8 @@ export const MIN_HEIGHT_FIXED = 800;
 export const MAX_WIDTH = 1280; // Beyond this point, the layout is just too stretched out;
 export const MOBILE_BREAKPOINT = 480; // Start hiding button text
 
+export const DEFAULT_PAGE_SIZE = 12; // Works well with 1, 2 or 3 columns
+
 export const PATHS = {
   auth: '/auth',
   authForgotPassword: '/auth/forgot-password',

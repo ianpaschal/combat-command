@@ -14,6 +14,7 @@ import { InputText } from '~/components/generic/InputText';
 import { ScrollArea } from '~/components/generic/ScrollArea';
 import { IdentityBadge } from '~/components/IdentityBadge';
 import { useGetUsers } from '~/services/users';
+import { DEFAULT_PAGE_SIZE } from '~/settings';
 
 import styles from './UserList.module.scss';
 
@@ -64,7 +65,7 @@ export const UserList = ({
     const threshold = 48;
     const isNearBottom = scrollTop + clientHeight >= scrollHeight - threshold;
     if (isNearBottom && status === 'CanLoadMore' && !showLoading) {
-      loadMore(10);
+      loadMore(DEFAULT_PAGE_SIZE);
     }
   }, [loadMore, status, showLoading]);
 

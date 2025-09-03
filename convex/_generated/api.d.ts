@@ -180,6 +180,7 @@ import type * as _model_users__helpers_checkUserRelationshipLevel from "../_mode
 import type * as _model_users__helpers_checkUserTournamentRelationship from "../_model/users/_helpers/checkUserTournamentRelationship.js";
 import type * as _model_users__helpers_compareVisibilityLevels from "../_model/users/_helpers/compareVisibilityLevels.js";
 import type * as _model_users__helpers_createClaimToken from "../_model/users/_helpers/createClaimToken.js";
+import type * as _model_users__helpers_extractSearchTokens from "../_model/users/_helpers/extractSearchTokens.js";
 import type * as _model_users__helpers_formatUserRealName from "../_model/users/_helpers/formatUserRealName.js";
 import type * as _model_users__helpers_generateUsername from "../_model/users/_helpers/generateUsername.js";
 import type * as _model_users__helpers_getShallowUser from "../_model/users/_helpers/getShallowUser.js";
@@ -422,6 +423,7 @@ declare const fullApi: ApiFromModules<{
   "_model/users/_helpers/checkUserTournamentRelationship": typeof _model_users__helpers_checkUserTournamentRelationship;
   "_model/users/_helpers/compareVisibilityLevels": typeof _model_users__helpers_compareVisibilityLevels;
   "_model/users/_helpers/createClaimToken": typeof _model_users__helpers_createClaimToken;
+  "_model/users/_helpers/extractSearchTokens": typeof _model_users__helpers_extractSearchTokens;
   "_model/users/_helpers/formatUserRealName": typeof _model_users__helpers_formatUserRealName;
   "_model/users/_helpers/generateUsername": typeof _model_users__helpers_generateUsername;
   "_model/users/_helpers/getShallowUser": typeof _model_users__helpers_getShallowUser;

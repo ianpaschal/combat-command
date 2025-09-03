@@ -5,13 +5,13 @@
 
 .UserList {
   @include flex.column($gap: 0);
+  @include flex.stretchy;
 
-  flex-shrink: 1;
-
-  // overflow: hidden;
+  height: 100vh;
   min-height: 0;
 
   &_SearchBox {
+    z-index: 1;
     border-radius: 0.375rem 0.375rem 0 0 !important;
   }
 
@@ -20,13 +20,6 @@
 
     @include flex.row;
     @include borders.normal;
-
-    // display: grid;
-    // grid-template-areas:
-    //   "label label"
-    //   "badge clear";
-    // grid-template-columns: 1fr auto;
-    // row-gap: 0.375rem;
 
     padding: var(--padding-y) calc(1rem - var(--border-width)) var(--padding-y) calc(0.75em - var(--border-width));
     background-color: var(--gray-2);

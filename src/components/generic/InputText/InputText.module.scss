@@ -23,20 +23,18 @@
   }
 
   &-hasError {
-    color: variables.$red;
+    color: var(--text-color-negative);
 
     input {
-      border-color: variables.$red;
+      border-color: var(--border-color-danger);
     }
   }
-
-  // &:focus {
-  //   @include variants.focused;
-  // }
 }
 
 .InputSlotBefore,
 .InputSlotAfter {
+  @include flex.centered;
+
   pointer-events: none;
 
   position: absolute;
@@ -49,8 +47,6 @@
     width: 1rem;
     height: 1rem;
   }
-
-  @include flex.centered;
 }
 
 .InputSlotBefore {

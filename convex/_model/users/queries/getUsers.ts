@@ -31,11 +31,10 @@ export const getUsers = async (
   } else {
     results = await ctx.db.query('users').paginate(args.paginationOpts);
   }
-  // return await Promise.all(users.map(async (user) => await redactUser(ctx, user)));
   return {
     ...results,
-    page: await Promise.all(results.page.map(
+    page: (await Promise.all(results.page.map(
       async (item) => await redactUser(ctx, item),
-    )),
+    ))).sort((a, b) => a.displayName.localeCompare(b.displayName)),
   };
 };
