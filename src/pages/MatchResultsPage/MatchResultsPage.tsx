@@ -1,10 +1,10 @@
-import * as Popover from '@radix-ui/react-popover';
 import { useWindowWidth } from '@react-hook/window-size/throttled';
 import {
   ListFilter,
   Plus,
   Search,
 } from 'lucide-react';
+import { Popover } from 'radix-ui';
 
 import { useAuth } from '~/components/AuthProvider';
 import { FloatingActionButton } from '~/components/FloatingActionButton';

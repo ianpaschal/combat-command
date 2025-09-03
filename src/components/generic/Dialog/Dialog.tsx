@@ -4,25 +4,16 @@ import {
   useEffect,
   useState,
 } from 'react';
-import {
-  Close,
-  Content,
-  Description,
-  Overlay,
-  Portal,
-  Root,
-  Title,
-  Trigger,
-} from '@radix-ui/react-dialog';
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import { X } from 'lucide-react';
+import { Dialog as RadixDialog } from 'radix-ui';
 
 import { Button, ButtonProps } from '~/components/generic/Button';
 
 import styles from './Dialog.module.scss';
 
-export interface DialogProps extends ComponentPropsWithoutRef<typeof Root> {
+export interface DialogProps extends ComponentPropsWithoutRef<typeof RadixDialog.Root> {
   children?: ReactNode;
   trigger?: ReactNode;
   width?: 'small' | 'normal' | 'large';
@@ -86,18 +77,18 @@ export const Dialog = ({
     }
   };
   return (
-    <Root open={open} onOpenChange={handleOpen} {...props}>
+    <RadixDialog.Root open={open} onOpenChange={handleOpen} {...props}>
       {trigger && (
-        <Trigger asChild>
+        <RadixDialog.Trigger asChild>
           {trigger}
-        </Trigger>
+        </RadixDialog.Trigger>
       )}
       <AnimatePresence onExitComplete={handleCloseComplete}>
         {open && (
-          <Portal forceMount>
-            <Overlay forceMount className={styles.Overlay} onClick={!preventCancel && onCancel ? onCancel : undefined} />
+          <RadixDialog.Portal forceMount>
+            <RadixDialog.Overlay forceMount className={styles.Overlay} onClick={!preventCancel && onCancel ? onCancel : undefined} />
             <div className={styles.Positioner} tabIndex={-1}>
-              <Content
+              <RadixDialog.Content
                 className={clsx(styles.Content, { [styles[`Content-${width}`]]: true })}
                 style={{
                   maxHeight: height && maxHeight ? Math.max(height, maxHeight) : maxHeight,
@@ -121,17 +112,17 @@ export const Dialog = ({
                 >
                   {title && (
                     <div className={styles.Header}>
-                      <Title>
+                      <RadixDialog.Title>
                         {title}
-                      </Title>
+                      </RadixDialog.Title>
                     </div>
                   )}
                   {header}
                   <div className={styles.Inner}>
                     {description && (
-                      <Description className={styles.Description}>
+                      <RadixDialog.Description className={styles.Description}>
                         {description}
-                      </Description>
+                      </RadixDialog.Description>
                     )}
                     {children}
                   </div>
@@ -152,22 +143,24 @@ export const Dialog = ({
                           </Button>
                         );
                         return (cancel || closeOnClick) ? (
-                          <Close key={i} asChild>{button}</Close>
+                          <RadixDialog.Close key={i} asChild>
+                            {button}
+                          </RadixDialog.Close>
                         ) : button;
                       })}
                     </div>
                   )}
                   {!preventCancel && (
-                    <Close className={styles.Close} onClick={onCancel}>
+                    <RadixDialog.Close className={styles.Close} onClick={onCancel}>
                       <X />
-                    </Close>
+                    </RadixDialog.Close>
                   )}
                 </motion.div>
-              </Content>
+              </RadixDialog.Content>
             </div>
-          </Portal>
+          </RadixDialog.Portal>
         )}
       </AnimatePresence>
-    </Root>
+    </RadixDialog.Root>
   );
 };

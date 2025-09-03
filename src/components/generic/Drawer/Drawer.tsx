@@ -6,24 +6,15 @@ import {
   useState,
 } from 'react';
 import { useLocation } from 'react-router-dom';
-import {
-  Close,
-  Content,
-  Description,
-  Overlay,
-  Portal,
-  Root,
-  Title,
-  Trigger,
-} from '@radix-ui/react-dialog';
 import clsx from 'clsx';
 import { X } from 'lucide-react';
+import { Dialog } from 'radix-ui';
 
 import { Button, ButtonProps } from '~/components/generic/Button';
 
 import styles from './Drawer.module.scss';
 
-export interface DrawerProps extends ComponentPropsWithoutRef<typeof Root> {
+export interface DrawerProps extends ComponentPropsWithoutRef<typeof Dialog.Root> {
   children: ReactNode;
   trigger?: ReactNode;
   side: 'left' | 'right' | 'top' | 'bottom';
@@ -63,15 +54,15 @@ export const Drawer = ({
     }
   }, [closeOnRouteChange, location.pathname]);
   return (
-    <Root open={open} onOpenChange={setOpen} {...props}>
+    <Dialog.Root open={open} onOpenChange={setOpen} {...props}>
       {trigger && (
-        <Trigger asChild>
+        <Dialog.Trigger asChild>
           {trigger}
-        </Trigger>
+        </Dialog.Trigger>
       )}
-      <Portal>
-        <Overlay className={styles.Overlay} />
-        <Content
+      <Dialog.Portal>
+        <Dialog.Overlay className={styles.Overlay} />
+        <Dialog.Content
           className={clsx(
             styles.Content,
             styles[`Content-${side}`],
@@ -79,22 +70,22 @@ export const Drawer = ({
           )}
           style={['top', 'bottom'].includes(side) ? { height: size } : { width: size }}
         >
-          <Close className={styles.Close}>
+          <Dialog.Close className={styles.Close}>
             <X />
-          </Close>
+          </Dialog.Close>
           {title && (
             <div className={styles.Header}>
-              <Title>
+              <Dialog.Title>
                 {title}
-              </Title>
+              </Dialog.Title>
             </div>
           )}
           {header}
           <div className={styles.Inner}>
             {description && (
-              <Description className={styles.Description}>
+              <Dialog.Description className={styles.Description}>
                 {description}
-              </Description>
+              </Dialog.Description>
             )}
             {children}
           </div>
@@ -108,8 +99,8 @@ export const Drawer = ({
               ))}
             </div>
           )}
-        </Content>
-      </Portal>
-    </Root>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 };

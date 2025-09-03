@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
-import { Description } from '@radix-ui/react-dialog';
 import clsx from 'clsx';
+import { Dialog } from 'radix-ui';
 
 import styles from './DialogDescription.module.scss';
 
@@ -13,7 +13,7 @@ export const DialogDescription = ({
   className,
   children,
 }: DialogDescriptionProps): JSX.Element => (
-  <Description className={clsx(styles.DialogDescription, className)}>
+  <Dialog.Description className={clsx(styles.DialogDescription, className)}>
     {children}
-  </Description>
+  </Dialog.Description>
 );

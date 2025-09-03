@@ -3,19 +3,19 @@ import {
   ElementRef,
   forwardRef,
 } from 'react';
-import { Label as RadixLabel } from '@radix-ui/react-label';
 import clsx from 'clsx';
+import { Label as RadixLabel } from 'radix-ui';
 
 import './Label.scss';
 
-type LabelRef = ElementRef<typeof RadixLabel>;
-type LabelProps = ComponentPropsWithoutRef<typeof RadixLabel>;
+type LabelRef = ElementRef<typeof RadixLabel.Root>;
+type LabelProps = ComponentPropsWithoutRef<typeof RadixLabel.Root>;
 export const Label = forwardRef<LabelRef, LabelProps>(({
   className,
   children,
   ...props
 }, ref) => (
-  <RadixLabel ref={ref} className={clsx('Label', className)} {...props}>
+  <RadixLabel.Root ref={ref} className={clsx('Label', className)} {...props}>
     {children}
-  </RadixLabel>
+  </RadixLabel.Root>
 ));

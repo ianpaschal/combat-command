@@ -3,20 +3,6 @@ import {
   ElementRef,
   forwardRef,
 } from 'react';
-import {
-  Content,
-  Icon,
-  Item,
-  ItemIndicator,
-  ItemText,
-  Portal,
-  Root,
-  ScrollDownButton,
-  ScrollUpButton,
-  Trigger,
-  Value,
-  Viewport,
-} from '@radix-ui/react-select';
 import clsx from 'clsx';
 import {
   CheckIcon,
@@ -24,6 +10,7 @@ import {
   ChevronDownIcon,
   ChevronUpIcon,
 } from 'lucide-react';
+import { Select } from 'radix-ui';
 
 import { FlagCircle } from '~/components/generic/FlagCircle';
 import { SelectValue } from '~/components/generic/InputSelect/InputSelect.types';
@@ -38,8 +25,8 @@ export interface InputCountryProps {
   onChange?: (value?: SelectValue) => void;
 }
 
-type SelectRef = ElementRef<typeof Root>;
-type SelectProps = ComponentPropsWithoutRef<typeof Root> & InputCountryProps;
+type SelectRef = ElementRef<typeof Select.Root>;
+type SelectProps = ComponentPropsWithoutRef<typeof Select.Root> & InputCountryProps;
 export const InputCountry = forwardRef<SelectRef, SelectProps>(({
   placeholder,
   onChange,
@@ -50,42 +37,42 @@ export const InputCountry = forwardRef<SelectRef, SelectProps>(({
 }, ref): JSX.Element => {
   const options = getCountryOptions();
   return (
-    <Root value={value} onValueChange={onChange} {...props}>
-      <Trigger className={clsx(styles.Trigger, { [styles.TriggerHasError]: hasError, [styles.TriggerDisabled]: disabled })}>
-        <Value ref={ref} placeholder={placeholder}>
+    <Select.Root value={value} onValueChange={onChange} {...props}>
+      <Select.Trigger className={clsx(styles.Trigger, { [styles.TriggerHasError]: hasError, [styles.TriggerDisabled]: disabled })}>
+        <Select.Value ref={ref} placeholder={placeholder}>
           {value && (
             <div className={styles.Value}>
               <FlagCircle code={value} />
               {options.find((option) => option.value === value)?.label}
             </div>
           )}
-        </Value>
-        <Icon className={styles.Icon}>
+        </Select.Value>
+        <Select.Icon className={styles.Icon}>
           <ChevronDown />
-        </Icon>
-      </Trigger>
-      <Portal>
-        <Content className={styles.Content}>
-          <ScrollUpButton className={styles.ScrollButton}>
+        </Select.Icon>
+      </Select.Trigger>
+      <Select.Portal>
+        <Select.Content className={styles.Content}>
+          <Select.ScrollUpButton className={styles.ScrollButton}>
             <ChevronUpIcon />
-          </ScrollUpButton>
-          <Viewport className={styles.Viewport}>
+          </Select.ScrollUpButton>
+          <Select.Viewport className={styles.Viewport}>
             {options.map((option) => (
-              <Item className={styles.Item} value={option.value}>
+              <Select.Item className={styles.Item} value={option.value}>
                 <FlagCircle code={option.value} />
-                <ItemText>{option.label}</ItemText>
-                <ItemIndicator className={styles.ItemIndicator}>
+                <Select.ItemText>{option.label}</Select.ItemText>
+                <Select.ItemIndicator className={styles.ItemIndicator}>
                   <CheckIcon />
-                </ItemIndicator>
-              </Item>
+                </Select.ItemIndicator>
+              </Select.Item>
             ))}
-          </Viewport>
-          <ScrollDownButton className={styles.ScrollButton}>
+          </Select.Viewport>
+          <Select.ScrollDownButton className={styles.ScrollButton}>
             <ChevronDownIcon />
-          </ScrollDownButton>
-        </Content>
-      </Portal>
-    </Root>
+          </Select.ScrollDownButton>
+        </Select.Content>
+      </Select.Portal>
+    </Select.Root>
   );
 });
 InputCountry.displayName = 'InputCountry';

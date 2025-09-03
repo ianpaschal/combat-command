@@ -3,8 +3,8 @@ import {
   ElementRef,
   forwardRef,
 } from 'react';
-import { Root as PortalRoot } from '@radix-ui/react-portal';
 import clsx from 'clsx';
+import { Portal } from 'radix-ui';
 
 import { Button } from '~/components/generic/Button';
 
@@ -19,7 +19,7 @@ export const FloatingActionButton = forwardRef<FloatingActionButtonRef, Floating
   variant = 'primary',
   ...props
 }, ref): JSX.Element => (
-  <PortalRoot asChild>
+  <Portal.Root asChild>
     <Button
       ref={ref}
       className={clsx('FloatingActionButton', className)}
@@ -30,5 +30,5 @@ export const FloatingActionButton = forwardRef<FloatingActionButtonRef, Floating
     >
       {children}
     </Button>
-  </PortalRoot>
+  </Portal.Root>
 ));

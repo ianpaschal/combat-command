@@ -1,5 +1,4 @@
 import { cloneElement, ReactNode } from 'react';
-import * as Toast from '@radix-ui/react-toast';
 import { useStore } from '@tanstack/react-store';
 import clsx from 'clsx';
 import {
@@ -8,6 +7,7 @@ import {
   OctagonAlert,
   TriangleAlert,
 } from 'lucide-react';
+import { Toast } from 'radix-ui';
 
 import {
   clearToast,

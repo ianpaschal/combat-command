@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import * as Portal from '@radix-ui/react-portal';
 import { useWindowWidth } from '@react-hook/window-size/throttled';
 import { Menu } from 'lucide-react';
+import { Portal } from 'radix-ui';
 
 import { AccountMenu } from '~/components/AccountMenu';
 import { AppLogo } from '~/components/AppLogo';

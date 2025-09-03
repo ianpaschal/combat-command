@@ -1,10 +1,10 @@
 import { generatePath, useNavigate } from 'react-router-dom';
-import * as Popover from '@radix-ui/react-popover';
 import {
   Cog,
   LogOut,
   User,
 } from 'lucide-react';
+import { Popover } from 'radix-ui';
 
 import { useAuth } from '~/components/AuthProvider';
 import { Avatar } from '~/components/generic/Avatar';

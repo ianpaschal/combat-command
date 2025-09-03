@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from 'react';
-import { Close } from '@radix-ui/react-dialog';
 import { Search } from 'lucide-react';
+import { Dialog as RadixDialog } from 'radix-ui';
 
 import { UserId } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
@@ -71,7 +71,7 @@ export const SelectPlayerDialog = ({
                   <div className={styles.UserDisplayName}>
                     {user.displayName}
                   </div>
-                  <Close asChild>
+                  <RadixDialog.Close asChild>
                     <Button
                       className={styles.UserSelectButton}
                       onClick={() => {
@@ -80,7 +80,7 @@ export const SelectPlayerDialog = ({
                     >
                       Select
                     </Button>
-                  </Close>
+                  </RadixDialog.Close>
                 </div>
               ))}
             </div>
@@ -90,11 +90,11 @@ export const SelectPlayerDialog = ({
         <Label>Placeholder</Label>
         <div className={styles.PlaceholderInput}>
           <InputText value={placeholder} onChange={handleChangePlaceholder} />
-          <Close asChild>
+          <RadixDialog.Close asChild>
             <Button onClick={() => onConfirm({ placeholder })}>
               Set
             </Button>
-          </Close>
+          </RadixDialog.Close>
         </div>
       </div>
     </Dialog>

@@ -8,7 +8,7 @@ import {
   useRef,
   useState,
 } from 'react';
-import { Viewport } from '@radix-ui/react-scroll-area';
+import { ScrollArea } from 'radix-ui';
 
 import styles from './ScrollArea.module.scss';
 
@@ -93,7 +93,7 @@ type UseScrollIndicatorsReturn = {
  * @returns A object containing a viewport ref, onScroll handler, and four sides' indicator elements.
  */
 export const useScrollIndicators = (borders?: string | string[]): UseScrollIndicatorsReturn => {
-  const ref = useRef<ElementRef<typeof Viewport>>(null);
+  const ref = useRef<ElementRef<typeof ScrollArea.Viewport>>(null);
 
   const [visible, setVisible] = useState<FourSidedState>({
     top: false,

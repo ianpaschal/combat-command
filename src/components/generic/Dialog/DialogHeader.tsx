@@ -1,7 +1,7 @@
 import { MouseEvent } from 'react';
-import { Close, Title } from '@radix-ui/react-dialog';
 import clsx from 'clsx';
 import { X } from 'lucide-react';
+import { Dialog } from 'radix-ui';
 
 import styles from './DialogHeader.module.scss';
 
@@ -19,13 +19,13 @@ export const DialogHeader = ({
   onCancel,
 }: DialogHeaderProps): JSX.Element => (
   <div className={clsx(styles.DialogHeader, className)}>
-    <Title>
+    <Dialog.Title>
       {title}
-    </Title>
+    </Dialog.Title>
     {canCancel && (
-      <Close className={styles.Close} onClick={onCancel}>
+      <Dialog.Close className={styles.Close} onClick={onCancel}>
         <X />
-      </Close>
+      </Dialog.Close>
     )}
   </div>
 );

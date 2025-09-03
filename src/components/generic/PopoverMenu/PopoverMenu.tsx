@@ -3,12 +3,7 @@ import {
   ReactNode,
   useState,
 } from 'react';
-import {
-  Close,
-  Content,
-  Root,
-  Trigger,
-} from '@radix-ui/react-popover';
+import { Popover } from 'radix-ui';
 
 import styles from './PopoverMenu.module.scss';
 
@@ -29,13 +24,13 @@ export const PopoverMenu = ({
 }: PopoverMenuProps): JSX.Element => {
   const [open, setOpen] = useState<boolean>(false);
   return (
-    <Root open={open} onOpenChange={setOpen}>
-      <Trigger className={className} asChild onClick={(e) => e.stopPropagation()}>
+    <Popover.Root open={open} onOpenChange={setOpen}>
+      <Popover.Trigger className={className} asChild onClick={(e) => e.stopPropagation()}>
         {children}
-      </Trigger>
-      <Content className={styles.PopoverContent} align="end">
+      </Popover.Trigger>
+      <Popover.Content className={styles.PopoverContent} align="end">
         {menuItems.map((menuItem, i) => (
-          <Close key={i} asChild>
+          <Popover.Close key={i} asChild>
             <div
               onClick={(e) => {
                 e.stopPropagation();
@@ -45,9 +40,9 @@ export const PopoverMenu = ({
             >
               {menuItem.icon}{menuItem.label}
             </div>
-          </Close>
+          </Popover.Close>
         ))}
-      </Content>
-    </Root>
+      </Popover.Content>
+    </Popover.Root>
   );
 };
