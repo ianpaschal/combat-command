@@ -1,11 +1,4 @@
 import { MouseEvent, ReactNode } from 'react';
-import {
-  Close,
-  Content,
-  Overlay,
-  Portal,
-  Root,
-} from '@radix-ui/react-dialog';
 import clsx from 'clsx';
 import {
   AnimatePresence,
@@ -13,6 +6,7 @@ import {
   motion,
 } from 'framer-motion';
 import { X } from 'lucide-react';
+import { Dialog } from 'radix-ui';
 
 import { closeModal, useModalVisible } from '~/modals';
 
@@ -69,13 +63,13 @@ export const ControlledDialog = ({
     handleCancel();
   };
   return (
-    <Root open={open}>
+    <Dialog.Root open={open}>
       <AnimatePresence onExitComplete={handleCloseComplete}>
         {open && (
-          <Portal forceMount>
-            <Overlay forceMount className={styles.Overlay} onClick={handleInteractOutside} />
+          <Dialog.Portal forceMount>
+            <Dialog.Overlay forceMount className={styles.Overlay} onClick={handleInteractOutside} />
             <div className={styles.Positioner} tabIndex={-1}>
-              <Content
+              <Dialog.Content
                 className={clsx(styles.Content, className, { [styles[`Content-${width}`]]: true })}
                 aria-describedby={undefined}
                 tabIndex={-1}
@@ -85,16 +79,16 @@ export const ControlledDialog = ({
                 <motion.div {...animationProps}>
                   {children}
                   {canCancel && (
-                    <Close className={styles.Close} onClick={handleCancel}>
+                    <Dialog.Close className={styles.Close} onClick={handleCancel}>
                       <X />
-                    </Close>
+                    </Dialog.Close>
                   )}
                 </motion.div>
-              </Content>
+              </Dialog.Content>
             </div>
-          </Portal>
+          </Dialog.Portal>
         )}
       </AnimatePresence>
-    </Root>
+    </Dialog.Root>
   );
 };

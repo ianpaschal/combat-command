@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
-import * as Popover from '@radix-ui/react-popover';
 import { format } from 'date-fns';
 import { CalendarIcon, Clock } from 'lucide-react';
+import { Popover } from 'radix-ui';
 
 import { Button } from '~/components/generic/Button';
 import { Calendar } from '~/components/generic/Calendar';

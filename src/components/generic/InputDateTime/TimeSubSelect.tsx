@@ -3,19 +3,8 @@ import {
   ElementRef,
   forwardRef,
 } from 'react';
-import {
-  Content,
-  Item,
-  ItemText,
-  Portal,
-  Root,
-  ScrollDownButton,
-  ScrollUpButton,
-  Trigger,
-  Value,
-  Viewport,
-} from '@radix-ui/react-select';
 import { ChevronDown, ChevronUp } from 'lucide-react';
+import { Select } from 'radix-ui';
 
 import styles from './TimeSubSelect.module.scss';
 
@@ -26,8 +15,8 @@ export interface TimeSubSelectProps {
   value?: number;
 }
 
-type SelectRef = ElementRef<typeof Root>;
-type SelectProps = Omit<ComponentPropsWithoutRef<typeof Root>, 'value'> & TimeSubSelectProps;
+type SelectRef = ElementRef<typeof Select.Root>;
+type SelectProps = Omit<ComponentPropsWithoutRef<typeof Select.Root>, 'value'> & TimeSubSelectProps;
 export const TimeSubSelect = forwardRef<SelectRef, SelectProps>(({
   onChange,
   options,
@@ -42,28 +31,28 @@ export const TimeSubSelect = forwardRef<SelectRef, SelectProps>(({
   };
   const stringValue = value?.toString();
   return (
-    <Root onValueChange={handleValueChange} disabled={disabled} value={stringValue} {...props}>
-      <Trigger className={styles.Trigger}>
-        <Value ref={ref} />
-      </Trigger>
-      <Portal>
-        <Content className={styles.Content}>
-          <ScrollUpButton className={styles.ScrollButton}>
+    <Select.Root onValueChange={handleValueChange} disabled={disabled} value={stringValue} {...props}>
+      <Select.Trigger className={styles.Trigger}>
+        <Select.Value ref={ref} />
+      </Select.Trigger>
+      <Select.Portal>
+        <Select.Content className={styles.Content}>
+          <Select.ScrollUpButton className={styles.ScrollButton}>
             <ChevronUp />
-          </ScrollUpButton>
-          <Viewport className={styles.Viewport}>
+          </Select.ScrollUpButton>
+          <Select.Viewport className={styles.Viewport}>
             {options.map((item) => (
-              <Item className={styles.Item} key={item.value} value={item.value}>
-                <ItemText>{item.label}</ItemText>
-              </Item>
+              <Select.Item className={styles.Item} key={item.value} value={item.value}>
+                <Select.ItemText>{item.label}</Select.ItemText>
+              </Select.Item>
             ))}
-          </Viewport>
-          <ScrollDownButton className={styles.ScrollButton}>
+          </Select.Viewport>
+          <Select.ScrollDownButton className={styles.ScrollButton}>
             <ChevronDown />
-          </ScrollDownButton>
-        </Content>
-      </Portal>
-    </Root>
+          </Select.ScrollDownButton>
+        </Select.Content>
+      </Select.Portal>
+    </Select.Root>
   );
 });
 TimeSubSelect.displayName = 'TimeSubSelect';

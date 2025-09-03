@@ -3,20 +3,6 @@ import {
   ElementRef,
   forwardRef,
 } from 'react';
-import {
-  Content,
-  Icon,
-  Item,
-  ItemIndicator,
-  ItemText,
-  Portal,
-  Root,
-  ScrollDownButton,
-  ScrollUpButton,
-  Trigger,
-  Value,
-  Viewport,
-} from '@radix-ui/react-select';
 import clsx from 'clsx';
 import {
   CheckIcon,
@@ -24,6 +10,7 @@ import {
   ChevronDownIcon,
   ChevronUpIcon,
 } from 'lucide-react';
+import { Select } from 'radix-ui';
 
 import './InputSelect.scss';
 
@@ -36,8 +23,8 @@ export interface InputSelectProps<T extends number | string> {
   value?: T;
 }
 
-type SelectRef = ElementRef<typeof Root>;
-type SelectProps<T extends number | string> = Omit<ComponentPropsWithoutRef<typeof Root>, 'value'> & InputSelectProps<T>;
+type SelectRef = ElementRef<typeof Select.Root>;
+type SelectProps<T extends number | string> = Omit<ComponentPropsWithoutRef<typeof Select.Root>, 'value'> & InputSelectProps<T>;
 export const InputSelect = forwardRef<SelectRef, SelectProps<number | string>>(({
   options,
   placeholder,
@@ -60,45 +47,47 @@ export const InputSelect = forwardRef<SelectRef, SelectProps<number | string>>((
   const stringOptions = options.map((item) => ({ value: typeof item.value === 'number' ? item.value.toString() : item.value, label: item.label }));
   const showDisabled = disabled || options.length < 2;
   return (
-    <Root onValueChange={handleChange} disabled={showDisabled} value={stringValue} {...props}>
-      <Trigger className={clsx('InputSelectTrigger', { 'InputSelectTrigger--hasError': hasError, 'InputSelectTrigger--disabled': showDisabled })}>
-        <Value ref={ref} placeholder={placeholder} />
-        <Icon className="SelectIcon">
+    <Select.Root onValueChange={handleChange} disabled={showDisabled} value={stringValue} {...props}>
+      <Select.Trigger className={clsx('InputSelectTrigger', { 'InputSelectTrigger--hasError': hasError, 'InputSelectTrigger--disabled': showDisabled })}>
+        <Select.Value ref={ref} placeholder={placeholder} />
+        <Select.Icon className="SelectIcon">
           <ChevronDown />
-        </Icon>
-      </Trigger>
-      <Portal>
-        <Content className="SelectContent">
-          <ScrollUpButton className="SelectScrollButton">
+        </Select.Icon>
+      </Select.Trigger>
+      <Select.Portal>
+        <Select.Content className="SelectContent">
+          <Select.ScrollUpButton className="SelectScrollButton">
             <ChevronUpIcon />
-          </ScrollUpButton>
-          <Viewport className="SelectViewport">
+          </Select.ScrollUpButton>
+          <Select.Viewport className="SelectViewport">
             {stringOptions.map((item) => (
               <SelectItem key={item.value} value={item.value}>{item.label}</SelectItem>
             ))}
-          </Viewport>
-          <ScrollDownButton className="SelectScrollButton">
+          </Select.Viewport>
+          <Select.ScrollDownButton className="SelectScrollButton">
             <ChevronDownIcon />
-          </ScrollDownButton>
-        </Content>
-      </Portal>
-    </Root>
+          </Select.ScrollDownButton>
+        </Select.Content>
+      </Select.Portal>
+    </Select.Root>
   );
 });
 InputSelect.displayName = 'InputSelect';
 
-type SelectItemRef = ElementRef<typeof Item>;
-type SelectItemProps = ComponentPropsWithoutRef<typeof Item>;
+type SelectItemRef = ElementRef<typeof Select.Item>;
+type SelectItemProps = ComponentPropsWithoutRef<typeof Select.Item>;
 const SelectItem = forwardRef<SelectItemRef, SelectItemProps>(({
   children,
   className,
   ...props
 }, ref): JSX.Element => (
-  <Item className={clsx('SelectItem', className)} {...props} ref={ref}>
-    <ItemText>{children}</ItemText>
-    <ItemIndicator className="SelectItemIndicator">
+  <Select.Item className={clsx('SelectItem', className)} {...props} ref={ref}>
+    <Select.ItemText>
+      {children}
+    </Select.ItemText>
+    <Select.ItemIndicator className="SelectItemIndicator">
       <CheckIcon />
-    </ItemIndicator>
-  </Item>
+    </Select.ItemIndicator>
+  </Select.Item>
 ));
 SelectItem.displayName = 'SelectItem';

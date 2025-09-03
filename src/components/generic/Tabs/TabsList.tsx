@@ -4,8 +4,8 @@ import {
   forwardRef,
   ReactElement,
 } from 'react';
-import { List } from '@radix-ui/react-tabs';
 import clsx from 'clsx';
+import { Tabs } from 'radix-ui';
 
 import { TabsTrigger } from '~/components/generic/Tabs/TabsTrigger';
 import { ElementSize } from '~/types/componentLib';
@@ -18,8 +18,8 @@ type TabDef = {
   value: string;
 };
 
-type TabsListRef = ElementRef<typeof List>;
-type TabsListProps = ComponentPropsWithoutRef<typeof List> & {
+type TabsListRef = ElementRef<typeof Tabs.List>;
+type TabsListProps = ComponentPropsWithoutRef<typeof Tabs.List> & {
   width?: 'max' | 'min';
   orientation?: 'horizontal' | 'vertical';
   size?: ElementSize;
@@ -35,7 +35,7 @@ export const TabsList = forwardRef<TabsListRef, TabsListProps>(({
   hideLabels = false,
   ...props
 }, ref): JSX.Element => (
-  <List
+  <Tabs.List
     ref={ref}
     className={clsx('TabsList', styles.Root, styles[`Root-${width}`], styles[`Root-${orientation}`], className)}
     {...props}
@@ -46,5 +46,5 @@ export const TabsList = forwardRef<TabsListRef, TabsListProps>(({
         {!hideLabels && label}
       </TabsTrigger>
     ))}
-  </List>
+  </Tabs.List>
 ));

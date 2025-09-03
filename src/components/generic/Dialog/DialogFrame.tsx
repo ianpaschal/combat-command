@@ -3,22 +3,14 @@ import {
   MouseEvent,
   ReactNode,
 } from 'react';
-import {
-  Close,
-  Content,
-  Overlay,
-  Portal,
-  Root,
-  Title,
-  Trigger,
-} from '@radix-ui/react-dialog';
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import { X } from 'lucide-react';
+import { Dialog } from 'radix-ui';
 
 import styles from './Dialog.module.scss';
 
-export interface DialogFrameProps extends ComponentPropsWithoutRef<typeof Root> {
+export interface DialogFrameProps extends ComponentPropsWithoutRef<typeof Dialog.Root> {
   children?: ReactNode;
   trigger?: ReactNode;
   width?: 'small' | 'normal' | 'large';
@@ -69,19 +61,19 @@ export const DialogFrame = ({
     }
   };
   return (
-    <Root open={open} onOpenChange={onOpenChange} {...props}>
+    <Dialog.Root open={open} onOpenChange={onOpenChange} {...props}>
       {trigger && (
-        <Trigger asChild>
+        <Dialog.Trigger asChild>
           {trigger}
-        </Trigger>
+        </Dialog.Trigger>
       )}
       <AnimatePresence onExitComplete={handleCloseComplete}>
         {open && (
-          <Portal forceMount>
-            <Overlay forceMount className={styles.Overlay} onClick={!preventCancel && onCancel ? onCancel : undefined} />
+          <Dialog.Portal forceMount>
+            <Dialog.Overlay forceMount className={styles.Overlay} onClick={!preventCancel && onCancel ? onCancel : undefined} />
             <div className={styles.Positioner} tabIndex={-1}>
 
-              <Content
+              <Dialog.Content
                 className={clsx(styles.Content, className, { [styles[`Content-${width}`]]: true })}
                 style={{
                   maxHeight: height && maxHeight ? Math.max(height, maxHeight) : maxHeight,
@@ -100,22 +92,22 @@ export const DialogFrame = ({
                   transition={{ ease: 'easeInOut', duration: 0.15 }}
                 >
                   <div className={styles.Header}>
-                    <Title>
+                    <Dialog.Title>
                       {title}
-                    </Title>
+                    </Dialog.Title>
                     {!preventCancel && (
-                      <Close className={styles.Close} onClick={handleCancel}>
+                      <Dialog.Close className={styles.Close} onClick={handleCancel}>
                         <X />
-                      </Close>
+                      </Dialog.Close>
                     )}
                   </div>
                   {children}
                 </motion.div>
-              </Content>
+              </Dialog.Content>
             </div>
-          </Portal>
+          </Dialog.Portal>
         )}
       </AnimatePresence>
-    </Root>
+    </Dialog.Root>
   );
 };

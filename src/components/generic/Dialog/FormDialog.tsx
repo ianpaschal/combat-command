@@ -9,26 +9,18 @@ import {
   SubmitHandler,
   UseFormReturn,
 } from 'react-hook-form';
-import {
-  Close,
-  Content,
-  Overlay,
-  Portal,
-  Root,
-  Title,
-  Trigger,
-} from '@radix-ui/react-dialog';
 import { UseMutationResult } from '@tanstack/react-query';
 import clsx from 'clsx';
 import { AnimatePresence, motion } from 'framer-motion';
 import { X } from 'lucide-react';
+import { Dialog } from 'radix-ui';
 
 import { Button } from '~/components/generic/Button';
 import { Form } from '~/components/generic/Form';
 
 import styles from './Dialog.module.scss';
 
-export interface DialogProps<T extends FieldValues> extends ComponentPropsWithoutRef<typeof Root> {
+export interface DialogProps<T extends FieldValues> extends ComponentPropsWithoutRef<typeof Dialog.Root> {
   children?: ReactNode;
   trigger?: ReactNode;
   width?: 'small' | 'normal' | 'large';
@@ -105,18 +97,18 @@ export const FormDialog = <T extends FieldValues>({
   const { isPending } = submitHook;
 
   return (
-    <Root open={open} onOpenChange={setOpen} {...props}>
+    <Dialog.Root open={open} onOpenChange={setOpen} {...props}>
       {trigger && (
-        <Trigger asChild>
+        <Dialog.Trigger asChild>
           {trigger}
-        </Trigger>
+        </Dialog.Trigger>
       )}
       <AnimatePresence>
         {open && (
-          <Portal forceMount>
-            <Overlay forceMount className={styles.Overlay} />
+          <Dialog.Portal forceMount>
+            <Dialog.Overlay forceMount className={styles.Overlay} />
             <div className={styles.Positioner} tabIndex={-1}>
-              <Content
+              <Dialog.Content
                 className={clsx(styles.Content, { [styles[`Content-${width}`]]: true })}
                 aria-describedby={undefined}
                 onInteractOutside={handleInteractOutside}
@@ -130,13 +122,13 @@ export const FormDialog = <T extends FieldValues>({
                   transition={{ ease: 'easeInOut', duration: 0.15 }}
                 >
                   <div className={styles.Header}>
-                    <Title>
+                    <Dialog.Title>
                       {title}
-                    </Title>
+                    </Dialog.Title>
                     {!preventCancel && (
-                      <Close className={styles.Close}>
+                      <Dialog.Close className={styles.Close}>
                         <X />
-                      </Close>
+                      </Dialog.Close>
                     )}
                   </div>
                   <div className={styles.Inner}>
@@ -146,20 +138,20 @@ export const FormDialog = <T extends FieldValues>({
                   </div>
                   <div className={styles.Footer}>
                     {!preventCancel && (
-                      <Close asChild>
+                      <Dialog.Close asChild>
                         <Button variant="secondary" disabled={isPending}>Cancel</Button>
-                      </Close>
+                      </Dialog.Close>
                     )}
                     <Button disabled={isPending} loading={isPending} type="submit" form={id}>
                       {submitLabel}
                     </Button>
                   </div>
                 </motion.div>
-              </Content>
+              </Dialog.Content>
             </div>
-          </Portal>
+          </Dialog.Portal>
         )}
       </AnimatePresence>
-    </Root>
+    </Dialog.Root>
   );
 };

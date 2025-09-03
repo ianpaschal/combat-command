@@ -1,7 +1,7 @@
 import { ReactElement } from 'react';
-import { Image, Root } from '@radix-ui/react-avatar';
 import clsx from 'clsx';
 import { User, Users } from 'lucide-react';
+import { Avatar as RadixAvatar } from 'radix-ui';
 
 import { FlagCircle } from '~/components/generic/FlagCircle';
 
@@ -35,7 +35,7 @@ export const Avatar = ({
       return icon;
     }
     if (url) {
-      return <Image className={styles.Image} src={url} />;
+      return <RadixAvatar.Image className={styles.Image} src={url} />;
     }
     if (isTeam) {
       return <Users />;
@@ -43,13 +43,13 @@ export const Avatar = ({
     return <User />;
   };
   return (
-    <Root className={clsx(styles.Root, className)}>
+    <RadixAvatar.Root className={clsx(styles.Root, className)}>
       <div className={clsx(styles.Content, { [styles.ContentLoading]: loading, [styles['Content-muted']]: muted })}>
         {getInnerContent()}
       </div>
       {countryCode && (
         <FlagCircle className={styles.Flag} code={countryCode} />
       )}
-    </Root>
+    </RadixAvatar.Root>
   );
 };

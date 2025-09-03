@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router-dom';
-import * as Popover from '@radix-ui/react-popover';
 import { useWindowWidth } from '@react-hook/window-size/throttled';
 import {
   ListFilter,
   Plus,
   Search,
 } from 'lucide-react';
+import { Popover } from 'radix-ui';
 
 import { Tournament } from '~/api';
 import { useAuth } from '~/components/AuthProvider';

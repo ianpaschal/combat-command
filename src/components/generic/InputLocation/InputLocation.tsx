@@ -3,8 +3,8 @@ import {
   forwardRef,
   useState,
 } from 'react';
-import * as Popover from '@radix-ui/react-popover';
 import { Search, X } from 'lucide-react';
+import { Popover } from 'radix-ui';
 import tzLookup from 'tz-lookup';
 import { useDebounce } from 'use-debounce';
 

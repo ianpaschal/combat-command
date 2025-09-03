@@ -3,15 +3,15 @@ import {
   ElementRef,
   forwardRef,
 } from 'react';
-import { Trigger } from '@radix-ui/react-tabs';
 import clsx from 'clsx';
+import { Tabs } from 'radix-ui';
 
 import { ElementSize } from '~/types/componentLib';
 
 import './TabsTrigger.scss';
 
-type TabsTriggerRef = ElementRef<typeof Trigger>;
-type TabsTriggerProps = ComponentPropsWithoutRef<typeof Trigger> & {
+type TabsTriggerRef = ElementRef<typeof Tabs.Trigger>;
+type TabsTriggerProps = ComponentPropsWithoutRef<typeof Tabs.Trigger> & {
   size: ElementSize;
 };
 export const TabsTrigger = forwardRef<TabsTriggerRef, TabsTriggerProps>(({
@@ -19,5 +19,5 @@ export const TabsTrigger = forwardRef<TabsTriggerRef, TabsTriggerProps>(({
   size = 'normal',
   ...props
 }, ref): JSX.Element => (
-  <Trigger ref={ref} className={clsx('TabsTrigger', className)} data-size={size} {...props} />
+  <Tabs.Trigger ref={ref} className={clsx('TabsTrigger', className)} data-size={size} {...props} />
 ));

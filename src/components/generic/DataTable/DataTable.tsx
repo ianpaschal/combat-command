@@ -3,9 +3,9 @@ import {
   ReactElement,
   ReactNode,
 } from 'react';
-import * as Popover from '@radix-ui/react-popover';
 import clsx from 'clsx';
 import { Cog, Search } from 'lucide-react';
+import { Popover } from 'radix-ui';
 
 import { Button } from '~/components/generic/Button';
 import { InputText } from '~/components/generic/InputText';

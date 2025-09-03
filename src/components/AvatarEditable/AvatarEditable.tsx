@@ -1,6 +1,6 @@
 import { ChangeEvent } from 'react';
-import * as Popover from '@radix-ui/react-popover';
 import { Pencil } from 'lucide-react';
+import { Popover } from 'radix-ui';
 
 import { useAuth } from '~/components/AuthProvider';
 import { Avatar } from '~/components/generic/Avatar';
