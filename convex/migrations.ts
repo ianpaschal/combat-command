@@ -69,3 +69,17 @@ export const fixMissingListData = migrations.define({
     await ctx.db.patch(doc._id, patchData);
   },
 });
+
+export const populateUserSearch = migrations.define({
+  table: 'users',
+  migrateOne: async (ctx, doc) => {
+    const keys: (keyof typeof doc)[] = [
+      'givenName',
+      'familyName',
+      'username',
+    ] as const;
+    await ctx.db.patch(doc._id, {
+      search: keys.map((key) => doc[key]).join(' '),
+    });
+  },
+});

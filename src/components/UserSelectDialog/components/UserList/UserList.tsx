@@ -1,0 +1,111 @@
+import { ChangeEvent, useState } from 'react';
+import clsx from 'clsx';
+import debounce from 'debounce';
+import { Search, X } from 'lucide-react';
+
+import { UserId } from '~/api';
+import { useAuth } from '~/components/AuthProvider';
+import { Button } from '~/components/generic/Button';
+import { InputText } from '~/components/generic/InputText';
+import { ScrollArea } from '~/components/generic/ScrollArea';
+import { IdentityBadge } from '~/components/IdentityBadge';
+import { useGetUsers } from '~/services/users';
+
+import styles from './UserList.module.scss';
+
+export interface UserListProps {
+  className?: string;
+  excludeUserIds?: UserId[];
+  onConfirm: (userId: UserId | null) => void,
+  selected?: UserId;
+}
+
+export const UserList = ({
+  className,
+  excludeUserIds = [],
+  onConfirm,
+  selected,
+}: UserListProps): JSX.Element => {
+  const user = useAuth();
+
+  // State:
+  const [search, setSearch] = useState<string>('');
+  const [debouncedSearch, setDebouncedSearch] = useState<string>('');
+  const [debouncing, setDebouncing] = useState<boolean>(false);
+
+  const debouncedSetSearch = debounce((value: string) => {
+    setDebouncedSearch(value);
+    setDebouncing(false);
+  }, 250);
+
+  const handleChangeSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearch(value);
+    setDebouncing(true);
+    debouncedSetSearch(value);
+  };
+
+  const { data: userList, loading } = useGetUsers({ search: debouncedSearch });
+
+  // Remove own user, and currently selected user from options:
+  const selectableUsers = (userList || []).filter((u) => {
+    const isSelf = u._id === user?._id;
+    const isSelected = u._id === selected;
+    const isExcluded = excludeUserIds.includes(u._id);
+    return !isSelf && !isSelected && !isExcluded;
+  });
+  const selectedUser = (userList || []).find((u) => u._id === selected);
+
+  const handleSelect = (userId: UserId): void => {
+    onConfirm(userId);
+  };
+  const handleClear = (): void => {
+    onConfirm(null);
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const showLoading = debouncing || loading;
+
+  return (
+    <div className={clsx(styles.UserList, className)}>
+      <InputText
+        className={styles.UserList_SearchBox}
+        placeholder="Search"
+        slotBefore={<Search />}
+        size="large"
+        onChange={handleChangeSearch}
+        value={search}
+      />
+      {selectedUser && (
+        <div className={styles.UserList_SelectedUser}>
+          <IdentityBadge
+            className={styles.UserList_SelectedUser_Badge}
+            user={selectedUser}
+            size="small"
+            disableLink
+          />
+          <Button
+            className={styles.UserList_SelectedUser_Clear}
+            size="small"
+            variant="ghost"
+            onClick={handleClear}
+          >
+            <X />
+          </Button>
+        </div>
+      )}
+      <ScrollArea className={styles.UserList_ScrollArea}>
+        <div className={styles.UserList_List}>
+          {selectableUsers.map((user, i) => (
+            <div className={styles.UserList_ListItem} key={i}>
+              <IdentityBadge user={user} size="small" disableLink />
+              <Button onClick={() => handleSelect(user?._id)}>
+                Select
+              </Button>
+            </div>
+          ))}
+        </div>
+      </ScrollArea>
+    </div>
+  );
+};

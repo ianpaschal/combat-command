@@ -13,7 +13,6 @@
   position: absolute;
   inset: 0;
   padding: 0 0.75rem;
-  text-align: left;
 
   &-slotBefore {
     padding-left: 2.25rem;
@@ -22,6 +21,18 @@
   &-slotAfter {
     padding-right: 2.25rem;
   }
+
+  &-hasError {
+    color: variables.$red;
+
+    input {
+      border-color: variables.$red;
+    }
+  }
+
+  // &:focus {
+  //   @include variants.focused;
+  // }
 }
 
 .InputSlotBefore,
@@ -66,14 +77,6 @@
 
   &[data-size="large"] {
     @include sizes.large;
-  }
-
-  &-hasError {
-    color: variables.$red;
-
-    input {
-      border-color: variables.$red;
-    }
   }
 }
 
