@@ -7,6 +7,8 @@ import {
   FunctionReference,
 } from 'convex/server';
 
+import { DEFAULT_PAGE_SIZE } from '~/settings';
+
 type QueryFn = FunctionReference<'query'>;
 
 export const createPaginatedQueryHook = <T extends QueryFn>(queryFn: T) => {
@@ -22,7 +24,9 @@ export const createPaginatedQueryHook = <T extends QueryFn>(queryFn: T) => {
         status: null,
       };
     }
-    const { results: data, isLoading, loadMore, status } = usePaginatedQuery(queryFn, args, { initialNumItems: 10 });
+    const { results: data, isLoading, loadMore, status } = usePaginatedQuery(queryFn, args, {
+      initialNumItems: DEFAULT_PAGE_SIZE,
+    });
     const stored = useRef(data);
     if (data !== undefined) {
       stored.current = data;

@@ -14,7 +14,7 @@ import { MatchResultCard } from '~/components/MatchResultCard';
 import { MatchResultCreateDialog, useMatchResultCreateDialog } from '~/components/MatchResultCreateDialog';
 import { PageWrapper } from '~/components/PageWrapper';
 import { useGetMatchResults } from '~/services/matchResults';
-import { MIN_WIDTH_TABLET } from '~/settings';
+import { DEFAULT_PAGE_SIZE, MIN_WIDTH_TABLET } from '~/settings';
 
 import styles from './MatchResultsPage.module.scss';
 
@@ -26,7 +26,7 @@ export const MatchResultsPage = (): JSX.Element => {
   const { open } = useMatchResultCreateDialog();
   const { data: matchResults, loadMore } = useGetMatchResults({});
   const handleLoadMore = (): void => {
-    loadMore(10);
+    loadMore(DEFAULT_PAGE_SIZE);
   };
   return (
     <PageWrapper title="Match Results">

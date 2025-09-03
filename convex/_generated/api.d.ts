@@ -180,6 +180,7 @@ import type * as _model_users__helpers_checkUserRelationshipLevel from "../_mode
 import type * as _model_users__helpers_checkUserTournamentRelationship from "../_model/users/_helpers/checkUserTournamentRelationship.js";
 import type * as _model_users__helpers_compareVisibilityLevels from "../_model/users/_helpers/compareVisibilityLevels.js";
 import type * as _model_users__helpers_createClaimToken from "../_model/users/_helpers/createClaimToken.js";
+import type * as _model_users__helpers_extractSearchTokens from "../_model/users/_helpers/extractSearchTokens.js";
 import type * as _model_users__helpers_formatUserRealName from "../_model/users/_helpers/formatUserRealName.js";
 import type * as _model_users__helpers_generateUsername from "../_model/users/_helpers/generateUsername.js";
 import type * as _model_users__helpers_getShallowUser from "../_model/users/_helpers/getShallowUser.js";
@@ -216,6 +217,7 @@ import type * as emails_Wrapper from "../emails/Wrapper.js";
 import type * as emails_styles from "../emails/styles.js";
 import type * as files from "../files.js";
 import type * as friendships from "../friendships.js";
+import type * as functions from "../functions.js";
 import type * as generateFileUploadUrl from "../generateFileUploadUrl.js";
 import type * as http from "../http.js";
 import type * as lists from "../lists.js";
@@ -421,6 +423,7 @@ declare const fullApi: ApiFromModules<{
   "_model/users/_helpers/checkUserTournamentRelationship": typeof _model_users__helpers_checkUserTournamentRelationship;
   "_model/users/_helpers/compareVisibilityLevels": typeof _model_users__helpers_compareVisibilityLevels;
   "_model/users/_helpers/createClaimToken": typeof _model_users__helpers_createClaimToken;
+  "_model/users/_helpers/extractSearchTokens": typeof _model_users__helpers_extractSearchTokens;
   "_model/users/_helpers/formatUserRealName": typeof _model_users__helpers_formatUserRealName;
   "_model/users/_helpers/generateUsername": typeof _model_users__helpers_generateUsername;
   "_model/users/_helpers/getShallowUser": typeof _model_users__helpers_getShallowUser;
@@ -457,6 +460,7 @@ declare const fullApi: ApiFromModules<{
   "emails/styles": typeof emails_styles;
   files: typeof files;
   friendships: typeof friendships;
+  functions: typeof functions;
   generateFileUploadUrl: typeof generateFileUploadUrl;
   http: typeof http;
   lists: typeof lists;

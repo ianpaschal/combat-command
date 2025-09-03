@@ -25,12 +25,17 @@ export const InputText = forwardRef<HTMLInputElement, InputTextProps>(({
   ...props
 }, ref) => (
   <div
-    className={clsx(styles.InputWrapper, { [styles['InputWrapper-hasError']]: hasError, [styles['InputWrapper-disabled']]: disabled })}
+    className={clsx(styles.InputWrapper, className)}
     data-size={size}
   >
     <input
       type={type}
-      className={clsx(styles.Input, { [styles['Input-slotAfter']]: !!slotAfter, [styles['Input-slotBefore']]: !!slotBefore }, className)}
+      className={clsx(styles.Input, {
+        [styles['Input-slotAfter']]: !!slotAfter,
+        [styles['Input-slotBefore']]: !!slotBefore,
+        [styles['InputWrapper-hasError']]: hasError,
+        [styles['InputWrapper-disabled']]: disabled,
+      }, className)}
       ref={ref}
       disabled={disabled}
       {...props}

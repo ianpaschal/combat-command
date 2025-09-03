@@ -30,8 +30,7 @@
 
   position: relative;
 
-  overflow: hidden;
-
+  min-height: 0;
   max-height: 100%;
 
   background-color: var(--card-bg);

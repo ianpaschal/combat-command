@@ -3,10 +3,10 @@ import {
   internalAction,
   internalMutation,
   internalQuery,
-  mutation,
   query,
 } from './_generated/server';
 import * as model from './_model/users';
+import { mutation } from './functions';
 
 // INTERNAL
 export const setUserDefaultAvatar = internalAction({

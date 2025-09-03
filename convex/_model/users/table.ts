@@ -18,6 +18,7 @@ export const computedFields = {
   claimTokenHash: v.optional(v.string()),
   emailVerificationTime: v.optional(v.number()),
   modifiedAt: v.optional(v.number()),
+  search: v.optional(v.string()),
 };
 
 export default defineTable({
@@ -28,4 +29,5 @@ export default defineTable({
   .index('by_countryCode', ['countryCode'])
   .index('by_name', ['givenName', 'familyName'])
   .index('by_username', ['username'])
-  .index('by_claimTokenHash', ['claimTokenHash']);
+  .index('by_claimTokenHash', ['claimTokenHash'])
+  .searchIndex('search', { searchField: 'search' });

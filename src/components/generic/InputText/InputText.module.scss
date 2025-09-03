@@ -13,7 +13,6 @@
   position: absolute;
   inset: 0;
   padding: 0 0.75rem;
-  text-align: left;
 
   &-slotBefore {
     padding-left: 2.25rem;
@@ -22,10 +21,20 @@
   &-slotAfter {
     padding-right: 2.25rem;
   }
+
+  &-hasError {
+    color: var(--text-color-negative);
+
+    input {
+      border-color: var(--border-color-danger);
+    }
+  }
 }
 
 .InputSlotBefore,
 .InputSlotAfter {
+  @include flex.centered;
+
   pointer-events: none;
 
   position: absolute;
@@ -38,8 +47,6 @@
     width: 1rem;
     height: 1rem;
   }
-
-  @include flex.centered;
 }
 
 .InputSlotBefore {
@@ -66,14 +73,6 @@
 
   &[data-size="large"] {
     @include sizes.large;
-  }
-
-  &-hasError {
-    color: variables.$red;
-
-    input {
-      border-color: variables.$red;
-    }
   }
 }
 

@@ -7,6 +7,7 @@ import { Card, CardHeader } from '~/components/generic/Card';
 import { ScrollArea } from '~/components/generic/ScrollArea';
 import { MatchResultCard } from '~/components/MatchResultCard';
 import { useGetMatchResultsByUser } from '~/services/matchResults';
+import { DEFAULT_PAGE_SIZE } from '~/settings';
 
 import styles from './UserTournamentsCard.module.scss';
 
@@ -34,7 +35,7 @@ export const UserTournamentsCard = ({
           {(status === 'CanLoadMore' || status === 'LoadingMore') && (
             <div className={styles.UserProfilePage_MatchResults_List_ViewAllButton}>
               <Button
-                onClick={() => loadMoreMatchResults(10)}
+                onClick={() => loadMoreMatchResults(DEFAULT_PAGE_SIZE)}
                 disabled={status === 'LoadingMore'}
               >
                 <Plus />
