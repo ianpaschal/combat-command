@@ -2,6 +2,7 @@ import {
   ComponentPropsWithoutRef,
   ElementRef,
   forwardRef,
+  UIEvent,
 } from 'react';
 import clsx from 'clsx';
 import { ScrollArea as RadixScrollArea } from 'radix-ui';
@@ -20,14 +21,22 @@ export const ScrollArea = forwardRef<ScrollAreaRef, ScrollAreaProps>(({
   className,
   children,
   indicatorBorders,
+  onScroll,
   ...props
 }, ref) => {
-  const { ref: viewportRef, handleScroll, indicators } = useScrollIndicators(indicatorBorders);
+  const { ref: viewportRef, updateIndicators, indicators } = useScrollIndicators(indicatorBorders);
+  const handleScroll = (e: UIEvent<HTMLDivElement>): void => {
+    updateIndicators(e);
+    if (onScroll) {
+      onScroll(e);
+    }
+  };
   return (
     <RadixScrollArea.Root
       className={clsx(styles.ScrollArea_Root, className)}
       ref={ref}
       type="scroll"
+
       scrollHideDelay={1000}
       {...props}
     >

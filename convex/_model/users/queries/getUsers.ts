@@ -1,3 +1,4 @@
+import { paginationOptsValidator, PaginationResult } from 'convex/server';
 import { Infer, v } from 'convex/values';
 
 import { Doc } from '../../../_generated/dataModel';
@@ -6,6 +7,7 @@ import { LimitedUser, redactUser } from '../_helpers/redactUser';
 
 export const getUsersArgs = v.object({
   search: v.optional(v.string()),
+  paginationOpts: paginationOptsValidator,
 });
 
 /**
@@ -19,15 +21,21 @@ export const getUsersArgs = v.object({
 export const getUsers = async (
   ctx: QueryCtx,
   args: Infer<typeof getUsersArgs>,
-): Promise<LimitedUser[]> => {
-  let users: Doc<'users'> [];
+): Promise<PaginationResult<LimitedUser>> => {
+  let results: PaginationResult<Doc<'users'>>;
   if (args.search && args.search.trim() !== '') {
-    users = await ctx.db
+    results = await ctx.db
       .query('users')
       .withSearchIndex('search', (q) => q.search('search', args.search!))
-      .collect();
+      .paginate(args.paginationOpts);
   } else {
-    users = await ctx.db.query('users').collect();
+    results = await ctx.db.query('users').paginate(args.paginationOpts);
   }
-  return await Promise.all(users.map(async (user) => await redactUser(ctx, user)));
+  // return await Promise.all(users.map(async (user) => await redactUser(ctx, user)));
+  return {
+    ...results,
+    page: await Promise.all(results.page.map(
+      async (item) => await redactUser(ctx, item),
+    )),
+  };
 };

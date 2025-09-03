@@ -2,12 +2,13 @@ import { api } from '~/api';
 import {
   createActionHook,
   createMutationHook,
+  createPaginatedQueryHook,
   createQueryHook,
 } from '~/services/utils';
 
 // Basic Queries
 export const useGetUser = createQueryHook(api.users.getUser);
-export const useGetUsers = createQueryHook(api.users.getUsers);
+export const useGetUsers = createPaginatedQueryHook(api.users.getUsers);
 
 // Special Queries
 export const useGetCurrentUser = createQueryHook(api.users.getCurrentUser);

@@ -1,4 +1,8 @@
-import { ChangeEvent, useState } from 'react';
+import {
+  ChangeEvent,
+  useCallback,
+  useState,
+} from 'react';
 import clsx from 'clsx';
 import debounce from 'debounce';
 import { Search, X } from 'lucide-react';
@@ -45,7 +49,24 @@ export const UserList = ({
     debouncedSetSearch(value);
   };
 
-  const { data: userList, loading } = useGetUsers({ search: debouncedSearch });
+  const {
+    data: userList,
+    loadMore,
+    status,
+    loading,
+  } = useGetUsers({ search: debouncedSearch });
+
+  const showLoading = debouncing || loading;
+
+  // Handle infinite scroll:
+  const handleScroll = useCallback((e: React.UIEvent<HTMLDivElement>) => {
+    const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
+    const threshold = 48;
+    const isNearBottom = scrollTop + clientHeight >= scrollHeight - threshold;
+    if (isNearBottom && status === 'CanLoadMore' && !showLoading) {
+      loadMore(10);
+    }
+  }, [loadMore, status, showLoading]);
 
   // Remove own user, and currently selected user from options:
   const selectableUsers = (userList || []).filter((u) => {
@@ -62,9 +83,6 @@ export const UserList = ({
   const handleClear = (): void => {
     onConfirm(null);
   };
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const showLoading = debouncing || loading;
 
   return (
     <div className={clsx(styles.UserList, className)}>
@@ -94,7 +112,10 @@ export const UserList = ({
           </Button>
         </div>
       )}
-      <ScrollArea className={styles.UserList_ScrollArea}>
+      <ScrollArea
+        className={styles.UserList_ScrollArea}
+        onScroll={handleScroll}
+      >
         <div className={styles.UserList_List}>
           {selectableUsers.map((user, i) => (
             <div className={styles.UserList_ListItem} key={i}>

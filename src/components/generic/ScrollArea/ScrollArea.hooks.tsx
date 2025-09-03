@@ -83,7 +83,7 @@ const getIndicatorVisibility = (
  */
 type UseScrollIndicatorsReturn = {
   ref: RefObject<HTMLDivElement>;
-  handleScroll: UIEventHandler<HTMLDivElement>;
+  updateIndicators: UIEventHandler<HTMLDivElement>;
   indicators: ReactElement[];
 };
 
@@ -123,7 +123,7 @@ export const useScrollIndicators = (borders?: string | string[]): UseScrollIndic
 
   return {
     ref,
-    handleScroll: updateIndicatorVisibility,
+    updateIndicators: updateIndicatorVisibility,
     indicators: Object.keys(defaultState).map((key): ReactElement => (
       <div
         className={styles.ScrollArea_Indicator}
