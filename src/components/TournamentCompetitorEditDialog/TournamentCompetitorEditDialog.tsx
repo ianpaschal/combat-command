@@ -1,6 +1,7 @@
 import { MouseEvent } from 'react';
 
-import { TournamentCompetitor } from '~/api';
+import { compareVisibilityLevels, TournamentCompetitor } from '~/api';
+import { useAuth } from '~/components/AuthProvider';
 import { Button } from '~/components/generic/Button';
 import {
   ControlledDialog,
@@ -10,6 +11,7 @@ import {
 import { ScrollArea } from '~/components/generic/ScrollArea';
 import { TournamentCompetitorForm, TournamentCompetitorSubmitData } from '~/components/TournamentCompetitorForm';
 import { useTournament } from '~/components/TournamentProvider';
+import { useConfirmRegisterDialog } from '~/pages/TournamentDetailPage/components/ConfirmRegisterDialog';
 import { useCreateTournamentCompetitor, useUpdateTournamentCompetitor } from '~/services/tournamentCompetitors';
 import { getTournamentCompetitorDisplayName } from '~/utils/common/getTournamentCompetitorDisplayName';
 import { useTournamentCompetitorEditDialog } from './TournamentCompetitorEditDialog.hooks';
@@ -25,7 +27,9 @@ export interface TournamentCompetitorEditDialogProps {
 export const TournamentCompetitorEditDialog = ({
   competitor,
 }: TournamentCompetitorEditDialogProps): JSX.Element => {
+  const user = useAuth();
   const tournament = useTournament();
+  const { open: openConfirmNameVisibilityDialog } = useConfirmRegisterDialog();
   const { id: dialogId, close } = useTournamentCompetitorEditDialog(competitor?._id);
   const {
     mutation: createTournamentCompetitor,
@@ -56,10 +60,18 @@ export const TournamentCompetitorEditDialog = ({
         ...restFormData,
       });
     } else {
-      createTournamentCompetitor({
-        captainUserId: captain.userId!, // Already validated in form
-        ...restFormData,
-      });
+      const captainIsCurrentUser = captain.userId && user && captain.userId === user._id;
+      if (captainIsCurrentUser) {
+        if (compareVisibilityLevels('tournaments', user.nameVisibility)) {
+          openConfirmNameVisibilityDialog();
+        } else {
+          // No need to warn as nameVisibility is only forced for users who add register themselves.
+          createTournamentCompetitor({
+            captainUserId: captain.userId!, // Already validated in form
+            ...restFormData,
+          });
+        }
+      }
     }
   };
 

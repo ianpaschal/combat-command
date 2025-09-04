@@ -10,7 +10,6 @@ import {
 
 import { compareVisibilityLevels } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
-import { ConfirmationDialog, useConfirmationDialog } from '~/components/ConfirmationDialog';
 import { EmptyState } from '~/components/EmptyState';
 import { Button } from '~/components/generic/Button';
 import { toast } from '~/components/ToastProvider';
@@ -22,6 +21,7 @@ import { useCreateTournamentCompetitor, useGetTournamentCompetitorsByTournament 
 import { usePublishTournament } from '~/services/tournaments';
 import { PATHS } from '~/settings';
 import { isUserTournamentOrganizer } from '~/utils/common/isUserTournamentOrganizer';
+import { ConfirmRegisterDialog, useConfirmRegisterDialog } from '../ConfirmRegisterDialog';
 import { TournamentDetailCard } from '../TournamentDetailCard';
 
 import styles from './TournamentRosterCard.module.scss';
@@ -36,7 +36,7 @@ export const TournamentRosterCard = ({
   const user = useAuth();
   const tournament = useTournament();
   const competitors = useTournamentCompetitors();
-  const { id, open: openConfirmNameVisibilityDialog } = useConfirmationDialog();
+  const { open: openConfirmNameVisibilityDialog } = useConfirmRegisterDialog();
   const { open: openCreateDialog } = useTournamentCompetitorEditDialog();
   const { data: tournamentCompetitors, loading } = useGetTournamentCompetitorsByTournament({ tournamentId: tournament._id });
   const { mutation: createTournamentCompetitor } = useCreateTournamentCompetitor({
@@ -52,22 +52,23 @@ export const TournamentRosterCard = ({
   const isOrganizer = isUserTournamentOrganizer(user, tournament);
 
   const handleRegister = (): void => {
+    if (compareVisibilityLevels('tournaments', user?.nameVisibility)) {
+      openConfirmNameVisibilityDialog({
+        onConfirm: handleConfirmRegister,
+      });
+    } else {
+      handleConfirmRegister();
+    }
+  };
+
+  const handleConfirmRegister = (): void => {
     if (!user) {
       return;
     }
-    if (compareVisibilityLevels('tournaments', user.nameVisibility)) {
-      openConfirmNameVisibilityDialog({
-        onConfirm: () => createTournamentCompetitor({
-          tournamentId: tournament._id,
-          captainUserId: user._id,
-        }),
-      });
-    } else {
-      createTournamentCompetitor({
-        tournamentId: tournament._id,
-        captainUserId: user._id,
-      });
-    }
+    createTournamentCompetitor({
+      tournamentId: tournament._id,
+      captainUserId: user._id,
+    });
   };
 
   const handlePublish = (): void => {
@@ -143,14 +144,7 @@ export const TournamentRosterCard = ({
         )
       )}
       <TournamentCompetitorEditDialog />
-      <ConfirmationDialog
-        id={id}
-        title="Change Name Visibility"
-        confirmLabel="Confirm"
-      >
-        <span>{`${tournament.title} requires that all players' real names are visible to organizers and other players.`}</span>
-        <strong>Your name visibility will be updated to 'Tournaments', making it visible to organizers and other players.</strong>
-      </ConfirmationDialog>
+      <ConfirmRegisterDialog />
     </TournamentDetailCard>
   );
 };
