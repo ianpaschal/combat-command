@@ -1,15 +1,15 @@
 import { UserDataVisibilityLevel } from '../../common/userDataVisibilityLevel';
 
 /**
- * Compares two user data visibility levels to determine if the querying user's relationship level satisfies the subject's required level.
+ * Compares two user data visibility levels to determine if an actual level satisfies the subject's required level.
  * 
  * @param requiredLevel 
- * @param relationshipLevel 
- * @returns True if the relationship level is sufficient to satisfy the subject's required level
+ * @param actualLevel 
+ * @returns True if the actual level is sufficient to satisfy the subject's required level
  */
 export const compareVisibilityLevels = (
   requiredLevel: UserDataVisibilityLevel,
-  relationshipLevel: UserDataVisibilityLevel,
+  actualLevel: UserDataVisibilityLevel,
 ): boolean => {
 
   // Levels, ordered from least close to most
@@ -22,5 +22,5 @@ export const compareVisibilityLevels = (
     hidden: 9999,
   };
   
-  return orderedLevels[relationshipLevel] >= orderedLevels[requiredLevel];
+  return orderedLevels[actualLevel] >= orderedLevels[requiredLevel];
 };

@@ -9,6 +9,7 @@ import { MutationCtx } from '../../../_generated/server';
 import { checkAuth } from '../../common/_helpers/checkAuth';
 import { getErrorMessage } from '../../common/errors';
 import { getTournamentOrganizersByTournament } from '../../tournamentOrganizers';
+import { compareVisibilityLevels } from '../../users/_helpers/compareVisibilityLevels';
 import { checkUserIsRegistered } from '../_helpers/checkUserIsRegistered';
 import { editableFields } from '../table';
 
@@ -64,16 +65,22 @@ export const createTournamentRegistration = async (
     ...args,
     active: activePlayerCount < tournament.competitorSize,
     listApproved: false,
-    userConfirmed: args.userId === userId,
+    confirmed: args.userId === userId,
   });
 
-  // FIXME: USe a required visibility level
-  // if (registration && tournament.requireRealNames) {
-  //   const user = await ctx.db.get(userId);
-  //   if (['hidden', 'friends'].includes(user?.nameVisibility ?? 'hidden')) {
-  //     await ctx.db.patch(userId, { nameVisibility: 'community' });
-  //   }
-  // }
+  // Force user's name visibility to match tournament requirement:
+  if (tournament.requireRealNames) {
+    const user = await ctx.db.get(args.userId);
+    if (!user) {
+      throw new ConvexError(getErrorMessage('USER_NOT_FOUND'));
+    }
+    const isSufficient = compareVisibilityLevels('tournaments', user.nameVisibility ?? 'hidden');
+    if (!isSufficient && userId === args.userId) {
+      await ctx.db.patch(args.userId, {
+        nameVisibility: 'tournaments',
+      });
+    }
+  }
 
   return tournamentRegistrationId;
 };
