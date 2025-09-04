@@ -1,5 +1,6 @@
-import { Doc, getAuthUserId } from '@convex-dev/auth/server';
+import { getAuthUserId } from '@convex-dev/auth/server';
 
+import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
 import { getStorageUrl } from '../../common/_helpers/getStorageUrl';
 import { formatUserRealName } from '../_helpers/formatUserRealName';

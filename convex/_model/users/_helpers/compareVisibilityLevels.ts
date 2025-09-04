@@ -8,10 +8,12 @@ import { UserDataVisibilityLevel } from '../../common/userDataVisibilityLevel';
  * @returns True if the actual level is sufficient to satisfy the subject's required level
  */
 export const compareVisibilityLevels = (
-  requiredLevel: UserDataVisibilityLevel,
-  actualLevel: UserDataVisibilityLevel,
+  requiredLevel?: UserDataVisibilityLevel,
+  actualLevel?: UserDataVisibilityLevel,
 ): boolean => {
-
+  if (!requiredLevel || !actualLevel) {
+    return false;
+  }
   // Levels, ordered from least close to most
   const orderedLevels: Record<UserDataVisibilityLevel, number> = {
     public: 0,

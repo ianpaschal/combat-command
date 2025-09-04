@@ -75,6 +75,7 @@ export {
   themePreference,
 } from '../convex/_model/common/themes';
 export {
+  compareVisibilityLevels,
   type CurrentUser,
   type LimitedUser as User,
   type UserId,

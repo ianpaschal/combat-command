@@ -3,6 +3,9 @@ import { Id } from '../../_generated/dataModel';
 export type UserId = Id<'users'>;
 
 export {
+  compareVisibilityLevels,
+} from './_helpers/compareVisibilityLevels';
+export {
   type LimitedUser,
   redactUser,
 } from './_helpers/redactUser';
