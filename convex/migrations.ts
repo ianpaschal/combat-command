@@ -2,6 +2,8 @@ import { Migrations } from '@convex-dev/migrations';
 
 import { components } from './_generated/api.js';
 import { DataModel, Id } from './_generated/dataModel.js';
+import { VisibilityLevel } from './_model/common/types.js';
+import { UserDataVisibilityLevel } from './_model/common/userDataVisibilityLevel.js';
 import { extractSearchTokens } from './_model/users/_helpers/extractSearchTokens.js';
 
 export const migrations = new Migrations<DataModel>(components.migrations);
@@ -75,5 +77,21 @@ export const populateUserSearch = migrations.define({
   table: 'users',
   migrateOne: async (ctx, doc) => await ctx.db.patch(doc._id, {
     search: extractSearchTokens(doc),
+  }),
+});
+
+const userDataVisibilityLevelMap: Record<UserDataVisibilityLevel, VisibilityLevel> = {
+  hidden: VisibilityLevel.Hidden,
+  clubs: VisibilityLevel.Clubs,
+  friends: VisibilityLevel.Friends,
+  tournaments: VisibilityLevel.Tournaments,
+  community: VisibilityLevel.Community,
+  public: VisibilityLevel.Public,
+};
+export const migrateUserDataVisibilityLevels = migrations.define({
+  table: 'users',
+  migrateOne: async (ctx, doc) => await ctx.db.patch(doc._id, {
+    nameVisibility: userDataVisibilityLevelMap[(doc.nameVisibility ?? 'hidden') as UserDataVisibilityLevel],
+    locationVisibility: userDataVisibilityLevelMap[(doc.locationVisibility ?? 'hidden') as UserDataVisibilityLevel],
   }),
 });

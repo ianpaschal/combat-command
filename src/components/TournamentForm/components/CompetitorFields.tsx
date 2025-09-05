@@ -110,6 +110,9 @@ export const CompetitorFields = ({
           <InputDateTime />
         </FormField>
       </div>
+      <FormField name="requireRealNames" label="Require Real Names?" description="Users will be prompted to set their name visibility to 'Tournaments' when registering.">
+        <Switch />
+      </FormField>
     </div>
   );
 };

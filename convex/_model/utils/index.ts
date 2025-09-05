@@ -1,4 +1,7 @@
 export {
+  populateUsers,
+} from './actions/populateUsers';
+export {
   createTestTournament,
   createTestTournamentArgs,
 } from './createTestTournament';
@@ -17,3 +20,7 @@ export {
   mergeUser,
   mergeUserArgs,
 } from './mergeUser';
+export {
+  revealTournamentPlayerNames,
+  revealTournamentPlayerNamesArgs,
+} from './mutations/revealTournamentPlayerNames';

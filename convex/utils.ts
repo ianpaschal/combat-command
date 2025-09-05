@@ -1,4 +1,8 @@
-import { internalMutation, mutation } from './_generated/server';
+import {
+  internalAction,
+  internalMutation,
+  mutation,
+} from './_generated/server';
 import * as model from './_model/utils';
 
 export const createTestTournament = mutation({
@@ -23,4 +27,13 @@ export const mergeUser = mutation({
 
 export const createTestUsers = internalMutation({
   handler: model.createTestUsers,
+});
+
+export const revealTournamentPlayerNames = internalMutation({
+  args: model.revealTournamentPlayerNamesArgs,
+  handler: model.revealTournamentPlayerNames,
+});
+
+export const populateUsers = internalAction({
+  handler: model.populateUsers,
 });

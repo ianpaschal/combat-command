@@ -84,6 +84,6 @@ export const GeneralFields = ({
       <FormField name="bannerStorageId" label="Banner Background" disabled={disableFields}>
         <InputSingleFile name="bannerStorageId" onReset={(name) => resetField(name as keyof TournamentFormData)} />
       </FormField>
-    </div>
+    </div >
   );
 };

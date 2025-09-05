@@ -1,6 +1,8 @@
 import clsx from 'clsx';
 
+import { useAuth } from '~/components/AuthProvider';
 import { ConfirmationDialog } from '~/components/ConfirmationDialog';
+import { Warning } from '~/components/generic/Warning';
 import { useTournament } from '~/components/TournamentProvider';
 import { useConfirmRegisterDialog } from './ConfirmRegisterDialog.hooks';
 
@@ -15,6 +17,7 @@ export const ConfirmRegisterDialog = ({
   className,
   onConfirm,
 }: ConfirmRegisterDialogProps): JSX.Element => {
+  const user = useAuth();
   const tournament = useTournament();
   const { id } = useConfirmRegisterDialog();
   return (
@@ -25,9 +28,10 @@ export const ConfirmRegisterDialog = ({
       confirmLabel="Confirm"
       onConfirm={onConfirm}
     >
-      <span>{`${tournament.title} requires that all players' real names are visible to organizers and other players.`}</span>
-      <strong>Your name visibility will be updated to 'Tournaments', making it visible to organizers and other players.</strong>
-      {/* TODO: Add a preview avatar? */}
+      <Warning>
+        {`${tournament.title} requires that all players' real names are visible to organizers and other players.`}
+      </Warning>
+      <span>Your name visibility will be changed from <strong>{user?.nameVisibility}</strong> to <strong>Tournaments</strong>, making it visible to organizers and other players.</span>
     </ConfirmationDialog>
   );
 };

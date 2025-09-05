@@ -1,6 +1,6 @@
 import { MouseEvent } from 'react';
 
-import { compareVisibilityLevels, TournamentCompetitor } from '~/api';
+import { TournamentCompetitor, VisibilityLevel } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
 import { Button } from '~/components/generic/Button';
 import {
@@ -62,7 +62,8 @@ export const TournamentCompetitorEditDialog = ({
     } else {
       const captainIsCurrentUser = captain.userId && user && captain.userId === user._id;
       if (captainIsCurrentUser) {
-        if (compareVisibilityLevels('tournaments', user.nameVisibility)) {
+        const nameVisibility = typeof user?.nameVisibility === 'number' ? user.nameVisibility : 0;
+        if (tournament.requireRealNames && nameVisibility < VisibilityLevel.Tournaments) {
           openConfirmNameVisibilityDialog();
         } else {
           // No need to warn as nameVisibility is only forced for users who add register themselves.

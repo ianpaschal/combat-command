@@ -62,7 +62,6 @@ export const createTournamentCompetitor = async (
     ...tournamentOrganizers.map((r) => r.userId),
     args.captainUserId,
   ];
-  console.error(authorizedUserIds);
   if (!authorizedUserIds.includes(userId)) {
     throw new ConvexError(getErrorMessage('USER_DOES_NOT_HAVE_PERMISSION'));
   }

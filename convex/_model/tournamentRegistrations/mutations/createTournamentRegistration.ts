@@ -8,8 +8,8 @@ import { Id } from '../../../_generated/dataModel';
 import { MutationCtx } from '../../../_generated/server';
 import { checkAuth } from '../../common/_helpers/checkAuth';
 import { getErrorMessage } from '../../common/errors';
+import { VisibilityLevel } from '../../common/types';
 import { getTournamentOrganizersByTournament } from '../../tournamentOrganizers';
-import { compareVisibilityLevels } from '../../users/_helpers/compareVisibilityLevels';
 import { checkUserIsRegistered } from '../_helpers/checkUserIsRegistered';
 import { editableFields } from '../table';
 
@@ -74,8 +74,8 @@ export const createTournamentRegistration = async (
     if (!user) {
       throw new ConvexError(getErrorMessage('USER_NOT_FOUND'));
     }
-    const isSufficient = compareVisibilityLevels('tournaments', user.nameVisibility);
-    if (!isSufficient && userId === args.userId) {
+    const nameVisibility = typeof user?.nameVisibility === 'number' ? user.nameVisibility : 0;
+    if (nameVisibility < VisibilityLevel.Tournaments && userId === args.userId) {
       await ctx.db.patch(args.userId, {
         nameVisibility: 'tournaments',
       });

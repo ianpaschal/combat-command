@@ -4,7 +4,6 @@ import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
 import { getStorageUrl } from '../../common/_helpers/getStorageUrl';
 import { checkUserRelationshipLevel } from './checkUserRelationshipLevel';
-import { compareVisibilityLevels } from './compareVisibilityLevels';
 import { formatUserRealName } from './formatUserRealName';
 
 /**
@@ -48,8 +47,11 @@ export const redactUser = async (
   // Otherwise check for relationships:
   const relationshipLevel = await checkUserRelationshipLevel(ctx, user, userId);
 
-  const nameVisible = compareVisibilityLevels(user?.nameVisibility ?? 'hidden', relationshipLevel);
-  const locationVisible = compareVisibilityLevels(user?.locationVisibility ?? 'hidden', relationshipLevel);
+  const nameVisibility = typeof user?.nameVisibility === 'number' ? user.nameVisibility : 0;
+  const nameVisible = nameVisibility >= relationshipLevel;
+
+  const locationVisibility = typeof user?.locationVisibility === 'number' ? user.locationVisibility : 0;
+  const locationVisible = locationVisibility >= relationshipLevel;
 
   return {
     ...restFields,

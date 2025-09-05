@@ -8,7 +8,7 @@ import {
   Users,
 } from 'lucide-react';
 
-import { compareVisibilityLevels } from '~/api';
+import { VisibilityLevel } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
 import { EmptyState } from '~/components/EmptyState';
 import { Button } from '~/components/generic/Button';
@@ -52,7 +52,8 @@ export const TournamentRosterCard = ({
   const isOrganizer = isUserTournamentOrganizer(user, tournament);
 
   const handleRegister = (): void => {
-    if (compareVisibilityLevels('tournaments', user?.nameVisibility)) {
+    const nameVisibility = typeof user?.nameVisibility === 'number' ? user.nameVisibility : 0;
+    if (tournament.requireRealNames && nameVisibility < VisibilityLevel.Tournaments) {
       openConfirmNameVisibilityDialog({
         onConfirm: handleConfirmRegister,
       });

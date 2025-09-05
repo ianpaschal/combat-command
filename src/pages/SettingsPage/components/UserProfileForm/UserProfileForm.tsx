@@ -34,7 +34,10 @@ export const UserProfileForm = (): JSX.Element => {
   const form = useForm<UserProfileFormData>({
     resolver: zodResolver(createSchema(tournaments ?? [])),
     defaultValues,
-    values: { ...defaultValues, ...(user ?? {}) },
+    values: {
+      ...defaultValues,
+      ...(user ?? {}) as UserProfileFormData,
+    },
   });
 
   const onSubmit: SubmitHandler<UserProfileFormData> = (data) => {

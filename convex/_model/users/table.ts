@@ -8,8 +8,8 @@ export const editableFields = {
   countryCode: v.optional(v.string()),
   familyName: v.optional(v.string()),
   givenName: v.optional(v.string()),
-  locationVisibility: v.optional(userDataVisibilityLevel), 
-  nameVisibility: v.optional(userDataVisibilityLevel),
+  locationVisibility: v.optional(v.union(userDataVisibilityLevel, v.number())), 
+  nameVisibility: v.optional(v.union(userDataVisibilityLevel, v.number())), 
   username: v.optional(v.string()),
 };
 
