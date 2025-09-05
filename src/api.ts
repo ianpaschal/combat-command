@@ -28,6 +28,8 @@ export type PhotoId = Id<'photos'>;
 // Storage
 export type StorageId = Id<'_storage'>;
 
+export { VisibilityLevel } from '../convex/_model/common/types';
+
 // Tournament Competitors
 export {
   type DeepTournamentCompetitor as TournamentCompetitor,

@@ -8,6 +8,7 @@ import {
   Users,
 } from 'lucide-react';
 
+import { VisibilityLevel } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
 import { EmptyState } from '~/components/EmptyState';
 import { Button } from '~/components/generic/Button';
@@ -20,6 +21,7 @@ import { useCreateTournamentCompetitor, useGetTournamentCompetitorsByTournament 
 import { usePublishTournament } from '~/services/tournaments';
 import { PATHS } from '~/settings';
 import { isUserTournamentOrganizer } from '~/utils/common/isUserTournamentOrganizer';
+import { ConfirmRegisterDialog, useConfirmRegisterDialog } from '../ConfirmRegisterDialog';
 import { TournamentDetailCard } from '../TournamentDetailCard';
 
 import styles from './TournamentRosterCard.module.scss';
@@ -34,6 +36,7 @@ export const TournamentRosterCard = ({
   const user = useAuth();
   const tournament = useTournament();
   const competitors = useTournamentCompetitors();
+  const { open: openConfirmNameVisibilityDialog } = useConfirmRegisterDialog();
   const { open: openCreateDialog } = useTournamentCompetitorEditDialog();
   const { data: tournamentCompetitors, loading } = useGetTournamentCompetitorsByTournament({ tournamentId: tournament._id });
   const { mutation: createTournamentCompetitor } = useCreateTournamentCompetitor({
@@ -49,6 +52,17 @@ export const TournamentRosterCard = ({
   const isOrganizer = isUserTournamentOrganizer(user, tournament);
 
   const handleRegister = (): void => {
+    const nameVisibility = typeof user?.nameVisibility === 'number' ? user.nameVisibility : 0;
+    if (tournament.requireRealNames && nameVisibility < VisibilityLevel.Tournaments) {
+      openConfirmNameVisibilityDialog({
+        onConfirm: handleConfirmRegister,
+      });
+    } else {
+      handleConfirmRegister();
+    }
+  };
+
+  const handleConfirmRegister = (): void => {
     if (!user) {
       return;
     }
@@ -131,6 +145,7 @@ export const TournamentRosterCard = ({
         )
       )}
       <TournamentCompetitorEditDialog />
+      <ConfirmRegisterDialog />
     </TournamentDetailCard>
   );
 };

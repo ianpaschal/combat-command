@@ -10,7 +10,7 @@ import { DataModel, Doc } from './_generated/dataModel';
 import { MutationCtx } from './_generated/server';
 import { getEnvironment } from './_model/common/_helpers/getEnvironment';
 import { getErrorMessage } from './_model/common/errors';
-import { UserDataVisibilityLevel } from './_model/common/userDataVisibilityLevel';
+import { VisibilityLevel } from './_model/common/types';
 import { generateUsername } from './_model/users/_helpers/generateUsername';
 import { PasswordResetEmail } from './emails/PasswordResetEmail';
 
@@ -20,8 +20,8 @@ type Profile = Partial<{
   emailVerificationTime: number;
   familyName: string;
   givenName: string;
-  locationVisibility: UserDataVisibilityLevel;
-  nameVisibility: UserDataVisibilityLevel;
+  locationVisibility: VisibilityLevel;
+  nameVisibility: VisibilityLevel;
   username: string;
 }>;
 
@@ -33,8 +33,8 @@ export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
         username: params.username as string,
         givenName: params.givenName as string,
         familyName: params.familyName as string,
-        locationVisibility: params.locationVisibility as UserDataVisibilityLevel,
-        nameVisibility: params.nameVisibility as UserDataVisibilityLevel,
+        locationVisibility: params.locationVisibility as VisibilityLevel,
+        nameVisibility: params.nameVisibility as VisibilityLevel,
         emailVerificationTime: params.emailVerificationTime as number,
         claimTokenHash: params.claimTokenHash as string,
       };

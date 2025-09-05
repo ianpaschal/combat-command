@@ -13,9 +13,12 @@ export const editableFields = {
 export const computedFields = {
   listId: v.optional(v.id('lists')),
   active: v.optional(v.boolean()),
-  userConfirmed: v.boolean(),
-  listApproved: v.boolean(),
+  confirmed: v.optional(v.boolean()),
   modifiedAt: v.optional(v.number()),
+
+  // Deprecated fields:
+  userConfirmed: v.optional(v.boolean()),
+  listApproved: v.optional(v.boolean()),
 };
 
 export default defineTable({

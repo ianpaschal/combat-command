@@ -1,7 +1,6 @@
 import { z } from 'zod';
 
-import { Tournament } from '~/api';
-import { UserProfileNameVisibility, userProfileNameVisibilitySchema } from '~/types/UserProfileNameVisibility';
+import { Tournament, VisibilityLevel } from '~/api';
 
 export const createSchema = (
   userTournaments: Tournament[],
@@ -11,13 +10,13 @@ export const createSchema = (
   }),
   givenName: z.string().min(2),
   familyName: z.string().min(2),
-  nameVisibility: userProfileNameVisibilitySchema,
+  nameVisibility: z.number(),
   countryCode: z.optional(z.string()),
 }).superRefine((data, ctx) => {
   const requireRealNames = userTournaments.some((tournament) => (
     tournament.requireRealNames && (tournament.status === 'published' || tournament.status === 'active')
   ));
-  if (['hidden', 'friends'].includes(data.nameVisibility) && requireRealNames) {
+  if (requireRealNames && data.nameVisibility < VisibilityLevel.Tournaments) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
       message: 'You are currently registered in a tournament which requires real names.',
@@ -32,6 +31,6 @@ export const defaultValues = {
   username: '',
   givenName: '',
   familyName: '',
-  nameVisibility: 'hidden' as UserProfileNameVisibility,
+  nameVisibility: VisibilityLevel.Hidden,
   countryCode: '',
 };

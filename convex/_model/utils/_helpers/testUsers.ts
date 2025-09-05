@@ -1,15 +1,4 @@
-import { Id } from '../../../_generated/dataModel';
-import { UserDataVisibilityLevel } from '../../common/userDataVisibilityLevel';
-
-// 
-export const testUserIds = [
-  'j572mjphfkb7eark2szjtyb8qn7bn4tf', // Alex Carter
-  'j574s84xefn2wvk0knpzym1xeh7fw5z2', // Alice Clark
-  'j5710421y0vm9zyv55gbxgddpn7fwey5', // Benjamin Davis
-  'j574js2nq9a46ebn576b965a0x7fw7kf', // Brooke Dawson
-  'j570497dvs00jm7zmb8p5jzkah7fx6xy', // Caleb Everett
-  'j5777eagk7scfprcemjnmeshch7fx973', // Clara Evans
-] as Id<'users'>[];
+import { VisibilityLevel } from '../../common/types';
 
 export const userEmails = [
   'alex.carter.cc.3phf3@passmail.net',
@@ -71,8 +60,8 @@ type CreateUserDataOutput = {
   email: string;
   familyName: string;
   givenName: string;
-  locationVisibility: UserDataVisibilityLevel;
-  nameVisibility: UserDataVisibilityLevel;
+  locationVisibility: VisibilityLevel;
+  nameVisibility: VisibilityLevel;
   username: string;
 };
 
@@ -83,8 +72,8 @@ export const createUserData = (email: string): CreateUserDataOutput => {
     email,
     familyName,
     givenName,
-    locationVisibility: 'hidden',
-    nameVisibility: 'hidden',
+    locationVisibility: 0,
+    nameVisibility: 0,
     username: `${givenName}_${familyName.substring(0,1)}`.toLowerCase(),
   };
 };
