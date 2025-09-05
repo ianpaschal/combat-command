@@ -1,9 +1,7 @@
 import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
-import { calculateFowV4MatchResultScore } from '../../fowV4/calculateFowV4MatchResultScore';
-import { getMission } from '../../fowV4/getMission';
 import { getUser } from '../../users/queries/getUser';
-import { checkMatchResultDetailsVisibility } from './checkMatchResultDetailsVisibility';
+import { redactMatchResultDetails } from './redactMatchResultDetails';
 
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /**
@@ -35,25 +33,11 @@ export const deepenMatchResult = async (
     .withIndex('by_match_result_id',((q) => q.eq('matchResultId', matchResult._id)))
     .collect();
 
-  // Details
-  const mission = getMission(matchResult.details.missionId);
-  const battlePlansVisible = await checkMatchResultDetailsVisibility(ctx, matchResult);
-
-  // TODO: This is FowV4 specific, needs to be made generic!
-  const [player0Score, player1Score] = calculateFowV4MatchResultScore(matchResult);
-
   return {
     ...matchResult,
     ...(player0User ? { player0User } : {}),
     ...(player1User ? { player1User } : {}),
-    details: {
-      ...matchResult.details,
-      player0BattlePlan: battlePlansVisible ? matchResult.details.player0BattlePlan : undefined,
-      player1BattlePlan: battlePlansVisible ? matchResult.details.player1BattlePlan : undefined,
-      missionName: mission?.displayName,
-      player0Score,
-      player1Score,
-    },
+    details: await redactMatchResultDetails(ctx, matchResult),
     likedByUserIds: likes.map((like) => like.userId),
     commentCount: comments.length,
   };
