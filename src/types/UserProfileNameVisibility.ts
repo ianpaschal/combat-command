@@ -5,6 +5,7 @@ export const userProfileNameVisibilitySchema = z.union([
   z.literal('friends'),
   z.literal('clubs'),
   z.literal('tournaments'),
+  z.literal('community'),
   z.literal('public'),
 ], { message: 'Visibility must be set' });
 
@@ -15,6 +16,7 @@ export const userProfileNameVisibilityLabels: Record<UserProfileNameVisibility, 
   friends: 'Friends',
   clubs: 'Clubs',
   tournaments: 'Tournaments',
+  community: 'Community',
   public: 'Public',
 };
 
