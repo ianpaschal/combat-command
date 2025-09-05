@@ -10,7 +10,7 @@ import { InputText } from '~/components/generic/InputText';
 import { Separator } from '~/components/generic/Separator';
 import { useGetTournamentsByUser } from '~/services/tournaments';
 import { useUpdateUser } from '~/services/users';
-import { userProfileNameVisibilityOptions } from '~/types/UserProfileNameVisibility';
+import { visibilityLevelOptions } from '~/types/visibilityLevelOptions';
 import { getCountryOptions } from '~/utils/common/getCountryOptions';
 import {
   createSchema,
@@ -62,7 +62,7 @@ export const UserProfileForm = (): JSX.Element => {
         </FormField>
       </div>
       <FormField name="nameVisibility" label="Name Visibility" className={styles.NameVisibilityField}>
-        <InputSelect options={userProfileNameVisibilityOptions} />
+        <InputSelect options={visibilityLevelOptions} />
       </FormField>
       <h3>About Name Privacy</h3>
       <p>You can configure if you want your name to be hidden, visible to friends, tournament organizers & participants, or public. A brief explanation of what these levels mean is as follows:</p>

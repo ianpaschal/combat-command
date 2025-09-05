@@ -4,6 +4,7 @@ import { useAuth } from '~/components/AuthProvider';
 import { ConfirmationDialog } from '~/components/ConfirmationDialog';
 import { Warning } from '~/components/generic/Warning';
 import { useTournament } from '~/components/TournamentProvider';
+import { visibilityLevelOptions } from '~/types/visibilityLevelOptions';
 import { useConfirmRegisterDialog } from './ConfirmRegisterDialog.hooks';
 
 import styles from './ConfirmRegisterDialog.module.scss';
@@ -20,6 +21,9 @@ export const ConfirmRegisterDialog = ({
   const user = useAuth();
   const tournament = useTournament();
   const { id } = useConfirmRegisterDialog();
+  const nameVisibility = visibilityLevelOptions.find((option) => (
+    option.value === user?.nameVisibility
+  ))?.label ?? 'Hidden';
   return (
     <ConfirmationDialog
       id={id}
@@ -31,7 +35,7 @@ export const ConfirmRegisterDialog = ({
       <Warning>
         {`${tournament.title} requires that all players' real names are visible to organizers and other players.`}
       </Warning>
-      <span>Your name visibility will be changed from <strong>{user?.nameVisibility}</strong> to <strong>Tournaments</strong>, making it visible to organizers and other players.</span>
+      <span>Your name visibility will be changed from <strong>{nameVisibility}</strong> to <strong>Tournaments</strong>, making it visible to organizers and other players.</span>
     </ConfirmationDialog>
   );
 };
