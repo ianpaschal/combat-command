@@ -24,6 +24,8 @@ import { CommonFields } from './components/CommonFields';
 import { GameConfigFields } from './components/GameConfigFields';
 import { SingleMatchPlayersFields } from './components/SingleMatchPlayersFields';
 import { TournamentPlayersFields } from './components/TournamentPlayersFields';
+import { calculateFowV4MatchResultScore } from '../../../convex/_model/fowV4/calculateFowV4MatchResultScore';
+import { usePlayerDisplayNames } from './FowV4MatchResultForm.hooks';
 import {
   defaultValues,
   FowV4MatchResultFormData,
@@ -96,6 +98,8 @@ export const FowV4MatchResultForm = ({
     mode: 'onSubmit',
   });
 
+  const playerNames = usePlayerDisplayNames(form.watch());
+
   const onSubmit: SubmitHandler<FowV4MatchResultFormData> = (formData): void => {
     const data = validateForm(fowV4MatchResultFormSchema, formData, form.setError);
     if (data) {
@@ -103,11 +107,14 @@ export const FowV4MatchResultForm = ({
         updateMatchResult({ ...data, id: matchResult._id, playedAt: matchResult.playedAt });
       } else {
         if (tournamentPairingId !== 'single') {
+          const score = calculateFowV4MatchResultScore(data.details);
           openConfirmMatchResultDialog({
             children: (
               <FowV4MatchResultDetails
                 className={styles.FowV4MatchResultForm_ConfirmDialogDetails}
-                matchResult={data}
+                details={data.details}
+                playerNames={playerNames}
+                score={score}
               />
             ),
             onConfirm: () => {

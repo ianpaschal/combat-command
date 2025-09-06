@@ -1,9 +1,12 @@
-import { FowV4MatchResultOutcomeDetails } from './FowV4MatchResultDetails.types';
+import { FowV4MatchResultDetails } from '~/api';
 
 export const formatOutcome = (
-  details: FowV4MatchResultOutcomeDetails,
+  details: FowV4MatchResultDetails,
   playerNames: [string, string],
 ): string => {
+  if (details.winner === undefined) {
+    return 'Hidden';
+  }
   if (details.winner !== -1 && details.outcomeType === 'attack_repelled') {
     return `${playerNames[details.winner]} repelled the attack.`;
   }

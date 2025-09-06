@@ -3,7 +3,14 @@ import { Id } from '../../_generated/dataModel';
 export type MatchResultId = Id<'matchResults'>;
 
 // Helpers
-export { deepenMatchResult, type DeepMatchResult } from './_helpers/deepenMatchResult';
+export {
+  deepenFowV4MatchResultDetails,
+  type DeepFowV4MatchResultDetails,
+} from './_helpers/deepenFowV4MatchResultDetails';
+export {
+  deepenMatchResult,
+  type DeepMatchResult,
+} from './_helpers/deepenMatchResult';
 export { getShallowMatchResult } from './_helpers/getShallowMatchResult';
 
 // Mutations
