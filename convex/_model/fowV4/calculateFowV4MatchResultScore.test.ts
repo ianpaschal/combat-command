@@ -7,7 +7,7 @@ import {
 import { calculateFowV4MatchResultScore } from './calculateFowV4MatchResultScore';
 import { FowV4MatchResultDetails } from './fowV4MatchResultDetails';
 
-describe('calculateFowV4MatchScore', () => {
+describe('calculateFowV4MatchResultScore', () => {
   it('should return [8, 1] when player 0 wins with less than 2 units lost.', () => {
     const details = {
       winner: 0,
