@@ -68,6 +68,7 @@ export {
 export {
   type TournamentDeep as Tournament,
   TournamentActionKey,
+  type TournamentEditableFields,
   type TournamentId,
 } from '../convex/_model/tournaments';
 

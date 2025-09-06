@@ -28,7 +28,7 @@ export interface InputLocationProps {
 export const InputLocation = forwardRef<HTMLButtonElement, InputLocationProps>(({
   value,
   onChange,
-  // hasError = false,
+  hasError: _ = false,
   ...props
 }, ref): JSX.Element => {
   const [searchTerm, setSearchTerm] = useState<string>('');

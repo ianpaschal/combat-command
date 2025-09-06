@@ -1,22 +1,17 @@
-@use "/src/style/variables";
 @use "/src/style/animate";
-@use "/src/style/variants";
+@use "/src/style/corners";
+@use "/src/style/flex";
 @use "/src/style/shadows";
 @use "/src/style/text";
-@use "/src/style/flex";
+@use "/src/style/variables";
+@use "/src/style/variants";
 
 .Trigger {
-  width: 100%;
-  background-color: red;
-
   @include flex.row($gap: 0.5rem);
   @include flex.stretchy;
   @include text.ui;
-}
 
-.Input {
-  text-align: left;
-  background-color: blue;
+  width: 100%;
 }
 
 .Content {
@@ -24,12 +19,10 @@
   @include animate.duration-quick;
   @include animate.style-pop;
   @include flex.column($gap: 0);
+  @include corners.normal;
 
-  & {
-    margin: 0.25rem 0;
-    background-color: var(--card-bg);
-    border-radius: variables.$corner-radius;
-  }
+  margin: 0.25rem 0;
+  background-color: var(--card-bg);
 }
 
 .DateSection {

@@ -1,4 +1,3 @@
-import { DeepPartial } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   CurrencyCode,
@@ -8,7 +7,7 @@ import {
 import { RankingFactor } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
 import { z } from 'zod';
 
-import { StorageId } from '~/api';
+import { StorageId, TournamentEditableFields } from '~/api';
 import { fowV4GameSystemConfigDefaultValues, fowV4GameSystemConfigFormSchema } from '~/components/FowV4MatchResultForm/components/GameConfigFields.schema';
 
 // TODO: Add competitor groups
@@ -39,15 +38,17 @@ export const tournamentFormSchema = z.object({
       name: z.string(), // e.g. Michigan
     })),
     countryCode: z.string(),
-
     coordinates: z.object({
       lat: z.number(),
       lon: z.number(),
     }),
   }),
-  startsAt: z.string(), // Local time 0000-00-00T00:00
-  endsAt: z.string(), // Local time 0000-00-00T00:00
-  registrationClosesAt: z.string(),
+
+  startsAt: z.date(),
+  endsAt: z.date(),
+  registrationClosesAt: z.date(),
+  listSubmissionClosesAt: z.date(),
+
   logoStorageId: z.preprocess((val) => val === '' ? undefined : val, z.string().optional().transform((val) => val as StorageId)),
   bannerStorageId: z.preprocess((val) => val === '' ? undefined : val, z.string().optional().transform((val) => val as StorageId)),
 
@@ -88,9 +89,11 @@ export const tournamentFormSchema = z.object({
 
 export const tournamentFormResolver = zodResolver(tournamentFormSchema);
 
+export type TournamentSubmitData = TournamentEditableFields;
+
 export type TournamentFormData = z.infer<typeof tournamentFormSchema>;
 
-export const defaultValues: DeepPartial<TournamentFormData> = {
+export const defaultValues: Omit<z.infer<typeof tournamentFormSchema>, 'location'> = {
   maxCompetitors: 20,
   competitorSize: 1,
   useNationalTeams: false,
@@ -107,8 +110,36 @@ export const defaultValues: DeepPartial<TournamentFormData> = {
     setUpTime: 30,
     playingTime: 120,
   },
+  competitorFee: {
+    currency: CurrencyCode.EUR,
+    amount: 0,
+  },
   rankingFactors: [RankingFactor.TotalWins],
-  logoStorageId: '',
-  bannerStorageId: '',
+  logoStorageId: '' as StorageId,
+  bannerStorageId: '' as StorageId,
   editionYear: 2025,
+  startsAt: (() => {
+    const date = new Date();
+    date.setDate(date.getDate() + 14);
+    date.setHours(9, 0, 0, 0);
+    return date;
+  })(),
+  endsAt: (() => {
+    const date = new Date();
+    date.setDate(date.getDate() + 14);
+    date.setHours(17, 0, 0, 0);
+    return date;
+  })(),
+  registrationClosesAt: (() => {
+    const date = new Date();
+    date.setDate(date.getDate() + 7);
+    date.setHours(23, 0, 0, 0);
+    return date;
+  })(),
+  listSubmissionClosesAt: (() => {
+    const date = new Date();
+    date.setDate(date.getDate() + 10);
+    date.setHours(23, 0, 0, 0);
+    return date;
+  })(),
 };

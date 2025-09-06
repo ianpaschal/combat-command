@@ -8,7 +8,7 @@ import { useAuth } from '~/components/AuthProvider';
 import { Button } from '~/components/generic/Button';
 import { PageWrapper } from '~/components/PageWrapper';
 import { toast } from '~/components/ToastProvider';
-import { TournamentForm, TournamentFormSubmitData } from '~/components/TournamentForm';
+import { TournamentForm, TournamentSubmitData } from '~/components/TournamentForm';
 import { useCreateTournament } from '~/services/tournaments';
 import { PATHS } from '~/settings';
 
@@ -35,7 +35,7 @@ export const TournamentCreatePage = (): JSX.Element => {
     }
   };
 
-  const handleCreate = (data: TournamentFormSubmitData): void => {
+  const handleCreate = (data: TournamentSubmitData): void => {
     createTournament({
       ...data,
       ownerUserId: user!._id,

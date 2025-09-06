@@ -1,4 +1,5 @@
 import { Migrations } from '@convex-dev/migrations';
+import { fromZonedTime } from 'date-fns-tz';
 
 import { components } from './_generated/api.js';
 import { DataModel, Id } from './_generated/dataModel.js';
@@ -94,4 +95,23 @@ export const migrateUserDataVisibilityLevels = migrations.define({
     nameVisibility: userDataVisibilityLevelMap[(doc.nameVisibility ?? 'hidden') as UserDataVisibilityLevel],
     locationVisibility: userDataVisibilityLevelMap[(doc.locationVisibility ?? 'hidden') as UserDataVisibilityLevel],
   }),
+});
+
+const convertStringToEpoch = (input: string, timezone: string): number => {
+  const date = new Date(input);
+  return fromZonedTime(date, timezone).getTime();
+};
+
+export const migrateTournamentDates = migrations.define({
+  table: 'tournaments',
+  migrateOne: async (ctx, doc) => {
+    const updated = {
+      ...doc,
+      startsAt: typeof doc.startsAt === 'string' ? convertStringToEpoch(doc.startsAt, doc.location.timeZone) : doc.startsAt,
+      endsAt: typeof doc.endsAt === 'string' ? convertStringToEpoch(doc.endsAt, doc.location.timeZone) : doc.endsAt,
+      registrationClosesAt: typeof doc.registrationClosesAt === 'string' ? convertStringToEpoch(doc.registrationClosesAt, doc.location.timeZone) : doc.registrationClosesAt,
+      listSubmissionClosesAt: (typeof doc.startsAt === 'string' ? convertStringToEpoch(doc.startsAt, doc.location.timeZone) : doc.startsAt) - 86400000, // 1 Day earlier
+    };
+    await ctx.db.patch(doc._id, updated);
+  },
 });

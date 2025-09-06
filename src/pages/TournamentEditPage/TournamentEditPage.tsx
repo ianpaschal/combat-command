@@ -9,7 +9,7 @@ import { TournamentId } from '~/api';
 import { Button } from '~/components/generic/Button';
 import { PageWrapper } from '~/components/PageWrapper';
 import { toast } from '~/components/ToastProvider';
-import { TournamentForm, TournamentFormSubmitData } from '~/components/TournamentForm';
+import { TournamentForm, TournamentSubmitData } from '~/components/TournamentForm';
 import { useGetTournament, useUpdateTournament } from '~/services/tournaments';
 import { PATHS } from '~/settings';
 
@@ -38,7 +38,7 @@ export const TournamentEditPage = (): JSX.Element => {
     }
   };
 
-  const handleUpdate = (data: TournamentFormSubmitData): void => {
+  const handleUpdate = (data: TournamentSubmitData): void => {
     updateTournament({
       id: tournamentId,
       ...data,
