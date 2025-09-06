@@ -21,11 +21,7 @@ import {
   tournamentFormSchema,
   TournamentSubmitData,
 } from './TournamentForm.schema';
-import {
-  convertDateToEpoch,
-  convertEpochToDate,
-  convertStringToDate,
-} from './TournamentForm.utils';
+import { convertDateToEpoch, convertEpochToDate } from './TournamentForm.utils';
 
 import styles from './TournamentForm.module.scss';
 
@@ -48,10 +44,10 @@ export const TournamentForm = ({
       ...defaultValues,
       ...(tournament ? {
         ...tournament,
-        startsAt: typeof tournament.startsAt === 'string' ? convertStringToDate(tournament.startsAt, tournament.location.timeZone) : convertEpochToDate(tournament.startsAt, tournament.location.timeZone),
-        endsAt: typeof tournament.endsAt === 'string' ? convertStringToDate(tournament.endsAt, tournament.location.timeZone) : convertEpochToDate(tournament.endsAt, tournament.location.timeZone),
-        registrationClosesAt: typeof tournament.registrationClosesAt === 'string' ? convertStringToDate(tournament.registrationClosesAt, tournament.location.timeZone) : convertEpochToDate(tournament.registrationClosesAt, tournament.location.timeZone),
-        listSubmissionClosesAt: typeof tournament.listSubmissionClosesAt === 'string' ? convertStringToDate(tournament.listSubmissionClosesAt, tournament.location.timeZone) : convertEpochToDate(tournament.listSubmissionClosesAt ?? 0, tournament.location.timeZone),
+        startsAt: convertEpochToDate(tournament.startsAt, tournament.location.timeZone),
+        endsAt: convertEpochToDate(tournament.endsAt, tournament.location.timeZone),
+        registrationClosesAt: convertEpochToDate(tournament.registrationClosesAt, tournament.location.timeZone),
+        listSubmissionClosesAt: convertEpochToDate(tournament.listSubmissionClosesAt, tournament.location.timeZone),
       } : {}),
     },
     mode: 'onSubmit',

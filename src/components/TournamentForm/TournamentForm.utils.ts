@@ -16,17 +16,3 @@ export const convertDateToEpoch = (date: Date, timezone: string): number => {
   // Return the epoch timestamp
   return utcDate.getTime();
 };
-
-export const convertStringToDate = (dateString: string, timezone: string): Date => {
-  // Parse the ISO date string and convert to the specified timezone
-  const date = new Date(dateString);
-  return fromZonedTime(date, timezone);
-};
-
-export const convertDateToString = (date: Date, timezone: string): string => {
-  // Convert the local date to UTC using the provided timezone
-  const utcDate = toZonedTime(date, timezone);
-  
-  // Return as ISO string
-  return utcDate.toISOString();
-};

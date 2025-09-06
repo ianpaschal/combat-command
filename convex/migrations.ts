@@ -1,11 +1,7 @@
 import { Migrations } from '@convex-dev/migrations';
-import { fromZonedTime } from 'date-fns-tz';
 
 import { components } from './_generated/api.js';
 import { DataModel, Id } from './_generated/dataModel.js';
-import { VisibilityLevel } from './_model/common/types.js';
-import { UserDataVisibilityLevel } from './_model/common/userDataVisibilityLevel.js';
-import { extractSearchTokens } from './_model/users/_helpers/extractSearchTokens.js';
 
 export const migrations = new Migrations<DataModel>(components.migrations);
 export const run = migrations.runner();
@@ -71,47 +67,5 @@ export const fixMissingListData = migrations.define({
       }
     }
     await ctx.db.patch(doc._id, patchData);
-  },
-});
-
-export const populateUserSearch = migrations.define({
-  table: 'users',
-  migrateOne: async (ctx, doc) => await ctx.db.patch(doc._id, {
-    search: extractSearchTokens(doc),
-  }),
-});
-
-const userDataVisibilityLevelMap: Record<UserDataVisibilityLevel, VisibilityLevel> = {
-  hidden: VisibilityLevel.Hidden,
-  clubs: VisibilityLevel.Clubs,
-  friends: VisibilityLevel.Friends,
-  tournaments: VisibilityLevel.Tournaments,
-  community: VisibilityLevel.Community,
-  public: VisibilityLevel.Public,
-};
-export const migrateUserDataVisibilityLevels = migrations.define({
-  table: 'users',
-  migrateOne: async (ctx, doc) => await ctx.db.patch(doc._id, {
-    nameVisibility: userDataVisibilityLevelMap[(doc.nameVisibility ?? 'hidden') as UserDataVisibilityLevel],
-    locationVisibility: userDataVisibilityLevelMap[(doc.locationVisibility ?? 'hidden') as UserDataVisibilityLevel],
-  }),
-});
-
-const convertStringToEpoch = (input: string, timezone: string): number => {
-  const date = new Date(input);
-  return fromZonedTime(date, timezone).getTime();
-};
-
-export const migrateTournamentDates = migrations.define({
-  table: 'tournaments',
-  migrateOne: async (ctx, doc) => {
-    const updated = {
-      ...doc,
-      startsAt: typeof doc.startsAt === 'string' ? convertStringToEpoch(doc.startsAt, doc.location.timeZone) : doc.startsAt,
-      endsAt: typeof doc.endsAt === 'string' ? convertStringToEpoch(doc.endsAt, doc.location.timeZone) : doc.endsAt,
-      registrationClosesAt: typeof doc.registrationClosesAt === 'string' ? convertStringToEpoch(doc.registrationClosesAt, doc.location.timeZone) : doc.registrationClosesAt,
-      listSubmissionClosesAt: (typeof doc.startsAt === 'string' ? convertStringToEpoch(doc.startsAt, doc.location.timeZone) : doc.startsAt) - 86400000, // 1 Day earlier
-    };
-    await ctx.db.patch(doc._id, updated);
   },
 });
