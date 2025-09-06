@@ -11,6 +11,11 @@ import { z } from 'zod';
 import { MatchResult, UserId } from '~/api';
 import { fowV4GameSystemConfigDefaultValues, fowV4GameSystemConfigFormSchema } from './components/GameConfigFields.schema';
 
+const requiredNumberSchema = ({ message, min }: { message: string, min: number }) => z.preprocess(
+  (val) => val === '' ? undefined : val,
+  z.coerce.number({ message }).min(min),
+);
+
 export const fowV4MatchResultDetailsSchema = z.object({
   // Handled by <TournamentPlayersForm /> or <SingleMatchPlayersForm />
   player0BattlePlan: z.nativeEnum(BattlePlan, {
@@ -19,14 +24,20 @@ export const fowV4MatchResultDetailsSchema = z.object({
   player0Faction: z.nativeEnum(Faction, {
     errorMap: () => ({ message: 'Please select a faction.' }),
   }),
-  player0UnitsLost: z.coerce.number(),
+  player0UnitsLost: requiredNumberSchema({
+    message: 'Please enter a number of units lost',
+    min: 0,
+  }),
   player1BattlePlan: z.nativeEnum(BattlePlan, {
     errorMap: () => ({ message: 'Please select a battle plan.' }),
   }),
   player1Faction: z.nativeEnum(Faction, {
     errorMap: () => ({ message: 'Please select a faction.' }),
   }),
-  player1UnitsLost: z.coerce.number(),
+  player1UnitsLost: requiredNumberSchema({
+    message: 'Please enter a number of units lost',
+    min: 0,
+  }),
 
   // Handled by <CommonForm />
   attacker: z.union([z.literal(0), z.literal(1)], { message: 'Please select an attacker.' }),
@@ -37,11 +48,20 @@ export const fowV4MatchResultDetailsSchema = z.object({
   outcomeType: z.enum(Object.values(MatchOutcomeType) as [MatchOutcomeType, ...MatchOutcomeType[]], {
     message: 'Please select an outcome type.',
   }),
-  turnsPlayed: z.coerce.number({ message: 'Please enter a number of turns' }).min(1),
+  turnsPlayed: requiredNumberSchema({
+    message: 'Please enter a number of turns',
+    min: 1,
+  }),
   winner: z.union([z.literal(-1), z.literal(0), z.literal(1)], { message: 'Please select a winner.' }),
   scoreOverride: z.optional(z.object({
-    player0Score: z.coerce.number({ message: 'Please enter a score' }),
-    player1Score: z.coerce.number({ message: 'Please enter a score' }),
+    player0Score: requiredNumberSchema({
+      message: 'Please enter a score',
+      min: 0,
+    }),
+    player1Score: requiredNumberSchema({
+      message: 'Please enter a score',
+      min: 0,
+    }),
   })),
 });
 
