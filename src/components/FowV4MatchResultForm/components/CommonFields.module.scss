@@ -2,12 +2,18 @@
 @use "/src/style/variables";
 @use "/src/style/flex";
 
-.Root {
+.CommonFields {
   @include flex.column;
-}
 
-.OutcomeSection {
-  display: grid;
-  grid-template-columns: minmax(6rem, 1fr) 3fr;
-  gap: 1rem;
+  &_OutcomeSection {
+    display: grid;
+    grid-template-columns: minmax(6rem, 1fr) 3fr;
+    gap: 1rem;
+  }
+
+  &_ScoreOverrideSection {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
 }

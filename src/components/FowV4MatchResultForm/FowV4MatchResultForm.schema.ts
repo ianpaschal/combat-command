@@ -39,6 +39,10 @@ export const fowV4MatchResultDetailsSchema = z.object({
   }),
   turnsPlayed: z.coerce.number().min(1),
   winner: z.union([z.literal(-1), z.literal(0), z.literal(1)], { message: 'Please select a winner.' }),
+  scoreOverride: z.optional(z.object({
+    player0Score: z.coerce.number(),
+    player1Score: z.coerce.number(),
+  })),
 });
 
 export const fowV4MatchResultFormSchema = z.object({
@@ -74,13 +78,13 @@ export type FowV4MatchResultFormData = DeepPartial<FowV4MatchResultSubmitData>;
 
 export const defaultValues: DeepPartial<MatchResult> = {
   details: {
-    player0UnitsLost: 0,
-    player1UnitsLost: 0,
+    player0UnitsLost: undefined,
+    player1UnitsLost: undefined,
     attacker: undefined,
     firstTurn: undefined,
     mission: undefined,
     outcomeType: undefined,
-    turnsPlayed: 1,
+    turnsPlayed: undefined,
     winner: undefined,
     player0BattlePlan: undefined,
     player1BattlePlan: undefined,

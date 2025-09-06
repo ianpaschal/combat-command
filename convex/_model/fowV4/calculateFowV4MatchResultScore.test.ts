@@ -88,4 +88,71 @@ describe('calculateFowV4MatchResultScore', () => {
     } as FowV4MatchResultDetails;
     expect(calculateFowV4MatchResultScore(details)).toEqual([1, 1]);
   });
+
+  describe('scoreOverride', () => {
+    it('should return override scores when scoreOverride is provided.', () => {
+      const details = {
+        winner: 0,
+        player0UnitsLost: 1,
+        player1UnitsLost: 5,
+        scoreOverride: {
+          player0Score: 10,
+          player1Score: 0,
+        },
+      } as FowV4MatchResultDetails;
+      expect(calculateFowV4MatchResultScore(details)).toEqual([10, 0]);
+    });
+
+    it('should return override scores even when winner would normally give different scores.', () => {
+      const details = {
+        winner: 1,
+        player0UnitsLost: 5,
+        player1UnitsLost: 1,
+        scoreOverride: {
+          player0Score: 5,
+          player1Score: 5,
+        },
+      } as FowV4MatchResultDetails;
+      expect(calculateFowV4MatchResultScore(details)).toEqual([5, 5]);
+    });
+
+    it('should return override scores even for draw scenarios.', () => {
+      const details = {
+        winner: -1,
+        player0UnitsLost: 2,
+        player1UnitsLost: 3,
+        scoreOverride: {
+          player0Score: 7,
+          player1Score: 3,
+        },
+      } as FowV4MatchResultDetails;
+      expect(calculateFowV4MatchResultScore(details)).toEqual([7, 3]);
+    });
+
+    it('should return override scores with zero values.', () => {
+      const details = {
+        winner: 0,
+        player0UnitsLost: 1,
+        player1UnitsLost: 5,
+        scoreOverride: {
+          player0Score: 0,
+          player1Score: 0,
+        },
+      } as FowV4MatchResultDetails;
+      expect(calculateFowV4MatchResultScore(details)).toEqual([0, 0]);
+    });
+
+    it('should return override scores with negative values.', () => {
+      const details = {
+        winner: 1,
+        player0UnitsLost: 5,
+        player1UnitsLost: 1,
+        scoreOverride: {
+          player0Score: -1,
+          player1Score: 9,
+        },
+      } as FowV4MatchResultDetails;
+      expect(calculateFowV4MatchResultScore(details)).toEqual([-1, 9]);
+    });
+  });
 });
