@@ -69,9 +69,9 @@ import type * as _model_matchResultLikes_queries_getMatchResultLikesByUser from 
 import type * as _model_matchResultLikes_table from "../_model/matchResultLikes/table.js";
 import type * as _model_matchResults__helpers_checkMatchResultAuth from "../_model/matchResults/_helpers/checkMatchResultAuth.js";
 import type * as _model_matchResults__helpers_checkMatchResultDetailsVisibility from "../_model/matchResults/_helpers/checkMatchResultDetailsVisibility.js";
+import type * as _model_matchResults__helpers_deepenFowV4MatchResultDetails from "../_model/matchResults/_helpers/deepenFowV4MatchResultDetails.js";
 import type * as _model_matchResults__helpers_deepenMatchResult from "../_model/matchResults/_helpers/deepenMatchResult.js";
 import type * as _model_matchResults__helpers_getShallowMatchResult from "../_model/matchResults/_helpers/getShallowMatchResult.js";
-import type * as _model_matchResults__helpers_redactMatchResultDetails from "../_model/matchResults/_helpers/redactMatchResultDetails.js";
 import type * as _model_matchResults_index from "../_model/matchResults/index.js";
 import type * as _model_matchResults_mutations_addPhotoToMatchResult from "../_model/matchResults/mutations/addPhotoToMatchResult.js";
 import type * as _model_matchResults_mutations_createMatchResult from "../_model/matchResults/mutations/createMatchResult.js";
@@ -316,9 +316,9 @@ declare const fullApi: ApiFromModules<{
   "_model/matchResultLikes/table": typeof _model_matchResultLikes_table;
   "_model/matchResults/_helpers/checkMatchResultAuth": typeof _model_matchResults__helpers_checkMatchResultAuth;
   "_model/matchResults/_helpers/checkMatchResultDetailsVisibility": typeof _model_matchResults__helpers_checkMatchResultDetailsVisibility;
+  "_model/matchResults/_helpers/deepenFowV4MatchResultDetails": typeof _model_matchResults__helpers_deepenFowV4MatchResultDetails;
   "_model/matchResults/_helpers/deepenMatchResult": typeof _model_matchResults__helpers_deepenMatchResult;
   "_model/matchResults/_helpers/getShallowMatchResult": typeof _model_matchResults__helpers_getShallowMatchResult;
-  "_model/matchResults/_helpers/redactMatchResultDetails": typeof _model_matchResults__helpers_redactMatchResultDetails;
   "_model/matchResults/index": typeof _model_matchResults_index;
   "_model/matchResults/mutations/addPhotoToMatchResult": typeof _model_matchResults_mutations_addPhotoToMatchResult;
   "_model/matchResults/mutations/createMatchResult": typeof _model_matchResults_mutations_createMatchResult;

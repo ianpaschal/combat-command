@@ -40,7 +40,7 @@ export const MatchResultPlayers = ({
         </Popover.Portal>
       </Popover.Root> */}
       <div className={styles.Player0Score}>
-        {matchResult.details.player0Score}
+        {matchResult.player0Score}
       </div>
       <div className={styles.Separator} />
       <IdentityBadge
@@ -63,7 +63,7 @@ export const MatchResultPlayers = ({
         </Popover.Portal>
       </Popover.Root> */}
       <div className={styles.Player1Score}>
-        {matchResult.details.player1Score}
+        {matchResult.player1Score}
       </div>
     </div>
   );

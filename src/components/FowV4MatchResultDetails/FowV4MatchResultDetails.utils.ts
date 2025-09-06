@@ -1,7 +1,7 @@
-import { MatchResultDetails } from '~/api';
+import { FowV4MatchResultDetails } from '~/api';
 
 export const formatOutcome = (
-  details: MatchResultDetails,
+  details: FowV4MatchResultDetails,
   playerNames: [string, string],
 ): string => {
   if (details.winner === undefined) {

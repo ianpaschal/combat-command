@@ -67,6 +67,10 @@ export const MatchResultDetailPage = (): JSX.Element => {
                   className={styles.Details}
                   details={matchResult.details}
                   playerNames={playerNames}
+                  score={[
+                    matchResult.player0Score,
+                    matchResult.player1Score,
+                  ]}
                 />
               </ScrollArea>
               <Separator />

@@ -1,8 +1,10 @@
 import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
+import { calculateFowV4MatchResultScore } from '../../fowV4/calculateFowV4MatchResultScore';
 import { getList } from '../../lists';
 import { getUser } from '../../users/queries/getUser';
-import { redactMatchResultDetails } from './redactMatchResultDetails';
+import { checkMatchResultDetailsVisibility } from './checkMatchResultDetailsVisibility';
+import { deepenFowV4MatchResultDetails } from './deepenFowV4MatchResultDetails';
 
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /**
@@ -33,6 +35,11 @@ export const deepenMatchResult = async (
   const player1List = doc?.player1ListId ? await getList(ctx, {
     id: doc.player1ListId,
   }) : null;
+
+  // TODO: This is FowV4 specific, needs to be made generic!
+  const [player0Score, player1Score] = calculateFowV4MatchResultScore(doc.details);
+  
+  const showDetails = await checkMatchResultDetailsVisibility(ctx, doc);
   
   // Social
   const comments = await ctx.db.query('matchResultComments')
@@ -45,12 +52,14 @@ export const deepenMatchResult = async (
   return {
     ...doc,
     player0DisplayName,
+    player0Score,
     ...(player0User ? { player0User } : {}),
     ...(player0List ? { player0List } : {}),
     player1DisplayName,
+    player1Score,
     ...(player1User ? { player1User } : {}),
     ...(player1List ? { player1List } : {}),
-    details: await redactMatchResultDetails(ctx, doc),
+    details: showDetails ? deepenFowV4MatchResultDetails(doc.details) : undefined,
     likedByUserIds: likes.map((like) => like.userId),
     commentCount: comments.length,
   };

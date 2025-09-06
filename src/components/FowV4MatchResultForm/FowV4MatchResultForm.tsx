@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import clsx from 'clsx';
+import { calculateFowV4MatchResultScore } from 'convex/_model/fowV4/calculateFowV4MatchResultScore';
 
 import {
   MatchResult,
@@ -30,7 +31,6 @@ import {
   FowV4MatchResultFormData,
   fowV4MatchResultFormSchema,
 } from './FowV4MatchResultForm.schema';
-import { getMatchResultDetails } from './FowV4MatchResultForm.utils';
 
 import styles from './FowV4MatchResultForm.module.scss';
 
@@ -98,7 +98,7 @@ export const FowV4MatchResultForm = ({
     mode: 'onSubmit',
   });
 
-  const playerNames = usePlayerDisplayNames();
+  const playerNames = usePlayerDisplayNames(form.watch());
 
   const onSubmit: SubmitHandler<FowV4MatchResultFormData> = (formData): void => {
     const data = validateForm(fowV4MatchResultFormSchema, formData, form.setError);
@@ -106,25 +106,24 @@ export const FowV4MatchResultForm = ({
       if (matchResult) {
         updateMatchResult({ ...data, id: matchResult._id, playedAt: matchResult.playedAt });
       } else {
-        const details = getMatchResultDetails(formData);
         if (tournamentPairingId !== 'single') {
-          if (details) {
-            openConfirmMatchResultDialog({
-              children: (
-                <FowV4MatchResultDetails
-                  className={styles.FowV4MatchResultForm_ConfirmDialogDetails}
-                  details={details}
-                  playerNames={playerNames}
-                />
-              ),
-              onConfirm: () => {
-                createMatchResult({
-                  ...data,
-                  tournamentPairingId: tournamentPairingId as TournamentPairingId,
-                });
-              },
-            });
-          }
+          const score = calculateFowV4MatchResultScore(data.details);
+          openConfirmMatchResultDialog({
+            children: (
+              <FowV4MatchResultDetails
+                className={styles.FowV4MatchResultForm_ConfirmDialogDetails}
+                details={data.details}
+                playerNames={playerNames}
+                score={score}
+              />
+            ),
+            onConfirm: () => {
+              createMatchResult({
+                ...data,
+                tournamentPairingId: tournamentPairingId as TournamentPairingId,
+              });
+            },
+          });
 
         } else {
           createMatchResult({ ...data });

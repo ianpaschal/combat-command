@@ -30,10 +30,15 @@ export const exportFowV4TournamentMatchData = async (
   );
 
   // 2. Construct CSV data
-  const rows = matchResults.map((matchResult) => {
+  const rows = [];
+  for (const matchResult of matchResults) {
+    const { details } = matchResult;
+    if (details === undefined) {
+      break;
+    }
     const playerLetterIndexes = ['a', 'b'];
     const pairing = tournamentPairings.find((p) => p._id === matchResult.tournamentPairingId);
-    return playerLetterIndexes.reduce((acc, letter, i) => {
+    const data = playerLetterIndexes.reduce((acc, letter, i) => {
       type GeneralKey = keyof typeof matchResult;
       type DetailsKey = keyof typeof matchResult.details;
       const playerUser = i === 0 ? matchResult.player0User : matchResult.player1User;
@@ -48,20 +53,21 @@ export const exportFowV4TournamentMatchData = async (
         [`player_${letter}_faction`]: playerList?.data.meta.faction ?? '',
         [`player_${letter}_formation_0`]: playerList?.data.formations[0]?.sourceId ?? '',
         [`player_${letter}_formation_1`]: playerList?.data.formations[1]?.sourceId ?? '',
-        [`player_${letter}_battle_plan`]: matchResult.details[`player${i}BattlePlan` as DetailsKey],
-        [`player_${letter}_units_lost`]: matchResult.details[`player${i}UnitsLost` as DetailsKey],
-        [`player_${letter}_score`]: matchResult.details[`player${i}Score` as DetailsKey],
-        [`player_${letter}_role`]: matchResult.details.attacker === i ? 'attacker' : 'defender',
+        [`player_${letter}_battle_plan`]: details[`player${i}BattlePlan` as DetailsKey],
+        [`player_${letter}_units_lost`]: details[`player${i}UnitsLost` as DetailsKey],
+        [`player_${letter}_score`]: details[`player${i}Score` as DetailsKey],
+        [`player_${letter}_role`]: details.attacker === i ? 'attacker' : 'defender',
       };
     }, {
       round: pairing?.round !== undefined ? (pairing.round + 1).toString() : '',
-      turns_played: matchResult.details.turnsPlayed,
-      mission: matchResult.details.missionName,
-      first_turn: matchResult.details.firstTurn !== undefined ? playerLetterIndexes[matchResult.details.firstTurn] : '',
-      outcome: matchResult.details.outcomeType,
-      winner: matchResult.details.winner !== undefined ? (playerLetterIndexes[matchResult.details.winner] ?? 'none') : '',
+      turns_played: details.turnsPlayed,
+      mission: details.missionName,
+      first_turn: details.firstTurn !== undefined ? playerLetterIndexes[details.firstTurn] : '',
+      outcome: details.outcomeType,
+      winner: details.winner !== undefined ? (playerLetterIndexes[details.winner] ?? 'none') : '',
     });
-  });
+    rows.push(data);
+  }
 
   // 3. Convert to CSV
   const csv = [
