@@ -37,11 +37,11 @@ export const fowV4MatchResultDetailsSchema = z.object({
   outcomeType: z.enum(Object.values(MatchOutcomeType) as [MatchOutcomeType, ...MatchOutcomeType[]], {
     message: 'Please select an outcome type.',
   }),
-  turnsPlayed: z.coerce.number().min(1),
+  turnsPlayed: z.coerce.number({ message: 'Please enter a number of turns' }).min(1),
   winner: z.union([z.literal(-1), z.literal(0), z.literal(1)], { message: 'Please select a winner.' }),
   scoreOverride: z.optional(z.object({
-    player0Score: z.coerce.number(),
-    player1Score: z.coerce.number(),
+    player0Score: z.coerce.number({ message: 'Please enter a score' }),
+    player1Score: z.coerce.number({ message: 'Please enter a score' }),
   })),
 });
 

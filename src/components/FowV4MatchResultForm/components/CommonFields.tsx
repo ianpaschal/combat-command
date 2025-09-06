@@ -86,7 +86,7 @@ export const CommonFields = (): JSX.Element => {
         <InputSelect options={playerOptions} />
       </FormField>
       <div className={styles.CommonFields_OutcomeSection}>
-        <FormField name="details.turnsPlayed" label="Rounds">
+        <FormField name="details.turnsPlayed" label="Turns Played">
           <InputText type="number" />
         </FormField>
         <FormField name="details.outcomeType" label="Outcome Type">
