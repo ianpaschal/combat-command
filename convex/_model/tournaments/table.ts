@@ -34,7 +34,7 @@ export const editableFields = {
   startsAt: v.union(v.number(), v.string()),
   endsAt: v.union(v.number(), v.string()),
   registrationClosesAt: v.union(v.number(), v.string()),
-  listSubmissionClosesAt: v.union(v.number(), v.string()),
+  listSubmissionClosesAt: v.optional(v.union(v.number(), v.string())),
 
   requireRealNames: v.boolean(),
   organizerUserIds: v.optional(v.array(v.id('users'))),
