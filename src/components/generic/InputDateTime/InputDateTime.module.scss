@@ -11,8 +11,6 @@
   @include text.ui;
 
   width: 100%;
-  text-align: left !important;
-  background-color: green;
 }
 
 .Content {
@@ -20,12 +18,10 @@
   @include animate.duration-quick;
   @include animate.style-pop;
   @include flex.column($gap: 0);
+  @include corners.normal;
 
-  & {
-    margin: 0.25rem 0;
-    background-color: var(--card-bg);
-    border-radius: variables.$corner-radius;
-  }
+  margin: 0.25rem 0;
+  background-color: var(--card-bg);
 }
 
 .DateSection {
