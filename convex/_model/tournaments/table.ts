@@ -31,10 +31,10 @@ export const editableFields = {
   bannerStorageId: v.optional(v.union(v.id('_storage'))),
   location,
 
-  startsAt: v.union(v.number(), v.string()),
-  endsAt: v.union(v.number(), v.string()),
-  registrationClosesAt: v.union(v.number(), v.string()),
-  listSubmissionClosesAt: v.optional(v.union(v.number(), v.string())),
+  startsAt: v.number(),
+  endsAt: v.number(),
+  registrationClosesAt: v.number(),
+  listSubmissionClosesAt: v.number(),
 
   requireRealNames: v.boolean(),
   organizerUserIds: v.optional(v.array(v.id('users'))),
