@@ -33,8 +33,8 @@ export const exportFowV4TournamentMatchData = async (
   const rows = [];
   for (const matchResult of matchResults) {
     const { details } = matchResult;
-    if (details === undefined) {
-      break;
+    if (!details) {
+      continue;
     }
     const playerLetterIndexes = ['a', 'b'];
     const pairing = tournamentPairings.find((p) => p._id === matchResult.tournamentPairingId);
