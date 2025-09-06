@@ -103,6 +103,8 @@
     }
 
     &[data-paused="true"] {
+      animation: pulse 1.5s infinite;
+
       @keyframes pulse {
         0% {
           opacity: 1;
@@ -116,8 +118,6 @@
           opacity: 1;
         }
       }
-
-      animation: pulse 1.5s infinite;
     }
   }
 

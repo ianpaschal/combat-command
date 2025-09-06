@@ -7,6 +7,7 @@ import {
   TournamentPairingId,
   UserId,
 } from '~/api';
+import { calculateFowV4MatchResultScore } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
 import { ConfirmationDialog, useConfirmationDialog } from '~/components/ConfirmationDialog';
 import { FowV4MatchResultDetails } from '~/components/FowV4MatchResultDetails';
@@ -24,7 +25,6 @@ import { CommonFields } from './components/CommonFields';
 import { GameConfigFields } from './components/GameConfigFields';
 import { SingleMatchPlayersFields } from './components/SingleMatchPlayersFields';
 import { TournamentPlayersFields } from './components/TournamentPlayersFields';
-import { calculateFowV4MatchResultScore } from '../../../convex/_model/fowV4/calculateFowV4MatchResultScore';
 import { usePlayerDisplayNames } from './FowV4MatchResultForm.hooks';
 import {
   defaultValues,

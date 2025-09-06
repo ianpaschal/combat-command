@@ -29,8 +29,6 @@ export type PhotoId = Id<'photos'>;
 // Storage
 export type StorageId = Id<'_storage'>;
 
-export { VisibilityLevel } from '../convex/_model/common/types';
-
 // Tournament Competitors
 export {
   type DeepTournamentCompetitor as TournamentCompetitor,
@@ -85,6 +83,10 @@ export {
 } from '../convex/_model/users';
 
 // TODO: Move around...
+export { VisibilityLevel } from '../convex/_model/common/types';
+export {
+  calculateFowV4MatchResultScore,
+} from '../convex/_model/fowV4/calculateFowV4MatchResultScore';
 export type {
   DraftTournamentPairing,
 } from '../convex/_model/tournamentPairings';

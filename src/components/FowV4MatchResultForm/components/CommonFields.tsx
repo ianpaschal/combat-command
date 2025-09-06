@@ -1,11 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { getMission } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
 
+import { useAuth } from '~/components/AuthProvider';
 import { FowV4MatchResultFormData } from '~/components/FowV4MatchResultForm/FowV4MatchResultForm.schema';
 import { FormField } from '~/components/generic/Form';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { InputText } from '~/components/generic/InputText';
+import { Switch } from '~/components/generic/Switch';
 import {
   computeAttacker,
   computeFirstTurn,
@@ -18,7 +20,9 @@ import {
 import styles from './CommonFields.module.scss';
 
 export const CommonFields = (): JSX.Element => {
-  const { watch, setValue } = useFormContext<FowV4MatchResultFormData>();
+  const user = useAuth();
+  const { watch, setValue, resetField } = useFormContext<FowV4MatchResultFormData>();
+  const [showScoreOverride, setShowScoreOverride] = useState<boolean>(false);
   const [missionPackVersion, details] = watch(['gameSystemConfig.missionPackVersion', 'details']);
 
   const missionOptions = useMissionOptions();
@@ -55,8 +59,23 @@ export const CommonFields = (): JSX.Element => {
     }
   }, [details, autoWinner, setValue]);
 
+  const handleToggleScoreOverride = (checked: boolean): void => {
+    if (!checked) {
+      resetField('details.scoreOverride', undefined);
+    }
+    setShowScoreOverride(checked);
+  };
+
+  const getScoreOverrideLabel = (i: number): string => {
+    const userId = watch(`player${i}UserId` as keyof FowV4MatchResultFormData);
+    if (userId && userId === user?._id) {
+      return 'Your Score';
+    }
+    return `${playerOptions[i].label}'s Score`;
+  };
+
   return (
-    <div className={styles.Root}>
+    <div className={styles.CommonFields}>
       <FormField name="details.mission" label="Mission">
         <InputSelect options={missionOptions} />
       </FormField>
@@ -66,8 +85,8 @@ export const CommonFields = (): JSX.Element => {
       <FormField name="details.firstTurn" label="First Turn" disabled={disableFirstTurnField}>
         <InputSelect options={playerOptions} />
       </FormField>
-      <div className={styles.OutcomeSection}>
-        <FormField name="details.turnsPlayed" label="Rounds">
+      <div className={styles.CommonFields_OutcomeSection}>
+        <FormField name="details.turnsPlayed" label="Turns Played">
           <InputText type="number" />
         </FormField>
         <FormField name="details.outcomeType" label="Outcome Type">
@@ -77,6 +96,18 @@ export const CommonFields = (): JSX.Element => {
       <FormField name="details.winner" label="Winner" disabled={disableWinner}>
         <InputSelect options={winnerOptions} />
       </FormField>
+      <FormField label="Use custom score">
+        <Switch checked={showScoreOverride} onCheckedChange={handleToggleScoreOverride} />
+      </FormField>
+      {showScoreOverride && (
+        <div className={styles.CommonFields_ScoreOverrideSection}>
+          {([0, 1] as const).map((i) => (
+            <FormField name={`details.scoreOverride.player${i}Score`} label={getScoreOverrideLabel(i)}>
+              <InputText type="number" />
+            </FormField>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

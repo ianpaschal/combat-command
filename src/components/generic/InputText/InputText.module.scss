@@ -24,11 +24,7 @@
   }
 
   &-hasError {
-    color: var(--text-color-negative);
-
-    input {
-      border-color: var(--border-color-danger);
-    }
+    border-color: var(--border-color-danger);
   }
 }
 
