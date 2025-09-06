@@ -96,7 +96,7 @@ export const CommonFields = (): JSX.Element => {
       <FormField name="details.winner" label="Winner" disabled={disableWinner}>
         <InputSelect options={winnerOptions} />
       </FormField>
-      <FormField label="Use Custom Score">
+      <FormField label="Use custom score">
         <Switch checked={showScoreOverride} onCheckedChange={handleToggleScoreOverride} />
       </FormField>
       {showScoreOverride && (
