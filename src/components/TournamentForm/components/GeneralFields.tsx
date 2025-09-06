@@ -77,6 +77,14 @@ export const GeneralFields = ({
           <InputDateTime />
         </FormField>
       </div>
+      <div className={styles.Stackable}>
+        <FormField name="registrationClosesAt" label="Registration Closes">
+          <InputDateTime />
+        </FormField>
+        <FormField name="listSubmissionClosesAt" label="List Submission Closes">
+          <InputDateTime />
+        </FormField>
+      </div>
       <Separator />
       <FormField name="logoStorageId" label="Logo" disabled={disableFields}>
         <InputSingleFile name="logoStorageId" onReset={(name) => resetField(name as keyof TournamentFormData)} />

@@ -65,6 +65,7 @@ body {
   --card-bg-danger: var(--tomato-2);
   --card-bg: white;
   --page-bg: var(--gray-2);
+  --app-bar-bg: white;
 
   // Core text colors
   --text-color-default: var(--gray-12);
@@ -149,6 +150,7 @@ body {
   --secondary-default-bg: var(--gray-5);
   --card-bg: var(--gray-2);
   --page-bg: var(--gray-1);
+  --app-bar-bg: var(--gray-2);
 }
 
 @media (width >= 688px) {

@@ -30,9 +30,12 @@ export const editableFields = {
   })),
   bannerStorageId: v.optional(v.union(v.id('_storage'))),
   location,
-  startsAt: v.string(), // ISO date string
-  endsAt: v.string(), // ISO date string
-  registrationClosesAt: v.string(), // ISO date string
+
+  startsAt: v.number(),
+  endsAt: v.number(),
+  registrationClosesAt: v.number(),
+  listSubmissionClosesAt: v.number(),
+
   requireRealNames: v.boolean(),
   organizerUserIds: v.optional(v.array(v.id('users'))),
   rulesPackUrl: v.optional(v.string()),

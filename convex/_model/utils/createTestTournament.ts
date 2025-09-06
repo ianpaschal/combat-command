@@ -44,6 +44,10 @@ export const createTestTournament = async (
   // 2. Create the tournament
   const tournamentId = await ctx.db.insert('tournaments', {
     ...mockTournamentData,
+    startsAt: Date.now(),
+    endsAt: Date.now(),
+    registrationClosesAt: Date.now(),
+    listSubmissionClosesAt: Date.now(),
     status,
     currentRound,
     lastRound,

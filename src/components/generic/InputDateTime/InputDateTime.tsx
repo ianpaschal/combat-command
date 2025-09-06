@@ -5,7 +5,6 @@ import { Popover } from 'radix-ui';
 
 import { Button } from '~/components/generic/Button';
 import { Calendar } from '~/components/generic/Calendar';
-import { createLocalDatetimeString } from '~/components/generic/InputDateTime/InputDateTime.utils';
 import { TimeSubSelect } from '~/components/generic/InputDateTime/TimeSubSelect';
 import { getMinuteOptions, hourOptions } from '~/components/generic/InputDateTime/TimeSubSelect.utils';
 import { InputText } from '~/components/generic/InputText';
@@ -14,8 +13,8 @@ import { Separator } from '~/components/generic/Separator';
 import styles from './InputDateTime.module.scss';
 
 export interface InputDateTimeProps {
-  value?: string,
-  onChange?: (date?: string) => void;
+  value?: Date;
+  onChange?: (date?: Date) => void;
 }
 
 export const InputDateTime = forwardRef<HTMLInputElement, InputDateTimeProps>(({
@@ -23,36 +22,38 @@ export const InputDateTime = forwardRef<HTMLInputElement, InputDateTimeProps>(({
   onChange,
   ...props
 }, ref): JSX.Element => {
+  const currentDate = (() => {
+    const date = new Date();
+    date.setMinutes(0, 0, 0);
+    return value ?? date;
+  })();
 
-  // TODO: Add regex to parse value and warn if doesn't match ISO format
-
-  const onDateChange = (selectedDate?: Date) => {
-    if (selectedDate && onChange) {
-      // onChange(`${format(selectedDate, 'yyyy-MM-dd')}T${hours}:${minutes}:00`);
-      const updated = createLocalDatetimeString({ date: format(selectedDate, 'yyyy-MM-dd'), hours, minutes });
-      onChange(updated);
+  // Handle date selection:
+  const onDateChange = (selectedDate: Date | undefined): void => {
+    if (selectedDate) {
+      const newDate = new Date(selectedDate);
+      newDate.setHours(currentDate.getHours(), currentDate.getMinutes());
+      onChange?.(newDate);
     }
   };
 
-  const onHoursChange = (h?: number) => {
-    if (h !== undefined && onChange) {
-      const updated = createLocalDatetimeString({ date, hours: h, minutes });
-      onChange(updated);
+  // Handle hours:
+  const onHoursChange = (hours?: number): void => {
+    if (hours !== undefined) {
+      const newDate = new Date(currentDate);
+      newDate.setHours(hours);
+      onChange?.(newDate);
     }
   };
 
-  const onMinutesChange = (m?: number) => {
-    if (m !== undefined && onChange) {
-      // onChange(`${date}T${hours}:${String(m).padStart(2, '0')}:00`);
-      const updated = createLocalDatetimeString({ date, hours, minutes: m });
-      onChange(updated);
+  // Handle minutes:
+  const onMinutesChange = (minutes?: number): void => {
+    if (minutes !== undefined) {
+      const newDate = new Date(currentDate);
+      newDate.setMinutes(minutes);
+      onChange?.(newDate);
     }
   };
-
-  const input = value || new Date(new Date().setHours(9, 0, 0, 0)).toISOString();
-
-  const [date, time] = input.substring(0, 16).split('T');
-  const [hours, minutes] = (time || '00:00').split(':').map((t) => parseInt(t, 10));
 
   return (
     <Popover.Root>
@@ -61,7 +62,7 @@ export const InputDateTime = forwardRef<HTMLInputElement, InputDateTimeProps>(({
           className={styles.Trigger}
           ref={ref}
           slotBefore={<CalendarIcon />}
-          value={input ? format(new Date(input), 'PPP, p') : 'Pick a date'} {...props}
+          value={currentDate ? format(currentDate, 'PPP, HH:mm') : 'Pick a date'} {...props}
         />
       </Popover.Trigger>
       <Popover.Portal>
@@ -69,7 +70,7 @@ export const InputDateTime = forwardRef<HTMLInputElement, InputDateTimeProps>(({
           <div className={styles.DateSection}>
             <Calendar
               mode="single"
-              selected={new Date(input)}
+              selected={currentDate}
               onSelect={onDateChange}
               initialFocus
             />
@@ -77,14 +78,13 @@ export const InputDateTime = forwardRef<HTMLInputElement, InputDateTimeProps>(({
           <Separator orientation="horizontal" />
           <div className={styles.TimeSection}>
             <Clock className={styles.ClockIcon} />
-            <TimeSubSelect options={hourOptions} onChange={onHoursChange} value={hours} />
+            <TimeSubSelect options={hourOptions} onChange={onHoursChange} value={currentDate.getHours()} />
             <span>:</span>
-            <TimeSubSelect options={getMinuteOptions(15)} onChange={onMinutesChange} value={minutes} />
+            <TimeSubSelect options={getMinuteOptions(15)} onChange={onMinutesChange} value={currentDate.getMinutes()} />
             <Popover.Close asChild>
               <Button className={styles.CloseButton}>Done</Button>
             </Popover.Close>
           </div>
-
         </Popover.Content>
       </Popover.Portal>
     </Popover.Root>

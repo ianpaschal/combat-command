@@ -1,12 +1,17 @@
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  FieldValues,
+  SubmitHandler,
+  useForm,
+  UseFormSetError,
+} from 'react-hook-form';
 import clsx from 'clsx';
 
-import { StorageId, TournamentId } from '~/api';
+import { TournamentId } from '~/api';
 import { GameConfigFields } from '~/components/FowV4MatchResultForm/components/GameConfigFields';
 import { Card } from '~/components/generic/Card';
 import { Form } from '~/components/generic/Form';
 import { useGetTournament } from '~/services/tournaments';
+import { validateForm } from '~/utils/validateForm';
 import { CompetitorFields } from './components/CompetitorFields';
 import { FormatFields } from './components/FormatFields';
 import { GeneralFields } from './components/GeneralFields';
@@ -14,20 +19,17 @@ import {
   defaultValues,
   TournamentFormData,
   tournamentFormSchema,
+  TournamentSubmitData,
 } from './TournamentForm.schema';
+import { convertDateToEpoch, convertEpochToDate } from './TournamentForm.utils';
 
 import styles from './TournamentForm.module.scss';
-
-export type TournamentFormSubmitData = Omit<TournamentFormData, 'logoFile' | 'bannerFile'> & {
-  logoStorageId?: StorageId | null;
-  bannerStorageId?: StorageId | null;
-};
 
 export interface TournamentFormProps {
   id: string;
   className?: string;
   tournamentId?: TournamentId;
-  onSubmit: (data: TournamentFormSubmitData) => void;
+  onSubmit: (data: TournamentSubmitData) => void;
 }
 
 export const TournamentForm = ({
@@ -38,15 +40,29 @@ export const TournamentForm = ({
 }: TournamentFormProps): JSX.Element => {
   const { data: tournament } = useGetTournament(tournamentId ? { id: tournamentId } : 'skip');
   const form = useForm<TournamentFormData>({
-    resolver: zodResolver(tournamentFormSchema),
     defaultValues: {
       ...defaultValues,
-      ...tournament,
+      ...(tournament ? {
+        ...tournament,
+        startsAt: convertEpochToDate(tournament.startsAt, tournament.location.timeZone),
+        endsAt: convertEpochToDate(tournament.endsAt, tournament.location.timeZone),
+        registrationClosesAt: convertEpochToDate(tournament.registrationClosesAt, tournament.location.timeZone),
+        listSubmissionClosesAt: convertEpochToDate(tournament.listSubmissionClosesAt, tournament.location.timeZone),
+      } : {}),
     },
     mode: 'onSubmit',
   });
   const onSubmit: SubmitHandler<TournamentFormData> = async (formData) => {
-    handleSubmit(formData);
+    const data = validateForm(tournamentFormSchema, formData, form.setError as UseFormSetError<FieldValues>);
+    if (data) {
+      handleSubmit({
+        ...data,
+        startsAt: convertDateToEpoch(data.startsAt, data.location.timeZone),
+        endsAt: convertDateToEpoch(data.endsAt, data.location.timeZone),
+        registrationClosesAt: convertDateToEpoch(data.registrationClosesAt, data.location.timeZone),
+        listSubmissionClosesAt: convertDateToEpoch(data.listSubmissionClosesAt, data.location.timeZone),
+      });
+    }
   };
   return (
     <Form id={id} form={form} onSubmit={onSubmit} className={clsx(styles.TournamentForm, className)}>

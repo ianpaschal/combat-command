@@ -11,7 +11,6 @@ export const getTournament = query({
 });
 
 export const getTournaments = query({
-  args: model.getTournamentsArgs,
   handler: model.getTournaments,
 });
 

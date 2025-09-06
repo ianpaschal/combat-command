@@ -6,17 +6,13 @@
 @use "/src/style/flex";
 
 .Trigger {
-  width: 100%;
-  background-color: red;
-
   @include flex.row($gap: 0.5rem);
   @include flex.stretchy;
   @include text.ui;
-}
 
-.Input {
-  text-align: left;
-  background-color: blue;
+  width: 100%;
+  text-align: left !important;
+  background-color: green;
 }
 
 .Content {

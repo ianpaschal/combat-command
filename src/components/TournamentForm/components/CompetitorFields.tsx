@@ -4,7 +4,6 @@ import clsx from 'clsx';
 import { Animate } from '~/components/generic/Animate';
 import { FormField } from '~/components/generic/Form';
 import { InputCurrency } from '~/components/generic/InputCurrency';
-import { InputDateTime } from '~/components/generic/InputDateTime';
 import { InputText } from '~/components/generic/InputText';
 import { Separator } from '~/components/generic/Separator';
 import { Switch } from '~/components/generic/Switch';
@@ -102,14 +101,10 @@ export const CompetitorFields = ({
       </Animate>
       <h3>Total Players: {totalPlayers}</h3>
       <Separator />
-      <div className={styles.Stackable}>
-        <FormField name="competitorFee" label={`Price per ${getCompetitorLabel(false)}`}>
-          <InputCurrency />
-        </FormField>
-        <FormField name="registrationClosesAt" label="Registration Closes">
-          <InputDateTime />
-        </FormField>
-      </div>
+      <FormField name="competitorFee" label={`Price per ${getCompetitorLabel(false)}`}>
+        <InputCurrency />
+      </FormField>
+      <Separator />
       <FormField name="requireRealNames" label="Require Real Names?" description="Users will be prompted to set their name visibility to 'Tournaments' when registering.">
         <Switch />
       </FormField>

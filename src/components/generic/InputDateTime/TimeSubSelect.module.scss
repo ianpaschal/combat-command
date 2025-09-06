@@ -23,13 +23,11 @@
   @include shadows.elevated;
   @include animate.duration-quick;
   @include animate.style-pop;
+  @include corners.normal;
 
-  & {
-    overflow: hidden;
-    padding: 0.5rem 0.25rem;
-    background-color: variables.$white;
-    border-radius: variables.$corner-radius;
-  }
+  overflow: hidden;
+  padding: 0.5rem 0.25rem;
+  background-color: var(--card-bg);
 }
 
 .Viewport {

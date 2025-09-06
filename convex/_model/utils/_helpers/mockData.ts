@@ -28,9 +28,6 @@ export const mockTournamentData = {
     region: { code: 'mi', name: 'Michigan' },
     timeZone: 'America/Detroit',
   },
-  startsAt: '2025-06-21T09:00:00',
-  endsAt:'2025-06-22T18:00:00',
-  registrationClosesAt: '2025-06-14T00:00:00',
   requireRealNames: false,
   rulesPackUrl: 'https://www.combatcommand.net',
   gameSystemConfig: {
