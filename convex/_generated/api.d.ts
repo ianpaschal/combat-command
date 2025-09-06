@@ -68,9 +68,10 @@ import type * as _model_matchResultLikes_queries_getMatchResultLikesByMatchResul
 import type * as _model_matchResultLikes_queries_getMatchResultLikesByUser from "../_model/matchResultLikes/queries/getMatchResultLikesByUser.js";
 import type * as _model_matchResultLikes_table from "../_model/matchResultLikes/table.js";
 import type * as _model_matchResults__helpers_checkMatchResultAuth from "../_model/matchResults/_helpers/checkMatchResultAuth.js";
-import type * as _model_matchResults__helpers_checkMatchResultBattlePlanVisibility from "../_model/matchResults/_helpers/checkMatchResultBattlePlanVisibility.js";
+import type * as _model_matchResults__helpers_checkMatchResultDetailsVisibility from "../_model/matchResults/_helpers/checkMatchResultDetailsVisibility.js";
 import type * as _model_matchResults__helpers_deepenMatchResult from "../_model/matchResults/_helpers/deepenMatchResult.js";
 import type * as _model_matchResults__helpers_getShallowMatchResult from "../_model/matchResults/_helpers/getShallowMatchResult.js";
+import type * as _model_matchResults__helpers_redactMatchResultDetails from "../_model/matchResults/_helpers/redactMatchResultDetails.js";
 import type * as _model_matchResults_index from "../_model/matchResults/index.js";
 import type * as _model_matchResults_mutations_addPhotoToMatchResult from "../_model/matchResults/mutations/addPhotoToMatchResult.js";
 import type * as _model_matchResults_mutations_createMatchResult from "../_model/matchResults/mutations/createMatchResult.js";
@@ -112,6 +113,7 @@ import type * as _model_tournamentPairings__helpers_deepenTournamentPairing from
 import type * as _model_tournamentPairings__helpers_generateDraftPairings from "../_model/tournamentPairings/_helpers/generateDraftPairings.js";
 import type * as _model_tournamentPairings__helpers_getTournamentPairingDeep from "../_model/tournamentPairings/_helpers/getTournamentPairingDeep.js";
 import type * as _model_tournamentPairings__helpers_getTournamentPairingShallow from "../_model/tournamentPairings/_helpers/getTournamentPairingShallow.js";
+import type * as _model_tournamentPairings__helpers_getTournamentPairingUserIds from "../_model/tournamentPairings/_helpers/getTournamentPairingUserIds.js";
 import type * as _model_tournamentPairings__helpers_shuffle from "../_model/tournamentPairings/_helpers/shuffle.js";
 import type * as _model_tournamentPairings__helpers_sortByRank from "../_model/tournamentPairings/_helpers/sortByRank.js";
 import type * as _model_tournamentPairings__helpers_sortCompetitorPairs from "../_model/tournamentPairings/_helpers/sortCompetitorPairs.js";
@@ -313,9 +315,10 @@ declare const fullApi: ApiFromModules<{
   "_model/matchResultLikes/queries/getMatchResultLikesByUser": typeof _model_matchResultLikes_queries_getMatchResultLikesByUser;
   "_model/matchResultLikes/table": typeof _model_matchResultLikes_table;
   "_model/matchResults/_helpers/checkMatchResultAuth": typeof _model_matchResults__helpers_checkMatchResultAuth;
-  "_model/matchResults/_helpers/checkMatchResultBattlePlanVisibility": typeof _model_matchResults__helpers_checkMatchResultBattlePlanVisibility;
+  "_model/matchResults/_helpers/checkMatchResultDetailsVisibility": typeof _model_matchResults__helpers_checkMatchResultDetailsVisibility;
   "_model/matchResults/_helpers/deepenMatchResult": typeof _model_matchResults__helpers_deepenMatchResult;
   "_model/matchResults/_helpers/getShallowMatchResult": typeof _model_matchResults__helpers_getShallowMatchResult;
+  "_model/matchResults/_helpers/redactMatchResultDetails": typeof _model_matchResults__helpers_redactMatchResultDetails;
   "_model/matchResults/index": typeof _model_matchResults_index;
   "_model/matchResults/mutations/addPhotoToMatchResult": typeof _model_matchResults_mutations_addPhotoToMatchResult;
   "_model/matchResults/mutations/createMatchResult": typeof _model_matchResults_mutations_createMatchResult;
@@ -357,6 +360,7 @@ declare const fullApi: ApiFromModules<{
   "_model/tournamentPairings/_helpers/generateDraftPairings": typeof _model_tournamentPairings__helpers_generateDraftPairings;
   "_model/tournamentPairings/_helpers/getTournamentPairingDeep": typeof _model_tournamentPairings__helpers_getTournamentPairingDeep;
   "_model/tournamentPairings/_helpers/getTournamentPairingShallow": typeof _model_tournamentPairings__helpers_getTournamentPairingShallow;
+  "_model/tournamentPairings/_helpers/getTournamentPairingUserIds": typeof _model_tournamentPairings__helpers_getTournamentPairingUserIds;
   "_model/tournamentPairings/_helpers/shuffle": typeof _model_tournamentPairings__helpers_shuffle;
   "_model/tournamentPairings/_helpers/sortByRank": typeof _model_tournamentPairings__helpers_sortByRank;
   "_model/tournamentPairings/_helpers/sortCompetitorPairs": typeof _model_tournamentPairings__helpers_sortCompetitorPairs;

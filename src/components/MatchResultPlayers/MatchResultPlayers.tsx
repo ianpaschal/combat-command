@@ -3,7 +3,6 @@ import clsx from 'clsx';
 import { IdentityBadge } from '~/components/IdentityBadge';
 import { useMatchResult } from '~/components/MatchResultProvider';
 import { useElementSize } from '~/hooks/useElementSize';
-import { calculateMatchScore } from '~/utils/flamesOfWarV4Utils/calculateMatchScore';
 
 import styles from './MatchResultPlayers.module.scss';
 
@@ -17,8 +16,6 @@ export const MatchResultPlayers = ({
   const matchResult = useMatchResult();
   const [ref, width] = useElementSize();
   const orientation = Math.ceil(width) < 640 ? 'vertical' : 'horizontal'; // 2 x 320 + 1rem - 2x border
-
-  const [player0Score, player1Score] = calculateMatchScore(matchResult.details);
 
   return (
     <div className={clsx(styles.Root, className)} ref={ref} data-orientation={orientation}>
@@ -43,7 +40,7 @@ export const MatchResultPlayers = ({
         </Popover.Portal>
       </Popover.Root> */}
       <div className={styles.Player0Score}>
-        {player0Score}
+        {matchResult.details.player0Score}
       </div>
       <div className={styles.Separator} />
       <IdentityBadge
@@ -66,7 +63,7 @@ export const MatchResultPlayers = ({
         </Popover.Portal>
       </Popover.Root> */}
       <div className={styles.Player1Score}>
-        {player1Score}
+        {matchResult.details.player1Score}
       </div>
     </div>
   );

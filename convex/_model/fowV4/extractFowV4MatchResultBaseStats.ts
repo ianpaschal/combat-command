@@ -10,7 +10,7 @@ import { FowV4BaseStats } from './types';
  */
 
 export const extractFowV4MatchResultBaseStats = (matchResult: Doc<'matchResults'>): [FowV4BaseStats, FowV4BaseStats] => {
-  const score = calculateFowV4MatchResultScore(matchResult);
+  const score = calculateFowV4MatchResultScore(matchResult.details);
   return [
     {
       points: score[0],

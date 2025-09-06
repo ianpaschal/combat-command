@@ -37,6 +37,11 @@ export const MatchResultDetailPage = (): JSX.Element => {
   ].includes(user._id);
   const fitToWindow = hasPhotos && windowWidth >= MIN_WIDTH_DESKTOP;
 
+  const playerNames: [string, string] = [
+    matchResult?.player0User?.displayName ?? 'Unknown Player',
+    matchResult?.player1User?.displayName ?? 'Unknown Player',
+  ];
+
   return (
     <PageWrapper showBackButton maxWidth={!hasPhotos ? 688 : undefined} fitToWindow={fitToWindow}>
       {matchResult && (
@@ -60,7 +65,8 @@ export const MatchResultDetailPage = (): JSX.Element => {
               <ScrollArea className={styles.DetailsScrollArea}>
                 <FowV4MatchResultDetails
                   className={styles.Details}
-                  matchResult={matchResult}
+                  details={matchResult.details}
+                  playerNames={playerNames}
                 />
               </ScrollArea>
               <Separator />

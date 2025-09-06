@@ -19,6 +19,7 @@ export {
 // Match Results
 export {
   type DeepMatchResult as MatchResult,
+  type LimitedMatchResultDetails as MatchResultDetails,
   type MatchResultId,
 } from '../convex/_model/matchResults';
 

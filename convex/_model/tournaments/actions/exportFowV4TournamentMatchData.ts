@@ -57,9 +57,9 @@ export const exportFowV4TournamentMatchData = async (
       round: pairing?.round !== undefined ? (pairing.round + 1).toString() : '',
       turns_played: matchResult.details.turnsPlayed,
       mission: matchResult.details.missionName,
-      first_turn: playerLetterIndexes[matchResult.details.firstTurn],
+      first_turn: matchResult.details.firstTurn !== undefined ? playerLetterIndexes[matchResult.details.firstTurn] : '',
       outcome: matchResult.details.outcomeType,
-      winner: playerLetterIndexes[matchResult.details.winner] ?? 'none',
+      winner: matchResult.details.winner !== undefined ? (playerLetterIndexes[matchResult.details.winner] ?? 'none') : '',
     });
   });
 

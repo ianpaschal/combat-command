@@ -2,7 +2,7 @@ import styles from '../../FowV4MatchResultDetails.module.scss';
 
 export interface SingleRowProps {
   label: string;
-  value: string | number | undefined;
+  value: string | number;
 }
 
 export const SingleRow = ({
