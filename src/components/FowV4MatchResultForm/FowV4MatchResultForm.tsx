@@ -124,7 +124,6 @@ export const FowV4MatchResultForm = ({
               });
             },
           });
-
         } else {
           createMatchResult({ ...data });
         }
