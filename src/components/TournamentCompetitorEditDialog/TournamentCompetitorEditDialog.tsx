@@ -65,13 +65,13 @@ export const TournamentCompetitorEditDialog = ({
         const nameVisibility = typeof user?.nameVisibility === 'number' ? user.nameVisibility : 0;
         if (tournament.requireRealNames && nameVisibility < VisibilityLevel.Tournaments) {
           openConfirmNameVisibilityDialog();
-        } else {
-          // No need to warn as nameVisibility is only forced for users who add register themselves.
-          createTournamentCompetitor({
-            captainUserId: captain.userId!, // Already validated in form
-            ...restFormData,
-          });
         }
+      } else {
+        // No need to warn as nameVisibility is only forced for users who add register themselves.
+        createTournamentCompetitor({
+          captainUserId: captain.userId!, // Already validated in form
+          ...restFormData,
+        });
       }
     }
   };
