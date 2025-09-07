@@ -2,6 +2,7 @@ import { Migrations } from '@convex-dev/migrations';
 
 import { components } from './_generated/api.js';
 import { DataModel, Id } from './_generated/dataModel.js';
+import { extractSearchTokens } from './_model/users/_helpers/extractSearchTokens.js';
 
 export const migrations = new Migrations<DataModel>(components.migrations);
 export const run = migrations.runner();
@@ -20,6 +21,13 @@ export const addCaptains = migrations.define({
       }
     }
   },
+});
+
+export const populateUserSearch = migrations.define({
+  table: 'users',
+  migrateOne: async (ctx, doc) => await ctx.db.patch(doc._id, {
+    search: extractSearchTokens(doc),
+  }),
 });
 
 export const fixMissingListData = migrations.define({
