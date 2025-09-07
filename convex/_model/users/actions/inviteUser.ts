@@ -12,6 +12,7 @@ import { ActionCtx } from '../../../_generated/server';
 import { InviteUserEmail } from '../../../emails/InviteUserEmail';
 import { checkAuth } from '../../common/_helpers/checkAuth';
 import { getErrorMessage } from '../../common/errors';
+import { VisibilityLevel } from '../../common/types';
 import { createClaimToken } from '../_helpers/createClaimToken';
 import { hashClaimToken } from '../_helpers/hashClaimToken';
 
@@ -61,7 +62,7 @@ export const inviteUser = async (
         ...restArgs,
         email,
         locationVisibility: 'hidden',
-        nameVisibility: 'tournaments',
+        nameVisibility: VisibilityLevel.Tournaments,
         claimTokenHash: await hashClaimToken(claimToken),
       },
     });
