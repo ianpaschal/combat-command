@@ -2,7 +2,7 @@
 name: Enhancement
 about: Create a ticket to add to or extend existing functionality
 title: ''
-labels: 'enhancement'
+labels: 'Enhancement'
 assignees: ''
 
 ---

@@ -1,7 +1,7 @@
 ---
 name: Task
 about: Create a ticket for a task which needs to be completed
-title: '[TASK] '
+title: ''
 labels: 'Task'
 assignees: ''
 

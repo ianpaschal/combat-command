@@ -2,7 +2,7 @@
 name: New Feature
 about: Create a ticket to create new functionality
 title: ''
-labels: 'feature'
+labels: 'Feature'
 assignees: ''
 
 ---

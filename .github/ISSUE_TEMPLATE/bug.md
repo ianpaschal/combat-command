@@ -2,7 +2,7 @@
 name: Bug
 about: Create a ticket to fix existing functionality which does not work as expected/desired
 title: ''
-labels: 'bug'
+labels: 'Bug'
 assignees: ''
 
 ---
