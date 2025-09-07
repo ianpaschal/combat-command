@@ -36,7 +36,7 @@ export const SignInForm = (): JSX.Element => {
         <p>Sign in to your account</p>
       </div>
       <FormField name="email" label="Email" disabled={loading}>
-        <InputText type="text" /* Not email, to avoid browser validation */ />
+        <InputText type="email" />
       </FormField>
       <FormField name="password" label="Password" disabled={loading}>
         <InputText type="password" />

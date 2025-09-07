@@ -1,0 +1,12 @@
+# Cypress generated files
+screenshots/
+videos/
+downloads/
+
+# Test results
+results/
+reports/
+
+# Temporary files
+*.tmp
+*.temp

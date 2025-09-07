@@ -1,15 +1,22 @@
 # Combat Command
 
-## Getting Started
 
-### Set-Up for Front-End Development
+## Contributing
+
+### Structure
+
+The back-end of the application is located in `/convex`
+
+The front-end of the application is located in `/src`
+
+### Set-Up for Development
 
 1. Create a new file in the root directory called `.env.local`.
 2. Add the following values:
 
 ```
-VITE_SUPABASE_URL=[your_url]
-VITE_SUPABASE_ANON_KEY=[your_key]
+CONVEX_DEPLOYMENT=[your_deployment_name]
+VITE_CONVEX_URL=[your_url]
 VITE_MAPBOX_TOKEN=[your_token]
 ```
 

@@ -47,7 +47,7 @@ export const SignUpForm = (): JSX.Element => {
       </FormField>
       <Separator />
       <FormField name="email" label="Email" disabled={loading}>
-        <InputText type="text" /* Not email, to avoid browser validation */ />
+        <InputText type="email" />
       </FormField>
       <FormField name="password" label="Password" disabled={loading}>
         <InputText type="password" />

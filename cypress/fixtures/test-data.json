@@ -1,0 +1,23 @@
+{
+  "tournament": {
+    "name": "Test Tournament",
+    "description": "A tournament created for testing purposes",
+    "location": {
+      "name": "Test Venue",
+      "address": "123 Test Street, Test City, TC 12345"
+    },
+    "startsAt": "2024-12-01T10:00:00",
+    "endsAt": "2024-12-01T18:00:00",
+    "registrationClosesAt": "2024-11-30T23:59:59",
+    "listSubmissionClosesAt": "2024-11-30T23:59:59"
+  },
+  "user": {
+    "email": "alex.carter.cc.3phf3@passmail.net",
+    "password": "test1234",
+    "name": "Alex Carter"
+  },
+  "invalidCredentials": {
+    "email": "invalid@example.com",
+    "password": "wrongpassword"
+  }
+}
