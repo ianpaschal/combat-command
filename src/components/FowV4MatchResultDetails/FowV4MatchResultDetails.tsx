@@ -1,4 +1,4 @@
-import { getBattlePlanDisplayName } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
+import { getBattlePlanDisplayName, getMissionDisplayName } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
 import clsx from 'clsx';
 
 import { FowV4MatchResultDetails as FowV4MatchResultDetailData } from '~/api';
@@ -42,9 +42,9 @@ export const FowV4MatchResultDetails = ({
             getBattlePlanDisplayName(details.player0BattlePlan) ?? 'Unknown',
             getBattlePlanDisplayName(details.player1BattlePlan) ?? 'Unknown',
           ]} />
-          <SingleRow label="Mission" value={details.missionName ?? 'Unknown'} />
+          <SingleRow label="Mission" value={details.missionName ?? getMissionDisplayName(details.mission) ?? 'Unknown'} />
           <SingleRow label="Attacker" value={playerNames[details.attacker]} />
-          <SingleRow label="First Turn" value={details.firstTurn} />
+          <SingleRow label="First Turn" value={playerNames[details.firstTurn]} />
         </div>
       </div>
       <div className={styles.FowV4MatchResultDetails_Column}>
