@@ -4,11 +4,6 @@ import { v } from 'convex/values';
 export const editableFields = {
   tournamentId: v.id('tournaments'),
   teamName: v.optional(v.string()),
-  players: v.optional(v.array(v.object({
-    userId: v.id('users'),
-    active: v.boolean(),
-    listId: v.optional(v.id('lists')),
-  }))),
   captainUserId: v.optional(v.id('users')),
 };
 
