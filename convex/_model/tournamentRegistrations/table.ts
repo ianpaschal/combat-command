@@ -28,4 +28,5 @@ export default defineTable({
   .index('by_tournament', ['tournamentId'])
   .index('by_tournament_user', ['tournamentId', 'userId'])
   .index('by_tournament_competitor', ['tournamentCompetitorId'])
+  .index('by_tournament_competitor_user', ['tournamentCompetitorId', 'userId'])
   .index('by_user', ['userId']);

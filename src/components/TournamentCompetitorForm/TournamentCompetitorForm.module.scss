@@ -37,4 +37,11 @@
     line-height: 1rem;
     color: var(--text-color-negative);
   }
+
+  &_ScoreAdjustmentHeader {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    align-items: center;
+  }
 }

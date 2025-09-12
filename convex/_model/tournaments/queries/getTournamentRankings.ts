@@ -1,4 +1,5 @@
 import { GameSystem } from '@ianpaschal/combat-command-static-data/common';
+import { RankingFactor } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
 import {
   ConvexError,
   Infer,
@@ -32,18 +33,54 @@ export const getTournamentRankings = async (
   ctx: QueryCtx,
   args: Infer<typeof getTournamentRankingsArgs>,
 ) => {
+  // ---- GATHER BASE DATA ----
   const { rankingFactors, gameSystem } = await getTournamentShallow(ctx, args.tournamentId);
+  const tournamentRegistrations = await ctx.db.query('tournamentRegistrations')
+    .withIndex('by_tournament', (q) => q.eq('tournamentId', args.tournamentId))
+    .collect();
+  const tournamentCompetitors = await ctx.db.query('tournamentCompetitors')
+    .withIndex('by_tournament_id', (q) => q.eq('tournamentId', args.tournamentId))
+    .collect();
+  const tournamentPairings = await ctx.db.query('tournamentPairings')
+    .withIndex('by_tournament_id', (q) => q.eq('tournamentId', args.tournamentId))
+    .collect();
+  const matchResults = await ctx.db.query('matchResults')
+    .withIndex('by_tournament_id', (q) => q.eq('tournamentId', args.tournamentId))
+    .collect();
+
+  // TODO: Support other game systems
   if (gameSystem !== GameSystem.FlamesOfWarV4) {
     throw new ConvexError('Game systems other than Flames of War are not yet supported!');
-    // TODO: Support other game systems
   }
   const {
     players,
     competitors,
-  } = await aggregateFowV4TournamentData(ctx, args.tournamentId, { min: 0, max: args.round });
+  } = aggregateFowV4TournamentData(ctx, {
+    tournamentRegistrations,
+    tournamentCompetitors,
+    tournamentPairings,
+    matchResults,
+  }, { min: 0, max: args.round });
+
+  // Apply score adjustments to competitors:
+  const adjustedCompetitors = competitors.map((v) => {
+    const competitor = tournamentCompetitors.find((w) => w._id === v.id);
+    const adjustments = (competitor?.scoreAdjustments ?? []).reduce((acc, w) => ({
+      ...acc,
+      [w.rankingFactor]: (acc[w.rankingFactor] ?? 0) + w.amount,
+    }), {} as Partial<Record<RankingFactor, number>>);
+    return {
+      ...v,
+      stats: Object.entries(v.stats).reduce((acc, [rankingFactor, value]) => ({
+        ...acc,
+        [rankingFactor]: value + (adjustments[rankingFactor as RankingFactor] ?? 0),
+      }), {} as Record<RankingFactor, number>),
+    };
+  });
+
   return {
     players: calculateFowV4TournamentRankings(players, rankingFactors),
-    competitors: calculateFowV4TournamentRankings(competitors, rankingFactors),
+    competitors: calculateFowV4TournamentRankings(adjustedCompetitors, rankingFactors),
   };
 };
 

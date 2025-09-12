@@ -87,7 +87,7 @@ export const CompetitorActions = ({
     {
       label: 'Edit',
       onClick: () => openEditDialog({ tournamentCompetitor: competitor }),
-      visible: (isOrganizer || isCaptain) && tournament.useTeams && tournament.status !== 'archived' && tournament.currentRound === undefined,
+      visible: (isOrganizer || isCaptain) && tournament.status !== 'archived' && tournament.currentRound === undefined,
     },
     {
       label: 'Leave',

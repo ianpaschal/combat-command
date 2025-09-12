@@ -9,6 +9,7 @@ import { useTournamentCompetitors } from '~/components/TournamentCompetitorsProv
 import { useTournament } from '~/components/TournamentProvider';
 import { getTournamentRankingTableConfig, RankingRow } from '~/pages/TournamentDetailPage/components/TournamentRankingsCard/TournamentRankingsCard.utils';
 import { useGetTournamentRankings } from '~/services/tournaments';
+import { getRoundOptions } from '~/utils/common/getRoundOptions';
 import { TournamentDetailCard } from '../TournamentDetailCard';
 
 import styles from './TournamentRankingsCard.module.scss';
@@ -52,16 +53,7 @@ export const TournamentRankingsCard = ({
   const showEmptyState = lastRound === undefined || !(rankings?.[view] ?? []).length;
   const showLoadingState = loading;
 
-  const getRoundIndexes = (): number[] => {
-    if (lastRound !== undefined) {
-      return Array.from({ length: lastRound + 1 }, (_, i) => i);
-    }
-    return [0];
-  };
-  const roundOptions = getRoundIndexes().map((round) => ({
-    label: `Round ${round + 1}`,
-    value: round,
-  }));
+  const roundOptions = getRoundOptions(lastRound);
   const viewOptions = [
     { label: 'Players', value: 'players' },
     { label: 'Teams', value: 'competitors' },

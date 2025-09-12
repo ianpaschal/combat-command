@@ -1,0 +1,36 @@
+@use "/src/style/flex";
+@use "/src/style/corners";
+@use "/src/style/borders";
+@use "/src/style/text";
+
+.ScoreAdjustmentFormItem {
+  @include corners.normal;
+  @include borders.normal;
+
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  flex: 0 1 auto;
+  gap: 1rem;
+
+  padding: calc(1rem - var(--border-width));
+
+  &_Reason,
+  &_Round {
+    grid-column: 1/-1;
+  }
+
+  &_Effect {
+    @include text.ui;
+
+    display: grid;
+    grid-column: 1/-1;
+    grid-template-areas: "effect removeButton";
+    grid-template-columns: 1fr auto;
+    flex: 0 1 auto;
+    gap: 1rem;
+  }
+
+  &_RemoveButton {
+    grid-area: removeButton;
+  }
+}
