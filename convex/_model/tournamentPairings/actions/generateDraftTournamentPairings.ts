@@ -1,10 +1,10 @@
 import { TournamentPairingMethod } from '@ianpaschal/combat-command-static-data/common';
 import { Infer, v } from 'convex/values';
 
-import { QueryCtx } from '../../../_generated/server';
+import { api } from '../../../_generated/api';
+import { ActionCtx } from '../../../_generated/server';
 import { getStaticEnumConvexValidator } from '../../common/_helpers/getStaticEnumConvexValidator';
-import { getTournamentCompetitorsByTournament } from '../../tournamentCompetitors';
-import { getTournamentRankings, TournamentCompetitorRanked } from '../../tournaments';
+import { TournamentCompetitorRanked } from '../../tournaments';
 import { generateDraftPairings } from '../_helpers/generateDraftPairings';
 import { shuffle } from '../_helpers/shuffle';
 import { sortByRank } from '../_helpers/sortByRank';
@@ -15,28 +15,31 @@ const draftTournamentPairing = v.object(uniqueFields);
 export type DraftTournamentPairing = Infer<typeof draftTournamentPairing>;
 const tournamentPairingMethod = getStaticEnumConvexValidator(TournamentPairingMethod);
 
-export const getDraftTournamentPairingsArgs = v.object({
+export const generateDraftTournamentPairingsArgs = v.object({
   method: tournamentPairingMethod,
   round: v.number(),
   tournamentId: v.id('tournaments'),
 });
 
 /**
- * Gets a DraftTournamentPairings object.
+ * Generates a DraftTournamentPairings object.
  * 
- * @param ctx - Convex query context
- * @param args - Convex query args
+ * @param ctx - Convex action context
+ * @param args - Convex action args
  * @param args.method - The pairing method to use
  * @param args.round - The upcoming round index which the generated pairing are for
  * @param args.tournamentId - ID of the Tournament
  * @returns An array of DraftTournamentPairings
  */
-export const getDraftTournamentPairings = async (
-  ctx: QueryCtx,
-  args: Infer<typeof getDraftTournamentPairingsArgs>,
+export const generateDraftTournamentPairings = async (
+  ctx: ActionCtx,
+  args: Infer<typeof generateDraftTournamentPairingsArgs>,
 ): Promise<DraftTournamentPairing[]> => {
-  const competitors = await getTournamentCompetitorsByTournament(ctx, args);
-  const { competitors: rankedCompetitors } = await getTournamentRankings(ctx, {
+  // TODO: Consolidate these into one call:
+  const competitors = await ctx.runQuery(api.tournamentCompetitors.getTournamentCompetitorsByTournament, {
+    tournamentId: args.tournamentId,
+  });
+  const { competitors: rankedCompetitors } = await ctx.runQuery(api.tournaments.getTournamentRankings, {
     tournamentId: args.tournamentId,
     round: args.round - 1, // Get rankings for previous round
   });
@@ -51,10 +54,8 @@ export const getDraftTournamentPairings = async (
     orderedCompetitors.push(...shuffle(activeCompetitors));
   }
   return generateDraftPairings(orderedCompetitors).sort(sortCompetitorPairs).map((draftPairing) => ({
-    tournamentId: args.tournamentId,
     tournamentCompetitor0Id: draftPairing[0].id,
     tournamentCompetitor1Id: draftPairing[1]?.id ?? null,
     table: -1,
-    round: args.round,
   }));
 };

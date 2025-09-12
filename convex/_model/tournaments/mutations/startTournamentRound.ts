@@ -44,9 +44,29 @@ export const startTournamentRound = async (
     throw new ConvexError(getErrorMessage('TOURNAMENT_ALREADY_HAS_OPEN_ROUND'));
   }
 
-  // ---- PRIMARY ACTIONS ----
   const nextRound = (tournament.lastRound ?? -1) + 1;
 
+  const tournamentPairings = await ctx.db.query('tournamentPairings')
+    .withIndex('by_tournament_round', (q) => q.eq('tournamentId', tournament._id).eq('round',nextRound))
+    .collect();
+  const tournamentCompetitors = await ctx.db.query('tournamentCompetitors')
+    .withIndex('by_tournament_id', (q) => q.eq('tournamentId', tournament._id))
+    .collect();
+
+  for (const pairing of tournamentPairings) {
+    const competitorIds = [
+      pairing.tournamentCompetitor0Id,
+      pairing.tournamentCompetitor1Id,
+    ];
+    for (const id of competitorIds) {
+      const competitor = tournamentCompetitors.find((v) => v._id === id);
+      if (id && !competitor?.active) {
+        throw new ConvexError(getErrorMessage('CANNOT_OPEN_ROUND_WITH_INACTIVE_COMPETITORS'));
+      }
+    }
+  }
+
+  // ---- PRIMARY ACTIONS ----
   // Create (and start) a timer for the upcoming round:
   await createTournamentTimer(ctx, {
     tournamentId: tournament._id,

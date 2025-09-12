@@ -33,6 +33,8 @@ export const createActionHook = <T extends ActionFn>(actionFn: T) => (config?: A
           if (config?.onError) {
             config.onError(error);
           }
+        } else if (error instanceof Error) {
+          toast.error('Error', { description: error.message as string });
         }
       } finally {
         setIsLoading(false);

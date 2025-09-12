@@ -16,14 +16,14 @@ export { sortByRank } from './_helpers/sortByRank';
 
 // Queries
 export {
+  type DraftTournamentPairing,
+  generateDraftTournamentPairings,
+  generateDraftTournamentPairingsArgs,
+} from './actions/generateDraftTournamentPairings';
+export {
   getActiveTournamentPairingsByUser,
   getActiveTournamentPairingsByUserArgs,
 } from './queries/getActiveTournamentPairingsByUser';
-export {
-  type DraftTournamentPairing,
-  getDraftTournamentPairings,
-  getDraftTournamentPairingsArgs,
-} from './queries/getDraftTournamentPairings';
 export {
   getTournamentPairing,
   getTournamentPairingArgs,

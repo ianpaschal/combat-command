@@ -22,6 +22,7 @@ export type TournamentEditableFields = Infer<typeof tournamentEditableFields>;
 
 // Helpers
 export { checkTournamentAuth } from './_helpers/checkTournamentAuth';
+export { checkTournamentVisibility } from './_helpers/checkTournamentVisibility';
 export { deepenTournament, type TournamentDeep } from './_helpers/deepenTournament';
 export { getTournamentDeep } from './_helpers/getTournamentDeep';
 export { getTournamentShallow } from './_helpers/getTournamentShallow';

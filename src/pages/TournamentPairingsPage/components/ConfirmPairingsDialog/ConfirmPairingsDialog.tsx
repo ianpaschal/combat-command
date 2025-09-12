@@ -1,7 +1,6 @@
 import { DraftTournamentPairing, TournamentCompetitor } from '~/api';
 import { ConfirmationDialog } from '~/components/ConfirmationDialog';
 import { Table } from '~/components/generic/Table';
-import { Warning } from '~/components/generic/Warning';
 import { useTournament } from '~/components/TournamentProvider';
 import { TournamentPairingFormItem } from '../../TournamentPairingsPage.schema';
 import { assignTables, getTableColumns } from './ConfirmPairingsDialog.utils';
@@ -21,8 +20,8 @@ export const ConfirmPairingsDialog = ({
   onConfirm,
   pairings,
 }: ConfirmPairingsDialogProps): JSX.Element => {
-  const { maxCompetitors } = useTournament();
-
+  console.log('pairings', pairings);
+  const { maxCompetitors, nextRound } = useTournament();
   const assignedPairings = assignTables(pairings.filter((pairing) => (
     pairing.tournamentCompetitor0Id || pairing.tournamentCompetitor1Id
   )).map((pairing) => ({
@@ -32,27 +31,22 @@ export const ConfirmPairingsDialog = ({
       ...competitors.find((c) => c._id === pairing.tournamentCompetitor1Id)?.playedTables ?? [],
     ])),
   })), Math.ceil(maxCompetitors / 2));
-
   const handleConfirm = (): void => {
     onConfirm(assignedPairings);
   };
-
   const columns = getTableColumns(competitors);
-
+  const nextRoundLabel = (nextRound ?? 0) + 1;
   return (
     <ConfirmationDialog
       id={id}
-      title="Confirm Pairings"
+      title={`Confirm Round ${nextRoundLabel} Pairings`}
       onConfirm={handleConfirm}
       disablePadding
     >
       <p className={styles.ConfirmPairingsDialog_Content}>
-        The following pairings will be created:
+        Round {nextRoundLabel} will have the following parings:
       </p>
       <Table columns={columns} rows={assignedPairings} rowClassName={styles.ConfirmPairingsDialog_Row} />
-      <Warning className={styles.ConfirmPairingsDialog_Content}>
-        Once created, pairings cannot be edited. Please ensure all competitors are present and ready to play!
-      </Warning>
     </ConfirmationDialog>
   );
 };

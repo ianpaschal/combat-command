@@ -65,7 +65,7 @@ export const getAvailableTournamentActions = async (
     actions.push(TournamentActionKey.Start);
   }
 
-  if (isOrganizer && tournament.status === 'active' && !hasCurrentRound && hasNextRound && nextRoundPairingCount === 0) {
+  if (isOrganizer && tournament.registrationClosesAt < Date.now() && !hasCurrentRound && tournament.status !== 'archived') {
     actions.push(TournamentActionKey.ConfigureRound);
   }
 

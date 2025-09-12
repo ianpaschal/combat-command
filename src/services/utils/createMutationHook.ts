@@ -26,18 +26,19 @@ export const createMutationHook = <T extends MutationFn>(mutationFn: T) => (conf
         if (config?.onSuccess) {
           config.onSuccess(response);
         }
+        return response;
       } catch (error) {
         if (error instanceof ConvexError) {
           toast.error('Error', { description: error.data.message });
           if (config?.onError) {
             config.onError(error);
           }
-        }
-        if (error instanceof Error) {
+        } else if (error instanceof Error) {
           toast.error('Error', { description: error.message as string });
         }
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     },
     loading,
   };

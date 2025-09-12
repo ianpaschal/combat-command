@@ -1,8 +1,15 @@
 import { ReactElement } from 'react';
 import { UseFormReset } from 'react-hook-form';
 import { UniqueIdentifier } from '@dnd-kit/core';
+import { CircleDashed } from 'lucide-react';
+import { nanoid } from 'nanoid';
 
-import { TournamentCompetitor, TournamentCompetitorId } from '~/api';
+import {
+  DraftTournamentPairing,
+  TournamentCompetitor,
+  TournamentCompetitorId,
+  TournamentPairing,
+} from '~/api';
 import { Pulsar } from '~/components/generic/Pulsar';
 import { IdentityBadge } from '~/components/IdentityBadge';
 import { getTournamentCompetitorDisplayName } from '~/utils/common/getTournamentCompetitorDisplayName';
@@ -15,7 +22,7 @@ export const updatePairings = (items: UniqueIdentifier[], reset: UseFormReset<Fo
     const tournamentCompetitor0Id = items[i * 2] === 'bye' ? null : items[i * 2] as TournamentCompetitorId;
     const tournamentCompetitor1Id = items[i * 2 + 1] === 'bye' ? null : items[i * 2 + 1] as TournamentCompetitorId;
     return {
-      ...p,
+      table: p.table,
       tournamentCompetitor0Id,
       tournamentCompetitor1Id,
     };
@@ -34,8 +41,8 @@ export const flattenPairings = (
 ): UniqueIdentifier[] => {
   const result: UniqueIdentifier[] = [];
   for (const pairing of pairings) {
-    result.push(pairing.tournamentCompetitor0Id ?? 'bye');
-    result.push(pairing.tournamentCompetitor1Id ?? 'bye');
+    result.push(pairing.tournamentCompetitor0Id ?? nanoid(6));
+    result.push(pairing.tournamentCompetitor1Id ?? nanoid(6));
   }
   return result;
 };
@@ -158,7 +165,7 @@ export const renderCompetitorCard = (
   if (!rankedCompetitor) {
     return (
       <div className={styles.TournamentPairingsPage_Form_CompetitorCard}>
-        <IdentityBadge placeholder={{ displayName: 'Bye' }} />
+        <IdentityBadge placeholder={{ displayName: 'Empty', icon: <CircleDashed /> }} />
       </div>
     );
   }
@@ -172,4 +179,63 @@ export const renderCompetitorCard = (
       <Pulsar color={isValid ? 'green' : 'red'} visible={!!state.activeId && !state.isActive} />
     </div>
   );
+};
+
+export const setPairings = (
+  competitors: TournamentCompetitor[],
+  tableCount: number,
+  pairings?: (TournamentPairing | DraftTournamentPairing)[],
+): DraftTournamentPairing[] => {
+  const existingPairings = [...(pairings ?? [])];
+  const draftPairings: DraftTournamentPairing[] = [];
+
+  const unpairedCompetitorIds = competitors.filter((v) => v.active).map((v) => v._id);
+
+  while (draftPairings.length < tableCount) {
+    const existingPairing = existingPairings.pop();
+    if (existingPairing) {
+      const ids = getDraftIds(existingPairing);
+      ids.forEach((v) => {
+        if (v) {
+          unpairedCompetitorIds.splice(unpairedCompetitorIds.indexOf(v), 1);
+        }
+      });
+      draftPairings.push({
+        table: existingPairing?.table ?? -1,
+        tournamentCompetitor0Id: ids[0],
+        tournamentCompetitor1Id: ids[1],
+      });
+    } else {
+      draftPairings.push({
+        table: -1,
+        tournamentCompetitor0Id: unpairedCompetitorIds.pop() ?? null,
+        tournamentCompetitor1Id: unpairedCompetitorIds.pop() ?? null,
+      });
+    }
+  }
+  return draftPairings;
+};
+
+export const isTournamentPairing = (
+  pairing: TournamentPairing | DraftTournamentPairing,
+): pairing is TournamentPairing => (
+  'tournamentCompetitor0' in pairing && 'tournamentCompetitor1' in pairing
+);
+
+export const getDraftIds = (
+  pairing?: TournamentPairing | DraftTournamentPairing,
+): [TournamentCompetitorId | null, TournamentCompetitorId | null] => {
+  if (!pairing) {
+    return [null, null];
+  }
+  if (isTournamentPairing(pairing)) {
+    return [
+      pairing.tournamentCompetitor0?.active ? pairing.tournamentCompetitor0Id : null,
+      pairing.tournamentCompetitor1?.active ? pairing.tournamentCompetitor1Id : null,
+    ];
+  }
+  return [
+    pairing.tournamentCompetitor0Id ?? null,
+    pairing.tournamentCompetitor1Id ?? null,
+  ];
 };

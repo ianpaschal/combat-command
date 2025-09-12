@@ -23,4 +23,15 @@ export type FormData = z.infer<typeof schema>;
 
 export const sanitize = (
   pairings: unknown[] = [],
-): TournamentPairingFormItem[] => pairings.map((p) => draftTournamentPairingSchema.parse(p));
+  tableCount: number,
+): TournamentPairingFormItem[] => {
+  const cleanPairings = pairings.map((p) => draftTournamentPairingSchema.parse(p));
+  while (cleanPairings.length < tableCount) {
+    cleanPairings.push({
+      tournamentCompetitor0Id: null,
+      tournamentCompetitor1Id: null,
+      table: -1,
+    });
+  }
+  return cleanPairings;
+};

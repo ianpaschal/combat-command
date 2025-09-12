@@ -1,6 +1,5 @@
 import {
   MouseEvent,
-  useCallback,
   useEffect,
   useState,
 } from 'react';
@@ -33,18 +32,19 @@ import { TournamentCompetitorsProvider } from '~/components/TournamentCompetitor
 import { TournamentProvider } from '~/components/TournamentProvider';
 import { ConfirmPairingsDialog } from '~/pages/TournamentPairingsPage/components/ConfirmPairingsDialog';
 import { useGetTournamentCompetitorsByTournament } from '~/services/tournamentCompetitors';
-import { useCreateTournamentPairings, useGetDraftTournamentPairings } from '~/services/tournamentPairings';
+import {
+  useCreateTournamentPairings,
+  useGenerateDraftTournamentPairings,
+  useGetTournamentPairings,
+} from '~/services/tournamentPairings';
 import { useGetTournament } from '~/services/tournaments';
 import { PATHS } from '~/settings';
-import {
-  FormData,
-  sanitize,
-  schema,
-} from './TournamentPairingsPage.schema';
+import { FormData, schema } from './TournamentPairingsPage.schema';
 import {
   flattenPairings,
   getPairingsStatuses,
   renderCompetitorCard,
+  setPairings,
   updatePairings,
 } from './TournamentPairingsPage.utils';
 
@@ -55,33 +55,44 @@ const WIDTH = 800;
 export const TournamentPairingsPage = (): JSX.Element => {
   const params = useParams();
   const navigate = useNavigate();
-
   const tournamentId = params.id! as TournamentId; // Must exist or else how did we get to this route?
+
+  // ---- DATA FETCHING ----
   const { data: tournament } = useGetTournament({ id: tournamentId });
   const lastRound = tournament?.lastRound ?? -1;
+  const nextRound = tournament?.nextRound ?? 0;
+
+  if (tournament?.currentRound !== undefined) {
+    throw new Error('Cannot modify pairings during round.');
+  }
+  const tableCount = Math.ceil((tournament?.maxCompetitors ?? 2) / 2);
 
   const { data: tournamentCompetitors } = useGetTournamentCompetitorsByTournament({
     tournamentId,
     includeRankings: lastRound,
   });
-  const isFirstRound = (tournament?.lastRound ?? -1) < 0;
-  const defaultPairingMethod = isFirstRound ? (
+
+  const [pairingMethod, setPairingMethod] = useState<TournamentPairingMethod | 'manual'>(nextRound === 0 ? (
     TournamentPairingMethod.Random
   ) : (
-    tournament?.pairingMethod ?? TournamentPairingMethod.Adjacent
-  );
-  const [pairingMethod, setPairingMethod] = useState<TournamentPairingMethod>(defaultPairingMethod);
+    TournamentPairingMethod.Adjacent
+  ));
+  useEffect(() => {
+    if (tournament?.pairingMethod) {
+      setPairingMethod(tournament.pairingMethod);
+    }
+  }, [tournament, setPairingMethod]);
 
-  const round = lastRound + 1;
-  const { data: generatedPairings } = useGetDraftTournamentPairings(tournament ? {
+  const { data: existingPairings } = useGetTournamentPairings(tournament ? {
     tournamentId,
-    round,
-    method: pairingMethod,
+    round: nextRound,
   } : 'skip');
 
+  // ---- DATA PERSISTING ----
+  const { action: generateDraftPairings } = useGenerateDraftTournamentPairings();
   const { mutation: createTournamentPairings } = useCreateTournamentPairings({
     onSuccess: (): void => {
-      toast.success(`Round ${round + 1} pairings created!`);
+      toast.success(`Round ${nextRound + 1} pairings created!`);
       navigate(`${generatePath(PATHS.tournamentDetails, { id: tournamentId })}?tab=pairings`);
     },
   });
@@ -102,18 +113,17 @@ export const TournamentPairingsPage = (): JSX.Element => {
   const form = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
-      pairings: sanitize(generatedPairings),
+      pairings: setPairings(tournamentCompetitors ?? [], tableCount, existingPairings),
     },
     mode: 'onSubmit',
   });
-  const reset = useCallback((pairings: unknown[]) => form.reset({
-    pairings: sanitize(pairings),
-  }), [form]);
+
   useEffect(() => {
-    if (tournament && generatedPairings) {
-      reset(generatedPairings);
+    if (tournament && existingPairings) {
+      form.reset({ pairings: setPairings(tournamentCompetitors ?? [], tableCount, existingPairings) });
+      setPairingMethod('manual');
     }
-  }, [tournament, generatedPairings, reset]);
+  }, [tournament, existingPairings, form, tableCount, tournamentCompetitors]);
   const { fields } = useFieldArray({
     control: form.control,
     name: 'pairings',
@@ -127,7 +137,6 @@ export const TournamentPairingsPage = (): JSX.Element => {
     return <div>Loading...</div>;
   }
 
-  const tableCount = Math.ceil(tournament.maxCompetitors / 2);
   const tableOptions = [
     ...Array.from({ length: tableCount }).map((_, i) => ({
       label: String(i + 1),
@@ -138,27 +147,51 @@ export const TournamentPairingsPage = (): JSX.Element => {
 
   const handleChange = (items: UniqueIdentifier[]): void => {
     updatePairings(items, form.reset);
+    setPairingMethod('manual');
   };
 
-  const handleChangePairingMethod = (value: TournamentPairingMethod): void => {
-    if (form.formState.isDirty) {
-      openConfirmChangePairingMethodDialog({
-        onConfirm: () => setPairingMethod(value),
+  const changePairingMethod = async (method: TournamentPairingMethod | 'manual'): Promise<void> => {
+    if (method !== 'manual') {
+      const generatedPairings = await generateDraftPairings({
+        round: nextRound,
+        tournamentId,
+        method,
       });
+      if (generatedPairings) {
+        form.reset({ pairings: setPairings(tournamentCompetitors, tableCount, generatedPairings) }, { keepDefaultValues: true });
+        setPairingMethod(method);
+      }
+    }
+  };
+
+  const reset = (): void => {
+    if (existingPairings) {
+      form.reset({ pairings: setPairings(tournamentCompetitors, tableCount, existingPairings) });
+      setPairingMethod('manual');
     } else {
-      setPairingMethod(value);
+      if (pairingMethod !== 'manual') {
+        changePairingMethod(pairingMethod);
+      }
     }
   };
 
   const handleReset = (): void => {
-    if (generatedPairings) {
-      if (form.formState.isDirty) {
-        openConfirmResetPairingsDialog({
-          onConfirm: () => reset(generatedPairings),
-        });
-      } else {
-        reset(generatedPairings);
-      }
+    if (form.formState.isDirty) {
+      openConfirmResetPairingsDialog({
+        onConfirm: () => reset(),
+      });
+    } else {
+      reset();
+    }
+  };
+
+  const handleChangePairingMethod = (method: TournamentPairingMethod | 'manual'): void => {
+    if (pairingMethod === 'manual' && form.formState.isDirty) {
+      openConfirmChangePairingMethodDialog({
+        onConfirm: () => changePairingMethod(method),
+      });
+    } else {
+      changePairingMethod(method);
     }
   };
 
@@ -172,20 +205,20 @@ export const TournamentPairingsPage = (): JSX.Element => {
   };
 
   const handleConfirm = async (pairings: DraftTournamentPairing[]): Promise<void> => {
-    await createTournamentPairings({ tournamentId, round, pairings });
+    await createTournamentPairings({ tournamentId, round: nextRound, pairings });
   };
 
   const pairingStatuses = getPairingsStatuses(tournamentCompetitors, pairings);
 
   return (
     <PageWrapper
-      title={`Set Up Round ${round + 1}`}
+      title={`Configure Round ${nextRound + 1}`}
       maxWidth={WIDTH}
       showBackButton
       footer={
         <>
           <Button variant="secondary" onClick={handleCancel} key="cancel">Cancel</Button>
-          <Button key="proceed" onClick={handleProceed}>Proceed</Button>
+          <Button key="proceed" onClick={handleProceed}>{existingPairings ? 'Update' : 'Create'}</Button>
         </>
       }
     >
@@ -195,14 +228,21 @@ export const TournamentPairingsPage = (): JSX.Element => {
             <div className={styles.TournamentPairingsPage_Header}>
               <Label>Pairing Method</Label>
               <InputSelect
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
+                //@ts-expect-error InputSelect doesn't know type
                 onChange={handleChangePairingMethod}
-                options={tournamentPairingMethodOptions}
+                options={[...tournamentPairingMethodOptions, {
+                  label: 'Manual',
+                  value: 'manual',
+                }]}
                 value={pairingMethod}
-                disabled={isFirstRound}
+                disabled={nextRound === 0}
               />
-              <Button onClick={handleReset} variant="secondary" disabled={!form.formState.isDirty}>
+              <Button
+                className={styles.TournamentPairingsPage_ResetButton}
+                onClick={handleReset}
+                variant="secondary"
+                disabled={!form.formState.isDirty}
+              >
                 Reset
               </Button>
             </div>
@@ -231,7 +271,9 @@ export const TournamentPairingsPage = (): JSX.Element => {
                       options={tableOptions}
                       name={`pairings.${i}.table`}
                       value={pairings[i].table ?? -1}
-                      onChange={(value) => form.setValue(`pairings.${i}.table`, value as number, { shouldDirty: true })}
+                      onChange={(value) => form.setValue(`pairings.${i}.table`, value as number, {
+                        shouldDirty: true,
+                      })}
                     />
                   </div>
                 ))}

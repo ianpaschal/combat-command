@@ -48,9 +48,6 @@ export const createTournamentPairings = async (
   if (tournament.currentRound !== undefined) {
     throw new ConvexError(getErrorMessage('CANNOT_ADD_PAIRINGS_TO_IN_PROGRESS_ROUND'));
   }
-  if (existingPairings.length) {
-    throw new ConvexError(getErrorMessage('TOURNAMENT_ALREADY_HAS_PAIRINGS_FOR_ROUND'));
-  }
   if (!args.pairings.length) {
     throw new ConvexError(getErrorMessage('CANNOT_ADD_EMPTY_PAIRINGS_LIST'));
   }
@@ -60,10 +57,13 @@ export const createTournamentPairings = async (
 
   const pairingIds: Id<'tournamentPairings'>[] = [];
   const pairedCompetitorIds = new Set<Id<'tournamentCompetitors'>>();
+  const validPairings = [];
 
+  // TODO: Throw error if tables are double-assigned
+  // TODO: Throw error if competitors are double-assigned
+  
+  // ---- VALIDATE EACH PAIRING ----
   for (const pairing of args.pairings) {
-
-    // ---- VALIDATE EACH PAIRING ----
     for (const id of [pairing.tournamentCompetitor0Id, pairing.tournamentCompetitor1Id]) {
       const competitor = competitors.find((c) => c._id === id);
       const activePlayers = (competitor?.registrations ?? []).filter((p) => p.active);
@@ -86,23 +86,28 @@ export const createTournamentPairings = async (
       }
     }
 
-    // ---- PRIMARY ACTIONS ----
-    const id = await ctx.db.insert('tournamentPairings', {
-      ...pairing,
-      tournamentId: args.tournamentId,
-      round: args.round,
-    });
-
     // ---- TRACK RESULTS ----
-    pairingIds.push(id);
+    validPairings.push(pairing);
     pairedCompetitorIds.add(pairing.tournamentCompetitor0Id);
     if (pairing.tournamentCompetitor1Id) {
       pairedCompetitorIds.add(pairing.tournamentCompetitor1Id);
     }
   }
-  
-  // TODO: Throw error if tables are double-assigned
-  // TODO: Throw error if competitors are double-assigned
+
+  // ---- PRIMARY ACTIONS ----
+  for (const pairing of validPairings) {
+    const id = await ctx.db.insert('tournamentPairings', {
+      ...pairing,
+      tournamentId: args.tournamentId,
+      round: args.round,
+    });
+    pairingIds.push(id);
+  }
+
+  // Clean up existing pairings:
+  for (const pairing of existingPairings) {
+    await ctx.db.delete(pairing._id);
+  }
 
   return pairingIds;
 };

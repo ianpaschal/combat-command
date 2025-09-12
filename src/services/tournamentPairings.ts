@@ -1,5 +1,9 @@
 import { api } from '~/api';
-import { createMutationHook, createQueryHook } from '~/services/utils';
+import {
+  createActionHook,
+  createMutationHook,
+  createQueryHook,
+} from '~/services/utils';
 
 // Basic Queries
 export const useGetTournamentPairing = createQueryHook(api.tournamentPairings.getTournamentPairing);
@@ -7,7 +11,7 @@ export const useGetTournamentPairings = createQueryHook(api.tournamentPairings.g
 
 // Special Queries
 export const useGetActiveTournamentPairingsByUser = createQueryHook(api.tournamentPairings.getActiveTournamentPairingsByUser);
-export const useGetDraftTournamentPairings = createQueryHook(api.tournamentPairings.getDraftTournamentPairings);
+export const useGenerateDraftTournamentPairings = createActionHook(api.tournamentPairings.generateDraftTournamentPairings);
 
 // Mutations
 export const useCreateTournamentPairings = createMutationHook(api.tournamentPairings.createTournamentPairings);

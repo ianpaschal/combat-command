@@ -26,6 +26,7 @@ export const errors = {
   CANNOT_OPEN_ROUND_ON_ARCHIVED_TOURNAMENT: 'Cannot open a round on an archived tournament.',
   CANNOT_OPEN_ROUND_ON_DRAFT_TOURNAMENT: 'Cannot open a round on a tournament which is still a draft.',
   CANNOT_OPEN_ROUND_ON_PUBLISHED_TOURNAMENT: 'Cannot open a round on a tournament which has not started.',
+  CANNOT_OPEN_ROUND_WITH_INACTIVE_COMPETITORS: 'Cannot open a round which includes pairings with inactive competitors.',
   TOURNAMENT_ALREADY_PUBLISHED: 'Tournament is already published.',
   TOURNAMENT_ALREADY_ACTIVE: 'Tournament is already running.',
   TOURNAMENT_ALREADY_ARCHIVED: 'Tournament is already archived.',

@@ -3,7 +3,7 @@ import { v } from 'convex/values';
 
 export const uniqueFields = {
   table: v.union(v.number(), v.null()),
-  tournamentCompetitor0Id: v.id('tournamentCompetitors'),
+  tournamentCompetitor0Id: v.union(v.id('tournamentCompetitors'), v.null()),
   tournamentCompetitor1Id: v.union(v.id('tournamentCompetitors'), v.null()),
 };
 

@@ -1,5 +1,5 @@
 import { ShallowTournamentPairing } from '..';
-import { DraftTournamentPairing } from '../queries/getDraftTournamentPairings';
+import { DraftTournamentPairing } from '../actions/generateDraftTournamentPairings';
 import { TournamentPairingDeep } from './deepenTournamentPairing';
 
 type AnyPairing = TournamentPairingDeep | ShallowTournamentPairing | DraftTournamentPairing;
