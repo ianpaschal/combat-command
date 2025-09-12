@@ -33,6 +33,9 @@ export const createMutationHook = <T extends MutationFn>(mutationFn: T) => (conf
             config.onError(error);
           }
         }
+        if (error instanceof Error) {
+          toast.error('Error', { description: error.message as string });
+        }
       }
       setIsLoading(false);
     },

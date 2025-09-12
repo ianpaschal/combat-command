@@ -4,12 +4,13 @@
 
 @mixin form-field-basis {
   width: 100%;
+  min-width: 0;
 }
 
 .Root-vertical {
   @include form-field-basis;
 
-  @include flex.column($gap: 0.375rem);
+  @include flex.column($gap: var(--form-field-gap));
 }
 
 .Root-horizontal {

@@ -1,8 +1,10 @@
-import { RankingFactor } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
+import { RankingFactor as FowV4RankingFactor } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
 import { defineTable } from 'convex/server';
 import { v } from 'convex/values';
 
 import { getStaticEnumConvexValidator } from '../common/_helpers/getStaticEnumConvexValidator';
+
+const fowV4RankingFactor = getStaticEnumConvexValidator(FowV4RankingFactor);
 
 export const editableFields = {
   tournamentId: v.id('tournaments'),
@@ -11,7 +13,8 @@ export const editableFields = {
   scoreAdjustments: v.optional(v.array(v.object({
     amount: v.number(),
     round: v.number(),
-    factor: getStaticEnumConvexValidator(RankingFactor),
+    rankingFactor: v.union(fowV4RankingFactor),
+    reason: v.optional(v.string()),
   }))),
 };
 

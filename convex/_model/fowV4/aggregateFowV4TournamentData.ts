@@ -1,4 +1,4 @@
-import { Id } from '../../_generated/dataModel';
+import { Doc, Id } from '../../_generated/dataModel';
 import { QueryCtx } from '../../_generated/server';
 import { getRange, Range } from '../common/_helpers/getRange';
 import { createFowV4TournamentExtendedStatMap } from './createFowV4TournamentExtendedStatMap';
@@ -21,30 +21,20 @@ import { FowV4TournamentDiscretePlayerStats } from './types';
  * @param range - Rounds to include in the calculation
  * @returns Calculated results for a tournament, by competitor and player
  */
-export const aggregateFowV4TournamentData = async (
+export const aggregateFowV4TournamentData = (
   ctx: QueryCtx,
-  tournamentId: Id<'tournaments'>,
+  data: {
+    tournamentRegistrations: Doc<'tournamentRegistrations'>[],
+    tournamentCompetitors: Doc<'tournamentCompetitors'>[],
+    tournamentPairings: Doc<'tournamentPairings'>[],
+    matchResults: Doc<'matchResults'>[],
+  },
   range?: Range | number,
 ) => {
-  // ---- 1. Gather base data ----
-  const tournamentRegistrations = await ctx.db.query('tournamentRegistrations')
-    .withIndex('by_tournament', (q) => q.eq('tournamentId', tournamentId))
-    .collect();
-  const tournamentCompetitors = await ctx.db.query('tournamentCompetitors')
-    .withIndex('by_tournament_id', (q) => q.eq('tournamentId', tournamentId))
-    .collect();
-  const tournamentPairings = await ctx.db.query('tournamentPairings')
-    .withIndex('by_tournament_id', (q) => q.eq('tournamentId', tournamentId))
-    .collect();
-  const matchResults = await ctx.db.query('matchResults')
-    .withIndex('by_tournament_id', (q) => q.eq('tournamentId', tournamentId))
-    .collect();
 
-  // ---- End of async portion ----
-
-  // ---- 2. Set-up containers to store all stats ----
-  const tournamentCompetitorIds = tournamentCompetitors.map((c) => c._id);
-  const tournamentPlayerUserIds = tournamentRegistrations.map((p) => p.userId);
+  // ---- 1. Set-up containers to store all stats ----
+  const tournamentCompetitorIds = data.tournamentCompetitors.map((c) => c._id);
+  const tournamentPlayerUserIds = data.tournamentRegistrations.map((p) => p.userId);
 
   const rawPlayerStats: Record<Id<'users'>, FowV4TournamentDiscretePlayerStats> = tournamentPlayerUserIds.reduce((acc, id) => ({
     ...acc,
@@ -55,17 +45,17 @@ export const aggregateFowV4TournamentData = async (
   const competitorStats = createFowV4TournamentExtendedStatMap(tournamentCompetitorIds);
   const competitorMeta = createTournamentCompetitorMetaMap(tournamentCompetitorIds);
     
-  // ---- 3. Filter data to relevant portions ----
+  // ---- 2. Filter data to relevant portions ----
   const { min: minRound, max: maxRound } = getRange(range);
-  const relevantTournamentPairings = tournamentPairings.filter((tournamentPairing) => (
+  const relevantTournamentPairings = data.tournamentPairings.filter((tournamentPairing) => (
     tournamentPairing.round >= minRound && tournamentPairing.round <= maxRound
   ));
   const relevantTournamentPairingIds = relevantTournamentPairings.map((p) => p._id);
-  const relevantMatchResults = matchResults.filter(({ tournamentPairingId }) => (
+  const relevantMatchResults = data.matchResults.filter(({ tournamentPairingId }) => (
     tournamentPairingId && relevantTournamentPairingIds.includes(tournamentPairingId)
   ));
 
-  // ---- 4. Aggregate base stats per player using match results ----
+  // ---- 3. Aggregate base stats per player using match results ----
   for (const matchResult of relevantMatchResults) {
     const [player0BaseStats, player1BaseStats] = extractFowV4MatchResultBaseStats(matchResult);
     if (matchResult.player0UserId) {
@@ -78,7 +68,7 @@ export const aggregateFowV4TournamentData = async (
     }
   }
 
-  // ---- 5. Aggregate metadata per competitor using pairings ----
+  // ---- 4. Aggregate metadata per competitor using pairings ----
   for (const tournamentPairing of relevantTournamentPairings) {
     const {
       round,
@@ -97,7 +87,7 @@ export const aggregateFowV4TournamentData = async (
     }   
   }
 
-  // ---- 6. Aggregate stats for each player ----
+  // ---- 5. Aggregate stats for each player ----
   for (const id of tournamentPlayerUserIds) {
     const gamesPlayed = rawPlayerStats[id].self.length;
     const total = sumFowV4BaseStats(rawPlayerStats[id].self);
@@ -111,11 +101,11 @@ export const aggregateFowV4TournamentData = async (
     };
   }
 
-  // ---- 7. Compute stats for each competitor ----
-  for (const tournamentCompetitor of tournamentCompetitors) {
+  // ---- 6. Compute stats for each competitor ----
+  for (const tournamentCompetitor of data.tournamentCompetitors) {
     const id = tournamentCompetitor._id;
 
-    const players = tournamentRegistrations.filter((r) => r.tournamentCompetitorId === id);
+    const players = data.tournamentRegistrations.filter((r) => r.tournamentCompetitorId === id);
 
     const gamesPlayed = players.reduce((acc, { userId }) => (
       acc + playerStats[userId].gamesPlayed

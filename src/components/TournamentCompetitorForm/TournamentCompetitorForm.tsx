@@ -1,12 +1,21 @@
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { MouseEvent } from 'react';
+import {
+  SubmitHandler,
+  useFieldArray,
+  useForm,
+} from 'react-hook-form';
 import clsx from 'clsx';
+import { Plus } from 'lucide-react';
 
 import { TournamentCompetitor, TournamentId } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
+import { Button } from '~/components/generic/Button';
 import { Form, FormField } from '~/components/generic/Form';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { InputText } from '~/components/generic/InputText';
+import { Separator } from '~/components/generic/Separator';
 import { InputUser } from '~/components/InputUser';
+import { ScoreAdjustmentFormItem } from '~/components/TournamentCompetitorForm/components/ScoreAdjustmentFormItem';
 import { useTournament } from '~/components/TournamentProvider';
 import { useGetTournamentCompetitorsByTournament } from '~/services/tournamentCompetitors';
 import { useGetTournamentRegistrationsByTournament } from '~/services/tournamentRegistrations';
@@ -43,32 +52,56 @@ export const TournamentCompetitorForm = ({
 }: TournamentCompetitorFormProps): JSX.Element => {
   const user = useAuth();
   const tournament = useTournament();
-  const { data: tournamentCompetitors, loading: tournamentCompetitorsLoading } = useGetTournamentCompetitorsByTournament({
-    tournamentId: tournament._id,
-  });
-  const { data: tournamentRegistrations, loading: tournamentRegistrationsLoading } = useGetTournamentRegistrationsByTournament({
-    tournamentId: tournament._id,
-  });
+  const { data: tournamentCompetitors, loading: tournamentCompetitorsLoading } =
+    useGetTournamentCompetitorsByTournament({
+      tournamentId: tournament._id,
+    });
+  const { data: tournamentRegistrations, loading: tournamentRegistrationsLoading } =
+    useGetTournamentRegistrationsByTournament({
+      tournamentId: tournament._id,
+    });
 
   const isOrganizer = isUserTournamentOrganizer(user, tournament);
 
-  // Get other competitors, we can block repeat names:
-  const otherCompetitors = (tournamentCompetitors || []).filter((c) => c._id !== tournamentCompetitor?._id);
+  const otherCompetitors = (tournamentCompetitors || []).filter((c) => (
+    c._id !== tournamentCompetitor?._id
+  ));
 
-  const formSchema = createSchema(!tournamentCompetitor ? 'create' : 'update', tournament.useTeams, otherCompetitors);
+  const formSchema = createSchema(
+    !tournamentCompetitor ? 'create' : 'update',
+    tournament.useTeams,
+    otherCompetitors,
+  );
   const form = useForm<TournamentCompetitorFormData>({
     defaultValues: {
-      ...getDefaultValues(!isOrganizer ? (user?._id) : undefined),
+      ...getDefaultValues(!isOrganizer ? user?._id : undefined),
       ...tournamentCompetitor,
     },
     mode: 'onSubmit',
   });
 
-  const nationalTeamOptions = getEtcCountryOptions().filter(({ value }) => (
-    !otherCompetitors.find((c) => c.teamName === value)
-  ));
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: 'scoreAdjustments',
+  });
 
-  const handleSubmit: SubmitHandler<TournamentCompetitorFormData> = async ({ ...formData }): Promise<void> => {
+  const nationalTeamOptions = getEtcCountryOptions().filter(
+    ({ value }) => !otherCompetitors.find((c) => c.teamName === value),
+  );
+
+  const handleAddScoreAdjustment = (e: MouseEvent): void => {
+    e.preventDefault();
+    append({
+      amount: 1,
+      round: tournament.currentRound ?? 0,
+      rankingFactor: [...tournament.rankingFactors].pop()!,
+      reason: '',
+    });
+  };
+
+  const handleSubmit: SubmitHandler<TournamentCompetitorFormData> = async ({
+    ...formData
+  }): Promise<void> => {
     const data = validateForm(formSchema, formData, form.setError);
     if (data) {
       onSubmit({
@@ -91,7 +124,10 @@ export const TournamentCompetitorForm = ({
       disabled={disabled}
     >
       {tournament.useTeams && (
-        <FormField name="teamName" label={tournament.useNationalTeams ? 'Country' : 'Team Name'}>
+        <FormField
+          name="teamName"
+          label={tournament.useNationalTeams ? 'Country' : 'Team Name'}
+        >
           {tournament.useNationalTeams ? (
             <InputSelect options={nationalTeamOptions} />
           ) : (
@@ -109,6 +145,21 @@ export const TournamentCompetitorForm = ({
           />
         </FormField>
       )}
+      <Separator />
+      <div className={styles.TournamentCompetitorForm_ScoreAdjustmentHeader}>
+        <h3>Bonuses & Penalties</h3>
+        <Button
+          variant="secondary"
+          onClick={handleAddScoreAdjustment}
+          disabled={disabled}
+          size="small"
+        >
+          <Plus />Add
+        </Button>
+      </div>
+      {fields.map((field, index) => (
+        <ScoreAdjustmentFormItem key={field.id} index={index} onRemove={remove} />
+      ))}
     </Form>
   );
 };

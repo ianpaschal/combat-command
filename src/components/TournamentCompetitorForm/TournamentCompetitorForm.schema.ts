@@ -2,6 +2,7 @@ import { DeepPartial } from 'react-hook-form';
 import { z } from 'zod';
 
 import { TournamentCompetitor, UserId } from '~/api';
+import { scoreAdjustmentSchema } from '~/components/TournamentCompetitorForm/components/ScoreAdjustmentFormItem/ScoreAdjustmentFormItem.schema';
 
 export const createSchema = (
   mode: 'create' | 'update',
@@ -12,6 +13,7 @@ export const createSchema = (
   captain: z.object({
     userId: z.optional(z.string().transform((val) => val.length ? val as UserId : undefined)),
   }),
+  scoreAdjustments: z.array(scoreAdjustmentSchema),
 }).superRefine((data, ctx) => {
   if (useTeams && !data.teamName.length) {
     ctx.addIssue({
@@ -45,4 +47,5 @@ export const getDefaultValues = (userId?: UserId): DeepPartial<TournamentCompeti
   captain: {
     userId,
   },
+  scoreAdjustments: [],
 });
