@@ -67,7 +67,7 @@ export const getTournamentRankings = async (
     const competitor = tournamentCompetitors.find((w) => w._id === v.id);
     const adjustments = (competitor?.scoreAdjustments ?? []).reduce((acc, w) => ({
       ...acc,
-      [w.rankingFactor]: (w.rankingFactor ?? 0) + w.amount,
+      [w.rankingFactor]: (acc[w.rankingFactor] ?? 0) + w.amount,
     }), {} as Partial<Record<RankingFactor, number>>);
     return {
       ...v,
