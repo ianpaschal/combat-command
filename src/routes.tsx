@@ -31,7 +31,7 @@ import { TournamentCreatePage } from '~/pages/TournamentCreatePage';
 import { TournamentDetailPage } from '~/pages/TournamentDetailPage';
 import { TournamentEditPage } from '~/pages/TournamentEditPage/TournamentEditPage';
 import { TournamentPairingDetailPage } from '~/pages/TournamentPairingDetailPage';
-import { TournamentPairingsPage } from '~/pages/TournamentPairingsPage';
+import { TournamentPairingsPage } from '~/pages/TournamentPairingsPageAlt';
 import { TournamentsPage } from '~/pages/TournamentsPage';
 import { UserProfilePage } from '~/pages/UserProfilePage';
 import { PATHS } from '~/settings';

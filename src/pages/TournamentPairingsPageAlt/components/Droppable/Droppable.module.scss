@@ -1,0 +1,16 @@
+@use "/src/style/corners";
+@use "@radix-ui/colors/gray-alpha.css";
+@use "@radix-ui/colors/gray-dark-alpha.css";
+@use "@radix-ui/colors/gray-dark.css";
+@use "@radix-ui/colors/gray.css";
+
+.Droppable {
+  @include corners.normal;
+
+  height: 3.5rem;
+  background-color: var(--gray-1);
+
+  &[data-hover="true"] {
+    background-color: var(--gray-2);
+  }
+}

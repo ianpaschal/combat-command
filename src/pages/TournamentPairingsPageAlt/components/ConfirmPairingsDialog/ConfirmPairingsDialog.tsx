@@ -20,6 +20,7 @@ export const ConfirmPairingsDialog = ({
   onConfirm,
   pairings,
 }: ConfirmPairingsDialogProps): JSX.Element => {
+  console.log('pairings', pairings);
   const { maxCompetitors, nextRound } = useTournament();
   const assignedPairings = assignTables(pairings.filter((pairing) => (
     pairing.tournamentCompetitor0Id || pairing.tournamentCompetitor1Id
