@@ -6,12 +6,13 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { useAuthActions } from '@convex-dev/auth/react';
 
+import { VisibilityLevel } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
 import { toast } from '~/components/ToastProvider';
 
 const defaultData = {
-  nameVisibility: 'hidden',
-  locationVisibility: 'hidden',
+  nameVisibility: VisibilityLevel.Hidden,
+  locationVisibility: VisibilityLevel.Hidden,
 };
 
 // Don't forget: This has to match convex/auth.ts!

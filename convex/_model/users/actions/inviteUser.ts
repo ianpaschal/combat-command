@@ -61,7 +61,7 @@ export const inviteUser = async (
       profile: {
         ...restArgs,
         email,
-        locationVisibility: 'hidden',
+        locationVisibility: VisibilityLevel.Hidden,
         nameVisibility: VisibilityLevel.Tournaments,
         claimTokenHash: await hashClaimToken(claimToken),
       },
