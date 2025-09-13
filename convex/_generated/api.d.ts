@@ -99,7 +99,6 @@ import type * as _model_tournamentCompetitors_queries_getTournamentCompetitor fr
 import type * as _model_tournamentCompetitors_queries_getTournamentCompetitors from "../_model/tournamentCompetitors/queries/getTournamentCompetitors.js";
 import type * as _model_tournamentCompetitors_queries_getTournamentCompetitorsByTournament from "../_model/tournamentCompetitors/queries/getTournamentCompetitorsByTournament.js";
 import type * as _model_tournamentCompetitors_table from "../_model/tournamentCompetitors/table.js";
-import type * as _model_tournamentCompetitors_types from "../_model/tournamentCompetitors/types.js";
 import type * as _model_tournamentOrganizers__helpers_checkUserIsTournamentOrganizer from "../_model/tournamentOrganizers/_helpers/checkUserIsTournamentOrganizer.js";
 import type * as _model_tournamentOrganizers__helpers_deepenTournamentOrganizer from "../_model/tournamentOrganizers/_helpers/deepenTournamentOrganizer.js";
 import type * as _model_tournamentOrganizers_index from "../_model/tournamentOrganizers/index.js";
@@ -347,7 +346,6 @@ declare const fullApi: ApiFromModules<{
   "_model/tournamentCompetitors/queries/getTournamentCompetitors": typeof _model_tournamentCompetitors_queries_getTournamentCompetitors;
   "_model/tournamentCompetitors/queries/getTournamentCompetitorsByTournament": typeof _model_tournamentCompetitors_queries_getTournamentCompetitorsByTournament;
   "_model/tournamentCompetitors/table": typeof _model_tournamentCompetitors_table;
-  "_model/tournamentCompetitors/types": typeof _model_tournamentCompetitors_types;
   "_model/tournamentOrganizers/_helpers/checkUserIsTournamentOrganizer": typeof _model_tournamentOrganizers__helpers_checkUserIsTournamentOrganizer;
   "_model/tournamentOrganizers/_helpers/deepenTournamentOrganizer": typeof _model_tournamentOrganizers__helpers_deepenTournamentOrganizer;
   "_model/tournamentOrganizers/index": typeof _model_tournamentOrganizers_index;

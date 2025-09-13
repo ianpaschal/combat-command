@@ -1,6 +1,7 @@
 import { createAccount } from '@convex-dev/auth/server';
 
 import { ActionCtx } from '../../../_generated/server';
+import { VisibilityLevel } from '../../common/types';
 import { userEmails } from '../_helpers/testUsers';
 
 const countryCodes = [
@@ -45,8 +46,8 @@ export const populateUsers = async (ctx: ActionCtx): Promise<void> => {
         email,
         familyName,
         givenName,
-        locationVisibility: 'hidden',
-        nameVisibility: 'hidden',
+        locationVisibility: VisibilityLevel.Tournaments,
+        nameVisibility: VisibilityLevel.Tournaments,
         username: `${givenName}_${familyName.substring(0,1)}`.toLowerCase(),
       },
     });
