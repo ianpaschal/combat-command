@@ -68,6 +68,7 @@
     "react-hook-form": "^7.53.0",
     "react-router-dom": "^6.25.1",
     "react-use-measure": "^2.1.7",
+    "recharts": "^3.1.2",
     "resend": "^3.2.0",
     "tz-lookup": "^6.1.25",
     "unique-names-generator": "^4.7.1",

@@ -38,6 +38,7 @@ import type * as _model_fowV4_flattenFowV4StatMap from "../_model/fowV4/flattenF
 import type * as _model_fowV4_fowV4GameSystemConfig from "../_model/fowV4/fowV4GameSystemConfig.js";
 import type * as _model_fowV4_fowV4ListData from "../_model/fowV4/fowV4ListData.js";
 import type * as _model_fowV4_fowV4MatchResultDetails from "../_model/fowV4/fowV4MatchResultDetails.js";
+import type * as _model_fowV4_stats_getOutcomeDistributionByBattlePlan from "../_model/fowV4/stats/getOutcomeDistributionByBattlePlan.js";
 import type * as _model_fowV4_sumFowV4BaseStats from "../_model/fowV4/sumFowV4BaseStats.js";
 import type * as _model_fowV4_types from "../_model/fowV4/types.js";
 import type * as _model_friendships__helpers_deepenFriendship from "../_model/friendships/_helpers/deepenFriendship.js";
@@ -283,6 +284,7 @@ declare const fullApi: ApiFromModules<{
   "_model/fowV4/fowV4GameSystemConfig": typeof _model_fowV4_fowV4GameSystemConfig;
   "_model/fowV4/fowV4ListData": typeof _model_fowV4_fowV4ListData;
   "_model/fowV4/fowV4MatchResultDetails": typeof _model_fowV4_fowV4MatchResultDetails;
+  "_model/fowV4/stats/getOutcomeDistributionByBattlePlan": typeof _model_fowV4_stats_getOutcomeDistributionByBattlePlan;
   "_model/fowV4/sumFowV4BaseStats": typeof _model_fowV4_sumFowV4BaseStats;
   "_model/fowV4/types": typeof _model_fowV4_types;
   "_model/friendships/_helpers/deepenFriendship": typeof _model_friendships__helpers_deepenFriendship;
