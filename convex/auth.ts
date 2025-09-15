@@ -99,6 +99,8 @@ export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
         ...args.profile,
         email,
         username,
+        nameVisibility: args.profile.nameVisibility as VisibilityLevel ?? VisibilityLevel.Hidden,
+        locationVisibility: args.profile.locationVisibility as VisibilityLevel ?? VisibilityLevel.Hidden,
       });
 
       // Use schedulers so that we can trigger actions rather than a mutations...

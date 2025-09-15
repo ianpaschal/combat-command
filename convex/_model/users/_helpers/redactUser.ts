@@ -46,12 +46,9 @@ export const redactUser = async (
 
   // Otherwise check for relationships:
   const relationshipLevel = await checkUserRelationshipLevel(ctx, user, userId);
-
-  const nameVisibility = typeof user?.nameVisibility === 'number' ? user.nameVisibility : 0;
-  const nameVisible = nameVisibility >= relationshipLevel;
-
-  const locationVisibility = typeof user?.locationVisibility === 'number' ? user.locationVisibility : 0;
-  const locationVisible = locationVisibility >= relationshipLevel;
+  
+  const nameVisible = user.nameVisibility >= relationshipLevel;
+  const locationVisible = user.locationVisibility >= relationshipLevel;
 
   return {
     ...restFields,

@@ -41,7 +41,10 @@ export const UserProfileForm = (): JSX.Element => {
   });
 
   const onSubmit: SubmitHandler<UserProfileFormData> = (data) => {
-    updateUser({ id: user!._id, ...data });
+    updateUser({
+      id: user!._id,
+      ...data,
+    });
   };
 
   const countryOptions = getCountryOptions();

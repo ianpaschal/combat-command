@@ -3,21 +3,17 @@ import { Infer, v } from 'convex/values';
 import { MutationCtx } from '../../../_generated/server';
 import { checkUserAuth } from '../_helpers/checkUserAuth';
 import { getShallowUser } from '../_helpers/getShallowUser';
-import { editableFields } from '../table';
 
 export const updateUserArgs = v.object({
   id: v.id('users'),
-  ...Object.entries(editableFields).reduce((acc, [key, value]) => ({
-    ...acc,
-    [key]: v.optional(value),
-  }), {}),
+  avatarStorageId: v.id('_storage'),
 });
 
 /**
- * Updates a user.
+ * Updates a user's avatar.
  * 
  * @param ctx - Convex query context
- * @param args - User data
+ * @param args
  */
 export const updateUser = async (
   ctx: MutationCtx,

@@ -11,6 +11,7 @@ export const createSchema = (
   givenName: z.string().min(2),
   familyName: z.string().min(2),
   nameVisibility: z.number(),
+  locationVisibility: z.number(),
   countryCode: z.optional(z.string()),
 }).superRefine((data, ctx) => {
   const requireRealNames = userTournaments.some((tournament) => (
@@ -32,5 +33,6 @@ export const defaultValues = {
   givenName: '',
   familyName: '',
   nameVisibility: VisibilityLevel.Hidden,
+  locationVisibility: VisibilityLevel.Hidden,
   countryCode: '',
 };

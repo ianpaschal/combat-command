@@ -74,10 +74,9 @@ export const createTournamentRegistration = async (
     if (!user) {
       throw new ConvexError(getErrorMessage('USER_NOT_FOUND'));
     }
-    const nameVisibility = typeof user?.nameVisibility === 'number' ? user.nameVisibility : 0;
-    if (nameVisibility < VisibilityLevel.Tournaments && userId === args.userId) {
+    if (user.nameVisibility < VisibilityLevel.Tournaments && userId === args.userId) {
       await ctx.db.patch(args.userId, {
-        nameVisibility: 'tournaments',
+        nameVisibility: VisibilityLevel.Tournaments,
       });
     }
   }

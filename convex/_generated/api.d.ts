@@ -23,7 +23,6 @@ import type * as _model_common_location from "../_model/common/location.js";
 import type * as _model_common_themes from "../_model/common/themes.js";
 import type * as _model_common_tournamentStatus from "../_model/common/tournamentStatus.js";
 import type * as _model_common_types from "../_model/common/types.js";
-import type * as _model_common_userDataVisibilityLevel from "../_model/common/userDataVisibilityLevel.js";
 import type * as _model_files_index from "../_model/files/index.js";
 import type * as _model_files_queries_getFileUrl from "../_model/files/queries/getFileUrl.js";
 import type * as _model_fowV4_aggregateFowV4TournamentData from "../_model/fowV4/aggregateFowV4TournamentData.js";
@@ -270,7 +269,6 @@ declare const fullApi: ApiFromModules<{
   "_model/common/themes": typeof _model_common_themes;
   "_model/common/tournamentStatus": typeof _model_common_tournamentStatus;
   "_model/common/types": typeof _model_common_types;
-  "_model/common/userDataVisibilityLevel": typeof _model_common_userDataVisibilityLevel;
   "_model/files/index": typeof _model_files_index;
   "_model/files/queries/getFileUrl": typeof _model_files_queries_getFileUrl;
   "_model/fowV4/aggregateFowV4TournamentData": typeof _model_fowV4_aggregateFowV4TournamentData;

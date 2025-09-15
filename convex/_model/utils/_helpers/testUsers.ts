@@ -72,8 +72,8 @@ export const createUserData = (email: string): CreateUserDataOutput => {
     email,
     familyName,
     givenName,
-    locationVisibility: 0,
-    nameVisibility: 0,
+    locationVisibility: VisibilityLevel.Hidden,
+    nameVisibility: VisibilityLevel.Hidden,
     username: `${givenName}_${familyName.substring(0,1)}`.toLowerCase(),
   };
 };
