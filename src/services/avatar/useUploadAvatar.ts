@@ -53,8 +53,6 @@ export const useUploadAvatar = () => {
   const [isLoading, setLoading] = useState(false);
 
   const generateUploadUrl = useMutation(api.generateFileUploadUrl.generateFileUploadUrl);
-  // const updateUser = useMutation(api.users.updateUser);
-
   const { mutation: updateUserAvatar } = useUpdateUserAvatar();
 
   return {
