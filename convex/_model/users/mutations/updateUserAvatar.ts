@@ -4,22 +4,16 @@ import { MutationCtx } from '../../../_generated/server';
 import { checkUserAuth } from '../_helpers/checkUserAuth';
 import { getShallowUser } from '../_helpers/getShallowUser';
 
-export const updateUserArgs = v.object({
+export const updateUserAvatarArgs = v.object({
   id: v.id('users'),
   avatarStorageId: v.id('_storage'),
 });
 
-/**
- * Updates a user's avatar.
- * 
- * @param ctx - Convex query context
- * @param args
- */
-export const updateUser = async (
+export const updateUserAvatar = async (
   ctx: MutationCtx,
-  args: Infer<typeof updateUserArgs>,
+  args: Infer<typeof updateUserAvatarArgs>,
 ): Promise<void> => {
-  const { id, ...updated } = args;
+  const { id, avatarStorageId } = args;
   const user = await getShallowUser(ctx, id);
     
   // --- CHECK AUTH ----
@@ -27,7 +21,7 @@ export const updateUser = async (
 
   // ---- PRIMARY ACTIONS ----
   await ctx.db.patch(id, {
-    ...updated,
+    avatarStorageId,
     modifiedAt: Date.now(),
   });
 };

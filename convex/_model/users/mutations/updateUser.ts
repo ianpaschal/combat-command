@@ -7,10 +7,7 @@ import { editableFields } from '../table';
 
 export const updateUserArgs = v.object({
   id: v.id('users'),
-  ...Object.entries(editableFields).reduce((acc, [key, value]) => ({
-    ...acc,
-    [key]: v.optional(value),
-  }), {}),
+  ...editableFields,
 });
 
 /**

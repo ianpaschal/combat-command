@@ -195,6 +195,7 @@ import type * as _model_users_index from "../_model/users/index.js";
 import type * as _model_users_mutations_internal_deleteUserClaimToken from "../_model/users/mutations/internal/deleteUserClaimToken.js";
 import type * as _model_users_mutations_internal_updateUserClaimToken from "../_model/users/mutations/internal/updateUserClaimToken.js";
 import type * as _model_users_mutations_updateUser from "../_model/users/mutations/updateUser.js";
+import type * as _model_users_mutations_updateUserAvatar from "../_model/users/mutations/updateUserAvatar.js";
 import type * as _model_users_mutations_updateUserAvatarNoAuth from "../_model/users/mutations/updateUserAvatarNoAuth.js";
 import type * as _model_users_queries_getCurrentUser from "../_model/users/queries/getCurrentUser.js";
 import type * as _model_users_queries_getUser from "../_model/users/queries/getUser.js";
@@ -441,6 +442,7 @@ declare const fullApi: ApiFromModules<{
   "_model/users/mutations/internal/deleteUserClaimToken": typeof _model_users_mutations_internal_deleteUserClaimToken;
   "_model/users/mutations/internal/updateUserClaimToken": typeof _model_users_mutations_internal_updateUserClaimToken;
   "_model/users/mutations/updateUser": typeof _model_users_mutations_updateUser;
+  "_model/users/mutations/updateUserAvatar": typeof _model_users_mutations_updateUserAvatar;
   "_model/users/mutations/updateUserAvatarNoAuth": typeof _model_users_mutations_updateUserAvatarNoAuth;
   "_model/users/queries/getCurrentUser": typeof _model_users_queries_getCurrentUser;
   "_model/users/queries/getUser": typeof _model_users_queries_getUser;
