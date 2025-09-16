@@ -3,6 +3,7 @@ import { useMutation } from 'convex/react';
 import Pica from 'pica';
 
 import { api, UserId } from '~/api';
+import { useUpdateUserAvatar } from '~/services/users';
 
 const compressImage = async (file: File): Promise<Blob> => {
 
@@ -52,7 +53,7 @@ export const useUploadAvatar = () => {
   const [isLoading, setLoading] = useState(false);
 
   const generateUploadUrl = useMutation(api.generateFileUploadUrl.generateFileUploadUrl);
-  const updateUser = useMutation(api.users.updateUser);
+  const { mutation: updateUserAvatar } = useUpdateUserAvatar();
 
   return {
     uploadAvatar: async (userId: UserId, file: File) => {
@@ -78,7 +79,7 @@ export const useUploadAvatar = () => {
 
         const { storageId } = await uploadResponse.json(); // Get Convex file ID
 
-        await updateUser({
+        await updateUserAvatar({
           id: userId,
           avatarStorageId: storageId,
         });

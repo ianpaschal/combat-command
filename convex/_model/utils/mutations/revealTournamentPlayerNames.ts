@@ -25,8 +25,7 @@ export const revealTournamentPlayerNames = async (
     if (!user) {
       throw new ConvexError(getErrorMessage('USER_NOT_FOUND'));
     }
-    const nameVisibility = typeof user?.nameVisibility === 'number' ? user.nameVisibility : 0;
-    if (nameVisibility < VisibilityLevel.Tournaments) {
+    if (user.nameVisibility < VisibilityLevel.Tournaments) {
       await ctx.db.patch(userId, {
         nameVisibility: VisibilityLevel.Tournaments,
       });

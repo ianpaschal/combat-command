@@ -62,8 +62,7 @@ export const TournamentCompetitorEditDialog = ({
     } else {
       const captainIsCurrentUser = captain.userId && user && captain.userId === user._id;
       if (captainIsCurrentUser) {
-        const nameVisibility = typeof user?.nameVisibility === 'number' ? user.nameVisibility : 0;
-        if (tournament.requireRealNames && nameVisibility < VisibilityLevel.Tournaments) {
+        if (tournament.requireRealNames && user.nameVisibility < VisibilityLevel.Tournaments) {
           openConfirmNameVisibilityDialog();
         }
       } else {

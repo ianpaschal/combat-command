@@ -64,6 +64,11 @@ export const updateUser = mutation({
   handler: model.updateUser,
 });
 
+export const updateUserAvatar = mutation({
+  args: model.updateUserAvatarArgs,
+  handler: model.updateUserAvatar,
+});
+
 export const inviteUser = action({
   args: model.inviteUserArgs,
   handler: model.inviteUser,

@@ -1,15 +1,13 @@
 import { defineTable } from 'convex/server';
 import { v } from 'convex/values';
 
-import { userDataVisibilityLevel } from '../common/userDataVisibilityLevel';
-
 export const editableFields = {
   avatarStorageId: v.optional(v.id('_storage')),
   countryCode: v.optional(v.string()),
   familyName: v.optional(v.string()),
   givenName: v.optional(v.string()),
-  locationVisibility: v.optional(v.union(userDataVisibilityLevel, v.number())), 
-  nameVisibility: v.optional(v.union(userDataVisibilityLevel, v.number())), 
+  locationVisibility: v.number(), 
+  nameVisibility: v.number(), 
   username: v.optional(v.string()),
 };
 

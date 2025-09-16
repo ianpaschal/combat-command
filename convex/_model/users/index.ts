@@ -35,6 +35,10 @@ export {
   updateUserArgs,
 } from './mutations/updateUser';
 export {
+  updateUserAvatar,
+  updateUserAvatarArgs,
+} from './mutations/updateUserAvatar';
+export {
   updateUserAvatarNoAuth,
   updateUserAvatarNoAuthArgs,
 } from './mutations/updateUserAvatarNoAuth';

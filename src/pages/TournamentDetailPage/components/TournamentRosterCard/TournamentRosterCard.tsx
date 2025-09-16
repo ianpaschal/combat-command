@@ -52,8 +52,7 @@ export const TournamentRosterCard = ({
   const isOrganizer = isUserTournamentOrganizer(user, tournament);
 
   const handleRegister = (): void => {
-    const nameVisibility = typeof user?.nameVisibility === 'number' ? user.nameVisibility : 0;
-    if (tournament.requireRealNames && nameVisibility < VisibilityLevel.Tournaments) {
+    if (tournament.requireRealNames && user && user.nameVisibility < VisibilityLevel.Tournaments) {
       openConfirmNameVisibilityDialog({
         onConfirm: handleConfirmRegister,
       });

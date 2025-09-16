@@ -16,6 +16,9 @@ export const useGetCurrentUser = createQueryHook(api.users.getCurrentUser);
 // Basic (C_UD) Mutations
 export const useUpdateUser = createMutationHook(api.users.updateUser);
 
+// Special Mutations
+export const useUpdateUserAvatar = createMutationHook(api.users.updateUserAvatar);
+
 // Actions
 export const useClaimUser = createActionHook(api.users.claimUser);
 export const useInviteUser = createActionHook(api.users.inviteUser);
