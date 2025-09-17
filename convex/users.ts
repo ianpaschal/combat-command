@@ -6,7 +6,7 @@ import {
   query,
 } from './_generated/server';
 import * as model from './_model/users';
-import { mutation } from './functions';
+import { mutationWithTrigger } from './functions';
 
 // INTERNAL
 export const setUserDefaultAvatar = internalAction({
@@ -59,7 +59,7 @@ export const getUsers = query({
   handler: model.getUsers,
 });
 
-export const updateUser = mutation({
+export const updateUser = mutationWithTrigger({
   args: model.updateUserArgs,
   handler: model.updateUser,
 });

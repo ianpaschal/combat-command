@@ -42,7 +42,7 @@ export const endTournament = async (
     // OK
   }
   if (tournament.status === 'archived') {
-    throw new ConvexError(getErrorMessage('TOURNAMENT_ALREADY_ARCHIVED'));
+    // OK, the TO may have already ended the tournament before the scheduled auto-end runs
   }
   if (tournament.currentRound !== undefined) {
     throw new ConvexError(getErrorMessage('CANNOT_END_TOURNAMENT_MID_ROUND'));

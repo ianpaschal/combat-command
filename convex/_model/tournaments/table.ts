@@ -72,6 +72,8 @@ export const computedFields = {
   lastRound: v.optional(v.number()),
   status: tournamentStatus,
   modifiedAt: v.optional(v.number()),
+  startsAtTaskId: v.optional(v.id('_scheduled_functions')),
+  endsAtTaskId: v.optional(v.id('_scheduled_functions')),
 };
 
 export default defineTable({

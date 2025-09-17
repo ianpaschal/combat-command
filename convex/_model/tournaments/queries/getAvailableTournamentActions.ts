@@ -53,10 +53,10 @@ export const getAvailableTournamentActions = async (
     actions.push(TournamentActionKey.Edit);
   }
 
-  if (isOrganizer && tournament.status === 'draft') {
+  if (isOrganizer && ['draft', 'published'].includes(tournament.status)) {
     actions.push(TournamentActionKey.Delete);
   }
-      
+
   if (isOrganizer && tournament.status === 'draft') {
     actions.push(TournamentActionKey.Publish);
   }

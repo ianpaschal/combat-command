@@ -37,7 +37,7 @@ export const startTournament = async (
     // OK
   }
   if (tournament.status === 'active') {
-    throw new ConvexError(getErrorMessage('TOURNAMENT_ALREADY_ACTIVE'));
+    // OK, the TO may have already started the tournament before the scheduled auto-start runs
   }
   if (tournament.status === 'archived') {
     throw new ConvexError(getErrorMessage('CANNOT_START_ARCHIVED_TOURNAMENT'));
