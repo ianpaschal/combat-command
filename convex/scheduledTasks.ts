@@ -1,10 +1,13 @@
+import { Id } from './_generated/dataModel';
 import { internalMutation } from './_generated/server';
+
+const DAY = 86400000; // 24 hours in ms
 
 export const cleanUpFileStorage = internalMutation(async (ctx) => {
   const allStorageItems = await ctx.db.system.query('_storage').collect();
 
   // Gather all storageIds in use:
-  const referencedIds = new Set<string>();
+  const referencedIds = new Set<Id<'_storage'>>();
   const tournaments = await ctx.db.query('tournaments').collect();
   for (const t of tournaments) {
     if (t.logoStorageId) {
@@ -27,17 +30,30 @@ export const cleanUpFileStorage = internalMutation(async (ctx) => {
     }
   }
 
-  const deletedStorageIds = new Set();
+  const deletedIds = new Set();
 
   // Delete storage items which were created more than 1 day ago and are not referenced:
   for (const item of allStorageItems) {
-    if (!referencedIds.has(item._id) && item._creationTime < Date.now() - 86400000) {
+    if (!referencedIds.has(item._id) && item._creationTime + DAY < Date.now()) {
       await ctx.storage.delete(item._id);
-      deletedStorageIds.add(item._id);
+      deletedIds.add(item._id);
     }
   }
 
-  return {
-    deletedStorageIds: Array.from(deletedStorageIds),
-  };
+  return Array.from(deletedIds);
+});
+
+export const cleanUpTournaments = internalMutation(async (ctx) => {
+  const tournaments = await ctx.db.query('tournaments').collect();
+
+  // Delete tournaments which were supposed to start more than 1 day ago and never did:
+  for (const tournament of tournaments) {
+
+    // If tournament was never started, set it to revert it to draft:
+    if (tournament.status === 'published' && tournament.startsAt + DAY < Date.now()) {
+      await ctx.db.patch(tournament._id, {
+        status: 'draft',
+      });
+    }
+  }
 });
