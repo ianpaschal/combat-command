@@ -184,8 +184,17 @@ export const TournamentPairingsPage = (): JSX.Element => {
       showBackButton
       footer={
         <>
-          <Button variant="secondary" onClick={handleCancel} key="cancel">Cancel</Button>
-          <Button key="proceed" onClick={handleProceed}>Proceed</Button>
+          <Button
+            key="cancel"
+            text="Cancel"
+            variant="secondary"
+            onClick={handleCancel}
+          />
+          <Button
+            key="proceed"
+            text="Proceed"
+            onClick={handleProceed}
+          />
         </>
       }
     >
@@ -202,9 +211,12 @@ export const TournamentPairingsPage = (): JSX.Element => {
                 value={pairingMethod}
                 disabled={isFirstRound}
               />
-              <Button onClick={handleReset} variant="secondary" disabled={!form.formState.isDirty}>
-                Reset
-              </Button>
+              <Button
+                disabled={!form.formState.isDirty}
+                text="Reset"
+                variant="secondary"
+                onClick={handleReset}
+              />
             </div>
             <Separator />
             <div className={styles.TournamentPairingsPage_Form}>

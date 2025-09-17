@@ -51,12 +51,17 @@ export const ConfirmationDialog = ({
         </div>
       </ScrollArea>
       <DialogActions>
-        <Button variant="secondary" onClick={close}>
-          {data?.cancelLabel ?? cancelLabel}
-        </Button>
-        <Button intent={intent} onClick={handleConfirm} disabled={disabled}>
-          {data?.confirmLabel ?? confirmLabel}
-        </Button>
+        <Button
+          text={data?.cancelLabel ?? cancelLabel}
+          variant="secondary"
+          onClick={close}
+        />
+        <Button
+          disabled={disabled}
+          intent={intent}
+          text={data?.confirmLabel ?? confirmLabel}
+          onClick={handleConfirm}
+        />
       </DialogActions>
     </ControlledDialog>
   );

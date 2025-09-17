@@ -71,9 +71,10 @@ export const TournamentPairingsCard = ({
           showEmptyState ? (
             <EmptyState icon={<Zap />}>
               {actions?.configureRound && (
-                <Button onClick={actions.configureRound.handler}>
-                  {actions.configureRound.label}
-                </Button>
+                <Button
+                  text={actions.configureRound.label}
+                  onClick={actions.configureRound.handler}
+                />
               )}
             </EmptyState>
           ) : (

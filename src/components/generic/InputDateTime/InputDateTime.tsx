@@ -82,7 +82,7 @@ export const InputDateTime = forwardRef<HTMLInputElement, InputDateTimeProps>(({
             <span>:</span>
             <TimeSubSelect options={getMinuteOptions(15)} onChange={onMinutesChange} value={currentDate.getMinutes()} />
             <Popover.Close asChild>
-              <Button className={styles.CloseButton}>Done</Button>
+              <Button className={styles.CloseButton} text="Done" />
             </Popover.Close>
           </div>
         </Popover.Content>

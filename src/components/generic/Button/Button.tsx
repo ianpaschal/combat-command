@@ -1,10 +1,9 @@
 import {
   ButtonHTMLAttributes,
-  Children,
   forwardRef,
-  isValidElement,
+  ReactElement,
 } from 'react';
-import { clsx } from 'clsx';
+import clsx from 'clsx';
 
 import { Spinner } from '~/components/generic/Spinner';
 import {
@@ -15,46 +14,48 @@ import {
 
 import styles from './Button.module.scss';
 
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: ElementVariant;
+export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
+  className?: string;
+  icon?: ReactElement;
+  iconPosition?: 'start' | 'end';
   intent?: ElementIntent;
-  size?: ElementSize;
-  round?: boolean;
   loading?: boolean;
+  round?: boolean;
+  size?: ElementSize;
+  text?: string;
+  variant?: ElementVariant;
 }
-
-// TODO: Mobile hit-box is always 40 x 40 rather than width x 40
-// TODO: X padding too large when there is an icon. Maybe switch to a icon / label / icon format
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   className,
-  variant = 'primary',
-  size: customSize,
-  children,
-  disabled = false,
-  loading = false,
+  icon,
+  iconPosition,
   intent = 'default',
+  loading = false,
   round,
+  size = 'normal',
+  text,
+  variant = 'primary',
   ...props
-}, ref) => {
-  const size = customSize || 'normal';
-  const elements = Children.toArray(children);
-  const classNames = clsx(
-    styles.Button,
-    styles[`Button-${variant}-${intent}`],
-    styles[`Button-${size}`],
-    {
-      [styles['Button-round']]: round,
-      [styles['Button-iconOnly']]: elements.length === 1 && isValidElement(elements[0]),
-    },
-    className,
-  );
-  return (
-    <button className={classNames} ref={ref} {...props} disabled={disabled || loading}>
-      {loading && (
-        <Spinner />
-      )}
-      {children}
-    </button>
-  );
-});
+}, ref): JSX.Element => (
+  <button
+    ref={ref}
+    className={clsx(styles.Button, className)}
+    data-intent={intent}
+    data-reverse={iconPosition === 'end'}
+    data-round={round}
+    data-size={size}
+    data-variant={variant}
+    {...props}
+  >
+    {icon && !loading && (
+      icon
+    )}
+    {loading && (
+      <Spinner className={styles.Button_Icon} />
+    )}
+    {text && (
+      <span className={styles.Button_Text}>{text}</span>
+    )}
+  </button>
+));

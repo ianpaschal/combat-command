@@ -36,11 +36,7 @@ export const AppBar = ({
           {isMobile && (
             <Drawer
               side="left"
-              trigger={
-                <Button variant="ghost" size="large" round>
-                  <Menu />
-                </Button>
-              }
+              trigger={<Button icon={<Menu />} round size="large" variant="ghost" />}
               header={
                 <div className={styles.DrawerHeader}>
                   <AppLogo className={styles.Logo} />

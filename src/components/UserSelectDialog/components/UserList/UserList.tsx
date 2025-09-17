@@ -105,12 +105,11 @@ export const UserList = ({
           />
           <Button
             className={styles.UserList_SelectedUser_Clear}
+            icon={<X />}
             size="small"
             variant="ghost"
             onClick={handleClear}
-          >
-            <X />
-          </Button>
+          />
         </div>
       )}
       <ScrollArea
@@ -121,9 +120,10 @@ export const UserList = ({
           {selectableUsers.map((user, i) => (
             <div className={styles.UserList_ListItem} key={i}>
               <IdentityBadge user={user} size="small" disableLink />
-              <Button onClick={() => handleSelect(user?._id)}>
-                Select
-              </Button>
+              <Button
+                text="Select"
+                onClick={() => handleSelect(user?._id)}
+              />
             </div>
           ))}
         </div>

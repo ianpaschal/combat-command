@@ -149,13 +149,13 @@ export const TournamentCompetitorForm = ({
       <div className={styles.TournamentCompetitorForm_ScoreAdjustmentHeader}>
         <h3>Bonuses & Penalties</h3>
         <Button
+          disabled={disabled}
+          icon={<Plus />}
+          size="small"
+          text="Add"
           variant="secondary"
           onClick={handleAddScoreAdjustment}
-          disabled={disabled}
-          size="small"
-        >
-          <Plus />Add
-        </Button>
+        />
       </div>
       {fields.map((field, index) => (
         <ScoreAdjustmentFormItem key={field.id} index={index} onRemove={remove} />

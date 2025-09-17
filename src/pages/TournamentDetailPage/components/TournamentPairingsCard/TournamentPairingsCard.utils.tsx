@@ -57,11 +57,10 @@ export const getTournamentPairingTableConfig = (navigate: NavigateFunction): Col
     align: 'center',
     renderCell: ({ _id }) => (
       <Button
+        icon={<ChevronRight />}
         variant="secondary"
         onClick={() => navigate(generatePath(PATHS.tournamentPairingDetails, { id: _id }))}
-      >
-        <ChevronRight />
-      </Button>
+      />
     ),
     renderHeader: () => null,
   },

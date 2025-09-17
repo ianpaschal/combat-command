@@ -1,10 +1,11 @@
-@use "/src/style/variables";
 @use "/src/style/animate";
-@use "/src/style/variants";
-@use "/src/style/shadows";
 @use "/src/style/corners";
 @use "/src/style/flex";
+@use "/src/style/shadows";
+@use "/src/style/sizes";
 @use "/src/style/text";
+@use "/src/style/variables";
+@use "/src/style/variants";
 
 .Root {
   position: relative;
@@ -42,12 +43,23 @@
 }
 
 .UploadButton {
-  position: absolute;
-  inset: 0;
+  @include flex.row($gap: 0, $xAlign: center);
+  @include corners.normal;
+  @include sizes.normal;
+  @include variants.ghost;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-shrink: 0;
+
+  padding: 0.75rem;
+
+  font-size: var(--font-size-normal);
+  font-weight: 500;
+  line-height: var(--line-height-normal);
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+  }
 }
 
 .AvatarLoading {

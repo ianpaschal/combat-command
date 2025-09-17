@@ -49,7 +49,7 @@ export const ResetPasswordForm = (): JSX.Element => {
       <FormField name="newPasswordRepeat" label="Password (Repeat)" disabled={loading}>
         <InputText type="password" />
       </FormField>
-      <Button type="submit" loading={loading}>Reset Password</Button>
+      <Button loading={loading} text="Reset Password" type="submit" />
       <Separator />
       <p><Link to={PATHS.authSignUp}>Sign Up</Link> | <Link to={PATHS.authSignIn}>Sign In</Link></p>
     </Form>

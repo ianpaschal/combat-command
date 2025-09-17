@@ -1,7 +1,7 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import clsx from 'clsx';
-import { SendHorizonal } from 'lucide-react';
+import { SendHorizontal } from 'lucide-react';
 
 import { MatchResultId } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
@@ -54,8 +54,8 @@ export const MatchResultCommentForm = ({
     <form className={clsx(styles.MatchResultCommentForm, className)} onSubmit={form.handleSubmit(onSubmit)}>
       <Avatar url={user.avatarUrl} className={styles.Avatar} />
       <InputTextArea className={styles.TextArea} {...form.register('body')} />
-      <Button type="submit">
-        <SendHorizonal />
+      <Button icon={<SendHorizontal />} type="submit">
+
       </Button>
     </form>
   );

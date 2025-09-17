@@ -31,9 +31,11 @@ export const TournamentInfoCard = ({
   const getPrimaryButtons = (): ReactElement[] | undefined => {
     if (isUserTournamentOrganizer(user, tournament)) {
       return [
-        <Button onClick={handleClickManage} variant="secondary">
-          <Pencil />Edit
-        </Button>,
+        <Button icon={<Pencil />}
+          text="Edit"
+          variant="secondary"
+          onClick={handleClickManage}
+        />,
       ];
     }
   };

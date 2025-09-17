@@ -35,20 +35,23 @@ export const AvatarEditable = (): JSX.Element => {
       <Avatar className={styles.Avatar} url={user?.avatarUrl} loading={isLoading} />
       <Popover.Root>
         <Popover.Trigger asChild>
-          <Button className={styles.EditButton} round disabled={isLoading}><Pencil /></Button>
+          <Button
+            className={styles.EditButton}
+            round
+            disabled={isLoading}
+            icon={<Pencil />}
+          />
         </Popover.Trigger>
         <Popover.Content align="end" className={styles.ActionsMenu}>
           <Popover.Close asChild>
-            <Button variant="ghost">
-              <label className={styles.UploadButton} htmlFor="single">
+            <button className={styles.UploadButton}>
+              <label htmlFor="single">
                 {user?.avatarUrl ? 'Replace' : 'Upload'}
               </label>
-            </Button>
+            </button>
           </Popover.Close>
           <Popover.Close asChild>
-            <Button variant="ghost" onClick={handleDelete}>
-              Remove
-            </Button>
+            <Button text="Remove" variant="ghost" onClick={handleDelete} />
           </Popover.Close>
         </Popover.Content>
       </Popover.Root>

@@ -21,9 +21,12 @@ export const TournamentStatsCard = ({
       <Card className={clsx(className)}>
         <CardHeader title="Stats">
           {!!user && (
-            <Button key="export-data" onClick={openTournamentExportDataDialog}>
-              <Download />Export Data
-            </Button>
+            <Button
+              key="export-data"
+              icon={<Download />}
+              text="Export Data"
+              onClick={openTournamentExportDataDialog}
+            />
           )}
         </CardHeader>
         <EmptyState icon={<Construction />} message="Under Construction" />

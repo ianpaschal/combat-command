@@ -21,9 +21,7 @@ export const LandingPage = (): JSX.Element => {
               <h1>Combat Command</h1>
               <p>Elevate your historical war-gaming experience.</p>
               <p>Whether you're a casual player or the organizer of a highly competitive tournament, Combat Command is the digital half of your dice box.</p>
-              <Button onClick={handleSignUp} className={styles.LandingPage_HeroCta}>
-                Sign Up
-              </Button>
+              <Button className={styles.LandingPage_HeroCta} text="Sign Up" onClick={handleSignUp} />
             </div>
           </div>
           <div className={styles.LandingPage_Normal}>

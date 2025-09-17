@@ -31,9 +31,12 @@ export const DashboardPage = (): JSX.Element => {
       <div className={styles.DashboardPage_Tabs}>
         {Object.entries(tabs).map(([key, icon]) => (
           <div key={key} className={styles.DashboardPage_TabTrigger}>
-            <Button variant="ghost" size="large" onClick={() => setView(key as TabKey)}>
-              {icon}
-            </Button>
+            <Button
+              icon={icon}
+              size="large"
+              variant="ghost"
+              onClick={() => setView(key as TabKey)}
+            />
           </div>
         ))}
       </div>

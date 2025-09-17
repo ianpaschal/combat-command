@@ -4,6 +4,7 @@ module.exports = {
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
+    'plugin:react/recommended',
     'plugin:react-hooks/recommended',
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
@@ -15,6 +16,11 @@ module.exports = {
     'react-refresh', // Included with Vite
     'simple-import-sort',
   ],
+  settings: {
+    react: {
+      version: 'detect'
+    }
+  },
   rules: {
 
     // Style
@@ -55,8 +61,25 @@ module.exports = {
         ['^.+\\.?(css|scss)$'] // Style
       ]
     }],
+
+    'react/react-in-jsx-scope': 'off',
+
+    // ENABLE LATER
+    'react/jsx-key': 'off',
+    'react/no-unescaped-entities': 'off',
+    'react/display-name': 'off',
+    // 'react/jsx-sort-props': [ 'error', {
+    //   callbacksLast: true,
+    //   multiline: "last",
+    //   reservedFirst: true,
+    //   ignoreCase: true,
+    // }],
+    // "react/jsx-max-props-per-line": ["error", {
+    //   maximum: 1,
+    //   when: "multiline"
+    // }]
   },
-  "overrides": [
+  overrides: [
     {
       // enable the rule specifically for TypeScript files
       "files": ["convex/**/*.ts"],

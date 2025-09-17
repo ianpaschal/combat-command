@@ -35,12 +35,11 @@ export const UserTournamentsCard = ({
           {(status === 'CanLoadMore' || status === 'LoadingMore') && (
             <div className={styles.UserProfilePage_MatchResults_List_ViewAllButton}>
               <Button
-                onClick={() => loadMoreMatchResults(DEFAULT_PAGE_SIZE)}
                 disabled={status === 'LoadingMore'}
-              >
-                <Plus />
-                Load More
-              </Button>
+                icon={<Plus />}
+                text="Load More"
+                onClick={() => loadMoreMatchResults(DEFAULT_PAGE_SIZE)}
+              />
             </div>
           )}
         </div>

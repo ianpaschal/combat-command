@@ -1,31 +1,76 @@
-@use "/src/style/flex";
-@use "/src/style/variants";
 @use "/src/style/corners";
+@use "/src/style/flex";
 @use "/src/style/sizes";
 @use "/src/style/text";
+@use "/src/style/variants";
+@use "/src/style/variables";
 
 .Button {
-  @include flex.row($gap: 0.5rem, $xAlign: center);
+  @include flex.row($gap: 0, $xAlign: center);
   @include corners.normal;
-  @include text.ui($bold: true);
 
   position: relative;
+
   flex-shrink: 0;
-  padding: 0 1rem;
+
+  font-size: var(--font-size-normal);
+  font-weight: 500;
+  line-height: var(--line-height-normal);
 
   svg {
     flex-shrink: 0;
-    width: 1rem;
-    height: 1rem;
   }
 
-  &-round {
+  &_Text {
+    padding: 0 0.25rem;
+  }
+
+  &[data-reverse="true"] {
+    flex-direction: row-reverse;
+  }
+
+  &[data-round="true"] {
     @include corners.round;
   }
 
-  // Size
-  &-tiny {
+  // ---- VARIANTS ----
+  &[data-variant="primary"] {
+    @include variants.primary;
+
+    &[data-intent="danger"] {
+      @include variants.primary-danger;
+    }
+  }
+
+  &[data-variant="secondary"] {
+    @include variants.secondary;
+
+    &[data-intent="secondary"] {
+      @include variants.secondary-danger;
+    }
+  }
+
+  &[data-variant="outlined"] {
+    @include variants.outlined;
+
+    &[data-intent="outlined"] {
+      @include variants.outlined-danger;
+    }
+  }
+
+  &[data-variant="ghost"] {
+    @include variants.ghost;
+
+    &[data-intent="danger"] {
+      @include variants.ghost-danger;
+    }
+  }
+
+  // ---- SIZES ----
+  &[data-size="tiny"] {
     @include sizes.tiny;
+
+    padding: 0 0.375rem;
 
     svg {
       width: 0.75rem;
@@ -33,62 +78,36 @@
     }
   }
 
-  &-small {
+  &[data-size="small"] {
     @include sizes.small;
 
-    padding: 0.75rem;
+    padding: 0 0.5rem;
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+    }
   }
 
-  &-normal {
+  &[data-size="normal"] {
     @include sizes.normal;
+
+    padding: 0 0.75rem;
+
+    svg {
+      width: 1rem;
+      height: 1rem;
+    }
   }
 
-  &-large {
+  &[data-size="large"] {
     @include sizes.large;
+
+    padding: 0 0.875rem;
 
     svg {
       width: 1.25rem;
       height: 1.25rem;
     }
-  }
-
-  &-iconOnly {
-    padding: 0.5rem;
-  }
-
-  // Primary buttons
-  &-primary-default {
-    @include variants.primary;
-  }
-
-  &-primary-danger {
-    @include variants.primary-danger;
-  }
-
-  // Secondary buttons
-  &-secondary-default {
-    @include variants.secondary;
-  }
-
-  &-secondary-danger {
-    @include variants.secondary-danger;
-  }
-
-  // Outlined buttons
-  &-outlined-default {
-    @include variants.outlined;
-  }
-
-  &-outlined-danger {
-    @include variants.outlined-danger;
-  }
-
-  // Ghost buttons
-  &-ghost-default {
-    @include variants.ghost;
-  }
-
-  &-ghost-danger {
-    @include variants.ghost-danger;
   }
 }

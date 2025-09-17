@@ -67,14 +67,13 @@ export const ScoreAdjustmentFormItem = ({
           )}
         </FormField>
         <Button
-          onClick={handleRemove}
-          disabled={disabled}
-          variant="ghost"
-          intent="danger"
           className={styles.ScoreAdjustmentFormItem_RemoveButton}
-        >
-          <Trash />
-        </Button>
+          disabled={disabled}
+          icon={<Trash />}
+          intent="danger"
+          variant="ghost"
+          onClick={handleRemove}
+        />
       </div>
     </div>
   );

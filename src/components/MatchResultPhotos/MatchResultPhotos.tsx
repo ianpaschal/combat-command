@@ -49,9 +49,12 @@ export const MatchResultPhotos = ({
         )}
       </Carousel>
       {userInMatch && (
-        <Button className={styles.UploadPhotoButton} round onClick={openUploadPhotoDialog}>
-          <ImagePlus />
-        </Button>
+        <Button
+          className={styles.UploadPhotoButton}
+          icon={<ImagePlus />}
+          round
+          onClick={openUploadPhotoDialog}
+        />
       )}
     </div>
   );

@@ -16,7 +16,7 @@ export interface RankingFactorFieldsProps {
 
 export const RankingFactorFields = ({
   status = 'draft',
-}) => {
+}: RankingFactorFieldsProps): JSX.Element => {
   const { watch, setValue } = useFormContext<TournamentFormData>();
   const rankingFactors = watch('rankingFactors');
 
@@ -52,18 +52,21 @@ export const RankingFactorFields = ({
             {i + 1}
           </span>
           <InputSelect
+            disabled={disableFields}
             options={options}
             value={factor}
             onChange={(value) => handleChange(i, value)}
-            disabled={disableFields}
           />
           {rankingFactors.length > 1 && i < rankingFactors.length && (
-            <Button variant="ghost" disabled={disableFields} onClick={(e) => {
-              e.preventDefault();
-              handleRemove(i);
-            }}>
-              <X />
-            </Button>
+            <Button
+              disabled={disableFields}
+              icon={<X />}
+              variant="ghost"
+              onClick={(e) => {
+                e.preventDefault();
+                handleRemove(i);
+              }}
+            />
           )}
         </div>
       ))}

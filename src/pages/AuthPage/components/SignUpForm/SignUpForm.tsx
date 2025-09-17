@@ -55,7 +55,7 @@ export const SignUpForm = (): JSX.Element => {
       <FormField name="passwordRepeat" label="Password (Repeat)" disabled={loading}>
         <InputText type="password" />
       </FormField>
-      <Button type="submit" loading={loading}>Sign Up</Button>
+      <Button loading={loading} text="Sign Up" type="submit" />
       <Separator />
       <p>Already have an account? <Link to={PATHS.authSignIn}>Sign In</Link></p>
     </Form>

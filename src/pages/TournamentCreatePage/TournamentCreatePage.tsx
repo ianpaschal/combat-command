@@ -49,8 +49,20 @@ export const TournamentCreatePage = (): JSX.Element => {
       maxWidth={WIDTH}
       footer={
         <>
-          <Button variant="secondary" onClick={handleCancel} key={0} disabled={loading}>Cancel</Button>
-          <Button type="submit" form={FORM_ID} key={1} disabled={loading}>Save & Close</Button>
+          <Button
+            key={0}
+            disabled={loading}
+            text="Cancel"
+            variant="secondary"
+            onClick={handleCancel}
+          />
+          <Button
+            key={1}
+            disabled={loading}
+            form={FORM_ID}
+            text="Save & Close"
+            type="submit"
+          />
         </>
       }
     >

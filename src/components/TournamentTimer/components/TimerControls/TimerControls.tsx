@@ -118,24 +118,48 @@ export const TimerControls = ({
   return (
     <>
       <div className={clsx(styles.TournamentTimer_Controls, className)}>
-        <Button variant="ghost" size="small" onClick={handleClickResetButton} disabled={isStartPhase}>
-          <ChevronFirst />
-        </Button>
-        <Button variant="ghost" size="small" onClick={handleClickLastPhaseButton} disabled={isStartPhase}>
-          <ChevronLeft />
-        </Button>
-        <Button variant="ghost" size="small" onClick={handleClickResetPhaseButton} disabled={isEndPhase}>
-          <Undo />
-        </Button>
-        <Button variant={timer.pausedAt ? 'primary' : 'ghost'} size="small" onClick={handleClickPlayButton} disabled={isEndPhase}>
-          {timer.pausedAt ? <Play /> : <Pause />}
-        </Button>
-        <Button variant="ghost" size="small" onClick={handleClickNextPhaseButton} disabled={isEndPhase}>
-          <ChevronRight />
-        </Button>
-        <Button variant="ghost" size="small" onClick={handleClickJumpToEndButton} disabled={isEndPhase}>
-          <ChevronLast />
-        </Button>
+        <Button
+          disabled={isStartPhase}
+          icon={<ChevronFirst />}
+          size="small"
+          variant="ghost"
+          onClick={handleClickResetButton}
+        />
+        <Button
+          disabled={isStartPhase}
+          icon={<ChevronLeft />}
+          size="small"
+          variant="ghost"
+          onClick={handleClickLastPhaseButton}
+        />
+        <Button
+          disabled={isEndPhase}
+          icon={<Undo />}
+          size="small"
+          variant="ghost"
+          onClick={handleClickResetPhaseButton}
+        />
+        <Button
+          disabled={isEndPhase}
+          icon={timer.pausedAt ? <Play /> : <Pause />}
+          size="small"
+          variant={timer.pausedAt ? 'primary' : 'ghost'}
+          onClick={handleClickPlayButton}
+        />
+        <Button
+          disabled={isEndPhase}
+          icon={<ChevronRight />}
+          size="small"
+          variant="ghost"
+          onClick={handleClickNextPhaseButton}
+        />
+        <Button
+          disabled={isEndPhase}
+          icon={<ChevronLast />}
+          size="small"
+          variant="ghost"
+          onClick={handleClickJumpToEndButton}
+        />
       </div>
       <ConfirmationDialog id={confirmSetPhaseDialogId} title="Confirm Jump to Phase" />
       <ConfirmationDialog

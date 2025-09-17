@@ -56,9 +56,7 @@ export const PageWrapper = ({
           {(showBackButton || (title && !hideTitle)) && (
             <div className={styles.PageWrapper_Header}>
               {showBackButton && (
-                <Button onClick={handleClickBack} variant="outlined">
-                  <ArrowLeft />
-                </Button>
+                <Button icon={<ArrowLeft />} variant="outlined" onClick={handleClickBack} />
               )}
               {title && (
                 <h1>{title}</h1>

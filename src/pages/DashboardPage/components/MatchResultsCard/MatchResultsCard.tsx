@@ -46,9 +46,7 @@ export const MatchResultsCard = ({
                 Recent Matches
               </h2>
               <div className={styles.MatchResultsCard_Header_Actions}>
-                <Button variant="secondary" onClick={handleViewMore}>
-                  <ChevronRight />
-                </Button>
+                <Button icon={<ChevronRight />} variant="secondary" onClick={handleViewMore} />
               </div>
             </div>
             <Separator />
@@ -59,15 +57,13 @@ export const MatchResultsCard = ({
                     <MatchResultCard key={matchResult._id} matchResult={matchResult} />
                   ))}
                   <div className={styles.MatchResultsCard_List_ViewAllButton} onClick={handleViewMore}>
-                    <Button>View All<ChevronRight /></Button>
+                    <Button icon={<ChevronRight />} iconPosition="end" text="View All" />
                   </div>
                 </div>
               </ScrollArea>
             ) : (
               <div className={styles.MatchResultsCard_EmptyState}>
-                <Button onClick={handleCreate}>
-                  <Plus />Check-In
-                </Button>
+                <Button icon={<Plus />} text="Check-In" onClick={handleCreate} />
               </div>
             )}
           </>

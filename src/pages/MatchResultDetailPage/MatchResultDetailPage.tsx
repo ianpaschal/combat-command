@@ -54,10 +54,13 @@ export const MatchResultDetailPage = (): JSX.Element => {
               <MatchResultPhotos className={styles.Photos} />
             )}
             {!hasPhotos && userInMatch && (
-              <Button className={styles.PhotosEmpty} variant="ghost" onClick={open}>
-                <ImagePlus />
-                Add Photos
-              </Button>
+              <Button
+                className={styles.PhotosEmpty}
+                icon={<ImagePlus />}
+                text="Add Photos"
+                variant="ghost"
+                onClick={open}
+              />
             )}
             <Card className={styles.DetailsCard}>
               <MatchResultSocials className={styles.Socials} />

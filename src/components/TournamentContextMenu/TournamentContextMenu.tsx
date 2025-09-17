@@ -26,9 +26,7 @@ export const TournamentContextMenu = ({
   }
   return (
     <PopoverMenu menuItems={visibleMenuItems}>
-      <Button variant={variant} size={size} className={className}>
-        <Ellipsis />
-      </Button>
+      <Button className={className} icon={<Ellipsis />} size={size} variant={variant} />
     </PopoverMenu>
   );
 };

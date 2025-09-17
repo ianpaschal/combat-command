@@ -81,9 +81,7 @@ export const UserProfileForm = (): JSX.Element => {
       <FormField name="countryCode" label="Country" description="Hidden, but required for some badges and some tournament organizers try to create initial pairings which avoid pairing players from the same local community if possible.">
         <InputSelect options={countryOptions} />
       </FormField>
-      <Button className={styles.SubmitButton} type="submit">
-        Update Profile
-      </Button>
+      <Button className={styles.SubmitButton} text="Update Profile" type="submit" />
     </Form>
   );
 };

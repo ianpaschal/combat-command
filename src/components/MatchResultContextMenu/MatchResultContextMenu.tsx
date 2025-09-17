@@ -41,9 +41,7 @@ export const MatchResultContextMenu = ({
   return (
     <>
       <PopoverMenu menuItems={contextMenuItems}>
-        <Button variant="secondary" size={size}>
-          <Ellipsis />
-        </Button>
+        <Button icon={<Ellipsis />} size={size} variant="secondary" />
       </PopoverMenu>
       <MatchResultEditDialog />
       <MatchResultDeleteDialog />

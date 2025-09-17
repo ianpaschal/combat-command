@@ -117,16 +117,11 @@ export const CompetitorActions = ({
           </>
         )}
         {showJoinButton && (
-          <Button variant="primary" onClick={handleJoin}>
-            <UserPlus />
-            Join
-          </Button>
+          <Button icon={<UserPlus />} text="Join" variant="primary" onClick={handleJoin} />
         )}
         {visibleMenuItems.length > 0 && (
           <PopoverMenu menuItems={visibleMenuItems}>
-            <Button variant="secondary">
-              <Ellipsis />
-            </Button>
+            <Button icon={<Ellipsis />} variant="secondary" />
           </PopoverMenu>
         )}
       </div>

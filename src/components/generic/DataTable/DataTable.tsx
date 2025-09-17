@@ -52,9 +52,7 @@ export const DataTable = <T,>({
         <InputText placeholder="Filter..." slotBefore={<Search />} />
         <Popover.Root>
           <Popover.Trigger asChild>
-            <Button variant="outlined">
-              <Cog />
-            </Button>
+            <Button icon={<Cog />} variant="outlined" />
           </Popover.Trigger>
           <Popover.Portal>
             <Popover.Content className={styles.PopoverContent} align="end">

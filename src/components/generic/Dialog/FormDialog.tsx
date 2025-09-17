@@ -139,12 +139,16 @@ export const FormDialog = <T extends FieldValues>({
                   <div className={styles.Footer}>
                     {!preventCancel && (
                       <Dialog.Close asChild>
-                        <Button variant="secondary" disabled={isPending}>Cancel</Button>
+                        <Button disabled={isPending} text="Cancel" variant="secondary" />
                       </Dialog.Close>
                     )}
-                    <Button disabled={isPending} loading={isPending} type="submit" form={id}>
-                      {submitLabel}
-                    </Button>
+                    <Button
+                      disabled={isPending}
+                      form={id}
+                      loading={isPending}
+                      text={submitLabel}
+                      type="submit"
+                    />
                   </div>
                 </motion.div>
               </Dialog.Content>

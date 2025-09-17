@@ -44,11 +44,13 @@ export const TournamentPairingDetailPage = (): JSX.Element => {
       maxWidth={540}
       title="Pairing Details"
       footer={showAddMatchResult ? (
-        <div>
-          <Button onClick={() => openMatchResultCreateDialog({ tournamentPairingId })}>
-            <Plus />Add Match Result
-          </Button>
-        </div>
+        <>
+          <Button
+            icon={<Plus />}
+            text="Add Match Result"
+            onClick={() => openMatchResultCreateDialog({ tournamentPairingId })}
+          />
+        </>
       ) : null}
     >
       <div className={styles.TournamentPairingDetailPage}>

@@ -106,8 +106,8 @@ export const TournamentCompetitorEditDialog = ({
         />
       </ScrollArea>
       <DialogActions>
-        <Button variant="secondary" onClick={handleCancel} disabled={loading}>Cancel</Button>
-        <Button form={FORM_ID} type="submit" disabled={loading}>{competitor ? 'Save Changes' : 'Create'}</Button>
+        <Button disabled={loading} text="Cancel" variant="secondary" onClick={handleCancel} />
+        <Button disabled={loading} form={FORM_ID} text={competitor ? 'Save Changes' : 'Create'} type="submit" />
       </DialogActions>
     </ControlledDialog>
   );

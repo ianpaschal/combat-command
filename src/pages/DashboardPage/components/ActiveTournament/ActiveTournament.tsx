@@ -74,9 +74,7 @@ export const ActiveTournament = ({
               <TournamentContextMenu variant="secondary" />
             </TournamentActionsProvider>
           )}
-          <Button variant="secondary" onClick={handleViewMore}>
-            <ChevronRight />
-          </Button>
+          <Button icon={<ChevronRight />} variant="secondary" onClick={handleViewMore} />
         </Header>
         {showTimer && (
           <>
@@ -102,10 +100,11 @@ export const ActiveTournament = ({
               </span>
               <Button
                 className={styles.ActiveTournament_OpponentSection_CheckInButton}
+                icon={<ChevronRight />}
+                iconPosition="end"
+                text="Match Results"
                 onClick={handleViewMatchResults}
-              >
-                Match Results <ChevronRight />
-              </Button>
+              />
             </div>
             <Separator />
           </>

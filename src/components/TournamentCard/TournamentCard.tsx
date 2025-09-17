@@ -70,12 +70,12 @@ export const TournamentCard = ({
               {showContextMenu && (
                 <TournamentContextMenu />
               )}
-              <Button onClick={handleClickDetails}>
-                {layout !== 'narrow' && (
-                  'View'
-                )}
-                <ChevronRight />
-              </Button>
+              <Button
+                icon={<ChevronRight />}
+                text={layout !== 'narrow' ? 'View' : undefined}
+                onClick={handleClickDetails}
+                iconPosition="end"
+              />
             </div>
           </div>
           <TournamentInfoBlock type="practical" className={styles.InfoBlock} />

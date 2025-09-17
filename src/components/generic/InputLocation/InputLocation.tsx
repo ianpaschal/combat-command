@@ -98,7 +98,8 @@ export const InputLocation = forwardRef<HTMLButtonElement, InputLocationProps>((
                 <LocationButton place={{
                   name: location.name,
                   placeFormatted: location.place_formatted,
-                }} onClick={() => handleSelect(location.mapbox_id)} />
+                }}
+                onClick={() => handleSelect(location.mapbox_id)} />
               </Popover.Close>
             ))}
           </Popover.Content>
@@ -106,12 +107,11 @@ export const InputLocation = forwardRef<HTMLButtonElement, InputLocationProps>((
       </Popover.Root>
       {value && (
         <Button
-          onClick={handleClear}
-          variant="ghost"
           className={styles.ClearButton}
-        >
-          <X />
-        </Button>
+          icon={<X />}
+          variant="ghost"
+          onClick={handleClear}
+        />
       )}
     </div>
   );
