@@ -55,7 +55,7 @@ export const exportFowV4TournamentMatchData = async (
         [`player_${letter}_formation_1`]: playerList?.data.formations[1]?.sourceId ?? '',
         [`player_${letter}_battle_plan`]: details[`player${i}BattlePlan` as DetailsKey],
         [`player_${letter}_units_lost`]: details[`player${i}UnitsLost` as DetailsKey],
-        [`player_${letter}_score`]: details[`player${i}Score` as DetailsKey],
+        [`player_${letter}_score`]: matchResult[`player${i}Score` as DetailsKey],
         [`player_${letter}_role`]: details.attacker === i ? 'attacker' : 'defender',
       };
     }, {
