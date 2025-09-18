@@ -131,16 +131,19 @@ export const Dialog = ({
                     <div className={styles.Footer}>
                       {actions?.length && actions.map(({ label, cancel, onClick, closeOnClick, ...itemProps }, i) => {
                         const button = (
-                          <Button key={i} {...itemProps} onClick={(e) => {
-                            if (cancel && onCancel) {
-                              onCancel();
-                            }
-                            if (onClick) {
-                              onClick(e);
-                            }
-                          }}>
-                            {label}
-                          </Button>
+                          <Button
+                            key={i}
+                            {...itemProps}
+                            text={label}
+                            onClick={(e) => {
+                              if (cancel && onCancel) {
+                                onCancel();
+                              }
+                              if (onClick) {
+                                onClick(e);
+                              }
+                            }}
+                          />
                         );
                         return (cancel || closeOnClick) ? (
                           <RadixDialog.Close key={i} asChild>

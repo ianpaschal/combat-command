@@ -38,7 +38,7 @@ export const ForgotPasswordForm = (): JSX.Element => {
       <FormField name="email" label="Email" disabled={loading}>
         <InputText type="text" /* Not email, to avoid browser validation */ />
       </FormField>
-      <Button type="submit" loading={loading}>Send Link</Button>
+      <Button loading={loading} text="Send Link" type="submit" />
       <Separator />
       <p><Link to={PATHS.authSignUp}>Sign Up</Link> | <Link to={PATHS.authSignIn}>Sign In</Link></p>
     </Form>

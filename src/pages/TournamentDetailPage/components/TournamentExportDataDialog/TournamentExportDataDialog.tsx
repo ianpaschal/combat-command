@@ -7,7 +7,6 @@ import {
   DialogActions,
   DialogHeader,
 } from '~/components/generic/Dialog';
-import { Spinner } from '~/components/generic/Spinner';
 import { useTournament } from '~/components/TournamentProvider';
 import { useExportFowV4TournamentMatchData } from '~/services/tournaments';
 import { getTournamentDisplayName } from '~/utils/common/getTournamentDisplayName';
@@ -59,20 +58,13 @@ export const TournamentExportDataDialog = (): JSX.Element => {
       <DialogHeader title="Export Tournament Data" onCancel={close} />
       <div className={styles.TournamentExportDataDialog_Content}>
         {downloadUrl ? (
-          <Button onClick={handleDownload} disabled={loading}>
-            <Download />Download
-          </Button>
+          <Button disabled={loading} icon={<Download />} text="Download" onClick={handleDownload} />
         ) : (
-          <Button onClick={handleRequestUrl} disabled={loading}>
-            {loading && (
-              <Spinner />
-            )}
-            Prepare Download
-          </Button>
+          <Button disabled={loading} loading={loading} text="Prepare Download" onClick={handleRequestUrl} />
         )}
       </div>
       <DialogActions>
-        <Button variant="secondary" onClick={close} disabled={loading}>Close</Button>
+        <Button disabled={loading} text="Close" variant="secondary" onClick={close} />
       </DialogActions>
     </ControlledDialog>
   );

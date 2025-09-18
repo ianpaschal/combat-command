@@ -35,12 +35,11 @@ export const MatchResultsPage = (): JSX.Element => {
           <InputText slotBefore={<Search />} placeholder="Search..." />
           <Popover.Root>
             <Popover.Trigger asChild>
-              <Button variant="outlined">
-                <ListFilter />
-                {showButtonText && (
-                  <span>Filter</span>
-                )}
-              </Button>
+              <Button
+                icon={<ListFilter />}
+                text={showButtonText ? 'Filter' : undefined}
+                variant="outlined"
+              />
             </Popover.Trigger>
             <Popover.Portal>
               <Popover.Content className={styles.FilterPopover} align="end">
@@ -56,12 +55,10 @@ export const MatchResultsPage = (): JSX.Element => {
         ))}
       </div>
       <div className={styles.List_LoadMoreButton} onClick={handleLoadMore}>
-        <Button>Load More</Button>
+        <Button text="Load More" />
       </div>
       {showAddMatchResultButton && (
-        <FloatingActionButton onClick={() => open()}>
-          <Plus />
-        </FloatingActionButton>
+        <FloatingActionButton icon={<Plus />} onClick={() => open()} />
       )}
       <MatchResultCreateDialog />
     </PageWrapper>

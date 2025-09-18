@@ -15,10 +15,10 @@ export const AccountSettings = (): JSX.Element => {
       <div className={styles.EmailLine}>
         {user?.email}
       </div>
-      <ChangeEmailDialog trigger={<Button variant="secondary">Change Email</Button>} />
+      <ChangeEmailDialog trigger={<Button text="Change Email" variant="secondary" />} />
       <Separator />
       <Label>Password</Label>
-      <ChangePasswordDialog trigger={<Button variant="secondary">Change Password</Button>} />
+      <ChangePasswordDialog trigger={<Button text="Change Password" variant="secondary" />} />
     </div>
   );
 };

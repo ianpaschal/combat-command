@@ -31,9 +31,11 @@ export const UserMatchResultsCard = ({
     <Card className={clsx(styles.UserMatchResultsCard, className)}>
       <CardHeader title="Match Results">
         {user?._id === userId && (
-          <Button onClick={() => open()}>
-            <Plus />Check-In
-          </Button>
+          <Button
+            icon={<Plus />}
+            text="Check-In"
+            onClick={() => open()}
+          />
         )}
       </CardHeader>
       <ScrollArea>
@@ -44,12 +46,11 @@ export const UserMatchResultsCard = ({
           {(status === 'CanLoadMore' || status === 'LoadingMore') && (
             <div className={styles.UserMatchResultsCard_List_ViewAllButton}>
               <Button
-                onClick={() => loadMoreMatchResults(DEFAULT_PAGE_SIZE)}
                 disabled={status === 'LoadingMore'}
-              >
-                <Plus />
-                Load More
-              </Button>
+                icon={<Plus />}
+                text="Load More"
+                onClick={() => loadMoreMatchResults(DEFAULT_PAGE_SIZE)}
+              />
             </div>
           )}
         </div>

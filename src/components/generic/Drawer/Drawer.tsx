@@ -93,9 +93,7 @@ export const Drawer = ({
           {actions?.length && (
             <div className={styles.Footer}>
               {actions.map(({ label, ...itemProps }, i) => (
-                <Button key={i} {...itemProps}>
-                  {label}
-                </Button>
+                <Button key={i} text={label} {...itemProps} />
               ))}
             </div>
           )}

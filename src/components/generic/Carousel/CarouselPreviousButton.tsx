@@ -16,17 +16,16 @@ export const CarouselPreviousButton = forwardRef<HTMLButtonElement, ComponentPro
   return (
     <Animate show={canScrollPrev}>
       <Button
+        ref={ref}
         className={clsx(styles.CarouselPreviousButton, className)}
         data-orientation={orientation}
-        onClick={scrollPrev}
-        ref={ref}
+        icon={<ArrowLeft />}
         round
         size="large"
         variant="primary"
+        onClick={scrollPrev}
         {...props}
-      >
-        <ArrowLeft />
-      </Button>
+      />
     </Animate>
   );
 });

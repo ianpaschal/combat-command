@@ -38,8 +38,18 @@ export const MatchResultCreateDialog = ({
       </ScrollArea>
       <Separator />
       <DialogActions>
-        <Button variant="secondary" onClick={close} disabled={actionsDisabled}>Cancel</Button>
-        <Button type="submit" form="fow-v4-match-result-form" disabled={actionsDisabled}>Save</Button>
+        <Button
+          disabled={actionsDisabled}
+          text="Cancel"
+          variant="secondary"
+          onClick={close}
+        />
+        <Button
+          disabled={actionsDisabled}
+          form="fow-v4-match-result-form"
+          text="Save"
+          type="submit"
+        />
       </DialogActions>
     </ControlledDialog>
   );

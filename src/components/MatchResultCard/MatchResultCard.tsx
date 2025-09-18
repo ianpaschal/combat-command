@@ -39,10 +39,12 @@ export const MatchResultCard = ({
         <div className={styles.Footer}>
           <Timestamp date={new Date(matchResult.playedAt)} className={styles.Timestamp} />
           <MatchResultContextMenu />
-          <Button onClick={handleClickDetails}>
-            Details
-            <ChevronRight />
-          </Button>
+          <Button
+            icon={<ChevronRight />}
+            iconPosition="end"
+            text="Details"
+            onClick={handleClickDetails}
+          />
         </div>
       </div>
     </MatchResultProvider>

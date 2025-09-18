@@ -63,9 +63,12 @@ export const InputSingleFile = forwardRef<HTMLDivElement, InputSingleFileProps>(
         {value && (
           <>
             <img src={fileUrl} />
-            <Button className={styles.InputSingleFile_ClearButton} size="small" onClick={handleReset}>
-              <Trash />
-            </Button>
+            <Button
+              className={styles.InputSingleFile_ClearButton}
+              icon={<Trash />}
+              size="small"
+              onClick={handleReset}
+            />
           </>
         )}
       </div>

@@ -89,9 +89,7 @@ export const UserSelectDialog = ({
             <Label>Placeholder</Label>
             <div className={styles.UserSelectDialog_PlaceholderInput}>
               <InputText value={placeholder} onChange={handleChangePlaceholder} />
-              <Button onClick={handleSetPlaceholder}>
-                Set
-              </Button>
+              <Button text="Set" onClick={handleSetPlaceholder} />
             </div>
           </>
         )}
@@ -103,12 +101,8 @@ export const UserSelectDialog = ({
         )}
       </div>
       <DialogActions>
-        <Button variant="secondary" onClick={close}>
-          Close
-        </Button>
-        <Button type="submit" form="invite-user-form">
-          Invite
-        </Button>
+        <Button text="Close" variant="secondary" onClick={close} />
+        <Button form="invite-user-form" text="Invite" type="submit" />
       </DialogActions>
     </ControlledDialog>
   );

@@ -44,9 +44,7 @@ export const UserPreferencesForm = (): JSX.Element => {
       <FormField name="theme" label="Theme" >
         <InputSelect options={themeOptions} />
       </FormField>
-      <Button className={styles.SubmitButton} type="submit" disabled={loading}>
-        Save
-      </Button>
+      <Button className={styles.SubmitButton} disabled={loading} text="Save" type="submit" />
     </Form>
   );
 };

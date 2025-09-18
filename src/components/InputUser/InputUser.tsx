@@ -2,7 +2,6 @@ import { forwardRef, MouseEvent } from 'react';
 import clsx from 'clsx';
 
 import { UserId } from '~/api';
-import { Button } from '~/components/generic/Button';
 import { IdentityBadge } from '~/components/IdentityBadge';
 import { UserSelectDialog } from '~/components/UserSelectDialog';
 import { useUserSelectDialog } from '~/components/UserSelectDialog/UserSelectDialog.hooks';
@@ -50,22 +49,24 @@ export const InputUser = forwardRef<HTMLButtonElement, InputUserProps>(({
   };
   return (
     <>
-      <Button
-        className={clsx(styles.InputUser, className)} ref={ref} id={name} {...props}
+      <button
+        ref={ref}
+        className={clsx(styles.InputUser, className)}
+        id={name}
+        {...props}
         data-error={hasError}
-        variant="outlined"
+        disabled={disabled || loading}
         onClick={(e: MouseEvent) => {
           e.preventDefault();
           openUserSelectDialog();
         }}
-        disabled={disabled || loading}
       >
         {replacementUser ? (
           <IdentityBadge user={replacementUser} size="small" disableLink />
         ) : (
           'Select'
         )}
-      </Button>
+      </button>
       <UserSelectDialog
         id={name}
         value={value}

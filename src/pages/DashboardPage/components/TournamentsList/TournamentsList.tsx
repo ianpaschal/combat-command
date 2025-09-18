@@ -32,9 +32,7 @@ export const TournamentsList = ({
   return (
     <>
       <Header title="Upcoming Tournaments">
-        <Button variant="secondary" onClick={handleViewMore}>
-          <ChevronRight />
-        </Button>
+        <Button icon={<ChevronRight />} variant="secondary" onClick={handleViewMore} />
       </Header>
       {tournaments.length ? (
         <ScrollArea className={clsx(styles.TournamentsList_ScrollArea, className)}>
@@ -44,14 +42,14 @@ export const TournamentsList = ({
             ))}
             {tournaments.length > limit && (
               <div className={styles.TournamentsList_List_ViewAllButton} onClick={handleViewMore}>
-                <Button>View All<ChevronRight /></Button>
+                <Button icon={<ChevronRight />} iconPosition="end" text="View All" />
               </div>
             )}
           </div>
         </ScrollArea>
       ) : (
         <div className={clsx(styles.TournamentsList_EmptyState, className)}>
-          <Button onClick={handleCreate}>Create<Plus /></Button>
+          <Button icon={<Plus />} text="Create" onClick={handleCreate} />
         </div>
       )}
     </>

@@ -51,12 +51,11 @@ export const TournamentsPage = (): JSX.Element => {
           <InputText slotBefore={<Search />} placeholder="Search..." />
           <Popover.Root>
             <Popover.Trigger asChild>
-              <Button variant="outlined">
-                <ListFilter />
-                {showButtonText && (
-                  <span>Filter</span>
-                )}
-              </Button>
+              <Button
+                icon={<ListFilter />}
+                text={showButtonText ? 'Filter' : undefined}
+                variant="outlined"
+              />
             </Popover.Trigger>
             <Popover.Portal>
               <Popover.Content className={styles.FilterPopover} align="end">
@@ -64,12 +63,11 @@ export const TournamentsPage = (): JSX.Element => {
               </Popover.Content>
             </Popover.Portal>
           </Popover.Root>
-          <Button onClick={handleClickCreateTournament}>
-            <Plus />
-            {showButtonText && (
-              <span>Create</span>
-            )}
-          </Button>
+          <Button
+            icon={<Plus />}
+            text={showButtonText ? 'Create' : undefined}
+            onClick={handleClickCreateTournament}
+          />
         </div>
       )}
       <div className={styles.TournamentsPage_Content}>
@@ -99,9 +97,7 @@ export const TournamentsPage = (): JSX.Element => {
         )}
       </div>
       {showCreateTournamentButton && (
-        <FloatingActionButton onClick={handleClickCreateTournament}>
-          <Plus />
-        </FloatingActionButton>
+        <FloatingActionButton icon={<Plus />} onClick={handleClickCreateTournament} />
       )}
     </PageWrapper>
   );

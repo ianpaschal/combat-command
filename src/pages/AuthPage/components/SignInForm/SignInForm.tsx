@@ -42,7 +42,7 @@ export const SignInForm = (): JSX.Element => {
         <InputText type="password" />
       </FormField>
       <Link to={PATHS.authForgotPassword}>Forgot Password</Link>
-      <Button type="submit" loading={loading}>Sign In</Button>
+      <Button loading={loading} text="Sign In" type="submit" />
       <Separator />
       <p>Don't have an account yet? <Link to={PATHS.authSignUp}>Sign Up</Link></p>
     </Form>

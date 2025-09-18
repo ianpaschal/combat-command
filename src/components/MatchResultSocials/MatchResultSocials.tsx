@@ -42,9 +42,12 @@ export const MatchResultSocials = ({
           <Dialog
             width="small"
             trigger={
-              <Button size="small" variant="ghost" className={styles.LikesButton}>
-                {`${likeCount} ${likeCount === 1 ? 'Like' : 'Likes'}`}
-              </Button>
+              <Button
+                className={styles.LikesButton}
+                size="small"
+                text={`${likeCount} ${likeCount === 1 ? 'Like' : 'Likes'}`}
+                variant="ghost"
+              />
             }
           >
             <DialogHeader title="Likes" />
@@ -58,10 +61,12 @@ export const MatchResultSocials = ({
           side="right"
           size="30rem"
           trigger={
-            <Button size="small" variant="ghost">
-              <MessageCircle />
-              {`${matchResult.commentCount} ${matchResult.commentCount === 1 ? 'Comment' : 'Comments'}`}
-            </Button>
+            <Button
+              icon={<MessageCircle />}
+              size="small"
+              text={`${matchResult.commentCount} ${matchResult.commentCount === 1 ? 'Comment' : 'Comments'}`}
+              variant="ghost"
+            />
           }
         >
           <DialogHeader title="Comments" />

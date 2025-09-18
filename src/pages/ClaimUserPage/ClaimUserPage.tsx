@@ -76,9 +76,7 @@ export const ClaimUserPage = (): JSX.Element => {
               <InputText type="password" />
             </FormField>
             <div className={styles.ClaimUserPage_Footer}>
-              <Button type="submit" loading={loading}>
-                Complete
-              </Button>
+              <Button type="submit" loading={loading} text="Complete" />
             </div>
           </Form>
         </div>

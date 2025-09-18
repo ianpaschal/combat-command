@@ -13,7 +13,6 @@ import './FloatingActionButton.scss';
 type FloatingActionButtonRef = ElementRef<typeof Button>;
 type FloatingActionButtonProps = ComponentPropsWithoutRef<typeof Button>;
 export const FloatingActionButton = forwardRef<FloatingActionButtonRef, FloatingActionButtonProps>(({
-  children,
   className,
   size = 'large',
   variant = 'primary',
@@ -23,12 +22,10 @@ export const FloatingActionButton = forwardRef<FloatingActionButtonRef, Floating
     <Button
       ref={ref}
       className={clsx('FloatingActionButton', className)}
+      round
       size={size}
       variant={variant}
-      round
       {...props}
-    >
-      {children}
-    </Button>
+    />
   </Portal.Root>
 ));

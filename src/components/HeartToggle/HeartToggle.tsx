@@ -25,12 +25,11 @@ export const HeartToggle = ({
   return (
     <Button
       className={styles.Root}
+      icon={<Heart className={styles.Icon} data-state={checked ? 'checked' : 'unchecked'} />}
+      round
       size="small"
       variant="ghost"
-      round
       onClick={handleClick}
-    >
-      <Heart className={styles.Icon} data-state={checked ? 'checked' : 'unchecked'} />
-    </Button>
+    />
   );
 };

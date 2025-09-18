@@ -74,12 +74,11 @@ export const SelectPlayerDialog = ({
                   <RadixDialog.Close asChild>
                     <Button
                       className={styles.UserSelectButton}
+                      text="Select"
                       onClick={() => {
                         onConfirm({ userId: user?._id });
                       }}
-                    >
-                      Select
-                    </Button>
+                    />
                   </RadixDialog.Close>
                 </div>
               ))}
@@ -91,9 +90,7 @@ export const SelectPlayerDialog = ({
         <div className={styles.PlaceholderInput}>
           <InputText value={placeholder} onChange={handleChangePlaceholder} />
           <RadixDialog.Close asChild>
-            <Button onClick={() => onConfirm({ placeholder })}>
-              Set
-            </Button>
+            <Button text="Set" onClick={() => onConfirm({ placeholder })} />
           </RadixDialog.Close>
         </div>
       </div>

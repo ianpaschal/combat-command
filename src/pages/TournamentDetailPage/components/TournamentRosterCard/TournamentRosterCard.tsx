@@ -90,23 +90,22 @@ export const TournamentRosterCard = ({
     const hasMaxTeams = (competitors || []).length >= tournament.maxCompetitors;
     if (['published', 'active'].includes(tournament.status) && tournament.currentRound === undefined && isOrganizer) {
       return [
-        <Button key="create-competitor" onClick={() => openCreateDialog()}>
-          <UserPlus />{`Add ${tournament.useTeams ? 'Team' : 'Player'}`}
-        </Button>,
+        <Button
+          key="create-competitor"
+          icon={<UserPlus />}
+          text={`Add ${tournament.useTeams ? 'Team' : 'Player'}`}
+          onClick={() => openCreateDialog()}
+        />,
       ];
     }
     if (tournament.status === 'published' && user && !isPlayer && !hasMaxTeams) {
       if (tournament.useTeams) {
         return [
-          <Button onClick={() => openCreateDialog()}>
-            <UserPlus />New Team
-          </Button>,
+          <Button icon={<UserPlus />} text="New Team" onClick={() => openCreateDialog()} />,
         ];
       }
       return [
-        <Button onClick={handleRegister}>
-          <UserPlus />Register
-        </Button>,
+        <Button icon={<UserPlus />} text="Register" onClick={handleRegister} />,
       ];
     }
   };
@@ -114,15 +113,12 @@ export const TournamentRosterCard = ({
   const emptyStateProps = tournament.status === 'draft' && isOrganizer ? {
     icon: <EyeOff />,
     message: 'Your tournament is not yet visible.',
-    children: <Button onClick={handlePublish}>Publish</Button>,
+    children: <Button text="Publish" onClick={handlePublish} />,
   } : {
     icon: <Users />,
     message: 'No competitors registered yet.',
     children: isOrganizer ? (
-      <Button onClick={handleCopyLink}>
-        <Link />
-        Copy Link
-      </Button>
+      <Button icon={<Link />} text="Copy Link" onClick={handleCopyLink} />
     ) : undefined,
   };
 
