@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import {
   eraOptions,
@@ -27,7 +27,7 @@ export const GameConfigFields = ({
   showAdvancedOptions = false,
   showAdditionalRules = false,
 }: GameConfigFieldsProps): JSX.Element => {
-  const { watch } = useFormContext();
+  const { watch, setValue } = useFormContext();
   const [advancedOptionsVisible, setAdvancedOptionsVisible] = useState<boolean>(showAdvancedOptions);
   // TODO: get dynamic points version for era
   // const dynamicPointsVersionOptions = getDynamicPointsVersionOptions(era);
@@ -35,6 +35,13 @@ export const GameConfigFields = ({
 
   const missionPackVersion = watch(`${formPath}.missionPackVersion`);
   const missionMatrixOptions = getMissionMatrixOptions(missionPackVersion);
+
+  // Auto-fill matrix, if possible
+  useEffect(() => {
+    if (missionMatrixOptions.length === 1 && watch(`${formPath}.missionMatrix`) !== missionMatrixOptions[0].value) {
+      setValue(`${formPath}.missionMatrix`, missionMatrixOptions[0].value);
+    }
+  }, [formPath, watch, setValue, missionMatrixOptions]);
 
   return (
     <div className={styles.Root}>
@@ -66,9 +73,10 @@ export const GameConfigFields = ({
             <FormField name={`${formPath}.missionMatrix`} label="Mission Matrix" disabled={missionMatrixOptions.length < 2}>
               <InputSelect options={missionMatrixOptions} />
             </FormField>
-            <FormField name={`${formPath}.useExperimentalMissions`} label="Prefer experimental missions">
+            {/* DISABLED BECAUSE IT'S NOT CURRENTLY USED */}
+            {/* <FormField name={`${formPath}.useExperimentalMissions`} label="Prefer experimental missions">
               <Switch />
-            </FormField>
+            </FormField> */}
           </div>
         </div>
       </Animate>
