@@ -111,3 +111,10 @@
     }
   }
 }
+
+// This is a bit hacky, but dramatically improves how the buttons render on Safari:
+@supports (-webkit-appearance: none) {
+  .Button_Text {
+    transform: translateY(1px);
+  }
+}
