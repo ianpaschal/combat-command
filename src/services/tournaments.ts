@@ -8,11 +8,12 @@ export const useGetTournaments = createQueryHook(api.tournaments.getTournaments)
 
 // Special Queries
 export const useGetAvailableTournamentActions = createQueryHook(api.tournaments.getAvailableTournamentActions);
+export const useGetTournamentByTournamentPairing = createQueryHook(api.tournaments.getTournamentByTournamentPairing);
 export const useGetTournamentOpenRound = createQueryHook(api.tournaments.getTournamentOpenRound);
-export type TournamentOpenRound = typeof api.tournaments.getTournamentOpenRound._returnType; // TODO: Move to back-end
 export const useGetTournamentRankings = createQueryHook(api.tournaments.getTournamentRankings);
 export const useGetTournamentsByStatus = createQueryHook(api.tournaments.getTournamentsByStatus);
 export const useGetTournamentsByUser = createQueryHook(api.tournaments.getTournamentsByUser);
+export type TournamentOpenRound = typeof api.tournaments.getTournamentOpenRound._returnType; // TODO: Move to back-end
 
 // Basic (C_UD) Mutations
 export const useCreateTournament = createMutationHook(api.tournaments.createTournament);

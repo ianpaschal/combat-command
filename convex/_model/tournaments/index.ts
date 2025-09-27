@@ -70,6 +70,10 @@ export {
   getTournamentArgs,
 } from './queries/getTournament';
 export {
+  getTournamentByTournamentPairing,
+  getTournamentByTournamentPairingArgs,
+} from './queries/getTournamentByTournamentPairing';
+export {
   getTournamentOpenRound,
   getTournamentOpenRoundArgs,
   type TournamentOpenRound,
