@@ -11,6 +11,11 @@ export const getTournament = query({
   handler: model.getTournament,
 });
 
+export const getTournamentByTournamentPairing = query({
+  args: model.getTournamentByTournamentPairingArgs,
+  handler: model.getTournamentByTournamentPairing,
+});
+
 export const getTournaments = query({
   handler: model.getTournaments,
 });

@@ -54,7 +54,7 @@ export const fowV4GameSystemConfigDefaultValues: FowV4GameSystemConfigFormData =
 
   // Non-editable
   dynamicPointsVersion: undefined,
-  missionMatrix: 'default',
-  missionPackVersion: MissionPackVersion.Jul2024,
+  missionMatrix: 'extended',
+  missionPackVersion: MissionPackVersion.Apr2023,
   useExperimentalMissions: true,
 };

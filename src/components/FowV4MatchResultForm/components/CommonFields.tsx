@@ -32,6 +32,8 @@ export const CommonFields = (): JSX.Element => {
 
   const selectedMission = getMission(missionPackVersion, details?.mission);
 
+  const showDisabled = !details?.player0BattlePlan || !details?.player1BattlePlan;
+
   // Auto-fill attacker, if possible
   const autoAttacker = computeAttacker(selectedMission, [details?.player0BattlePlan, details?.player1BattlePlan]);
   const disableAttackerField = autoAttacker !== undefined;
@@ -76,33 +78,37 @@ export const CommonFields = (): JSX.Element => {
 
   return (
     <div className={styles.CommonFields}>
-      <FormField name="details.mission" label="Mission">
+      <FormField name="details.mission" label="Mission" disabled={showDisabled}>
         <InputSelect options={missionOptions} />
       </FormField>
-      <FormField name="details.attacker" label="Attacker" disabled={disableAttackerField}>
+      <FormField name="details.attacker" label="Attacker" disabled={showDisabled || disableAttackerField}>
         <InputSelect options={playerOptions} />
       </FormField>
-      <FormField name="details.firstTurn" label="First Turn" disabled={disableFirstTurnField}>
+      <FormField name="details.firstTurn" label="First Turn" disabled={showDisabled || disableFirstTurnField}>
         <InputSelect options={playerOptions} />
       </FormField>
       <div className={styles.CommonFields_OutcomeSection}>
-        <FormField name="details.turnsPlayed" label="Turns Played">
+        <FormField name="details.turnsPlayed" label="Turns Played" disabled={showDisabled}>
           <InputText type="number" />
         </FormField>
-        <FormField name="details.outcomeType" label="Outcome Type">
+        <FormField name="details.outcomeType" label="Outcome Type" disabled={showDisabled}>
           <InputSelect options={outcomeTypeOptions} />
         </FormField>
       </div>
-      <FormField name="details.winner" label="Winner" disabled={disableWinner}>
+      <FormField name="details.winner" label="Winner" disabled={showDisabled || disableWinner}>
         <InputSelect options={winnerOptions} />
       </FormField>
-      <FormField label="Use custom score">
+      <FormField label="Use custom score" disabled={showDisabled}>
         <Switch checked={showScoreOverride} onCheckedChange={handleToggleScoreOverride} />
       </FormField>
       {showScoreOverride && (
         <div className={styles.CommonFields_ScoreOverrideSection}>
           {([0, 1] as const).map((i) => (
-            <FormField name={`details.scoreOverride.player${i}Score`} label={getScoreOverrideLabel(i)}>
+            <FormField
+              name={`details.scoreOverride.player${i}Score`}
+              label={getScoreOverrideLabel(i)}
+              disabled={showDisabled}
+            >
               <InputText type="number" />
             </FormField>
           ))}

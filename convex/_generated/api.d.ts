@@ -167,6 +167,7 @@ import type * as _model_tournaments_mutations_startTournamentRound from "../_mod
 import type * as _model_tournaments_mutations_updateTournament from "../_model/tournaments/mutations/updateTournament.js";
 import type * as _model_tournaments_queries_getAvailableTournamentActions from "../_model/tournaments/queries/getAvailableTournamentActions.js";
 import type * as _model_tournaments_queries_getTournament from "../_model/tournaments/queries/getTournament.js";
+import type * as _model_tournaments_queries_getTournamentByTournamentPairing from "../_model/tournaments/queries/getTournamentByTournamentPairing.js";
 import type * as _model_tournaments_queries_getTournamentOpenRound from "../_model/tournaments/queries/getTournamentOpenRound.js";
 import type * as _model_tournaments_queries_getTournamentRankings from "../_model/tournaments/queries/getTournamentRankings.js";
 import type * as _model_tournaments_queries_getTournaments from "../_model/tournaments/queries/getTournaments.js";
@@ -414,6 +415,7 @@ declare const fullApi: ApiFromModules<{
   "_model/tournaments/mutations/updateTournament": typeof _model_tournaments_mutations_updateTournament;
   "_model/tournaments/queries/getAvailableTournamentActions": typeof _model_tournaments_queries_getAvailableTournamentActions;
   "_model/tournaments/queries/getTournament": typeof _model_tournaments_queries_getTournament;
+  "_model/tournaments/queries/getTournamentByTournamentPairing": typeof _model_tournaments_queries_getTournamentByTournamentPairing;
   "_model/tournaments/queries/getTournamentOpenRound": typeof _model_tournaments_queries_getTournamentOpenRound;
   "_model/tournaments/queries/getTournamentRankings": typeof _model_tournaments_queries_getTournamentRankings;
   "_model/tournaments/queries/getTournaments": typeof _model_tournaments_queries_getTournaments;

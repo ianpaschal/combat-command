@@ -19,6 +19,7 @@ import { Separator } from '~/components/generic/Separator';
 import { useAsyncState } from '~/hooks/useAsyncState';
 import { useCreateMatchResult, useUpdateMatchResult } from '~/services/matchResults';
 import { useGetActiveTournamentPairingsByUser } from '~/services/tournamentPairings';
+import { useGetTournamentByTournamentPairing } from '~/services/tournaments';
 import { getTournamentPairingDisplayName } from '~/utils/common/getTournamentPairingDisplayName';
 import { validateForm } from '~/utils/validateForm';
 import { CommonFields } from './components/CommonFields';
@@ -68,6 +69,12 @@ export const FowV4MatchResultForm = ({
     data: tournamentPairings,
     loading: tournamentPairingsLoading,
   } = useGetActiveTournamentPairingsByUser(user ? { userId: user._id } : 'skip');
+  const {
+    data: tournament,
+    loading: tournamentLoading,
+  } = useGetTournamentByTournamentPairing(tournamentPairingId !== 'single' ? {
+    tournamentPairingId,
+  } : 'skip');
 
   const {
     mutation: createMatchResult,
@@ -82,7 +89,7 @@ export const FowV4MatchResultForm = ({
     onSuccess,
   });
 
-  const disabled = createMatchResultPending || updateMatchResultPending;
+  const disabled = createMatchResultPending || updateMatchResultPending || tournamentLoading;
 
   useEffect(() => {
     if (onStatusChange) {
@@ -97,6 +104,12 @@ export const FowV4MatchResultForm = ({
     },
     mode: 'onSubmit',
   });
+
+  useEffect(() => {
+    if (tournament) {
+      form.setValue('gameSystemConfig', tournament.gameSystemConfig);
+    }
+  }, [tournament, form]);
 
   const playerNames = usePlayerDisplayNames(form.watch());
 
