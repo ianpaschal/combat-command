@@ -57,7 +57,7 @@ export const renderRankings = (
     <Table
       className={styles.ActiveTournament_Rankings}
       rowClassName={styles.ActiveTournament_Rankings_Row}
-      rows={competitors ?? []}
+      rows={[...(competitors ?? [])].sort((a, b) => (a.rank ?? Infinity) - (b.rank ?? Infinity))}
       columns={[
         {
           key: 'rank',

@@ -1,7 +1,8 @@
-import { getRankingFactorDisplayName, RankingFactor } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
+import { getRankingFactorDisplayName } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
 import { FowV4TournamentFlatExtendedStats } from 'convex/_model/fowV4/types';
 
 import {
+  Tournament,
   TournamentCompetitor,
   TournamentCompetitorId,
   User,
@@ -21,8 +22,7 @@ export type RankingRow = {
 
 export type UseTournamentRankingColumnsConfig = {
   view: 'competitors' | 'players';
-  useTeams: boolean;
-  rankingFactors: RankingFactor[];
+  tournament: Tournament;
   competitors: TournamentCompetitor[];
 };
 
@@ -43,7 +43,7 @@ export const getTournamentRankingTableConfig = (
     },
     {
       key: 'identity',
-      label: config.view === 'competitors' ? (config.useTeams ? 'Team' : 'Player') : 'Player',
+      label: config.view === 'competitors' ? (config.tournament.useTeams ? 'Team' : 'Player') : 'Player',
       renderCell: (r) => {
         const competitor = config.competitors.find((c) => c._id === r.id);
         const player = players.find((p) => p._id === r.id);
@@ -68,7 +68,7 @@ export const getTournamentRankingTableConfig = (
         return null;
       },
     },
-    ...config.rankingFactors.map((key): ColumnDef<RankingRow> => ({
+    ...config.tournament.rankingFactors.map((key): ColumnDef<RankingRow> => ({
       key,
       width: 32,
       align: 'center',

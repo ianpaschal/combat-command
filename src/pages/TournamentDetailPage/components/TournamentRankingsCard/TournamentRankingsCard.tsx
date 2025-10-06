@@ -2,6 +2,7 @@ import { ReactElement, useState } from 'react';
 import clsx from 'clsx';
 import { Trophy } from 'lucide-react';
 
+import { useAuth } from '~/components/AuthProvider';
 import { EmptyState } from '~/components/EmptyState';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { Table } from '~/components/generic/Table';
@@ -9,6 +10,7 @@ import { useTournamentCompetitors } from '~/components/TournamentCompetitorsProv
 import { useTournament } from '~/components/TournamentProvider';
 import { getTournamentRankingTableConfig, RankingRow } from '~/pages/TournamentDetailPage/components/TournamentRankingsCard/TournamentRankingsCard.utils';
 import { useGetTournamentRankings } from '~/services/tournaments';
+import { getLastVisibleTournamentRound } from '~/utils/common/getLastVisibleTournamentRound';
 import { getRoundOptions } from '~/utils/common/getRoundOptions';
 import { TournamentDetailCard } from '../TournamentDetailCard';
 
@@ -21,20 +23,21 @@ export interface TournamentRankingsCardProps {
 export const TournamentRankingsCard = ({
   className,
 }: TournamentRankingsCardProps): JSX.Element => {
-  const { _id: tournamentId, lastRound, useTeams, rankingFactors } = useTournament();
+  const tournament = useTournament();
+  const user = useAuth();
   const competitors = useTournamentCompetitors();
-  const [round, setRound] = useState<number>(lastRound ?? 0);
+  const lastVisibleRound = getLastVisibleTournamentRound(tournament, user);
+  const [round, setRound] = useState<number>(lastVisibleRound);
   const [view, setView] = useState<'competitors' | 'players'>('competitors');
 
   const { data: rankings, loading } = useGetTournamentRankings({
-    tournamentId,
+    tournamentId: tournament._id,
     round,
   });
 
   const columns = getTournamentRankingTableConfig({
     view,
-    useTeams,
-    rankingFactors,
+    tournament,
     competitors,
   });
   // TODO: Move rows into the config util
@@ -50,17 +53,17 @@ export const TournamentRankingsCard = ({
   }));
   const rows = view === 'players' ? playerRows : competitorRows;
 
-  const showEmptyState = lastRound === undefined || !(rankings?.[view] ?? []).length;
+  const showEmptyState = tournament.lastRound === undefined || !(rankings?.[view] ?? []).length;
   const showLoadingState = loading;
 
-  const roundOptions = getRoundOptions(lastRound);
+  const roundOptions = getRoundOptions(lastVisibleRound);
   const viewOptions = [
     { label: 'Players', value: 'players' },
     { label: 'Teams', value: 'competitors' },
   ];
 
   const getPrimaryButtons = (): ReactElement[] => [
-    ...(useTeams ? [
+    ...(tournament.useTeams ? [
       <InputSelect
         options={viewOptions}
         value={view}

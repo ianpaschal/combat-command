@@ -2,11 +2,7 @@ import { generatePath, useNavigate } from 'react-router-dom';
 import clsx from 'clsx';
 import { ChevronRight } from 'lucide-react';
 
-import {
-  Tournament,
-  TournamentCompetitorRanked,
-  TournamentPairing,
-} from '~/api';
+import { Tournament, TournamentPairing } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
 import { Button } from '~/components/generic/Button';
 import { Separator } from '~/components/generic/Separator';
@@ -17,6 +13,7 @@ import { TournamentProvider } from '~/components/TournamentProvider';
 import { TournamentTimer } from '~/components/TournamentTimer';
 import { useGetTournamentCompetitorsByTournament } from '~/services/tournamentCompetitors';
 import { PATHS } from '~/settings';
+import { getLastVisibleTournamentRound } from '~/utils/common/getLastVisibleTournamentRound';
 import { isUserTournamentOrganizer } from '~/utils/common/isUserTournamentOrganizer';
 import { Header } from '../Header';
 import {
@@ -31,21 +28,21 @@ export interface ActiveTournamentProps {
   className?: string;
   tournament: Tournament;
   pairing?: TournamentPairing;
-  rankedCompetitors?: TournamentCompetitorRanked[];
 }
 
 export const ActiveTournament = ({
   className,
   tournament,
   pairing,
-  rankedCompetitors = [],
 }: ActiveTournamentProps): JSX.Element => {
   const navigate = useNavigate();
   const user = useAuth();
 
+  const lastVisibleRound = getLastVisibleTournamentRound(tournament, user);
+
   const { data: tournamentCompetitors } = useGetTournamentCompetitorsByTournament({
     tournamentId: tournament._id,
-    includeRankings: tournament.lastRound,
+    includeRankings: lastVisibleRound,
   });
 
   const opponent = getOpponent(user?._id, pairing);
@@ -63,7 +60,7 @@ export const ActiveTournament = ({
   const isOrganizer = isUserTournamentOrganizer(user, tournament);
   const showTimer = tournament && tournament.currentRound !== undefined;
   const showOpponent = tournament && pairing && opponent;
-  const showRankings = tournament && rankedCompetitors;
+  const showRankings = tournament && tournament.lastRound !== undefined && tournamentCompetitors?.length;
 
   return (
     <div className={clsx(styles.ActiveTournament, className)}>
