@@ -7,6 +7,7 @@ import { InputSelect } from '~/components/generic/InputSelect';
 import { Table } from '~/components/generic/Table';
 import { useTournamentCompetitors } from '~/components/TournamentCompetitorsProvider';
 import { useTournament } from '~/components/TournamentProvider';
+import { useLastVisibleRound } from '~/pages/TournamentDetailPage/components/TournamentRankingsCard/TournamentRankingsCard.hooks';
 import { getTournamentRankingTableConfig, RankingRow } from '~/pages/TournamentDetailPage/components/TournamentRankingsCard/TournamentRankingsCard.utils';
 import { useGetTournamentRankings } from '~/services/tournaments';
 import { getRoundOptions } from '~/utils/common/getRoundOptions';
@@ -23,7 +24,8 @@ export const TournamentRankingsCard = ({
 }: TournamentRankingsCardProps): JSX.Element => {
   const { _id: tournamentId, lastRound, useTeams, rankingFactors } = useTournament();
   const competitors = useTournamentCompetitors();
-  const [round, setRound] = useState<number>(lastRound ?? 0);
+  const lastVisibleRound = useLastVisibleRound();
+  const [round, setRound] = useState<number>(lastVisibleRound);
   const [view, setView] = useState<'competitors' | 'players'>('competitors');
 
   const { data: rankings, loading } = useGetTournamentRankings({
@@ -53,7 +55,7 @@ export const TournamentRankingsCard = ({
   const showEmptyState = lastRound === undefined || !(rankings?.[view] ?? []).length;
   const showLoadingState = loading;
 
-  const roundOptions = getRoundOptions(lastRound);
+  const roundOptions = getRoundOptions(lastVisibleRound);
   const viewOptions = [
     { label: 'Players', value: 'players' },
     { label: 'Teams', value: 'competitors' },
