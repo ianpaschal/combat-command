@@ -18,10 +18,10 @@ describe('getLastVisibleTournamentRound', () => {
 
   beforeEach(() => {
     vi.resetAllMocks();
+    mockIsUserTournamentOrganizer.mockReturnValue(false); // Default, override as needed
   });
 
   it('returns last round when not final round.', () => {
-    mockIsUserTournamentOrganizer.mockReturnValue(false);
     const result = getLastVisibleTournamentRound({
       lastRound: 1,
       roundCount: 3,
@@ -41,7 +41,6 @@ describe('getLastVisibleTournamentRound', () => {
   });
 
   it('returns round before last after the final round, when user is not a TO.', () => {
-    mockIsUserTournamentOrganizer.mockReturnValue(false);
     const result = getLastVisibleTournamentRound({
       lastRound: 2,
       roundCount: 3,
@@ -51,7 +50,6 @@ describe('getLastVisibleTournamentRound', () => {
   });
 
   it('returns round before last after the final round, when user is not authenticated.', () => {
-    mockIsUserTournamentOrganizer.mockReturnValue(false);
     const result = getLastVisibleTournamentRound({
       lastRound: 2,
       roundCount: 3,
@@ -61,7 +59,6 @@ describe('getLastVisibleTournamentRound', () => {
   });
 
   it('does not return negative values on first round.', () => {
-    mockIsUserTournamentOrganizer.mockReturnValue(false);
     const result = getLastVisibleTournamentRound({
       lastRound: 0,
       roundCount: 1,
@@ -71,7 +68,6 @@ describe('getLastVisibleTournamentRound', () => {
   });
 
   it('handles undefined lastRound as 0.', () => {
-    mockIsUserTournamentOrganizer.mockReturnValue(false);
     const result = getLastVisibleTournamentRound({
       lastRound: undefined,
       roundCount: 3,
@@ -81,7 +77,6 @@ describe('getLastVisibleTournamentRound', () => {
   });
 
   it('returns last round when tournament is archived.', () => {
-    mockIsUserTournamentOrganizer.mockReturnValue(false);
     const result = getLastVisibleTournamentRound({
       lastRound: 2,
       roundCount: 3,
