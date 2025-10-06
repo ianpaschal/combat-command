@@ -5,7 +5,7 @@ import { Spinner } from '~/components/generic/Spinner';
 import { ActiveTournament } from '~/pages/DashboardPage/components/ActiveTournament';
 import { TournamentsList } from '~/pages/DashboardPage/components/TournamentsList';
 import { useGetActiveTournamentPairingsByUser } from '~/services/tournamentPairings';
-import { useGetTournamentRankings, useGetTournaments } from '~/services/tournaments';
+import { useGetTournaments } from '~/services/tournaments';
 
 import styles from './TournamentsCard.module.scss';
 
@@ -35,13 +35,6 @@ export const TournamentsCard = ({
   )).at(-1);
 
   const {
-    data: rankings,
-    loading: rankingsLoading,
-  } = useGetTournamentRankings(liveTournament ? {
-    tournamentId: liveTournament._id,
-    round: liveTournament.currentRound ?? liveTournament.nextRound ?? 0,
-  } : 'skip');
-  const {
     data: pairings,
     loading: pairingsLoading,
   } = useGetActiveTournamentPairingsByUser(user && liveTournament ? {
@@ -50,7 +43,7 @@ export const TournamentsCard = ({
   } : 'skip');
   const pairing = pairings?.at(-1);
 
-  const showLoading = tournamentsLoading || pairingsLoading || rankingsLoading;
+  const showLoading = tournamentsLoading || pairingsLoading;
 
   return (
     <div className={clsx(styles.TournamentsCard, className)}>
@@ -60,11 +53,7 @@ export const TournamentsCard = ({
         </div>
       ) : (
         liveTournament ? (
-          <ActiveTournament
-            tournament={liveTournament}
-            pairing={pairing}
-            rankedCompetitors={rankings?.competitors}
-          />
+          <ActiveTournament tournament={liveTournament} pairing={pairing} />
         ) : (
           <TournamentsList tournaments={upcomingTournaments} />
         )
