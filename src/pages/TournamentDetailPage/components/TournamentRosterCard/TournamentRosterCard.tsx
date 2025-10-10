@@ -85,29 +85,32 @@ export const TournamentRosterCard = ({
     }
   };
 
-  const getPrimaryButtons = (): ReactElement[] | undefined => {
+  const getPrimaryButtons = (): ReactElement[] => {
     const isPlayer = user && tournament.playerUserIds.includes(user._id);
     const hasMaxTeams = (competitors || []).length >= tournament.maxCompetitors;
+    const buttons: ReactElement[] = [];
     if (['published', 'active'].includes(tournament.status) && tournament.currentRound === undefined && isOrganizer) {
-      return [
+      buttons.push(
         <Button
           key="create-competitor"
           icon={<UserPlus />}
           text={`Add ${tournament.useTeams ? 'Team' : 'Player'}`}
           onClick={() => openCreateDialog()}
         />,
-      ];
+      );
     }
-    if (tournament.status === 'published' && user && !isPlayer && !hasMaxTeams) {
+    if (tournament.status === 'published' && !isPlayer && !hasMaxTeams) {
       if (tournament.useTeams) {
-        return [
-          <Button icon={<UserPlus />} text="New Team" onClick={() => openCreateDialog()} />,
-        ];
+        buttons.push(
+          <Button key="new-team" icon={<UserPlus />} text="New Team" onClick={() => openCreateDialog()} />,
+        );
+      } else {
+        buttons.push(
+          <Button key="join" icon={<UserPlus />} text="Register" onClick={handleRegister} />,
+        );
       }
-      return [
-        <Button icon={<UserPlus />} text="Register" onClick={handleRegister} />,
-      ];
     }
+    return buttons;
   };
 
   const emptyStateProps = tournament.status === 'draft' && isOrganizer ? {
