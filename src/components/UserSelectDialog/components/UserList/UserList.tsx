@@ -8,7 +8,6 @@ import debounce from 'debounce';
 import { Search, X } from 'lucide-react';
 
 import { UserId } from '~/api';
-import { useAuth } from '~/components/AuthProvider';
 import { Button } from '~/components/generic/Button';
 import { InputText } from '~/components/generic/InputText';
 import { ScrollArea } from '~/components/generic/ScrollArea';
@@ -31,7 +30,6 @@ export const UserList = ({
   onConfirm,
   selected,
 }: UserListProps): JSX.Element => {
-  const user = useAuth();
 
   // State:
   const [search, setSearch] = useState<string>('');
@@ -71,10 +69,9 @@ export const UserList = ({
 
   // Remove own user, and currently selected user from options:
   const selectableUsers = (userList || []).filter((u) => {
-    const isSelf = u._id === user?._id;
     const isSelected = u._id === selected;
     const isExcluded = excludeUserIds.includes(u._id);
-    return !isSelf && !isSelected && !isExcluded;
+    return !isSelected && !isExcluded;
   });
   const selectedUser = (userList || []).find((u) => u._id === selected);
 
