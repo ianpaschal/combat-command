@@ -1,10 +1,10 @@
-import { GameSystem } from '@ianpaschal/combat-command-static-data/common';
+import { GameSystem } from '@ianpaschal/combat-command-game-systems/common';
 import { defineTable } from 'convex/server';
 import { v } from 'convex/values';
 
 import { getStaticEnumConvexValidator } from '../common/_helpers/getStaticEnumConvexValidator';
-import { fowV4GameSystemConfig } from '../fowV4/fowV4GameSystemConfig';
-import { fowV4MatchResultDetails } from '../fowV4/fowV4MatchResultDetails';
+import { gameSystemConfig } from '../common/gameSystemConfig';
+import { matchResultDetails } from '../common/matchResultDetails';
 
 const gameSystem = getStaticEnumConvexValidator(GameSystem);
 
@@ -21,12 +21,13 @@ export const editableFields = {
 
   // General
   playedAt: v.union(v.string(), v.number()),
-  details: v.union(fowV4MatchResultDetails),
+  details: matchResultDetails,
 
-  // Game System
-  gameSystemConfig: v.union(fowV4GameSystemConfig),
-  gameSystemId: v.optional(gameSystem), // TODO: REMOVE AFTER MIGRATION
-  gameSystem: v.optional(gameSystem),
+  // Denormalized so that we can filter tournaments by game system, and all related fields.
+  // The duplicate data is worth the efficiency in querying.
+  // TODO: Keep all game-system-specific attributes in one object for easy validation
+  gameSystem,
+  gameSystemConfig,
 
   photoIds: v.optional(v.array(v.id('photos'))),
 };
@@ -45,7 +46,7 @@ export default defineTable({
   ...editableFields,
   ...computedFields,
 })
-  .index('by_game_system_id', ['gameSystemId'])
+  .index('by_game_system', ['gameSystem'])
   .index('by_tournament_id', ['tournamentId'])
   .index('by_tournament_pairing_id', ['tournamentPairingId'])
   .index('by_user_id', ['player0UserId', 'player1UserId']);

@@ -1,4 +1,4 @@
-import { VisibilityLevel } from '../../common/types';
+import { VisibilityLevel } from '../../common/VisibilityLevel';
 
 export const userEmails = [
   'alex.carter.cc.3phf3@passmail.net',

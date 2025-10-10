@@ -6,7 +6,7 @@ import {
 
 import { MutationCtx } from '../../../_generated/server';
 import { getErrorMessage } from '../../common/errors';
-import { VisibilityLevel } from '../../common/types';
+import { VisibilityLevel } from '../../common/VisibilityLevel';
 
 export const revealTournamentPlayerNamesArgs = v.object({
   tournamentId: v.id('tournaments'),

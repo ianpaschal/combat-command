@@ -1,12 +1,13 @@
-import { GameSystem } from '@ianpaschal/combat-command-static-data/common';
+import { GameSystem } from '@ianpaschal/combat-command-game-systems/common';
 import {
   BattlePlan,
   Era,
   LessonsFromTheFrontVersion,
   MatchOutcomeType,
+  MissionMatrix,
   MissionName,
   MissionPackVersion,
-} from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
+} from '@ianpaschal/combat-command-game-systems/flamesOfWarV4';
 
 import { CreateMatchResultArgs } from '../../_model/matchResults';
 
@@ -33,7 +34,7 @@ export const createMockFowV4MatchResultData = (
       era: Era.LW,
       lessonsFromTheFrontVersion: LessonsFromTheFrontVersion.Mar2024,
       missionPackVersion: MissionPackVersion.Apr2023,
-      missionMatrix: 'extended',
+      missionMatrix: MissionMatrix.Extended,
     },
     gameSystem: GameSystem.FlamesOfWarV4,
     ...data,

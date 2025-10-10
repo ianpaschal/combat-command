@@ -1,5 +1,5 @@
 import { useFormContext } from 'react-hook-form';
-import { tournamentPairingMethodOptions } from '@ianpaschal/combat-command-static-data/common';
+import { getTournamentPairingMethodOptions } from '@ianpaschal/combat-command-game-systems/common';
 
 import { Animate } from '~/components/generic/Animate';
 import { FormField } from '~/components/generic/Form';
@@ -58,7 +58,7 @@ export const FormatFields = ({
       <div className={styles.FormatFields_PairingSection}>
         <div className={styles.FormatFields_PairingMethod}>
           <FormField name="pairingMethod" label="Pairing Method" disabled={disableFields}>
-            <InputSelect options={tournamentPairingMethodOptions} />
+            <InputSelect options={getTournamentPairingMethodOptions()} />
           </FormField>
           <p>Combat Command uses a system of progressive tie breakers. Competitors are ranked according to the first ranking factor. If they are tied, the next ranking factor is compared until the tie is broken.</p>
         </div>

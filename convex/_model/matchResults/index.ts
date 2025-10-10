@@ -4,13 +4,13 @@ export type MatchResultId = Id<'matchResults'>;
 
 // Helpers
 export {
-  deepenFowV4MatchResultDetails,
-  type DeepFowV4MatchResultDetails,
-} from './_helpers/deepenFowV4MatchResultDetails';
-export {
   deepenMatchResult,
   type DeepMatchResult,
 } from './_helpers/deepenMatchResult';
+export {
+  deepenMatchResultDetails,
+  type DeepMatchResultDetails,
+} from './_helpers/deepenMatchResultDetails';
 export { getShallowMatchResult } from './_helpers/getShallowMatchResult';
 
 // Mutations

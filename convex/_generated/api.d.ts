@@ -8,10 +8,18 @@
  * @module
  */
 
+import type * as _fixtures_createMockRankedCompetitor from "../_fixtures/createMockRankedCompetitor.js";
+import type * as _fixtures_createMockTournament from "../_fixtures/createMockTournament.js";
 import type * as _fixtures_fowV4_createMockFowV4MatchResultData from "../_fixtures/fowV4/createMockFowV4MatchResultData.js";
+import type * as _model_common_VisibilityLevel from "../_model/common/VisibilityLevel.js";
 import type * as _model_common__helpers_checkAuth from "../_model/common/_helpers/checkAuth.js";
 import type * as _model_common__helpers_clamp from "../_model/common/_helpers/clamp.js";
 import type * as _model_common__helpers_filterWithSearchTerm from "../_model/common/_helpers/filterWithSearchTerm.js";
+import type * as _model_common__helpers_gameSystem_aggregateTournamentData from "../_model/common/_helpers/gameSystem/aggregateTournamentData.js";
+import type * as _model_common__helpers_gameSystem_computeRankingFactors from "../_model/common/_helpers/gameSystem/computeRankingFactors.js";
+import type * as _model_common__helpers_gameSystem_createSortByRanking from "../_model/common/_helpers/gameSystem/createSortByRanking.js";
+import type * as _model_common__helpers_gameSystem_divideBaseStats from "../_model/common/_helpers/gameSystem/divideBaseStats.js";
+import type * as _model_common__helpers_gameSystem_sumBaseStats from "../_model/common/_helpers/gameSystem/sumBaseStats.js";
 import type * as _model_common__helpers_getEnvironment from "../_model/common/_helpers/getEnvironment.js";
 import type * as _model_common__helpers_getRange from "../_model/common/_helpers/getRange.js";
 import type * as _model_common__helpers_getStaticEnumConvexValidator from "../_model/common/_helpers/getStaticEnumConvexValidator.js";
@@ -19,26 +27,16 @@ import type * as _model_common__helpers_getStorageUrl from "../_model/common/_he
 import type * as _model_common__helpers_intersectArrays from "../_model/common/_helpers/intersectArrays.js";
 import type * as _model_common__helpers_notNullOrUndefined from "../_model/common/_helpers/notNullOrUndefined.js";
 import type * as _model_common_errors from "../_model/common/errors.js";
+import type * as _model_common_gameSystemConfig from "../_model/common/gameSystemConfig.js";
 import type * as _model_common_location from "../_model/common/location.js";
+import type * as _model_common_matchResultDetails from "../_model/common/matchResultDetails.js";
+import type * as _model_common_rankingFactor from "../_model/common/rankingFactor.js";
+import type * as _model_common_scoreAdjustment from "../_model/common/scoreAdjustment.js";
 import type * as _model_common_themes from "../_model/common/themes.js";
 import type * as _model_common_tournamentStatus from "../_model/common/tournamentStatus.js";
 import type * as _model_common_types from "../_model/common/types.js";
 import type * as _model_files_index from "../_model/files/index.js";
 import type * as _model_files_queries_getFileUrl from "../_model/files/queries/getFileUrl.js";
-import type * as _model_fowV4_aggregateFowV4TournamentData from "../_model/fowV4/aggregateFowV4TournamentData.js";
-import type * as _model_fowV4_calculateFowV4MatchResultScore from "../_model/fowV4/calculateFowV4MatchResultScore.js";
-import type * as _model_fowV4_calculateFowV4TournamentRankings from "../_model/fowV4/calculateFowV4TournamentRankings.js";
-import type * as _model_fowV4_createFowV4TournamentExtendedStatMap from "../_model/fowV4/createFowV4TournamentExtendedStatMap.js";
-import type * as _model_fowV4_createTournamentCompetitorMetaMap from "../_model/fowV4/createTournamentCompetitorMetaMap.js";
-import type * as _model_fowV4_deepenFowV4ListData from "../_model/fowV4/deepenFowV4ListData.js";
-import type * as _model_fowV4_divideFowV4BaseStats from "../_model/fowV4/divideFowV4BaseStats.js";
-import type * as _model_fowV4_extractFowV4MatchResultBaseStats from "../_model/fowV4/extractFowV4MatchResultBaseStats.js";
-import type * as _model_fowV4_flattenFowV4StatMap from "../_model/fowV4/flattenFowV4StatMap.js";
-import type * as _model_fowV4_fowV4GameSystemConfig from "../_model/fowV4/fowV4GameSystemConfig.js";
-import type * as _model_fowV4_fowV4ListData from "../_model/fowV4/fowV4ListData.js";
-import type * as _model_fowV4_fowV4MatchResultDetails from "../_model/fowV4/fowV4MatchResultDetails.js";
-import type * as _model_fowV4_sumFowV4BaseStats from "../_model/fowV4/sumFowV4BaseStats.js";
-import type * as _model_fowV4_types from "../_model/fowV4/types.js";
 import type * as _model_friendships__helpers_deepenFriendship from "../_model/friendships/_helpers/deepenFriendship.js";
 import type * as _model_friendships_index from "../_model/friendships/index.js";
 import type * as _model_friendships_mutations_confirmFriendship from "../_model/friendships/mutations/confirmFriendship.js";
@@ -47,6 +45,10 @@ import type * as _model_friendships_mutations_deleteFriendship from "../_model/f
 import type * as _model_friendships_queries_getFriendship from "../_model/friendships/queries/getFriendship.js";
 import type * as _model_friendships_queries_getFriendshipsByUser from "../_model/friendships/queries/getFriendshipsByUser.js";
 import type * as _model_friendships_table from "../_model/friendships/table.js";
+import type * as _model_gameSystems_battlefront_flamesOfWarV4__helpers_deepenListData from "../_model/gameSystems/battlefront/flamesOfWarV4/_helpers/deepenListData.js";
+import type * as _model_gameSystems_battlefront_flamesOfWarV4__model_listData from "../_model/gameSystems/battlefront/flamesOfWarV4/_model/listData.js";
+import type * as _model_gameSystems_battlefront_flamesOfWarV4_index from "../_model/gameSystems/battlefront/flamesOfWarV4/index.js";
+import type * as _model_gameSystems_index from "../_model/gameSystems/index.js";
 import type * as _model_lists__helpers_deepenList from "../_model/lists/_helpers/deepenList.js";
 import type * as _model_lists_index from "../_model/lists/index.js";
 import type * as _model_lists_mutations_importListData from "../_model/lists/mutations/importListData.js";
@@ -68,8 +70,8 @@ import type * as _model_matchResultLikes_queries_getMatchResultLikesByUser from 
 import type * as _model_matchResultLikes_table from "../_model/matchResultLikes/table.js";
 import type * as _model_matchResults__helpers_checkMatchResultAuth from "../_model/matchResults/_helpers/checkMatchResultAuth.js";
 import type * as _model_matchResults__helpers_checkMatchResultDetailsVisibility from "../_model/matchResults/_helpers/checkMatchResultDetailsVisibility.js";
-import type * as _model_matchResults__helpers_deepenFowV4MatchResultDetails from "../_model/matchResults/_helpers/deepenFowV4MatchResultDetails.js";
 import type * as _model_matchResults__helpers_deepenMatchResult from "../_model/matchResults/_helpers/deepenMatchResult.js";
+import type * as _model_matchResults__helpers_deepenMatchResultDetails from "../_model/matchResults/_helpers/deepenMatchResultDetails.js";
 import type * as _model_matchResults__helpers_getShallowMatchResult from "../_model/matchResults/_helpers/getShallowMatchResult.js";
 import type * as _model_matchResults_index from "../_model/matchResults/index.js";
 import type * as _model_matchResults_mutations_addPhotoToMatchResult from "../_model/matchResults/mutations/addPhotoToMatchResult.js";
@@ -148,6 +150,7 @@ import type * as _model_tournamentTimers_mutations_toggleTournamentTimer from ".
 import type * as _model_tournamentTimers_queries_getTournamentTimer from "../_model/tournamentTimers/queries/getTournamentTimer.js";
 import type * as _model_tournamentTimers_queries_getTournamentTimerByTournament from "../_model/tournamentTimers/queries/getTournamentTimerByTournament.js";
 import type * as _model_tournamentTimers_table from "../_model/tournamentTimers/table.js";
+import type * as _model_tournaments__helpers_applyScoreAdjustments from "../_model/tournaments/_helpers/applyScoreAdjustments.js";
 import type * as _model_tournaments__helpers_checkTournamentAuth from "../_model/tournaments/_helpers/checkTournamentAuth.js";
 import type * as _model_tournaments__helpers_checkTournamentVisibility from "../_model/tournaments/_helpers/checkTournamentVisibility.js";
 import type * as _model_tournaments__helpers_deepenTournament from "../_model/tournaments/_helpers/deepenTournament.js";
@@ -204,7 +207,6 @@ import type * as _model_users_queries_getUsers from "../_model/users/queries/get
 import type * as _model_users_queries_internal_getUserByClaimToken from "../_model/users/queries/internal/getUserByClaimToken.js";
 import type * as _model_users_queries_internal_getUserByEmail from "../_model/users/queries/internal/getUserByEmail.js";
 import type * as _model_users_table from "../_model/users/table.js";
-import type * as _model_utils__helpers_mockData from "../_model/utils/_helpers/mockData.js";
 import type * as _model_utils__helpers_testUsers from "../_model/utils/_helpers/testUsers.js";
 import type * as _model_utils_actions_populateUsers from "../_model/utils/actions/populateUsers.js";
 import type * as _model_utils_createTestTournament from "../_model/utils/createTestTournament.js";
@@ -256,10 +258,18 @@ import type {
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  "_fixtures/createMockRankedCompetitor": typeof _fixtures_createMockRankedCompetitor;
+  "_fixtures/createMockTournament": typeof _fixtures_createMockTournament;
   "_fixtures/fowV4/createMockFowV4MatchResultData": typeof _fixtures_fowV4_createMockFowV4MatchResultData;
+  "_model/common/VisibilityLevel": typeof _model_common_VisibilityLevel;
   "_model/common/_helpers/checkAuth": typeof _model_common__helpers_checkAuth;
   "_model/common/_helpers/clamp": typeof _model_common__helpers_clamp;
   "_model/common/_helpers/filterWithSearchTerm": typeof _model_common__helpers_filterWithSearchTerm;
+  "_model/common/_helpers/gameSystem/aggregateTournamentData": typeof _model_common__helpers_gameSystem_aggregateTournamentData;
+  "_model/common/_helpers/gameSystem/computeRankingFactors": typeof _model_common__helpers_gameSystem_computeRankingFactors;
+  "_model/common/_helpers/gameSystem/createSortByRanking": typeof _model_common__helpers_gameSystem_createSortByRanking;
+  "_model/common/_helpers/gameSystem/divideBaseStats": typeof _model_common__helpers_gameSystem_divideBaseStats;
+  "_model/common/_helpers/gameSystem/sumBaseStats": typeof _model_common__helpers_gameSystem_sumBaseStats;
   "_model/common/_helpers/getEnvironment": typeof _model_common__helpers_getEnvironment;
   "_model/common/_helpers/getRange": typeof _model_common__helpers_getRange;
   "_model/common/_helpers/getStaticEnumConvexValidator": typeof _model_common__helpers_getStaticEnumConvexValidator;
@@ -267,26 +277,16 @@ declare const fullApi: ApiFromModules<{
   "_model/common/_helpers/intersectArrays": typeof _model_common__helpers_intersectArrays;
   "_model/common/_helpers/notNullOrUndefined": typeof _model_common__helpers_notNullOrUndefined;
   "_model/common/errors": typeof _model_common_errors;
+  "_model/common/gameSystemConfig": typeof _model_common_gameSystemConfig;
   "_model/common/location": typeof _model_common_location;
+  "_model/common/matchResultDetails": typeof _model_common_matchResultDetails;
+  "_model/common/rankingFactor": typeof _model_common_rankingFactor;
+  "_model/common/scoreAdjustment": typeof _model_common_scoreAdjustment;
   "_model/common/themes": typeof _model_common_themes;
   "_model/common/tournamentStatus": typeof _model_common_tournamentStatus;
   "_model/common/types": typeof _model_common_types;
   "_model/files/index": typeof _model_files_index;
   "_model/files/queries/getFileUrl": typeof _model_files_queries_getFileUrl;
-  "_model/fowV4/aggregateFowV4TournamentData": typeof _model_fowV4_aggregateFowV4TournamentData;
-  "_model/fowV4/calculateFowV4MatchResultScore": typeof _model_fowV4_calculateFowV4MatchResultScore;
-  "_model/fowV4/calculateFowV4TournamentRankings": typeof _model_fowV4_calculateFowV4TournamentRankings;
-  "_model/fowV4/createFowV4TournamentExtendedStatMap": typeof _model_fowV4_createFowV4TournamentExtendedStatMap;
-  "_model/fowV4/createTournamentCompetitorMetaMap": typeof _model_fowV4_createTournamentCompetitorMetaMap;
-  "_model/fowV4/deepenFowV4ListData": typeof _model_fowV4_deepenFowV4ListData;
-  "_model/fowV4/divideFowV4BaseStats": typeof _model_fowV4_divideFowV4BaseStats;
-  "_model/fowV4/extractFowV4MatchResultBaseStats": typeof _model_fowV4_extractFowV4MatchResultBaseStats;
-  "_model/fowV4/flattenFowV4StatMap": typeof _model_fowV4_flattenFowV4StatMap;
-  "_model/fowV4/fowV4GameSystemConfig": typeof _model_fowV4_fowV4GameSystemConfig;
-  "_model/fowV4/fowV4ListData": typeof _model_fowV4_fowV4ListData;
-  "_model/fowV4/fowV4MatchResultDetails": typeof _model_fowV4_fowV4MatchResultDetails;
-  "_model/fowV4/sumFowV4BaseStats": typeof _model_fowV4_sumFowV4BaseStats;
-  "_model/fowV4/types": typeof _model_fowV4_types;
   "_model/friendships/_helpers/deepenFriendship": typeof _model_friendships__helpers_deepenFriendship;
   "_model/friendships/index": typeof _model_friendships_index;
   "_model/friendships/mutations/confirmFriendship": typeof _model_friendships_mutations_confirmFriendship;
@@ -295,6 +295,10 @@ declare const fullApi: ApiFromModules<{
   "_model/friendships/queries/getFriendship": typeof _model_friendships_queries_getFriendship;
   "_model/friendships/queries/getFriendshipsByUser": typeof _model_friendships_queries_getFriendshipsByUser;
   "_model/friendships/table": typeof _model_friendships_table;
+  "_model/gameSystems/battlefront/flamesOfWarV4/_helpers/deepenListData": typeof _model_gameSystems_battlefront_flamesOfWarV4__helpers_deepenListData;
+  "_model/gameSystems/battlefront/flamesOfWarV4/_model/listData": typeof _model_gameSystems_battlefront_flamesOfWarV4__model_listData;
+  "_model/gameSystems/battlefront/flamesOfWarV4/index": typeof _model_gameSystems_battlefront_flamesOfWarV4_index;
+  "_model/gameSystems/index": typeof _model_gameSystems_index;
   "_model/lists/_helpers/deepenList": typeof _model_lists__helpers_deepenList;
   "_model/lists/index": typeof _model_lists_index;
   "_model/lists/mutations/importListData": typeof _model_lists_mutations_importListData;
@@ -316,8 +320,8 @@ declare const fullApi: ApiFromModules<{
   "_model/matchResultLikes/table": typeof _model_matchResultLikes_table;
   "_model/matchResults/_helpers/checkMatchResultAuth": typeof _model_matchResults__helpers_checkMatchResultAuth;
   "_model/matchResults/_helpers/checkMatchResultDetailsVisibility": typeof _model_matchResults__helpers_checkMatchResultDetailsVisibility;
-  "_model/matchResults/_helpers/deepenFowV4MatchResultDetails": typeof _model_matchResults__helpers_deepenFowV4MatchResultDetails;
   "_model/matchResults/_helpers/deepenMatchResult": typeof _model_matchResults__helpers_deepenMatchResult;
+  "_model/matchResults/_helpers/deepenMatchResultDetails": typeof _model_matchResults__helpers_deepenMatchResultDetails;
   "_model/matchResults/_helpers/getShallowMatchResult": typeof _model_matchResults__helpers_getShallowMatchResult;
   "_model/matchResults/index": typeof _model_matchResults_index;
   "_model/matchResults/mutations/addPhotoToMatchResult": typeof _model_matchResults_mutations_addPhotoToMatchResult;
@@ -396,6 +400,7 @@ declare const fullApi: ApiFromModules<{
   "_model/tournamentTimers/queries/getTournamentTimer": typeof _model_tournamentTimers_queries_getTournamentTimer;
   "_model/tournamentTimers/queries/getTournamentTimerByTournament": typeof _model_tournamentTimers_queries_getTournamentTimerByTournament;
   "_model/tournamentTimers/table": typeof _model_tournamentTimers_table;
+  "_model/tournaments/_helpers/applyScoreAdjustments": typeof _model_tournaments__helpers_applyScoreAdjustments;
   "_model/tournaments/_helpers/checkTournamentAuth": typeof _model_tournaments__helpers_checkTournamentAuth;
   "_model/tournaments/_helpers/checkTournamentVisibility": typeof _model_tournaments__helpers_checkTournamentVisibility;
   "_model/tournaments/_helpers/deepenTournament": typeof _model_tournaments__helpers_deepenTournament;
@@ -452,7 +457,6 @@ declare const fullApi: ApiFromModules<{
   "_model/users/queries/internal/getUserByClaimToken": typeof _model_users_queries_internal_getUserByClaimToken;
   "_model/users/queries/internal/getUserByEmail": typeof _model_users_queries_internal_getUserByEmail;
   "_model/users/table": typeof _model_users_table;
-  "_model/utils/_helpers/mockData": typeof _model_utils__helpers_mockData;
   "_model/utils/_helpers/testUsers": typeof _model_utils__helpers_testUsers;
   "_model/utils/actions/populateUsers": typeof _model_utils_actions_populateUsers;
   "_model/utils/createTestTournament": typeof _model_utils_createTestTournament;

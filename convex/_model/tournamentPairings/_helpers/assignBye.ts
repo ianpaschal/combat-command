@@ -1,4 +1,4 @@
-import { TournamentCompetitorRanked } from '../../tournaments';
+import { AnyBaseStats, TournamentCompetitorRanked } from '../../common/types';
 
 /**
  * Assigns a bye to the lowest-ranked TournamentCompetitor within a set of TournamentCompetitors.
@@ -6,9 +6,9 @@ import { TournamentCompetitorRanked } from '../../tournaments';
  * @param competitors - Array of ranked TournamentCompetitors
  * @returns A tuple containing the TournamentCompetitor to receive a bye, and all remaining ranked TournamentCompetitors.
  */
-export const assignBye = (
-  competitors: TournamentCompetitorRanked[],
-): [TournamentCompetitorRanked | null, TournamentCompetitorRanked[]] => {
+export const assignBye = <TBaseStats extends AnyBaseStats>(
+  competitors: TournamentCompetitorRanked<TBaseStats>[],
+): [TournamentCompetitorRanked<TBaseStats> | null, TournamentCompetitorRanked<TBaseStats>[]] => {
 
   // Ensure competitors are ranked:
   const rankedCompetitors = [ ...competitors ].sort((a, b) => a.rank - b.rank);

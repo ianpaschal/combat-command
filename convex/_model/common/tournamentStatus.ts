@@ -1,4 +1,4 @@
-import { Infer, v } from 'convex/values';
+import { v } from 'convex/values';
 
 export const tournamentStatus = v.union(
   v.literal('draft'), 
@@ -6,5 +6,3 @@ export const tournamentStatus = v.union(
   v.literal('active'),
   v.literal('archived'),
 );
-
-export type TournamentStatus = Infer<typeof tournamentStatus>;

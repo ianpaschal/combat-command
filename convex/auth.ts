@@ -10,7 +10,7 @@ import { DataModel, Doc } from './_generated/dataModel';
 import { MutationCtx } from './_generated/server';
 import { getEnvironment } from './_model/common/_helpers/getEnvironment';
 import { getErrorMessage } from './_model/common/errors';
-import { VisibilityLevel } from './_model/common/types';
+import { VisibilityLevel } from './_model/common/VisibilityLevel';
 import { generateUsername } from './_model/users/_helpers/generateUsername';
 import { PasswordResetEmail } from './emails/PasswordResetEmail';
 

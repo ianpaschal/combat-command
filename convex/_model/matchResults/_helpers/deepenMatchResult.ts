@@ -1,10 +1,10 @@
+import { getGameSystem } from '@ianpaschal/combat-command-game-systems/common';
+
 import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
-import { calculateFowV4MatchResultScore } from '../../fowV4/calculateFowV4MatchResultScore';
 import { getList } from '../../lists';
 import { getUser } from '../../users/queries/getUser';
-import { checkMatchResultDetailsVisibility } from './checkMatchResultDetailsVisibility';
-import { deepenFowV4MatchResultDetails } from './deepenFowV4MatchResultDetails';
+import { deepenMatchResultDetails } from './deepenMatchResultDetails';
 
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /**
@@ -36,10 +36,10 @@ export const deepenMatchResult = async (
     id: doc.player1ListId,
   }) : null;
 
-  // TODO: This is FowV4 specific, needs to be made generic!
-  const [player0Score, player1Score] = calculateFowV4MatchResultScore(doc.details);
+  const { calculateMatchResultScore } = getGameSystem(doc.gameSystem);
+  const [player0Score, player1Score] = calculateMatchResultScore(doc.details);
   
-  const showDetails = await checkMatchResultDetailsVisibility(ctx, doc);
+  const details = await deepenMatchResultDetails(ctx, doc);
   
   // Social
   const comments = await ctx.db.query('matchResultComments')
@@ -59,7 +59,7 @@ export const deepenMatchResult = async (
     player1Score,
     ...(player1User ? { player1User } : {}),
     ...(player1List ? { player1List } : {}),
-    details: showDetails ? deepenFowV4MatchResultDetails(doc.details) : undefined,
+    details,
     likedByUserIds: likes.map((like) => like.userId),
     commentCount: comments.length,
   };

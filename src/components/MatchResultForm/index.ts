@@ -1,0 +1,1 @@
+export { MatchResultForm } from './MatchResultForm';

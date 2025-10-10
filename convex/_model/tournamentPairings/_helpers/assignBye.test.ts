@@ -4,26 +4,14 @@ import {
   it,
 } from 'vitest';
 
-import { Id } from '../../../_generated/dataModel';
-import { TournamentCompetitorRanked } from '../../tournaments';
+import { createMockRankedCompetitors } from '../../../_fixtures/createMockRankedCompetitor';
+import { TournamentCompetitorRanked } from '../../common/types';
 import { assignBye } from './assignBye';
-
-// Helper to create mock competitors
-function makeCompetitors(n: number): TournamentCompetitorRanked[] {
-  return Array.from({ length: n }, (_, i) => ({
-    id: (`C${i + 1}`) as Id<'tournamentCompetitors'>,
-    rank: i + 1,
-    opponentIds: [],
-    playedTables: [],
-    byeRounds: [],
-    stats: {} as TournamentCompetitorRanked['stats'],
-  }));
-}
 
 describe('assignBye', () => {
   it('Returns null and all competitors if no bye is needed (even number of competitors).', () => {
     // ---- Arrange ----
-    const competitors = makeCompetitors(4);
+    const competitors = createMockRankedCompetitors(4);
 
     // ---- Act ----
     const [bye, remaining] = assignBye(competitors);
@@ -35,7 +23,7 @@ describe('assignBye', () => {
 
   it('Assigns a bye to the lowest-ranked competitor who has not had one.', () => {
     // ---- Arrange ----
-    const competitors = makeCompetitors(5);
+    const competitors = createMockRankedCompetitors(5);
 
     // ---- Act ----
     const [bye, remaining] = assignBye(competitors);
@@ -49,7 +37,7 @@ describe('assignBye', () => {
 
   it('Assigns a bye to the lowest-ranked competitor if all have had byes.', () => {
     // ---- Arrange ----
-    const competitors = makeCompetitors(5);
+    const competitors = createMockRankedCompetitors(5);
     competitors.forEach((c) => (c.byeRounds = [1])); // All competitors have had a bye
 
     // ---- Act ----
@@ -64,7 +52,7 @@ describe('assignBye', () => {
 
   it('Handles a single competitor correctly.', () => {
     // ---- Arrange ---
-    const competitors = makeCompetitors(1);
+    const competitors = createMockRankedCompetitors(1);
 
     // ---- Act ----
     const [bye, remaining] = assignBye(competitors);
@@ -89,7 +77,7 @@ describe('assignBye', () => {
 
   it('Does not change the order of returned competitors.', () => {
     // ---- Arrange ----
-    const competitors = makeCompetitors(5);
+    const competitors = createMockRankedCompetitors(5);
 
     // Assign bye to all but middle competitor:
     for (let i = 0; i < competitors.length; i++) {

@@ -1,0 +1,21 @@
+@use "/src/style/animate";
+@use "/src/style/variables";
+@use "/src/style/flex";
+
+.MatchResultForm {
+  @include flex.column;
+
+  flex: 1 auto;
+  max-width: 100%;
+
+  &_ResultForSection {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  &_ConfirmDialogDetails {
+    margin-top: 1rem;
+  }
+}

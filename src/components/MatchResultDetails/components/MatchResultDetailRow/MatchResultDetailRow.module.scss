@@ -1,0 +1,33 @@
+@use "/src/style/flex";
+@use "/src/style/text";
+
+.MatchResultDetailRow {
+  display: grid;
+  grid-template-columns: 8rem 1fr;
+  row-gap: 0.125rem;
+  column-gap: 1rem;
+
+  &_Label {
+    @include text.ui;
+    @include text.single-line;
+
+    display: inline-block;
+    grid-column: 1/2;
+  }
+
+  &_SubLabel {
+    @include text.ui($muted: true);
+    @include text.single-line;
+
+    display: inline-block;
+    grid-column: 1/2;
+    padding-left: 1rem;
+  }
+
+  &_Value {
+    @include text.ui;
+
+    display: inline-block;
+    grid-column: 2/-1;
+  }
+}

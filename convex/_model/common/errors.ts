@@ -106,6 +106,8 @@ export const errors = {
   // Emails
   PASSWORD_RESET_FAILED_TO_SEND: 'Could not send password reset email. Please try again in a minute.',
   USER_INVITATION_FAILED_TO_SEND: 'Could not send invitation email. Please try again in a minute.',
+
+  UNSUPPORTED_GAME_SYSTEM: 'Game system is not supported!',
 };
 
 export function getErrorMessage(code: keyof typeof errors): { message: string, code: string } {

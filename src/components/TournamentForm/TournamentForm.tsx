@@ -4,12 +4,14 @@ import {
   useForm,
   UseFormSetError,
 } from 'react-hook-form';
+import { getGameSystemOptions } from '@ianpaschal/combat-command-game-systems/common';
 import clsx from 'clsx';
 
 import { TournamentId } from '~/api';
-import { GameConfigFields } from '~/components/FowV4MatchResultForm/components/GameConfigFields';
+import { GameSystemConfig, GameSystemConfigFields } from '~/components/GameSystemConfigFields';
 import { Card } from '~/components/generic/Card';
-import { Form } from '~/components/generic/Form';
+import { Form, FormField } from '~/components/generic/Form';
+import { InputSelect } from '~/components/generic/InputSelect';
 import { useGetTournament } from '~/services/tournaments';
 import { validateForm } from '~/utils/validateForm';
 import { CompetitorFields } from './components/CompetitorFields';
@@ -44,6 +46,7 @@ export const TournamentForm = ({
       ...defaultValues,
       ...(tournament ? {
         ...tournament,
+        gameSystemConfig: tournament.gameSystemConfig as GameSystemConfig, // TODO - MIGRATION: REMOVE POST MIGRATION
         startsAt: convertEpochToDate(tournament.startsAt, tournament.location.timeZone),
         endsAt: convertEpochToDate(tournament.endsAt, tournament.location.timeZone),
         registrationClosesAt: convertEpochToDate(tournament.registrationClosesAt, tournament.location.timeZone),
@@ -72,8 +75,10 @@ export const TournamentForm = ({
       </Card>
       <Card className={styles.TournamentForm_SectionCard}>
         <h2>Game System Configuration</h2>
-        {/* TODO: Add game system selection & render appropriate fields */}
-        <GameConfigFields showAdvancedOptions />
+        <FormField name="gameSystem" label="Game System">
+          <InputSelect options={getGameSystemOptions()} />
+        </FormField>
+        <GameSystemConfigFields />
       </Card>
       <Card className={styles.TournamentForm_SectionCard}>
         <h2>Competitors</h2>

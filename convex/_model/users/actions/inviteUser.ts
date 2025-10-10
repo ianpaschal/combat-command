@@ -12,7 +12,7 @@ import { ActionCtx } from '../../../_generated/server';
 import { InviteUserEmail } from '../../../emails/InviteUserEmail';
 import { checkAuth } from '../../common/_helpers/checkAuth';
 import { getErrorMessage } from '../../common/errors';
-import { VisibilityLevel } from '../../common/types';
+import { VisibilityLevel } from '../../common/VisibilityLevel';
 import { createClaimToken } from '../_helpers/createClaimToken';
 import { hashClaimToken } from '../_helpers/hashClaimToken';
 

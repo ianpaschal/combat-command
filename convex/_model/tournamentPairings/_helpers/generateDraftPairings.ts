@@ -1,7 +1,7 @@
 import { ConvexError } from 'convex/values';
 
 import { getErrorMessage } from '../../common/errors';
-import { TournamentCompetitorRanked } from '../../tournaments';
+import { TournamentCompetitorRanked } from '../../common/types';
 import { assignBye } from './assignBye';
 
 /**

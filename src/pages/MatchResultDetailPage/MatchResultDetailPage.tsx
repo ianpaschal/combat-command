@@ -4,12 +4,12 @@ import { ImagePlus } from 'lucide-react';
 
 import { MatchResultId } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
-import { FowV4MatchResultDetails } from '~/components/FowV4MatchResultDetails';
 import { Button } from '~/components/generic/Button';
 import { Card } from '~/components/generic/Card';
 import { ScrollArea } from '~/components/generic/ScrollArea';
 import { Separator } from '~/components/generic/Separator';
 import { Timestamp } from '~/components/generic/Timestamp';
+import { MatchResultDetails } from '~/components/MatchResultDetails';
 import { MatchResultPhotos } from '~/components/MatchResultPhotos';
 import { MatchResultPhotoUploadDialog, useMatchResultPhotoUploadDialog } from '~/components/MatchResultPhotoUploadDialog';
 import { MatchResultPlayers } from '~/components/MatchResultPlayers';
@@ -65,18 +65,23 @@ export const MatchResultDetailPage = (): JSX.Element => {
             <Card className={styles.DetailsCard}>
               <MatchResultSocials className={styles.Socials} />
               <Separator />
-              <ScrollArea className={styles.DetailsScrollArea}>
-                <FowV4MatchResultDetails
-                  className={styles.Details}
-                  details={matchResult.details}
-                  playerNames={playerNames}
-                  score={[
-                    matchResult.player0Score,
-                    matchResult.player1Score,
-                  ]}
-                />
-              </ScrollArea>
-              <Separator />
+              {matchResult.gameSystem && (
+                <>
+                  <ScrollArea className={styles.DetailsScrollArea}>
+                    <MatchResultDetails
+                      gameSystem={matchResult.gameSystem}
+                      className={styles.Details}
+                      details={matchResult.details}
+                      playerNames={playerNames}
+                      score={[
+                        matchResult.player0Score,
+                        matchResult.player1Score,
+                      ]}
+                    />
+                  </ScrollArea>
+                  <Separator />
+                </>
+              )}
               <div className={styles.DetailsFooter}>
                 <Timestamp date={new Date(matchResult.playedAt)} />
               </div>

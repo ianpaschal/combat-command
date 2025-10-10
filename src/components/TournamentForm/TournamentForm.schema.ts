@@ -3,12 +3,16 @@ import {
   CurrencyCode,
   GameSystem,
   TournamentPairingMethod,
-} from '@ianpaschal/combat-command-static-data/common';
-import { RankingFactor } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
+} from '@ianpaschal/combat-command-game-systems/common';
+import { RankingFactor } from '@ianpaschal/combat-command-game-systems/flamesOfWarV4';
 import { z } from 'zod';
 
 import { StorageId, TournamentEditableFields } from '~/api';
-import { fowV4GameSystemConfigDefaultValues, fowV4GameSystemConfigFormSchema } from '~/components/FowV4MatchResultForm/components/GameConfigFields.schema';
+import {
+  gameSystemConfig,
+  getGameSystemConfigDefaultValues,
+  validateGameSystemConfig,
+} from '~/components/GameSystemConfigFields';
 
 // TODO: Add competitor groups
 // TODO: Convert gameSystemConfig to union of other game systems
@@ -73,16 +77,9 @@ export const tournamentFormSchema = z.object({
   rankingFactors: z.array(z.string().transform((val) => val as RankingFactor)),
 
   // Game Config
-  gameSystemConfig: fowV4GameSystemConfigFormSchema,
-
-  // Non-editable
   gameSystem: z.string().transform((val) => val as GameSystem),
-}).refine((data) => {
-  if (data.gameSystem === GameSystem.FlamesOfWarV4) {
-    return fowV4GameSystemConfigFormSchema.safeParse(data.gameSystemConfig).success;
-  }
-  return false; // Return false if no valid game_system_id matches
-}, {
+  gameSystemConfig,
+}).refine(validateGameSystemConfig, {
   message: 'Invalid config for the selected game system.',
   path: ['gameSystemConfig'], // Highlight the game_system_config field in case of error
 });
@@ -104,7 +101,7 @@ export const defaultValues: Omit<z.infer<typeof tournamentFormSchema>, 'location
   pairingMethod: TournamentPairingMethod.Adjacent,
   title: '',
   gameSystem: GameSystem.FlamesOfWarV4,
-  gameSystemConfig: fowV4GameSystemConfigDefaultValues,
+  gameSystemConfig: getGameSystemConfigDefaultValues(GameSystem.FlamesOfWarV4),
   roundStructure: {
     pairingTime: 0,
     setUpTime: 30,
@@ -114,7 +111,7 @@ export const defaultValues: Omit<z.infer<typeof tournamentFormSchema>, 'location
     currency: CurrencyCode.EUR,
     amount: 0,
   },
-  rankingFactors: [RankingFactor.TotalWins],
+  rankingFactors: ['total_wins'],
   logoStorageId: '' as StorageId,
   bannerStorageId: '' as StorageId,
   editionYear: 2025,

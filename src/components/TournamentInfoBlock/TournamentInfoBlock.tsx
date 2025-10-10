@@ -1,9 +1,9 @@
 import {
+  GameSystem,
   getGameSystemDisplayName,
   getTournamentPairingMethodDisplayName,
   TournamentPairingMethod,
-} from '@ianpaschal/combat-command-static-data/common';
-import { eraOptions } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
+} from '@ianpaschal/combat-command-game-systems/common';
 import clsx from 'clsx';
 import { format } from 'date-fns';
 import {
@@ -14,11 +14,13 @@ import {
   Swords,
   Ticket,
   Users,
-  Weight,
 } from 'lucide-react';
 
+import { GameSystemTypeGuard } from '~/components/GameSystemTypeGuard';
 import { getLocalizedCompetitorFee } from '~/components/TournamentInfoBlock/TournamentInfoBlock.utils';
 import { useTournament } from '~/components/TournamentProvider';
+import { FlamesOfWarV4InfoLine } from './gameSystems/FlamesOfWarV4InfoLine';
+import { TeamYankeeV2InfoLine } from './gameSystems/TeamYankeeV2InfoLine';
 
 import styles from './TournamentInfoBlock.module.scss';
 
@@ -65,13 +67,25 @@ export const TournamentInfoBlock = ({
         <>
           <div className={styles.TournamentInfoBlock_InfoLine}>
             <Dices />
-            {/* TODO: REMOVE NON-NULL ASSERTION AFTER MIGRATION */}
-            <span>{getGameSystemDisplayName(tournament.gameSystem!)}</span>
+            <span>{getGameSystemDisplayName(tournament.gameSystem)}</span>
           </div>
           <div className={styles.TournamentInfoBlock_InfoLine}>
-            <Weight />
-            <span>{`${tournament.gameSystemConfig.points} pts`}</span>
-            <span>{eraOptions.find(({ value }) => value === tournament.gameSystemConfig.era)?.label}</span>
+            {tournament.gameSystem === GameSystem.FlamesOfWarV4 && (
+              <GameSystemTypeGuard.FlamesOfWarV4
+                gameSystemConfig={tournament.gameSystemConfig}
+                render={(props) => (
+                  <FlamesOfWarV4InfoLine {...props} />
+                )}
+              />
+            )}
+            {tournament.gameSystem === GameSystem.TeamYankeeV2 && (
+              <GameSystemTypeGuard.TeamYankeeV2
+                gameSystemConfig={tournament.gameSystemConfig}
+                render={(props) => (
+                  <TeamYankeeV2InfoLine {...props} />
+                )}
+              />
+            )}
           </div>
           <div className={styles.TournamentInfoBlock_InfoLine}>
             <Swords />

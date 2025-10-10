@@ -1,8 +1,12 @@
+import { GameSystem } from '@ianpaschal/combat-command-game-systems/common';
 import { Infer, v } from 'convex/values';
 
-import { mockTournamentData } from './_helpers/mockData';
+import { createMockTournament } from '../../_fixtures/createMockTournament';
 import { MutationCtx } from '../../_generated/server';
+import { getStaticEnumConvexValidator } from '../common/_helpers/getStaticEnumConvexValidator';
 import { tournamentStatus } from '../common/tournamentStatus';
+
+const gameSystem = getStaticEnumConvexValidator(GameSystem);
 
 export const createTestTournamentArgs = v.object({
   organizerUserId: v.id('users'),
@@ -11,6 +15,7 @@ export const createTestTournamentArgs = v.object({
   currentRound: v.optional(v.number()),
   lastRound: v.optional(v.number()),
   useNationalTeams: v.boolean(),
+  gameSystem,
 });
 
 const countryCodes = [
@@ -28,6 +33,7 @@ export const createTestTournament = async (
     currentRound,
     lastRound,
     useNationalTeams,
+    gameSystem,
   }: Infer<typeof createTestTournamentArgs>,
 ): Promise<void> => {
   const maxCompetitors = useTeams ? 12 : 24;
@@ -42,12 +48,7 @@ export const createTestTournament = async (
   const userIds = users.map((user) => user._id);
 
   // 2. Create the tournament
-  const tournamentId = await ctx.db.insert('tournaments', {
-    ...mockTournamentData,
-    startsAt: Date.now(),
-    endsAt: Date.now(),
-    registrationClosesAt: Date.now(),
-    listSubmissionClosesAt: Date.now(),
+  const tournament = createMockTournament(gameSystem, {
     status,
     currentRound,
     lastRound,
@@ -60,6 +61,7 @@ export const createTestTournament = async (
       playingTime: 3,
     },
   });
+  const tournamentId = await ctx.db.insert('tournaments', tournament);
   await ctx.db.insert('tournamentOrganizers', {
     userId: organizerUserId,
     tournamentId,

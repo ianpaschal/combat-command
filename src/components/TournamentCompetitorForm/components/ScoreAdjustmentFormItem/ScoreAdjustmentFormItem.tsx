@@ -1,6 +1,6 @@
 import { MouseEvent } from 'react';
 import { useWatch } from 'react-hook-form';
-import { rankingFactorOptions } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
+import { getGameSystem } from '@ianpaschal/combat-command-game-systems/common';
 import clsx from 'clsx';
 import { Trash } from 'lucide-react';
 
@@ -35,7 +35,9 @@ export const ScoreAdjustmentFormItem = ({
   const safeValue = result.success ? result.data : undefined;
 
   const roundOptions = getRoundOptions(tournament.roundCount);
-  const factorOptions = rankingFactorOptions.filter(({ value }) => (
+
+  const { getRankingFactorOptions } = getGameSystem(tournament.gameSystem);
+  const factorOptions = getRankingFactorOptions().filter(({ value }) => (
     tournament.rankingFactors.includes(value)
   ));
 
@@ -61,7 +63,7 @@ export const ScoreAdjustmentFormItem = ({
       <div className={styles.ScoreAdjustmentFormItem_Effect}>
         <FormField label="Effect">
           {(safeValue && safeValue.amount !== 0) ? (
-            <span>{formatScoreAdjustment(safeValue, tournament.useTeams)}</span>
+            <span>{formatScoreAdjustment(tournament.gameSystem, safeValue, tournament.useTeams)}</span>
           ) : (
             <span>Please add an amount.</span>
           )}

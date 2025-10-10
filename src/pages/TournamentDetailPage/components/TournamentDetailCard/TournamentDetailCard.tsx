@@ -27,7 +27,7 @@ export const TournamentDetailCard = ({
         {title && (
           <h2>{title}</h2>
         )}
-        {buttons && buttons.length && (
+        {buttons && buttons.length > 0 && (
           <div className={styles.TournamentDetailCard_Header_Actions}>
             {buttons.map((button, i) => cloneElement(button, { key: i }))}
           </div>

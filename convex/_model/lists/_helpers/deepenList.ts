@@ -1,10 +1,10 @@
-import { GameSystem } from '@ianpaschal/combat-command-static-data/common';
+import { GameSystem } from '@ianpaschal/combat-command-game-systems/common';
 import { ConvexError } from 'convex/values';
 
 import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
 import { getErrorMessage } from '../../common/errors';
-import { deepenFowV4ListData } from '../../fowV4/deepenFowV4ListData';
+import { FlamesOfWarV4 } from '../../gameSystems';
 
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /**
@@ -21,10 +21,11 @@ export const deepenList = async (
   ctx: QueryCtx,
   list: Doc<'lists'>,
 ) => {
+  // TODO-250: Add Team Yankee support here.
   if (list.gameSystem === GameSystem.FlamesOfWarV4) {
     return {
       ...list,
-      data: deepenFowV4ListData(list.data),
+      data: FlamesOfWarV4.deepenListData(list.data),
     };
   }
   

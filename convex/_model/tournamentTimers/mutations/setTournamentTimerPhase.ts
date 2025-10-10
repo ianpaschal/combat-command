@@ -1,4 +1,4 @@
-import { TournamentRoundPhase } from '@ianpaschal/combat-command-static-data/common';
+import { TournamentRoundPhase } from '@ianpaschal/combat-command-game-systems/common';
 import { Infer, v } from 'convex/values';
 
 import { MutationCtx } from '../../../_generated/server';
