@@ -99,3 +99,29 @@ export const setMissingTournamentDynamicPointsVersions = migrations.define({
   table: 'tournaments',
   migrateOne: setDefaultDynamicPoints,
 });
+
+const removeExperimentalMissionOption = async (
+  ctx: MutationCtx,
+  doc: Doc<'matchResults'> | Doc<'tournaments'>,
+): Promise<void> => {
+  // @ts-expect-error This is a migration.
+  if (doc.gameSystemConfig?.useExperimentalMissions !== undefined) {
+    return await ctx.db.patch(doc._id, {
+      gameSystemConfig: {
+        ...doc.gameSystemConfig,
+        // @ts-expect-error This is a migration.
+        useExperimentalMissions: undefined,
+      },
+    });
+  }
+};
+
+export const removeMatchResultExperimentalMissionOption = migrations.define({
+  table: 'matchResults',
+  migrateOne: removeExperimentalMissionOption,
+});
+
+export const removeTournamentExperimentalMissionOption = migrations.define({
+  table: 'tournaments',
+  migrateOne: removeExperimentalMissionOption,
+});
