@@ -104,12 +104,10 @@ const removeExperimentalMissionOption = async (
   ctx: MutationCtx,
   doc: Doc<'matchResults'> | Doc<'tournaments'>,
 ): Promise<void> => {
-  // @ts-expect-error This is a migration.
   if (doc.gameSystemConfig?.useExperimentalMissions !== undefined) {
     return await ctx.db.patch(doc._id, {
       gameSystemConfig: {
         ...doc.gameSystemConfig,
-        // @ts-expect-error This is a migration.
         useExperimentalMissions: undefined,
       },
     });
