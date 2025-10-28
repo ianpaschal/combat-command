@@ -1,14 +1,7 @@
 import { Migrations } from '@convex-dev/migrations';
-import { GameSystem } from '@ianpaschal/combat-command-game-systems/common';
-import { DynamicPointsVersion, Era } from '@ianpaschal/combat-command-game-systems/flamesOfWarV4';
 
 import { components } from './_generated/api.js';
-import {
-  DataModel,
-  Doc,
-  Id,
-} from './_generated/dataModel.js';
-import { MutationCtx } from './_generated/server.js';
+import { DataModel, Id } from './_generated/dataModel.js';
 import { extractSearchTokens } from './_model/users/_helpers/extractSearchTokens.js';
 
 export const migrations = new Migrations<DataModel>(components.migrations);
@@ -62,64 +55,4 @@ export const fixMissingListData = migrations.define({
     }
     await ctx.db.patch(doc._id, patchData);
   },
-});
-
-const setDefaultDynamicPoints = async (
-  ctx: MutationCtx,
-  doc: Doc<'matchResults'> | Doc<'tournaments'>,
-): Promise<void> => {
-  if (doc.gameSystem === GameSystem.FlamesOfWarV4) {
-    if (doc.gameSystemConfig.dynamicPointsVersion === undefined) {
-      if (doc.gameSystemConfig.era === Era.LW) {
-        return await ctx.db.patch(doc._id, {
-          gameSystemConfig: {
-            ...doc.gameSystemConfig,
-            dynamicPointsVersion: DynamicPointsVersion.LWOriginal,
-          },
-        });
-      }
-      if (doc.gameSystemConfig.era === Era.MW) {
-        return await ctx.db.patch(doc._id, {
-          gameSystemConfig: {
-            ...doc.gameSystemConfig,
-            dynamicPointsVersion: DynamicPointsVersion.MWDynamic2025,
-          },
-        });
-      }
-    }
-  }
-};
-
-export const setMissingMatchResultsDynamicPointsVersions = migrations.define({
-  table: 'matchResults',
-  migrateOne: setDefaultDynamicPoints,
-});
-
-export const setMissingTournamentDynamicPointsVersions = migrations.define({
-  table: 'tournaments',
-  migrateOne: setDefaultDynamicPoints,
-});
-
-const removeExperimentalMissionOption = async (
-  ctx: MutationCtx,
-  doc: Doc<'matchResults'> | Doc<'tournaments'>,
-): Promise<void> => {
-  if (doc.gameSystemConfig?.useExperimentalMissions !== undefined) {
-    return await ctx.db.patch(doc._id, {
-      gameSystemConfig: {
-        ...doc.gameSystemConfig,
-        useExperimentalMissions: undefined,
-      },
-    });
-  }
-};
-
-export const removeMatchResultExperimentalMissionOption = migrations.define({
-  table: 'matchResults',
-  migrateOne: removeExperimentalMissionOption,
-});
-
-export const removeTournamentExperimentalMissionOption = migrations.define({
-  table: 'tournaments',
-  migrateOne: removeExperimentalMissionOption,
 });
