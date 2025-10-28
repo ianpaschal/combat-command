@@ -2,7 +2,6 @@ import {
   GameSystem,
   getGameSystemDisplayName,
   getTournamentPairingMethodDisplayName,
-  TournamentPairingMethod,
 } from '@ianpaschal/combat-command-game-systems/common';
 import clsx from 'clsx';
 import { format } from 'date-fns';
@@ -90,8 +89,7 @@ export const TournamentInfoBlock = ({
           <div className={styles.TournamentInfoBlock_InfoLine}>
             <Swords />
             <span>{`${tournament.roundCount} rounds`}</span>
-            {/* TODO: REMOVE ENUM ASSERTION AFTER MIGRATION */}
-            <span>{`${getTournamentPairingMethodDisplayName(tournament.pairingMethod as TournamentPairingMethod)} pairing`}</span>
+            <span>{`${getTournamentPairingMethodDisplayName(tournament.pairingMethod)} pairing`}</span>
           </div>
           {tournament.rulesPackUrl && (
             <div className={styles.TournamentInfoBlock_InfoLine}>

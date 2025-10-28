@@ -8,7 +8,7 @@ import { getGameSystemOptions } from '@ianpaschal/combat-command-game-systems/co
 import clsx from 'clsx';
 
 import { TournamentId } from '~/api';
-import { GameSystemConfig, GameSystemConfigFields } from '~/components/GameSystemConfigFields';
+import { GameSystemConfigFields } from '~/components/GameSystemConfigFields';
 import { Card } from '~/components/generic/Card';
 import { Form, FormField } from '~/components/generic/Form';
 import { InputSelect } from '~/components/generic/InputSelect';
@@ -46,7 +46,7 @@ export const TournamentForm = ({
       ...defaultValues,
       ...(tournament ? {
         ...tournament,
-        gameSystemConfig: tournament.gameSystemConfig as GameSystemConfig, // TODO - MIGRATION: REMOVE POST MIGRATION
+        gameSystemConfig: tournament.gameSystemConfig,
         startsAt: convertEpochToDate(tournament.startsAt, tournament.location.timeZone),
         endsAt: convertEpochToDate(tournament.endsAt, tournament.location.timeZone),
         registrationClosesAt: convertEpochToDate(tournament.registrationClosesAt, tournament.location.timeZone),
