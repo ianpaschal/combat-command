@@ -4,6 +4,15 @@ import { Id } from '../convex/_generated/dataModel';
 // Re-export API for usage in services
 export { api };
 
+// Common
+export type {
+  RankingFactor,
+  TournamentCompetitorRanked,
+} from '../convex/_model/common/types';
+export {
+  VisibilityLevel,
+} from '../convex/_model/common/VisibilityLevel';
+
 // Match Result Comments
 export {
   type DeepMatchResultComment as MatchResultComment,
@@ -18,7 +27,6 @@ export {
 
 // Match Results
 export {
-  type DeepFowV4MatchResultDetails as FowV4MatchResultDetails,
   type DeepMatchResult as MatchResult,
   type MatchResultId,
 } from '../convex/_model/matchResults';
@@ -43,6 +51,7 @@ export {
 
 // Tournament Pairings
 export {
+  type DraftTournamentPairing,
   type ShallowTournamentPairing,
   type TournamentPairingDeep as TournamentPairing,
   type TournamentPairingId,
@@ -81,15 +90,3 @@ export {
   type LimitedUser as User,
   type UserId,
 } from '../convex/_model/users';
-
-// TODO: Move around...
-export { VisibilityLevel } from '../convex/_model/common/types';
-export {
-  calculateFowV4MatchResultScore,
-} from '../convex/_model/fowV4/calculateFowV4MatchResultScore';
-export type {
-  DraftTournamentPairing,
-} from '../convex/_model/tournamentPairings';
-export type {
-  TournamentCompetitorRanked,
-} from '../convex/_model/tournaments';

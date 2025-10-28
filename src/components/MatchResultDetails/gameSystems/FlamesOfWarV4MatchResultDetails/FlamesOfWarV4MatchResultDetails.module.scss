@@ -1,0 +1,21 @@
+@use "/src/style/flex";
+
+.FlamesOfWarV4MatchResultDetails {
+  &[data-orientation="horizontal"] {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  &[data-orientation="vertical"] {
+    @include flex.column;
+  }
+
+  &_Column {
+    @include flex.column;
+  }
+
+  &_Section {
+    @include flex.column($gap: 0.5rem);
+  }
+}

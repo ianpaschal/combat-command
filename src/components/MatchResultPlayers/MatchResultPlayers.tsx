@@ -15,7 +15,7 @@ export const MatchResultPlayers = ({
 }: MatchResultPlayersProps): JSX.Element => {
   const matchResult = useMatchResult();
   const [ref, width] = useElementSize();
-  const orientation = Math.ceil(width) < 640 ? 'vertical' : 'horizontal'; // 2 x 320 + 1rem - 2x border
+  const orientation = Math.ceil(width) < 654 ? 'vertical' : 'horizontal'; // 2 x 320 + 1rem - 2x border
 
   return (
     <div className={clsx(styles.Root, className)} ref={ref} data-orientation={orientation}>

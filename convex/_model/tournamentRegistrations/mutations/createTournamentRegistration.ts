@@ -8,7 +8,7 @@ import { Id } from '../../../_generated/dataModel';
 import { MutationCtx } from '../../../_generated/server';
 import { checkAuth } from '../../common/_helpers/checkAuth';
 import { getErrorMessage } from '../../common/errors';
-import { VisibilityLevel } from '../../common/types';
+import { VisibilityLevel } from '../../common/VisibilityLevel';
 import { getTournamentOrganizersByTournament } from '../../tournamentOrganizers';
 import { checkUserIsRegistered } from '../_helpers/checkUserIsRegistered';
 import { editableFields } from '../table';

@@ -1,0 +1,43 @@
+@use "/src/style/flex";
+
+.FlamesOfWarV4MatchResultDetailFields {
+  --gap: 1rem;
+
+  display: grid;
+  grid-template-areas:
+    "player0 player1"
+    "shared shared";
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: var(--gap);
+
+  &_Player0Section {
+    @include flex.column($gap: var(--gap));
+
+    grid-area: player0;
+  }
+
+  &_Player1Section {
+    @include flex.column($gap: var(--gap));
+
+    grid-area: player1;
+  }
+
+  &_SharedSection {
+    @include flex.column($gap: var(--gap));
+
+    grid-area: shared;
+
+    &_Outcome {
+      display: grid;
+      grid-template-columns: minmax(6rem, 1fr) 3fr;
+      gap: var(--gap);
+    }
+
+    &_ScoreOverride {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--gap);
+    }
+  }
+}

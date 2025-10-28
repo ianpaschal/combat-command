@@ -1,7 +1,7 @@
 import { createAccount } from '@convex-dev/auth/server';
 
 import { ActionCtx } from '../../../_generated/server';
-import { VisibilityLevel } from '../../common/types';
+import { VisibilityLevel } from '../../common/VisibilityLevel';
 import { userEmails } from '../_helpers/testUsers';
 
 const countryCodes = [

@@ -16,7 +16,7 @@ import {
 } from 'react-router-dom';
 import { UniqueIdentifier } from '@dnd-kit/core';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { TournamentPairingMethod, tournamentPairingMethodOptions } from '@ianpaschal/combat-command-static-data/common';
+import { getTournamentPairingMethodOptions, TournamentPairingMethod } from '@ianpaschal/combat-command-game-systems/common';
 
 import { DraftTournamentPairing, TournamentId } from '~/api';
 import { ConfirmationDialog, useConfirmationDialog } from '~/components/ConfirmationDialog';
@@ -207,7 +207,7 @@ export const TournamentPairingsPage = (): JSX.Element => {
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 onChange={handleChangePairingMethod}
-                options={tournamentPairingMethodOptions}
+                options={getTournamentPairingMethodOptions()}
                 value={pairingMethod}
                 disabled={isFirstRound}
               />

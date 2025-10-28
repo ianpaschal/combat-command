@@ -52,6 +52,11 @@ module.exports = {
 
     // Plugin configurations
     'import-newlines/enforce': ['error', 2],
+    // ENABLE LATER
+    // 'import-newlines/enforce': ['error', {
+    //   items: 2,
+    //   "max-len": 100,
+    // }],
     'react-refresh/only-export-components': [ 'warn', { allowConstantExport: true } ],
     'simple-import-sort/exports': 'error',
     'simple-import-sort/imports': ['error', {

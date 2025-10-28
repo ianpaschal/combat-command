@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-import { FowV4MatchResultForm } from '~/components/FowV4MatchResultForm';
 import { Button } from '~/components/generic/Button';
 import {
   ControlledDialog,
@@ -9,6 +8,7 @@ import {
 } from '~/components/generic/Dialog';
 import { ScrollArea } from '~/components/generic/ScrollArea';
 import { Separator } from '~/components/generic/Separator';
+import { MatchResultForm } from '~/components/MatchResultForm';
 import { useMatchResult } from '~/components/MatchResultProvider';
 import { useMatchResultEditDialog } from './MatchResultEditDialog.hooks';
 
@@ -22,8 +22,12 @@ export const MatchResultEditDialog = (): JSX.Element => {
     <ControlledDialog id={id} className={styles.MatchResultEditDialog}>
       <DialogHeader title="Edit Match Result" onCancel={close} />
       <Separator />
-      <ScrollArea type="scroll" indicatorBorders={['top', 'bottom']}>
-        <FowV4MatchResultForm
+      <ScrollArea
+        className={styles.MatchResultEditDialog_ScrollArea}
+        indicatorBorders={['top', 'bottom']}
+        type="scroll"
+      >
+        <MatchResultForm
           id="fow-v4-match-result-form"
           matchResult={matchResult}
           className={styles.Form}

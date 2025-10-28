@@ -1,5 +1,5 @@
-import { GameSystem } from '@ianpaschal/combat-command-static-data/common';
-import { ForceDiagram, Unit } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
+import { GameSystem } from '@ianpaschal/combat-command-game-systems/common';
+import { ForceDiagram, Unit } from '@ianpaschal/combat-command-game-systems/flamesOfWarV4';
 import { Infer, v } from 'convex/values';
 import { customAlphabet } from 'nanoid';
 

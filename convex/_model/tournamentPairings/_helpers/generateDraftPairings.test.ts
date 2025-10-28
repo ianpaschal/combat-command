@@ -5,26 +5,13 @@ import {
   it,
 } from 'vitest';
 
-import { Id } from '../../../_generated/dataModel';
+import { createMockRankedCompetitors } from '../../../_fixtures/createMockRankedCompetitor';
 import { errors } from '../../common/errors';
-import { TournamentCompetitorRanked } from '../../tournaments';
 import { generateDraftPairings } from './generateDraftPairings';
-
-// Helper to create mock competitors
-function makeCompetitors(n: number): TournamentCompetitorRanked[] {
-  return Array.from({ length: n }, (_, i) => ({
-    id: (`C${i + 1}`) as Id<'tournamentCompetitors'>,
-    rank: i + 1,
-    opponentIds: [],
-    playedTables: [],
-    byeRounds: [],
-    stats: {} as TournamentCompetitorRanked['stats'],
-  }));
-}
 
 describe('generateDraftPairings', () => {
   it('Handles 2 players (trivial pair).', () => {
-    const competitors = makeCompetitors(2);
+    const competitors = createMockRankedCompetitors(2);
     const pairings = generateDraftPairings(competitors);
     expect(pairings.length).toBe(1);
     expect(pairings[0][1]).not.toBeNull();
@@ -32,10 +19,10 @@ describe('generateDraftPairings', () => {
 
   describe('When there is an uneven number of competitors:', () => {
     const competitorCount = 5;
-    let competitors: ReturnType<typeof makeCompetitors>;
+    let competitors: ReturnType<typeof createMockRankedCompetitors>;
 
     beforeEach(() => {
-      competitors = makeCompetitors(competitorCount);
+      competitors = createMockRankedCompetitors(competitorCount);
     });
 
     it('Assigns a bye.', () => {
@@ -76,10 +63,10 @@ describe('generateDraftPairings', () => {
   });
 
   describe('When all competitors have already played each other:', () => {
-    let competitors: ReturnType<typeof makeCompetitors>;
+    let competitors: ReturnType<typeof createMockRankedCompetitors>;
 
     beforeEach(() => {
-      competitors = makeCompetitors(4);
+      competitors = createMockRankedCompetitors(4);
 
       // Every competitor has played every other competitor at least once:
       for (const c of competitors) {
@@ -105,7 +92,7 @@ describe('generateDraftPairings', () => {
     // ---- Arrange ----
     const roundCount = 8;
     const competitorCount = 32;
-    const competitors = makeCompetitors(competitorCount);
+    const competitors = createMockRankedCompetitors(competitorCount);
 
     // Simulate 8 rounds, updating opponentIds
     for (let round = 0; round < roundCount; round++) {

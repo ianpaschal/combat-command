@@ -2,20 +2,19 @@ import {
   CurrencyCode,
   GameSystem,
   TournamentPairingMethod,
-} from '@ianpaschal/combat-command-static-data/common';
-import { RankingFactor } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
+} from '@ianpaschal/combat-command-game-systems/common';
 import { defineTable } from 'convex/server';
 import { v } from 'convex/values';
 
 import { getStaticEnumConvexValidator } from '../common/_helpers/getStaticEnumConvexValidator';
+import { gameSystemConfig } from '../common/gameSystemConfig';
 import { location } from '../common/location';
+import { rankingFactor } from '../common/rankingFactor';
 import { tournamentStatus } from '../common/tournamentStatus';
-import { fowV4GameSystemConfig } from '../fowV4/fowV4GameSystemConfig';
 
 const currencyCode = getStaticEnumConvexValidator(CurrencyCode);
 const gameSystem = getStaticEnumConvexValidator(GameSystem);
 const tournamentPairingMethod = getStaticEnumConvexValidator(TournamentPairingMethod);
-const rankingFactor = getStaticEnumConvexValidator(RankingFactor);
 
 export const editableFields = {
 
@@ -42,9 +41,10 @@ export const editableFields = {
 
   // Denormalized so that we can filter tournaments by game system, and all related fields.
   // The duplicate data is worth the efficiency in querying.
-  gameSystemConfig: v.union(fowV4GameSystemConfig),
-  gameSystemId: v.optional(gameSystem),
-  gameSystem: v.optional(gameSystem),
+  // TODO: Keep all game-system-specific attributes in one object for easy validation
+  gameSystem,
+  gameSystemConfig,
+  rankingFactors: v.array(rankingFactor),
   
   // Competitors
   maxCompetitors: v.number(),
@@ -56,15 +56,13 @@ export const editableFields = {
   useNationalTeams: v.boolean(),
 
   // Format
+  pairingMethod: tournamentPairingMethod,
   roundCount: v.number(),
   roundStructure: v.object({
     pairingTime: v.number(), // Should always be 0 for non team tournaments
     setUpTime: v.number(),
     playingTime: v.number(),
   }),
-
-  pairingMethod: tournamentPairingMethod,
-  rankingFactors: v.array(v.union(rankingFactor)),
 };
 
 export const computedFields = {
@@ -80,7 +78,7 @@ export default defineTable({
   ...editableFields,
   ...computedFields,
 })
-  .index('by_game_system_id', ['gameSystemId'])
+  .index('by_game_system', ['gameSystem'])
   .index('by_starts_at', ['startsAt'])
   .index('by_status_starts_at', ['status', 'startsAt'])
   .index('by_status', ['status']);

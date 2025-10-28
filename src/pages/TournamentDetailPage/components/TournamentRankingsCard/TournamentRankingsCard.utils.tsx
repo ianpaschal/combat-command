@@ -1,12 +1,12 @@
-import { getRankingFactorDisplayName } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
-import { FowV4TournamentFlatExtendedStats } from 'convex/_model/fowV4/types';
+import { getRankingFactorDisplayName } from '@ianpaschal/combat-command-game-systems/flamesOfWarV4';
 
 import {
+  RankingFactor,
   Tournament,
   TournamentCompetitor,
   TournamentCompetitorId,
-  User,
-  UserId,
+  TournamentRegistration,
+  TournamentRegistrationId,
 } from '~/api';
 import { InfoPopover } from '~/components/generic/InfoPopover';
 import { ColumnDef } from '~/components/generic/Table';
@@ -15,72 +15,69 @@ import { IdentityBadge } from '~/components/IdentityBadge';
 import styles from './TournamentRankingsCard.module.scss';
 
 export type RankingRow = {
-  id: TournamentCompetitorId | UserId;
+  id: TournamentCompetitorId | TournamentRegistrationId;
   rank: number;
-  stats: FowV4TournamentFlatExtendedStats;
+  rankingFactors: Record<RankingFactor, number>;
 };
 
 export type UseTournamentRankingColumnsConfig = {
   view: 'competitors' | 'players';
   tournament: Tournament;
   competitors: TournamentCompetitor[];
+  registrations: TournamentRegistration[];
 };
 
 export const getTournamentRankingTableConfig = (
   config: UseTournamentRankingColumnsConfig,
-): ColumnDef<RankingRow>[] => {
-  const players = config.competitors.reduce((acc, competitor) => [
-    ...acc,
-    ...competitor.registrations.map((r) => r.user).filter((r) => r !== null),
-  ], [] as User[]);
-  return [
-    {
-      key: 'rank',
-      label: 'Rank',
-      width: 40,
-      align: 'center',
-      renderCell: (r) => <div>{r.rank + 1}</div>,
-    },
-    {
-      key: 'identity',
-      label: config.view === 'competitors' ? (config.tournament.useTeams ? 'Team' : 'Player') : 'Player',
-      renderCell: (r) => {
-        const competitor = config.competitors.find((c) => c._id === r.id);
-        const player = players.find((p) => p._id === r.id);
-        if (config.view === 'competitors' && competitor) {
-          return (
-            <IdentityBadge
-              size="small"
-              competitor={competitor}
-              className={styles.TournamentRankingsCard_IdentityBadge}
-            />
-          );
-        }
-        if (config.view === 'players' && player) {
-          return (
-            <IdentityBadge
-              size="small"
-              user={player}
-              className={styles.TournamentRankingsCard_IdentityBadge}
-            />
-          );
-        }
-        return null;
-      },
-    },
-    ...config.tournament.rankingFactors.map((key): ColumnDef<RankingRow> => ({
-      key,
-      width: 32,
-      align: 'center',
-      renderCell: (r) => r.stats[key],
-      renderHeader: () => {
-        const displayName = getRankingFactorDisplayName(key);
+): ColumnDef<RankingRow>[] => ([
+  {
+    key: 'rank',
+    label: 'Rank',
+    width: 40,
+    align: 'center',
+    renderCell: (r) => <div>{r.rank + 1}</div>,
+  },
+  {
+    key: 'identity',
+    label: config.view === 'competitors' ? (config.tournament.useTeams ? 'Team' : 'Player') : 'Player',
+    renderCell: (r) => {
+      const competitor = config.competitors.find((c) => c._id === r.id);
+      const registration = config.registrations.find((c) => c._id === r.id);
+      if (config.view === 'competitors' && competitor) {
         return (
-          <InfoPopover key={key} content={displayName?.full ?? 'Unknown Factor'}>
-            <h3>{displayName?.short ?? '?'}</h3>
-          </InfoPopover>
+          <IdentityBadge
+            size="small"
+            competitor={competitor}
+            className={styles.TournamentRankingsCard_IdentityBadge}
+          />
         );
-      },
-    })),
-  ];
-};
+      }
+      if (config.view === 'players' && registration) {
+        return (
+          <IdentityBadge
+            size="small"
+            user={registration.user}
+            className={styles.TournamentRankingsCard_IdentityBadge}
+          />
+        );
+      }
+      return null;
+    },
+  },
+  ...config.tournament.rankingFactors.map((key): ColumnDef<RankingRow> => ({
+    key,
+    width: 32,
+    align: 'center',
+    renderCell: (r) => r.rankingFactors[key],
+    renderHeader: () => {
+      // TODO: TEAM YANKEE
+      const long = getRankingFactorDisplayName(key);
+      const short = getRankingFactorDisplayName(key, true);
+      return (
+        <InfoPopover key={key} content={long ?? 'Unknown Factor'}>
+          <h3>{short ?? '?'}</h3>
+        </InfoPopover>
+      );
+    },
+  })),
+]);

@@ -2,6 +2,7 @@ import { ReactElement, useState } from 'react';
 import clsx from 'clsx';
 import { Trophy } from 'lucide-react';
 
+import { TournamentRegistration } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
 import { EmptyState } from '~/components/EmptyState';
 import { InputSelect } from '~/components/generic/InputSelect';
@@ -39,17 +40,21 @@ export const TournamentRankingsCard = ({
     view,
     tournament,
     competitors,
+    registrations: competitors.reduce((acc, c) => [
+      ...acc,
+      ...c.registrations,
+    ], [] as TournamentRegistration[]),
   });
   // TODO: Move rows into the config util
   const competitorRows: RankingRow[] = (rankings?.competitors || []).map((competitor) => ({
     id: competitor.id,
     rank: competitor.rank,
-    stats: competitor.stats,
+    rankingFactors: competitor.rankingFactors,
   }));
   const playerRows: RankingRow[] = (rankings?.players || []).map((player) => ({
     id: player.id,
     rank: player.rank,
-    stats: player.stats,
+    rankingFactors: player.rankingFactors,
   }));
   const rows = view === 'players' ? playerRows : competitorRows;
 

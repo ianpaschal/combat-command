@@ -1,4 +1,4 @@
-import { getTournamentRoundPhaseDisplayName } from '@ianpaschal/combat-command-static-data/common';
+import { getTournamentRoundPhaseDisplayName } from '@ianpaschal/combat-command-game-systems/common';
 import clsx from 'clsx';
 import { LoaderCircle } from 'lucide-react';
 

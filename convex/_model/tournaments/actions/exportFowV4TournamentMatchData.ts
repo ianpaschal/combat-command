@@ -61,7 +61,7 @@ export const exportFowV4TournamentMatchData = async (
     }, {
       round: pairing?.round !== undefined ? (pairing.round + 1).toString() : '',
       turns_played: details.turnsPlayed,
-      mission: details.missionName,
+      mission: details.mission,
       first_turn: details.firstTurn !== undefined ? playerLetterIndexes[details.firstTurn] : '',
       outcome: details.outcomeType,
       winner: details.winner !== undefined ? (playerLetterIndexes[details.winner] ?? 'none') : '',

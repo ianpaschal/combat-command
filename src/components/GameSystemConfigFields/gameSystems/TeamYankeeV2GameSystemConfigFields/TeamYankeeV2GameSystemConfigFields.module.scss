@@ -1,0 +1,21 @@
+@use "/src/style/flex";
+
+.TeamYankeeV2GameSystemConfigFields {
+  @include flex.column;
+
+  &_CoreConfig {
+    @include flex.stackable;
+  }
+
+  &_AdvancedOptions {
+    @include flex.column;
+  }
+
+  &_Missions {
+    @include flex.stackable;
+  }
+
+  &_Rules {
+    @include flex.column;
+  }
+}

@@ -1,7 +1,8 @@
 import { useFormContext } from 'react-hook-form';
-import { RankingFactor, rankingFactorOptions } from '@ianpaschal/combat-command-static-data/flamesOfWarV4';
+import { getGameSystem } from '@ianpaschal/combat-command-game-systems/common';
 import { X } from 'lucide-react';
 
+import { RankingFactor } from '~/api';
 import { Button } from '~/components/generic/Button';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { TournamentFormData } from '~/components/TournamentForm/TournamentForm.schema';
@@ -20,8 +21,8 @@ export const RankingFactorFields = ({
   const { watch, setValue } = useFormContext<TournamentFormData>();
   const rankingFactors = watch('rankingFactors');
 
-  // TODO: Get different options depending on game system
-  const options = rankingFactorOptions;
+  const gameSystem = watch('gameSystem');
+  const { getRankingFactorOptions } = getGameSystem(gameSystem);
 
   const handleChange = (i: number, factor: string | number | undefined): void => {
     if (isValidFactor(factor)) {
@@ -53,7 +54,7 @@ export const RankingFactorFields = ({
           </span>
           <InputSelect
             disabled={disableFields}
-            options={options}
+            options={getRankingFactorOptions()}
             value={factor}
             onChange={(value) => handleChange(i, value)}
           />

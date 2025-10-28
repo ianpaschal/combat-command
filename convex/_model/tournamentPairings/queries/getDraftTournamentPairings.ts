@@ -1,10 +1,11 @@
-import { TournamentPairingMethod } from '@ianpaschal/combat-command-static-data/common';
+import { TournamentPairingMethod } from '@ianpaschal/combat-command-game-systems/common';
 import { Infer, v } from 'convex/values';
 
 import { QueryCtx } from '../../../_generated/server';
 import { getStaticEnumConvexValidator } from '../../common/_helpers/getStaticEnumConvexValidator';
+import { TournamentCompetitorRanked } from '../../common/types';
 import { getTournamentCompetitorsByTournament } from '../../tournamentCompetitors';
-import { getTournamentRankings, TournamentCompetitorRanked } from '../../tournaments';
+import { getTournamentRankings } from '../../tournaments';
 import { generateDraftPairings } from '../_helpers/generateDraftPairings';
 import { shuffle } from '../_helpers/shuffle';
 import { sortByRank } from '../_helpers/sortByRank';

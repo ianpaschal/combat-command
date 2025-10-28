@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import { TournamentPairingId } from '~/api';
-import { FowV4MatchResultForm } from '~/components/FowV4MatchResultForm';
 import { Button } from '~/components/generic/Button';
 import {
   ControlledDialog,
@@ -10,6 +9,7 @@ import {
 } from '~/components/generic/Dialog';
 import { ScrollArea } from '~/components/generic/ScrollArea';
 import { Separator } from '~/components/generic/Separator';
+import { MatchResultForm } from '~/components/MatchResultForm';
 import { useMatchResultCreateDialog } from './MatchResultCreateDialog.hooks';
 
 import styles from './MatchResultCreateDialog.module.scss';
@@ -27,8 +27,12 @@ export const MatchResultCreateDialog = ({
     <ControlledDialog id={id} className={styles.MatchResultCreateDialog}>
       <DialogHeader title="Check-In Match Result" onCancel={close} />
       <Separator />
-      <ScrollArea type="scroll" indicatorBorders={['top', 'bottom']}>
-        <FowV4MatchResultForm
+      <ScrollArea
+        className={styles.MatchResultCreateDialog_ScrollArea}
+        indicatorBorders={['top', 'bottom']}
+        type="scroll"
+      >
+        <MatchResultForm
           id="fow-v4-match-result-form"
           tournamentPairingId={tournamentPairingId ?? data?.tournamentPairingId}
           className={styles.Form}

@@ -1,0 +1,1 @@
+export { MatchResultDetails } from './MatchResultDetails';

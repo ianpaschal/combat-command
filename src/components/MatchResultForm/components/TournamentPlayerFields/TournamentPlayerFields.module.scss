@@ -1,0 +1,24 @@
+@use "/src/style/animate";
+@use "/src/style/variables";
+@use "/src/style/flex";
+
+.Root {
+  display: grid;
+  grid-template-areas: "player0 player1";
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.Player0Section {
+  @include flex.column($xAlign: center);
+
+  overflow: hidden;
+  grid-area: player0;
+}
+
+.Player1Section {
+  @include flex.column($xAlign: center);
+
+  overflow: hidden;
+  grid-area: player1;
+}

@@ -85,9 +85,8 @@ export const createTestTournamentMatchResults = async (
         ...createMockFowV4MatchResultData({
           ...playerData,
           tournamentPairingId: pairing._id,
-     
           gameSystemConfig: tournament.gameSystemConfig,
-          gameSystemId: tournament.gameSystemId,
+          gameSystem: tournament.gameSystem,
         }),
         tournamentId: tournament._id,
       });
