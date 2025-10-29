@@ -3,9 +3,7 @@ import { Infer, v } from 'convex/values';
 
 import { QueryCtx } from '../../../_generated/server';
 import { getStaticEnumConvexValidator } from '../../common/_helpers/getStaticEnumConvexValidator';
-import { TournamentCompetitorRanked } from '../../common/types';
-import { getTournamentCompetitorsByTournament } from '../../tournamentCompetitors';
-import { getTournamentRankings } from '../../tournaments';
+import { DeepTournamentCompetitor, getTournamentCompetitorsByTournament } from '../../tournamentCompetitors';
 import { generateDraftPairings } from '../_helpers/generateDraftPairings';
 import { shuffle } from '../_helpers/shuffle';
 import { sortByRank } from '../_helpers/sortByRank';
@@ -37,14 +35,10 @@ export const getDraftTournamentPairings = async (
   args: Infer<typeof getDraftTournamentPairingsArgs>,
 ): Promise<DraftTournamentPairing[]> => {
   const competitors = await getTournamentCompetitorsByTournament(ctx, args);
-  const { competitors: rankedCompetitors } = await getTournamentRankings(ctx, {
-    tournamentId: args.tournamentId,
-    round: args.round - 1, // Get rankings for previous round
-  });
-  const activeCompetitors = rankedCompetitors.filter(({ id }) => (
-    !!competitors.find((c) => c._id === id && c.active)
+  const activeCompetitors = competitors.filter(({ _id }) => (
+    !!competitors.find((c) => c._id === _id && c.active)
   ));
-  const orderedCompetitors: TournamentCompetitorRanked[] = [];
+  const orderedCompetitors: DeepTournamentCompetitor[] = [];
   if (args.method === 'adjacent') {
     orderedCompetitors.push(...sortByRank(activeCompetitors));
   }
@@ -53,8 +47,8 @@ export const getDraftTournamentPairings = async (
   }
   return generateDraftPairings(orderedCompetitors).sort(sortCompetitorPairs).map((draftPairing) => ({
     tournamentId: args.tournamentId,
-    tournamentCompetitor0Id: draftPairing[0].id,
-    tournamentCompetitor1Id: draftPairing[1]?.id ?? null,
+    tournamentCompetitor0Id: draftPairing[0]._id,
+    tournamentCompetitor1Id: draftPairing[1]?._id ?? null,
     table: -1,
     round: args.round,
   }));

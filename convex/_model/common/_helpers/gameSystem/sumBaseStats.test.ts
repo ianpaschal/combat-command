@@ -4,12 +4,13 @@ import {
   it,
 } from 'vitest';
 
-import { AnyBaseStats } from '../../types';
 import { sumBaseStats } from './sumBaseStats';
+
+type BaseStats = Record<string, number>;
 
 describe('sumBaseStats', () => {
   it('should correctly sum stats from an array of base stats objects.', () => {
-    const statsArr: AnyBaseStats[] = [
+    const statsArr: BaseStats[] = [
       { attr_0: 2, attr_1: 5 },
       { attr_0: 1, attr_1: 4 },
       { attr_0: 3, attr_1: 6 },
@@ -24,7 +25,7 @@ describe('sumBaseStats', () => {
   });
 
   it('should handle an empty array by returning an empty object.', () => {
-    const statsArr: AnyBaseStats[] = [];
+    const statsArr: BaseStats[] = [];
 
     const result = sumBaseStats(statsArr);
 
@@ -32,7 +33,7 @@ describe('sumBaseStats', () => {
   });
 
   it('should handle objects with different keys by including all unique keys.', () => {
-    const statsArr: AnyBaseStats[] = [
+    const statsArr: BaseStats[] = [
       { attr_0: 2, attr_1: 5 },
       { attr_0: 1, attr_2: 3 },
       { attr_1: 4, attr_2: 2 },

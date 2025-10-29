@@ -11,6 +11,7 @@ import tournamentCompetitors from './_model/tournamentCompetitors/table';
 import tournamentOrganizers from './_model/tournamentOrganizers/table';
 import tournamentPairings from './_model/tournamentPairings/table';
 import tournamentRegistrations from './_model/tournamentRegistrations/table';
+import tournamentResults from './_model/tournamentResults/table';
 import tournaments from './_model/tournaments/table';
 import tournamentTimers from './_model/tournamentTimers/table';
 import userPreferences from './_model/userPreferences/table';
@@ -28,6 +29,7 @@ export default defineSchema({
   tournamentOrganizers,
   tournamentPairings,
   tournamentRegistrations,
+  tournamentResults,
   tournaments,
   tournamentTimers,
   userPreferences,

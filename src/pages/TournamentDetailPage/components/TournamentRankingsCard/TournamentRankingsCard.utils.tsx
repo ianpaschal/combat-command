@@ -21,7 +21,7 @@ export type RankingRow = {
 };
 
 export type UseTournamentRankingColumnsConfig = {
-  view: 'competitors' | 'players';
+  view: 'competitors' | 'registrations';
   tournament: Tournament;
   competitors: TournamentCompetitor[];
   registrations: TournamentRegistration[];
@@ -52,7 +52,7 @@ export const getTournamentRankingTableConfig = (
           />
         );
       }
-      if (config.view === 'players' && registration) {
+      if (config.view === 'registrations' && registration) {
         return (
           <IdentityBadge
             size="small"

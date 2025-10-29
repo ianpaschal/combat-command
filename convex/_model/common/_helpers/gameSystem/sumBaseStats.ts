@@ -3,11 +3,12 @@
  * @param statsArr
  * @returns
  */
-export const sumBaseStats = <TStatKey extends string>(
-  statsArr: Record<TStatKey, number>[],
-): Record<TStatKey, number> => statsArr.reduce((acc, stats) => {
+export const sumBaseStats = <TBaseStats extends Record<string, number>>(
+  statsArr: TBaseStats[],
+): TBaseStats => statsArr.reduce((acc, stats) => {
   for (const key of Object.keys(stats)) {
-    acc[key as TStatKey] = (acc[key as TStatKey] ?? 0) + (stats[key as TStatKey] ?? 0);
+    const k = key as keyof TBaseStats;
+    acc[k] = ((acc[k] ?? 0) + (stats[k] ?? 0)) as TBaseStats[keyof TBaseStats];
   }
   return acc;
-}, {} as Record<TStatKey, number>);
+}, {} as TBaseStats);

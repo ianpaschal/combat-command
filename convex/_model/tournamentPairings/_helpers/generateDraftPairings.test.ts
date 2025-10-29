@@ -5,13 +5,14 @@ import {
   it,
 } from 'vitest';
 
-import { createMockRankedCompetitors } from '../../../_fixtures/createMockRankedCompetitor';
+import { createMockTournamentCompetitors } from '../../../_fixtures/createMockTournamentCompetitor';
 import { errors } from '../../common/errors';
+import { DeepTournamentCompetitor } from '../../tournamentCompetitors';
 import { generateDraftPairings } from './generateDraftPairings';
 
 describe('generateDraftPairings', () => {
   it('Handles 2 players (trivial pair).', () => {
-    const competitors = createMockRankedCompetitors(2);
+    const competitors = createMockTournamentCompetitors(2);
     const pairings = generateDraftPairings(competitors);
     expect(pairings.length).toBe(1);
     expect(pairings[0][1]).not.toBeNull();
@@ -19,10 +20,10 @@ describe('generateDraftPairings', () => {
 
   describe('When there is an uneven number of competitors:', () => {
     const competitorCount = 5;
-    let competitors: ReturnType<typeof createMockRankedCompetitors>;
+    let competitors: DeepTournamentCompetitor[];
 
     beforeEach(() => {
-      competitors = createMockRankedCompetitors(competitorCount);
+      competitors = createMockTournamentCompetitors(competitorCount);
     });
 
     it('Assigns a bye.', () => {
@@ -45,7 +46,7 @@ describe('generateDraftPairings', () => {
       const byeCompetitor = pairings.find(([ _, b ]) => b === null)?.[0];
 
       // ---- Assert ----
-      expect(byeCompetitor?.id).toBe(competitors[competitorCount - 2]?.id);
+      expect(byeCompetitor?._id).toBe(competitors[competitorCount - 2]?._id);
     });
   
     it('Assigns a bye to the lowest-ranked competitor if all have had byes.', () => {
@@ -58,19 +59,19 @@ describe('generateDraftPairings', () => {
       const byeCompetitor = pairings.find(([ _, b ]) => b === null)?.[0];
 
       // ---- Assert ----
-      expect(byeCompetitor?.id).toBe(competitors[competitorCount - 1]?.id);
+      expect(byeCompetitor?._id).toBe(competitors[competitorCount - 1]?._id);
     });
   });
 
   describe('When all competitors have already played each other:', () => {
-    let competitors: ReturnType<typeof createMockRankedCompetitors>;
+    let competitors: DeepTournamentCompetitor[];
 
     beforeEach(() => {
-      competitors = createMockRankedCompetitors(4);
+      competitors = createMockTournamentCompetitors(4);
 
       // Every competitor has played every other competitor at least once:
       for (const c of competitors) {
-        c.opponentIds = competitors.filter((p) => p.id !== c.id).map((p) => p.id);
+        c.opponentIds = competitors.filter((p) => p._id !== c._id).map((p) => p._id);
       }
     });
 
@@ -92,7 +93,7 @@ describe('generateDraftPairings', () => {
     // ---- Arrange ----
     const roundCount = 8;
     const competitorCount = 32;
-    const competitors = createMockRankedCompetitors(competitorCount);
+    const competitors = createMockTournamentCompetitors(competitorCount);
 
     // Simulate 8 rounds, updating opponentIds
     for (let round = 0; round < roundCount; round++) {
@@ -101,8 +102,8 @@ describe('generateDraftPairings', () => {
       const pairings = generateDraftPairings(competitors);
       for (const [ a, b ] of pairings) {
         if (b) {
-          a.opponentIds.push(b.id);
-          b.opponentIds.push(a.id);
+          a.opponentIds.push(b._id);
+          b.opponentIds.push(a._id);
         } else {
           a.byeRounds.push(round);
         }
