@@ -50,7 +50,7 @@ export const AppBar = ({
               trigger={<Button icon={<Menu />} round size="large" variant="ghost" />}
               header={
                 <div className={styles.AppBar_DrawerHeader}>
-                  <AppLogo className={styles.Logo} />
+                  <AppLogo className={styles.AppBar_Logo} />
                 </div>
               }
             >
