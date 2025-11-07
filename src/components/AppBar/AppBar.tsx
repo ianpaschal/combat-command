@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useWindowWidth } from '@react-hook/window-size/throttled';
-import { Menu } from 'lucide-react';
+import { Coffee, Menu } from 'lucide-react';
 import { Portal } from 'radix-ui';
 
 import { AccountMenu } from '~/components/AccountMenu';
@@ -8,7 +8,7 @@ import { AppLogo } from '~/components/AppLogo';
 import { useAuth } from '~/components/AuthProvider';
 import { Button } from '~/components/generic/Button';
 import { Drawer } from '~/components/generic/Drawer';
-import { NavLinks } from '~/components/generic/NavLinks';
+import { NavLink, NavLinks } from '~/components/generic/NavLinks';
 import { getVisibleAppRoutes, mainRoutes } from '~/routes';
 import {
   MAX_WIDTH,
@@ -29,36 +29,48 @@ export const AppBar = ({
   const width = useWindowWidth();
   const isMobile = width <= MIN_WIDTH_TABLET;
   const routes = getVisibleAppRoutes(mainRoutes, !!user);
+  const externalRoutes: NavLink[] = [
+    {
+      title: 'Buy Me a Coffee',
+      path: 'https://buymeacoffee.com/combatcommand',
+      icon: <Coffee />,
+    },
+  ];
   return (
-    <Portal.Root>
-      <div className={styles.Root}>
-        <div className={styles.Content} style={{ maxWidth }}>
-          {isMobile && (
+    <Portal.Root className={styles.AppBar}>
+      <div
+        className={styles.AppBar_Content}
+        style={{ maxWidth }}
+        data-layout={isMobile ? 'mobile' : 'desktop'}
+      >
+        <div className={styles.AppBar_Links}>
+          {isMobile ? (
             <Drawer
               side="left"
               trigger={<Button icon={<Menu />} round size="large" variant="ghost" />}
               header={
-                <div className={styles.DrawerHeader}>
+                <div className={styles.AppBar_DrawerHeader}>
                   <AppLogo className={styles.Logo} />
                 </div>
               }
             >
-              <div className={styles.NavLinks}>
-                <NavLinks orientation="vertical" routes={routes} />
+              <div className={styles.AppBar_NavLinks}>
+                <NavLinks orientation="vertical" routes={routes} externalRoutes={externalRoutes} />
               </div>
             </Drawer>
+          ) : (
+            <NavLinks routes={routes} externalRoutes={externalRoutes} />
           )}
-          <AppLogo className={styles.Logo} />
-          {!isMobile && (
-            <NavLinks routes={routes} />
-          )}
+        </div>
+        <AppLogo className={styles.AppBar_Logo} />
+        <div className={styles.AppBar_Auth}>
           {user ? (
             <AccountMenu />
           ) : (
-            <div className={styles.AuthLinks}>
-              <Link to={PATHS.authSignIn}>Sign In</Link>
-              <Link to={PATHS.authSignUp}>Sign Up</Link>
-            </div>
+            <>
+              <Link className={styles.AppBar_Link} to={PATHS.authSignIn}>Sign In</Link>
+              <Link className={styles.AppBar_Link} to={PATHS.authSignUp}>Sign Up</Link>
+            </>
           )}
         </div>
       </div>

@@ -4,8 +4,11 @@
 @use "/src/style/text";
 @use "/src/style/corners";
 @use "/src/style/variants";
+@use "/src/style/sizes";
 
-.Root {
+.AppBar {
+  @include flex.row;
+
   position: fixed;
   top: 0;
   left: 0;
@@ -16,57 +19,62 @@
   background-color: var(--card-bg);
   border-bottom: variables.$border-width solid var(--border-color-default);
 
-  @include flex.row;
-}
+  &_Content {
+    @include flex.stretchy;
 
-.Content {
-  @include flex.row;
-  @include flex.stretchy;
+    display: grid;
+    gap: 1rem;
+    margin: 0 auto;
+    padding: 0.75rem 1rem;
 
-  align-items: center;
-  justify-content: space-between;
-  margin: 0 auto;
-  padding: 0.75rem 1rem;
-}
+    &[data-layout="desktop"] {
+      grid-template-areas: "logo links auth";
+      grid-template-columns: auto 1fr auto;
+    }
 
-.Logo {
-  width: 2.5rem;
-  height: 2.5rem;
-  color: var(--text-color-default);
-}
-
-.NavLinks {
-  padding: 0.5rem;
-}
-
-.DrawerHeader {
-  @include flex.row;
-  @include borders.normal($side: bottom);
-
-  position: relative;
-  height: var(--app-bar-height);
-  padding-left: 1rem;
-}
-
-.AuthLinks {
-  @include flex.row($gap: 0.25rem);
-
-  a {
-    @include text.ui;
-    @include corners.normal;
-    @include variants.ghost;
-
-    padding: 0.5rem;
-    font-weight: 400;
-    text-decoration: none;
+    &[data-layout="mobile"] {
+      grid-template-areas: "links logo auth";
+      grid-template-columns: 1fr auto 1fr;
+    }
   }
-}
 
-@media (width < 688px) {
-  .Logo {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  &_Links {
+    @include flex.row($gap: 0.25rem);
+
+    grid-area: links;
+
+    // background-color: grey;
+  }
+
+  &_Logo {
+    grid-area: logo;
+    width: 2.5rem;
+    height: 2.5rem;
+    color: var(--text-color-default);
+
+    // background-color: orange;
+  }
+
+  &_Auth {
+    @include flex.row($gap: 0.25rem, $xAlign: right);
+
+    grid-area: auth;
+  }
+
+  &_Link {
+    @include variants.button-link;
+  }
+
+  &_NavLinks {
+    padding: 0.5rem;
+  }
+
+  &_DrawerHeader {
+    @include flex.row;
+    @include borders.normal($side: bottom);
+
+    position: relative;
+    height: var(--app-bar-height);
+    padding-left: 1rem;
   }
 }

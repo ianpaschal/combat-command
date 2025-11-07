@@ -7,38 +7,7 @@
 @use "/src/style/animate";
 
 .Item {
-  @include text.ui;
-  @include flex.row($gap: 0.5rem);
-  @include corners.normal;
-
-  position: relative;
-
-  flex-grow: 0;
-
-  padding: 0 1rem;
-
-  font-weight: 400;
-  text-decoration: none;
-
-  &-tiny {
-    @include sizes.tiny;
-  }
-
-  &-small {
-    @include sizes.small;
-  }
-
-  &-normal {
-    @include sizes.normal;
-  }
-
-  &-large {
-    @include sizes.large;
-  }
-
-  &-clickable {
-    @include variants.ghost;
-  }
+  @include variants.button-link;
 }
 
 .Indicator {
@@ -65,8 +34,8 @@
   }
 }
 
-.Root {
-  &-vertical {
+.NavLinks {
+  &[data-orientation="vertical"] {
     @include flex.column($gap: 0.25rem);
 
     .Indicator {
@@ -77,7 +46,7 @@
     }
   }
 
-  &-horizontal {
+  &[data-orientation="horizontal"] {
     @include flex.row($gap: 0.25rem);
     @include flex.stretchy;
 
@@ -87,5 +56,17 @@
       left: 1rem;
       height: 4px;
     }
+  }
+}
+
+.ExternalRoutes {
+  &[data-orientation="vertical"] {
+    @include flex.column($gap: 0.25rem);
+  }
+
+  &[data-orientation="horizontal"] {
+    @include flex.row($gap: 0.25rem);
+
+    margin-left: auto;
   }
 }
