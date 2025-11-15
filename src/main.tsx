@@ -12,6 +12,7 @@ import { ThemeProvider } from '~/components/ThemeProvider';
 import { ToastProvider } from '~/components/ToastProvider';
 import { router } from '~/routes';
 
+import '@ianpaschal/combat-command-components/index.css';
 import '@fontsource/figtree/300.css';
 import '@fontsource/figtree/400.css';
 import '@fontsource/figtree/500.css';
@@ -32,7 +33,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <ThemeProvider>
           <ToastProvider>
             <AuthProvider>
-              <RouterProvider router={router} future={{ v7_startTransition: true }} />
+              <RouterProvider router={router} />
             </AuthProvider>
           </ToastProvider>
         </ThemeProvider>

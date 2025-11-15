@@ -72,13 +72,16 @@ export const computedFields = {
   modifiedAt: v.optional(v.number()),
   startsAtTaskId: v.optional(v.id('_scheduled_functions')),
   endsAtTaskId: v.optional(v.id('_scheduled_functions')),
+  search: v.optional(v.string()),
 };
 
 export default defineTable({
   ...editableFields,
   ...computedFields,
 })
+  .index('by_game_system_starts_at', ['gameSystem', 'startsAt'])
   .index('by_game_system', ['gameSystem'])
   .index('by_starts_at', ['startsAt'])
   .index('by_status_starts_at', ['status', 'startsAt'])
-  .index('by_status', ['status']);
+  .index('by_status', ['status'])
+  .searchIndex('search', { searchField: 'search' });

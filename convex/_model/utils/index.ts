@@ -21,6 +21,10 @@ export {
   mergeUserArgs,
 } from './mergeUser';
 export {
+  refreshSearchIndex,
+  refreshSearchIndexArgs,
+} from './mutations/refreshSearchIndex';
+export {
   revealTournamentPlayerNames,
   revealTournamentPlayerNamesArgs,
 } from './mutations/revealTournamentPlayerNames';

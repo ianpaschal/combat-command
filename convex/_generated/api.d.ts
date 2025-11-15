@@ -12,6 +12,7 @@ import type * as _fixtures_createMockRankedCompetitor from "../_fixtures/createM
 import type * as _fixtures_createMockTournament from "../_fixtures/createMockTournament.js";
 import type * as _fixtures_fowV4_createMockFowV4MatchResultData from "../_fixtures/fowV4/createMockFowV4MatchResultData.js";
 import type * as _model_common_VisibilityLevel from "../_model/common/VisibilityLevel.js";
+import type * as _model_common__helpers_buildFilteredQuery from "../_model/common/_helpers/buildFilteredQuery.js";
 import type * as _model_common__helpers_checkAuth from "../_model/common/_helpers/checkAuth.js";
 import type * as _model_common__helpers_clamp from "../_model/common/_helpers/clamp.js";
 import type * as _model_common__helpers_filterWithSearchTerm from "../_model/common/_helpers/filterWithSearchTerm.js";
@@ -154,6 +155,7 @@ import type * as _model_tournaments__helpers_applyScoreAdjustments from "../_mod
 import type * as _model_tournaments__helpers_checkTournamentAuth from "../_model/tournaments/_helpers/checkTournamentAuth.js";
 import type * as _model_tournaments__helpers_checkTournamentVisibility from "../_model/tournaments/_helpers/checkTournamentVisibility.js";
 import type * as _model_tournaments__helpers_deepenTournament from "../_model/tournaments/_helpers/deepenTournament.js";
+import type * as _model_tournaments__helpers_extractSearchTokens from "../_model/tournaments/_helpers/extractSearchTokens.js";
 import type * as _model_tournaments__helpers_getTournamentDeep from "../_model/tournaments/_helpers/getTournamentDeep.js";
 import type * as _model_tournaments__helpers_getTournamentNextRound from "../_model/tournaments/_helpers/getTournamentNextRound.js";
 import type * as _model_tournaments__helpers_getTournamentPlayerUserIds from "../_model/tournaments/_helpers/getTournamentPlayerUserIds.js";
@@ -215,6 +217,7 @@ import type * as _model_utils_createTestUsers from "../_model/utils/createTestUs
 import type * as _model_utils_deleteTestTournament from "../_model/utils/deleteTestTournament.js";
 import type * as _model_utils_index from "../_model/utils/index.js";
 import type * as _model_utils_mergeUser from "../_model/utils/mergeUser.js";
+import type * as _model_utils_mutations_refreshSearchIndex from "../_model/utils/mutations/refreshSearchIndex.js";
 import type * as _model_utils_mutations_revealTournamentPlayerNames from "../_model/utils/mutations/revealTournamentPlayerNames.js";
 import type * as auth from "../auth.js";
 import type * as crons from "../crons.js";
@@ -262,6 +265,7 @@ declare const fullApi: ApiFromModules<{
   "_fixtures/createMockTournament": typeof _fixtures_createMockTournament;
   "_fixtures/fowV4/createMockFowV4MatchResultData": typeof _fixtures_fowV4_createMockFowV4MatchResultData;
   "_model/common/VisibilityLevel": typeof _model_common_VisibilityLevel;
+  "_model/common/_helpers/buildFilteredQuery": typeof _model_common__helpers_buildFilteredQuery;
   "_model/common/_helpers/checkAuth": typeof _model_common__helpers_checkAuth;
   "_model/common/_helpers/clamp": typeof _model_common__helpers_clamp;
   "_model/common/_helpers/filterWithSearchTerm": typeof _model_common__helpers_filterWithSearchTerm;
@@ -404,6 +408,7 @@ declare const fullApi: ApiFromModules<{
   "_model/tournaments/_helpers/checkTournamentAuth": typeof _model_tournaments__helpers_checkTournamentAuth;
   "_model/tournaments/_helpers/checkTournamentVisibility": typeof _model_tournaments__helpers_checkTournamentVisibility;
   "_model/tournaments/_helpers/deepenTournament": typeof _model_tournaments__helpers_deepenTournament;
+  "_model/tournaments/_helpers/extractSearchTokens": typeof _model_tournaments__helpers_extractSearchTokens;
   "_model/tournaments/_helpers/getTournamentDeep": typeof _model_tournaments__helpers_getTournamentDeep;
   "_model/tournaments/_helpers/getTournamentNextRound": typeof _model_tournaments__helpers_getTournamentNextRound;
   "_model/tournaments/_helpers/getTournamentPlayerUserIds": typeof _model_tournaments__helpers_getTournamentPlayerUserIds;
@@ -465,6 +470,7 @@ declare const fullApi: ApiFromModules<{
   "_model/utils/deleteTestTournament": typeof _model_utils_deleteTestTournament;
   "_model/utils/index": typeof _model_utils_index;
   "_model/utils/mergeUser": typeof _model_utils_mergeUser;
+  "_model/utils/mutations/refreshSearchIndex": typeof _model_utils_mutations_refreshSearchIndex;
   "_model/utils/mutations/revealTournamentPlayerNames": typeof _model_utils_mutations_revealTournamentPlayerNames;
   auth: typeof auth;
   crons: typeof crons;

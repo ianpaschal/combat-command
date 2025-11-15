@@ -15,7 +15,7 @@ import './Checkbox.scss';
 const cn = createCn('Checkbox');
 
 type CheckboxRef = ElementRef<typeof RadixCheckbox.Root>;
-type CheckboxProps = ComponentPropsWithoutRef<typeof RadixCheckbox.Root> & {
+type CheckboxProps = Omit<ComponentPropsWithoutRef<typeof RadixCheckbox.Root>, 'value' | 'onChange'> & {
   value?: boolean;
   onChange?: (checked: boolean) => void;
   size?: ElementSize;

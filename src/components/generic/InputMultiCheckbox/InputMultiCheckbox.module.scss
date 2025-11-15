@@ -1,0 +1,9 @@
+@use "/src/style/flex";
+
+.InputMultiCheckbox {
+  @include flex.column($gap: 0.5rem);
+
+  &_Row {
+    @include flex.row;
+  }
+}
