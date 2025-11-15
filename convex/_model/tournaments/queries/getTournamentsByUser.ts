@@ -51,5 +51,5 @@ export const getTournamentsByUser = async (
       return false;
     }
     return true;
-  });
+  }).sort((a, b) => b.startsAt - a.startsAt);
 };

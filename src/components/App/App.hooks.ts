@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { generatePath } from 'react-router-dom';
 import { Route } from '@ianpaschal/combat-command-components';
 import qs from 'qs';
 
@@ -49,7 +50,7 @@ export const usePrimaryAppRoutes = (
     children: user ? [
       {
         title: 'My Matches',
-        path: getQueryString(PATHS.matchResults, { userId: user._id, order: 'desc' }),
+        path: generatePath(PATHS.userProfile, { id: user._id }),
       },
       {
         title: 'All',
