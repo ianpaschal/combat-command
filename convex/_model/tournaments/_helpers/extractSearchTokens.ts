@@ -17,4 +17,4 @@ export const extractSearchTokens = (doc: Doc<'tournaments'>): string => keys.map
     return doc[key].replace(/[._-]/g, ' ');
   }
   return `${doc[key]}`;
-}).map((token) => token.toLowerCase().replace(/[._-]/g, ' ')).join(' ');
+}).map((token) => token.toLowerCase().replace(/[\r\n]/g, ' ')).join(' ');
