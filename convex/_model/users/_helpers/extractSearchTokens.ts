@@ -13,7 +13,7 @@ export const extractSearchTokens = (doc: Doc<'users'>): string => [...new Set([
 
 const split = (str: string): string[] => str
   // Replace underscores and hyphens with spaces
-  .replace(/[_-]/g, ' ')
+  .replace(/[._-]/g, ' ')
   // Add space before uppercase letters (for camelCase/PascalCase)
   .replace(/([a-z])([A-Z])/g, '$1 $2')
   // Add space before uppercase letters that are followed by lowercase (for handling acronyms)

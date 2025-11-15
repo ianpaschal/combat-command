@@ -32,8 +32,10 @@ fs.mkdirSync(targetDir, { recursive: true });
 
 // Templates for files
 const files = {
-  'index.ts': `export type { ${componentName}Props } from './${componentName}';
-export { ${componentName} } from './${componentName}';
+  'index.ts': `export {
+  ${componentName},
+  type ${componentName}Props,
+} from './${componentName}';
 `,
   [`${componentName}.module.scss`]: `@use "/src/style/flex";
 

@@ -5,6 +5,7 @@
 @use "/src/style/corners";
 @use "/src/style/flex";
 @use "/src/style/text";
+@use "/src/style/sizes";
 
 .Trigger {
   @include corners.round;
@@ -12,6 +13,18 @@
 
   width: 2.5rem;
   height: 2.5rem;
+}
+
+.AuthMenuTrigger {
+  @include sizes.normal;
+  @include variants.ghost;
+  @include corners.round;
+  @include flex.centered;
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+  }
 }
 
 .Content {

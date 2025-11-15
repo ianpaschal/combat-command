@@ -1,5 +1,6 @@
 @use "/src/style/variables";
 @use "/src/style/flex";
+@use "/src/style/variants";
 
 .App {
   @include flex.column($gap: 0);
@@ -12,5 +13,13 @@
     @include flex.centered;
 
     padding: 2rem;
+  }
+
+  &_Auth {
+    @include flex.row($gap: 0);
+  }
+
+  &_AuthLink {
+    @include variants.button-link;
   }
 }

@@ -37,3 +37,8 @@ export const revealTournamentPlayerNames = internalMutation({
 export const populateUsers = internalAction({
   handler: model.populateUsers,
 });
+
+export const refreshSearchIndex = internalMutation({
+  args: model.refreshSearchIndexArgs,
+  handler: model.refreshSearchIndex,
+});
