@@ -88,14 +88,6 @@ export {
 export {
   getTournaments,
 } from './queries/getTournaments';
-export {
-  getTournamentsByStatus,
-  getTournamentsByStatusArgs,
-} from './queries/getTournamentsByStatus';
-export {
-  getTournamentsByUser,
-  getTournamentsByUserArgs,
-} from './queries/getTournamentsByUser';
 
 // Actions
 export {
