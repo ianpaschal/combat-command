@@ -10,10 +10,13 @@ import { QueryCtx } from '../../../_generated/server';
 
 export type FilterValue = string | number | boolean | null;
 
+type CustomFilter<T extends keyof DataModel> = (doc: DocumentByInfo<DataModel[T]>) => boolean;
+
 export type FilterConfig<T extends keyof DataModel> = {
   table: T;
   filterIndex: Extract<keyof DataModel[T]['indexes'], string>;
   searchIndex: Extract<keyof DataModel[T]['searchIndexes'], string>;
+  customFilters?: CustomFilter<T>[];
 };
 
 export type Filters<T extends keyof DataModel> = Partial<Record<keyof DataModel[T]['document'], FilterValue | FilterValue[] | undefined>> & {
@@ -51,6 +54,11 @@ export function buildFilteredQuery<T extends keyof DataModel>(
       const values = Array.isArray(value) ? value : [value];
       if (values.length === 0) {
         continue;
+      }
+    }
+    for (const filter of (config.customFilters ?? [])) {
+      if (!filter(r)) {
+        return false;
       }
     }
     return true;

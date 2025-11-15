@@ -1,6 +1,7 @@
 import { GameSystem } from '@ianpaschal/combat-command-game-systems/common';
 import { Infer, v } from 'convex/values';
 
+import { Id } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
 import { buildFilteredQuery } from '../../common/_helpers/buildFilteredQuery';
 import { getStaticEnumConvexValidator } from '../../common/_helpers/getStaticEnumConvexValidator';
@@ -8,7 +9,6 @@ import { notNullOrUndefined } from '../../common/_helpers/notNullOrUndefined';
 import { tournamentStatus } from '../../common/tournamentStatus';
 import { checkTournamentVisibility } from '../_helpers/checkTournamentVisibility';
 import { deepenTournament, TournamentDeep } from '../_helpers/deepenTournament';
-import { getTournamentsByUser } from './getTournamentsByUser';
 
 const gameSystem = getStaticEnumConvexValidator(GameSystem);
 
@@ -36,16 +36,29 @@ export const getTournaments = async (
   /* By user is handled a bit differently as it's not a field on the records so there's no index or
    * filter for it.
    */
-  if (args?.userId) {
-    //@ts-expect-error This is safe.
-    return await getTournamentsByUser(ctx, args);
+  const { userId, ...restFilters } = args ?? {};
+  const userTournamentIds: Id<'tournaments'>[] = [];
+  if (userId) {
+    const tournamentRegistrations = await ctx.db.query('tournamentRegistrations')
+      .withIndex('by_user', (q) => q.eq('userId', userId))
+      .collect();
+    const tournamentOrganizers = await ctx.db.query('tournamentOrganizers')
+      .withIndex('by_user', (q) => q.eq('userId', userId))
+      .collect();
+    userTournamentIds.push(
+      ...tournamentRegistrations.map((r) => r.tournamentId),
+      ...tournamentOrganizers.map((r) => r.tournamentId),
+    );
   }
 
   const query = buildFilteredQuery(ctx, {
     table: 'tournaments',
     filterIndex: 'by_starts_at',
     searchIndex: 'search',
-  }, args);
+    customFilters: [
+      (t): boolean => userId ? new Set(userTournamentIds).has(t._id) : true,
+    ],
+  }, restFilters);
 
   // TODO: Pagination:
   const tournaments = await query.collect();
