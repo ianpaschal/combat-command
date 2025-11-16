@@ -1,10 +1,11 @@
-import { GameSystem } from '@ianpaschal/combat-command-game-systems/common';
-import { ConvexError } from 'convex/values';
+/* eslint-disable arrow-body-style */
+// import { GameSystem } from '@ianpaschal/combat-command-game-systems/common';
+// import { ConvexError } from 'convex/values';
 
 import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
-import { getErrorMessage } from '../../common/errors';
-import { FlamesOfWarV4 } from '../../gameSystems';
+// import { getErrorMessage } from '../../common/errors';
+// import { FlamesOfWarV4 } from '../../gameSystems';
 
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /**
@@ -19,19 +20,26 @@ import { FlamesOfWarV4 } from '../../gameSystems';
  */
 export const deepenList = async (
   ctx: QueryCtx,
-  list: Doc<'lists'>,
+  doc: Doc<'lists'>,
 ) => {
-  // TODO-250: Add Team Yankee support here.
-  if (list.gameSystem === GameSystem.FlamesOfWarV4) {
-    return {
-      ...list,
-      data: FlamesOfWarV4.deepenListData(list.data),
-    };
-  }
+  // // TODO-250: Add Team Yankee support here.
+  // if (list.gameSystem === GameSystem.FlamesOfWarV4) {
+  //   return {
+  //     ...list,
+  //     data: FlamesOfWarV4.deepenListData(list.data),
+  //   };
+  // }
+
+  // if (list.gameSystem === GameSystem.TeamYankeeV2) {
+  //   return {
+  //     ...list,
+  //     data: TeamYankeeV2.deepenListData(list.data),
+  //   };
+  // }
   
-  // If no matcher found, throw an error:
-  throw new ConvexError(getErrorMessage('CANNOT_ADD_ANOTHER_PLAYER'));
-  
+  // // If no matcher found, throw an error:
+  // throw new ConvexError(getErrorMessage('CANNOT_ADD_ANOTHER_PLAYER'));
+  return doc;
 };
 
 /**

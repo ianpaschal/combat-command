@@ -1,6 +1,7 @@
 import { Infer, v } from 'convex/values';
 
 import { QueryCtx } from '../../../_generated/server';
+import { checkListVisibility } from '../_helpers/checkListVisibility';
 import { deepenList, DeepList } from '../_helpers/deepenList';
 
 export const getListArgs = v.object({
@@ -19,9 +20,12 @@ export const getList = async (
   ctx: QueryCtx,
   args: Infer<typeof getListArgs>,
 ): Promise<DeepList | null> => {
-  const list = await ctx.db.get(args.id);
-  if (!list) {
+  const result = await ctx.db.get(args.id);
+  if (!result) {
     return null;
   }
-  return await deepenList(ctx, list);
+  if (await checkListVisibility(ctx, result)) {
+    return await deepenList(ctx, result);
+  }
+  return null;
 };

@@ -42,6 +42,7 @@ import type * as _model_common_tournamentPairingConfig from "../_model/common/to
 import type * as _model_common_tournamentStatus from "../_model/common/tournamentStatus.js";
 import type * as _model_common_types from "../_model/common/types.js";
 import type * as _model_files_index from "../_model/files/index.js";
+import type * as _model_files_queries_getFileMetadata from "../_model/files/queries/getFileMetadata.js";
 import type * as _model_files_queries_getFileUrl from "../_model/files/queries/getFileUrl.js";
 import type * as _model_friendships__helpers_deepenFriendship from "../_model/friendships/_helpers/deepenFriendship.js";
 import type * as _model_friendships_index from "../_model/friendships/index.js";
@@ -81,8 +82,10 @@ import type * as _model_leagues_queries_getLeagues from "../_model/leagues/queri
 import type * as _model_leagues_table from "../_model/leagues/table.js";
 import type * as _model_leagues_types from "../_model/leagues/types.js";
 import type * as _model_lists__helpers_deepenList from "../_model/lists/_helpers/deepenList.js";
+import type * as _model_lists_actions_extractListData from "../_model/lists/actions/extractListData.js";
+import type * as _model_lists_actions_importList from "../_model/lists/actions/importList.js";
 import type * as _model_lists_index from "../_model/lists/index.js";
-import type * as _model_lists_mutations_importListData from "../_model/lists/mutations/importListData.js";
+import type * as _model_lists_mutations_createList from "../_model/lists/mutations/createList.js";
 import type * as _model_lists_queries_getList from "../_model/lists/queries/getList.js";
 import type * as _model_lists_table from "../_model/lists/table.js";
 import type * as _model_matchResultComments__helpers_deepenMatchResultComment from "../_model/matchResultComments/_helpers/deepenMatchResultComment.js";
@@ -132,6 +135,7 @@ import type * as _model_tournamentCompetitors_mutations_createTournamentCompetit
 import type * as _model_tournamentCompetitors_mutations_deleteTournamentCompetitor from "../_model/tournamentCompetitors/mutations/deleteTournamentCompetitor.js";
 import type * as _model_tournamentCompetitors_mutations_toggleTournamentCompetitorActive from "../_model/tournamentCompetitors/mutations/toggleTournamentCompetitorActive.js";
 import type * as _model_tournamentCompetitors_mutations_updateTournamentCompetitor from "../_model/tournamentCompetitors/mutations/updateTournamentCompetitor.js";
+import type * as _model_tournamentCompetitors_queries_getAvailableTournamentCompetitorActions from "../_model/tournamentCompetitors/queries/getAvailableTournamentCompetitorActions.js";
 import type * as _model_tournamentCompetitors_queries_getTournamentCompetitor from "../_model/tournamentCompetitors/queries/getTournamentCompetitor.js";
 import type * as _model_tournamentCompetitors_queries_getTournamentCompetitors from "../_model/tournamentCompetitors/queries/getTournamentCompetitors.js";
 import type * as _model_tournamentCompetitors_queries_getTournamentCompetitorsByTournament from "../_model/tournamentCompetitors/queries/getTournamentCompetitorsByTournament.js";
@@ -356,6 +360,7 @@ declare const fullApi: ApiFromModules<{
   "_model/common/tournamentStatus": typeof _model_common_tournamentStatus;
   "_model/common/types": typeof _model_common_types;
   "_model/files/index": typeof _model_files_index;
+  "_model/files/queries/getFileMetadata": typeof _model_files_queries_getFileMetadata;
   "_model/files/queries/getFileUrl": typeof _model_files_queries_getFileUrl;
   "_model/friendships/_helpers/deepenFriendship": typeof _model_friendships__helpers_deepenFriendship;
   "_model/friendships/index": typeof _model_friendships_index;
@@ -395,8 +400,10 @@ declare const fullApi: ApiFromModules<{
   "_model/leagues/table": typeof _model_leagues_table;
   "_model/leagues/types": typeof _model_leagues_types;
   "_model/lists/_helpers/deepenList": typeof _model_lists__helpers_deepenList;
+  "_model/lists/actions/extractListData": typeof _model_lists_actions_extractListData;
+  "_model/lists/actions/importList": typeof _model_lists_actions_importList;
   "_model/lists/index": typeof _model_lists_index;
-  "_model/lists/mutations/importListData": typeof _model_lists_mutations_importListData;
+  "_model/lists/mutations/createList": typeof _model_lists_mutations_createList;
   "_model/lists/queries/getList": typeof _model_lists_queries_getList;
   "_model/lists/table": typeof _model_lists_table;
   "_model/matchResultComments/_helpers/deepenMatchResultComment": typeof _model_matchResultComments__helpers_deepenMatchResultComment;
@@ -446,6 +453,7 @@ declare const fullApi: ApiFromModules<{
   "_model/tournamentCompetitors/mutations/deleteTournamentCompetitor": typeof _model_tournamentCompetitors_mutations_deleteTournamentCompetitor;
   "_model/tournamentCompetitors/mutations/toggleTournamentCompetitorActive": typeof _model_tournamentCompetitors_mutations_toggleTournamentCompetitorActive;
   "_model/tournamentCompetitors/mutations/updateTournamentCompetitor": typeof _model_tournamentCompetitors_mutations_updateTournamentCompetitor;
+  "_model/tournamentCompetitors/queries/getAvailableTournamentCompetitorActions": typeof _model_tournamentCompetitors_queries_getAvailableTournamentCompetitorActions;
   "_model/tournamentCompetitors/queries/getTournamentCompetitor": typeof _model_tournamentCompetitors_queries_getTournamentCompetitor;
   "_model/tournamentCompetitors/queries/getTournamentCompetitors": typeof _model_tournamentCompetitors_queries_getTournamentCompetitors;
   "_model/tournamentCompetitors/queries/getTournamentCompetitorsByTournament": typeof _model_tournamentCompetitors_queries_getTournamentCompetitorsByTournament;

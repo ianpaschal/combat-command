@@ -1,6 +1,6 @@
 import { factions, forceDiagrams } from '@ianpaschal/combat-command-game-systems/flamesOfWarV4';
 
-import { Doc } from '../../../../../_generated/dataModel';
+import { Doc } from '../../../../../../_generated/dataModel';
 
 export type DeepFowV4ListData = ReturnType<typeof deepenListData>;
 

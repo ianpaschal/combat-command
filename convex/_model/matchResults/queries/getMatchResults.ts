@@ -6,6 +6,11 @@ import { deepenMatchResult, DeepMatchResult } from '../_helpers/deepenMatchResul
 
 export const getMatchResultsArgs = v.object({
   paginationOpts: paginationOptsValidator,
+  filter: v.optional(v.object({
+    tournamentId: v.optional(v.id('tournaments')),
+    tournamentPairingId: v.optional(v.id('tournaments')),
+    tournamentCompetitorId: v.optional(v.id('tournaments')),
+  })),
 });
 
 export const getMatchResults = async (

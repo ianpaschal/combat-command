@@ -3,7 +3,9 @@ import { ConvexError } from 'convex/values';
 
 import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
+import { getDocStrict } from '../../common/_helpers/getDocStrict';
 import { getErrorMessage } from '../../common/errors';
+import { getListsByTournamentRegistration } from '../../lists';
 import { checkUserIsTournamentOrganizer } from '../../tournamentOrganizers';
 import { getUser } from '../../users';
 import { getAvailableActions } from './getAvailableActions';
@@ -20,10 +22,8 @@ export const deepenTournamentRegistration = async (
   if (!user) {
     throw new ConvexError(getErrorMessage('USER_NOT_FOUND'));
   }
-  const tournament = await ctx.db.get(doc.tournamentId);
-  if (!tournament) {
-    throw new ConvexError(getErrorMessage('TOURNAMENT_NOT_FOUND'));
-  }
+    
+  const tournament = await getDocStrict(ctx, doc.tournamentId);
 
   const availableActions = await getAvailableActions(ctx, doc);
 
@@ -32,6 +32,7 @@ export const deepenTournamentRegistration = async (
   const factionsVisible = isOrganizer || tournament.factionsRevealed;
 
   // TODO: Use lists if they are present. getDetails()
+  const lists = await getListsByTournamentRegistration(ctx, { tournamentRegistrationId: doc._id });
   const alignments = Array.from(new Set(alignmentsVisible && details?.alignment ? [details.alignment] : []));
   const factions = Array.from(new Set(factionsVisible && details?.faction ? [details.faction] : []));
 
@@ -48,6 +49,7 @@ export const deepenTournamentRegistration = async (
     displayName: user.displayName,
     alignments,
     factions,
+    lists,
   };
 };
 

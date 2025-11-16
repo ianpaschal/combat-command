@@ -42,17 +42,17 @@ export const exportFowV4TournamentMatchData = async (
       type GeneralKey = keyof typeof matchResult;
       type DetailsKey = keyof typeof matchResult.details;
       const playerUser = i === 0 ? matchResult.player0User : matchResult.player1User;
-      const playerList = i === 0 ? matchResult.player0List : matchResult.player1List;
+      // const playerList = i === 0 ? matchResult.player0List : matchResult.player1List;
       const playerTeam = tournamentCompetitors.find((c) => c.registrations.find((r) => r.user?._id === playerUser?._id));
       return {
         ...acc,
         [`player_${letter}_team`]: playerTeam?.teamName ?? '',
         [`player_${letter}_user_id`]: playerUser?._id ?? '',
         [`player_${letter}_name`]: playerUser?.displayName ?? matchResult[`player${i}Placeholder` as GeneralKey],
-        [`player_${letter}_force_diagram`]: playerList?.data.meta.forceDiagram ?? '',
-        [`player_${letter}_faction`]: playerList?.data.meta.faction ?? '',
-        [`player_${letter}_formation_0`]: playerList?.data.formations[0]?.sourceId ?? '',
-        [`player_${letter}_formation_1`]: playerList?.data.formations[1]?.sourceId ?? '',
+        // [`player_${letter}_force_diagram`]: playerList?.data.meta.forceDiagram ?? '',
+        // [`player_${letter}_faction`]: playerList?.data.meta.faction ?? '',
+        // [`player_${letter}_formation_0`]: playerList?.data.formations[0]?.sourceId ?? '',
+        // [`player_${letter}_formation_1`]: playerList?.data.formations[1]?.sourceId ?? '',
         [`player_${letter}_battle_plan`]: details[`player${i}BattlePlan` as DetailsKey],
         [`player_${letter}_units_lost`]: details[`player${i}UnitsLost` as DetailsKey],
         [`player_${letter}_score`]: matchResult[`player${i}Score` as DetailsKey],

@@ -60,6 +60,7 @@ export const editableFields = {
 
   alignmentsRevealed: v.optional(v.boolean()),
   factionsRevealed: v.optional(v.boolean()),
+  listsRevealed: v.optional(v.boolean()),
 
   // Format
   pairingConfig: tournamentPairingConfig,

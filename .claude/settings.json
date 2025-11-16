@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/ian/Code/combat-command-components/src/components/Wizard/**)",
+      "Read(//Users/ian/Code/combat-command-components/**)",
+      "Bash(npm run lint:*)"
+    ],
+    "additionalDirectories": [
+      "/Users/ian/Code/combat-command-components/src/components/Wizard"
+    ]
+  }
+}
