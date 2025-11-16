@@ -75,3 +75,7 @@
   border-style: dashed;
   border-width: var(--border-width);
 }
+
+@mixin outlined {
+  outline: 4px solid var(--card-bg);
+}

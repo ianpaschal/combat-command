@@ -1,22 +1,24 @@
 import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
-import { getList } from '../../lists';
 import { getUser } from '../../users';
+import { getAvailableActions } from './getAvailableActions';
 
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 export const deepenTournamentRegistration = async (
   ctx: QueryCtx,
-  tournamentRegistration: Doc<'tournamentRegistrations'>,
+  doc: Doc<'tournamentRegistrations'>,
 ) => {
-  const user = await getUser(ctx, { id: tournamentRegistration.userId });
-  const list = tournamentRegistration.listId ? (
-    await getList(ctx, { id: tournamentRegistration.listId })
-  ) : null;
+  const user = await getUser(ctx, { id: doc.userId });
+  const availableActions = await getAvailableActions(ctx, doc);
+  const lists = await ctx.db.query('lists')
+    .withIndex('by_tournament_registration', (q) => q.eq('tournamentRegistrationId', doc._id))
+    .collect();
 
   return {
-    ...tournamentRegistration,
+    ...doc,
+    availableActions,
+    lists,
     user,
-    list,
   };
 };
 

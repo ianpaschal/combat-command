@@ -99,7 +99,7 @@ export const TournamentRankingsCard = ({
         showEmptyState ? (
           <EmptyState icon={<Trophy />} />
         ) : (
-          <Table columns={columns} rows={rows} rowClassName={styles.TournamentRankingsCard_Row} />
+          <Table className={styles.TournamentRankingsCard_Table} columns={columns} rows={rows} />
         )
       )}
     </TournamentDetailCard>

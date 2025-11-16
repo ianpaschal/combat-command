@@ -39,6 +39,7 @@ export const useUploadFile = (
         if (config?.onSuccess) {
           config.onSuccess(storageId);
         }
+        return storageId;
       } catch (error) {
         console.error(error);
         if (error instanceof Error) {

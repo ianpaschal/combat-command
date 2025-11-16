@@ -52,7 +52,7 @@ export const MatchResultPhotos = ({
         <Button
           className={styles.UploadPhotoButton}
           icon={<ImagePlus />}
-          round
+          rounded
           onClick={openUploadPhotoDialog}
         />
       )}

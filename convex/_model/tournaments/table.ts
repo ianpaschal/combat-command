@@ -34,6 +34,7 @@ export const editableFields = {
   endsAt: v.number(),
   registrationClosesAt: v.number(),
   listSubmissionClosesAt: v.number(),
+  listsRevealed: v.optional(v.boolean()),
 
   requireRealNames: v.boolean(),
   rulesPackUrl: v.optional(v.string()),

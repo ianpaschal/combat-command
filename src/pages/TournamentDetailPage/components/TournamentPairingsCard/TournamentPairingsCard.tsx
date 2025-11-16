@@ -78,7 +78,7 @@ export const TournamentPairingsCard = ({
               )}
             </EmptyState>
           ) : (
-            <Table columns={columns} rows={rows} rowClassName={styles.TournamentPairingsCard_Row} />
+            <Table className={styles.TournamentPairingsCard_Table} columns={columns} rows={rows} />
           )
         )}
       </TournamentDetailCard>

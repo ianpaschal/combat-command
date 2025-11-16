@@ -7,6 +7,9 @@ export {
   deepenTournamentCompetitor,
   type DeepTournamentCompetitor,
 } from './_helpers/deepenTournamentCompetitor';
+export {
+  TournamentCompetitorActionKey,
+} from './_helpers/getAvailableActions';
 
 // Mutations
 export {

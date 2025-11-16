@@ -30,21 +30,8 @@ export const aggregateTournamentData = (
     tournamentPairings: Doc<'tournamentPairings'>[],
     matchResults: Doc<'matchResults'>[],
   },
-): TournamentAggregateData<AnyBaseStats> => {
-  // For faster look-up:
-  const playerUserIdMap = data.tournamentRegistrations.reduce((acc, registration) => ({
-    ...acc,
-    [registration.userId]: {
-      registrationId: registration._id,
-      competitorId: registration.tournamentCompetitorId,
-    },
-  }), {} as Record<Id<'users'>, {
-    registrationId: Id<'tournamentRegistrations'>;
-    competitorId: Id<'tournamentCompetitors'>
-  }>);
-  
+): TournamentAggregateData<AnyBaseStats> => {  
   // Game system specifics:
-
   const { extractMatchResultStats, defaultBaseStats } = getGameSystem(gameSystem);
   type BaseStats = typeof defaultBaseStats;
   type RegistrationStats= Record<Id<'tournamentRegistrations'>, TournamentPlayerMetadata<BaseStats>>;
@@ -90,7 +77,19 @@ export const aggregateTournamentData = (
     if (!self.id) {
       return;
     }
-    const { registrationId, competitorId } = playerUserIdMap[self.id];
+    const competitorIds = [
+      pairing.tournamentCompetitor0Id,
+      pairing.tournamentCompetitor1Id,
+    ];
+    const {
+      _id: registrationId,
+      tournamentCompetitorId,
+    } = data.tournamentRegistrations.find((r) => (
+      r.userId === self.id && competitorIds.includes(r.tournamentCompetitorId)
+    )) ?? {};
+    if (!registrationId || !tournamentCompetitorId) {
+      return;
+    }
 
     // Add registration data:
     registrationStats[registrationId].baseStats.self.push(self.stats);
@@ -98,19 +97,20 @@ export const aggregateTournamentData = (
     registrationStats[registrationId].gamesPlayed += 1;
       
     // Add competitor data:
-    competitorStats[competitorId].baseStats.self.push(self.stats);
-    competitorStats[competitorId].baseStats.opponent.push(opponent.stats);
-    competitorStats[competitorId].gamesPlayed += 1;
+    competitorStats[tournamentCompetitorId].baseStats.self.push(self.stats);
+    competitorStats[tournamentCompetitorId].baseStats.opponent.push(opponent.stats);
+    competitorStats[tournamentCompetitorId].gamesPlayed += 1;
 
     const wasBye = pairing.table === null || !pairing.tournamentCompetitor0Id || !pairing.tournamentCompetitor1Id;
     if (wasBye) {
-      competitorStats[competitorId].byeRounds.push(pairing.round);
+      competitorStats[tournamentCompetitorId].byeRounds.push(pairing.round);
     }
     if (pairing.table) {
-      competitorStats[competitorId].playedTables.push(pairing.table);
+      competitorStats[tournamentCompetitorId].playedTables.push(pairing.table);
     }
-    if (opponent.id) {
-      competitorStats[competitorId].opponentIds.push(playerUserIdMap[opponent.id].competitorId);
+    const opponentCompetitorId = competitorIds.filter((id) => id !== tournamentCompetitorId).pop();
+    if (opponentCompetitorId) {
+      competitorStats[tournamentCompetitorId].opponentIds.push(opponentCompetitorId);
     }
   };
 

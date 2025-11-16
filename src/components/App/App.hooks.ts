@@ -1,17 +1,10 @@
 import { useMemo } from 'react';
 import { generatePath } from 'react-router-dom';
 import { Route } from '@ianpaschal/combat-command-components';
-import qs from 'qs';
 
-import { CurrentUser, TournamentFilterParams } from '~/api';
+import { CurrentUser } from '~/api';
 import { PATHS } from '~/settings';
-
-const getQueryString = (basePath: string, params: TournamentFilterParams): string => {
-  const queryString = qs.stringify(params, {
-    arrayFormat: 'comma',
-  });
-  return `${basePath}?${queryString}`;
-};
+import { getPathWithQuery } from '~/utils/common/getPathWithQuery';
 
 export const usePrimaryAppRoutes = (
   user: CurrentUser | null,
@@ -22,25 +15,25 @@ export const usePrimaryAppRoutes = (
   }] : []),
   {
     title: 'Tournaments',
-    path: getQueryString(PATHS.tournaments, { order: 'desc' }),
+    path: getPathWithQuery(PATHS.tournaments, { order: 'desc' }),
     children: [
       ...(user ? [
         {
           title: 'My Tournaments',
-          path: getQueryString(PATHS.tournaments, { userId: user._id, order: 'desc' }),
+          path: getPathWithQuery(PATHS.tournaments, { userId: user._id, order: 'desc' }),
         },
       ] : []),
       {
         title: 'Ongoing',
-        path: getQueryString(PATHS.tournaments, { status: ['active'] }),
+        path: getPathWithQuery(PATHS.tournaments, { status: ['active'] }),
       },
       {
         title: 'Upcoming',
-        path: getQueryString(PATHS.tournaments, { status: ['published'] }),
+        path: getPathWithQuery(PATHS.tournaments, { status: ['published'] }),
       },
       {
         title: 'Past',
-        path: getQueryString(PATHS.tournaments, { status: ['archived'], order: 'desc' }),
+        path: getPathWithQuery(PATHS.tournaments, { status: ['archived'], order: 'desc' }),
       },
     ],
   },

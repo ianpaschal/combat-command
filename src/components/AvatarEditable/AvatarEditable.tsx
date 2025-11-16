@@ -37,7 +37,7 @@ export const AvatarEditable = (): JSX.Element => {
         <Popover.Trigger asChild>
           <Button
             className={styles.EditButton}
-            round
+            rounded
             disabled={isLoading}
             icon={<Pencil />}
           />

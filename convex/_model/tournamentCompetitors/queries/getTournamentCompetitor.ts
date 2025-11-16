@@ -1,10 +1,12 @@
 import { Infer, v } from 'convex/values';
 
 import { QueryCtx } from '../../../_generated/server';
+import { getTournamentRankings } from '../../tournaments';
 import { deepenTournamentCompetitor,DeepTournamentCompetitor } from '../_helpers/deepenTournamentCompetitor';
 
 export const getTournamentCompetitorArgs = v.object({
   id: v.id('tournamentCompetitors'),
+  includeRankings: v.optional(v.number()),
 });
 
 /**
@@ -23,5 +25,13 @@ export const getTournamentCompetitor = async (
   if (!tournamentCompetitor) {
     return null;
   }
-  return await deepenTournamentCompetitor(ctx, tournamentCompetitor);
+
+  // TODO: Replace with better tournament results objects
+  const { competitors } = args.includeRankings !== undefined && args.includeRankings > -1 ? await getTournamentRankings(ctx, {
+    tournamentId: tournamentCompetitor.tournamentId,
+    round: args.includeRankings,
+  }) : {};
+  const ranking = (competitors ?? []).find((c) => c.id === args.id);
+
+  return await deepenTournamentCompetitor(ctx, tournamentCompetitor, ranking);
 };

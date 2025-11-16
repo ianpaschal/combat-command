@@ -20,10 +20,11 @@ export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement
   iconPosition?: 'start' | 'end';
   intent?: ElementIntent;
   loading?: boolean;
-  round?: boolean;
+  rounded?: boolean;
   size?: ElementSize;
   text?: string;
   variant?: ElementVariant;
+  collapsePadding?: boolean;
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
@@ -32,10 +33,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   iconPosition,
   intent = 'default',
   loading = false,
-  round,
+  rounded,
   size = 'normal',
   text,
   variant = 'primary',
+  collapsePadding,
   ...props
 }, ref): JSX.Element => (
   <button
@@ -43,9 +45,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
     className={clsx(styles.Button, className)}
     data-intent={intent}
     data-reverse={iconPosition === 'end'}
-    data-round={round}
+    data-rounded={rounded}
     data-size={size}
     data-variant={variant}
+    data-collapse-padding={collapsePadding}
     {...props}
   >
     {icon && !loading && (

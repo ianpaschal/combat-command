@@ -56,14 +56,13 @@ export const renderRankings = (
   ) : (
     <Table
       className={styles.ActiveTournament_Rankings}
-      rowClassName={styles.ActiveTournament_Rankings_Row}
       rows={[...(competitors ?? [])].sort((a, b) => (a.rank ?? Infinity) - (b.rank ?? Infinity))}
       columns={[
         {
           key: 'rank',
           label: 'Rank',
           width: 40,
-          align: 'center',
+          xAlign: 'center',
           renderCell: ({ rank }) => (
             <div>
               {tournament.lastRound !== undefined && rank !== undefined ? rank + 1 : '-'}
@@ -72,6 +71,7 @@ export const renderRankings = (
         },
         {
           key: 'identity',
+          width: '1fr',
           label: tournament?.useTeams ? 'Team' : 'Player',
           renderCell: (competitor) => (
             <IdentityBadge

@@ -24,7 +24,7 @@ export const MatchResultEditDialog = (): JSX.Element => {
       <Separator />
       <ScrollArea
         className={styles.MatchResultEditDialog_ScrollArea}
-        indicatorBorders={['top', 'bottom']}
+        indicators={{ top: { border: true }, bottom: { border: true } }}
         type="scroll"
       >
         <MatchResultForm

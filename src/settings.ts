@@ -19,11 +19,19 @@ export const PATHS = {
   dashboard: '/dashboard',
   matchResultDetails: '/matches/:id',
   matchResults: '/matches',
+
+  // Tournament Competitors
+  tournamentCompetitorDetails: '/tournaments/:tournamentId/competitors/:tournamentCompetitorId',
+
+  // Tournament Pairings
+  tournamentPairingDetails: '/pairings/:id',
+  tournamentPairings: '/tournaments/:id/pairings',
+
+  // Tournaments
   tournamentCreate: '/tournaments/create',
   tournamentDetails: '/tournaments/:id',
   tournamentEdit: '/tournaments/:id/edit',
-  tournamentPairings: '/tournaments/:id/pairings',
   tournaments: '/tournaments',
-  tournamentPairingDetails: '/pairings/:id',
+
   userProfile: '/users/:id',
 } as const;

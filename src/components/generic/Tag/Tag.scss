@@ -6,19 +6,14 @@
 
 .Tag {
   @include corners.tight;
-  @include borders.normal;
-  @include text.ui($bold: true);
+  @include text.ui;
   @include flex.row($gap: 0.25rem);
 
   width: min-content;
-
-  // display: inline-block;
-
   height: 1.5rem;
   margin: -2px 0;
   padding: 0 5px;
 
-  line-height: calc(1.5rem - (2 * variables.$border-width));
   color: var(--secondary-default-text);
   text-wrap: nowrap;
 

@@ -14,6 +14,11 @@ export {
   VisibilityLevel,
 } from '../convex/_model/common/VisibilityLevel';
 
+// Lists
+export {
+  type DeepList as List,
+} from '../convex/_model/lists';
+
 // Match Result Comments
 export {
   type DeepMatchResultComment as MatchResultComment,
@@ -41,6 +46,7 @@ export type StorageId = Id<'_storage'>;
 // Tournament Competitors
 export {
   type DeepTournamentCompetitor as TournamentCompetitor,
+  TournamentCompetitorActionKey,
   type TournamentCompetitorId,
 } from '../convex/_model/tournamentCompetitors';
 
@@ -61,6 +67,7 @@ export {
 // Tournament Registrations
 export {
   type TournamentRegistration,
+  TournamentRegistrationActionKey,
   type TournamentRegistrationId,
 } from '../convex/_model/tournamentRegistrations';
 

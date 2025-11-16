@@ -49,7 +49,7 @@ export const ConfirmPairingsDialog = ({
       <p className={styles.ConfirmPairingsDialog_Content}>
         The following pairings will be created:
       </p>
-      <Table columns={columns} rows={assignedPairings} rowClassName={styles.ConfirmPairingsDialog_Row} />
+      <Table columns={columns} rows={assignedPairings} />
       <Warning className={styles.ConfirmPairingsDialog_Content}>
         Once created, pairings cannot be edited. Please ensure all competitors are present and ready to play!
       </Warning>

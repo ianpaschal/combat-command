@@ -33,12 +33,16 @@ export const getTournamentRankingTableConfig = (
   {
     key: 'rank',
     label: 'Rank',
-    width: 40,
-    align: 'center',
-    renderCell: (r) => <div>{r.rank + 1}</div>,
+    xAlign: 'center',
+    renderCell: (r) => (
+      <div className={styles.TournamentRankingsCard_RankCell}>
+        {r.rank + 1}
+      </div>
+    ),
   },
   {
     key: 'identity',
+    width: '1fr',
     label: config.view === 'competitors' ? (config.tournament.useTeams ? 'Team' : 'Player') : 'Player',
     renderCell: (r) => {
       const competitor = config.competitors.find((c) => c._id === r.id);
@@ -66,11 +70,10 @@ export const getTournamentRankingTableConfig = (
   },
   ...config.tournament.rankingFactors.map((key): ColumnDef<RankingRow> => ({
     key,
-    width: 32,
-    align: 'center',
+    width: '2rem',
+    xAlign: 'center',
     renderCell: (r) => r.rankingFactors[key],
     renderHeader: () => {
-      // TODO: TEAM YANKEE
       const long = getRankingFactorDisplayName(key);
       const short = getRankingFactorDisplayName(key, true);
       return (

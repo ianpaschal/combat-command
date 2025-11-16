@@ -17,10 +17,9 @@ import {
 } from '~/components/generic/Tabs';
 import { NotFoundView } from '~/components/NotFoundView';
 import { PageWrapper } from '~/components/PageWrapper';
-import { TournamentActionsProvider } from '~/components/TournamentActionsProvider';
+import { TournamentActionsProvider, TournamentContextMenu } from '~/components/TournamentActionsProvider';
 import { TournamentBanner } from '~/components/TournamentBanner';
 import { TournamentCompetitorsProvider } from '~/components/TournamentCompetitorsProvider';
-import { TournamentContextMenu } from '~/components/TournamentContextMenu';
 import { TournamentProvider } from '~/components/TournamentProvider';
 import { DeviceSize, useDeviceSize } from '~/hooks/useDeviceSize';
 import { useGetTournamentCompetitorsByTournament } from '~/services/tournamentCompetitors';

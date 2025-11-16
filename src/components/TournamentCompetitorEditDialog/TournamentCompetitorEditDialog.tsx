@@ -1,4 +1,5 @@
 import { MouseEvent } from 'react';
+import { Ellipsis, FileText } from 'lucide-react';
 
 import { TournamentCompetitor, VisibilityLevel } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
@@ -13,6 +14,7 @@ import { TournamentCompetitorForm, TournamentCompetitorSubmitData } from '~/comp
 import { useTournament } from '~/components/TournamentProvider';
 import { useConfirmRegisterDialog } from '~/pages/TournamentDetailPage/components/ConfirmRegisterDialog';
 import { useCreateTournamentCompetitor, useUpdateTournamentCompetitor } from '~/services/tournamentCompetitors';
+import { useGetTournamentRegistrationsByCompetitor } from '~/services/tournamentRegistrations';
 import { getTournamentCompetitorDisplayName } from '~/utils/common/getTournamentCompetitorDisplayName';
 import { useTournamentCompetitorEditDialog } from './TournamentCompetitorEditDialog.hooks';
 
@@ -31,6 +33,13 @@ export const TournamentCompetitorEditDialog = ({
   const tournament = useTournament();
   const { open: openConfirmNameVisibilityDialog } = useConfirmRegisterDialog();
   const { id: dialogId, close } = useTournamentCompetitorEditDialog(competitor?._id);
+
+  const {
+    data: tournamentRegistrations,
+  } = useGetTournamentRegistrationsByCompetitor(competitor ? {
+    tournamentCompetitorId: competitor._id,
+  } : 'skip');
+
   const {
     mutation: createTournamentCompetitor,
     loading: createTournamentCompetitorLoading,
@@ -104,6 +113,13 @@ export const TournamentCompetitorEditDialog = ({
           onSubmit={handleSubmit}
           disabled={loading}
         />
+        {(tournamentRegistrations ?? []).map((reg) => (
+          <div key={reg._id}>
+            <div>ID BADGE</div>
+            <Button icon={<FileText />} />
+            <Button icon={<Ellipsis />} />
+          </div>
+        ))}
       </ScrollArea>
       <DialogActions>
         <Button disabled={loading} text="Cancel" variant="secondary" onClick={handleCancel} />

@@ -11,13 +11,17 @@ export const getTournamentCompetitorDisplayName = (
   competitor?: TournamentCompetitor | null,
 ): string => {
 
+  const fallBack = 'Unknown Competitor';
+
   if (!competitor) {
-    return '';
+    return fallBack;
   }
 
+  const activeRegistrations = competitor.registrations.filter((r) => r.active);
+
   // If competitor has only 1 player, just use the player's name:
-  if (competitor.registrations.length === 1 && competitor.registrations[0].user) {
-    return competitor.registrations[0].user.displayName;
+  if (activeRegistrations.length === 1 && activeRegistrations[0].user) {
+    return activeRegistrations[0].user.displayName;
   }
 
   // Use the country name if there is one, otherwise just use the team name:
@@ -27,5 +31,5 @@ export const getTournamentCompetitorDisplayName = (
   }
 
   // Fallback:
-  return 'Unknown Competitor';
+  return fallBack;
 };
