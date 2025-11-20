@@ -4,7 +4,7 @@ import {
   it,
 } from 'vitest';
 
-import { computeRankingFactors, ComputeRankingFactorsData } from './computeRankingFactors';
+import { computeRankingFactors, PlayerBaseStats } from './computeRankingFactors';
 
 describe('computeRankingFactors', () => {
   type BaseStats = {
@@ -18,15 +18,13 @@ describe('computeRankingFactors', () => {
   };
 
   it('should return empty object when baseStats arrays are empty.', () => {
-    const data: ComputeRankingFactorsData<BaseStats> = {
-      baseStats: {
-        self: [],
-        opponent: [],
-      },
-      gamesPlayed: 0,
+    const baseStats: PlayerBaseStats<BaseStats> = {
+      self: [],
+      opponent: [],
     };
+    const gamesPlayed = 0;
 
-    const result = computeRankingFactors(data, defaultValues);
+    const result = computeRankingFactors(baseStats, gamesPlayed, defaultValues);
 
     expect(result).toEqual({
       total_points: 0,
@@ -41,15 +39,13 @@ describe('computeRankingFactors', () => {
   });
 
   it('should compute ranking factors for single game with basic stats.', () => {
-    const data: ComputeRankingFactorsData<BaseStats> = {
-      gamesPlayed: 1,
-      baseStats: {
-        self: [{ points: 8, wins: 1 }],
-        opponent: [{ points: 1, wins: 0 }],
-      },
+    const baseStats: PlayerBaseStats<BaseStats> = {
+      self: [{ points: 8, wins: 1 }],
+      opponent: [{ points: 1, wins: 0 }],
     };
+    const gamesPlayed = 1;
 
-    const result = computeRankingFactors(data, defaultValues);
+    const result = computeRankingFactors(baseStats, gamesPlayed, defaultValues);
 
     expect(result).toEqual({
       total_points: 8,
@@ -64,23 +60,21 @@ describe('computeRankingFactors', () => {
   });
 
   it('should compute ranking factors for multiple games.', () => {
-    const data: ComputeRankingFactorsData<BaseStats> = {
-      gamesPlayed: 3,
-      baseStats: {
-        self: [
-          { points: 8, wins: 1 },
-          { points: 6, wins: 1 },
-          { points: 3, wins: 0 },
-        ],
-        opponent: [
-          { points: 1, wins: 0 },
-          { points: 3, wins: 0 },
-          { points: 6, wins: 1 },
-        ],
-      },
+    const baseStats: PlayerBaseStats<BaseStats> = {
+      self: [
+        { points: 8, wins: 1 },
+        { points: 6, wins: 1 },
+        { points: 3, wins: 0 },
+      ],
+      opponent: [
+        { points: 1, wins: 0 },
+        { points: 3, wins: 0 },
+        { points: 6, wins: 1 },
+      ],
     };
+    const gamesPlayed = 3;
 
-    const result = computeRankingFactors(data, defaultValues);
+    const result = computeRankingFactors(baseStats, gamesPlayed, defaultValues);
 
     expect(result).toEqual({
       average_opponent_points: (1 + 3 + 6) / 3,
@@ -100,20 +94,18 @@ describe('computeRankingFactors', () => {
       bar: number;
     };
 
-    const data: ComputeRankingFactorsData<CustomBaseStats> = {
-      gamesPlayed: 1,
-      baseStats: {
-        self: [{ foo: 100, bar: 50 }],
-        opponent: [{ foo: 80, bar: 60 }],
-      },
+    const baseStats: PlayerBaseStats<CustomBaseStats> = {
+      self: [{ foo: 100, bar: 50 }],
+      opponent: [{ foo: 80, bar: 60 }],
     };
+    const gamesPlayed = 1;
 
     const defaultValues: CustomBaseStats = {
       foo: 0,
       bar: 0,
     };
 
-    const result = computeRankingFactors(data, defaultValues);
+    const result = computeRankingFactors(baseStats, gamesPlayed, defaultValues);
 
     expect(result).toEqual({
       average_bar: 50,
@@ -129,15 +121,13 @@ describe('computeRankingFactors', () => {
 
   // FIXME: This test is basically identical to the one above.
   it.skip('should return object with correct key structure for ExtendedRankingFactor type.', () => {
-    const data: ComputeRankingFactorsData<BaseStats> = {
-      gamesPlayed: 1,
-      baseStats: {
-        self: [{ points: 10, wins: 1 }],
-        opponent: [{ points: 8, wins: 0 }],
-      },
+    const baseStats: PlayerBaseStats<BaseStats> = {
+      self: [{ points: 10, wins: 1 }],
+      opponent: [{ points: 8, wins: 0 }],
     };
+    const gamesPlayed = 1;
 
-    const result = computeRankingFactors(data, defaultValues);
+    const result = computeRankingFactors(baseStats, gamesPlayed, defaultValues);
 
     // Verify all expected key patterns are present
     expect(result).toHaveProperty('total_points');

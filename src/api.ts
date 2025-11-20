@@ -7,7 +7,6 @@ export { api };
 // Common
 export type {
   RankingFactor,
-  TournamentCompetitorRanked,
   TournamentStatus,
 } from '../convex/_model/common/types';
 export {

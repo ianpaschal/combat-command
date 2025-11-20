@@ -8,15 +8,14 @@
  * @module
  */
 
-import type * as _fixtures_createMockRankedCompetitor from "../_fixtures/createMockRankedCompetitor.js";
 import type * as _fixtures_createMockTournament from "../_fixtures/createMockTournament.js";
+import type * as _fixtures_createMockTournamentCompetitor from "../_fixtures/createMockTournamentCompetitor.js";
 import type * as _fixtures_fowV4_createMockFowV4MatchResultData from "../_fixtures/fowV4/createMockFowV4MatchResultData.js";
 import type * as _model_common_VisibilityLevel from "../_model/common/VisibilityLevel.js";
 import type * as _model_common__helpers_buildFilteredQuery from "../_model/common/_helpers/buildFilteredQuery.js";
 import type * as _model_common__helpers_checkAuth from "../_model/common/_helpers/checkAuth.js";
 import type * as _model_common__helpers_clamp from "../_model/common/_helpers/clamp.js";
 import type * as _model_common__helpers_filterWithSearchTerm from "../_model/common/_helpers/filterWithSearchTerm.js";
-import type * as _model_common__helpers_gameSystem_aggregateTournamentData from "../_model/common/_helpers/gameSystem/aggregateTournamentData.js";
 import type * as _model_common__helpers_gameSystem_computeRankingFactors from "../_model/common/_helpers/gameSystem/computeRankingFactors.js";
 import type * as _model_common__helpers_gameSystem_createSortByRanking from "../_model/common/_helpers/gameSystem/createSortByRanking.js";
 import type * as _model_common__helpers_gameSystem_divideBaseStats from "../_model/common/_helpers/gameSystem/divideBaseStats.js";
@@ -27,6 +26,7 @@ import type * as _model_common__helpers_getStaticEnumConvexValidator from "../_m
 import type * as _model_common__helpers_getStorageUrl from "../_model/common/_helpers/getStorageUrl.js";
 import type * as _model_common__helpers_intersectArrays from "../_model/common/_helpers/intersectArrays.js";
 import type * as _model_common__helpers_notNullOrUndefined from "../_model/common/_helpers/notNullOrUndefined.js";
+import type * as _model_common_baseStats from "../_model/common/baseStats.js";
 import type * as _model_common_errors from "../_model/common/errors.js";
 import type * as _model_common_gameSystemConfig from "../_model/common/gameSystemConfig.js";
 import type * as _model_common_location from "../_model/common/location.js";
@@ -86,6 +86,7 @@ import type * as _model_matchResults_queries_getMatchResultsByTournamentPairing 
 import type * as _model_matchResults_queries_getMatchResultsByTournamentRound from "../_model/matchResults/queries/getMatchResultsByTournamentRound.js";
 import type * as _model_matchResults_queries_getMatchResultsByUser from "../_model/matchResults/queries/getMatchResultsByUser.js";
 import type * as _model_matchResults_table from "../_model/matchResults/table.js";
+import type * as _model_matchResults_triggers from "../_model/matchResults/triggers.js";
 import type * as _model_photos_index from "../_model/photos/index.js";
 import type * as _model_photos_mutations_createPhoto from "../_model/photos/mutations/createPhoto.js";
 import type * as _model_photos_queries_getPhoto from "../_model/photos/queries/getPhoto.js";
@@ -101,6 +102,7 @@ import type * as _model_tournamentCompetitors_queries_getTournamentCompetitor fr
 import type * as _model_tournamentCompetitors_queries_getTournamentCompetitors from "../_model/tournamentCompetitors/queries/getTournamentCompetitors.js";
 import type * as _model_tournamentCompetitors_queries_getTournamentCompetitorsByTournament from "../_model/tournamentCompetitors/queries/getTournamentCompetitorsByTournament.js";
 import type * as _model_tournamentCompetitors_table from "../_model/tournamentCompetitors/table.js";
+import type * as _model_tournamentCompetitors_triggers from "../_model/tournamentCompetitors/triggers.js";
 import type * as _model_tournamentOrganizers__helpers_checkUserIsTournamentOrganizer from "../_model/tournamentOrganizers/_helpers/checkUserIsTournamentOrganizer.js";
 import type * as _model_tournamentOrganizers__helpers_deepenTournamentOrganizer from "../_model/tournamentOrganizers/_helpers/deepenTournamentOrganizer.js";
 import type * as _model_tournamentOrganizers_index from "../_model/tournamentOrganizers/index.js";
@@ -140,6 +142,15 @@ import type * as _model_tournamentRegistrations_queries_getTournamentRegistratio
 import type * as _model_tournamentRegistrations_queries_getTournamentRegistrationsByUser from "../_model/tournamentRegistrations/queries/getTournamentRegistrationsByUser.js";
 import type * as _model_tournamentRegistrations_table from "../_model/tournamentRegistrations/table.js";
 import type * as _model_tournamentRegistrations_types from "../_model/tournamentRegistrations/types.js";
+import type * as _model_tournamentResults__helpers_aggregateTournamentData from "../_model/tournamentResults/_helpers/aggregateTournamentData.js";
+import type * as _model_tournamentResults__helpers_applyScoreAdjustments from "../_model/tournamentResults/_helpers/applyScoreAdjustments.js";
+import type * as _model_tournamentResults_index from "../_model/tournamentResults/index.js";
+import type * as _model_tournamentResults_mutations_refreshTournamentResult from "../_model/tournamentResults/mutations/refreshTournamentResult.js";
+import type * as _model_tournamentResults_queries_getTournamentResultsByCompetitor from "../_model/tournamentResults/queries/getTournamentResultsByCompetitor.js";
+import type * as _model_tournamentResults_queries_getTournamentResultsByGameSystem from "../_model/tournamentResults/queries/getTournamentResultsByGameSystem.js";
+import type * as _model_tournamentResults_queries_getTournamentResultsByRound from "../_model/tournamentResults/queries/getTournamentResultsByRound.js";
+import type * as _model_tournamentResults_table from "../_model/tournamentResults/table.js";
+import type * as _model_tournamentResults_types from "../_model/tournamentResults/types.js";
 import type * as _model_tournamentTimers__helpers_convertRoundStructureToMs from "../_model/tournamentTimers/_helpers/convertRoundStructureToMs.js";
 import type * as _model_tournamentTimers__helpers_deepenTournamentTimer from "../_model/tournamentTimers/_helpers/deepenTournamentTimer.js";
 import type * as _model_tournamentTimers__helpers_getTournamentTimerShallow from "../_model/tournamentTimers/_helpers/getTournamentTimerShallow.js";
@@ -152,7 +163,6 @@ import type * as _model_tournamentTimers_mutations_toggleTournamentTimer from ".
 import type * as _model_tournamentTimers_queries_getTournamentTimer from "../_model/tournamentTimers/queries/getTournamentTimer.js";
 import type * as _model_tournamentTimers_queries_getTournamentTimerByTournament from "../_model/tournamentTimers/queries/getTournamentTimerByTournament.js";
 import type * as _model_tournamentTimers_table from "../_model/tournamentTimers/table.js";
-import type * as _model_tournaments__helpers_applyScoreAdjustments from "../_model/tournaments/_helpers/applyScoreAdjustments.js";
 import type * as _model_tournaments__helpers_checkTournamentAuth from "../_model/tournaments/_helpers/checkTournamentAuth.js";
 import type * as _model_tournaments__helpers_checkTournamentVisibility from "../_model/tournaments/_helpers/checkTournamentVisibility.js";
 import type * as _model_tournaments__helpers_deepenTournament from "../_model/tournaments/_helpers/deepenTournament.js";
@@ -176,7 +186,6 @@ import type * as _model_tournaments_queries_getAvailableTournamentActions from "
 import type * as _model_tournaments_queries_getTournament from "../_model/tournaments/queries/getTournament.js";
 import type * as _model_tournaments_queries_getTournamentByTournamentPairing from "../_model/tournaments/queries/getTournamentByTournamentPairing.js";
 import type * as _model_tournaments_queries_getTournamentOpenRound from "../_model/tournaments/queries/getTournamentOpenRound.js";
-import type * as _model_tournaments_queries_getTournamentRankings from "../_model/tournaments/queries/getTournamentRankings.js";
 import type * as _model_tournaments_queries_getTournaments from "../_model/tournaments/queries/getTournaments.js";
 import type * as _model_tournaments_table from "../_model/tournaments/table.js";
 import type * as _model_userPreferences_index from "../_model/userPreferences/index.js";
@@ -240,6 +249,7 @@ import type * as scheduledTasks from "../scheduledTasks.js";
 import type * as tournamentCompetitors from "../tournamentCompetitors.js";
 import type * as tournamentPairings from "../tournamentPairings.js";
 import type * as tournamentRegistrations from "../tournamentRegistrations.js";
+import type * as tournamentResults from "../tournamentResults.js";
 import type * as tournamentTimers from "../tournamentTimers.js";
 import type * as tournaments from "../tournaments.js";
 import type * as userPreferences from "../userPreferences.js";
@@ -261,15 +271,14 @@ import type {
  * ```
  */
 declare const fullApi: ApiFromModules<{
-  "_fixtures/createMockRankedCompetitor": typeof _fixtures_createMockRankedCompetitor;
   "_fixtures/createMockTournament": typeof _fixtures_createMockTournament;
+  "_fixtures/createMockTournamentCompetitor": typeof _fixtures_createMockTournamentCompetitor;
   "_fixtures/fowV4/createMockFowV4MatchResultData": typeof _fixtures_fowV4_createMockFowV4MatchResultData;
   "_model/common/VisibilityLevel": typeof _model_common_VisibilityLevel;
   "_model/common/_helpers/buildFilteredQuery": typeof _model_common__helpers_buildFilteredQuery;
   "_model/common/_helpers/checkAuth": typeof _model_common__helpers_checkAuth;
   "_model/common/_helpers/clamp": typeof _model_common__helpers_clamp;
   "_model/common/_helpers/filterWithSearchTerm": typeof _model_common__helpers_filterWithSearchTerm;
-  "_model/common/_helpers/gameSystem/aggregateTournamentData": typeof _model_common__helpers_gameSystem_aggregateTournamentData;
   "_model/common/_helpers/gameSystem/computeRankingFactors": typeof _model_common__helpers_gameSystem_computeRankingFactors;
   "_model/common/_helpers/gameSystem/createSortByRanking": typeof _model_common__helpers_gameSystem_createSortByRanking;
   "_model/common/_helpers/gameSystem/divideBaseStats": typeof _model_common__helpers_gameSystem_divideBaseStats;
@@ -280,6 +289,7 @@ declare const fullApi: ApiFromModules<{
   "_model/common/_helpers/getStorageUrl": typeof _model_common__helpers_getStorageUrl;
   "_model/common/_helpers/intersectArrays": typeof _model_common__helpers_intersectArrays;
   "_model/common/_helpers/notNullOrUndefined": typeof _model_common__helpers_notNullOrUndefined;
+  "_model/common/baseStats": typeof _model_common_baseStats;
   "_model/common/errors": typeof _model_common_errors;
   "_model/common/gameSystemConfig": typeof _model_common_gameSystemConfig;
   "_model/common/location": typeof _model_common_location;
@@ -339,6 +349,7 @@ declare const fullApi: ApiFromModules<{
   "_model/matchResults/queries/getMatchResultsByTournamentRound": typeof _model_matchResults_queries_getMatchResultsByTournamentRound;
   "_model/matchResults/queries/getMatchResultsByUser": typeof _model_matchResults_queries_getMatchResultsByUser;
   "_model/matchResults/table": typeof _model_matchResults_table;
+  "_model/matchResults/triggers": typeof _model_matchResults_triggers;
   "_model/photos/index": typeof _model_photos_index;
   "_model/photos/mutations/createPhoto": typeof _model_photos_mutations_createPhoto;
   "_model/photos/queries/getPhoto": typeof _model_photos_queries_getPhoto;
@@ -354,6 +365,7 @@ declare const fullApi: ApiFromModules<{
   "_model/tournamentCompetitors/queries/getTournamentCompetitors": typeof _model_tournamentCompetitors_queries_getTournamentCompetitors;
   "_model/tournamentCompetitors/queries/getTournamentCompetitorsByTournament": typeof _model_tournamentCompetitors_queries_getTournamentCompetitorsByTournament;
   "_model/tournamentCompetitors/table": typeof _model_tournamentCompetitors_table;
+  "_model/tournamentCompetitors/triggers": typeof _model_tournamentCompetitors_triggers;
   "_model/tournamentOrganizers/_helpers/checkUserIsTournamentOrganizer": typeof _model_tournamentOrganizers__helpers_checkUserIsTournamentOrganizer;
   "_model/tournamentOrganizers/_helpers/deepenTournamentOrganizer": typeof _model_tournamentOrganizers__helpers_deepenTournamentOrganizer;
   "_model/tournamentOrganizers/index": typeof _model_tournamentOrganizers_index;
@@ -393,6 +405,15 @@ declare const fullApi: ApiFromModules<{
   "_model/tournamentRegistrations/queries/getTournamentRegistrationsByUser": typeof _model_tournamentRegistrations_queries_getTournamentRegistrationsByUser;
   "_model/tournamentRegistrations/table": typeof _model_tournamentRegistrations_table;
   "_model/tournamentRegistrations/types": typeof _model_tournamentRegistrations_types;
+  "_model/tournamentResults/_helpers/aggregateTournamentData": typeof _model_tournamentResults__helpers_aggregateTournamentData;
+  "_model/tournamentResults/_helpers/applyScoreAdjustments": typeof _model_tournamentResults__helpers_applyScoreAdjustments;
+  "_model/tournamentResults/index": typeof _model_tournamentResults_index;
+  "_model/tournamentResults/mutations/refreshTournamentResult": typeof _model_tournamentResults_mutations_refreshTournamentResult;
+  "_model/tournamentResults/queries/getTournamentResultsByCompetitor": typeof _model_tournamentResults_queries_getTournamentResultsByCompetitor;
+  "_model/tournamentResults/queries/getTournamentResultsByGameSystem": typeof _model_tournamentResults_queries_getTournamentResultsByGameSystem;
+  "_model/tournamentResults/queries/getTournamentResultsByRound": typeof _model_tournamentResults_queries_getTournamentResultsByRound;
+  "_model/tournamentResults/table": typeof _model_tournamentResults_table;
+  "_model/tournamentResults/types": typeof _model_tournamentResults_types;
   "_model/tournamentTimers/_helpers/convertRoundStructureToMs": typeof _model_tournamentTimers__helpers_convertRoundStructureToMs;
   "_model/tournamentTimers/_helpers/deepenTournamentTimer": typeof _model_tournamentTimers__helpers_deepenTournamentTimer;
   "_model/tournamentTimers/_helpers/getTournamentTimerShallow": typeof _model_tournamentTimers__helpers_getTournamentTimerShallow;
@@ -405,7 +426,6 @@ declare const fullApi: ApiFromModules<{
   "_model/tournamentTimers/queries/getTournamentTimer": typeof _model_tournamentTimers_queries_getTournamentTimer;
   "_model/tournamentTimers/queries/getTournamentTimerByTournament": typeof _model_tournamentTimers_queries_getTournamentTimerByTournament;
   "_model/tournamentTimers/table": typeof _model_tournamentTimers_table;
-  "_model/tournaments/_helpers/applyScoreAdjustments": typeof _model_tournaments__helpers_applyScoreAdjustments;
   "_model/tournaments/_helpers/checkTournamentAuth": typeof _model_tournaments__helpers_checkTournamentAuth;
   "_model/tournaments/_helpers/checkTournamentVisibility": typeof _model_tournaments__helpers_checkTournamentVisibility;
   "_model/tournaments/_helpers/deepenTournament": typeof _model_tournaments__helpers_deepenTournament;
@@ -429,7 +449,6 @@ declare const fullApi: ApiFromModules<{
   "_model/tournaments/queries/getTournament": typeof _model_tournaments_queries_getTournament;
   "_model/tournaments/queries/getTournamentByTournamentPairing": typeof _model_tournaments_queries_getTournamentByTournamentPairing;
   "_model/tournaments/queries/getTournamentOpenRound": typeof _model_tournaments_queries_getTournamentOpenRound;
-  "_model/tournaments/queries/getTournamentRankings": typeof _model_tournaments_queries_getTournamentRankings;
   "_model/tournaments/queries/getTournaments": typeof _model_tournaments_queries_getTournaments;
   "_model/tournaments/table": typeof _model_tournaments_table;
   "_model/userPreferences/index": typeof _model_userPreferences_index;
@@ -493,6 +512,7 @@ declare const fullApi: ApiFromModules<{
   tournamentCompetitors: typeof tournamentCompetitors;
   tournamentPairings: typeof tournamentPairings;
   tournamentRegistrations: typeof tournamentRegistrations;
+  tournamentResults: typeof tournamentResults;
   tournamentTimers: typeof tournamentTimers;
   tournaments: typeof tournaments;
   userPreferences: typeof userPreferences;

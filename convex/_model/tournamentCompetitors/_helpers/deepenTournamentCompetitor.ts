@@ -1,6 +1,7 @@
-import { Doc, Id } from '../../../_generated/dataModel';
+import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
 import { getTournamentRegistrationsByCompetitor } from '../../tournamentRegistrations';
+import { getTournamentResultsByCompetitor } from '../../tournamentResults/queries/getTournamentResultsByCompetitor';
 
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /**
@@ -15,20 +16,21 @@ import { getTournamentRegistrationsByCompetitor } from '../../tournamentRegistra
  */
 export const deepenTournamentCompetitor = async (
   ctx: QueryCtx,
-  tournamentCompetitor: Doc<'tournamentCompetitors'>,
-  results?: {
-    playedTables: (number | null)[];
-    opponentIds: Id<'tournamentCompetitors'>[];
-    byeRounds: number[];
-    rank: number;
-  },
+  doc: Doc<'tournamentCompetitors'>,
+  round?: number,
 ) => {
   const registrations = await getTournamentRegistrationsByCompetitor(ctx, {
-    tournamentCompetitorId: tournamentCompetitor._id,
+    tournamentCompetitorId: doc._id,
+  });
+
+  const results = await getTournamentResultsByCompetitor(ctx, {
+    tournamentCompetitorId: doc._id,
+    tournamentId: doc.tournamentId,
+    round,
   });
 
   return {
-    ...tournamentCompetitor,
+    ...doc,
     ...results,
     registrations,
   };

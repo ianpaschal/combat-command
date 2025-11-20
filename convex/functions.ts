@@ -4,6 +4,8 @@ import { Triggers } from 'convex-helpers/server/triggers';
 import { api } from './_generated/api';
 import { DataModel, Doc } from './_generated/dataModel';
 import { mutation as convexMutation } from './_generated/server';
+import { matchResultTriggers } from './_model/matchResults';
+import { tournamentCompetitorTriggers } from './_model/tournamentCompetitors';
 import { extractSearchTokens as extractTournamentSearchTokens } from './_model/tournaments/_helpers/extractSearchTokens';
 import { extractSearchTokens as extractUserSearchTokens } from './_model/users/_helpers/extractSearchTokens';
 
@@ -63,3 +65,6 @@ triggers.register('tournaments', async (ctx, change) => {
     }
   }
 });
+
+triggers.register('matchResults', matchResultTriggers.refreshTournamentResults);
+triggers.register('tournamentCompetitors', tournamentCompetitorTriggers.refreshTournamentResults);

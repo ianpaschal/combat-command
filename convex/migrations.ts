@@ -1,7 +1,8 @@
 import { Migrations } from '@convex-dev/migrations';
 
-import { components } from './_generated/api.js';
-import { DataModel, Id } from './_generated/dataModel.js';
+import { components } from './_generated/api';
+import { DataModel, Id } from './_generated/dataModel';
+import { refreshTournamentResult } from './_model/tournamentResults';
 
 export const migrations = new Migrations<DataModel>(components.migrations);
 export const run = migrations.runner();
@@ -46,5 +47,20 @@ export const fixMissingListData = migrations.define({
       }
     }
     await ctx.db.patch(doc._id, patchData);
+  },
+});
+
+export const migrateTournamentResults = migrations.define({
+  table: 'tournaments',
+  migrateOne: async (ctx, doc) => {
+    if (doc.status === 'archived') {
+      const rounds = doc.lastRound !== undefined ? doc.lastRound + 1 : doc.roundCount;
+      for (let i = 0; i < rounds; i++) {
+        await refreshTournamentResult(ctx, {
+          tournamentId: doc._id,
+          round: i,
+        });
+      }
+    }
   },
 });
