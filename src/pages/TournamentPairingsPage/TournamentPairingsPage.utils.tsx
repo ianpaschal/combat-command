@@ -165,10 +165,12 @@ export const renderCompetitorCard = (
 
   const isValid = !!state.activeId && !(rankedCompetitor?.opponentIds ?? []).includes(state.activeId as TournamentCompetitorId);
 
+  const rank = (rankedCompetitor.rank ?? -1) < 0 ? '-' : rankedCompetitor.rank + 1;
+
   return (
     <div className={styles.TournamentPairingsPage_Form_CompetitorCard}>
       <IdentityBadge competitor={rankedCompetitor} />
-      <div>{rankedCompetitor.rank !== undefined ? rankedCompetitor.rank + 1 : '-'}</div>
+      <div>{rank}</div>
       <Pulsar color={isValid ? 'green' : 'red'} visible={!!state.activeId && !state.isActive} />
     </div>
   );

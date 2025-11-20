@@ -1,5 +1,6 @@
 import { mutation, query } from './_generated/server';
 import * as model from './_model/matchResults';
+import { mutationWithTrigger } from './functions';
 
 export const getMatchResult = query({
   args: model.getMatchResultArgs,
@@ -41,7 +42,7 @@ export const createMatchResult = mutation({
   handler: model.createMatchResult,
 });
 
-export const updateMatchResult = mutation({
+export const updateMatchResult = mutationWithTrigger({
   args: model.updateMatchResultArgs,
   handler: model.updateMatchResult,
 });
