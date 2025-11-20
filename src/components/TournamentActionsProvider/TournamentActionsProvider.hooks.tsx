@@ -17,6 +17,7 @@ import {
   usePublishTournament,
   useStartTournament,
   useStartTournamentRound,
+  useUndoStartTournamentRound,
 } from '~/services/tournaments';
 import { PATHS } from '~/settings';
 import { validateConfigureRound } from './utils/validateConfigureRound';
@@ -69,6 +70,12 @@ export const useActions = (openDialog: (data?: ConfirmationDialogData) => void):
   const { mutation: startTournamentRound } = useStartTournamentRound({
     onSuccess: (): void => {
       toast.success(`Round ${currentRoundLabel} started!`);
+    },
+  });
+
+  const { mutation: undoStartTournamentRound } = useUndoStartTournamentRound({
+    onSuccess: (): void => {
+      toast.success(`Round ${currentRoundLabel} rolled back!`);
     },
   });
 
@@ -159,6 +166,11 @@ export const useActions = (openDialog: (data?: ConfirmationDialogData) => void):
       key: TournamentActionKey.StartRound,
       label: `Start Round ${nextRoundLabel}`,
       handler: () => startTournamentRound({ id: tournament._id }),
+    },
+    {
+      key: TournamentActionKey.UndoStartRound,
+      label: `Undo Start Round ${currentRoundLabel}`,
+      handler: () => undoStartTournamentRound({ id: tournament._id }),
     },
     {
       key: TournamentActionKey.SubmitMatchResult,

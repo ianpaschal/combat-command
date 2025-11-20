@@ -2,6 +2,7 @@ import { getAuthUserId } from '@convex-dev/auth/server';
 import { Infer, v } from 'convex/values';
 
 import { QueryCtx } from '../../../_generated/server';
+import { getMatchResultsByTournamentRound } from '../../matchResults';
 import { checkUserIsTournamentOrganizer } from '../../tournamentOrganizers';
 import { checkUserIsRegistered } from '../../tournamentRegistrations/_helpers/checkUserIsRegistered';
 import { TournamentActionKey } from '..';
@@ -38,13 +39,21 @@ export const getAvailableTournamentActions = async (
   const isPlayer = await checkUserIsRegistered(ctx, args.id, userId);
 
   // ---- GATHER DATA ----
+  const hasCurrentRound = tournament.currentRound !== undefined;
+
   const nextRound = getTournamentNextRound(tournament);
+  const hasNextRound = nextRound !== undefined;
+
   const nextRoundPairings = await ctx.db.query('tournamentPairings')
     .withIndex('by_tournament_round', (q) => q.eq('tournamentId', args.id).eq('round', nextRound ?? -1))
     .collect();
   const nextRoundPairingCount = (nextRoundPairings ?? []).length;
-  const hasCurrentRound = tournament.currentRound !== undefined;
-  const hasNextRound = nextRound !== undefined;
+
+  const currentRoundMatchResults = await getMatchResultsByTournamentRound(ctx, {
+    tournamentId: tournament._id,
+    round: tournament.currentRound ?? 0,
+  });
+  const currentRoundMatchResultCount = (currentRoundMatchResults ?? []).length;
 
   // ---- PRIMARY ACTIONS ----
   const actions: TournamentActionKey[] = [];
@@ -65,12 +74,16 @@ export const getAvailableTournamentActions = async (
     actions.push(TournamentActionKey.Start);
   }
 
-  if (isOrganizer && tournament.status === 'active' && !hasCurrentRound && hasNextRound && nextRoundPairingCount === 0) {
+  if (isOrganizer && tournament.status === 'active' && !hasCurrentRound && hasNextRound) {
     actions.push(TournamentActionKey.ConfigureRound);
   }
 
   if (isOrganizer && tournament.status === 'active' && !hasCurrentRound && hasNextRound && nextRoundPairingCount > 0) {
     actions.push(TournamentActionKey.StartRound);
+  }
+
+  if (isOrganizer && tournament.status === 'active' && hasCurrentRound && currentRoundMatchResultCount === 0) {
+    actions.push(TournamentActionKey.UndoStartRound);
   }
 
   if ((isOrganizer || isPlayer) && hasCurrentRound) { // TODO: Don't show if all matches checked in

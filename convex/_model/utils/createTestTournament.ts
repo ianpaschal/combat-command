@@ -16,6 +16,7 @@ export const createTestTournamentArgs = v.object({
   lastRound: v.optional(v.number()),
   useNationalTeams: v.boolean(),
   gameSystem,
+  competitorCount: v.optional(v.number()),
 });
 
 const countryCodes = [
@@ -34,9 +35,10 @@ export const createTestTournament = async (
     lastRound,
     useNationalTeams,
     gameSystem,
+    competitorCount,
   }: Infer<typeof createTestTournamentArgs>,
 ): Promise<void> => {
-  const maxCompetitors = useTeams ? 12 : 24;
+  const maxCompetitors = competitorCount ?? useTeams ? 12 : 24;
   const competitorSize = useTeams ? 3 : 1;
 
   // 1. Gather users

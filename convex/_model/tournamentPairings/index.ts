@@ -42,3 +42,7 @@ export {
   createTournamentPairings,
   createTournamentPairingsArgs,
 } from './mutations/createTournamentPairings';
+export {
+  deleteTournamentPairings,
+  deleteTournamentPairingsArgs,
+} from './mutations/deleteTournamentPairings';

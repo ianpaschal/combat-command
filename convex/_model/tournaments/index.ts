@@ -16,6 +16,7 @@ export enum TournamentActionKey {
   EndRound = 'endRound',
   End = 'end',
   SubmitMatchResult = 'submitMatchResult',
+  UndoStartRound = 'undoStartRound',
 }
 
 const tournamentEditableFields = v.object(editableFields);
@@ -57,6 +58,10 @@ export {
   startTournamentRound,
   startTournamentRoundArgs,
 } from './mutations/startTournamentRound';
+export {
+  undoStartTournamentRound,
+  undoStartTournamentRoundArgs,
+} from './mutations/undoStartTournamentRound';
 export {
   updateTournament,
   updateTournamentArgs,
