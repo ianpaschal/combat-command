@@ -57,3 +57,7 @@ export {
   getMatchResultsByUser,
   getMatchResultsByUserArgs,
 } from './queries/getMatchResultsByUser';
+
+// Triggers
+// (Grouped/namespaced so they can more easily be merged in functions.ts with other models.)
+export * as matchResultTriggers from './triggers';

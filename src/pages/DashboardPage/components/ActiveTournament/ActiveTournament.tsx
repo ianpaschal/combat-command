@@ -42,7 +42,7 @@ export const ActiveTournament = ({
 
   const { data: tournamentCompetitors } = useGetTournamentCompetitorsByTournament({
     tournamentId: tournament._id,
-    includeRankings: lastVisibleRound,
+    rankingRound: lastVisibleRound,
   });
 
   const opponent = getOpponent(user?._id, pairing);

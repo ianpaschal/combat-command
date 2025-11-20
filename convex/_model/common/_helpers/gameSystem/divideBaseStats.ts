@@ -4,10 +4,10 @@
  * @param divisor
  * @returns
  */
-export const divideBaseStats = <TStatKey extends string>(
-  stats: Record<TStatKey, number>,
+export const divideBaseStats = <TBaseStats extends Record<string, number>>(
+  stats: TBaseStats,
   divisor: number,
-): Record<TStatKey, number> => Object.keys(stats).reduce((acc, key) => ({
+): TBaseStats => Object.keys(stats).reduce((acc, key) => ({
   ...acc,
-  [key]: (stats[key as TStatKey] ?? 0) / Math.max(divisor, 1),
-}), {} as Record<TStatKey, number>);
+  [key]: (stats[key as keyof TBaseStats] ?? 0) / Math.max(divisor, 1),
+}), {} as TBaseStats);

@@ -81,11 +81,6 @@ export {
   type TournamentOpenRound,
 } from './queries/getTournamentOpenRound';
 export {
-  getTournamentRankings,
-  getTournamentRankingsArgs,
-  type TournamentRankings,
-} from './queries/getTournamentRankings';
-export {
   getTournaments,
 } from './queries/getTournaments';
 

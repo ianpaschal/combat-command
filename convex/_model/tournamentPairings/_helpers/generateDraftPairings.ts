@@ -1,13 +1,13 @@
 import { ConvexError } from 'convex/values';
 
 import { getErrorMessage } from '../../common/errors';
-import { TournamentCompetitorRanked } from '../../common/types';
+import { DeepTournamentCompetitor } from '../../tournamentCompetitors';
 import { assignBye } from './assignBye';
 
 /**
- * A tuple of TournamentCompetitorRanked's to be paired.
+ * A tuple of tournament competitors to be paired.
  */
-export type CompetitorPair = [TournamentCompetitorRanked, TournamentCompetitorRanked | null];
+export type CompetitorPair = [DeepTournamentCompetitor, DeepTournamentCompetitor | null];
 
 /**
  * Generates draft pairings for an array of ranked TournamentCompetitors.
@@ -21,13 +21,13 @@ export type CompetitorPair = [TournamentCompetitorRanked, TournamentCompetitorRa
  * @returns An array of 
  */
 export const generateDraftPairings = (
-  orderedCompetitors: TournamentCompetitorRanked[],
+  orderedCompetitors: DeepTournamentCompetitor[],
   allowRepeats: boolean = false,
 ): CompetitorPair[] => {
   const pairings: CompetitorPair[] = [];
     
   // Handle byes:
-  const [byeCompetitor, restCompetitors]= assignBye(orderedCompetitors);
+  const [byeCompetitor, restCompetitors] = assignBye(orderedCompetitors);
   if (byeCompetitor) {
     pairings.push([ byeCompetitor, null ]);
   }
@@ -50,7 +50,7 @@ export const generateDraftPairings = (
  * Depth‑first, rank‑biased backtracking search.
  */
 export const recursivePair = (
-  pool: TournamentCompetitorRanked[],
+  pool: DeepTournamentCompetitor[],
   allowRepeats: boolean,
 ): CompetitorPair[] | null => {
   if (pool.length === 0) {
@@ -59,7 +59,7 @@ export const recursivePair = (
   const [ anchor, ...rest ] = pool; // best remaining
   for (let i = 0; i < rest.length; ++i) {
     const opponent = rest[i];
-    const havePlayed = anchor.opponentIds.includes(opponent.id);
+    const havePlayed = anchor.opponentIds.includes(opponent._id);
     if (havePlayed && !allowRepeats) {
       continue; // hard‑constraint
     }

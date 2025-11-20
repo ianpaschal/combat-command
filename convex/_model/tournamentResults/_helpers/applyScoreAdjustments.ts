@@ -1,10 +1,10 @@
 import { Infer } from 'convex/values';
 
 import { rankingFactor } from '../../common/rankingFactor';
-import { RankingFactor, ScoreAdjustment } from '../../common/types';
+import { RankingFactorValues, ScoreAdjustment } from '../../common/types';
 
 export const applyScoreAdjustments = (
-  rankingFactors: Record<RankingFactor, number>,
+  rankingFactors: RankingFactorValues,
   adjustments: ScoreAdjustment[],
   lastRound: number,
 ): Record<Infer<typeof rankingFactor>, number> => {

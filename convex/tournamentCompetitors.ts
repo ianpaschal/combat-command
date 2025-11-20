@@ -1,5 +1,6 @@
 import { mutation, query } from './_generated/server';
 import * as model from './_model/tournamentCompetitors';
+import { mutationWithTrigger } from './functions';
 
 export const getTournamentCompetitor = query({
   args: model.getTournamentCompetitorArgs,
@@ -22,7 +23,7 @@ export const createTournamentCompetitor = mutation({
   handler: model.createTournamentCompetitor,
 });
 
-export const updateTournamentCompetitor = mutation({
+export const updateTournamentCompetitor = mutationWithTrigger({
   args: model.updateTournamentCompetitorArgs,
   handler: model.updateTournamentCompetitor,
 });

@@ -4,14 +4,14 @@ import {
   it,
 } from 'vitest';
 
-import { createMockRankedCompetitors } from '../../../_fixtures/createMockRankedCompetitor';
-import { TournamentCompetitorRanked } from '../../common/types';
+import { createMockTournamentCompetitors } from '../../../_fixtures/createMockTournamentCompetitor';
+import { DeepTournamentCompetitor } from '../../tournamentCompetitors';
 import { assignBye } from './assignBye';
 
 describe('assignBye', () => {
   it('Returns null and all competitors if no bye is needed (even number of competitors).', () => {
     // ---- Arrange ----
-    const competitors = createMockRankedCompetitors(4);
+    const competitors = createMockTournamentCompetitors(4);
 
     // ---- Act ----
     const [bye, remaining] = assignBye(competitors);
@@ -23,21 +23,21 @@ describe('assignBye', () => {
 
   it('Assigns a bye to the lowest-ranked competitor who has not had one.', () => {
     // ---- Arrange ----
-    const competitors = createMockRankedCompetitors(5);
+    const competitors = createMockTournamentCompetitors(5);
 
     // ---- Act ----
     const [bye, remaining] = assignBye(competitors);
 
     // ---- Assert ----
     expect(bye).toBeDefined();
-    expect(bye!.id).toBe(competitors[4].id); // Lowest-ranked competitor
+    expect(bye!._id).toBe(competitors[4]._id); // Lowest-ranked competitor
     expect(remaining.length).toBe(4);
     expect(remaining).not.toContain(bye);
   });
 
   it('Assigns a bye to the lowest-ranked competitor if all have had byes.', () => {
     // ---- Arrange ----
-    const competitors = createMockRankedCompetitors(5);
+    const competitors = createMockTournamentCompetitors(5);
     competitors.forEach((c) => (c.byeRounds = [1])); // All competitors have had a bye
 
     // ---- Act ----
@@ -45,27 +45,27 @@ describe('assignBye', () => {
 
     // ---- Assert ----
     expect(bye).toBeDefined();
-    expect(bye!.id).toBe(competitors[4].id); // Lowest-ranked competitor
+    expect(bye!._id).toBe(competitors[4]._id); // Lowest-ranked competitor
     expect(remaining.length).toBe(4);
     expect(remaining).not.toContain(bye);
   });
 
   it('Handles a single competitor correctly.', () => {
     // ---- Arrange ---
-    const competitors = createMockRankedCompetitors(1);
+    const competitors = createMockTournamentCompetitors(1);
 
     // ---- Act ----
     const [bye, remaining] = assignBye(competitors);
 
     // ---- Assert ----
     expect(bye).toBeDefined();
-    expect(bye?.id).toBe(competitors[0].id);
+    expect(bye?._id).toBe(competitors[0]._id);
     expect(remaining).toEqual([]);
   });
 
   it('Handles an empty list of competitors.', () => {
     // ---- Arrange ---
-    const competitors: TournamentCompetitorRanked[] = [];
+    const competitors: DeepTournamentCompetitor[] = [];
 
     // ---- Act ----
     const [bye, remaining] = assignBye(competitors);
@@ -77,7 +77,7 @@ describe('assignBye', () => {
 
   it('Does not change the order of returned competitors.', () => {
     // ---- Arrange ----
-    const competitors = createMockRankedCompetitors(5);
+    const competitors = createMockTournamentCompetitors(5);
 
     // Assign bye to all but middle competitor:
     for (let i = 0; i < competitors.length; i++) {
@@ -91,11 +91,11 @@ describe('assignBye', () => {
 
     // ---- Assert ----
     expect(bye).toBeDefined();
-    expect(bye!.id).toBe(competitors[2].id);
+    expect(bye!._id).toBe(competitors[2]._id);
     expect(remaining).not.toContain(bye);
     expect(remaining.length).toBe(4);
-    expect(remaining.map((c) => c.id)).toEqual(
-      competitors.filter((c) => c.id !== bye!.id).map((c) => c.id),
+    expect(remaining.map((c) => c._id)).toEqual(
+      competitors.filter((c) => c._id !== bye!._id).map((c) => c._id),
     );
   });
 });

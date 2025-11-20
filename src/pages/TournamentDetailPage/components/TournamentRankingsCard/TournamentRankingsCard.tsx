@@ -1,4 +1,8 @@
-import { ReactElement, useState } from 'react';
+import {
+  ReactElement,
+  useMemo,
+  useState,
+} from 'react';
 import clsx from 'clsx';
 import { Trophy } from 'lucide-react';
 
@@ -10,7 +14,7 @@ import { Table } from '~/components/generic/Table';
 import { useTournamentCompetitors } from '~/components/TournamentCompetitorsProvider';
 import { useTournament } from '~/components/TournamentProvider';
 import { getTournamentRankingTableConfig, RankingRow } from '~/pages/TournamentDetailPage/components/TournamentRankingsCard/TournamentRankingsCard.utils';
-import { useGetTournamentRankings } from '~/services/tournaments';
+import { useGetTournamentResultsByRound } from '~/services/tournamentResults';
 import { getLastVisibleTournamentRound } from '~/utils/common/getLastVisibleTournamentRound';
 import { getRoundOptions } from '~/utils/common/getRoundOptions';
 import { TournamentDetailCard } from '../TournamentDetailCard';
@@ -29,41 +33,45 @@ export const TournamentRankingsCard = ({
   const competitors = useTournamentCompetitors();
   const lastVisibleRound = getLastVisibleTournamentRound(tournament, user);
   const [round, setRound] = useState<number>(lastVisibleRound);
-  const [view, setView] = useState<'competitors' | 'players'>('competitors');
+  const [view, setView] = useState<'competitors' | 'registrations'>('competitors');
 
-  const { data: rankings, loading } = useGetTournamentRankings({
+  const { data: results, loading } = useGetTournamentResultsByRound({
     tournamentId: tournament._id,
     round,
   });
+
+  const registrations: TournamentRegistration[] = useMemo(() => competitors.reduce((acc, c) => [
+    ...acc,
+    ...c.registrations,
+  ], [] as TournamentRegistration[]), [
+    competitors,
+  ]);
 
   const columns = getTournamentRankingTableConfig({
     view,
     tournament,
     competitors,
-    registrations: competitors.reduce((acc, c) => [
-      ...acc,
-      ...c.registrations,
-    ], [] as TournamentRegistration[]),
+    registrations,
   });
   // TODO: Move rows into the config util
-  const competitorRows: RankingRow[] = (rankings?.competitors || []).map((competitor) => ({
+  const competitorRows: RankingRow[] = (results?.competitors || []).map((competitor) => ({
     id: competitor.id,
     rank: competitor.rank,
     rankingFactors: competitor.rankingFactors,
   }));
-  const playerRows: RankingRow[] = (rankings?.players || []).map((player) => ({
-    id: player.id,
-    rank: player.rank,
-    rankingFactors: player.rankingFactors,
+  const registrationRows: RankingRow[] = (results?.registrations || []).map((registration) => ({
+    id: registration.id,
+    rank: registration.rank,
+    rankingFactors: registration.rankingFactors,
   }));
-  const rows = view === 'players' ? playerRows : competitorRows;
+  const rows = view === 'registrations' ? registrationRows : competitorRows;
 
-  const showEmptyState = tournament.lastRound === undefined || !(rankings?.[view] ?? []).length;
+  const showEmptyState = tournament.lastRound === undefined || !(results?.[view] ?? []).length;
   const showLoadingState = loading;
 
   const roundOptions = getRoundOptions(lastVisibleRound);
   const viewOptions = [
-    { label: 'Players', value: 'players' },
+    { label: 'Players', value: 'registrations' },
     { label: 'Teams', value: 'competitors' },
   ];
 
@@ -73,7 +81,7 @@ export const TournamentRankingsCard = ({
         options={viewOptions}
         value={view}
 
-        onChange={(selected) => setView(selected as 'players' | 'competitors')}
+        onChange={(selected) => setView(selected as 'registrations' | 'competitors')}
         disabled={showLoadingState || showEmptyState}
       />,
     ] : []),

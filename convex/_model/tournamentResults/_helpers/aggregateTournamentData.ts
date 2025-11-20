@@ -1,38 +1,49 @@
-import { GameSystem, getGameSystem } from '@ianpaschal/combat-command-game-systems/common';
+import { getGameSystem } from '@ianpaschal/combat-command-game-systems/common';
 
-import { Doc, Id } from '../../../../_generated/dataModel';
+import { Doc, Id } from '../../../_generated/dataModel';
+import { QueryCtx } from '../../../_generated/server';
+import { computeRankingFactors } from '../../common/_helpers/gameSystem/computeRankingFactors';
 import {
-  AnyBaseStats,
+  TournamentAggregateData,
   TournamentCompetitorMetadata,
-  TournamentCompetitorRanked,
   TournamentPlayerMetadata,
-  TournamentPlayerRanked,
-} from '../../types';
-import { computeRankingFactors } from './computeRankingFactors';
-
-export type TournamentAggregateData<TBaseStats extends AnyBaseStats> = {
-  registrations: Omit<TournamentPlayerRanked<TBaseStats>, 'rank'>[];
-  competitors: Omit<TournamentCompetitorRanked<TBaseStats>, 'rank'>[];
-};
+} from '../types';
 
 /**
  * Aggregates all tournament data for a tournament, organized by competitor and player/registration.
  * 
  * @param ctx - Convex query context
  * @param tournamentId - ID of the tournament
+ * @param round - Round index
  * @returns Calculated results for a tournament, by competitor and player/registration
  */
-export const aggregateTournamentData = (
-  gameSystem: GameSystem,
-  data: {
-    tournamentRegistrations: Doc<'tournamentRegistrations'>[],
-    tournamentCompetitors: Doc<'tournamentCompetitors'>[],
-    tournamentPairings: Doc<'tournamentPairings'>[],
-    matchResults: Doc<'matchResults'>[],
-  },
-): TournamentAggregateData<AnyBaseStats> => {
+export const aggregateTournamentData = async (
+  ctx: QueryCtx,
+  tournament: Doc<'tournaments'>,
+  round: number,
+): Promise<TournamentAggregateData> => {
+
+  // ---- GATHER DATABASE RECORDS ----
+  const tournamentRegistrations = await ctx.db.query('tournamentRegistrations')
+    .withIndex('by_tournament', (q) => q.eq('tournamentId', tournament._id))
+    .collect();
+  const tournamentCompetitors = await ctx.db.query('tournamentCompetitors')
+    .withIndex('by_tournament_id', (q) => q.eq('tournamentId', tournament._id))
+    .collect();
+  const tournamentPairings = await ctx.db.query('tournamentPairings')
+    .withIndex('by_tournament_id', (q) => q.eq('tournamentId', tournament._id))
+    .filter((q) => q.lte(q.field('round'), round))
+    .collect();
+  const relevantTournamentPairingIds = tournamentPairings.map((r) => r._id);
+  const matchResults = await ctx.db.query('matchResults')
+    .withIndex('by_tournament_id', (q) => q.eq('tournamentId', tournament._id))
+    .collect();
+  const relevantMatchResults = matchResults.filter((r) => (
+    r.tournamentPairingId && relevantTournamentPairingIds.includes(r.tournamentPairingId)
+  ));
+
   // For faster look-up:
-  const playerUserIdMap = data.tournamentRegistrations.reduce((acc, registration) => ({
+  const playerUserIdMap = tournamentRegistrations.reduce((acc, registration) => ({
     ...acc,
     [registration.userId]: {
       registrationId: registration._id,
@@ -44,14 +55,13 @@ export const aggregateTournamentData = (
   }>);
   
   // Game system specifics:
-
-  const { extractMatchResultStats, defaultBaseStats } = getGameSystem(gameSystem);
+  const { extractMatchResultStats, defaultBaseStats } = getGameSystem(tournament.gameSystem);
   type BaseStats = typeof defaultBaseStats;
   type RegistrationStats= Record<Id<'tournamentRegistrations'>, TournamentPlayerMetadata<BaseStats>>;
   type CompetitorStats = Record<Id<'tournamentCompetitors'>, TournamentCompetitorMetadata<BaseStats>>;
   
   // ---- 1. Set-up containers to store all stats ----
-  const registrationStats: RegistrationStats = data.tournamentRegistrations.reduce((acc, registration) => ({
+  const registrationStats: RegistrationStats = tournamentRegistrations.reduce((acc, registration) => ({
     ...acc,
     [registration._id]: {
       gamesPlayed: 0,
@@ -62,13 +72,13 @@ export const aggregateTournamentData = (
     } satisfies TournamentPlayerMetadata<BaseStats>,
   }), {});
 
-  const competitorStats: CompetitorStats = data.tournamentCompetitors.reduce((acc, competitor) => ({
+  const competitorStats: CompetitorStats = tournamentCompetitors.reduce((acc, competitor) => ({
     ...acc,
     [competitor._id]: {
       gamesPlayed: 0,
-      playedTables: [],
-      byeRounds: [],
-      opponentIds: [],
+      playedTables: new Set(),
+      byeRounds: new Set(),
+      opponentIds: new Set(),
       baseStats: {
         self: [],
         opponent: [],
@@ -104,17 +114,17 @@ export const aggregateTournamentData = (
 
     const wasBye = pairing.table === null || !pairing.tournamentCompetitor0Id || !pairing.tournamentCompetitor1Id;
     if (wasBye) {
-      competitorStats[competitorId].byeRounds.push(pairing.round);
+      competitorStats[competitorId].byeRounds.add(pairing.round);
     }
     if (pairing.table) {
-      competitorStats[competitorId].playedTables.push(pairing.table);
+      competitorStats[competitorId].playedTables.add(pairing.table);
     }
     if (opponent.id) {
-      competitorStats[competitorId].opponentIds.push(playerUserIdMap[opponent.id].competitorId);
+      competitorStats[competitorId].opponentIds.add(playerUserIdMap[opponent.id].competitorId);
     }
   };
 
-  for (const matchResult of data.matchResults) {
+  for (const matchResult of relevantMatchResults) {
     const [player0BaseStats, player1BaseStats] = extractMatchResultStats(matchResult.details);
     const player0Data: PlayerData = {
       id: matchResult.player0UserId,
@@ -124,7 +134,7 @@ export const aggregateTournamentData = (
       id: matchResult.player1UserId,
       stats: player1BaseStats,
     };
-    const tournamentPairing = data.tournamentPairings.find((r) => r._id === matchResult.tournamentPairingId);
+    const tournamentPairing = tournamentPairings.find((r) => r._id === matchResult.tournamentPairingId);
     if (!tournamentPairing) {
       throw new Error('Included a match result which was not part of the pairings!');
     }
@@ -136,15 +146,20 @@ export const aggregateTournamentData = (
 
   // ---- 3. Convert stats to ranking factors for players and competitors ----
   return {
-    registrations: Object.entries(registrationStats).map(([id, data]) => ({
+    registrations: Object.entries(registrationStats).map(([id, { baseStats, ...data }]) => ({
       id: id as Id<'tournamentRegistrations'>,
       ...data,
-      rankingFactors: computeRankingFactors(data, defaultBaseStats),
+      rankingFactors: computeRankingFactors(baseStats, data.gamesPlayed, defaultBaseStats),
+      rank: -1,
     })),
-    competitors: Object.entries(competitorStats).map(([id, data]) => ({
+    competitors: Object.entries(competitorStats).map(([id, { baseStats, ...data }]) => ({
       id: id as Id<'tournamentCompetitors'>,
       ...data,
-      rankingFactors: computeRankingFactors(data, defaultBaseStats),
+      opponentIds: Array.from(data.opponentIds),
+      playedTables: Array.from(data.playedTables),
+      byeRounds: Array.from(data.byeRounds),
+      rankingFactors: computeRankingFactors(baseStats, data.gamesPlayed, defaultBaseStats),
+      rank: -1,
     })),
   };
 };

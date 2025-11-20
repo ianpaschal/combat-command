@@ -38,3 +38,7 @@ export {
   getTournamentCompetitorsByTournament,
   getTournamentCompetitorsByTournamentArgs,
 } from './queries/getTournamentCompetitorsByTournament';
+
+// Triggers
+// (Grouped/namespaced so they can more easily be merged in functions.ts with other models.)
+export * as tournamentCompetitorTriggers from './triggers';

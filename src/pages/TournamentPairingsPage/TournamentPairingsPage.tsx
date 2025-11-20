@@ -62,7 +62,7 @@ export const TournamentPairingsPage = (): JSX.Element => {
 
   const { data: tournamentCompetitors } = useGetTournamentCompetitorsByTournament({
     tournamentId,
-    includeRankings: lastRound,
+    rankingRound: lastRound,
   });
   const isFirstRound = (tournament?.lastRound ?? -1) < 0;
   const defaultPairingMethod = isFirstRound ? (
