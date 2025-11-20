@@ -1,3 +1,4 @@
+import { ReactElement } from 'react';
 import { generatePath, useNavigate } from 'react-router-dom';
 import {
   Cog,
@@ -18,17 +19,12 @@ export const AccountMenu = (): JSX.Element | null => {
   const navigate = useNavigate();
   const user = useAuth();
   const { signOut } = useSignOut();
-
-  if (!user) {
-    return null;
-  }
-
-  const items = [
+  const items: { icon?: ReactElement, label: string, onClick: () => void }[] = user ? [
     {
       icon: <User />,
       label: 'Profile',
       onClick: (): void => {
-        navigate(generatePath(PATHS.userProfile, { id: user!._id }));
+        navigate(generatePath(PATHS.userProfile, { id: user._id }));
       },
     },
     {
@@ -43,18 +39,41 @@ export const AccountMenu = (): JSX.Element | null => {
       label: 'Sign Out',
       onClick: () => signOut('/'),
     },
+  ] : [
+    {
+      label: 'Sign In',
+      onClick: (): void => {
+        navigate(PATHS.authSignIn);
+      },
+    },
+    {
+      label: 'Sign Up',
+      onClick: (): void => {
+        navigate(PATHS.authSignUp);
+      },
+    },
   ];
   return (
     <Popover.Root>
       <Popover.Trigger className={styles.Trigger}>
-        <Avatar url={user?.avatarUrl} />
+        {user ? (
+          <Avatar url={user.avatarUrl} />
+        ) : (
+          <div className={styles.AuthMenuTrigger}>
+            <User />
+          </div>
+        )}
       </Popover.Trigger>
       <Popover.Content className={styles.Content} align="end">
-        <div className={styles.UserDisplayName}>
-          {user.displayName}
-        </div>
-        <Separator />
-        <div className={styles.Items} >
+        {user && (
+          <>
+            <div className={styles.UserDisplayName}>
+              {user.displayName}
+            </div>
+            <Separator />
+          </>
+        )}
+        <div className={styles.Items}>
           {items.map((item, i) => (
             <Popover.Close key={i} asChild>
               <div className={styles.Item} onClick={item.onClick}>

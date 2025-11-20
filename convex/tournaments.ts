@@ -20,16 +20,6 @@ export const getTournaments = query({
   handler: model.getTournaments,
 });
 
-export const getTournamentsByStatus = query({
-  args: model.getTournamentsByStatusArgs,
-  handler: model.getTournamentsByStatus,
-});
-
-export const getTournamentsByUser = query({
-  args: model.getTournamentsByUserArgs,
-  handler: model.getTournamentsByUser,
-});
-
 export const getTournamentOpenRound = query({
   args: model.getTournamentOpenRoundArgs,
   handler: model.getTournamentOpenRound,

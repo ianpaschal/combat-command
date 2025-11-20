@@ -68,7 +68,7 @@ export const computeFields = <TGameSystemDetails extends MatchResultDetails>(
     computedDetails.firstTurn = firstTurn;
   }
 
-  const winner = calculateMatchResultWinner(missionData, attacker ?? details.attacker, details.outcomeType);
+  const winner = calculateMatchResultWinner(missionData, attacker ?? details.attacker, details.outcomeType, details.scoreOverride);
   if (winner !== undefined) {
     computedDetails.winner = winner;
   }

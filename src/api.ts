@@ -7,6 +7,7 @@ export { api };
 // Common
 export type {
   RankingFactor,
+  TournamentStatus,
 } from '../convex/_model/common/types';
 export {
   VisibilityLevel,
@@ -75,6 +76,7 @@ export {
   type TournamentDeep as Tournament,
   TournamentActionKey,
   type TournamentEditableFields,
+  type TournamentFilterParams,
   type TournamentId,
 } from '../convex/_model/tournaments';
 

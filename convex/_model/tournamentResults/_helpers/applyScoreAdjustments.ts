@@ -11,7 +11,7 @@ export const applyScoreAdjustments = (
   const adjusted = { ...rankingFactors };
   for (const adjustment of adjustments) {
     const { rankingFactor, amount, round } = adjustment;
-    if (adjusted[rankingFactor] !== undefined && round >= lastRound) {
+    if (adjusted[rankingFactor] !== undefined && round <= lastRound) {
       adjusted[rankingFactor] = (adjusted[rankingFactor] ?? 0) + amount;
     }
   }

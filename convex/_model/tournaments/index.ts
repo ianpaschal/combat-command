@@ -1,5 +1,6 @@
 import { Infer, v } from 'convex/values';
 
+import { getTournamentsArgs } from './queries/getTournaments';
 import { Id } from '../../_generated/dataModel';
 import { editableFields } from './table';
 
@@ -19,6 +20,7 @@ export enum TournamentActionKey {
 
 const tournamentEditableFields = v.object(editableFields);
 export type TournamentEditableFields = Infer<typeof tournamentEditableFields>;
+export type TournamentFilterParams = Infer<typeof getTournamentsArgs>;
 
 // Helpers
 export { checkTournamentAuth } from './_helpers/checkTournamentAuth';
@@ -81,14 +83,6 @@ export {
 export {
   getTournaments,
 } from './queries/getTournaments';
-export {
-  getTournamentsByStatus,
-  getTournamentsByStatusArgs,
-} from './queries/getTournamentsByStatus';
-export {
-  getTournamentsByUser,
-  getTournamentsByUserArgs,
-} from './queries/getTournamentsByUser';
 
 // Actions
 export {

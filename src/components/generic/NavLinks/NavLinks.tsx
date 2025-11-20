@@ -1,8 +1,9 @@
-import { ReactNode } from 'react';
+import { ReactElement } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useWindowWidth } from '@react-hook/window-size/throttled';
 import clsx from 'clsx';
 
+import { Separator } from '~/components/generic/Separator';
 import { MOBILE_BREAKPOINT } from '~/settings';
 import { ElementOrientation, ElementSize } from '~/types/componentLib';
 
@@ -22,26 +23,27 @@ export interface RouteConfig {
 export interface NavLink {
   path: string;
   title: string;
+  icon?: ReactElement;
 }
 
 export interface NavLinksProps {
   orientation?: ElementOrientation;
   routes: NavLink[];
+  externalRoutes?: NavLink[];
   size?: ElementSize;
-  wrapper?: (i: number, link: ReactNode) => ReactNode;
 }
 
 export const NavLinks = ({
   orientation = 'horizontal',
   size: customSize,
   routes,
-  wrapper,
+  externalRoutes,
 }: NavLinksProps): JSX.Element => {
   const { pathname } = useLocation();
   const width = useWindowWidth();
   const size = customSize || width <= MOBILE_BREAKPOINT ? 'large' : 'normal';
   return (
-    <nav className={styles[`Root-${orientation}`]}>
+    <nav className={styles.NavLinks} data-orientation={orientation}>
       {routes.map((route, i) => {
         const current = route.path === pathname;
         const classNames = clsx(
@@ -53,28 +55,41 @@ export const NavLinks = ({
             [styles['Item-clickable']]: !current,
           },
         );
-        if (wrapper) {
-          return wrapper(i, (
-            <Link
-              className={classNames}
-              to={route.path}
-            >
-              {route.title}
-              <span className={styles.Indicator} data-state={current ? 'visible' : 'hidden'} />
-            </Link>
-          ));
-        }
         return (
           <Link
             key={i}
             className={classNames}
             to={route.path}
           >
+            {route.icon}
             {route.title}
             <span className={styles.Indicator} data-state={current ? 'visible' : 'hidden'} />
           </Link>
         );
       })}
+      {orientation === 'vertical' && (
+        <Separator />
+      )}
+      <div className={styles.ExternalRoutes} data-orientation={orientation}>
+        {(externalRoutes ?? []).map((route) => (
+          <Link
+            key={route.path}
+            className={clsx(
+              styles.Item,
+              styles['Item-clickable'],
+              size ? {
+                [styles[`Item-${size}`]]: true,
+              } : undefined,
+            )}
+            to={route.path}
+            target="_blank"
+          >
+            {route.icon}
+            {route.title}
+            <span className={styles.Indicator} />
+          </Link>
+        ))}
+      </div>
     </nav>
   );
 };

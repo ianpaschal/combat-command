@@ -8,7 +8,7 @@ import { Form, FormField } from '~/components/generic/Form';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { InputText } from '~/components/generic/InputText';
 import { Separator } from '~/components/generic/Separator';
-import { useGetTournamentsByUser } from '~/services/tournaments';
+import { useGetTournaments } from '~/services/tournaments';
 import { useUpdateUser } from '~/services/users';
 import { visibilityLevelOptions } from '~/types/visibilityLevelOptions';
 import { getCountryOptions } from '~/utils/common/getCountryOptions';
@@ -23,7 +23,7 @@ import styles from './UserProfileForm.module.scss';
 export const UserProfileForm = (): JSX.Element => {
   const user = useAuth();
 
-  const { data: tournaments } = useGetTournamentsByUser(user ? {
+  const { data: tournaments } = useGetTournaments(user ? {
     userId: user._id,
   } : 'skip');
 

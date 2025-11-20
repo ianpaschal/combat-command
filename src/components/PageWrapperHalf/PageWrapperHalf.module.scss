@@ -18,22 +18,14 @@
   background-color: var(--card-bg);
 }
 
-.Header {
-  @include flex.row($gap: 0.25rem);
-
-  flex-shrink: 0;
-  height: 4rem;
-  padding-left: 1.5rem;
-}
-
 .Body {
   @include flex.column($gap: 2rem);
 
-  padding: 3rem 2rem;
+  padding: calc(var(--app-bar-height) + 3rem) 2rem 3rem;
 }
 
 @media (width >= 480px) {
   .Body {
-    padding: 3rem 4rem;
+    padding: calc(var(--app-bar-height) + 3rem) 4rem 3rem;
   }
 }

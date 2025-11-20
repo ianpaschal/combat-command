@@ -1,7 +1,10 @@
 @use "variables";
 @use "/src/style/borders";
 @use "/src/style/corners";
+@use "/src/style/flex";
 @use "/src/style/shadows";
+@use "/src/style/sizes";
+@use "/src/style/text";
 
 // TODO: Move to utils
 @mixin reset {
@@ -201,5 +204,28 @@
 
   @if $elevated {
     @include shadows.elevated;
+  }
+}
+
+@mixin button-link {
+  @include corners.normal;
+  @include flex.row($gap: 0.5rem);
+  @include sizes.normal;
+  @include text.ui;
+  @include ghost;
+
+  position: relative;
+
+  flex-grow: 0;
+
+  padding: 0 1rem;
+
+  font-weight: 400;
+  text-decoration: none;
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+    margin-top: -2px;
   }
 }
