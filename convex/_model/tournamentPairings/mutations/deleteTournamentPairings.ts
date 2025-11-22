@@ -25,17 +25,22 @@ export const deleteTournamentPairings = async (
   checkTournamentAuth(ctx, tournament);
 
   // ---- VALIDATE ----
+  // TODO: Technically not really needed...
   if (tournament.status === 'draft') {
-    throw new ConvexError(getErrorMessage('CANNOT_ADD_PAIRINGS_TO_DRAFT_TOURNAMENT'));
+    throw new ConvexError(getErrorMessage('CANNOT_DELETE_PAIRINGS_FROM_DRAFT_TOURNAMENT'));
   }
+
+  // TODO: Technically not really needed...
   if (tournament.status === 'published') {
-    throw new ConvexError(getErrorMessage('CANNOT_ADD_PAIRINGS_TO_PUBLISHED_TOURNAMENT'));
+    throw new ConvexError(getErrorMessage('CANNOT_DELETE_PAIRINGS_FROM_PUBLISHED_TOURNAMENT'));
   }
+
+  // TODO: Replace with generic 'archived' error:
   if (tournament.status === 'archived') {
-    throw new ConvexError(getErrorMessage('CANNOT_ADD_PAIRINGS_TO_ARCHIVED_TOURNAMENT'));
+    throw new ConvexError(getErrorMessage('CANNOT_DELETE_PAIRINGS_FROM_ARCHIVED_TOURNAMENT'));
   }
   if (tournament.currentRound !== undefined) {
-    throw new ConvexError(getErrorMessage('CANNOT_ADD_PAIRINGS_TO_IN_PROGRESS_ROUND'));
+    throw new ConvexError(getErrorMessage('CANNOT_DELETE_PAIRINGS_FROM_IN_PROGRESS_ROUND'));
   }
 
   // ---- PRIMARY ACTIONS ----
