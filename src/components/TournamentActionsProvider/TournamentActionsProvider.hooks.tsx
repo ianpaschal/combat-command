@@ -75,7 +75,7 @@ export const useActions = (openDialog: (data?: ConfirmationDialogData) => void):
   const { mutation: endTournamentRound } = useEndTournamentRound({
     onSuccess: (_, args): void => {
       if (args.revert) {
-        toast.success(`Round ${currentRoundLabel} rolled back!`);
+        toast.success(`Round ${currentRoundLabel} reset!`);
       } else {
         toast.success(`Round ${currentRoundLabel} completed!`);
       }
