@@ -14,7 +14,7 @@ import { getTournamentShallow } from '../_helpers/getTournamentShallow';
 
 export const endTournamentRoundArgs = v.object({
   id: v.id('tournaments'),
-  revert: v.optional(v.boolean()),
+  reset: v.optional(v.boolean()),
 });
 
 /**
@@ -56,12 +56,12 @@ export const endTournamentRound = async (
   // Clean up TournamentTimer:
   await deleteTournamentTimerByTournament(ctx, dependentArgs);
 
-  if (args.revert) {
+  if (args.reset) {
 
-    // Revert results:
+    // Reset results:
     await deleteMatchResultsByTournamentRound(ctx, dependentArgs);
 
-    // Close the round without updating lastRound (reverting):
+    // Close the round without updating lastRound (resetting):
     await ctx.db.patch(args. id, {
       currentRound: undefined,
     });

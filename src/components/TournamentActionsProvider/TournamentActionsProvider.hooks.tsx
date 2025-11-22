@@ -74,7 +74,7 @@ export const useActions = (openDialog: (data?: ConfirmationDialogData) => void):
 
   const { mutation: endTournamentRound } = useEndTournamentRound({
     onSuccess: (_, args): void => {
-      if (args.revert) {
+      if (args.reset) {
         toast.success(`Round ${currentRoundLabel} reset!`);
       } else {
         toast.success(`Round ${currentRoundLabel} completed!`);
@@ -165,6 +165,11 @@ export const useActions = (openDialog: (data?: ConfirmationDialogData) => void):
       handler: () => startTournamentRound({ id: tournament._id }),
     },
     {
+      key: TournamentActionKey.SubmitMatchResult,
+      label: 'Submit Match Result',
+      handler: () => openMatchResultCreateDialog(),
+    },
+    {
       key: TournamentActionKey.ResetRound,
       label: `Reset Round ${currentRoundLabel}`,
       handler: () => {
@@ -174,7 +179,7 @@ export const useActions = (openDialog: (data?: ConfirmationDialogData) => void):
           title: 'Warning!',
           description: (
             <>
-              <span>Are you sure you want to reset round ${currentRoundLabel}</span>
+              <span>{`Are you sure you want to reset round ${currentRoundLabel}?`}</span>
               {alreadyHasMatchResults && (
                 <span>
                   {`This round already has ${openRound.matchResultsProgress.submitted} matches results checked in. They will be deleted as part of the reset.`}
@@ -184,14 +189,9 @@ export const useActions = (openDialog: (data?: ConfirmationDialogData) => void):
             </>
           ),
           confirmLabel: 'Reset Round',
-          onConfirm: () => endTournamentRound({ id: tournament._id }),
+          onConfirm: () => endTournamentRound({ id: tournament._id, reset: true }),
         });
       },
-    },
-    {
-      key: TournamentActionKey.SubmitMatchResult,
-      label: 'Submit Match Result',
-      handler: () => openMatchResultCreateDialog(),
     },
     {
       key: TournamentActionKey.EndRound,
