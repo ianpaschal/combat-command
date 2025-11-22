@@ -78,6 +78,7 @@ import type * as _model_matchResults_index from "../_model/matchResults/index.js
 import type * as _model_matchResults_mutations_addPhotoToMatchResult from "../_model/matchResults/mutations/addPhotoToMatchResult.js";
 import type * as _model_matchResults_mutations_createMatchResult from "../_model/matchResults/mutations/createMatchResult.js";
 import type * as _model_matchResults_mutations_deleteMatchResult from "../_model/matchResults/mutations/deleteMatchResult.js";
+import type * as _model_matchResults_mutations_deleteMatchResultsByTournamentRound from "../_model/matchResults/mutations/deleteMatchResultsByTournamentRound.js";
 import type * as _model_matchResults_mutations_updateMatchResult from "../_model/matchResults/mutations/updateMatchResult.js";
 import type * as _model_matchResults_queries_getMatchResult from "../_model/matchResults/queries/getMatchResult.js";
 import type * as _model_matchResults_queries_getMatchResults from "../_model/matchResults/queries/getMatchResults.js";
@@ -180,7 +181,6 @@ import type * as _model_tournaments_mutations_endTournamentRound from "../_model
 import type * as _model_tournaments_mutations_publishTournament from "../_model/tournaments/mutations/publishTournament.js";
 import type * as _model_tournaments_mutations_startTournament from "../_model/tournaments/mutations/startTournament.js";
 import type * as _model_tournaments_mutations_startTournamentRound from "../_model/tournaments/mutations/startTournamentRound.js";
-import type * as _model_tournaments_mutations_undoStartTournamentRound from "../_model/tournaments/mutations/undoStartTournamentRound.js";
 import type * as _model_tournaments_mutations_updateTournament from "../_model/tournaments/mutations/updateTournament.js";
 import type * as _model_tournaments_queries_getAvailableTournamentActions from "../_model/tournaments/queries/getAvailableTournamentActions.js";
 import type * as _model_tournaments_queries_getTournament from "../_model/tournaments/queries/getTournament.js";
@@ -341,6 +341,7 @@ declare const fullApi: ApiFromModules<{
   "_model/matchResults/mutations/addPhotoToMatchResult": typeof _model_matchResults_mutations_addPhotoToMatchResult;
   "_model/matchResults/mutations/createMatchResult": typeof _model_matchResults_mutations_createMatchResult;
   "_model/matchResults/mutations/deleteMatchResult": typeof _model_matchResults_mutations_deleteMatchResult;
+  "_model/matchResults/mutations/deleteMatchResultsByTournamentRound": typeof _model_matchResults_mutations_deleteMatchResultsByTournamentRound;
   "_model/matchResults/mutations/updateMatchResult": typeof _model_matchResults_mutations_updateMatchResult;
   "_model/matchResults/queries/getMatchResult": typeof _model_matchResults_queries_getMatchResult;
   "_model/matchResults/queries/getMatchResults": typeof _model_matchResults_queries_getMatchResults;
@@ -443,7 +444,6 @@ declare const fullApi: ApiFromModules<{
   "_model/tournaments/mutations/publishTournament": typeof _model_tournaments_mutations_publishTournament;
   "_model/tournaments/mutations/startTournament": typeof _model_tournaments_mutations_startTournament;
   "_model/tournaments/mutations/startTournamentRound": typeof _model_tournaments_mutations_startTournamentRound;
-  "_model/tournaments/mutations/undoStartTournamentRound": typeof _model_tournaments_mutations_undoStartTournamentRound;
   "_model/tournaments/mutations/updateTournament": typeof _model_tournaments_mutations_updateTournament;
   "_model/tournaments/queries/getAvailableTournamentActions": typeof _model_tournaments_queries_getAvailableTournamentActions;
   "_model/tournaments/queries/getTournament": typeof _model_tournaments_queries_getTournament;

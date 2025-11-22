@@ -70,11 +70,6 @@ export const startTournament = mutation({
   handler: model.startTournament,
 });
 
-export const undoStartTournamentRound = mutation({
-  args: model.undoStartTournamentRoundArgs,
-  handler: model.undoStartTournamentRound,
-});
-
 export const exportFowV4TournamentMatchData = action({
   args: model.exportFowV4TournamentMatchDataArgs,
   handler: model.exportFowV4TournamentMatchData,

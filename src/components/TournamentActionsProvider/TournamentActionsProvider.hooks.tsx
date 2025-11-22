@@ -17,7 +17,6 @@ import {
   usePublishTournament,
   useStartTournament,
   useStartTournamentRound,
-  useUndoStartTournamentRound,
 } from '~/services/tournaments';
 import { PATHS } from '~/settings';
 import { validateConfigureRound } from './utils/validateConfigureRound';
@@ -73,21 +72,19 @@ export const useActions = (openDialog: (data?: ConfirmationDialogData) => void):
     },
   });
 
-  const { mutation: undoStartTournamentRound } = useUndoStartTournamentRound({
-    onSuccess: (): void => {
-      toast.success(`Round ${currentRoundLabel} rolled back!`);
+  const { mutation: endTournamentRound } = useEndTournamentRound({
+    onSuccess: (_, args): void => {
+      if (args.revert) {
+        toast.success(`Round ${currentRoundLabel} rolled back!`);
+      } else {
+        toast.success(`Round ${currentRoundLabel} completed!`);
+      }
     },
   });
 
   const { mutation: endTournament } = useEndTournament({
     onSuccess: (): void => {
       toast.success(`${tournament.title} completed!`);
-    },
-  });
-
-  const { mutation: endTournamentRound } = useEndTournamentRound({
-    onSuccess: (): void => {
-      toast.success(`Round ${currentRoundLabel} completed!`);
     },
   });
 
@@ -168,9 +165,28 @@ export const useActions = (openDialog: (data?: ConfirmationDialogData) => void):
       handler: () => startTournamentRound({ id: tournament._id }),
     },
     {
-      key: TournamentActionKey.UndoStartRound,
-      label: `Undo Start Round ${currentRoundLabel}`,
-      handler: () => undoStartTournamentRound({ id: tournament._id }),
+      key: TournamentActionKey.ResetRound,
+      label: `Reset Round ${currentRoundLabel}`,
+      handler: () => {
+        const alreadyHasMatchResults = openRound && openRound.matchResultsProgress.submitted > 0;
+
+        openDialog({
+          title: 'Warning!',
+          description: (
+            <>
+              <span>Are you sure you want to reset round ${currentRoundLabel}</span>
+              {alreadyHasMatchResults && (
+                <span>
+                  {`This round already has ${openRound.matchResultsProgress.submitted} matches results checked in. They will be deleted as part of the reset.`}
+                </span>
+              )}
+              <strong>This action cannot be undone. You'll need to start the round over from the beginning.</strong>
+            </>
+          ),
+          confirmLabel: 'Reset Round',
+          onConfirm: () => endTournamentRound({ id: tournament._id }),
+        });
+      },
     },
     {
       key: TournamentActionKey.SubmitMatchResult,

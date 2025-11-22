@@ -83,7 +83,7 @@ export const getAvailableTournamentActions = async (
   }
 
   if (isOrganizer && tournament.status === 'active' && hasCurrentRound && currentRoundMatchResultCount === 0) {
-    actions.push(TournamentActionKey.UndoStartRound);
+    actions.push(TournamentActionKey.ResetRound);
   }
 
   if ((isOrganizer || isPlayer) && hasCurrentRound) { // TODO: Don't show if all matches checked in
