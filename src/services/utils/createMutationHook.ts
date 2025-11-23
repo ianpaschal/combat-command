@@ -7,7 +7,7 @@ import { toast } from '~/components/ToastProvider';
 
 export type MutationFn = FunctionReference<'mutation'>;
 export type MutationHookConfig<T extends MutationFn> = {
-  onSuccess?: (response: T['_returnType']) => void;
+  onSuccess?: (response: T['_returnType'], args: T['_args']) => void;
   onError?: (error: unknown) => void;
   successMessage?: string;
 };
@@ -24,7 +24,7 @@ export const createMutationHook = <T extends MutationFn>(mutationFn: T) => (conf
           toast.success(config.successMessage);
         }
         if (config?.onSuccess) {
-          config.onSuccess(response);
+          config.onSuccess(response, args);
         }
       } catch (error) {
         if (error instanceof ConvexError) {

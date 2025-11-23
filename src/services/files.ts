@@ -37,7 +37,7 @@ export const useUploadFile = (
           toast.success(config.successMessage);
         }
         if (config?.onSuccess) {
-          config.onSuccess(storageId);
+          config.onSuccess(storageId, file);
         }
       } catch (error) {
         console.error(error);

@@ -51,3 +51,8 @@ export const deleteMatchResult = mutation({
   args: model.deleteMatchResultArgs,
   handler: model.deleteMatchResult,
 });
+
+export const deleteMatchResultsByTournamentRound = mutation({
+  args: model.deleteMatchResultsByTournamentRoundArgs,
+  handler: model.deleteMatchResultsByTournamentRound,
+});

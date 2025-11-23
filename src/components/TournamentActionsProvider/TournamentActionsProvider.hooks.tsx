@@ -72,15 +72,19 @@ export const useActions = (openDialog: (data?: ConfirmationDialogData) => void):
     },
   });
 
-  const { mutation: endTournament } = useEndTournament({
-    onSuccess: (): void => {
-      toast.success(`${tournament.title} completed!`);
+  const { mutation: endTournamentRound } = useEndTournamentRound({
+    onSuccess: (_, args): void => {
+      if (args.reset) {
+        toast.success(`Round ${currentRoundLabel} reset!`);
+      } else {
+        toast.success(`Round ${currentRoundLabel} completed!`);
+      }
     },
   });
 
-  const { mutation: endTournamentRound } = useEndTournamentRound({
+  const { mutation: endTournament } = useEndTournament({
     onSuccess: (): void => {
-      toast.success(`Round ${currentRoundLabel} completed!`);
+      toast.success(`${tournament.title} completed!`);
     },
   });
 
@@ -164,6 +168,30 @@ export const useActions = (openDialog: (data?: ConfirmationDialogData) => void):
       key: TournamentActionKey.SubmitMatchResult,
       label: 'Submit Match Result',
       handler: () => openMatchResultCreateDialog(),
+    },
+    {
+      key: TournamentActionKey.ResetRound,
+      label: `Reset Round ${currentRoundLabel}`,
+      handler: () => {
+        const alreadyHasMatchResults = openRound && openRound.matchResultsProgress.submitted > 0;
+
+        openDialog({
+          title: 'Warning!',
+          description: (
+            <>
+              <span>{`Are you sure you want to reset round ${currentRoundLabel}?`}</span>
+              {alreadyHasMatchResults && (
+                <span>
+                  {`This round already has ${openRound.matchResultsProgress.submitted} matches results checked in. They will be deleted as part of the reset.`}
+                </span>
+              )}
+              <strong>This action cannot be undone. You'll need to start the round over from the beginning.</strong>
+            </>
+          ),
+          confirmLabel: 'Reset Round',
+          onConfirm: () => endTournamentRound({ id: tournament._id, reset: true }),
+        });
+      },
     },
     {
       key: TournamentActionKey.EndRound,

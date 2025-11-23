@@ -6,6 +6,7 @@ import {
 
 import { MutationCtx } from '../../../_generated/server';
 import { getErrorMessage } from '../../common/errors';
+import { deleteMatchResultsByTournamentRound } from '../../matchResults';
 import { refreshTournamentResult } from '../../tournamentResults';
 import { deleteTournamentTimerByTournament } from '../../tournamentTimers';
 import { checkTournamentAuth } from '../_helpers/checkTournamentAuth';
@@ -13,6 +14,7 @@ import { getTournamentShallow } from '../_helpers/getTournamentShallow';
 
 export const endTournamentRoundArgs = v.object({
   id: v.id('tournaments'),
+  reset: v.optional(v.boolean()),
 });
 
 /**
@@ -54,12 +56,24 @@ export const endTournamentRound = async (
   // Clean up TournamentTimer:
   await deleteTournamentTimerByTournament(ctx, dependentArgs);
 
-  // Update results:
-  await refreshTournamentResult(ctx, dependentArgs);
+  if (args.reset) {
 
-  // Close the round:
-  await ctx.db.patch(args. id, {
-    lastRound: tournament.currentRound,
-    currentRound: undefined,
-  });
+    // Reset results:
+    await deleteMatchResultsByTournamentRound(ctx, dependentArgs);
+
+    // Close the round without updating lastRound (resetting):
+    await ctx.db.patch(args. id, {
+      currentRound: undefined,
+    });
+  } else {
+
+    // Update results:
+    await refreshTournamentResult(ctx, dependentArgs);
+
+    // Close the round:
+    await ctx.db.patch(args. id, {
+      lastRound: tournament.currentRound,
+      currentRound: undefined,
+    });
+  }
 };

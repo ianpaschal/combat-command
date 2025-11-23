@@ -100,6 +100,10 @@ export const errors = {
   CANNOT_ADD_PAIRINGS_TO_DRAFT_TOURNAMENT: 'Cannot add pairings to a draft tournament.',
   CANNOT_ADD_PAIRINGS_TO_IN_PROGRESS_ROUND: 'Cannot add pairings while round is already in-progress.',
   CANNOT_ADD_PAIRINGS_TO_PUBLISHED_TOURNAMENT: 'Cannot add pairings to a tournament that hasn\'t started yet.',
+  CANNOT_DELETE_PAIRINGS_FROM_ARCHIVED_TOURNAMENT: 'Cannot delete pairings from an archived tournament.',
+  CANNOT_DELETE_PAIRINGS_FROM_DRAFT_TOURNAMENT: 'Cannot delete pairings from a draft tournament.',
+  CANNOT_DELETE_PAIRINGS_FROM_IN_PROGRESS_ROUND: 'Cannot delete pairings while round is in-progress.',
+  CANNOT_DELETE_PAIRINGS_FROM_PUBLISHED_TOURNAMENT: 'Cannot delete pairings from a tournament that hasn\'t started yet.',
   CANNOT_ADD_TOO_MANY_PAIRINGS: 'Cannot add more pairings than the tournament is set-up for.',
   TOURNAMENT_ALREADY_HAS_PAIRINGS_FOR_ROUND: 'Tournament already has pairings for this round.',
 

@@ -28,6 +28,10 @@ export {
   deleteMatchResultArgs,
 } from './mutations/deleteMatchResult';
 export {
+  deleteMatchResultsByTournamentRound,
+  deleteMatchResultsByTournamentRoundArgs,
+} from './mutations/deleteMatchResultsByTournamentRound';
+export {
   updateMatchResult,
   updateMatchResultArgs,
 } from './mutations/updateMatchResult';

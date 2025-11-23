@@ -25,3 +25,8 @@ export const createTournamentPairings = mutation({
   args: model.createTournamentPairingsArgs,
   handler: model.createTournamentPairings,
 });
+
+export const deleteTournamentPairings = mutation({
+  args: model.deleteTournamentPairingsArgs,
+  handler: model.deleteTournamentPairings,
+});

@@ -16,6 +16,7 @@ export enum TournamentActionKey {
   EndRound = 'endRound',
   End = 'end',
   SubmitMatchResult = 'submitMatchResult',
+  ResetRound = 'resetRound',
 }
 
 const tournamentEditableFields = v.object(editableFields);

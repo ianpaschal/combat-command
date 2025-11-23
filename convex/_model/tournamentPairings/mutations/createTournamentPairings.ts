@@ -8,9 +8,9 @@ import { Id } from '../../../_generated/dataModel';
 import { MutationCtx } from '../../../_generated/server';
 import { getErrorMessage } from '../../common/errors';
 import { getTournamentCompetitorsByTournament } from '../../tournamentCompetitors';
-import { getTournamentPairings } from '../../tournamentPairings';
 import { checkTournamentAuth, getTournamentShallow } from '../../tournaments';
 import { sharedFields, uniqueFields } from '../table';
+import { deleteTournamentPairings } from './deleteTournamentPairings';
 
 export const createTournamentPairingsArgs = v.object({
   ...sharedFields,
@@ -26,10 +26,6 @@ export const createTournamentPairings = async (
   const tournament = await getTournamentShallow(ctx, args.tournamentId);
   const competitors = await getTournamentCompetitorsByTournament(ctx, {
     tournamentId: args.tournamentId,
-  });
-  const existingPairings = await getTournamentPairings(ctx, {
-    tournamentId: args.tournamentId,
-    round: args.round,
   });
 
   // --- CHECK AUTH ----
@@ -48,9 +44,6 @@ export const createTournamentPairings = async (
   if (tournament.currentRound !== undefined) {
     throw new ConvexError(getErrorMessage('CANNOT_ADD_PAIRINGS_TO_IN_PROGRESS_ROUND'));
   }
-  if (existingPairings.length) {
-    throw new ConvexError(getErrorMessage('TOURNAMENT_ALREADY_HAS_PAIRINGS_FOR_ROUND'));
-  }
   if (!args.pairings.length) {
     throw new ConvexError(getErrorMessage('CANNOT_ADD_EMPTY_PAIRINGS_LIST'));
   }
@@ -61,9 +54,16 @@ export const createTournamentPairings = async (
   const pairingIds: Id<'tournamentPairings'>[] = [];
   const pairedCompetitorIds = new Set<Id<'tournamentCompetitors'>>();
 
+  // ---- PRIMARY ACTIONS ----
+  // Delete existing pairings:
+  await deleteTournamentPairings(ctx, {
+    tournamentId: args.tournamentId,
+    round: args.round,
+  });
+
   for (const pairing of args.pairings) {
 
-    // ---- VALIDATE EACH PAIRING ----
+    // Validate each pairing:
     for (const id of [pairing.tournamentCompetitor0Id, pairing.tournamentCompetitor1Id]) {
       const competitor = competitors.find((c) => c._id === id);
       const activePlayers = (competitor?.registrations ?? []).filter((p) => p.active);
@@ -85,15 +85,15 @@ export const createTournamentPairings = async (
         }
       }
     }
-
-    // ---- PRIMARY ACTIONS ----
+ 
+    // Create the pairing:
     const id = await ctx.db.insert('tournamentPairings', {
       ...pairing,
       tournamentId: args.tournamentId,
       round: args.round,
     });
 
-    // ---- TRACK RESULTS ----
+    // Track results:
     pairingIds.push(id);
     pairedCompetitorIds.add(pairing.tournamentCompetitor0Id);
     if (pairing.tournamentCompetitor1Id) {
