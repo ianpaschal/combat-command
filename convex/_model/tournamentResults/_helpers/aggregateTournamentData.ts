@@ -116,7 +116,7 @@ export const aggregateTournamentData = async (
     if (wasBye) {
       competitorStats[competitorId].byeRounds.add(pairing.round);
     }
-    if (pairing.table) {
+    if (pairing.table !== null) {
       competitorStats[competitorId].playedTables.add(pairing.table);
     }
     if (opponent.id) {
