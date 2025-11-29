@@ -24,7 +24,7 @@ export const TournamentPlayerFields = ({
   const { data: selectedPairing } = useGetTournamentPairing({ id: tournamentPairingId });
 
   const player0Label = `${getTournamentCompetitorDisplayName(selectedPairing?.tournamentCompetitor0)} Player`;
-  const player1Label = `${getTournamentCompetitorDisplayName(selectedPairing?.tournamentCompetitor1)} Player`;
+  const player1Label = selectedPairing?.tournamentCompetitor1 ? `${getTournamentCompetitorDisplayName(selectedPairing?.tournamentCompetitor1)} Player` : 'Bye Placeholder';
 
   const player0Options = getCompetitorPlayerOptions(selectedPairing?.tournamentCompetitor0);
   const player1Options = getCompetitorPlayerOptions(selectedPairing?.tournamentCompetitor1);
@@ -60,7 +60,7 @@ export const TournamentPlayerFields = ({
             <InputSelect options={player1Options} />
           </FormField>
         ) : (
-          <FormField name="player1Placeholder" label={player1Label} disabled>
+          <FormField name="player1Placeholder" label={player1Label}>
             <InputText />
           </FormField>
         )}
