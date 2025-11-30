@@ -17,7 +17,7 @@ const emptyResults: CompetitorResult = {
 export const getTournamentResultsByCompetitorArgs = v.object({
   tournamentCompetitorId: v.id('tournamentCompetitors'),
   tournamentId: v.id('tournaments'),
-  round: v.optional(v.number()),
+  round: v.number(),
 });
 
 export const getTournamentResultsByCompetitor = async (

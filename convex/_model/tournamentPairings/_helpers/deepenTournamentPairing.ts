@@ -39,7 +39,7 @@ export const deepenTournamentPairing = async (
   if (!rawTournamentCompetitor0) {
     throw new ConvexError(getErrorMessage('TOURNAMENT_COMPETITOR_NOT_FOUND'));
   }
-  const tournamentCompetitor0 = await deepenTournamentCompetitor(ctx, rawTournamentCompetitor0 );
+  const tournamentCompetitor0 = await deepenTournamentCompetitor(ctx, rawTournamentCompetitor0, tournamentPairing.round);
 
   let tournamentCompetitor1 = null;
   if (tournamentPairing.tournamentCompetitor1Id) {
@@ -47,7 +47,7 @@ export const deepenTournamentPairing = async (
     if (!rawTournamentCompetitor1) {
       throw new ConvexError(getErrorMessage('TOURNAMENT_COMPETITOR_NOT_FOUND'));
     }
-    tournamentCompetitor1 = await deepenTournamentCompetitor(ctx, rawTournamentCompetitor1 );
+    tournamentCompetitor1 = await deepenTournamentCompetitor(ctx, rawTournamentCompetitor1, tournamentPairing.round);
   }
 
   return {

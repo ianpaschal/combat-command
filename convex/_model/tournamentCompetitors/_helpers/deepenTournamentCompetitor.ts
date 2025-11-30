@@ -19,6 +19,7 @@ export const deepenTournamentCompetitor = async (
   doc: Doc<'tournamentCompetitors'>,
   round?: number,
 ) => {
+  const tournament = await ctx.db.get(doc.tournamentId);
   const registrations = await getTournamentRegistrationsByCompetitor(ctx, {
     tournamentCompetitorId: doc._id,
   });
@@ -26,7 +27,7 @@ export const deepenTournamentCompetitor = async (
   const results = await getTournamentResultsByCompetitor(ctx, {
     tournamentCompetitorId: doc._id,
     tournamentId: doc.tournamentId,
-    round,
+    round: round ?? tournament?.lastRound ?? 0,
   });
 
   return {
