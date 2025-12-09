@@ -10,18 +10,19 @@ export type CompetitorResult = Infer<typeof competitorResult>;
 export type RegistrationResult = Infer<typeof registrationResult>;
 
 export type TournamentPlayerMetadata<TBaseStats extends BaseStats = BaseStats> = {
-  gamesPlayed: number;
-  baseStats: {
-    self: TBaseStats[];
-    opponent: TBaseStats[];
-  },
+  results: (TBaseStats & {
+    opponentId: Id<'tournamentRegistrations'> | null;
+  })[];
   rankingFactors?: Record<ExtendedRankingFactor<keyof TBaseStats & string>, number>;
 };
 
-export type TournamentCompetitorMetadata<TBaseStats extends BaseStats = BaseStats> = TournamentPlayerMetadata<TBaseStats> & {
-  playedTables: Set<number>;
+export type TournamentCompetitorMetadata<TBaseStats extends BaseStats = BaseStats> = {
+  results: (TBaseStats & {
+    opponentId: Id<'tournamentCompetitors'> | null;
+  })[];
   byeRounds: Set<number>;
-  opponentIds: Set<Id<'tournamentCompetitors'>>;
+  playedTables: Set<number>;
+  rankingFactors?: Record<ExtendedRankingFactor<keyof TBaseStats & string>, number>;
 };
 
 export type TournamentAggregateData = {

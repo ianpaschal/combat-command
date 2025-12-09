@@ -66,11 +66,10 @@ export const getTournamentRankingTableConfig = (
   },
   ...config.tournament.rankingFactors.map((key): ColumnDef<RankingRow> => ({
     key,
-    width: 32,
+    width: 40,
     align: 'center',
     renderCell: (r) => r.rankingFactors[key],
     renderHeader: () => {
-      // TODO: TEAM YANKEE
       const long = getRankingFactorDisplayName(key);
       const short = getRankingFactorDisplayName(key, true);
       return (

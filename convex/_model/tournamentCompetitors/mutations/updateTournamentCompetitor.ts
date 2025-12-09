@@ -30,7 +30,7 @@ export const updateTournamentCompetitor = async (
   }
   const tournament = await ctx.db.get(tournamentCompetitor.tournamentId);
   if (!tournament) {
-    throw new ConvexError(getErrorMessage('TOURNAMENT_CONTAINING_COMPETITOR_NOT_FOUND'));
+    throw new ConvexError(getErrorMessage('TOURNAMENT_NOT_FOUND'));
   }
   if (tournament.status === 'archived') {
     throw new ConvexError(getErrorMessage('CANNOT_MODIFY_ARCHIVED_TOURNAMENT'));

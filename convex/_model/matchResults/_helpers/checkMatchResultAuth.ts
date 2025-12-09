@@ -1,5 +1,8 @@
+import { ConvexError } from 'convex/values';
+
 import { Doc, Id } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
+import { getErrorMessage } from '../../common/errors';
 import { getTournamentOrganizersByTournament } from '../../tournamentOrganizers';
 import { getTournamentPairingDeep } from '../../tournamentPairings';
 
@@ -28,6 +31,15 @@ export const checkMatchResultAuth = async (
     if (!isTournamentOrganizer ) {
       // TODO: Proper convex error
       throw 'You do not have permission to do that.';
+    }
+  }
+  if (matchResult.tournamentId) {
+    const tournament = await ctx.db.get(matchResult.tournamentId);
+    if (!tournament) {
+      throw new ConvexError(getErrorMessage('TOURNAMENT_NOT_FOUND'));
+    }
+    if (tournament?.status === 'archived') {
+      throw new ConvexError(getErrorMessage('CANNOT_MODIFY_ARCHIVED_TOURNAMENT'));
     }
   }
 };

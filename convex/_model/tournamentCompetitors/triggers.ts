@@ -23,10 +23,14 @@ export const refreshTournamentResults = async (
     return;
   }
 
+  // DON'T ALTER RESULTS OF ARCHIVED TOURNAMENTS!
   // Get the relevant tournament pairing to identify round:
   const tournament = await ctx.db.get(newDoc.tournamentId);
   if (!tournament) {
     throw new ConvexError(getErrorMessage('TOURNAMENT_NOT_FOUND'));
+  }
+  if (tournament.status === 'archived') {
+    return; // No need to throw an error but also don't change anything.
   }
 
   // Refresh all existing tournament results:

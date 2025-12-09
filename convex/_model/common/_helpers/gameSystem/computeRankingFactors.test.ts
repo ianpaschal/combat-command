@@ -4,7 +4,8 @@ import {
   it,
 } from 'vitest';
 
-import { computeRankingFactors, PlayerBaseStats } from './computeRankingFactors';
+import { Id } from '../../../../_generated/dataModel';
+import { computeRankingFactors } from './computeRankingFactors';
 
 describe('computeRankingFactors', () => {
   type BaseStats = {
@@ -17,74 +18,107 @@ describe('computeRankingFactors', () => {
     wins: 0,
   };
 
-  it('should return empty object when baseStats arrays are empty.', () => {
-    const baseStats: PlayerBaseStats<BaseStats> = {
-      self: [],
-      opponent: [],
+  it('should use default values when baseStats arrays are empty.', () => {
+    const playerId = 'player1' as Id<'tournamentCompetitors'>;
+    const stats = {
+      [playerId]: {
+        results: [] as (BaseStats & { opponentId: Id<'tournamentCompetitors'> | null })[],
+      },
     };
-    const gamesPlayed = 0;
 
-    const result = computeRankingFactors(baseStats, gamesPlayed, defaultValues);
+    const result = computeRankingFactors(playerId, stats, defaultValues, 1);
 
     expect(result).toEqual({
-      total_points: 0,
-      total_wins: 0,
-      total_opponent_points: 0,
-      total_opponent_wins: 0,
-      average_points: 0,
-      average_wins: 0,
       average_opponent_points: 0,
       average_opponent_wins: 0,
+      average_points: 0,
+      average_wins: 0,
+      total_opponent_points: 0,
+      total_opponent_wins: 0,
+      total_points: 0,
+      total_wins: 0,
     });
   });
 
   it('should compute ranking factors for single game with basic stats.', () => {
-    const baseStats: PlayerBaseStats<BaseStats> = {
-      self: [{ points: 8, wins: 1 }],
-      opponent: [{ points: 1, wins: 0 }],
+    const playerId = 'player1' as Id<'tournamentCompetitors'>;
+    const opponentId = 'player2' as Id<'tournamentCompetitors'>;
+    const stats = {
+      [playerId]: {
+        results: [{ points: 8, wins: 1, opponentId }],
+      },
+      [opponentId]: {
+        results: [{ points: 1, wins: 0, opponentId: playerId }],
+      },
     };
-    const gamesPlayed = 1;
 
-    const result = computeRankingFactors(baseStats, gamesPlayed, defaultValues);
+    const result = computeRankingFactors(playerId, stats, defaultValues, 1);
 
     expect(result).toEqual({
-      total_points: 8,
-      total_wins: 1,
-      total_opponent_points: 1,
-      total_opponent_wins: 0,
+      average_opponent_points: 0,
+      average_opponent_wins: 0,
       average_points: 8,
       average_wins: 1,
-      average_opponent_points: 1,
-      average_opponent_wins: 0,
+      total_opponent_points: 0,
+      total_opponent_wins: 0,
+      total_points: 8,
+      total_wins: 1,
     });
   });
 
-  it('should compute ranking factors for multiple games.', () => {
-    const baseStats: PlayerBaseStats<BaseStats> = {
-      self: [
-        { points: 8, wins: 1 },
-        { points: 6, wins: 1 },
-        { points: 3, wins: 0 },
-      ],
-      opponent: [
-        { points: 1, wins: 0 },
-        { points: 3, wins: 0 },
-        { points: 6, wins: 1 },
-      ],
-    };
-    const gamesPlayed = 3;
+  it('should compute ranking factors for multiple games with opponents and byes.', () => {
+    const roundsPlayed = 3;
+    const playerId = 'player1' as Id<'tournamentCompetitors'>;
+    const opponent1 = 'player2' as Id<'tournamentCompetitors'>;
+    const opponent2 = 'player3' as Id<'tournamentCompetitors'>;
 
-    const result = computeRankingFactors(baseStats, gamesPlayed, defaultValues);
+    const stats = {
+      [playerId]: {
+        results: [
+          { points: 8, wins: 1, opponentId: opponent1 }, // 8:1 - vs. opponent1
+          { points: 3, wins: 0, opponentId: opponent2 }, // 3:6 - vs. opponent2
+          { points: 8, wins: 1, opponentId: null }, // 8:1 - Bye round
+        ],
+      },
+      [opponent1]: {
+        results: [
+          { points: 1, wins: 0, opponentId: playerId }, // 1:8 - vs. player1 - excluded
+          { points: 6, wins: 1, opponentId: opponent2 }, // 3:6 - vs. opponent2 - included
+          { points: 8, wins: 1, opponentId: null }, // 8:1 - Bye round - included
+        ],
+      },
+      [opponent2]: {
+        results: [
+          { points: 6, wins: 1, opponentId: playerId }, // 6:3 - vs. player1 - excluded
+          { points: 3, wins: 0, opponentId: opponent1 }, // 3:6 - vs. opponent1 - included
+          { points: 8, wins: 1, opponentId: null }, // 8:1 - Bye round - included
+        ],
+      },
+    };
+
+    const result = computeRankingFactors(playerId, stats, defaultValues, roundsPlayed);
+
+    // Player's own stats (including bye)
+    const total_points = 8 + 3 + 8;
+    const total_wins = 1 + 0 + 1;
+    const average_points = total_points / roundsPlayed;
+    const average_wins = total_wins / roundsPlayed;
+
+    // Opponent stats (excluding games against player1, but including their byes)
+    const total_opponent_points = 6 + 8 + 3 + 8;
+    const total_opponent_wins = 1 + 1 + 0 + 1;
+    const average_opponent_points = total_opponent_points / 2;
+    const average_opponent_wins = total_opponent_wins / 2;
 
     expect(result).toEqual({
-      average_opponent_points: (1 + 3 + 6) / 3,
-      average_opponent_wins: (0 + 0 + 1) / 3,
-      average_points: (8 + 6 + 3) / 3,
-      average_wins: (1 + 1 + 0) / 3,
-      total_opponent_points: 1 + 3 + 6,
-      total_opponent_wins: 0 + 0 + 1,
-      total_points: 8 + 6 + 3,
-      total_wins: 1 + 1 + 0,
+      average_opponent_points,
+      average_opponent_wins,
+      average_points,
+      average_wins,
+      total_opponent_points,
+      total_opponent_wins,
+      total_points,
+      total_wins,
     });
   });
 
@@ -94,54 +128,34 @@ describe('computeRankingFactors', () => {
       bar: number;
     };
 
-    const baseStats: PlayerBaseStats<CustomBaseStats> = {
-      self: [{ foo: 100, bar: 50 }],
-      opponent: [{ foo: 80, bar: 60 }],
-    };
-    const gamesPlayed = 1;
+    const playerId = 'player1' as Id<'tournamentCompetitors'>;
+    const opponentId = 'player2' as Id<'tournamentCompetitors'>;
 
     const defaultValues: CustomBaseStats = {
       foo: 0,
       bar: 0,
     };
 
-    const result = computeRankingFactors(baseStats, gamesPlayed, defaultValues);
+    const stats = {
+      [playerId]: {
+        results: [{ foo: 100, bar: 50, opponentId }],
+      },
+      [opponentId]: {
+        results: [{ foo: 80, bar: 60, opponentId: playerId }],
+      },
+    };
+
+    const result = computeRankingFactors(playerId, stats, defaultValues, 1);
 
     expect(result).toEqual({
       average_bar: 50,
       average_foo: 100,
-      average_opponent_bar: 60,
-      average_opponent_foo: 80,
+      average_opponent_bar: 0,
+      average_opponent_foo: 0,
       total_bar: 50,
       total_foo: 100,
-      total_opponent_bar: 60,
-      total_opponent_foo: 80,
-    });
-  });
-
-  // FIXME: This test is basically identical to the one above.
-  it.skip('should return object with correct key structure for ExtendedRankingFactor type.', () => {
-    const baseStats: PlayerBaseStats<BaseStats> = {
-      self: [{ points: 10, wins: 1 }],
-      opponent: [{ points: 8, wins: 0 }],
-    };
-    const gamesPlayed = 1;
-
-    const result = computeRankingFactors(baseStats, gamesPlayed, defaultValues);
-
-    // Verify all expected key patterns are present
-    expect(result).toHaveProperty('total_points');
-    expect(result).toHaveProperty('total_wins');
-    expect(result).toHaveProperty('total_opponent_points');
-    expect(result).toHaveProperty('total_opponent_wins');
-    expect(result).toHaveProperty('average_points');
-    expect(result).toHaveProperty('average_wins');
-    expect(result).toHaveProperty('average_opponent_points');
-    expect(result).toHaveProperty('average_opponent_wins');
-
-    // Verify all values are numbers
-    Object.values(result).forEach((value) => {
-      expect(typeof value).toBe('number');
+      total_opponent_bar: 0,
+      total_opponent_foo: 0,
     });
   });
 });
