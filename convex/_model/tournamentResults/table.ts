@@ -1,38 +1,31 @@
 import { defineTable } from 'convex/server';
 import { v } from 'convex/values';
 
-import { baseStats } from '../common/baseStats';
 import { rankingFactorValues } from '../common/rankingFactor';
 
-/**
- * Fields which are used to create a record.
- */
 export const editableFields = {
   tournamentId: v.id('tournaments'),
   round: v.number(),
 };
 
-export const playerBaseStats = v.object({
-  self: v.array(baseStats),
-  opponent: v.array(baseStats),
-});
-
-export const playerResultFields = {
+const sharedResultFields = {
   gamesPlayed: v.number(),
   rank: v.number(),
   rankingFactors: rankingFactorValues,
 };
 
-export const registrationResult = v.object(playerResultFields);
+export const registrationResultFields = {
+  ...sharedResultFields,
+  opponentIds: v.optional(v.array(v.id('tournamentRegistrations'))),
+};
 
-/**
- * Kept separate from main definition for type extraction.
- */
+export const registrationResult = v.object(registrationResultFields);
+
 export const competitorResultFields = {
-  ...playerResultFields,
+  ...sharedResultFields,
   opponentIds: v.array(v.id('tournamentCompetitors')),
-  playedTables: v.array(v.number()),
-  byeRounds: v.array(v.number()),
+  playedTables: v.array(v.number()), // Only used for pairing, so only needed on competitor level
+  byeRounds: v.array(v.number()), // Only used for pairing, so only needed on competitor level
 };
 
 export const competitorResult = v.object(competitorResultFields);
@@ -56,7 +49,7 @@ export const computedFields = {
   /** Auto-calculated on create/update, or by trigger if underlying data changes. */
   registrations: v.array(v.object({
     id: v.id('tournamentRegistrations'), 
-    ...playerResultFields,
+    ...registrationResultFields,
   })),
 };
 
@@ -64,5 +57,6 @@ export default defineTable({
   ...editableFields,
   ...computedFields,
 })
+  .index('by_tournament', ['tournamentId'])
   .index('by_tournament_round', ['tournamentId','round'])
   .index('by_game_system_round', ['gameSystem','round']);

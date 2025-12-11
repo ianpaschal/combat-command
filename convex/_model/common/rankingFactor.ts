@@ -17,7 +17,7 @@ const createRankingFactorValues = <TRankingFactors extends Record<string, object
   rankingFactors: TRankingFactors,
 ): Record<keyof TRankingFactors, ConvexNumber> => (Object.keys(rankingFactors) as (keyof TRankingFactors)[]).reduce((acc, key) => ({
   ...acc,
-  [key]: v.number(),
+  [key]: v.optional(v.number()), // Optional: Allows adding of new ranking factors in the future which can be missing on older records.
 }), {} as Record<keyof TRankingFactors, ConvexNumber>);
 
 export const rankingFactorValues = v.union(

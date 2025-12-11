@@ -57,109 +57,91 @@ export const aggregateTournamentData = async (
   // Game system specifics:
   const { extractMatchResultStats, defaultBaseStats } = getGameSystem(tournament.gameSystem);
   type BaseStats = typeof defaultBaseStats;
-  type RegistrationStats= Record<Id<'tournamentRegistrations'>, TournamentPlayerMetadata<BaseStats>>;
-  type CompetitorStats = Record<Id<'tournamentCompetitors'>, TournamentCompetitorMetadata<BaseStats>>;
   
   // ---- 1. Set-up containers to store all stats ----
-  const registrationStats: RegistrationStats = tournamentRegistrations.reduce((acc, registration) => ({
+  const registrationStats = tournamentRegistrations.reduce((acc, registration) => ({
     ...acc,
     [registration._id]: {
-      gamesPlayed: 0,
-      baseStats: {
-        self: [],
-        opponent: [],
-      },
+      results: [],
     } satisfies TournamentPlayerMetadata<BaseStats>,
-  }), {});
+  }), {} as Record<Id<'tournamentRegistrations'>, TournamentPlayerMetadata<BaseStats>>);
 
-  const competitorStats: CompetitorStats = tournamentCompetitors.reduce((acc, competitor) => ({
+  const competitorStats = tournamentCompetitors.reduce((acc, competitor) => ({
     ...acc,
     [competitor._id]: {
-      gamesPlayed: 0,
-      playedTables: new Set(),
+      results: [],
       byeRounds: new Set(),
-      opponentIds: new Set(),
-      baseStats: {
-        self: [],
-        opponent: [],
-      },
+      playedTables: new Set(),
     } satisfies TournamentCompetitorMetadata<BaseStats>,
-  }), {});
+  }), {} as Record<Id<'tournamentCompetitors'>, TournamentCompetitorMetadata<BaseStats>>);
 
   // ---- 2. Extract all relevant information from match results (and their pairings) ----
-  type PlayerData = {
-    id?: Id<'users'>;
-    stats: BaseStats;
-  };
-
-  const assignData = (
-    self: PlayerData,
-    opponent: PlayerData,
-    pairing: Doc<'tournamentPairings'>,
-  ): void => {
-    if (!self.id) {
-      return;
-    }
-    const { registrationId, competitorId } = playerUserIdMap[self.id];
-
-    // Add registration data:
-    registrationStats[registrationId].baseStats.self.push(self.stats);
-    registrationStats[registrationId].baseStats.opponent.push(opponent.stats);
-    registrationStats[registrationId].gamesPlayed += 1;
-      
-    // Add competitor data:
-    competitorStats[competitorId].baseStats.self.push(self.stats);
-    competitorStats[competitorId].baseStats.opponent.push(opponent.stats);
-    competitorStats[competitorId].gamesPlayed += 1;
-
-    const wasBye = pairing.table === null || !pairing.tournamentCompetitor0Id || !pairing.tournamentCompetitor1Id;
-    if (wasBye) {
-      competitorStats[competitorId].byeRounds.add(pairing.round);
-    }
-    if (pairing.table !== null) {
-      competitorStats[competitorId].playedTables.add(pairing.table);
-    }
-    if (opponent.id) {
-      competitorStats[competitorId].opponentIds.add(playerUserIdMap[opponent.id].competitorId);
-    }
-  };
-
   for (const matchResult of relevantMatchResults) {
-    const [player0BaseStats, player1BaseStats] = extractMatchResultStats(matchResult.details);
-    const player0Data: PlayerData = {
-      id: matchResult.player0UserId,
-      stats: player0BaseStats,
-    };
-    const player1Data: PlayerData = {
-      id: matchResult.player1UserId,
-      stats: player1BaseStats,
-    };
-    const tournamentPairing = tournamentPairings.find((r) => r._id === matchResult.tournamentPairingId);
+    const {
+      player0UserId,
+      player1UserId,
+      tournamentPairingId,
+      details,
+    } = matchResult;
+    
+    const tournamentPairing = tournamentPairings.find((r) => r._id === tournamentPairingId);
     if (!tournamentPairing) {
       throw new Error('Included a match result which was not part of the pairings!');
     }
 
-    // Process both players:
-    assignData(player0Data, player1Data, tournamentPairing);
-    assignData(player1Data, player0Data, tournamentPairing);
+    const wasBye = tournamentPairing.table === null || !tournamentPairing.tournamentCompetitor0Id || !tournamentPairing.tournamentCompetitor1Id;
+    const stats = extractMatchResultStats(details);
+
+    [player0UserId, player1UserId].forEach((userId, i) => {
+      if (!userId) {
+        return;
+      }
+      const opponentUserId = userId === player0UserId ? player1UserId : player0UserId;
+      const { registrationId, competitorId } = playerUserIdMap[userId];
+      registrationStats[registrationId].results.push({
+        ...stats[i],
+        opponentId: opponentUserId ? playerUserIdMap[opponentUserId].registrationId : null,
+      });
+      competitorStats[competitorId].results.push({
+        ...stats[i],
+        opponentId: opponentUserId ? playerUserIdMap[opponentUserId].competitorId : null,
+      });
+      if (wasBye) {
+        competitorStats[competitorId].byeRounds.add(tournamentPairing.round);
+      }
+      if (!wasBye && tournamentPairing.table) {
+        competitorStats[competitorId].playedTables.add(tournamentPairing.table);
+      }
+    });
   }
 
   // ---- 3. Convert stats to ranking factors for players and competitors ----
   return {
-    registrations: Object.entries(registrationStats).map(([id, { baseStats, ...data }]) => ({
-      id: id as Id<'tournamentRegistrations'>,
-      ...data,
-      rankingFactors: computeRankingFactors(baseStats, data.gamesPlayed, defaultBaseStats),
-      rank: -1,
-    })),
-    competitors: Object.entries(competitorStats).map(([id, { baseStats, ...data }]) => ({
-      id: id as Id<'tournamentCompetitors'>,
-      ...data,
-      opponentIds: Array.from(data.opponentIds),
-      playedTables: Array.from(data.playedTables),
-      byeRounds: Array.from(data.byeRounds),
-      rankingFactors: computeRankingFactors(baseStats, data.gamesPlayed, defaultBaseStats),
-      rank: -1,
-    })),
+    registrations: Object.entries(registrationStats).map(([key, { results }]) => {
+      const id = key as Id<'tournamentRegistrations'>;
+      return {
+        id,
+        gamesPlayed: results.length,
+        opponentIds: Array.from(new Set(results.map((s) => s.opponentId))).filter((id) => id !== null),
+        rankingFactors: computeRankingFactors(id, registrationStats, defaultBaseStats, round),
+        rank: -1,
+      };
+    }),
+    competitors: Object.entries(competitorStats).map(([key, {
+      playedTables,
+      byeRounds,
+      results,
+    }]) => {
+      const id = key as Id<'tournamentCompetitors'>;
+      return {
+        id,
+        gamesPlayed: results.length,
+        opponentIds: Array.from(new Set(results.map((s) => s.opponentId))).filter((id) => id !== null),
+        playedTables: Array.from(playedTables),
+        byeRounds: Array.from(byeRounds),
+        rankingFactors: computeRankingFactors(id, competitorStats, defaultBaseStats, round),
+        rank: -1,
+      };
+    }),
   };
 };
