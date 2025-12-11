@@ -17,7 +17,7 @@ export const computeRankingFactors = <
   // Own:
   const ownResults = stats[id].results;
   const total = sumBaseStats(ownResults);
-  const averagePerRound = divideBaseStats(total, roundsPlayed);
+  const average = divideBaseStats(total, roundsPlayed);
 
   // Strength of schedule:
   // Get all opponent IDs (excluding byes (null), so SoS is only based on real competitors):
@@ -39,7 +39,7 @@ export const computeRankingFactors = <
     const k = key as keyof TBaseStats;
     // Own:
     flatStats[`total_${key}` as FlatStatsKey] = total[k] ?? defaultValues[k];
-    flatStats[`average_${key}` as FlatStatsKey] = averagePerRound[k] ?? defaultValues[k];
+    flatStats[`average_${key}` as FlatStatsKey] = average[k] ?? defaultValues[k];
 
     // Strength of schedule:
     flatStats[`total_opponent_${key}` as FlatStatsKey] = totalOpponent[k] ?? defaultValues[k];
