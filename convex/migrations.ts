@@ -1,8 +1,13 @@
 import { Migrations } from '@convex-dev/migrations';
+import { ConvexError } from 'convex/values';
 
 import { components } from './_generated/api';
 import { DataModel, Id } from './_generated/dataModel';
+import { getErrorMessage } from './_model/common/errors';
 import { refreshTournamentResult } from './_model/tournamentResults';
+import { aggregateTournamentData } from './_model/tournamentResults/_helpers/aggregateTournamentData';
+import { applyScoreAdjustments } from './_model/tournamentResults/_helpers/applyScoreAdjustments';
+import { getTournamentShallow } from './_model/tournaments';
 
 export const migrations = new Migrations<DataModel>(components.migrations);
 export const run = migrations.runner();
@@ -19,6 +24,67 @@ export const addCaptains = migrations.define({
           captainUserId: captainRegistration.userId,
         });
       }
+    }
+  },
+});
+
+export const fixRankingFactors = migrations.define({
+  table: 'tournaments',
+  migrateOne: async (ctx, doc) => {
+    if (doc.status === 'archived') {
+      const rounds = doc.lastRound !== undefined ? doc.lastRound + 1 : doc.roundCount;
+      for (let i = 0; i < rounds; i++) {
+        if (doc._id === 'kx7a8rgzq9297d50e1v3hxrsx57kv6ky') {
+          const existingResult = await ctx.db.query('tournamentResults')
+            .withIndex('by_tournament_round', (q) => q.eq('tournamentId', doc._id).eq('round', i))
+            .first();
+          if (!existingResult) {
+            throw new Error('No existing result!');
+          }
+          const tournament = await getTournamentShallow(ctx, doc._id);
+          if (!tournament) {
+            throw new ConvexError(getErrorMessage('TOURNAMENT_NOT_FOUND'));
+          }
+          const tournamentCompetitors = await ctx.db.query('tournamentCompetitors')
+            .withIndex('by_tournament_id', (q) => q.eq('tournamentId', doc._id))
+            .collect();
+
+          // ---- AGGREGATE RANKING DATA ----
+          const { registrations, competitors } = await aggregateTournamentData(ctx, tournament, i);
+
+          await ctx.db.patch(existingResult._id, {
+            registrations: registrations.map((data) => {
+              const existing = existingResult?.registrations.find((c) => c.id === data.id);
+              return {
+                ...data,
+                rankingFactors: {
+                  ...data.rankingFactors,
+                  average_opponent_wins: existing?.rankingFactors.average_opponent_wins ?? 0,
+                },
+              };
+            }).sort((a, b) => a.rank - b.rank),
+            competitors: competitors.map((data, i) => {
+              const existing = existingResult?.competitors.find((c) => c.id === data.id);
+              return {
+                ...data,
+                rankingFactors: {
+                  ...applyScoreAdjustments(
+                    data.rankingFactors,
+                    tournamentCompetitors.find((w) => w._id === data.id)?.scoreAdjustments ?? [],
+                    i,
+                  ),
+                  average_opponent_wins: existing?.rankingFactors.average_opponent_wins ?? 0,
+                },
+              };
+            }).sort((a, b) => a.rank - b.rank),
+          });
+        } else {
+          await refreshTournamentResult(ctx, {
+            tournamentId: doc._id,
+            round: i,
+          });
+        }
+      } 
     }
   },
 });

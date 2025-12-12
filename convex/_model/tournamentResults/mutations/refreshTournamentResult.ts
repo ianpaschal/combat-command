@@ -23,6 +23,9 @@ export const refreshTournamentResult = async (
 ): Promise<Id<'tournamentResults'>> => {
 
   // ---- GATHER DATABASE RECORDS ----
+  const existingResult = await ctx.db.query('tournamentResults')
+    .withIndex('by_tournament_round', (q) => q.eq('tournamentId', args.tournamentId).eq('round', args.round))
+    .first();
   const tournament = await getTournamentShallow(ctx, args.tournamentId);
   if (!tournament) {
     throw new ConvexError(getErrorMessage('TOURNAMENT_NOT_FOUND'));
@@ -51,21 +54,11 @@ export const refreshTournamentResult = async (
   // ---- SORT USING RANKING FACTORS ----
   const sortByRanking = createSortByRanking(tournament.gameSystem, tournament.rankingFactors);
   const result = {
-    registrations: registrations.sort(sortByRanking).map((data, i) => ({
-      ...data,
-      rank: i,
-    })),
-    competitors: adjustedCompetitors.sort(sortByRanking).map((data, i) => ({
-      ...data,
-      rank: i,
-    })),
+    registrations: registrations.sort(sortByRanking).map((data, i) => ({ ...data, rank:  i })),
+    competitors: adjustedCompetitors.sort(sortByRanking).map((data, i) => ({ ...data, rank:  i })),
   };
 
   // ---- CREATE/UPDATE RECORD ----
-  const existingResult = await ctx.db.query('tournamentResults')
-    .withIndex('by_tournament_round', (q) => q.eq('tournamentId', args.tournamentId).eq('round', args.round))
-    .first();
-
   if (existingResult) {
     await ctx.db.patch(existingResult._id, result);
     return existingResult._id;
