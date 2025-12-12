@@ -1,4 +1,6 @@
 import { Migrations } from '@convex-dev/migrations';
+import { GameSystem } from '@ianpaschal/combat-command-game-systems/common';
+import { DynamicPointsVersion } from '@ianpaschal/combat-command-game-systems/flamesOfWarV4';
 import { ConvexError } from 'convex/values';
 
 import { components } from './_generated/api';
@@ -116,15 +118,34 @@ export const fixMissingListData = migrations.define({
   },
 });
 
-export const migrateTournamentResults = migrations.define({
+export const addDynamicPointsVersionToMatchResults = migrations.define({
+  table: 'matchResults',
+  migrateOne: async (ctx, doc) => {
+    if (doc.gameSystem === GameSystem.FlamesOfWarV4) {
+      const config = doc.gameSystemConfig;
+      if (config.era === 'late_war' && !config.dynamicPointsVersion) {
+        await ctx.db.patch(doc._id, {
+          gameSystemConfig: {
+            ...config,
+            dynamicPointsVersion: DynamicPointsVersion.LWOriginal,
+          },
+        });
+      }
+    }
+  },
+});
+
+export const addDynamicPointsVersionToTournaments = migrations.define({
   table: 'tournaments',
   migrateOne: async (ctx, doc) => {
-    if (doc.status === 'archived') {
-      const rounds = doc.lastRound !== undefined ? doc.lastRound + 1 : doc.roundCount;
-      for (let i = 0; i < rounds; i++) {
-        await refreshTournamentResult(ctx, {
-          tournamentId: doc._id,
-          round: i,
+    if (doc.gameSystem === GameSystem.FlamesOfWarV4) {
+      const config = doc.gameSystemConfig;
+      if (config.era === 'late_war' && !config.dynamicPointsVersion) {
+        await ctx.db.patch(doc._id, {
+          gameSystemConfig: {
+            ...config,
+            dynamicPointsVersion: DynamicPointsVersion.LWOriginal,
+          },
         });
       }
     }

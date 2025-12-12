@@ -1,6 +1,7 @@
 import { GameSystem } from '@ianpaschal/combat-command-game-systems/common';
 import {
   BattlePlan,
+  DynamicPointsVersion,
   Era,
   LessonsFromTheFrontVersion,
   MatchOutcomeType,
@@ -32,6 +33,7 @@ export const createMockFowV4MatchResultData = (
     gameSystemConfig: {
       points: 100,
       era: Era.LW,
+      dynamicPointsVersion: DynamicPointsVersion.LWOriginal,
       lessonsFromTheFrontVersion: LessonsFromTheFrontVersion.Mar2024,
       missionPackVersion: MissionPackVersion.Apr2023,
       missionMatrix: MissionMatrix.Extended,
