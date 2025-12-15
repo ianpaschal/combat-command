@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
-import {
-  getBattlePlanOptions,
-  getFactionOptions,
-  getValidGameSystemConfig,
-} from '@ianpaschal/combat-command-game-systems/teamYankeeV2';
+import { GameSystem, validateGameSystemConfig } from '@ianpaschal/combat-command-game-systems/common';
+import { getBattlePlanOptions, getFactionOptions } from '@ianpaschal/combat-command-game-systems/teamYankeeV2';
 import clsx from 'clsx';
 import isEqual from 'fast-deep-equal/es6';
 
@@ -36,7 +33,7 @@ export const TeamYankeeV2MatchResultDetailFields = ({
   const { setValue, resetField, watch, getFieldState } = useFormContext<CompatibleFormData>();
   const values = watch();
   const { details } = values;
-  const gameSystemConfig = getValidGameSystemConfig(values);
+  const gameSystemConfig = validateGameSystemConfig(GameSystem.TeamYankeeV2, values.gameSystemConfig);
 
   const missionOptions = useMissionOptions(gameSystemConfig, details.player0BattlePlan, details.player1BattlePlan);
 
