@@ -1,0 +1,48 @@
+@use "/src/style/variables";
+@use "/src/style/flex";
+@use "/src/style/text";
+@use "/src/style/corners";
+@use "/src/style/shadows";
+@use "/src/style/borders";
+@use "/src/style/backgrounds";
+
+.LeagueDetailPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  // Everything under the banner:
+  &_Content {
+    @include flex.column;
+
+    // NO FLEX WEIGHT CLEVERNESS! A bit redundant but very idiot proof and easy to figure out later.
+    &[data-device="wide"] {
+      display: grid;
+      grid-template-areas:
+        "sidebar tabs tabs"
+        "sidebar tabs tabs";
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 1rem;
+    }
+  }
+
+  &_Sidebar {
+    @include flex.column;
+
+    grid-area: sidebar;
+  }
+
+  &_Tabs {
+    @include flex.column;
+
+    grid-area: tabs;
+  }
+
+  &_TabBar {
+    @include flex.row;
+
+    overflow: hidden;
+    max-width: 100%;
+  }
+}

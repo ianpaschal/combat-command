@@ -19,6 +19,8 @@ import {
 import { ClaimUserPage } from '~/pages/ClaimUserPage';
 import { DashboardPage } from '~/pages/DashboardPage';
 import { LandingPage } from '~/pages/LandingPage';
+import { LeagueDetailPage } from '~/pages/LeagueDetailPage/LeagueDetailPage';
+import { LeaguesPage } from '~/pages/LeaguesPage';
 import { MatchResultDetailPage } from '~/pages/MatchResultDetailPage';
 import { MatchResultsPage } from '~/pages/MatchResultsPage';
 import {
@@ -55,6 +57,11 @@ export const mainRoutes: AppRoute[] = [
     path: '/tournaments',
     title: 'Tournaments',
     element: <TournamentsPage />,
+  },
+  {
+    path: '/leagues',
+    title: 'Leagues',
+    element: <LeaguesPage />,
   },
   {
     path: '/matches',
@@ -131,6 +138,11 @@ export const routes = [
   //   visibility: [],
   //   element: <TournamentCreatePairingsPage />,
   // },
+  {
+    path: PATHS.leagueDetails,
+    visibility: [],
+    element: <LeagueDetailPage />,
+  },
   {
     path: PATHS.matchResultDetails,
     visibility: [],

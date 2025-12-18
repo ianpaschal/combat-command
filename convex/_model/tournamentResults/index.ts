@@ -16,9 +16,17 @@ export {
   getTournamentResultsByRound,
   getTournamentResultsByRoundArgs,
 } from './queries/getTournamentResultsByRound';
+export {
+  getTournamentResultsByUser,
+  getTournamentResultsByUserArgs,
+} from './queries/getTournamentResultsByUser';
 
 // Mutations
 export {
   refreshTournamentResult,
   refreshTournamentResultArgs,
 } from './mutations/refreshTournamentResult';
+
+// Triggers
+// (Grouped/namespaced so they can more easily be merged in functions.ts with other models.)
+export * as tournamentResultTriggers from './triggers';

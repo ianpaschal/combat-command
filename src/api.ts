@@ -12,6 +12,15 @@ export type {
 export {
   VisibilityLevel,
 } from '../convex/_model/common/VisibilityLevel';
+export {
+  type LeagueRanking,
+} from '../convex/_model/leagueRankings';
+export {
+  type League,
+  type LeagueId,
+  type LeagueStatus,
+  type RankedLeagueUser,
+} from '../convex/_model/leagues';
 
 // Match Result Comments
 export {

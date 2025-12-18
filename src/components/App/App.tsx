@@ -6,17 +6,15 @@ import { NuqsAdapter } from 'nuqs/adapters/react-router/v7';
 
 import { AccountMenu } from '~/components/AccountMenu';
 import { usePrimaryAppRoutes } from '~/components/App/App.hooks';
-import { useAuth } from '~/components/AuthProvider';
 import { ErrorBoundary } from '~/components/ErrorBoundary';
-import { MAX_WIDTH, MIN_WIDTH_TABLET } from '~/settings';
+import { MAX_WIDTH, MIN_WIDTH_DESKTOP } from '~/settings';
 
 import styles from './App.module.scss';
 
 export const App = (): JSX.Element => {
   const location = useLocation();
   const width = useWindowWidth();
-  const user = useAuth();
-  const primaryRoutes = usePrimaryAppRoutes(user);
+  const primaryRoutes = usePrimaryAppRoutes();
   const secondaryRoutes: Route[] = [
     {
       title: 'Buy Me a Coffee',
@@ -28,7 +26,7 @@ export const App = (): JSX.Element => {
     <div className={styles.App}>
       <AppNavigation
         maxWidth={MAX_WIDTH}
-        mobile={width <= MIN_WIDTH_TABLET}
+        mobile={width < MIN_WIDTH_DESKTOP}
         routes={primaryRoutes}
         secondaryControls={<AccountMenu />}
         secondaryRoutes={secondaryRoutes}

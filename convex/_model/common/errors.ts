@@ -1,4 +1,5 @@
 export const errors = {
+  FEATURE_DUPLICATE_KEY: 'Key is already in use by another feature flag.',
 
   // Tournament (general)
   CANNOT_ADD_ANOTHER_PLAYER: 'Cannot add another player.',
@@ -51,8 +52,10 @@ export const errors = {
   TOURNAMENT_TIMER_ALREADY_PAUSED: 'Tournament timer is already paused.',
   TOURNAMENT_TIMER_ALREADY_RUNNING: 'Tournament timer is already running.',
   TOURNAMENT_TIMER_ALREADY_EXISTS: 'Tournament already has a timer for this round.',
+  CANNOT_REMOVE_LAST_ORGANIZER_FROM_LEAGUE: 'Cannot remove the last organizer from league.',
 
   // Missing docs
+  FEATURE_FLAG_NOT_FOUND: 'Could not find a feature flag with that ID.',
   FILE_NOT_FOUND: 'Could not find a file with that ID.',
   TOURNAMENT_COMPETITOR_NOT_FOUND: 'Could not find a competitor with that ID.',
   TOURNAMENT_CONTAINING_COMPETITOR_NOT_FOUND: 'Could not find a tournament containing this competitor.',
@@ -65,6 +68,9 @@ export const errors = {
   TOURNAMENT_REGISTRATION_NOT_FOUND: 'Count not find a tournament registration with that ID.',
   TOURNAMENT_ORGANIZER_NOT_FOUND: 'Count not find a tournament organizer with that ID.',
   FRIENDSHIP_NOT_FOUND: 'Could not find a friendship with that ID.',
+  LEAGUE_NOT_FOUND: 'Could not find a league with that ID.',
+  LEAGUE_ORGANIZER_NOT_FOUND: 'Could not find a league organizer with that ID.',
+  LEAGUE_RANKING_NOT_FOUND: 'Could not find a league ranking with that ID.',
 
   // General
   USER_NOT_AUTHENTICATED: 'Authentication required!',

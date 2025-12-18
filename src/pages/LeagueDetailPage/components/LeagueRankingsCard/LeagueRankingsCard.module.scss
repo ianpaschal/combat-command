@@ -1,0 +1,38 @@
+@use "/src/style/variables";
+@use "/src/style/flex";
+@use "/src/style/text";
+
+.LeagueRankingsCard {
+  &_Filters {
+    @include flex.row;
+  }
+
+  &_LoadingState {
+    @include flex.stretchy;
+    @include flex.centered;
+
+    padding: 4rem;
+
+    svg {
+      width: 3rem;
+      height: 3rem;
+      opacity: 0.2;
+    }
+  }
+
+  &_EmptyState {
+    @include flex.stretchy;
+    @include flex.centered;
+    @include text.ui($muted: true);
+
+    padding-bottom: 4rem;
+  }
+
+  &_Row {
+    padding: 0 var(--container-padding-x);
+  }
+
+  &_IdentityBadge {
+    margin: 0.5rem 0;
+  }
+}

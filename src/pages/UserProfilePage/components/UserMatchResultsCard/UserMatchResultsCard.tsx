@@ -9,7 +9,6 @@ import { ScrollArea } from '~/components/generic/ScrollArea';
 import { MatchResultCard } from '~/components/MatchResultCard';
 import { MatchResultCreateDialog, useMatchResultCreateDialog } from '~/components/MatchResultCreateDialog';
 import { useGetMatchResultsByUser } from '~/services/matchResults';
-import { DEFAULT_PAGE_SIZE } from '~/settings';
 
 import styles from './UserMatchResultsCard.module.scss';
 
@@ -24,7 +23,7 @@ export const UserMatchResultsCard = ({
 }: UserMatchResultsCardProps): JSX.Element => {
   const user = useAuth();
   const { open } = useMatchResultCreateDialog();
-  const { data: matchResults, loadMore: loadMoreMatchResults, status } = useGetMatchResultsByUser({
+  const { data: matchResults, loadMore, status } = useGetMatchResultsByUser({
     userId,
   });
   return (
@@ -49,7 +48,7 @@ export const UserMatchResultsCard = ({
                 disabled={status === 'LoadingMore'}
                 icon={<Plus />}
                 text="Load More"
-                onClick={() => loadMoreMatchResults(DEFAULT_PAGE_SIZE)}
+                onClick={loadMore}
               />
             </div>
           )}

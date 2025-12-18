@@ -1,0 +1,140 @@
+@use "/src/style/flex";
+@use "/src/style/variants";
+@use "/src/style/shadows";
+@use "/src/style/animate";
+@use "/src/style/variables";
+@use "/src/style/corners";
+@use "/src/style/borders";
+@use "/src/style/text";
+@use "/src/style/backgrounds";
+
+.LeagueCard {
+  @include variants.card;
+  @include text.ui;
+
+  position: relative;
+  container-name: content;
+  container-type: inline-size;
+  overflow: hidden;
+
+  &_Content {
+    display: grid;
+    grid-template-columns: 1fr;
+
+    @container content (min-width: 768px) {
+      grid-template-columns: 1fr 1rem 1fr 1rem 1fr;
+    }
+  }
+
+  &_Logo {
+    aspect-ratio: 1;
+    width: 12rem;
+  }
+
+  &_Banner {
+    @include flex.row($gap: 0);
+    @include backgrounds.topography;
+    @include borders.normal($side: bottom);
+
+    position: relative;
+    grid-column: 1 / -1;
+    padding: 1rem var(--container-padding-x);
+
+    @container content (min-width: 768px) {
+      @include borders.normal($side: right);
+
+      grid-column: 1 / 4;
+      border-bottom: none;
+    }
+  }
+
+  &_Banner::after {
+    pointer-events: none;
+    content: "";
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    opacity: 0;
+    background: white;
+
+    transition: opacity 0.3s;
+  }
+
+  &_Banner:hover::after {
+    opacity: 0.05;
+  }
+
+  &_Title {
+    @include flex.row;
+
+    overflow: hidden;
+    padding: 0.5rem 1rem;
+    filter: drop-shadow(0 4px 6px rgb(0 0 0 / 50%));
+
+    h1 {
+      /* stylelint-disable property-no-vendor-prefix */
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      /* stylelint-enable property-no-vendor-prefix */
+
+      overflow: hidden;
+
+      color: white;
+      text-overflow: ellipsis;
+      text-wrap: nowrap;
+    }
+  }
+
+  &_Rankings {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto;
+
+    @container content (min-width: 768px) {
+      grid-column: 4 / -1;
+    }
+  }
+
+  &_RankingsList {
+    @include flex.column;
+
+    padding: 1rem;
+  }
+
+  &_RankingItem {
+    @include flex.row;
+  }
+
+  &_RankingsFooter {
+    @include flex.row($xAlign: "right");
+    @include borders.normal($side: "top");
+
+    padding: 0.5rem var(--container-padding-x);
+
+    @container content (min-width: 768px) {
+      padding-right: 0.5rem;
+      padding-left: 0;
+    }
+  }
+}
+
+@media (width <= 480px) {
+  .LeagueCard_Banner {
+    flex-direction: column;
+  }
+
+  .LeagueCard_Logo {
+    width: 8rem;
+  }
+
+  .LeagueCard_Title h1 {
+    font-size: 1.25rem;
+  }
+}

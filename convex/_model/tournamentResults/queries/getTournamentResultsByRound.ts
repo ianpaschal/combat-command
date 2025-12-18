@@ -6,7 +6,7 @@ import { QueryCtx } from '../../../_generated/server';
 
 export const getTournamentResultsByRoundArgs = v.object({
   tournamentId: v.id('tournaments'),
-  round: v.number(),
+  round: v.optional(v.number()),
 });
 
 export const getTournamentResultsByRound = async (

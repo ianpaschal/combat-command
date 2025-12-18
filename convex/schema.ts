@@ -1,12 +1,15 @@
 import { authTables } from '@convex-dev/auth/server';
 import { defineSchema } from 'convex/server';
 
-import friendships from './_model/friendships/table'; 
+import friendships from './_model/friendships/table';
+import leagueOrganizers from './_model/leagueOrganizers/table';
+import leagueRankings from './_model/leagueRankings/table';
+import leagues from './_model/leagues/table';
 import lists from './_model/lists/table';
 import matchResultComments from './_model/matchResultComments/table';
 import matchResultLikes from './_model/matchResultLikes/table';
 import matchResults from './_model/matchResults/table';
-import photos from './_model/photos/table'; 
+import photos from './_model/photos/table';
 import tournamentCompetitors from './_model/tournamentCompetitors/table';
 import tournamentOrganizers from './_model/tournamentOrganizers/table';
 import tournamentPairings from './_model/tournamentPairings/table';
@@ -20,6 +23,9 @@ import users from './_model/users/table';
 export default defineSchema({
   ...authTables,
   friendships,
+  leagueOrganizers,
+  leagueRankings,
+  leagues,
   lists,
   matchResultComments,
   matchResultLikes,

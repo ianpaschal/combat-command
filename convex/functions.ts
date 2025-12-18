@@ -6,6 +6,7 @@ import { DataModel, Doc } from './_generated/dataModel';
 import { mutation as convexMutation } from './_generated/server';
 import { matchResultTriggers } from './_model/matchResults';
 import { tournamentCompetitorTriggers } from './_model/tournamentCompetitors';
+import { tournamentResultTriggers } from './_model/tournamentResults';
 import { extractSearchTokens as extractTournamentSearchTokens } from './_model/tournaments/_helpers/extractSearchTokens';
 import { extractSearchTokens as extractUserSearchTokens } from './_model/users/_helpers/extractSearchTokens';
 
@@ -68,3 +69,4 @@ triggers.register('tournaments', async (ctx, change) => {
 
 triggers.register('matchResults', matchResultTriggers.refreshTournamentResults);
 triggers.register('tournamentCompetitors', tournamentCompetitorTriggers.refreshTournamentResults);
+triggers.register('tournamentResults', tournamentResultTriggers.refreshLeagueRankings);
