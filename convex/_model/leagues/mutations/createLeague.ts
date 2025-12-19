@@ -35,7 +35,7 @@ export const createLeague = async (
 
   // ---- EXTENDED AUTH CHECK ----
   /* These user IDs can make changes to this league :
-   * - League s;
+   * - League creator;
    */
   const authorizedUserIds = [
     args.organizerUserId,
