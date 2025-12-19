@@ -46,11 +46,11 @@ export const getLeagueRankingTableConfig = (
       key,
       width: 40,
       align: 'center',
-      renderCell: (r) => r.rankingFactors[key],
+      renderCell: (r) => r.rankingFactors[key] ?? '-',
       renderHeader: () => (
         <InfoPopover content={gameSystem.getRankingFactorDisplayName(key) ?? 'Unknown Factor'}>
           <h3>{gameSystem.getRankingFactorDisplayName(key, true) ?? '?'}</h3>
-        </InfoPopover >
+        </InfoPopover>
       ),
     })),
   ];
