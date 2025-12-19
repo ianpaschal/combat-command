@@ -39,10 +39,7 @@ export const createLeagueOrganizer = async (
   /* These user IDs can make changes to this league organizer:
    * - League organizers;
    */
-  const authorizedUserIds = [
-    ...leagueOrganizers.map((lo) => lo.userId),
-    ...(leagueOrganizers.length === 0 ? [args.userId] : []),
-  ];
+  const authorizedUserIds = leagueOrganizers.map((lo) => lo.userId);
   if (!authorizedUserIds.includes(userId)) {
     throw new ConvexError(getErrorMessage('USER_DOES_NOT_HAVE_PERMISSION'));
   }
