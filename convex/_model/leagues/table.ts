@@ -62,4 +62,5 @@ export default defineTable({
   ...computedFields,
 })
   .index('by_game_system', ['gameSystem'])
+  .index('by_title_edition_year', ['title', 'editionYear'])
   .index('by_status', ['status']);

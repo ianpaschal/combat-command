@@ -26,11 +26,11 @@ export const createLeague = async (
   const userId = await checkAuth(ctx);
 
   // ---- VALIDATE ----
-  const leagues = await ctx.db.query('leagues').collect();
-  for (const league of leagues) {
-    if (league.title === args.title && league.editionYear === args.editionYear) {
-      throw new ConvexError(getErrorMessage('LEAGUE_ALREADY_EXISTS'));
-    }
+  const existingLeague = await ctx.db.query('leagues')
+    .withIndex('by_title_edition_year', (q) => q.eq('title', args.title).eq('editionYear', args.editionYear))
+    .first();
+  if (existingLeague) {
+    throw new ConvexError(getErrorMessage('LEAGUE_ALREADY_EXISTS'));
   }
 
   // ---- EXTENDED AUTH CHECK ----
