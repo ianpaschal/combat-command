@@ -5,7 +5,7 @@ import { LeagueContext } from './LeagueProvider.context';
 export const useLeague = () => {
   const context = useContext(LeagueContext);
   if (!context) {
-    throw Error('useLeague must be used within a <LeagueCard /> or <LeagueDetailsPage />!');
+    throw Error('useLeague must be used within a LeagueProvider!');
   }
   return context;
 };

@@ -53,7 +53,7 @@ export const LeagueCard = ({
           <div className={styles.LeagueCard_Rankings}>
             <div className={styles.LeagueCard_RankingsList}>
               {(league.rankings ?? []).slice(0, 3).map((ranking) => (
-                <div className={styles.LeagueCard_RankingItem}>
+                <div key={ranking.userId} className={styles.LeagueCard_RankingItem}>
                   <span>
                     {ranking.rank + 1}
                   </span>
