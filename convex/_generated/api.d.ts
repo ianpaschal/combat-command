@@ -70,6 +70,7 @@ import type * as _model_leagues__helpers_calculateRankings from "../_model/leagu
 import type * as _model_leagues__helpers_checkLeagueVisibility from "../_model/leagues/_helpers/checkLeagueVisibility.js";
 import type * as _model_leagues__helpers_deepenLeague from "../_model/leagues/_helpers/deepenLeague.js";
 import type * as _model_leagues_index from "../_model/leagues/index.js";
+import type * as _model_leagues_mutations_createLeague from "../_model/leagues/mutations/createLeague.js";
 import type * as _model_leagues_mutations_refreshLeagueRankings from "../_model/leagues/mutations/refreshLeagueRankings.js";
 import type * as _model_leagues_queries_getLeague from "../_model/leagues/queries/getLeague.js";
 import type * as _model_leagues_queries_getLeagues from "../_model/leagues/queries/getLeagues.js";
@@ -362,6 +363,7 @@ declare const fullApi: ApiFromModules<{
   "_model/leagues/_helpers/checkLeagueVisibility": typeof _model_leagues__helpers_checkLeagueVisibility;
   "_model/leagues/_helpers/deepenLeague": typeof _model_leagues__helpers_deepenLeague;
   "_model/leagues/index": typeof _model_leagues_index;
+  "_model/leagues/mutations/createLeague": typeof _model_leagues_mutations_createLeague;
   "_model/leagues/mutations/refreshLeagueRankings": typeof _model_leagues_mutations_refreshLeagueRankings;
   "_model/leagues/queries/getLeague": typeof _model_leagues_queries_getLeague;
   "_model/leagues/queries/getLeagues": typeof _model_leagues_queries_getLeagues;

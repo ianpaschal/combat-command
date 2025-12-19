@@ -6,6 +6,7 @@ import {
 
 import { QueryCtx } from '../../../_generated/server';
 import { getErrorMessage } from '../../common/errors';
+import { checkLeagueVisibility } from '../../leagues/_helpers/checkLeagueVisibility';
 import { getTournamentResultsByUser } from '../../tournamentResults';
 import { LeagueRankingFullResult } from '../types';
 
@@ -22,7 +23,7 @@ export const getLeagueRankingFullResults = async (
     throw new ConvexError(getErrorMessage('LEAGUE_RANKING_NOT_FOUND'));
   }
   const league = await ctx.db.get(leagueRanking.leagueId);
-  if (!league) {
+  if (!league || !(await checkLeagueVisibility(ctx, league))) {
     throw new ConvexError(getErrorMessage('LEAGUE_NOT_FOUND'));
   }
 
