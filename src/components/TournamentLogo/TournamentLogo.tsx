@@ -45,7 +45,6 @@ export const TournamentLogo = ({
 }: TournamentLogoProps): JSX.Element => {
   const id = useId();
   const clipId = `${id}-clip`;
-  const clipShapeId = `${id}-clip-shape`;
 
   return (
     <div className={clsx(styles.TournamentLogo, className)}>
@@ -53,14 +52,14 @@ export const TournamentLogo = ({
         <defs>
           <clipPath id={clipId}>
             {wrapper ? (
-              <path id={clipShapeId} d={shapes[wrapper?.shape][wrapper.borderColor ? 'inner' : 'outer']} />
+              <path d={shapes[wrapper?.shape][wrapper.borderColor ? 'inner' : 'outer']} />
             ) : (
               <rect x="0" y="0" width="64" height="64" />
             )}
           </clipPath>
         </defs>
         {!!wrapper?.borderColor && (
-          <path id={clipShapeId} d={shapes[wrapper.shape].outer} fill={wrapper.borderColor} />
+          <path d={shapes[wrapper.shape].outer} fill={wrapper.borderColor} />
         )}
         <rect
           width="64"
