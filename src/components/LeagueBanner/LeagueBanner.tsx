@@ -22,7 +22,7 @@ export const LeagueBanner = ({
     <div
       className={clsx(styles.LeagueBanner, className)}
       style={league.bannerUrl ? {
-        backgroundImage: `url(${league.bannerUrl}`,
+        backgroundImage: `url(${league.bannerUrl})`,
         backgroundSize: 'cover',
       } : undefined}
     >
