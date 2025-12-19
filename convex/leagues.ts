@@ -1,4 +1,4 @@
-import { mutation, query } from './_generated/server';
+import { internalMutation, query } from './_generated/server';
 import * as model from './_model/leagues';
 
 export const getLeague = query({
@@ -11,7 +11,7 @@ export const getLeagues = query({
   handler: model.getLeagues,
 });
 
-export const refreshLeagueRankings = mutation({
+export const refreshLeagueRankings = internalMutation({
   args: model.refreshLeagueRankingsArgs,
   handler: model.refreshLeagueRankings,
 });
