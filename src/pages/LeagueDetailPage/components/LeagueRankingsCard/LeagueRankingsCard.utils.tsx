@@ -50,7 +50,7 @@ export const getLeagueRankingTableConfig = (
       renderHeader: () => (
         <InfoPopover content={gameSystem.getRankingFactorDisplayName(key) ?? 'Unknown Factor'}>
           <h3>{gameSystem.getRankingFactorDisplayName(key, true) ?? '?'}</h3>
-        </InfoPopover >
+        </InfoPopover>
       ),
     })),
   ];
