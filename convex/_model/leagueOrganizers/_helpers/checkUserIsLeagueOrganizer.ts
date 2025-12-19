@@ -9,8 +9,8 @@ export const checkUserIsLeagueOrganizer = async (
   if (!userId) {
     return false;
   }
-  const records = await ctx.db.query('leagueOrganizers')
+  const record = await ctx.db.query('leagueOrganizers')
     .withIndex('by_league_user', (q) => q.eq('leagueId', leagueId).eq('userId', userId))
     .first();
-  return !!records;
+  return !!record;
 };

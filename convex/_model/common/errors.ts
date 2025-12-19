@@ -1,5 +1,4 @@
 export const errors = {
-  FEATURE_DUPLICATE_KEY: 'Key is already in use by another feature flag.',
 
   // Tournament (general)
   CANNOT_ADD_ANOTHER_PLAYER: 'Cannot add another player.',
@@ -55,7 +54,6 @@ export const errors = {
   CANNOT_REMOVE_LAST_ORGANIZER_FROM_LEAGUE: 'Cannot remove the last organizer from league.',
 
   // Missing docs
-  FEATURE_FLAG_NOT_FOUND: 'Could not find a feature flag with that ID.',
   FILE_NOT_FOUND: 'Could not find a file with that ID.',
   TOURNAMENT_COMPETITOR_NOT_FOUND: 'Could not find a competitor with that ID.',
   TOURNAMENT_CONTAINING_COMPETITOR_NOT_FOUND: 'Could not find a tournament containing this competitor.',

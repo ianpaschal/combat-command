@@ -13,8 +13,3 @@ export const deepenLeagueOrganizer = async (
     user,
   };
 };
-
-/**
- * Deep league registration with additional joined data and computed fields.
- */
-export type DeepLeagueOrganizer = Awaited<ReturnType<typeof deepenLeagueOrganizer>>;

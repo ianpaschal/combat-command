@@ -13,7 +13,7 @@ import { checkUserIsLeagueOrganizer } from '../../leagueOrganizers';
  */
 export const checkLeagueVisibility = async (
   ctx: QueryCtx,
-  league: Doc<'leagues'>, // TODO: Make union with LeagueDeep
+  league: Doc<'leagues'>,
 ): Promise<boolean> => {
   const userId = await getAuthUserId(ctx);
   const isOrganizer = await checkUserIsLeagueOrganizer(ctx, league._id, userId);

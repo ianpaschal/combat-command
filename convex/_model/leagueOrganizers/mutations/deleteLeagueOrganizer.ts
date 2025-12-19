@@ -10,7 +10,6 @@ import { getErrorMessage } from '../../common/errors';
 
 export const deleteLeagueOrganizerArgs = v.object({
   id: v.id('leagueOrganizers'),
-  newOwnerId: v.id('leagueOrganizers'),
 });
 
 export const deleteLeagueOrganizer = async (
@@ -37,10 +36,7 @@ export const deleteLeagueOrganizer = async (
   /* These user IDs can make changes to this league leagueOrganizer:
    * - League owners;
    */
-  const authorizedUserIds = [
-    ...leagueOrganizers.map((to) => to.userId),
-    leagueOrganizer.userId,
-  ];
+  const authorizedUserIds = leagueOrganizers.map((to) => to.userId);
   if (!authorizedUserIds.includes(userId)) {
     throw new ConvexError(getErrorMessage('USER_DOES_NOT_HAVE_PERMISSION'));
   }

@@ -8,8 +8,6 @@ import { League } from '../types';
  * Gets an array of deep Leagues.
  * 
  * @param ctx - Convex query context
- * @param args - Convex query args
- * @param args.startsAfter - Filter for leagues starting after this date
  * @returns An array of deep Leagues
  */
 export const getLeagues = async (

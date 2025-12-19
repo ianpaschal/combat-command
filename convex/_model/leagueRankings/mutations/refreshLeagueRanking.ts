@@ -12,13 +12,14 @@ export const refreshLeagueRanking = async (
   ctx: MutationCtx,
   args: Infer<typeof refreshLeagueRankingArgs>,
 ): Promise<Id<'leagueRankings'>> => {
+  const { userId, leagueId, ...restArgs } = args;
   const leagueRanking = await ctx.db.query('leagueRankings')
-    .withIndex('by_league_user', (q) => q.eq('leagueId', args.leagueId).eq('userId', args.userId))
+    .withIndex('by_league_user', (q) => q.eq('leagueId', leagueId).eq('userId', userId))
     .first();
 
   if (leagueRanking) {
     await ctx.db.patch(leagueRanking._id, {
-      ...args,
+      ...restArgs,
       modifiedAt: Date.now(),
     });
     return leagueRanking._id;

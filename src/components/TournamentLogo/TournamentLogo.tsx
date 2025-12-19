@@ -1,4 +1,4 @@
-import { CSSProperties } from 'react';
+import { CSSProperties, useId } from 'react';
 import clsx from 'clsx';
 
 import styles from './TournamentLogo.module.scss';
@@ -42,36 +42,42 @@ export const TournamentLogo = ({
   url,
   shadow = true,
   wrapper,
-}: TournamentLogoProps): JSX.Element => (
-  <div className={clsx(styles.TournamentLogo, className)}>
-    <svg viewBox="0 0 64 64" data-shadow={shadow}>
-      <defs>
-        <clipPath id="clip">
-          {wrapper ? (
-            <path id="clip-shape" d={shapes[wrapper?.shape][wrapper.borderColor ? 'inner' : 'outer']} />
-          ) : (
-            <rect x="0" y="0" width="64" height="64" />
-          )}
-        </clipPath>
-      </defs>
-      {!!wrapper?.borderColor && (
-        <path id="clip-shape" d={shapes[wrapper.shape].outer} fill={wrapper.borderColor} />
-      )}
-      <rect
-        width="64"
-        height="64"
-        fill={wrapper?.backgroundColor ?? 'transparent'}
-        clipPath="url(#clip)"
-      />
-      <image
-        href={url}
-        width={wrapper ? 60 : 64}
-        height={wrapper ? 60 : 64}
-        x={wrapper ? 2 : 0}
-        y={wrapper ? 2 : 0}
-        preserveAspectRatio="xMidYMid meet"
-        clipPath="url(#clip)"
-      />
-    </svg>
-  </div>
-);
+}: TournamentLogoProps): JSX.Element => {
+  const id = useId();
+  const clipId = `${id}-clip`;
+  const clipShapeId = `${id}-clip-shape`;
+
+  return (
+    <div className={clsx(styles.TournamentLogo, className)}>
+      <svg viewBox="0 0 64 64" data-shadow={shadow}>
+        <defs>
+          <clipPath id={clipId}>
+            {wrapper ? (
+              <path id={clipShapeId} d={shapes[wrapper?.shape][wrapper.borderColor ? 'inner' : 'outer']} />
+            ) : (
+              <rect x="0" y="0" width="64" height="64" />
+            )}
+          </clipPath>
+        </defs>
+        {!!wrapper?.borderColor && (
+          <path id={clipShapeId} d={shapes[wrapper.shape].outer} fill={wrapper.borderColor} />
+        )}
+        <rect
+          width="64"
+          height="64"
+          fill={wrapper?.backgroundColor ?? 'transparent'}
+          clipPath={`url(#${clipId})`}
+        />
+        <image
+          href={url}
+          width={wrapper ? 60 : 64}
+          height={wrapper ? 60 : 64}
+          x={wrapper ? 2 : 0}
+          y={wrapper ? 2 : 0}
+          preserveAspectRatio="xMidYMid meet"
+          clipPath={`url(#${clipId})`}
+        />
+      </svg>
+    </div>
+  );
+};

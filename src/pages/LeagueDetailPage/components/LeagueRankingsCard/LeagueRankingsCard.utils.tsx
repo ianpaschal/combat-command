@@ -1,4 +1,4 @@
-import { getRankingFactorDisplayName } from '@ianpaschal/combat-command-game-systems/flamesOfWarV4';
+import { getGameSystem } from '@ianpaschal/combat-command-game-systems/common';
 
 import { League, LeagueRanking } from '~/api';
 import { InfoPopover } from '~/components/generic/InfoPopover';
@@ -40,19 +40,18 @@ export const getLeagueRankingTableConfig = (
       </InfoPopover>
     ),
   },
-  ...league.rankingFactors.map((key): ColumnDef<LeagueRanking> => ({
-    key,
-    width: 40,
-    align: 'center',
-    renderCell: (r) => r.rankingFactors[key],
-    renderHeader: () => {
-      const long = getRankingFactorDisplayName(key);
-      const short = getRankingFactorDisplayName(key, true);
-      return (
-        <InfoPopover key={key} content={long ?? 'Unknown Factor'}>
-          <h3>{short ?? '?'}</h3>
+  ...league.rankingFactors.map((key): ColumnDef<LeagueRanking> => {
+    const gameSystem = getGameSystem(league.gameSystem);
+    return {
+      key,
+      width: 40,
+      align: 'center',
+      renderCell: (r) => r.rankingFactors[key],
+      renderHeader: () => (
+        <InfoPopover key={key} content={gameSystem.getRankingFactorDisplayName(key) ?? 'Unknown Factor'}>
+          <h3>{gameSystem.getRankingFactorDisplayName(key, true) ?? '?'}</h3>
         </InfoPopover>
-      );
-    },
-  })),
+      ),
+    };
+  }),
 ]);

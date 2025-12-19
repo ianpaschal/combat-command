@@ -15,7 +15,5 @@ export const getLeagueOrganizersByLeague = async (
   const records = await ctx.db.query('leagueOrganizers')
     .withIndex('by_league', (q) => q.eq('leagueId', args.leagueId))
     .collect();
-  return await Promise.all(records.map(async (item) => (
-    await deepenLeagueOrganizer(ctx, item)
-  )));
+  return Promise.all(records.map((item) => deepenLeagueOrganizer(ctx, item)));
 };

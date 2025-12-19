@@ -33,7 +33,7 @@ export const deepenLeague = async (
 
   for (const tournamentId of doc.tournamentIds) {
     const tournament = await ctx.db.get(tournamentId);
-    if (!tournament || !checkTournamentVisibility(ctx, tournament)) {
+    if (!tournament || !(await checkTournamentVisibility(ctx, tournament))) {
       continue;
     }
     tournaments.push({

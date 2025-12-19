@@ -4,15 +4,8 @@ import { v } from 'convex/values';
 
 import { getStaticEnumConvexValidator } from '../common/_helpers/getStaticEnumConvexValidator';
 import { leagueStatus } from '../common/leagueStatus';
-import { rankingFactor, rankingFactorValues } from '../common/rankingFactor';
+import { rankingFactor } from '../common/rankingFactor';
 const gameSystem = getStaticEnumConvexValidator(GameSystem);
-
-export const leagueRanking = v.object({
-  userId: v.id('users'),
-  rank: v.number(),
-  rankingFactors: rankingFactorValues,
-  tournamentCount: v.number(),
-});
 
 export const editableFields = {
   title: v.string(),
