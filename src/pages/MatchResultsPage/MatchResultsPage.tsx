@@ -14,7 +14,7 @@ import { MatchResultCard } from '~/components/MatchResultCard';
 import { MatchResultCreateDialog, useMatchResultCreateDialog } from '~/components/MatchResultCreateDialog';
 import { PageWrapper } from '~/components/PageWrapper';
 import { useGetMatchResults } from '~/services/matchResults';
-import { DEFAULT_PAGE_SIZE, MIN_WIDTH_TABLET } from '~/settings';
+import { MIN_WIDTH_TABLET } from '~/settings';
 
 import styles from './MatchResultsPage.module.scss';
 
@@ -24,10 +24,7 @@ export const MatchResultsPage = (): JSX.Element => {
   const showAddMatchResultButton = !!user;
   const showButtonText = useWindowWidth() > MIN_WIDTH_TABLET;
   const { open } = useMatchResultCreateDialog();
-  const { data: matchResults, loadMore } = useGetMatchResults({});
-  const handleLoadMore = (): void => {
-    loadMore(DEFAULT_PAGE_SIZE);
-  };
+  const { data: matchResults, loadMore, status } = useGetMatchResults({});
   return (
     <PageWrapper title="Match Results">
       {showFilters && (
@@ -54,9 +51,16 @@ export const MatchResultsPage = (): JSX.Element => {
           <MatchResultCard key={matchResult._id} matchResult={matchResult} />
         ))}
       </div>
-      <div className={styles.List_LoadMoreButton} onClick={handleLoadMore}>
-        <Button text="Load More" />
-      </div>
+      {(status === 'CanLoadMore' || status === 'LoadingMore') && (
+        <div className={styles.List_LoadMoreButtonWrapper}>
+          <Button
+            disabled={status === 'LoadingMore'}
+            icon={<Plus />}
+            text="Load More"
+            onClick={loadMore}
+          />
+        </div>
+      )}
       {showAddMatchResultButton && (
         <FloatingActionButton icon={<Plus />} onClick={() => open()} />
       )}

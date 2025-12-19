@@ -1,0 +1,29 @@
+@use "/src/style/backgrounds";
+@use "/src/style/borders";
+@use "/src/style/corners";
+@use "/src/style/flex";
+@use "/src/style/shadows";
+@use "/src/style/sizes";
+@use "/src/style/text";
+@use "/src/style/variables";
+
+.LeagueDetailCard {
+  @include flex.column($gap: 0);
+
+  overflow: hidden;
+
+  &_Header {
+    @include flex.row($gap: 0.5rem, $yAlign: center);
+    @include sizes.normal;
+
+    position: relative;
+    box-sizing: content-box; // Make the height apply to the inside, without padding
+    padding: 1rem var(--container-padding-x);
+
+    &_Actions {
+      @include flex.row($gap: 0.5rem, $xAlign: center);
+
+      margin-left: auto;
+    }
+  }
+}

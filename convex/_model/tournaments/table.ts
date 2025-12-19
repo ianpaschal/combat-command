@@ -29,6 +29,7 @@ export const editableFields = {
   })),
   bannerStorageId: v.optional(v.union(v.id('_storage'))),
   location,
+  leagueId: v.optional(v.id('leagues')),
 
   startsAt: v.number(),
   endsAt: v.number(),
@@ -82,6 +83,7 @@ export default defineTable({
   .index('by_game_system_starts_at', ['gameSystem', 'startsAt'])
   .index('by_game_system', ['gameSystem'])
   .index('by_starts_at', ['startsAt'])
+  .index('by_league', ['leagueId'])
   .index('by_status_starts_at', ['status', 'startsAt'])
   .index('by_status', ['status'])
   .searchIndex('search', { searchField: 'search' });

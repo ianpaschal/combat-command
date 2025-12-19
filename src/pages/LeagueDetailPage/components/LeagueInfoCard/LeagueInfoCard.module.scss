@@ -1,0 +1,9 @@
+@use "/src/style/variables";
+@use "/src/style/flex";
+@use "/src/style/text";
+
+.LeagueInfoCard {
+  &_InfoBlock {
+    padding: 1rem var(--container-padding-x);
+  }
+}

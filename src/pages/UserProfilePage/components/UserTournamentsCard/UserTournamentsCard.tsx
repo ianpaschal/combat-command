@@ -7,7 +7,6 @@ import { Card, CardHeader } from '~/components/generic/Card';
 import { ScrollArea } from '~/components/generic/ScrollArea';
 import { MatchResultCard } from '~/components/MatchResultCard';
 import { useGetMatchResultsByUser } from '~/services/matchResults';
-import { DEFAULT_PAGE_SIZE } from '~/settings';
 
 import styles from './UserTournamentsCard.module.scss';
 
@@ -20,8 +19,7 @@ export const UserTournamentsCard = ({
   className,
   userId,
 }: UserTournamentsCardProps): JSX.Element => {
-
-  const { data: matchResults, loadMore: loadMoreMatchResults, status } = useGetMatchResultsByUser({
+  const { data: matchResults, loadMore, status } = useGetMatchResultsByUser({
     userId,
   });
   return (
@@ -38,7 +36,7 @@ export const UserTournamentsCard = ({
                 disabled={status === 'LoadingMore'}
                 icon={<Plus />}
                 text="Load More"
-                onClick={() => loadMoreMatchResults(DEFAULT_PAGE_SIZE)}
+                onClick={loadMore}
               />
             </div>
           )}

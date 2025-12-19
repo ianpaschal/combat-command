@@ -1,0 +1,54 @@
+@use "/src/style/flex";
+@use "/src/style/variables";
+@use "/src/style/backgrounds";
+@use "/src/style/borders";
+@use "/src/style/shadows";
+@use "/src/style/corners";
+
+.LeagueBanner {
+  @include backgrounds.topography;
+
+  position: relative;
+  max-width: 100vw;
+
+  &_Content {
+    margin: 0 auto;
+    padding: 1rem var(--modal-outer-gutter);
+
+    &[data-orientation="horizontal"] {
+      @include flex.row($xAlign: right);
+
+      min-height: 12rem;
+    }
+
+    &[data-orientation="vertical"] {
+      @include flex.column;
+    }
+  }
+
+  &_Title {
+    @include flex.row;
+
+    margin-right: auto;
+
+    h1 {
+      color: white;
+      filter: drop-shadow(0 4px 6px rgb(0 0 0 / 50%));
+    }
+  }
+
+  &_Logo {
+    width: 8rem;
+    height: 8rem;
+  }
+
+  &_Timer {
+    @include flex.centered;
+    @include borders.normal;
+    @include shadows.elevated;
+    @include corners.normal;
+
+    overflow: hidden;
+    align-items: stretch;
+  }
+}

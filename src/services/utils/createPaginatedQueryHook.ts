@@ -15,17 +15,17 @@ export const createPaginatedQueryHook = <T extends QueryFn>(queryFn: T) => {
   function isArgs(args: unknown): args is 'skip' | Expand<BetterOmit<FunctionArgs<T>, 'paginationOpts'>> {
     return args !== 'skip' && args !== undefined && args !== null;
   }
-  return (args: Omit<T['_args'], 'paginationOpts'> | 'skip') => {
+  return (args: Omit<T['_args'], 'paginationOpts'> | 'skip', pageSize = DEFAULT_PAGE_SIZE) => {
     if (!isArgs(args)) {
       return {
         data: undefined,
         loading: false,
-        loadMore: (_n: number) => undefined,
+        loadMore: () => undefined,
         status: null,
       };
     }
     const { results: data, isLoading, loadMore, status } = usePaginatedQuery(queryFn, args, {
-      initialNumItems: DEFAULT_PAGE_SIZE,
+      initialNumItems: pageSize,
     });
     const stored = useRef(data);
     if (data !== undefined) {
@@ -34,7 +34,7 @@ export const createPaginatedQueryHook = <T extends QueryFn>(queryFn: T) => {
     return {
       data: stored.current,
       loading: isLoading || stored.current === undefined,
-      loadMore,
+      loadMore: () => loadMore(pageSize),
       status,
     };
   };

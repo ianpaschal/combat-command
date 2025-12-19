@@ -51,6 +51,7 @@ export const errors = {
   TOURNAMENT_TIMER_ALREADY_PAUSED: 'Tournament timer is already paused.',
   TOURNAMENT_TIMER_ALREADY_RUNNING: 'Tournament timer is already running.',
   TOURNAMENT_TIMER_ALREADY_EXISTS: 'Tournament already has a timer for this round.',
+  CANNOT_REMOVE_LAST_ORGANIZER_FROM_LEAGUE: 'Cannot remove the last organizer from league.',
 
   // Missing docs
   FILE_NOT_FOUND: 'Could not find a file with that ID.',
@@ -62,9 +63,14 @@ export const errors = {
   TOURNAMENT_TIMER_NOT_FOUND: 'Could not find a tournament timer for that tournament and round.',
   USER_NOT_FOUND: 'Could not find a user with that ID.',
   MATCH_RESULT_NOT_FOUND: 'Could not find a match result with that ID.',
-  TOURNAMENT_REGISTRATION_NOT_FOUND: 'Count not find a tournament registration with that ID.',
-  TOURNAMENT_ORGANIZER_NOT_FOUND: 'Count not find a tournament organizer with that ID.',
+  TOURNAMENT_REGISTRATION_NOT_FOUND: 'Could not find a tournament registration with that ID.',
+  TOURNAMENT_ORGANIZER_NOT_FOUND: 'Could not find a tournament organizer with that ID.',
   FRIENDSHIP_NOT_FOUND: 'Could not find a friendship with that ID.',
+  LEAGUE_NOT_FOUND: 'Could not find a league with that ID.',
+  LEAGUE_ORGANIZER_NOT_FOUND: 'Could not find a league organizer with that ID.',
+  LEAGUE_RANKING_NOT_FOUND: 'Could not find a league ranking with that ID.',
+
+  LEAGUE_ALREADY_EXISTS: 'A league with that title and edition year already exists.',
 
   // General
   USER_NOT_AUTHENTICATED: 'Authentication required!',
