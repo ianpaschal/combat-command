@@ -14,12 +14,12 @@ const sharedResultFields = {
   rankingFactors: rankingFactorValues,
 };
 
-export const registrationResultFields = {
+export const userResultFields = {
   ...sharedResultFields,
-  opponentIds: v.optional(v.array(v.id('tournamentRegistrations'))),
+  opponentIds: v.optional(v.array(v.id('users'))),
 };
 
-export const registrationResult = v.object(registrationResultFields);
+export const userResult = v.object(userResultFields);
 
 export const competitorResultFields = {
   ...sharedResultFields,
@@ -41,15 +41,22 @@ export const computedFields = {
   modifiedAt: v.optional(v.number()),
 
   /** Auto-calculated on create/update, or by trigger if underlying data changes. */
+  users: v.optional(v.array(v.object({
+    id: v.id('users'), 
+    ...userResultFields,
+  }))),
+
+  /** Auto-calculated on create/update, or by trigger if underlying data changes. */
+  registrations: v.optional(v.array(v.object({
+    ...sharedResultFields,
+    id: v.id('tournamentRegistrations'), 
+    opponentIds: v.optional(v.array(v.id('tournamentRegistrations'))),
+  }))),
+  
+  /** Auto-calculated on create/update, or by trigger if underlying data changes. */
   competitors: v.array(v.object({
     id: v.id('tournamentCompetitors'),
     ...competitorResultFields,
-  })),
-
-  /** Auto-calculated on create/update, or by trigger if underlying data changes. */
-  registrations: v.array(v.object({
-    id: v.id('tournamentRegistrations'), 
-    ...registrationResultFields,
   })),
 };
 

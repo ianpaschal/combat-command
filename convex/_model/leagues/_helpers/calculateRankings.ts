@@ -33,17 +33,12 @@ export const calculateRankings = async (
         continue;
       }
 
-      // Within the results, for each registration, add those results to the user result map:
-      for (const { id, rankingFactors } of tournamentResult.registrations) {
-        const reg = await ctx.db.get(id);
-        if (!reg) {
-          throw new ConvexError(getErrorMessage('TOURNAMENT_REGISTRATION_NOT_FOUND'));
+      // Within the results, for each user, add those results to the result map:
+      for (const { id, rankingFactors } of tournamentResult.users ?? []) { // FIXME: Remove fallback after migration
+        if (!userResults[id]) {
+          userResults[id] = [];
         }
-        const { userId } = reg;
-        if (!userResults[userId]) {
-          userResults[userId] = [];
-        }
-        userResults[userId].push({ rankingFactors });
+        userResults[id].push({ rankingFactors });
       }
     }
   }

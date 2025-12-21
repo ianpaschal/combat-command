@@ -3,18 +3,18 @@ import { Infer } from 'convex/values';
 
 import { Id } from '../../_generated/dataModel';
 import { BaseStats } from '../common/types';
-import { competitorResult, registrationResult } from './table';
+import { competitorResult, userResult } from './table';
 
-export type CompetitorResult = Infer<typeof competitorResult>;
+export type TournamentUserResult = Infer<typeof userResult>;
 
-export type RegistrationResult = Infer<typeof registrationResult>;
-
-export type TournamentPlayerMetadata<TBaseStats extends BaseStats = BaseStats> = {
+export type TournamentUserMetadata<TBaseStats extends BaseStats = BaseStats> = {
   results: (TBaseStats & {
-    opponentId: Id<'tournamentRegistrations'> | null;
+    opponentId: Id<'users'> | null;
   })[];
   rankingFactors?: Record<ExtendedRankingFactor<keyof TBaseStats & string>, number>;
 };
+
+export type CompetitorResult = Infer<typeof competitorResult>;
 
 export type TournamentCompetitorMetadata<TBaseStats extends BaseStats = BaseStats> = {
   results: (TBaseStats & {
@@ -26,8 +26,8 @@ export type TournamentCompetitorMetadata<TBaseStats extends BaseStats = BaseStat
 };
 
 export type TournamentAggregateData = {
-  registrations: (RegistrationResult & {
-    id: Id<'tournamentRegistrations'>;
+  users: (TournamentUserResult & {
+    id: Id<'users'>;
   })[];
   competitors: (CompetitorResult & {
     id: Id<'tournamentCompetitors'>;

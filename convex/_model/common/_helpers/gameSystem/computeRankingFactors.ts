@@ -6,7 +6,7 @@ import { sumBaseStats } from './sumBaseStats';
 
 export const computeRankingFactors = <
   TBaseStats extends Record<string, number>,
-  TId extends Id<'tournamentRegistrations'> | Id<'tournamentCompetitors'>,
+  TId extends Id<'users'> | Id<'tournamentCompetitors'>,
 >(
   id: TId,
   stats: Record<TId, { results: (TBaseStats & { opponentId: TId | null })[] }>,

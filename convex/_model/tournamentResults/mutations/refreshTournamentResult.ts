@@ -32,7 +32,7 @@ export const refreshTournamentResult = async (
     .collect();
 
   // ---- AGGREGATE RANKING DATA ----
-  const { registrations, competitors } = await aggregateTournamentData(ctx, tournament, args.round);
+  const { users, competitors } = await aggregateTournamentData(ctx, tournament, args.round);
 
   // ---- APPLY SCORE ADJUSTMENTS ----
   const adjustedCompetitors = competitors.map((c) => {
@@ -51,7 +51,7 @@ export const refreshTournamentResult = async (
   // ---- SORT USING RANKING FACTORS ----
   const sortByRanking = createSortByRanking(tournament.gameSystem, tournament.rankingFactors);
   const result = {
-    registrations: registrations.sort(sortByRanking).map((data, i) => ({
+    users: users.sort(sortByRanking).map((data, i) => ({
       ...data,
       rank: i,
     })),

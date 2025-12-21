@@ -1,7 +1,7 @@
 import { Id } from '../../_generated/dataModel';
 
 export type TournamentResultId = Id<'tournamentResults'>;
-export type { CompetitorResult, RegistrationResult } from './types';
+export type { CompetitorResult, TournamentUserResult as RegistrationResult } from './types';
 
 // Queries
 export {

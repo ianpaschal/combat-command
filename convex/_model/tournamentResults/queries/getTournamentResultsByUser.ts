@@ -7,10 +7,10 @@ import {
 import { QueryCtx } from '../../../_generated/server';
 import { getErrorMessage } from '../../common/errors';
 import { RankingFactorValues } from '../../common/types';
-import { RegistrationResult } from '../types';
+import { TournamentUserResult } from '../types';
 import { getTournamentResultsByRound } from './getTournamentResultsByRound';
 
-const emptyResults: RegistrationResult = {
+const emptyResults: TournamentUserResult = {
   gamesPlayed: 0,
   opponentIds: [],
   rank: -1,
@@ -26,7 +26,7 @@ export const getTournamentResultsByUserArgs = v.object({
 export const getTournamentResultsByUser = async (
   ctx: QueryCtx,
   args: Infer<typeof getTournamentResultsByUserArgs>,
-): Promise<RegistrationResult> => {
+): Promise<TournamentUserResult> => {
   const tournamentResults = await getTournamentResultsByRound(ctx, args);
   const tournamentRegistration = await ctx.db.query('tournamentRegistrations')
     .withIndex('by_tournament_user', (q) => q.eq('tournamentId', args.tournamentId).eq('userId', args.userId))
@@ -34,5 +34,5 @@ export const getTournamentResultsByUser = async (
   if (!tournamentRegistration) {
     throw new ConvexError(getErrorMessage('TOURNAMENT_REGISTRATION_NOT_FOUND'));
   }
-  return tournamentResults?.registrations.find((c) => c.id === tournamentRegistration._id) ?? emptyResults;
+  return tournamentResults?.users?.find((r) => r.id === args.userId) ?? emptyResults; // FIXME: Remove second ? after migration
 };
