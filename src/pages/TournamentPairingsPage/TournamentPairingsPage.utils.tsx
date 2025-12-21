@@ -5,7 +5,6 @@ import { UniqueIdentifier } from '@dnd-kit/core';
 import { TournamentCompetitor, TournamentCompetitorId } from '~/api';
 import { Pulsar } from '~/components/generic/Pulsar';
 import { IdentityBadge } from '~/components/IdentityBadge';
-import { getTournamentCompetitorDisplayName } from '~/utils/common/getTournamentCompetitorDisplayName';
 import { FormData, TournamentPairingFormItem } from './TournamentPairingsPage.schema';
 
 import styles from './TournamentPairingsPage.module.scss';
@@ -92,32 +91,28 @@ export const getPairingsStatuses = (
       }
     }
     if (competitorA && !competitorB && (competitorA?.byeRounds ?? []).length) {
-      const displayName = getTournamentCompetitorDisplayName(competitorA);
       return {
         status: 'warning',
-        message: `${displayName} has already had a bye.`,
+        message: `${competitorA.displayName} has already had a bye.`,
       };
     }
     if (!competitorA && competitorB && (competitorB?.byeRounds ?? []).length) {
-      const displayName = getTournamentCompetitorDisplayName(competitorB);
       return {
         status: 'warning',
-        message: `${displayName} has already had a bye.`,
+        message: `${competitorB.displayName} has already had a bye.`,
       };
     }
     if (pairing.table !== null && pairing.table > -1) {
       if (competitorA && (competitorA?.playedTables ?? []).includes(pairing.table)) {
-        const displayName = getTournamentCompetitorDisplayName(competitorA);
         return {
           status: 'warning',
-          message: `${displayName} has already played this table.`,
+          message: `${competitorA.displayName} has already played this table.`,
         };
       }
       if (competitorB && (competitorB?.playedTables ?? []).includes(pairing.table)) {
-        const displayName = getTournamentCompetitorDisplayName(competitorB);
         return {
           status: 'warning',
-          message: `${displayName} has already played this table.`,
+          message: `${competitorB.displayName} has already played this table.`,
         };
       }
     }

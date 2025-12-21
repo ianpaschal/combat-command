@@ -5,6 +5,8 @@
 .TournamentCompetitorForm {
   @include flex.column;
 
+  min-height: min-content;
+
   &_PlayersList {
     @include flex.column($gap: 0.375rem);
   }
@@ -43,5 +45,7 @@
     grid-template-columns: 1fr auto;
     gap: 1rem;
     align-items: center;
+
+    margin-bottom: 0.25rem;
   }
 }

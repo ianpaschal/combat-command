@@ -1,6 +1,7 @@
+import { Table } from '@ianpaschal/combat-command-components';
+
 import { DraftTournamentPairing, TournamentCompetitor } from '~/api';
 import { ConfirmationDialog } from '~/components/ConfirmationDialog';
-import { Table } from '~/components/generic/Table';
 import { Warning } from '~/components/generic/Warning';
 import { useTournament } from '~/components/TournamentProvider';
 import { TournamentPairingFormItem } from '../../TournamentPairingsPage.schema';
@@ -49,7 +50,7 @@ export const ConfirmPairingsDialog = ({
       <p className={styles.ConfirmPairingsDialog_Content}>
         The following pairings will be created:
       </p>
-      <Table columns={columns} rows={assignedPairings} rowClassName={styles.ConfirmPairingsDialog_Row} />
+      <Table className={styles.ConfirmPairingsDialog_Table} columns={columns} rows={assignedPairings} />
       <Warning className={styles.ConfirmPairingsDialog_Content}>
         Once created, pairings cannot be edited. Please ensure all competitors are present and ready to play!
       </Warning>

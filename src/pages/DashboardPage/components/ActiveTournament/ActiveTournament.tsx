@@ -7,8 +7,7 @@ import { useAuth } from '~/components/AuthProvider';
 import { Button } from '~/components/generic/Button';
 import { Separator } from '~/components/generic/Separator';
 import { IdentityBadge } from '~/components/IdentityBadge';
-import { TournamentActionsProvider } from '~/components/TournamentActionsProvider';
-import { TournamentContextMenu } from '~/components/TournamentContextMenu';
+import { TournamentContextMenu } from '~/components/TournamentProvider';
 import { TournamentProvider } from '~/components/TournamentProvider';
 import { TournamentTimer } from '~/components/TournamentTimer';
 import { useGetTournamentCompetitorsByTournament } from '~/services/tournamentCompetitors';
@@ -67,9 +66,7 @@ export const ActiveTournament = ({
       <TournamentProvider tournament={tournament}>
         <Header title={renderTitle(tournament.title)}>
           {isOrganizer && (
-            <TournamentActionsProvider>
-              <TournamentContextMenu variant="secondary" />
-            </TournamentActionsProvider>
+            <TournamentContextMenu tournament={tournament} />
           )}
           <Button icon={<ChevronRight />} variant="secondary" onClick={handleViewMore} />
         </Header>

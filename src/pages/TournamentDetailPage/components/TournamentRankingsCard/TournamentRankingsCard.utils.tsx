@@ -1,3 +1,4 @@
+import { ColumnDef } from '@ianpaschal/combat-command-components';
 import { getRankingFactorDisplayName } from '@ianpaschal/combat-command-game-systems/flamesOfWarV4';
 
 import {
@@ -9,7 +10,6 @@ import {
   TournamentRegistrationId,
 } from '~/api';
 import { InfoPopover } from '~/components/generic/InfoPopover';
-import { ColumnDef } from '~/components/generic/Table';
 import { IdentityBadge } from '~/components/IdentityBadge';
 
 import styles from './TournamentRankingsCard.module.scss';
@@ -33,12 +33,16 @@ export const getTournamentRankingTableConfig = (
   {
     key: 'rank',
     label: 'Rank',
-    width: 40,
-    align: 'center',
-    renderCell: (r) => <div>{r.rank + 1}</div>,
+    xAlign: 'center',
+    renderCell: (r) => (
+      <div className={styles.TournamentRankingsCard_RankCell}>
+        {r.rank + 1}
+      </div>
+    ),
   },
   {
     key: 'identity',
+    width: '1fr',
     label: config.view === 'competitors' ? (config.tournament.useTeams ? 'Team' : 'Player') : 'Player',
     renderCell: (r) => {
       const competitor = config.competitors.find((c) => c._id === r.id);
@@ -67,7 +71,7 @@ export const getTournamentRankingTableConfig = (
   ...config.tournament.rankingFactors.map((key): ColumnDef<RankingRow> => ({
     key,
     width: 40,
-    align: 'center',
+    xAlign: 'center',
     renderCell: (r) => r.rankingFactors[key],
     renderHeader: () => {
       const long = getRankingFactorDisplayName(key);

@@ -1,39 +1,12 @@
 import { ReactElement } from 'react';
 import { Ghost, HelpCircle } from 'lucide-react';
 
-import { TournamentCompetitor } from '~/api';
 import { Avatar } from '~/components/generic/Avatar';
-import { FlagCircle } from '~/components/generic/FlagCircle';
-import { getCountryName } from '~/utils/common/getCountryName';
 import { Identity } from './IdentityBadge.types';
+import { TournamentCompetitorAvatar } from './TournamentCompetitorAvatar';
 
 const fallbackAvatar: ReactElement = <Avatar icon={<HelpCircle />} muted />;
 const fallbackDisplayName: ReactElement = <span>Unknown</span>;
-
-const getCompetitorAvatar = (competitor: TournamentCompetitor): ReactElement => {
-  if (competitor.teamName) {
-    const countryName = getCountryName(competitor.teamName);
-    if (countryName) {
-      return <FlagCircle code={competitor.teamName} />;
-    }
-    return <Avatar isTeam />;
-  }
-  if (competitor.registrations.length === 1) {
-    return <Avatar url={competitor.registrations[0]?.user?.avatarUrl} />;
-  }
-  return fallbackAvatar;
-};
-
-const getCompetitorDisplayName = (competitor: TournamentCompetitor): ReactElement => {
-  if (competitor.teamName) {
-    const countryName = getCountryName(competitor.teamName);
-    return <span>{countryName ?? competitor.teamName}</span>;
-  }
-  if (competitor.registrations.length === 1 && competitor.registrations[0].user) {
-    return <span>{competitor.registrations[0].user.displayName}</span >;
-  }
-  return fallbackDisplayName;
-};
 
 export const useIdentityElements = (identity: Identity, loading?: boolean): ReactElement[] => {
   const { user, competitor, placeholder } = identity;
@@ -55,8 +28,8 @@ export const useIdentityElements = (identity: Identity, loading?: boolean): Reac
 
   if (competitor) {
     return [
-      getCompetitorAvatar(competitor),
-      getCompetitorDisplayName(competitor),
+      <TournamentCompetitorAvatar tournamentCompetitor={competitor} />,
+      <span>{competitor.displayName}</span>,
     ];
   }
 

@@ -1,9 +1,9 @@
+import { Table } from '@ianpaschal/combat-command-components';
 import clsx from 'clsx';
 import { Trophy } from 'lucide-react';
 
 import { EmptyState } from '~/components/EmptyState';
 import { Spinner } from '~/components/generic/Spinner';
-import { Table } from '~/components/generic/Table';
 import { useLeague } from '~/components/LeagueProvider';
 import { useGetLeagueRankingsByLeague } from '~/services/leagueRankings';
 import { LeagueDetailCard } from '../LeagueDetailCard';
@@ -37,7 +37,7 @@ export const LeagueRankingsCard = ({
           <EmptyState icon={<Trophy />} />
         ) : (
           // TODO: Add pagination to table
-          <Table columns={columns} rows={rows} rowClassName={styles.LeagueRankingsCard_Row} />
+          <Table className={styles.LeagueRankingsCard_Table} columns={columns} rows={rows} />
         )
       )}
     </LeagueDetailCard>

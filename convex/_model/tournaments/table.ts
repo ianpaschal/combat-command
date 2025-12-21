@@ -55,6 +55,12 @@ export const editableFields = {
     currency: currencyCode,
   })),
   useNationalTeams: v.boolean(),
+  allowCompetitorGroupChoice: v.optional(v.boolean()),
+  groupBehavior: v.optional(v.union(
+    v.literal('hidden'), // Hidden from player
+    v.literal('optional'), // Player can select, otherwise auto assigned
+    v.literal('required'), // Player must select
+  )),
 
   // Format
   pairingMethod: tournamentPairingMethod,

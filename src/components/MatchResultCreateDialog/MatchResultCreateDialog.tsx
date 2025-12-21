@@ -29,7 +29,7 @@ export const MatchResultCreateDialog = ({
       <Separator />
       <ScrollArea
         className={styles.MatchResultCreateDialog_ScrollArea}
-        indicatorBorders={['top', 'bottom']}
+        indicators={{ top: { border: true }, bottom: { border: true } }}
         type="scroll"
       >
         <MatchResultForm
@@ -55,6 +55,6 @@ export const MatchResultCreateDialog = ({
           type="submit"
         />
       </DialogActions>
-    </ControlledDialog>
+    </ControlledDialog >
   );
 };

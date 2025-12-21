@@ -22,7 +22,7 @@ export const FloatingActionButton = forwardRef<FloatingActionButtonRef, Floating
     <Button
       ref={ref}
       className={clsx('FloatingActionButton', className)}
-      round
+      rounded
       size={size}
       variant={variant}
       {...props}

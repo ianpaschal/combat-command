@@ -4,25 +4,47 @@ import {
   v,
 } from 'convex/values';
 
-import { Id } from '../../../_generated/dataModel';
 import { MutationCtx } from '../../../_generated/server';
 import { checkAuth } from '../../common/_helpers/checkAuth';
 import { getErrorMessage } from '../../common/errors';
 import { VisibilityLevel } from '../../common/VisibilityLevel';
 import { getTournamentOrganizersByTournament } from '../../tournamentOrganizers';
 import { checkUserIsRegistered } from '../_helpers/checkUserIsRegistered';
+import { deepenTournamentRegistration } from '../_helpers/deepenTournamentRegistration';
 import { editableFields } from '../table';
+import { TournamentRegistration } from '../types';
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const { tournamentCompetitorId, ...restFields } = editableFields;
 
 export const createTournamentRegistrationArgs = v.object({
-  ...editableFields,
+  ...restFields,
+  tournamentCompetitorId: v.optional(v.id('tournamentCompetitors')),
+  tournamentCompetitor: v.optional(v.object({
+    teamName: v.optional(v.string()),
+  })),
 });
 
 export const createTournamentRegistration = async (
   ctx: MutationCtx,
   args: Infer<typeof createTournamentRegistrationArgs>,
-): Promise<Id<'tournamentRegistrations'>> => {
+): Promise<TournamentRegistration> => {
   // --- CHECK AUTH ----
-  const userId = await checkAuth(ctx);
+  /* These user IDs can make changes to this tournament registration:
+   * - Tournament organizers;
+   * - The user themselves;
+   */
+  const currentUserId = await checkAuth(ctx);
+  const tournamentOrganizers = await getTournamentOrganizersByTournament(ctx, {
+    tournamentId: args.tournamentId,
+  });
+  const authorizedUserIds = [
+    ...tournamentOrganizers.map((r) => r.userId),
+    args.userId,
+  ];
+  if (!authorizedUserIds.includes(currentUserId)) {
+    throw new ConvexError(getErrorMessage('USER_DOES_NOT_HAVE_PERMISSION'));
+  }
 
   // ---- VALIDATE ----
   const tournament = await ctx.db.get(args.tournamentId);
@@ -39,33 +61,38 @@ export const createTournamentRegistration = async (
   if (isAlreadyRegistered) {
     throw new ConvexError(getErrorMessage('USER_ALREADY_IN_TOURNAMENT'));
   }
-
-  // ---- EXTENDED AUTH CHECK ----
-  /* These user IDs can make changes to this tournament registration:
-   * - Tournament organizers;
-   * - The user themselves;
-   */
-  const tournamentOrganizers = await getTournamentOrganizersByTournament(ctx, {
-    tournamentId: tournament._id,
-  });
-  const authorizedUserIds = [
-    ...tournamentOrganizers.map((r) => r.userId),
-    args.userId,
-  ];
-  if (!authorizedUserIds.includes(userId)) {
-    throw new ConvexError(getErrorMessage('USER_DOES_NOT_HAVE_PERMISSION'));
+  if (!args.tournamentCompetitorId && !args.tournamentCompetitor?.teamName?.length && tournament.competitorSize > 1) {
+    throw new ConvexError(getErrorMessage('CANNOT_CREATE_REGISTRATION_WITHOUT_COMPETITOR'));
+  }
+  if (args.tournamentCompetitorId && args.tournamentCompetitor?.teamName?.length) {
+    throw new ConvexError(getErrorMessage('CANNOT_CREATE_REGISTRATION_WITH_COMPETITOR_NAME_ID'));
   }
 
   // ---- PRIMARY ACTIONS ----
+  let tournamentCompetitorId = args.tournamentCompetitorId;
+
+  // If creating a new competitor:
+  if (!tournamentCompetitorId) {
+    tournamentCompetitorId = await ctx.db.insert('tournamentCompetitors', {
+      captainUserId: args.userId,
+      teamName: args.tournamentCompetitor?.teamName,
+      // tournamentGroupId,
+      tournamentId: args.tournamentId,
+    });
+  }
+
   const teamTournamentRegistrations = await ctx.db.query('tournamentRegistrations')
-    .withIndex('by_tournament_competitor', (q) => q.eq('tournamentCompetitorId', args.tournamentCompetitorId))
+    .withIndex('by_tournament_competitor', (q) => q.eq('tournamentCompetitorId', tournamentCompetitorId))
     .collect();
   const activePlayerCount = teamTournamentRegistrations.filter((reg) => reg.active).length;
+
   const tournamentRegistrationId = await ctx.db.insert('tournamentRegistrations', {
-    ...args,
     active: activePlayerCount < tournament.competitorSize,
+    confirmed: args.userId === currentUserId,
     listApproved: false,
-    confirmed: args.userId === userId,
+    tournamentCompetitorId,
+    tournamentId: args.tournamentId,
+    userId: args.userId,
   });
 
   // Force user's name visibility to match tournament requirement:
@@ -74,12 +101,12 @@ export const createTournamentRegistration = async (
     if (!user) {
       throw new ConvexError(getErrorMessage('USER_NOT_FOUND'));
     }
-    if (user.nameVisibility < VisibilityLevel.Tournaments && userId === args.userId) {
+    if (user.nameVisibility < VisibilityLevel.Tournaments && currentUserId === args.userId) {
       await ctx.db.patch(args.userId, {
         nameVisibility: VisibilityLevel.Tournaments,
       });
     }
   }
 
-  return tournamentRegistrationId;
+  return await deepenTournamentRegistration(ctx, (await ctx.db.get(tournamentRegistrationId))!);
 };

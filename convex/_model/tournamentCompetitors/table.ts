@@ -4,10 +4,11 @@ import { v } from 'convex/values';
 import { scoreAdjustment } from '../common/scoreAdjustment';
 
 export const editableFields = {
-  tournamentId: v.id('tournaments'),
-  teamName: v.optional(v.string()),
   captainUserId: v.optional(v.id('users')),
   scoreAdjustments: v.optional(v.array(scoreAdjustment)),
+  teamName: v.optional(v.string()),
+  tournamentGroupId: v.optional(v.id('tournamentGroups')),
+  tournamentId: v.id('tournaments'),
 };
 
 /**
@@ -22,4 +23,5 @@ export default defineTable({
   ...editableFields,
   ...computedFields,
 })
-  .index('by_tournament_id', ['tournamentId']);
+  .index('by_tournament_id', ['tournamentId'])
+  .index('by_tournament_group', ['tournamentGroupId']);

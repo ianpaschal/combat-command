@@ -36,7 +36,7 @@ export const UserTournamentsCard = ({
                 disabled={status === 'LoadingMore'}
                 icon={<Plus />}
                 text="Load More"
-                onClick={loadMore}
+                onClick={() => loadMore()}
               />
             </div>
           )}

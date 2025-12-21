@@ -55,7 +55,7 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(({
     }
   };
 
-  const handleCurrencyChange = (updated: string | number | undefined) => {
+  const handleCurrencyChange = (updated: string | number | null | undefined) => {
     if (updated && typeof updated === 'string') {
       setCurrency(updated);
       if (onChange) {

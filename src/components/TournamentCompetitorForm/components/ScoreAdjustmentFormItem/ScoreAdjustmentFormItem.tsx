@@ -4,11 +4,11 @@ import { getGameSystem } from '@ianpaschal/combat-command-game-systems/common';
 import clsx from 'clsx';
 import { Trash } from 'lucide-react';
 
+import { Tournament } from '~/api';
 import { Button } from '~/components/generic/Button';
 import { FormField } from '~/components/generic/Form';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { InputText } from '~/components/generic/InputText';
-import { useTournament } from '~/components/TournamentProvider';
 import { getRoundOptions } from '~/utils/common/getRoundOptions';
 import { scoreAdjustmentSchema } from './ScoreAdjustmentFormItem.schema';
 import { formatScoreAdjustment } from './ScoreAdjustmentFormItem.utils';
@@ -20,6 +20,7 @@ export interface ScoreAdjustmentFormItemProps {
   disabled?: boolean;
   index: number;
   onRemove: (index: number) => void;
+  tournament: Tournament;
 }
 
 export const ScoreAdjustmentFormItem = ({
@@ -27,8 +28,8 @@ export const ScoreAdjustmentFormItem = ({
   disabled = false,
   index,
   onRemove,
+  tournament,
 }: ScoreAdjustmentFormItemProps): JSX.Element => {
-  const tournament = useTournament();
   const watched = useWatch({ name: `scoreAdjustments.${index}` });
   const result = scoreAdjustmentSchema.safeParse(watched);
 

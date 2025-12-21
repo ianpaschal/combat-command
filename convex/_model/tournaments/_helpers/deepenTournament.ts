@@ -2,6 +2,8 @@ import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
 import { getStorageUrl } from '../../common/_helpers/getStorageUrl';
 import { getTournamentOrganizersByTournament } from '../../tournamentOrganizers';
+import { getAvailableActions } from './getAvailableActions';
+import { getDisplayName } from './getDisplayName';
 import { getTournamentNextRound } from './getTournamentNextRound';
 
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
@@ -21,7 +23,7 @@ export const deepenTournament = async (
 ) => {
   const logoUrl = await getStorageUrl(ctx, tournament.logoStorageId);
   const bannerUrl = await getStorageUrl(ctx, tournament.bannerStorageId);
-
+  const availableActions = await getAvailableActions(ctx, tournament);
   const tournamentOrganizers = await getTournamentOrganizersByTournament(ctx, {
     tournamentId: tournament._id,
   });
@@ -37,14 +39,16 @@ export const deepenTournament = async (
 
   return {
     ...tournament,
-    organizers: tournamentOrganizers,
     activePlayerCount: activePlayerUserIds.length,
     activePlayerUserIds,
+    availableActions,
     bannerUrl,
     competitorCount: tournamentCompetitors.length,
+    displayName: getDisplayName(tournament),
     logoUrl,
     maxPlayers : tournament.maxCompetitors * tournament.competitorSize,
     nextRound: getTournamentNextRound(tournament),
+    organizers: tournamentOrganizers,
     playerCount: playerUserIds.length,
     playerUserIds,
     useTeams: tournament.competitorSize > 1,

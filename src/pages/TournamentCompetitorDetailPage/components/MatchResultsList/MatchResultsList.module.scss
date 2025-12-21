@@ -1,0 +1,27 @@
+@use "/src/style/flex";
+
+.MatchResultsList {
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 1rem;
+
+  min-height: 0;
+  max-height: 100%;
+
+  &_Header {
+    padding: 0 var(--container-padding-x);
+  }
+
+  &_List {
+    @include flex.column($xAlign: center);
+
+    align-items: stretch;
+    padding: 0 var(--container-padding-x) var(--container-padding-y);
+  }
+
+  &_LoadMoreButton {
+    justify-self: center;
+  }
+}

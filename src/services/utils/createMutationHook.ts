@@ -16,7 +16,7 @@ export const createMutationHook = <T extends MutationFn>(mutationFn: T) => (conf
   const handler = useMutation(mutationFn);
   const [loading, setIsLoading] = useState<boolean>(false);
   return {
-    mutation: async (args: T['_args']) => {
+    mutation: async (args: T['_args'], instanceConfig?: MutationHookConfig<T>) => {
       setIsLoading(true);
       try {
         const response = await handler(args);
@@ -26,15 +26,20 @@ export const createMutationHook = <T extends MutationFn>(mutationFn: T) => (conf
         if (config?.onSuccess) {
           config.onSuccess(response, args);
         }
+        if (instanceConfig?.onSuccess) {
+          instanceConfig.onSuccess(response, args);
+        }
       } catch (error) {
         if (error instanceof ConvexError) {
           toast.error('Error', { description: error.data.message });
-          if (config?.onError) {
-            config.onError(error);
-          }
-        }
-        if (error instanceof Error) {
+        } else if (error instanceof Error) {
           toast.error('Error', { description: error.message as string });
+        }
+        if (config?.onError) {
+          config.onError(error);
+        }
+        if (instanceConfig?.onError) {
+          instanceConfig.onError(error);
         }
       }
       setIsLoading(false);

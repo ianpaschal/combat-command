@@ -90,6 +90,7 @@ export const createTestTournament = async (
       const tournamentCompetitorId = await ctx.db.insert('tournamentCompetitors', {
         teamName,
         tournamentId,
+        captainUserId: players[0].userId,
         active: status === 'active',
       });
 

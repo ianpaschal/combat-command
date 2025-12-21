@@ -26,7 +26,7 @@ export const HeartToggle = ({
     <Button
       className={styles.Root}
       icon={<Heart className={styles.Icon} data-state={checked ? 'checked' : 'unchecked'} />}
-      round
+      rounded
       size="small"
       variant="ghost"
       onClick={handleClick}

@@ -9,7 +9,7 @@ import { TournamentFormData } from '~/components/TournamentForm/TournamentForm.s
 
 import styles from './RankingFactorFields.module.scss';
 
-const isValidFactor = (factor: string | number | undefined): factor is RankingFactor => (factor as RankingFactor) !== undefined;
+const isValidFactor = (factor: string | number | null | undefined): factor is RankingFactor => !!factor;
 
 export interface RankingFactorFieldsProps {
   status?: 'draft' | 'published' | 'active' | 'archived';
@@ -24,7 +24,7 @@ export const RankingFactorFields = ({
   const gameSystem = watch('gameSystem');
   const { getRankingFactorOptions } = getGameSystem(gameSystem);
 
-  const handleChange = (i: number, factor: string | number | undefined): void => {
+  const handleChange = (i: number, factor: string | number | null | undefined): void => {
     if (isValidFactor(factor)) {
       setValue('rankingFactors', [
         ...rankingFactors.slice(0, i),

@@ -1,4 +1,5 @@
 import { ReactElement } from 'react';
+import { Table } from '@ianpaschal/combat-command-components';
 import { Trophy } from 'lucide-react';
 
 import {
@@ -9,7 +10,6 @@ import {
 } from '~/api';
 import { EmptyState } from '~/components/EmptyState';
 import { Pulsar } from '~/components/generic/Pulsar';
-import { Table } from '~/components/generic/Table';
 import { IdentityBadge } from '~/components/IdentityBadge';
 
 import styles from './ActiveTournament.module.scss';
@@ -56,14 +56,13 @@ export const renderRankings = (
   ) : (
     <Table
       className={styles.ActiveTournament_Rankings}
-      rowClassName={styles.ActiveTournament_Rankings_Row}
       rows={[...(competitors ?? [])].sort((a, b) => (a.rank ?? Infinity) - (b.rank ?? Infinity))}
       columns={[
         {
           key: 'rank',
           label: 'Rank',
-          width: 40,
-          align: 'center',
+          width: 'auto',
+          xAlign: 'center',
           renderCell: ({ rank }) => (
             <div>
               {tournament.lastRound !== undefined && rank !== undefined ? rank + 1 : '-'}
@@ -72,6 +71,7 @@ export const renderRankings = (
         },
         {
           key: 'identity',
+          width: '1fr',
           label: tournament?.useTeams ? 'Team' : 'Player',
           renderCell: (competitor) => (
             <IdentityBadge

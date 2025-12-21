@@ -9,7 +9,6 @@ import {
 } from '~/components/generic/Dialog';
 import { useTournament } from '~/components/TournamentProvider';
 import { useExportFowV4TournamentMatchData } from '~/services/tournaments';
-import { getTournamentDisplayName } from '~/utils/common/getTournamentDisplayName';
 import { useTournamentExportDataDialog } from './TournamentExportDataDialog.hooks';
 
 import styles from './TournamentExportDataDialog.module.scss';
@@ -37,7 +36,7 @@ export const TournamentExportDataDialog = (): JSX.Element => {
     const blob = await response.blob();
     const url = window.URL.createObjectURL(blob);
 
-    const fileName = `${getTournamentDisplayName(tournament).toLowerCase().replace(' ', '_')}_${new Date().toISOString()}.csv`;
+    const fileName = `${tournament.displayName.toLowerCase().replace(' ', '_')}_${new Date().toISOString()}.csv`;
 
     const a = document.createElement('a');
     a.href = url;

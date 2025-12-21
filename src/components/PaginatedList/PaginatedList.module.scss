@@ -1,0 +1,5 @@
+@use "/src/style/flex";
+
+.PaginatedList {
+  @include flex.column;
+}

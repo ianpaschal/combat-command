@@ -21,20 +21,25 @@
     padding-bottom: 4rem;
   }
 
-  &_Row {
-    padding: 0 var(--container-padding-x);
+  &_FirstColumn {
+    padding-left: var(--container-padding-x);
+  }
+
+  &_LastColumn {
+    padding-right: var(--container-padding-x);
   }
 
   &_Table {
+    --cell-padding-y: 1rem;
+    --table-padding: var(--container-padding-x);
+  }
+
+  &_TableNumber {
     @include text.ui;
 
     font-size: 1.5rem;
     font-weight: 300;
     line-height: 1.75rem;
-  }
-
-  &_Pairing {
-    padding: 0.5rem;
   }
 
   &_MatchIndicatorIcon {

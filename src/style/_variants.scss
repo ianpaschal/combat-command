@@ -200,6 +200,7 @@
   @include corners.normal;
   @include shadows.surface;
 
+  overflow: hidden;
   background-color: var(--card-bg);
 
   @if $elevated {

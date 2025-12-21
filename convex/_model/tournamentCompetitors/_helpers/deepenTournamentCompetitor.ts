@@ -1,7 +1,9 @@
 import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
 import { getTournamentRegistrationsByCompetitor } from '../../tournamentRegistrations';
-import { getTournamentResultsByCompetitor } from '../../tournamentResults/queries/getTournamentResultsByCompetitor';
+import { getTournamentResultsByCompetitor } from '../../tournamentResults';
+import { getAvailableActions } from './getAvailableActions';
+import { getDisplayName } from './getDisplayName';
 
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /**
@@ -29,10 +31,14 @@ export const deepenTournamentCompetitor = async (
     tournamentId: doc.tournamentId,
     round: round ?? tournament?.lastRound ?? 0,
   });
-
+  const availableActions = await getAvailableActions(ctx, doc);
+  const displayName = await getDisplayName(ctx, doc);
   return {
     ...doc,
     ...results,
+    activeRegistrationCount: registrations.filter((r) => r.active).length,
+    availableActions,
+    displayName,
     registrations,
   };
 };

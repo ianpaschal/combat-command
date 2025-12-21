@@ -19,8 +19,8 @@ export interface InputSelectProps<T extends number | string> {
   options: { value: T, label: string }[];
   hasError?: boolean;
   placeholder?: string;
-  onChange?: (value?: T) => void;
-  value?: T;
+  onChange?: (value?: T | null) => void;
+  value?: T | null;
 }
 
 type SelectRef = ElementRef<typeof Select.Root>;
@@ -36,14 +36,16 @@ export const InputSelect = forwardRef<SelectRef, SelectProps<number | string>>((
 }, ref): JSX.Element => {
   const handleChange = (selected: string): void => {
     if (onChange) {
-      if (!isNaN(+selected)) {
+      if (!selected) {
+        onChange(null);
+      } else if (!isNaN(+selected)) {
         onChange(+selected);
       } else {
         onChange(selected);
       }
     }
   };
-  const stringValue: string | undefined = value !== undefined && typeof value === 'number' ? value.toString() : value;
+  const stringValue: string | undefined = value != null && typeof value === 'number' ? value.toString() : (value ?? undefined);
   const stringOptions = options.map((item) => ({ value: typeof item.value === 'number' ? item.value.toString() : item.value, label: item.label }));
   const showDisabled = disabled || options.length < 2;
   return (

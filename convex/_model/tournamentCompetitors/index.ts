@@ -1,12 +1,22 @@
+import { Infer } from 'convex/values';
+
 import { Id } from '../../_generated/dataModel';
+import { scoreAdjustment } from '../common/scoreAdjustment';
 
 export type TournamentCompetitorId = Id<'tournamentCompetitors'>;
+export type ScoreAdjustment = Infer<typeof scoreAdjustment>;
 
 // Helpers
 export {
   deepenTournamentCompetitor,
   type DeepTournamentCompetitor,
 } from './_helpers/deepenTournamentCompetitor';
+export {
+  TournamentCompetitorActionKey,
+} from './_helpers/getAvailableActions';
+export {
+  getDisplayName,
+} from './_helpers/getDisplayName';
 
 // Mutations
 export {

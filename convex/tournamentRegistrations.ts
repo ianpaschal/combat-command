@@ -1,6 +1,11 @@
 import { mutation, query } from './_generated/server';
 import * as model from './_model/tournamentRegistrations';
 
+export const getTournamentRegistrationByTournamentUser = query({
+  args: model.getTournamentRegistrationByTournamentUserArgs,
+  handler: model.getTournamentRegistrationByTournamentUser,
+});
+
 export const getTournamentRegistrationsByCompetitor = query({
   args: model.getTournamentRegistrationsByCompetitorArgs,
   handler: model.getTournamentRegistrationsByCompetitor,

@@ -1,5 +1,9 @@
 import { Outlet, useLocation } from 'react-router-dom';
-import { AppNavigation, Route } from '@ianpaschal/combat-command-components';
+import {
+  AppNavigation,
+  DialogProvider,
+  Route,
+} from '@ianpaschal/combat-command-components';
 import { useWindowWidth } from '@react-hook/window-size/throttled';
 import { Coffee } from 'lucide-react';
 import { NuqsAdapter } from 'nuqs/adapters/react-router/v7';
@@ -24,16 +28,18 @@ export const App = (): JSX.Element => {
   ];
   return (
     <div className={styles.App}>
-      <AppNavigation
-        maxWidth={MAX_WIDTH}
-        mobile={width < MIN_WIDTH_DESKTOP}
-        routes={primaryRoutes}
-        secondaryControls={<AccountMenu />}
-        secondaryRoutes={secondaryRoutes}
-      />
       <ErrorBoundary key={location.pathname}>
+        <AppNavigation
+          maxWidth={MAX_WIDTH}
+          mobile={width <= MIN_WIDTH_DESKTOP}
+          routes={primaryRoutes}
+          secondaryControls={<AccountMenu />}
+          secondaryRoutes={secondaryRoutes}
+        />
         <NuqsAdapter>
-          <Outlet />
+          <DialogProvider>
+            <Outlet />
+          </DialogProvider>
         </NuqsAdapter>
       </ErrorBoundary>
     </div>

@@ -21,8 +21,12 @@ export const PopoverMenu = ({
   className,
   children,
   menuItems = [],
-}: PopoverMenuProps): JSX.Element => {
+}: PopoverMenuProps): JSX.Element | null => {
   const [open, setOpen] = useState<boolean>(false);
+  if (!menuItems.length) {
+    return null;
+  }
+  const hasIcons = menuItems.some((item) => item.icon);
   return (
     <Popover.Root open={open} onOpenChange={setOpen}>
       <Popover.Trigger className={className} asChild onClick={(e) => e.stopPropagation()}>
@@ -37,8 +41,12 @@ export const PopoverMenu = ({
                 menuItem.onClick(e);
               }}
               className={styles.MenuItem}
+              data-has-icons={hasIcons}
             >
-              {menuItem.icon}{menuItem.label}
+              {menuItem.icon && (
+                <span className={styles.MenuItem_Icon}>{menuItem.icon}</span>
+              )}
+              <span className={styles.MenuItem_Label}>{menuItem.label}</span>
             </div>
           </Popover.Close>
         ))}

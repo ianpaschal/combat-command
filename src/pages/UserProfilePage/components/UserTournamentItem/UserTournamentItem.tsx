@@ -1,7 +1,5 @@
 import { Tournament, UserId } from '~/api';
 import { useGetTournamentCompetitorsByTournament } from '~/services/tournamentCompetitors';
-// import { useGetTournamentRankings } from '~/services/tournaments';
-import { getTournamentCompetitorDisplayName } from '~/utils/common/getTournamentCompetitorDisplayName';
 
 import styles from './UserTournamentItem.module.scss';
 
@@ -28,8 +26,8 @@ export const UserTournamentItem = ({
         <img src={tournament.logoUrl} className={styles.UserTournamentCard_Logo} />
       </div>
       <h2>{tournament.title}</h2>
-      {tournament.useTeams && (
-        <p>{getTournamentCompetitorDisplayName(competitor)}</p>
+      {tournament.useTeams && competitor && (
+        <p>{competitor.displayName}</p>
       )}
     </div>
   );

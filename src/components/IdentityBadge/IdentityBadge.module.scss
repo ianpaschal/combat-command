@@ -13,7 +13,7 @@
   @include flex.row($gap:  var(--avatar-spacing));
   @include corners.normal;
 
-  &[data-type="user"][data-clickable="true"] {
+  &[data-clickable="true"] {
     @include variants.ghost;
   }
 
@@ -40,7 +40,7 @@
     line-height: calc(var(--line-height-normal) - 2px);
 
     &-placeholder {
-      @include text.ui($muted: true);
+      color: var(--text-color-muted);
     }
   }
 
