@@ -112,8 +112,8 @@ export const CompetitorActions = ({
       <div className={clsx(styles.CompetitorActions, className)}>
         {showCheckInToggle && (
           <>
-            <Label>Checked In</Label>
             <Switch onClick={handleToggleActive} checked={competitor.active} />
+            <Label>Ready to Play</Label>
           </>
         )}
         {showJoinButton && (

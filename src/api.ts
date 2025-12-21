@@ -49,6 +49,7 @@ export type StorageId = Id<'_storage'>;
 // Tournament Competitors
 export {
   type DeepTournamentCompetitor as TournamentCompetitor,
+  TournamentCompetitorActionKey,
   type TournamentCompetitorId,
 } from '../convex/_model/tournamentCompetitors';
 
@@ -69,6 +70,7 @@ export {
 // Tournament Registrations
 export {
   type TournamentRegistration,
+  TournamentRegistrationActionKey,
   type TournamentRegistrationId,
 } from '../convex/_model/tournamentRegistrations';
 

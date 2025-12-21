@@ -5,6 +5,7 @@ import { deepenTournamentCompetitor,DeepTournamentCompetitor } from '../_helpers
 
 export const getTournamentCompetitorArgs = v.object({
   id: v.id('tournamentCompetitors'),
+  includeRankings: v.optional(v.number()),
 });
 
 /**
@@ -23,5 +24,5 @@ export const getTournamentCompetitor = async (
   if (!tournamentCompetitor) {
     return null;
   }
-  return await deepenTournamentCompetitor(ctx, tournamentCompetitor);
+  return await deepenTournamentCompetitor(ctx, tournamentCompetitor, args.includeRankings);
 };

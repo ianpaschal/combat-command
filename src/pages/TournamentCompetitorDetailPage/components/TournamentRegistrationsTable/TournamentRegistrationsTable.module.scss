@@ -1,0 +1,7 @@
+@use "/src/style/flex";
+@use "/src/style/variables";
+
+.TournamentRegistrationsTable {
+  --cell-padding-y: 1rem;
+  --table-padding: var(--container-padding-x);
+}

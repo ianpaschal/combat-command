@@ -7,7 +7,7 @@
 @use "/src/style/text";
 
 .CompetitorActions {
-  @include flex.row;
+  @include flex.row($xAlign: right);
 
   flex-shrink: 0;
 }

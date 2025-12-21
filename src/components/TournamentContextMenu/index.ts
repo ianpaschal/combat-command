@@ -1,1 +1,1 @@
-export { TournamentContextMenu } from './TournamentContextMenu';
+export { TournamentContextMenu } from '../TournamentActionsProvider/TournamentContextMenu';

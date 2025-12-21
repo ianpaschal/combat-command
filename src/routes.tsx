@@ -29,6 +29,7 @@ import {
   UserPreferencesForm,
   UserProfileForm,
 } from '~/pages/SettingsPage';
+import { TournamentCompetitorDetailPage } from '~/pages/TournamentCompetitorDetailPage';
 import { TournamentCreatePage } from '~/pages/TournamentCreatePage';
 import { TournamentDetailPage } from '~/pages/TournamentDetailPage';
 import { TournamentEditPage } from '~/pages/TournamentEditPage/TournamentEditPage';
@@ -167,6 +168,11 @@ export const routes = [
     path: PATHS.tournamentEdit,
     visibility: [],
     element: <TournamentEditPage />,
+  },
+  {
+    path: PATHS.tournamentCompetitorDetails,
+    visibility: [],
+    element: <TournamentCompetitorDetailPage />,
   },
   {
     path: PATHS.userProfile,

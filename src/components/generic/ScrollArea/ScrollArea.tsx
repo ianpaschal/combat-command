@@ -13,18 +13,24 @@ import styles from './ScrollArea.module.scss';
 
 type ScrollAreaRef = ElementRef<typeof RadixScrollArea.Root>;
 
+type IndicatorSide = 'top' | 'right' | 'bottom' | 'left';
+type IndicatorState = {
+  visible?: boolean;
+  border?: boolean;
+};
+
 type ScrollAreaProps = ComponentPropsWithoutRef<typeof RadixScrollArea.Root> & {
-  indicatorBorders?: string | string[];
+  indicators?: Partial<Record<IndicatorSide, IndicatorState>>;
 };
 
 export const ScrollArea = forwardRef<ScrollAreaRef, ScrollAreaProps>(({
   className,
   children,
-  indicatorBorders,
+  indicators: indicatorConfig,
   onScroll,
   ...props
 }, ref) => {
-  const { ref: viewportRef, updateIndicators, indicators } = useScrollIndicators(indicatorBorders);
+  const { ref: viewportRef, updateIndicators, indicators } = useScrollIndicators(indicatorConfig);
   const handleScroll = (e: UIEvent<HTMLDivElement>): void => {
     updateIndicators(e);
     if (onScroll) {

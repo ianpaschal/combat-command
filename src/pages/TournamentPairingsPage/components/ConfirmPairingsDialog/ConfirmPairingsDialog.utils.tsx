@@ -10,7 +10,7 @@ export const getTableColumns = (competitors: TournamentCompetitor[]): ColumnDef<
     key: 'table',
     label: 'Table',
     width: 40,
-    align: 'center',
+    xAlign: 'center',
     renderCell: (r) => (
       <div className={styles.ConfirmPairingsDialog_Table}>
         {r.table === null ? '-' : r.table + 1}
@@ -20,7 +20,7 @@ export const getTableColumns = (competitors: TournamentCompetitor[]): ColumnDef<
   {
     key: 'pairing',
     label: 'Pairing',
-    align: 'center',
+    xAlign: 'center',
     renderCell: (r) => {
       const tournamentCompetitor0 = competitors.find((c) => c._id === r.tournamentCompetitor0Id) ?? null;
       const tournamentCompetitor1 = competitors.find((c) => c._id === r.tournamentCompetitor1Id) ?? null;

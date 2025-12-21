@@ -16,7 +16,7 @@ export const deleteTournamentRegistrationArgs = v.object({
 export const deleteTournamentRegistration = async (
   ctx: MutationCtx,
   args: Infer<typeof deleteTournamentRegistrationArgs>,
-): Promise<void> => {
+): Promise<{ wasLast: boolean }> => {
   // --- CHECK AUTH ----
   const userId = await checkAuth(ctx);
 
@@ -61,7 +61,11 @@ export const deleteTournamentRegistration = async (
   const teamTournamentRegistrations = await ctx.db.query('tournamentRegistrations')
     .withIndex('by_tournament_competitor', (q) => q.eq('tournamentCompetitorId', registration.tournamentCompetitorId))
     .collect();
-  if (!teamTournamentRegistrations.length) {
+  const wasLast = !teamTournamentRegistrations.length;
+  if (wasLast) {
     await ctx.db.delete(registration.tournamentCompetitorId);
   }
+  return {
+    wasLast,
+  };
 };

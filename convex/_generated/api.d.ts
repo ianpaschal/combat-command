@@ -119,6 +119,7 @@ import type * as _model_photos_mutations_createPhoto from "../_model/photos/muta
 import type * as _model_photos_queries_getPhoto from "../_model/photos/queries/getPhoto.js";
 import type * as _model_photos_table from "../_model/photos/table.js";
 import type * as _model_tournamentCompetitors__helpers_deepenTournamentCompetitor from "../_model/tournamentCompetitors/_helpers/deepenTournamentCompetitor.js";
+import type * as _model_tournamentCompetitors__helpers_getAvailableActions from "../_model/tournamentCompetitors/_helpers/getAvailableActions.js";
 import type * as _model_tournamentCompetitors__helpers_sortTournamentCompetitorsByName from "../_model/tournamentCompetitors/_helpers/sortTournamentCompetitorsByName.js";
 import type * as _model_tournamentCompetitors_index from "../_model/tournamentCompetitors/index.js";
 import type * as _model_tournamentCompetitors_mutations_createTournamentCompetitor from "../_model/tournamentCompetitors/mutations/createTournamentCompetitor.js";
@@ -160,6 +161,7 @@ import type * as _model_tournamentPairings_queries_getTournamentPairingsByTourna
 import type * as _model_tournamentPairings_table from "../_model/tournamentPairings/table.js";
 import type * as _model_tournamentRegistrations__helpers_checkUserIsRegistered from "../_model/tournamentRegistrations/_helpers/checkUserIsRegistered.js";
 import type * as _model_tournamentRegistrations__helpers_deepenTournamentRegistration from "../_model/tournamentRegistrations/_helpers/deepenTournamentRegistration.js";
+import type * as _model_tournamentRegistrations__helpers_getAvailableActions from "../_model/tournamentRegistrations/_helpers/getAvailableActions.js";
 import type * as _model_tournamentRegistrations_index from "../_model/tournamentRegistrations/index.js";
 import type * as _model_tournamentRegistrations_mutations_createTournamentRegistration from "../_model/tournamentRegistrations/mutations/createTournamentRegistration.js";
 import type * as _model_tournamentRegistrations_mutations_deleteTournamentRegistration from "../_model/tournamentRegistrations/mutations/deleteTournamentRegistration.js";
@@ -412,6 +414,7 @@ declare const fullApi: ApiFromModules<{
   "_model/photos/queries/getPhoto": typeof _model_photos_queries_getPhoto;
   "_model/photos/table": typeof _model_photos_table;
   "_model/tournamentCompetitors/_helpers/deepenTournamentCompetitor": typeof _model_tournamentCompetitors__helpers_deepenTournamentCompetitor;
+  "_model/tournamentCompetitors/_helpers/getAvailableActions": typeof _model_tournamentCompetitors__helpers_getAvailableActions;
   "_model/tournamentCompetitors/_helpers/sortTournamentCompetitorsByName": typeof _model_tournamentCompetitors__helpers_sortTournamentCompetitorsByName;
   "_model/tournamentCompetitors/index": typeof _model_tournamentCompetitors_index;
   "_model/tournamentCompetitors/mutations/createTournamentCompetitor": typeof _model_tournamentCompetitors_mutations_createTournamentCompetitor;
@@ -453,6 +456,7 @@ declare const fullApi: ApiFromModules<{
   "_model/tournamentPairings/table": typeof _model_tournamentPairings_table;
   "_model/tournamentRegistrations/_helpers/checkUserIsRegistered": typeof _model_tournamentRegistrations__helpers_checkUserIsRegistered;
   "_model/tournamentRegistrations/_helpers/deepenTournamentRegistration": typeof _model_tournamentRegistrations__helpers_deepenTournamentRegistration;
+  "_model/tournamentRegistrations/_helpers/getAvailableActions": typeof _model_tournamentRegistrations__helpers_getAvailableActions;
   "_model/tournamentRegistrations/index": typeof _model_tournamentRegistrations_index;
   "_model/tournamentRegistrations/mutations/createTournamentRegistration": typeof _model_tournamentRegistrations_mutations_createTournamentRegistration;
   "_model/tournamentRegistrations/mutations/deleteTournamentRegistration": typeof _model_tournamentRegistrations_mutations_deleteTournamentRegistration;

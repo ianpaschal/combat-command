@@ -3,13 +3,6 @@
 @use "/src/style/text";
 @use "/src/style/variables";
 
-@mixin row {
-  display: grid;
-  gap: 1rem;
-  min-height: calc(2.5rem + var(--border-width));
-  background-color: var(--card-bg);
-}
-
 @mixin row-text {
   overflow: hidden;
   max-width: 100%;
@@ -18,61 +11,101 @@
 }
 
 .Table {
-  @include flex.column($gap: 0);
+  // User can override these with a CSS class in order to adjust spacing:
+  --cell-padding: 0.5rem;
+  --cell-padding-x: var(--cell-padding);
+  --cell-padding-y: var(--cell-padding);
+  --table-padding: 0;
+  --table-padding-left: var(--table-padding);
+  --table-padding-right: var(--table-padding);
 
+  position: relative;
+  overflow: hidden; // Radix handles scroll
   min-height: 0;
-
-  &_ScrollArea {
-    position: relative;
-    overflow: hidden; // Radix handles scroll
-  }
+  max-height: 100%;
 
   &_Inner {
-    @include flex.column($gap: 0);
-
-    max-width: 100%;
-  }
-
-  &_HeaderRow {
-    @include borders.normal($side: bottom);
-    @include row;
-
-    h3 {
-      @include row-text;
-    }
-  }
-
-  &_Row {
-    @include borders.muted($side: bottom);
-    @include row;
-
-    &:last-child {
-      border: none;
-    }
+    display: grid;
   }
 
   &_Cell {
+    @include borders.muted($side: bottom);
     @include text.ui;
 
-    overflow: hidden;
     display: flex;
     align-items: center;
     min-width: 1.5rem;
+    padding: var(--cell-padding-y) var(--cell-padding-x);
 
-    &[data-align="left"] {
+    &[data-header="true"] {
+      @include borders.normal($side: bottom);
+
+      position: sticky;
+      z-index: 1;
+      top: 0;
+      background-color: var(--card-bg);
+    }
+
+    &[data-row-last="true"] {
+      border-bottom: none;
+    }
+
+    &[data-column-first="true"] {
+      padding-left: var(--table-padding-left);
+    }
+
+    &[data-column-last="true"] {
+      padding-right: var(--table-padding-right);
+    }
+
+    &[data-x-align="left"] {
       justify-content: start;
     }
 
-    &[data-align="center"] {
+    &[data-x-align="center"] {
       justify-content: center;
     }
 
-    &[data-align="right"] {
+    &[data-x-align="right"] {
       justify-content: end;
     }
 
-    &_Text {
-      @include row-text;
+    &[data-y-align="top"] {
+      align-items: start;
+    }
+
+    &[data-y-align="center"] {
+      align-items: center;
+    }
+
+    &[data-y-align="bottom"] {
+      align-items: end;
+    }
+
+    span,
+    h3 {
+      @include text.single-line;
+    }
+  }
+
+  &_ScrollIndicator {
+    pointer-events: none;
+    content: "";
+
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+
+    height: 0.75rem;
+
+    opacity: 0;
+    background-image: linear-gradient(to bottom, var(--black-a1), rgb(0 0 0 / 0%));
+
+    transition: opacity 500ms ease-in-out;
+
+    &[data-visible="true"] {
+      opacity: 1;
     }
   }
 }

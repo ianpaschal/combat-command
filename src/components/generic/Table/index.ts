@@ -1,3 +1,5 @@
-export type { TableProps } from './Table';
-export { Table } from './Table';
+export {
+  Table,
+  type TableProps,
+} from './Table';
 export type { ColumnDef } from './Table.types';

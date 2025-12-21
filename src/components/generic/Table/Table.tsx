@@ -1,32 +1,58 @@
 import clsx from 'clsx';
 
 import { ScrollArea } from '~/components/generic/ScrollArea';
+import { useGridStyle, useScrollIndicator } from './Table.hooks';
 import { ColumnDef, RowData } from './Table.types';
-import { TableRow } from './TableRow';
+import { getPosition } from './Table.utils';
+import { TableCell } from './TableCell';
 
 import styles from './Table.module.scss';
 
 export interface TableProps<T extends RowData> {
   className?: string;
   columns: ColumnDef<T>[];
-  rowClassName?: string;
   rows: T[];
 }
 
 export const Table = <T extends RowData>({
   className,
   columns,
-  rowClassName,
   rows,
-}: TableProps<T>): JSX.Element => (
-  <div className={clsx(styles.Table, className)}>
-    <TableRow columns={columns} className={rowClassName} />
-    <ScrollArea className={styles.Table_ScrollArea}>
-      <div className={styles.Table_Inner}>
+}: TableProps<T>): JSX.Element => {
+  const { ref, updateIndicators, visible } = useScrollIndicator();
+  const style = useGridStyle(columns);
+  return (
+    <ScrollArea
+      className={clsx(styles.Table, className)}
+      ref={ref}
+      onScroll={updateIndicators}
+      indicators={{ top: { visible: false } }}
+    >
+      <div className={styles.Table_Inner} style={style}>
+        {columns.map((c, i) => (
+          <TableCell
+            key={`cell_head_${String(c.key)}`}
+            column={c}
+            position={{
+              column: getPosition([i, columns.length]),
+            }}
+            showScrollIndicator={visible}
+          />
+        ))}
         {rows.map((r, i) => (
-          <TableRow key={`row_${i}`} columns={columns} row={[r, i]} index={i} className={rowClassName} />
+          columns.map((c, ii) => (
+            <TableCell
+              key={`cell_${i}_${String(c.key)}`}
+              column={c}
+              row={r}
+              position={{
+                row: getPosition([i, rows.length]),
+                column: getPosition([ii, columns.length]),
+              }}
+            />
+          ))
         ))}
       </div>
     </ScrollArea>
-  </div>
-);
+  );
+}; 

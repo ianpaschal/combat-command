@@ -17,11 +17,11 @@
     padding-bottom: 4rem;
   }
 
-  &_Row {
-    padding: 0 var(--container-padding-x);
+  &_Table {
+    --table-padding: var(--container-padding-x);
   }
 
-  &_Table {
+  &_TableNumber {
     @include text.large;
   }
 
