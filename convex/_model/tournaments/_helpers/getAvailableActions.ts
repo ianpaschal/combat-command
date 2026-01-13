@@ -2,29 +2,66 @@ import { getAuthUserId } from '@convex-dev/auth/server';
 
 import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
-import { getMatchResultsByTournamentRound } from '../../matchResults';
 import { checkUserIsTournamentOrganizer } from '../../tournamentOrganizers';
 import { checkUserIsRegistered } from '../../tournamentRegistrations';
 import { checkTournamentVisibility } from './checkTournamentVisibility';
 import { getTournamentNextRound } from './getTournamentNextRound';
 
 export enum TournamentActionKey {
-  Cancel = 'cancel',
-  ConfigureRound = 'configureRound',
-  AddPlayer = 'addPlayer', // Create TournamentRegistration (+ TournamentCompetitor) as TO
-  Delete = 'delete',
+  // ---- TO Actions ----
+
+  /** Edit a Tournament. */
   Edit = 'edit',
-  End = 'end',
-  EndRound = 'endRound',
-  Join = 'join', // Create TournamentRegistration (+ TournamentCompetitor) as player
-  Leave = 'leave', // Delete TournamentRegistration (+ TournamentCompetitor) as player
+
+  /** Delete a Tournament. */
+  Delete = 'delete',
+
+  /** Set a Tournament's status to 'published'. */
   Publish = 'publish',
-  ResetRound = 'resetRound',
+
+  // TODO: UndoPublish
+
+  /** Create a TournamentRegistration (+ TournamentCompetitor). */
+  AddPlayer = 'addPlayer', // 
+  
+  /** Set a (published) Tournament's status to 'archived', before it starts. */
+  Cancel = 'cancel',
+
+  // TODO: UndoCancel
+
+  /** Set a published Tournament's status to 'active'. */
   Start = 'start',
+
+  // TODO: UndoStart
+
+  /** Create TournamentPairings for a given round. */
+  ConfigureRound = 'configureRound',
+
+  /** Start a Tournament round. */
   StartRound = 'startRound',
-  SubmitMatchResult = 'submitMatchResult',
-  UndoEndRound = 'undoEndRound',
+
+  /** Undo starting a Tournament round. */
   UndoStartRound = 'undoStartRound',
+
+  /** Submit a MatchResult for the given Tournament. */
+  SubmitMatchResult = 'submitMatchResult',
+  
+  /** End a Tournament round. */
+  EndRound = 'endRound',
+
+  /** Undo ending a Tournament round. */
+  UndoEndRound = 'undoEndRound',
+
+  /** Set a (active) Tournament's status to 'archived'. */
+  End = 'end',
+
+  // ---- Player Actions ----
+
+  /** Create own TournamentRegistration (+ TournamentCompetitor). */
+  Join = 'join',
+
+  /** Delete own TournamentRegistration (+ TournamentCompetitor). */
+  Leave = 'leave',
 }
 
 /**
@@ -49,21 +86,15 @@ export const getAvailableActions = async (
   const isPlayer = await checkUserIsRegistered(ctx, doc._id, userId);
  
   // ---- GATHER DATA ----
-  const hasCurrentRound = doc.currentRound !== undefined;
- 
   const nextRound = getTournamentNextRound(doc);
-  const hasNextRound = nextRound !== undefined;
- 
   const nextRoundPairings = await ctx.db.query('tournamentPairings')
     .withIndex('by_tournament_round', (q) => q.eq('tournamentId', doc._id).eq('round', nextRound ?? -1))
     .collect();
   const nextRoundPairingCount = (nextRoundPairings ?? []).length;
- 
-  const currentRoundMatchResults = await getMatchResultsByTournamentRound(ctx, {
-    tournamentId: doc._id,
-    round: doc.currentRound ?? 0,
-  });
-  const currentRoundMatchResultCount = (currentRoundMatchResults ?? []).length;
+  
+  const hasNextRound = nextRound !== undefined;
+  const hasCurrentRound = doc.currentRound !== undefined;
+  const hasLastRound = doc.lastRound !== undefined;
  
   // ---- PRIMARY ACTIONS ----
   const actions: TournamentActionKey[] = [];
@@ -91,6 +122,10 @@ export const getAvailableActions = async (
   if (isPlayer && doc.status === 'published') {
     actions.push(TournamentActionKey.Leave);
   }
+
+  if (isOrganizer && doc.status === 'published') {
+    actions.push(TournamentActionKey.Cancel);
+  }
  
   if (isOrganizer && doc.status === 'published') { // TODO: Check for at least 2 competitors
     actions.push(TournamentActionKey.Start);
@@ -104,16 +139,20 @@ export const getAvailableActions = async (
     actions.push(TournamentActionKey.StartRound);
   }
  
-  if (isOrganizer && doc.status === 'active' && hasCurrentRound && currentRoundMatchResultCount === 0) {
-    actions.push(TournamentActionKey.ResetRound);
+  if (isOrganizer && doc.status === 'active' && hasCurrentRound) {
+    actions.push(TournamentActionKey.UndoStartRound);
   }
  
   if ((isOrganizer || isPlayer) && hasCurrentRound) { // TODO: Don't show if all matches checked in
     actions.push(TournamentActionKey.SubmitMatchResult);
   }
  
-  if (isOrganizer && hasCurrentRound) {
+  if (isOrganizer && doc.status === 'active' && hasCurrentRound) {
     actions.push(TournamentActionKey.EndRound);
+  }
+
+  if (isOrganizer && doc.status === 'active' && !hasCurrentRound && hasLastRound) {
+    actions.push(TournamentActionKey.UndoEndRound);
   }
  
   if (isOrganizer && doc.status === 'active' && !hasCurrentRound) {

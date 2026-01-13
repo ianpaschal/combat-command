@@ -7,13 +7,31 @@ import { getTournamentRegistrationsByCompetitor } from '../../tournamentRegistra
 import { checkUserIsRegistered } from '../../tournamentRegistrations/_helpers/checkUserIsRegistered';
 
 export enum TournamentCompetitorActionKey {
-  AddPlayer = 'addPlayer', // Create TournamentRegistration as TO
-  Delete = 'delete',
-  Edit = 'edit',
-  Join = 'join', // Create TournamentRegistration as player
-  Leave = 'leave', // Delete TournamentRegistration as player
-  // TransferPlayers = 'transferPlayers',
+  // ---- TO Actions ----
+
+  /** Create a TournamentRegistration for a given TournamentCompetitor. */
+  AddPlayer = 'addPlayer',
+
+  /** Set a TournamentCompetitor's 'active' field to true or false. */
   ToggleActive = 'toggleActive',
+
+  // TODO
+  // TransferPlayers = 'transferPlayers',
+
+  // ---- TO or Captain Actions ----
+
+  /** Edit a TournamentCompetitor. */
+  Edit = 'edit',
+
+  /** Delete a TournamentCompetitor. */
+  Delete = 'delete',
+
+  // ---- Player Actions ----
+  /** Create own TournamentRegistration. */
+  Join = 'join',
+
+  /** Delete own TournamentRegistration. */
+  Leave = 'leave',
 }
 
 /**

@@ -5,13 +5,30 @@ import { QueryCtx } from '../../../_generated/server';
 import { checkUserIsTournamentOrganizer } from '../../tournamentOrganizers';
 
 export enum TournamentRegistrationActionKey {
-  // ApproveList = 'approveList',
+  // ---- TO Actions ----
+
+  /** Delete a TournamentRegistration. */
   Delete = 'delete',
-  Leave = 'leave',
+
+  // TODO
+  // ApproveList = 'approveList',
+  
+  // TODO
   // RejectList = 'rejectList',
-  // SubmitList = 'submitList',
-  ToggleActive = 'toggleActive',
+  
+  // TODO
   // Transfer = 'transfer',
+
+  // ---- TO or Captain Actions ----
+  ToggleActive = 'toggleActive',
+
+  // ---- Player Actions ----
+
+  /** Delete own TournamentRegistration. */
+  Leave = 'leave',
+
+  // TODO
+  // SubmitList = 'submitList',
 }
 
 /**

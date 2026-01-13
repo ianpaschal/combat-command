@@ -42,6 +42,7 @@ export const aggregateTournamentData = async (
     r.tournamentPairingId && relevantTournamentPairingIds.includes(r.tournamentPairingId)
   ));
 
+  // FIXME: This will break if users transfer teams... they will take their score with them.
   // For faster look-up:
   const playerUserIdMap = tournamentRegistrations.reduce((acc, registration) => ({
     ...acc,
