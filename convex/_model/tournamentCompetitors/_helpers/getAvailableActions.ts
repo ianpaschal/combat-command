@@ -3,7 +3,6 @@ import { getAuthUserId } from '@convex-dev/auth/server';
 import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
 import { checkUserIsTournamentOrganizer } from '../../tournamentOrganizers';
-import { getTournamentRegistrationsByCompetitor } from '../../tournamentRegistrations';
 import { checkUserIsRegistered } from '../../tournamentRegistrations/_helpers/checkUserIsRegistered';
 
 export enum TournamentCompetitorActionKey {
@@ -14,9 +13,6 @@ export enum TournamentCompetitorActionKey {
 
   /** Set a TournamentCompetitor's 'active' field to true or false. */
   ToggleActive = 'toggleActive',
-
-  // TODO
-  // TransferPlayers = 'transferPlayers',
 
   // ---- TO or Captain Actions ----
 
@@ -51,18 +47,15 @@ export const getAvailableActions = async (
   if (!tournament) {
     return [];
   }
-  const tournamentRegistrations = await getTournamentRegistrationsByCompetitor(ctx, {
-    tournamentCompetitorId: doc._id,
-  });
 
   // --- CHECK AUTH ----
   const userId = await getAuthUserId(ctx);
 
   const isOrganizer = await checkUserIsTournamentOrganizer(ctx, tournament._id, userId);
   const isPlayer = await checkUserIsRegistered(ctx, tournament._id, userId);
-  const isCaptain = userId && doc.captainUserId === userId;
   const isTeamTournament = tournament.competitorSize > 1;
-  const hasSparePlayers = tournamentRegistrations.length > tournament.competitorSize;
+  const isCaptain = isTeamTournament && userId && doc.captainUserId === userId;
+  const hasCurrentRound = tournament.currentRound !== undefined;
 
   // ---- PRIMARY ACTIONS ----
   const actions: TournamentCompetitorActionKey[] = [];
@@ -71,32 +64,31 @@ export const getAvailableActions = async (
     return actions;
   }
 
-  if (isOrganizer || (isCaptain && hasSparePlayers)) {
-    actions.push(TournamentCompetitorActionKey.Edit);
-  }
-
-  if ((isOrganizer || (isCaptain && isTeamTournament)) && tournament.status !== 'active') {
-    actions.push(TournamentCompetitorActionKey.Delete);
-  }
-
-  if (isOrganizer && isTeamTournament) {
+  // TO Actions:
+  if (isOrganizer && isTeamTournament && !hasCurrentRound) {
     actions.push(TournamentCompetitorActionKey.AddPlayer);
   }
 
-  // if (isOrganizer) {
-  //   actions.push(TournamentCompetitorActionKey.TransferPlayers);
-  // }
+  if (isOrganizer && tournament.status === 'active' && !hasCurrentRound) {
+    actions.push(TournamentCompetitorActionKey.ToggleActive);
+  }
+
+  // TO or Captain Actions:
+  if (isOrganizer || isCaptain) {
+    actions.push(TournamentCompetitorActionKey.Edit);
+  }
+
+  if ((isOrganizer || isCaptain) && tournament.status !== 'active') {
+    actions.push(TournamentCompetitorActionKey.Delete);
+  }
   
+  // Player Actions:
   if (!isPlayer && tournament.status === 'published' && isTeamTournament) {
     actions.push(TournamentCompetitorActionKey.Join);
   }
 
-  if (isPlayer && ['draft', 'published'].includes(tournament.status) && isTeamTournament) {
+  if (isPlayer && tournament.status === 'published' && isTeamTournament) {
     actions.push(TournamentCompetitorActionKey.Leave);
-  }
-
-  if (isOrganizer && tournament.status === 'active' && tournament.currentRound === undefined) {
-    actions.push(TournamentCompetitorActionKey.ToggleActive);
   }
 
   return actions;

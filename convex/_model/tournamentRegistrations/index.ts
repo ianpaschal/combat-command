@@ -1,7 +1,6 @@
 // Types
 export type {
   TournamentRegistration,
-  TournamentRegistrationFormData,
   TournamentRegistrationId,
 } from './types';
 

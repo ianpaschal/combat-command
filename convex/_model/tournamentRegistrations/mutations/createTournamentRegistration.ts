@@ -76,7 +76,6 @@ export const createTournamentRegistration = async (
     tournamentCompetitorId = await ctx.db.insert('tournamentCompetitors', {
       captainUserId: args.userId,
       teamName: args.tournamentCompetitor?.teamName,
-      // tournamentGroupId,
       tournamentId: args.tournamentId,
     });
   }

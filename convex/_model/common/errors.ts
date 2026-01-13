@@ -20,7 +20,6 @@ export const errors = {
   COMPETITOR_ALREADY_HAS_MAX_PLAYERS: 'Team already has the maximum number of active players.',
   CANNOT_CREATE_REGISTRATION_WITHOUT_COMPETITOR: 'Cannot create a registration without a competitor ID or name.',
   CANNOT_CREATE_REGISTRATION_WITH_COMPETITOR_NAME_ID: 'Cannot create a registration with both a competitor ID and name.',
-  CANNOT_CREATE_REGISTRATION_WITHOUT_GROUP: 'Tournament requires a competitor group.',
 
   // Tournament Lifecycle
   CANNOT_CLOSE_ROUND_ON_ARCHIVED_TOURNAMENT: 'Cannot close a round on an archived tournament.',

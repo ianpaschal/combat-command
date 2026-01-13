@@ -60,7 +60,8 @@ export const getAvailableActions = async (
 
   const isOrganizer = await checkUserIsTournamentOrganizer(ctx, tournament._id, userId);
   const isSelf = userId && doc.userId === userId;
-  const isCaptain = userId && tournamentCompetitor.captainUserId === userId;
+  const isTeamTournament = tournament.competitorSize > 1;
+  const isCaptain = isTeamTournament && userId && tournamentCompetitor.captainUserId === userId;
   const hasSparePlayers = tournamentRegistrations.length > tournament.competitorSize;
   // const isListSubmissionOpen = Date.now() < tournament.listSubmissionClosesAt;
 
@@ -75,11 +76,11 @@ export const getAvailableActions = async (
   //   actions.push(TournamentRegistrationActionKey.ApproveList);
   // }
 
-  if ((isOrganizer || (isCaptain && !isSelf)) && tournament.status !== 'active') {
+  if ((isOrganizer || (isCaptain && !isSelf)) && tournament.status === 'published') {
     actions.push(TournamentRegistrationActionKey.Delete);
   }
 
-  if (isSelf && tournament.status !== 'active') {
+  if (isSelf && tournament.status === 'published') {
     actions.push(TournamentRegistrationActionKey.Leave);
   }
 

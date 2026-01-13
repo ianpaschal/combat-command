@@ -98,12 +98,17 @@ export const getAvailableActions = async (
  
   // ---- PRIMARY ACTIONS ----
   const actions: TournamentActionKey[] = [];
+
+  if (doc.status === 'archived') {
+    return actions;
+  }
  
-  if (isOrganizer && ['draft', 'published'].includes(doc.status)) {
+  // TO Actions:
+  if (isOrganizer && doc.status !== 'active') {
     actions.push(TournamentActionKey.Edit);
   }
  
-  if (isOrganizer && ['draft', 'published'].includes(doc.status)) {
+  if (isOrganizer && doc.status !== 'active') {
     actions.push(TournamentActionKey.Delete);
   }
  
@@ -111,16 +116,8 @@ export const getAvailableActions = async (
     actions.push(TournamentActionKey.Publish);
   }
 
-  if (isOrganizer && doc.status === 'published') {
+  if (isOrganizer && doc.status !== 'draft' && !hasCurrentRound) {
     actions.push(TournamentActionKey.AddPlayer);
-  }
-  
-  if (!isPlayer && doc.status === 'published') {
-    actions.push(TournamentActionKey.Join);
-  }
-  
-  if (isPlayer && doc.status === 'published') {
-    actions.push(TournamentActionKey.Leave);
   }
 
   if (isOrganizer && doc.status === 'published') {
@@ -157,6 +154,15 @@ export const getAvailableActions = async (
  
   if (isOrganizer && doc.status === 'active' && !hasCurrentRound) {
     actions.push(TournamentActionKey.End);
+  }
+
+  // Player Actions
+  if (!isPlayer && doc.status === 'published') {
+    actions.push(TournamentActionKey.Join);
+  }
+  
+  if (isPlayer && doc.status === 'published') {
+    actions.push(TournamentActionKey.Leave);
   }
  
   return actions;
