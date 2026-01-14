@@ -7,7 +7,7 @@ import { checkUserIsTournamentOrganizer } from '../../tournamentOrganizers';
 export enum TournamentRegistrationActionKey {
   // ---- TO Actions ----
 
-  /** Delete a TournamentRegistration. */
+  /** Delete this TournamentRegistration (and TournamentCompetitor if no remaining players). */
   Delete = 'delete',
 
   // TODO
@@ -24,7 +24,7 @@ export enum TournamentRegistrationActionKey {
 
   // ---- Player Actions ----
 
-  /** Delete own TournamentRegistration. */
+  /** Delete own TournamentRegistration (and TournamentCompetitor if no remaining players). */
   Leave = 'leave',
 
   // TODO

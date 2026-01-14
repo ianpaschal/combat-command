@@ -8,25 +8,25 @@ import { checkUserIsRegistered } from '../../tournamentRegistrations/_helpers/ch
 export enum TournamentCompetitorActionKey {
   // ---- TO Actions ----
 
-  /** Create a TournamentRegistration for a given TournamentCompetitor. */
+  /** Create a TournamentRegistration for this TournamentCompetitor. */
   AddPlayer = 'addPlayer',
 
-  /** Set a TournamentCompetitor's 'active' field to true or false. */
+  /** Toggle this TournamentCompetitor's 'active' field to true or false. */
   ToggleActive = 'toggleActive',
 
   // ---- TO or Captain Actions ----
 
-  /** Edit a TournamentCompetitor. */
+  /** Edit this TournamentCompetitor. */
   Edit = 'edit',
 
-  /** Delete a TournamentCompetitor. */
+  /** Delete this TournamentCompetitor. */
   Delete = 'delete',
 
   // ---- Player Actions ----
-  /** Create own TournamentRegistration. */
+  /** Create own TournamentRegistration for this TournamentCompetitor. */
   Join = 'join',
 
-  /** Delete own TournamentRegistration. */
+  /** Delete own TournamentRegistration for this TournamentCompetitor. */
   Leave = 'leave',
 }
 
@@ -65,7 +65,7 @@ export const getAvailableActions = async (
   }
 
   // TO Actions:
-  if (isOrganizer && isTeamTournament && !hasCurrentRound) {
+  if (isOrganizer && tournament.status !== 'draft' && isTeamTournament && !hasCurrentRound) {
     actions.push(TournamentCompetitorActionKey.AddPlayer);
   }
 

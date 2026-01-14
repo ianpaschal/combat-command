@@ -22,7 +22,7 @@ export enum TournamentActionKey {
   // TODO: UndoPublish
 
   /** Create a TournamentRegistration (+ TournamentCompetitor). */
-  AddPlayer = 'addPlayer', // 
+  AddPlayer = 'addPlayer',
   
   /** Set a (published) Tournament's status to 'archived', before it starts. */
   Cancel = 'cancel',

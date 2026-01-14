@@ -55,7 +55,7 @@ export const useDeleteAction = (
           {
             intent: 'danger',
             onClick: () => mutation({ id: subject._id }),
-            text: 'Remove',
+            text: LABEL,
           },
         ],
       }),
