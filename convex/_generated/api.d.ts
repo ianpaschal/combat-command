@@ -165,6 +165,7 @@ import type * as _model_tournamentRegistrations__helpers_checkUserIsRegistered f
 import type * as _model_tournamentRegistrations__helpers_deepenTournamentRegistration from "../_model/tournamentRegistrations/_helpers/deepenTournamentRegistration.js";
 import type * as _model_tournamentRegistrations__helpers_getAvailableActions from "../_model/tournamentRegistrations/_helpers/getAvailableActions.js";
 import type * as _model_tournamentRegistrations__helpers_getCreateSuccessMessage from "../_model/tournamentRegistrations/_helpers/getCreateSuccessMessage.js";
+import type * as _model_tournamentRegistrations__helpers_getDeleteSuccessMessage from "../_model/tournamentRegistrations/_helpers/getDeleteSuccessMessage.js";
 import type * as _model_tournamentRegistrations_index from "../_model/tournamentRegistrations/index.js";
 import type * as _model_tournamentRegistrations_mutations_createTournamentRegistration from "../_model/tournamentRegistrations/mutations/createTournamentRegistration.js";
 import type * as _model_tournamentRegistrations_mutations_deleteTournamentRegistration from "../_model/tournamentRegistrations/mutations/deleteTournamentRegistration.js";
@@ -465,6 +466,7 @@ declare const fullApi: ApiFromModules<{
   "_model/tournamentRegistrations/_helpers/deepenTournamentRegistration": typeof _model_tournamentRegistrations__helpers_deepenTournamentRegistration;
   "_model/tournamentRegistrations/_helpers/getAvailableActions": typeof _model_tournamentRegistrations__helpers_getAvailableActions;
   "_model/tournamentRegistrations/_helpers/getCreateSuccessMessage": typeof _model_tournamentRegistrations__helpers_getCreateSuccessMessage;
+  "_model/tournamentRegistrations/_helpers/getDeleteSuccessMessage": typeof _model_tournamentRegistrations__helpers_getDeleteSuccessMessage;
   "_model/tournamentRegistrations/index": typeof _model_tournamentRegistrations_index;
   "_model/tournamentRegistrations/mutations/createTournamentRegistration": typeof _model_tournamentRegistrations_mutations_createTournamentRegistration;
   "_model/tournamentRegistrations/mutations/deleteTournamentRegistration": typeof _model_tournamentRegistrations_mutations_deleteTournamentRegistration;

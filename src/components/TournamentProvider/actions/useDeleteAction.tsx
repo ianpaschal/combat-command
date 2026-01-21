@@ -4,11 +4,14 @@ import {
   TournamentActionKey,
 } from '~/api';
 import { ActionDefinition } from '~/components/ContextMenu/ContextMenu.types';
+import { Warning } from '~/components/generic/Warning';
 import { toast } from '~/components/ToastProvider';
 import { useDialogInstance } from '~/hooks/useDialogInstance';
 import { useNavigateAway } from '~/hooks/useNavigateAway';
 import { useDeleteTournament } from '~/services/tournaments';
 import { PATHS } from '~/settings';
+
+import styles from '../actions/shared.module.scss';
 
 const LABEL = 'Delete';
 const KEY = TournamentActionKey.Delete;
@@ -31,9 +34,12 @@ export const useDeleteAction = (
       key: KEY,
       label: LABEL,
       handler: () => open({
-        title: 'Warning!',
+        title: `Delete ${subject.displayName}?`,
         content: (
-          <span>{`Are you sure you want to delete ${displayName}?`} <strong>This cannot be undone!</strong></span>
+          <div className={styles.Action_DialogContent}>
+            <span>{`Are you sure you want to delete ${displayName}?`}</span>
+            <Warning title="This cannot be undone!" intent="danger" />
+          </div>
         ),
         actions: [
           {

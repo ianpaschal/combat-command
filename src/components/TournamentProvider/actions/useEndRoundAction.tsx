@@ -4,6 +4,8 @@ import { toast } from '~/components/ToastProvider';
 import { useDialogInstance } from '~/hooks/useDialogInstance';
 import { useEndTournamentRound, useGetTournamentOpenRound } from '~/services/tournaments';
 
+import styles from '../actions/shared.module.scss';
+
 const KEY = TournamentActionKey.EndRound;
 
 export const useEndRoundAction = (
@@ -28,14 +30,14 @@ export const useEndRoundAction = (
           open({
             title: 'Warning!',
             content: (
-              <>
+              <div className={styles.Action_DialogContent}>
                 <span>{`
                   Are you sure you want to end round ${currentRoundLabel}?
                   There are still ${openRound.matchResultsProgress.remaining}
                   matches remaining to be checked in.
                 `}</span>
                 <strong>Once the round is ended, it cannot be repeated!</strong>
-              </>
+              </div>
             ),
             actions: [
               {

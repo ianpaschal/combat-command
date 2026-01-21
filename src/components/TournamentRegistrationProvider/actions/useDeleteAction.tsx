@@ -1,73 +1,12 @@
 import { UserMinus } from 'lucide-react';
 
 import { TournamentRegistration, TournamentRegistrationActionKey } from '~/api';
-import { ActionDefinition } from '~/components/ContextMenu/ContextMenu.types';
-import { Warning } from '~/components/generic/Warning';
-import { toast } from '~/components/ToastProvider';
-import { useTournament } from '~/components/TournamentProvider/TournamentProvider.hooks';
-import { useDialogInstance } from '~/hooks/useDialogInstance';
-import { useGetTournamentCompetitor } from '~/services/tournamentCompetitors';
-import { useDeleteTournamentRegistration } from '~/services/tournamentRegistrations';
-import { getDeleteWarnings } from '../TournamentRegistrationProvider.utils';
-
-const LABEL = 'Remove Player';
-const KEY = TournamentRegistrationActionKey.Delete;
+import { useDeleteRegistrationAction } from '~/components/TournamentProvider';
 
 export const useDeleteAction = (
-  subject: TournamentRegistration | null,
-): ActionDefinition<TournamentRegistrationActionKey> | null => {
-  const tournament = useTournament();
-  const { data: tournamentCompetitor } = useGetTournamentCompetitor(subject ? {
-    id: subject.tournamentCompetitorId,
-  } : 'skip');
-
-  const { open, close } = useDialogInstance();
-  const { mutation } = useDeleteTournamentRegistration({
-    onSuccess: ({ wasLast }) => {
-      if (tournament.useTeams) {
-        if (wasLast) {
-          toast.success(`${tournamentCompetitor?.displayName}} has been removed from ${tournament.displayName}.`);
-        } else {
-          toast.success(`${subject?.displayName} has been removed from ${tournamentCompetitor?.displayName}.`);
-        }
-      } else {
-        toast.success(`${subject?.displayName} has been removed from ${tournament.displayName}.`);
-      }
-      close();
-    },
-  });
-
-  if (!subject || !tournamentCompetitor) {
-    return null;
-  }
-
-  return (subject.availableActions.includes(KEY)) ? {
-    key: KEY,
-    label: LABEL,
-    icon: <UserMinus />,
-    handler: () => open({
-      title: 'Warning!',
-      content: (
-        <>
-          <span>
-            {tournament.useTeams ? (
-              `Are you sure you want to remove ${subject.displayName} from ${tournamentCompetitor.displayName}?`
-            ) : (
-              `Are you sure you want to remove ${subject.displayName} from ${tournament.displayName}?`
-            )}
-          </span>
-          {getDeleteWarnings(tournament, tournamentCompetitor).map((warning, i) => (
-            <Warning key={i}>{warning}</Warning>
-          ))}
-        </>
-      ),
-      actions: [
-        {
-          intent: 'danger',
-          onClick: () => mutation({ id: subject._id }),
-          text: LABEL,
-        },
-      ],
-    }),
-  } : null;
-};
+  subject: TournamentRegistration,
+) => useDeleteRegistrationAction(subject, {
+  key: TournamentRegistrationActionKey.Delete,
+  label: 'Remove',
+  icon: <UserMinus />,
+}, subject);

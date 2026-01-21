@@ -23,7 +23,7 @@ export const useEditAction = (
   });
   const { open, close } = useFormDialog({
     formId: 'edit-tournament-competitor',
-    title: `Edit ${tournament.useTeams ? 'Team' : 'Player'}`,
+    title: `Edit ${subject.displayName}`,
     submitLabel: 'Save Changes',
     content: (
       <TournamentCompetitorForm

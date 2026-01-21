@@ -7,7 +7,10 @@ import {
 import { MutationCtx } from '../../../_generated/server';
 import { checkAuth } from '../../common/_helpers/checkAuth';
 import { getErrorMessage } from '../../common/errors';
+import { MutationResponse } from '../../common/types';
+import { getDisplayName } from '../../tournamentCompetitors';
 import { getTournamentOrganizersByTournament } from '../../tournamentOrganizers';
+import { getDeleteSuccessMessage } from '../_helpers/getDeleteSuccessMessage';
 
 export const deleteTournamentRegistrationArgs = v.object({
   id: v.id('tournamentRegistrations'),
@@ -17,31 +20,35 @@ export const deleteTournamentRegistrationArgs = v.object({
 export const deleteTournamentRegistration = async (
   ctx: MutationCtx,
   args: Infer<typeof deleteTournamentRegistrationArgs>,
-): Promise<{ wasLast: boolean }> => {
+): Promise<MutationResponse> => {
   // --- CHECK AUTH ----
-  const userId = await checkAuth(ctx);
+  const currentUserId = await checkAuth(ctx);
 
   // ---- REQUIRED DATA ----
-  const registration = await ctx.db.get(args.id);
-  if (!registration) {
+  const tournamentRegistration = await ctx.db.get(args.id);
+  if (!tournamentRegistration) {
     throw new ConvexError(getErrorMessage('TOURNAMENT_REGISTRATION_NOT_FOUND'));
   }
-  const tournament = await ctx.db.get(registration.tournamentId);
+
+  const { tournamentId, tournamentCompetitorId, userId } = tournamentRegistration;
+
+  const tournament = await ctx.db.get(tournamentId);
   if (!tournament) {
     throw new ConvexError(getErrorMessage('TOURNAMENT_NOT_FOUND'));
   }
-  const tournamentCompetitor = await ctx.db.get(registration.tournamentCompetitorId);
+  const tournamentCompetitor = await ctx.db.get(tournamentCompetitorId);
   if (!tournamentCompetitor) {
     throw new ConvexError(getErrorMessage('TOURNAMENT_COMPETITOR_NOT_FOUND'));
   }
-  const tournamentRegistrations = await ctx.db.query('tournamentRegistrations')
-    .withIndex('by_tournament_competitor', (q) => q.eq('tournamentCompetitorId', registration.tournamentCompetitorId))
+  const otherTournamentRegistrations = await ctx.db.query('tournamentRegistrations')
+    .withIndex('by_tournament_competitor', (q) => q.eq('tournamentCompetitorId', tournamentCompetitorId))
+    .filter((q) => q.neq(q.field('userId'), userId))
     .collect();
   const tournamentOrganizers = await getTournamentOrganizersByTournament(ctx, {
-    tournamentId: registration.tournamentId,
+    tournamentId,
   });
-  const wasLast = tournamentRegistrations.length < 2;
-  const wasCaptain = tournamentCompetitor?.captainUserId === userId;
+  const isLast = !otherTournamentRegistrations.length;
+  const isCaptain = tournamentCompetitor?.captainUserId === currentUserId;
  
   // ---- VALIDATE ----
   if (tournament.status === 'archived') {
@@ -62,28 +69,36 @@ export const deleteTournamentRegistration = async (
    */
   const authorizedUserIds = [
     ...tournamentOrganizers.map((r) => r.userId),
-    registration.userId,
+    tournamentRegistration.userId,
   ];
-  if (!authorizedUserIds.includes(userId)) {
+  if (!authorizedUserIds.includes(currentUserId)) {
     throw new ConvexError(getErrorMessage('USER_DOES_NOT_HAVE_PERMISSION'));
   }
 
   // ---- PRIMARY ACTIONS ----
   // Delete the registration:
-  await ctx.db.delete(registration._id);
+  await ctx.db.delete(tournamentRegistration._id);
   
   // If this was the last player, also delete the corresponding competitor:
-  if (wasLast) {
-    await ctx.db.delete(registration.tournamentCompetitorId);
+  if (isLast) {
+    await ctx.db.delete(tournamentRegistration.tournamentCompetitorId);
   }
 
   // If this was the captain, set a new captain:
-  if (!wasLast && wasCaptain) {
-    await ctx.db.patch(registration.tournamentCompetitorId, {
-      captainUserId: tournamentRegistrations[0].userId,
+  if (!isLast && isCaptain) {
+    await ctx.db.patch(tournamentRegistration.tournamentCompetitorId, {
+      captainUserId: otherTournamentRegistrations[0].userId,
     });
   }
+
+  const message = await getDeleteSuccessMessage(ctx, {
+    ...tournamentRegistration,
+    isLast,
+    teamName: await getDisplayName(ctx, tournamentCompetitor),
+  });
   return {
-    wasLast,
+    success: {
+      message,
+    },
   };
 };

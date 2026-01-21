@@ -1,14 +1,14 @@
-import { generatePath } from 'react-router-dom';
 import { Trash } from 'lucide-react';
 
 import { TournamentCompetitor, TournamentCompetitorActionKey } from '~/api';
 import { ActionDefinition } from '~/components/ContextMenu/ContextMenu.types';
+import { Warning } from '~/components/generic/Warning';
 import { toast } from '~/components/ToastProvider';
 import { useTournament } from '~/components/TournamentProvider';
 import { useDialogInstance } from '~/hooks/useDialogInstance';
-import { useNavigateAway } from '~/hooks/useNavigateAway';
 import { useDeleteTournamentCompetitor } from '~/services/tournamentCompetitors';
-import { PATHS } from '~/settings';
+
+import styles from '../actions/shared.module.scss';
 
 const LABEL = 'Remove';
 const KEY = TournamentCompetitorActionKey.Delete;
@@ -17,15 +17,11 @@ export const useDeleteAction = (
   subject: TournamentCompetitor,
 ): ActionDefinition<TournamentCompetitorActionKey> | null => {
   const tournament = useTournament();
-  const navigateToTournament = useNavigateAway(PATHS.tournamentCompetitorDetails, generatePath(PATHS.tournamentDetails, {
-    id: subject.tournamentId,
-  }));
   const { open, close } = useDialogInstance();
   const { mutation } = useDeleteTournamentCompetitor({
     onSuccess: () => {
-      navigateToTournament();
+      toast.success(`${subject.displayName} has been removed from ${tournament.displayName}`);
       close();
-      toast.success(`${subject.displayName} has been removed.`);
     },
   });
   if (subject.availableActions.includes(KEY)) {
@@ -34,13 +30,12 @@ export const useDeleteAction = (
       label: LABEL,
       icon: <Trash />,
       handler: () => open({
-        title: 'Warning!',
+        title: `Remove ${subject.displayName}`,
         content: (
-          <>
+          <div className={styles.Action_DialogContent}>
             <span>{`Are you sure you want to remove ${subject.displayName} from ${tournament.displayName}?`}</span>
-            <br />
-            <strong>Once removed, it cannot be restored!</strong>
-          </>
+            <Warning title="This cannot be undone!" intent="danger" />
+          </div>
         ),
         actions: [
           {

@@ -119,10 +119,6 @@ export const getAvailableActions = async (
   if (isOrganizer && doc.status !== 'draft' && !hasCurrentRound) {
     actions.push(TournamentActionKey.AddPlayer);
   }
-
-  if (isOrganizer && doc.status === 'published') {
-    actions.push(TournamentActionKey.Cancel);
-  }
  
   if (isOrganizer && doc.status === 'published') { // TODO: Check for at least 2 competitors
     actions.push(TournamentActionKey.Start);

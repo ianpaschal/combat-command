@@ -5,42 +5,44 @@
 @use "/src/style/variables";
 
 .Warning {
+  --icon-size: 1.25rem;
+  --spacing: 1rem;
+
   @include text.ui;
   @include corners.normal;
-  @include borders.warning;
+
+  // @include borders.warning;
 
   display: grid;
-  grid-template-areas:
-    "icon header"
-    ". body";
   grid-template-columns: 1rem 1fr;
-  grid-template-rows: auto auto;
-  row-gap: 0.25rem;
-  column-gap: 0.5rem;
+  row-gap: 0.5rem;
+  column-gap: var(--spacing);
 
-  padding: 1rem;
+  padding: var(--spacing);
 
-  color: var(--text-color-warning);
-
-  background-color: var(--card-bg-warning);
-
-  &_Icon {
-    grid-area: icon;
-    width: 1rem;
-    height: 1rem;
+  &[data-intent="warning"] {
+    color: var(--text-color-warning);
+    background-color: var(--card-bg-warning);
   }
 
-  &_Header {
-    grid-area: header;
+  &[data-intent="danger"] {
+    color: var(--text-color-negative);
+    background-color: var(--card-bg-danger);
+  }
+
+  h3 {
+    line-height: var(--icon-size);
+  }
+
+  &_Icon {
+    width: var(--icon-size);
+    height: var(--icon-size);
   }
 
   &_Body {
     @include flex.column($gap: 0.5rem);
 
-    grid-area: body;
-
-    p {
-      color: inherit;
-    }
+    grid-column: 2;
+    color: inherit;
   }
 }

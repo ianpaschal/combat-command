@@ -51,9 +51,6 @@ export const getAvailableActions = async (
   if (!tournament) {
     return [];
   }
-  const tournamentRegistrations = await ctx.db.query('tournamentRegistrations')
-    .withIndex('by_tournament_competitor', (q) => q.eq('tournamentCompetitorId', tournamentCompetitor._id))
-    .collect();
 
   // --- CHECK AUTH ----
   const userId = await getAuthUserId(ctx);
@@ -62,7 +59,6 @@ export const getAvailableActions = async (
   const isSelf = userId && doc.userId === userId;
   const isTeamTournament = tournament.competitorSize > 1;
   const isCaptain = isTeamTournament && userId && tournamentCompetitor.captainUserId === userId;
-  const hasSparePlayers = tournamentRegistrations.length > tournament.competitorSize;
   // const isListSubmissionOpen = Date.now() < tournament.listSubmissionClosesAt;
 
   // ---- PRIMARY ACTIONS ----
@@ -92,7 +88,7 @@ export const getAvailableActions = async (
   //   actions.push(TournamentRegistrationActionKey.SubmitList);
   // }
 
-  if ((isOrganizer || isCaptain) && isTeamTournament && hasSparePlayers) {
+  if ((isOrganizer || isCaptain) && isTeamTournament) {
     actions.push(TournamentRegistrationActionKey.ToggleActive);
   }
 

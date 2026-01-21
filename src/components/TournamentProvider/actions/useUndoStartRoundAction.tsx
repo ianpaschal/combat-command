@@ -1,8 +1,11 @@
 import { Tournament, TournamentActionKey } from '~/api';
 import { ActionDefinition } from '~/components/ContextMenu/ContextMenu.types';
+import { Warning } from '~/components/generic/Warning';
 import { toast } from '~/components/ToastProvider';
 import { useDialogInstance } from '~/hooks/useDialogInstance';
 import { useEndTournamentRound, useGetTournamentOpenRound } from '~/services/tournaments';
+
+import styles from '../actions/shared.module.scss';
 
 const KEY = TournamentActionKey.UndoStartRound;
 
@@ -28,15 +31,19 @@ export const useUndoStartRoundAction = (
         open({
           title: 'Warning!',
           content: (
-            <>
+            <div className={styles.Action_DialogContent}>
               <span>{`Are you sure you want to reset round ${currentRoundLabel}?`}</span>
               {alreadyHasMatchResults && (
                 <span>
                   {`This round already has ${openRound.matchResultsProgress.submitted} matches results checked in. They will be deleted as part of the reset.`}
                 </span>
               )}
-              <strong>This action cannot be undone. You'll need to start the round over from the beginning.</strong>
-            </>
+              <Warning
+                title="This action cannot be undone!"
+                intent="danger"
+                description="You'll need to start the round over from the beginning."
+              />
+            </div>
           ),
           actions: [
             {

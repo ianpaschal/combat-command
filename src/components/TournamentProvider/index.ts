@@ -23,4 +23,5 @@ export {
   useTournament,
 } from './TournamentProvider.hooks';
 export { useCreateRegistrationAction } from './utils/useCreateRegistrationAction';
+export { useDeleteRegistrationAction } from './utils/useDeleteRegistrationAction';
 export { validateConfigureRound } from './utils/validateConfigureRound';

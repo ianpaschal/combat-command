@@ -1,6 +1,6 @@
 import { Tournament, TournamentCompetitor } from '~/api';
 
-export const getDeleteWarnings = (
+export const getDeleteRegistrationWarnings = (
   tournament: Tournament,
   tournamentCompetitor: TournamentCompetitor,
 ): string[] => {

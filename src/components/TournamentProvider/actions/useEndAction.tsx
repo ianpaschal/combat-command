@@ -4,6 +4,8 @@ import { toast } from '~/components/ToastProvider';
 import { useDialogInstance } from '~/hooks/useDialogInstance';
 import { useEndTournament } from '~/services/tournaments';
 
+import styles from '../actions/shared.module.scss';
+
 const LABEL = 'End Tournament';
 const KEY = TournamentActionKey.End;
 
@@ -27,10 +29,10 @@ export const useEndAction = (
           open({
             title: 'Warning!',
             content: (
-              <>
+              <div className={styles.Action_DialogContent}>
                 <span>{`Are you sure you want to end ${subject.displayName}? There are still ${remainingRoundsLabel} rounds remaining.`}</span>
                 <strong>Once the tournament is ended, it cannot be restarted!</strong>
-              </>
+              </div>
             ),
             actions: [
               {

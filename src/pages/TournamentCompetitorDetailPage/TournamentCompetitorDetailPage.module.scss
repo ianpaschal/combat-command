@@ -14,6 +14,19 @@
   @include variants.card;
   @include flex.column($gap: 0);
 
+  &_LoadingState {
+    @include flex.centered;
+
+    flex: 1 auto;
+    color: var(--text-color-default);
+    opacity: 0.2;
+
+    svg {
+      width: 4rem;
+      height: 4rem;
+    }
+  }
+
   &_Header {
     padding: var(--container-padding-y) var(--container-padding-x);
   }

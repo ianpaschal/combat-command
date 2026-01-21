@@ -9,6 +9,8 @@ import { useGetTournamentCompetitorsByTournament } from '~/services/tournamentCo
 import { PATHS } from '~/settings';
 import { validateConfigureRound } from '../utils/validateConfigureRound';
 
+import styles from '../actions/shared.module.scss';
+
 const KEY = TournamentActionKey.ConfigureRound;
 
 export const useConfigureRoundAction = (
@@ -38,9 +40,13 @@ export const useConfigureRoundAction = (
         if (warnings.length) {
           open({
             title: `Configure Round ${nextRoundLabel}`,
-            content: warnings.map((warning, i) => (
-              <Warning key={i}>{warning}</Warning>
-            )),
+            content: (
+              <div className={styles.Action_DialogContent}>
+                {warnings.map((warning, i) => (
+                  <Warning key={i}>{warning}</Warning>
+                ))}
+              </div>
+            ),
             actions: [
               {
                 onClick: () => {

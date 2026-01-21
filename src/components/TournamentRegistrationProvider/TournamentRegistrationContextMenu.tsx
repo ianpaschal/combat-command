@@ -15,6 +15,7 @@ export const TournamentRegistrationContextMenu = ({
   return (
     <ContextMenu className={className} actions={[
       actions[TournamentRegistrationActionKey.ToggleActive],
+      actions[TournamentRegistrationActionKey.Leave],
       actions[TournamentRegistrationActionKey.Delete],
     ].filter(Boolean)} />
   );

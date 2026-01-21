@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 
 import { TournamentId } from '~/api';
+import { Spinner } from '~/components/generic/Spinner';
 import {
   Tabs,
   TabsContent,
@@ -99,7 +100,11 @@ export const TournamentDetailPage = (): JSX.Element => {
   const showTabLabels = deviceSize >= DeviceSize.Default;
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className={styles.TournamentDetailPage_LoadingState}>
+        <Spinner />
+      </div>
+    );
   }
 
   if (!tournament || !tournamentCompetitors) {

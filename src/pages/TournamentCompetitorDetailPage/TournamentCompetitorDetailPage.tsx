@@ -1,4 +1,8 @@
-import { useParams } from 'react-router-dom';
+import {
+  generatePath,
+  Navigate,
+  useParams,
+} from 'react-router-dom';
 import clsx from 'clsx';
 import {
   Construction,
@@ -11,6 +15,7 @@ import { useQueryState } from 'nuqs';
 import { TournamentCompetitorId, TournamentId } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
 import { EmptyState } from '~/components/EmptyState';
+import { Spinner } from '~/components/generic/Spinner';
 import {
   Tabs,
   TabsContent,
@@ -24,6 +29,7 @@ import { DeviceSize, useDeviceSize } from '~/hooks/useDeviceSize';
 import { TournamentRegistrationsTable } from '~/pages/TournamentCompetitorDetailPage/components/TournamentRegistrationsTable';
 import { useGetTournamentCompetitor } from '~/services/tournamentCompetitors';
 import { useGetTournament } from '~/services/tournaments';
+import { PATHS } from '~/settings';
 import { getLastVisibleTournamentRound } from '~/utils/common/getLastVisibleTournamentRound';
 import { Header } from './components/Header';
 
@@ -44,7 +50,6 @@ export const TournamentCompetitorDetailPage = ({
     data: tournament,
     loading: isTournamentLoading,
   } = useGetTournament({ id: tournamentId });
-
   const {
     data: tournamentCompetitor,
     loading: isTournamentCompetitorLoading,
@@ -52,7 +57,7 @@ export const TournamentCompetitorDetailPage = ({
     id: tournamentCompetitorId,
     includeRankings: tournament ? getLastVisibleTournamentRound(tournament, user) : undefined,
   });
-  const isLoading = isTournamentLoading || isTournamentCompetitorLoading;
+  const loading = isTournamentLoading || isTournamentCompetitorLoading;
 
   const tabs = [
     { value: 'roster', label: 'Roster', icon: <Users /> },
@@ -63,12 +68,20 @@ export const TournamentCompetitorDetailPage = ({
   const [deviceSize] = useDeviceSize();
   const showTabLabels = deviceSize >= DeviceSize.Default;
 
-  if (isLoading) {
-    return <div>Loading...</div>;
+  if (loading) {
+    return (
+      <div className={styles.TournamentCompetitorPage_LoadingState}>
+        <Spinner />
+      </div>
+    );
   }
 
-  if (!tournament || !tournamentCompetitor) {
+  if (!tournament) {
     return <NotFoundView />;
+  }
+
+  if (!tournamentCompetitor) {
+    return <Navigate to={generatePath(PATHS.tournamentDetails, { id: tournamentId })} replace />;
   }
 
   // const showJoinButton = tournamentCompetitor.availableActions.includes(TournamentCompetitorActionKey.Join);
