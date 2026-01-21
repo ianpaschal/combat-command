@@ -25,3 +25,17 @@ export type TriggerChange<TableName extends TableNames> = {
   newDoc: Doc<TableName> | null;
   oldDoc: Doc<TableName> | null;
 };
+
+export type MutationIssue = {
+  fieldPath: string;
+  message: string;
+};
+
+export type MutationResponse = {
+  success?: {
+    message: string;
+  }
+  error?: {
+    issues: MutationIssue[];
+  }
+};

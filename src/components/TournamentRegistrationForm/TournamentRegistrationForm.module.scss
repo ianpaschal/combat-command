@@ -4,4 +4,8 @@
 
 .TournamentRegistrationForm {
   @include flex.column;
+
+  &_TeamNameSection {
+    @include flex.column($gap: 0.5rem);
+  }
 }

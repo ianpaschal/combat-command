@@ -2,8 +2,7 @@ import { useContext } from 'react';
 
 import { TournamentRegistration, TournamentRegistrationActionKey } from '~/api';
 import { Action } from '~/components/ContextMenu/ContextMenu.types';
-import { useTournamentCompetitor } from '~/components/TournamentCompetitorProvider';
-import { useLeaveAction } from '~/components/TournamentCompetitorProvider/actions/useLeaveAction';
+import { useLeaveAction } from '~/components/TournamentRegistrationProvider/actions/useLeaveAction';
 import { useDeleteAction } from './actions/useDeleteAction';
 import { useToggleActiveAction } from './actions/useToggleActiveAction';
 import { tournamentRegistrationContext } from './TournamentRegistrationProvider.context';
@@ -18,17 +17,11 @@ export const useTournamentRegistration = () => {
 
 export const useActions = (
   subject: TournamentRegistration,
-): Record<TournamentRegistrationActionKey, Action> => {
-  const leaveAction = useLeaveAction(useTournamentCompetitor());
-  return [
-    useDeleteAction(subject),
-    ...(leaveAction ? [{
-      ...leaveAction,
-      key: TournamentRegistrationActionKey.Leave,
-    }] : []),
-    useToggleActiveAction(subject),
-  ].filter((a) => a !== null).reduce((acc, { key, ...action }) => ({
-    ...acc,
-    [key]: action,
-  }), {} as Record<TournamentRegistrationActionKey, Action>);
-};
+): Record<TournamentRegistrationActionKey, Action> => [
+  useToggleActiveAction(subject),
+  useLeaveAction(subject),
+  useDeleteAction(subject),
+].filter((a) => a !== null).reduce((acc, { key, ...action }) => ({
+  ...acc,
+  [key]: action,
+}), {} as Record<TournamentRegistrationActionKey, Action>);

@@ -1,4 +1,5 @@
 export { useDeleteAction } from './actions/useDeleteAction';
+export { useLeaveAction } from './actions/useLeaveAction';
 export { useToggleActiveAction } from './actions/useToggleActiveAction';
 export {
   TournamentRegistrationActiveToggle,
@@ -16,4 +17,3 @@ export {
   useActions,
   useTournamentRegistration,
 } from './TournamentRegistrationProvider.hooks';
-export { useLeaveAction } from '~/components/TournamentCompetitorProvider/actions/useLeaveAction';

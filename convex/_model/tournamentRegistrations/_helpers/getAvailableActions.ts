@@ -76,11 +76,11 @@ export const getAvailableActions = async (
   //   actions.push(TournamentRegistrationActionKey.ApproveList);
   // }
 
-  if ((isOrganizer || (isCaptain && !isSelf)) && tournament.status === 'published') {
+  if ((isOrganizer || isCaptain) && !isSelf && tournament.status === 'published' && isTeamTournament) {
     actions.push(TournamentRegistrationActionKey.Delete);
   }
 
-  if (isSelf && tournament.status === 'published') {
+  if (isSelf && tournament.status === 'published' && isTeamTournament) {
     actions.push(TournamentRegistrationActionKey.Leave);
   }
 
@@ -92,7 +92,7 @@ export const getAvailableActions = async (
   //   actions.push(TournamentRegistrationActionKey.SubmitList);
   // }
 
-  if ((isOrganizer || isCaptain) && hasSparePlayers) {
+  if ((isOrganizer || isCaptain) && isTeamTournament && hasSparePlayers) {
     actions.push(TournamentRegistrationActionKey.ToggleActive);
   }
 

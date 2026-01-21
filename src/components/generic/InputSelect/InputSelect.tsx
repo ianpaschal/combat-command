@@ -15,9 +15,9 @@ import { Select } from 'radix-ui';
 import './InputSelect.scss';
 
 export interface InputSelectProps<T extends number | string> {
+  'aria-invalid'?: boolean;
   className?: string;
   options: { value: T, label: string }[];
-  hasError?: boolean;
   placeholder?: string;
   onChange?: (value?: T | null) => void;
   value?: T | null;
@@ -26,10 +26,10 @@ export interface InputSelectProps<T extends number | string> {
 type SelectRef = ElementRef<typeof Select.Root>;
 type SelectProps<T extends number | string> = Omit<ComponentPropsWithoutRef<typeof Select.Root>, 'value'> & InputSelectProps<T>;
 export const InputSelect = forwardRef<SelectRef, SelectProps<number | string>>(({
+  'aria-invalid': ariaInvalid,
   options,
   placeholder,
   onChange,
-  hasError,
   disabled = false,
   value,
   ...props
@@ -50,7 +50,7 @@ export const InputSelect = forwardRef<SelectRef, SelectProps<number | string>>((
   const showDisabled = disabled || options.length < 2;
   return (
     <Select.Root onValueChange={handleChange} disabled={showDisabled} value={stringValue} {...props}>
-      <Select.Trigger className={clsx('InputSelectTrigger', { 'InputSelectTrigger--hasError': hasError, 'InputSelectTrigger--disabled': showDisabled })}>
+      <Select.Trigger className={clsx('InputSelectTrigger', { 'InputSelectTrigger--hasError': ariaInvalid, 'InputSelectTrigger--disabled': showDisabled })}>
         <Select.Value ref={ref} placeholder={placeholder} />
         <Select.Icon className="SelectIcon">
           <ChevronDown />

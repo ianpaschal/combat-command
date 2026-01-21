@@ -10,14 +10,12 @@ import styles from './InputText.module.scss';
 export interface InputTextProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
   slotBefore?: ReactNode;
   slotAfter?: ReactNode;
-  hasError?: boolean;
   size?: 'small' | 'normal' | 'large';
 }
 
 export const InputText = forwardRef<HTMLInputElement, InputTextProps>(({
   className,
   type,
-  hasError = false,
   slotBefore,
   slotAfter,
   disabled,
@@ -33,7 +31,6 @@ export const InputText = forwardRef<HTMLInputElement, InputTextProps>(({
       className={clsx(styles.Input, {
         [styles['Input-slotAfter']]: !!slotAfter,
         [styles['Input-slotBefore']]: !!slotBefore,
-        [styles['Input-hasError']]: hasError,
         [styles['Input-disabled']]: disabled,
       }, className)}
       ref={ref}

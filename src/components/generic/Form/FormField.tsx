@@ -62,7 +62,8 @@ export const FormField = ({
                   checked: !!field.value,
                 } : {}),
                 className: styles.Input,
-                hasError: showErrorState,
+                'aria-invalid': showErrorState,
+                'aria-label': name,
                 disabled: formDisabled || disabled,
               })
             )}

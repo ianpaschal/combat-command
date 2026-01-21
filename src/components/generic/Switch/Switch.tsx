@@ -13,16 +13,14 @@ import './Switch.scss';
 const cn = createCn('Switch');
 
 type SwitchRef = ElementRef<typeof RadixSwitch.Root>;
-type SwitchProps = ComponentPropsWithoutRef<typeof RadixSwitch.Root> & {
-  hasError?: boolean;
-};
+type SwitchProps = ComponentPropsWithoutRef<typeof RadixSwitch.Root>;
+
 export const Switch = forwardRef<SwitchRef, SwitchProps>(({
   className,
   disabled,
-  hasError = false,
   ...props
 }, ref) => (
-  <RadixSwitch.Root ref={ref} className={clsx(cn(), { [cn('-disabled')]: disabled, [cn('-hasError')]: hasError }, className)} disabled={disabled} {...props}>
+  <RadixSwitch.Root ref={ref} className={clsx(cn(), { [cn('-disabled')]: disabled }, className)} disabled={disabled} {...props}>
     <RadixSwitch.Thumb className={cn('_Thumb')} />
   </RadixSwitch.Root>
 ));

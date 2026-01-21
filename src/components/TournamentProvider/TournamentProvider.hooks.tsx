@@ -1,7 +1,10 @@
 import { useContext } from 'react';
 
 import { Tournament, TournamentActionKey } from '~/api';
+import { useAuth } from '~/components/AuthProvider';
 import { Action } from '~/components/ContextMenu/ContextMenu.types';
+import { useLeaveAction } from '~/components/TournamentRegistrationProvider';
+import { useGetTournamentRegistrationByTournamentUser } from '~/services/tournamentRegistrations';
 import { useAddPlayerAction } from './actions/useAddPlayerAction';
 import { useConfigureRoundAction } from './actions/useConfigureRoundAction';
 import { useDeleteAction } from './actions/useDeleteAction';
@@ -9,7 +12,6 @@ import { useEditAction } from './actions/useEditAction';
 import { useEndAction } from './actions/useEndAction';
 import { useEndRoundAction } from './actions/useEndRoundAction';
 import { useJoinAction } from './actions/useJoinAction';
-import { useLeaveAction } from './actions/useLeaveAction';
 import { usePublishAction } from './actions/usePublishAction';
 import { useStartAction } from './actions/useStartAction';
 import { useStartRoundAction } from './actions/useStartRoundAction';
@@ -26,22 +28,42 @@ export const useTournament = () => {
 };
 
 export const useActions = (
-  tournament: Tournament,
-): Record<TournamentActionKey, Action> => [
-  useAddPlayerAction(tournament),
-  useConfigureRoundAction(tournament),
-  useDeleteAction(tournament),
-  useEditAction(tournament),
-  useEndAction(tournament),
-  useEndRoundAction(tournament),
-  useJoinAction(tournament),
-  useLeaveAction(tournament),
-  usePublishAction(tournament),
-  useStartAction(tournament),
-  useStartRoundAction(tournament),
-  useSubmitMatchResultAction(tournament),
-  useUndoStartRoundAction(tournament),
-].filter((a) => a !== null).reduce((acc, { key, ...action }) => ({
-  ...acc,
-  [key]: action,
-}), {} as Record<TournamentActionKey, Action>);
+  subject: Tournament,
+): Record<TournamentActionKey, Action> => {
+  const currentUser = useAuth();
+  const { data: tournamentRegistration } = useGetTournamentRegistrationByTournamentUser(currentUser ? {
+    userId: currentUser._id,
+    tournamentId: subject._id,
+  } : 'skip');
+
+  return [
+
+    // CRUD
+    useDeleteAction(subject),
+    useEditAction(subject),
+
+    // Lifecycle
+    usePublishAction(subject),
+    useStartAction(subject),
+    useConfigureRoundAction(subject),
+    useStartRoundAction(subject),
+    useUndoStartRoundAction(subject),
+    useSubmitMatchResultAction(subject),
+    useEndRoundAction(subject),
+    // useUndoEndRoundAction(subject), // TODO
+    useEndAction(subject),
+    // useEndAction(subject), // TODO
+
+    // Edge case: Creating a different type of entity, linked to this entity (Add Player & Join):
+    useAddPlayerAction(subject),
+    useJoinAction(subject),
+
+    // Edge case: Deleting a different type of entity, via this entity (Leave):
+    // FIXME: This shouldn't be a TournamentRegistrationActionKey. Copy AddPlayer/Join pattern.
+    useLeaveAction(tournamentRegistration ?? null), // Self (Leave)
+
+  ].filter((a) => a !== null).reduce((acc, { key, ...action }) => ({
+    ...acc,
+    [key]: action,
+  }), {} as Record<TournamentActionKey, Action>);
+};

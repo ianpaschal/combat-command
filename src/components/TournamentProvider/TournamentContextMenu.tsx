@@ -20,8 +20,14 @@ export const TournamentContextMenu = ({
       className={className}
       size={size}
       actions={[
+
+        // CRUD
         actions[TournamentActionKey.Edit],
+        actions[TournamentActionKey.Delete],
+
+        // Lifecycle
         actions[TournamentActionKey.Publish],
+        actions[TournamentActionKey.Cancel],
         actions[TournamentActionKey.Start],
         actions[TournamentActionKey.ConfigureRound],
         actions[TournamentActionKey.StartRound],
@@ -30,8 +36,12 @@ export const TournamentContextMenu = ({
         actions[TournamentActionKey.EndRound],
         actions[TournamentActionKey.UndoEndRound],
         actions[TournamentActionKey.End],
-        actions[TournamentActionKey.Cancel],
-        actions[TournamentActionKey.Delete],
+
+        // Add Player / Join / Leave
+        actions[TournamentActionKey.AddPlayer],
+        actions[TournamentActionKey.Join],
+        actions[TournamentActionKey.Leave],
+
       ].filter(Boolean)}
     />
   );

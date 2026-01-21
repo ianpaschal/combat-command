@@ -1,18 +1,16 @@
-import { MouseEvent, useEffect } from 'react';
+import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Button } from '@ianpaschal/combat-command-components';
+import { InputText, Select } from '@ianpaschal/combat-command-components';
 import clsx from 'clsx';
-import { Trash } from 'lucide-react';
 
-import { TournamentId } from '~/api';
+import { Tournament, TournamentId } from '~/api';
+import { useAuth } from '~/components/AuthProvider';
+import { Checkbox } from '~/components/generic/Checkbox';
 import { Form, FormField } from '~/components/generic/Form';
-import { InputSelect } from '~/components/generic/InputSelect';
-import { InputText } from '~/components/generic/InputText';
 import { Separator } from '~/components/generic/Separator';
 import { InputUser } from '~/components/InputUser';
 import { useGetTournamentCompetitorsByTournament } from '~/services/tournamentCompetitors';
 import { useGetTournamentRegistrationsByTournament } from '~/services/tournamentRegistrations';
-import { useGetTournament } from '~/services/tournaments';
 import { getEtcCountryOptions } from '~/utils/common/getCountryOptions';
 import { validateForm } from '~/utils/validateForm';
 import {
@@ -33,6 +31,7 @@ export interface TournamentRegistrationFormProps {
   loading?: boolean;
   onSubmit: (data: SubmitData) => void;
   setDirty?: (dirty: boolean) => void;
+  tournament: Tournament;
 }
 
 export const TournamentRegistrationForm = ({
@@ -44,8 +43,10 @@ export const TournamentRegistrationForm = ({
   loading = false,
   onSubmit,
   setDirty,
+  tournament,
 }: TournamentRegistrationFormProps): JSX.Element => {
-  const schema = createSchema();
+  const currentUser = useAuth();
+  const schema = createSchema(tournament, currentUser);
   const form = useForm<FormData>({
     defaultValues: {
       ...defaultValues,
@@ -57,12 +58,6 @@ export const TournamentRegistrationForm = ({
 
   const tournamentId = form.watch('tournamentId') as TournamentId | undefined;
 
-  const {
-    data: existingTournament,
-    loading: existingTournamentLoading,
-  } = useGetTournament(tournamentId ? {
-    id: tournamentId,
-  } : 'skip');
   const {
     data: existingCompetitors,
     loading: existingCompetitorsLoading,
@@ -95,21 +90,8 @@ export const TournamentRegistrationForm = ({
     setDirty?.(form.formState.isDirty);
   }, [form.formState.isDirty, setDirty]);
 
-  const handleClearTournamentCompetitorId = (e: MouseEvent): void => {
-    e.preventDefault();
-    form.setValue('tournamentCompetitorId', null);
-  };
-
-  const handleClearTeamName = (e: MouseEvent): void => {
-    e.preventDefault();
-    form.setValue('tournamentCompetitor.teamName', '');
-  };
-
   const handleSubmit: SubmitHandler<FormData> = async (formData): Promise<void> => {
-    const validFormData = validateForm(schema, {
-      ...formData,
-      ...forcedValues,
-    }, form.setError);
+    const validFormData = validateForm(schema, formData, form.setError);
     if (validFormData) {
       onSubmit(validFormData);
     }
@@ -117,13 +99,14 @@ export const TournamentRegistrationForm = ({
 
   const showLoading = [
     loading,
-    existingTournamentLoading,
     existingCompetitorsLoading,
     existingRegistrationsLoading,
   ].some((l) => !!l);
 
-  const showUserInput = !forcedValues?.userId;
-  const showTeamNameInput = !forcedValues?.tournamentCompetitorId && existingTournament?.useTeams;
+  const showUserField = !forcedValues?.userId;
+  const showTeamNameField = !forcedValues?.tournamentCompetitorId && tournament.useTeams;
+
+  const showNameVisibilityConsentInput = tournament?.requireRealNames && currentUser && currentUser._id === form.watch('userId');
 
   return (
     <Form
@@ -133,37 +116,30 @@ export const TournamentRegistrationForm = ({
       onSubmit={handleSubmit}
       disabled={disabled || showLoading}
     >
-      {showUserInput && (
+      {showUserField && (
         <FormField name="userId" label="User">
           <InputUser excludeIds={excludedUserIds} />
         </FormField>
       )}
-      {showTeamNameInput && (
-        <div>
+      {showTeamNameField && (
+        <div className={styles.TournamentRegistrationForm_TeamNameSection}>
           <FormField name="tournamentCompetitorId" label="Team">
-            <InputSelect options={existingCompetitorOptions} />
+            <Select options={existingCompetitorOptions} clearable />
           </FormField>
-          <Button
-            icon={<Trash />}
-            variant="outlined"
-            onClick={handleClearTournamentCompetitorId}
-            disabled={form.watch('tournamentCompetitorId') === null}
-          />
           <Separator text="or" />
           <FormField name="tournamentCompetitor.teamName" label="Create New Team">
-            {existingTournament.useNationalTeams ? (
-              <InputSelect options={availableCompetitorOptions} />
+            {tournament.useNationalTeams ? (
+              <Select options={availableCompetitorOptions} clearable />
             ) : (
               <InputText />
             )}
           </FormField>
-          <Button
-            icon={<Trash />}
-            variant="outlined"
-            onClick={handleClearTeamName}
-            disabled={form.watch('tournamentCompetitor.teamName') === ''}
-          />
         </div>
+      )}
+      {showNameVisibilityConsentInput && (
+        <FormField name="nameVisibilityConsent" label="Allow TO and fellow players to see name.">
+          <Checkbox />
+        </FormField>
       )}
     </Form>
   );

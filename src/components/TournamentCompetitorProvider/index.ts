@@ -2,7 +2,6 @@ export { useAddPlayerAction } from './actions/useAddPlayerAction';
 export { useDeleteAction } from './actions/useDeleteAction';
 export { useEditAction } from './actions/useEditAction';
 export { useJoinAction } from './actions/useJoinAction';
-export { useLeaveAction } from './actions/useLeaveAction';
 export { useToggleActiveAction } from './actions/useToggleActiveAction';
 export {
   TournamentCompetitorActiveToggle,

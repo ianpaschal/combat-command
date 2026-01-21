@@ -21,14 +21,12 @@ export type Location = Tournament['location'];
 
 export interface InputLocationProps {
   value?: Location,
-  hasError?: boolean;
   onChange?: (location?: Location) => void;
 }
 
 export const InputLocation = forwardRef<HTMLButtonElement, InputLocationProps>(({
   value,
   onChange,
-  hasError: _ = false,
   ...props
 }, ref): JSX.Element => {
   const [searchTerm, setSearchTerm] = useState<string>('');

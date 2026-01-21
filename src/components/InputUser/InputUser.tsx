@@ -32,6 +32,7 @@ export interface InputUserProps {
   excludeIds?: UserId[];
   loading?: boolean;
   disabled?: boolean;
+  id?: string;
 }
 
 export const InputUser = forwardRef<HTMLButtonElement, InputUserProps>(({
@@ -42,6 +43,7 @@ export const InputUser = forwardRef<HTMLButtonElement, InputUserProps>(({
   value: controlledValue,
   loading = false,
   disabled = false,
+  id,
 }, ref): JSX.Element => {
 
   // Refs:
@@ -129,89 +131,90 @@ export const InputUser = forwardRef<HTMLButtonElement, InputUserProps>(({
   };
 
   return (
-    <Popover.Root open={open} onOpenChange={handleOpenChange}>
-      <Popover.Trigger
-        className={clsx(styles.InputUser_Trigger, className)}
-        disabled={disabled}
-        render={<div />}
-        nativeButton={false}
-        ref={ref}
-      >
-        {value ? (
-          <IdentityBadge
-            user={selectedUserRef.current}
-            disableLink
-            size="small"
-            loading={loading || selectedUserLoading}
-          />
-        ) : (
-          <IdentityBadge
-            disableLink
-            size="small"
-            placeholder={{ icon: <UserIcon />, displayName: 'Select a user...' }}
-          />
-        )}
-        {value && (
-          <Button
-            className={styles.InputUser_Clear}
-            icon={<X />}
-            onClick={handleClear}
-            variant="ghost"
-            size="small"
-          />
-        )}
-      </Popover.Trigger>
-      <Popover.Portal>
-        <Popover.Positioner
-          side="bottom"
-          align="start"
-          collisionPadding={8}
-          sideOffset={4}
-          collisionAvoidance={{
-            side: 'flip',
-            align: 'none',
-            fallbackAxisSide: 'none',
-          }}
+    <div className={styles.InputUser}>
+      <Popover.Root open={open} onOpenChange={handleOpenChange}>
+        <Popover.Trigger
+          className={clsx(styles.InputUser_Trigger, className)}
+          disabled={disabled}
+          ref={ref}
+          id={id}
         >
-          <Popover.Popup className={styles.InputUser_Popup}>
-            <div className={styles.InputUser_SearchBar}>
-              <Search />
-              <input
-                ref={inputRef}
-                type="text"
-                placeholder="Search users..."
-                value={search.value}
-                onChange={handleChangeSearch}
-              />
-            </div>
-            <ScrollArea onScroll={handleScroll}>
-              {showLoading && (
-                <div className={styles.InputUser_LoadingState}>
-                  Loading...
-                </div>
-              )}
-              {showEmptyState && (
-                <div className={styles.InputUser_EmptyState}>
-                  No users found.
-                </div>
-              )}
-              {showResults && (
-                <div className={styles.InputUser_SearchResults}>
-                  {(options ?? []).map((user) => (
-                    <div
-                      key={user._id}
-                      className={styles.InputUser_SearchResult}
-                      onClick={() => handleSelect(user)}
-                    >
-                      <IdentityBadge user={user} size="small" disableLink />
-                    </div>
-                  ))}
-                </div>
-              )}
-            </ScrollArea>
-          </Popover.Popup>
-        </Popover.Positioner>
-      </Popover.Portal>
-    </Popover.Root>
+          {value ? (
+            <IdentityBadge
+              user={selectedUserRef.current}
+              disableLink
+              size="small"
+              loading={loading || selectedUserLoading}
+            />
+          ) : (
+            <IdentityBadge
+              disableLink
+              size="small"
+              placeholder={{ icon: <UserIcon />, displayName: 'Select a user...' }}
+            />
+          )}
+
+        </Popover.Trigger>
+        <Popover.Portal>
+          <Popover.Positioner
+            side="bottom"
+            align="start"
+            collisionPadding={8}
+            sideOffset={4}
+            collisionAvoidance={{
+              side: 'flip',
+              align: 'none',
+              fallbackAxisSide: 'none',
+            }}
+          >
+            <Popover.Popup className={styles.InputUser_Popup}>
+              <div className={styles.InputUser_SearchBar}>
+                <Search />
+                <input
+                  ref={inputRef}
+                  type="text"
+                  placeholder="Search users..."
+                  value={search.value}
+                  onChange={handleChangeSearch}
+                />
+              </div>
+              <ScrollArea onScroll={handleScroll}>
+                {showLoading && (
+                  <div className={styles.InputUser_LoadingState}>
+                    Loading...
+                  </div>
+                )}
+                {showEmptyState && (
+                  <div className={styles.InputUser_EmptyState}>
+                    No users found.
+                  </div>
+                )}
+                {showResults && (
+                  <div className={styles.InputUser_SearchResults}>
+                    {(options ?? []).map((user) => (
+                      <div
+                        key={user._id}
+                        className={styles.InputUser_SearchResult}
+                        onClick={() => handleSelect(user)}
+                      >
+                        <IdentityBadge user={user} size="small" disableLink />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </ScrollArea>
+            </Popover.Popup>
+          </Popover.Positioner>
+        </Popover.Portal>
+      </Popover.Root>
+      <Button
+        className={styles.InputUser_Clear}
+        icon={<X />}
+        onClick={handleClear}
+        variant="outlined"
+        disabled={disabled || value === null}
+        tabIndex={0}
+      />
+    </div>
   );
 });

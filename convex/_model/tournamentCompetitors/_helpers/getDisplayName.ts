@@ -8,9 +8,13 @@ import { getTournamentRegistrationsByCompetitor } from '../../tournamentRegistra
 
 export const getDisplayName = async (
   ctx: QueryCtx,
-  doc: Doc<'tournamentCompetitors'>,
+  doc?: Doc<'tournamentCompetitors'> | null,
 ): Promise<string> => {
-  const fallBack = 'Unknown Competitor';
+  const fallBack = 'Unknown Competitor'; // TODO: Language support
+
+  if (!doc) {
+    return fallBack;
+  }
 
   const activeRegistrations = await getTournamentRegistrationsByCompetitor(ctx, {
     tournamentCompetitorId: doc._id,

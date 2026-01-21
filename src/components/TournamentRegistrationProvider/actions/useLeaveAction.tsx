@@ -1,4 +1,4 @@
-import { UserMinus } from 'lucide-react';
+import { LogOut } from 'lucide-react';
 
 import { TournamentRegistration, TournamentRegistrationActionKey } from '~/api';
 import { ActionDefinition } from '~/components/ContextMenu/ContextMenu.types';
@@ -10,10 +10,10 @@ import { useGetTournamentCompetitor } from '~/services/tournamentCompetitors';
 import { useDeleteTournamentRegistration } from '~/services/tournamentRegistrations';
 import { getDeleteWarnings } from '../TournamentRegistrationProvider.utils';
 
-const LABEL = 'Remove Player';
-const KEY = TournamentRegistrationActionKey.Delete;
+const LABEL = 'Leave';
+const KEY = TournamentRegistrationActionKey.Leave;
 
-export const useDeleteAction = (
+export const useLeaveAction = (
   subject: TournamentRegistration | null,
 ): ActionDefinition<TournamentRegistrationActionKey> | null => {
   const tournament = useTournament();
@@ -24,14 +24,10 @@ export const useDeleteAction = (
   const { open, close } = useDialogInstance();
   const { mutation } = useDeleteTournamentRegistration({
     onSuccess: ({ wasLast }) => {
-      if (tournament.useTeams) {
-        if (wasLast) {
-          toast.success(`${tournamentCompetitor?.displayName}} has been removed from ${tournament.displayName}.`);
-        } else {
-          toast.success(`${subject?.displayName} has been removed from ${tournamentCompetitor?.displayName}.`);
-        }
+      if (tournament.useTeams && !wasLast) {
+        toast.success(`You have left ${tournamentCompetitor?.displayName}.`);
       } else {
-        toast.success(`${subject?.displayName} has been removed from ${tournament.displayName}.`);
+        toast.success(`You have left ${tournament.displayName}.`);
       }
       close();
     },
@@ -44,16 +40,16 @@ export const useDeleteAction = (
   return (subject.availableActions.includes(KEY)) ? {
     key: KEY,
     label: LABEL,
-    icon: <UserMinus />,
+    icon: <LogOut />,
     handler: () => open({
       title: 'Warning!',
       content: (
         <>
           <span>
             {tournament.useTeams ? (
-              `Are you sure you want to remove ${subject.displayName} from ${tournamentCompetitor.displayName}?`
+              `Are you sure you want to leave ${tournamentCompetitor.displayName}?`
             ) : (
-              `Are you sure you want to remove ${subject.displayName} from ${tournament.displayName}?`
+              `Are you sure you want to leave ${tournament.displayName}?`
             )}
           </span>
           {getDeleteWarnings(tournament, tournamentCompetitor).map((warning, i) => (

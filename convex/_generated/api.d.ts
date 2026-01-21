@@ -164,6 +164,7 @@ import type * as _model_tournamentPairings_table from "../_model/tournamentPairi
 import type * as _model_tournamentRegistrations__helpers_checkUserIsRegistered from "../_model/tournamentRegistrations/_helpers/checkUserIsRegistered.js";
 import type * as _model_tournamentRegistrations__helpers_deepenTournamentRegistration from "../_model/tournamentRegistrations/_helpers/deepenTournamentRegistration.js";
 import type * as _model_tournamentRegistrations__helpers_getAvailableActions from "../_model/tournamentRegistrations/_helpers/getAvailableActions.js";
+import type * as _model_tournamentRegistrations__helpers_getCreateSuccessMessage from "../_model/tournamentRegistrations/_helpers/getCreateSuccessMessage.js";
 import type * as _model_tournamentRegistrations_index from "../_model/tournamentRegistrations/index.js";
 import type * as _model_tournamentRegistrations_mutations_createTournamentRegistration from "../_model/tournamentRegistrations/mutations/createTournamentRegistration.js";
 import type * as _model_tournamentRegistrations_mutations_deleteTournamentRegistration from "../_model/tournamentRegistrations/mutations/deleteTournamentRegistration.js";
@@ -249,7 +250,6 @@ import type * as _model_users_mutations_updateUserAvatarNoAuth from "../_model/u
 import type * as _model_users_queries_getCurrentUser from "../_model/users/queries/getCurrentUser.js";
 import type * as _model_users_queries_getUser from "../_model/users/queries/getUser.js";
 import type * as _model_users_queries_getUsers from "../_model/users/queries/getUsers.js";
-import type * as _model_users_queries_internal_createIdFilter from "../_model/users/queries/internal/createIdFilter.js";
 import type * as _model_users_queries_internal_getUserByClaimToken from "../_model/users/queries/internal/getUserByClaimToken.js";
 import type * as _model_users_queries_internal_getUserByEmail from "../_model/users/queries/internal/getUserByEmail.js";
 import type * as _model_users_table from "../_model/users/table.js";
@@ -464,6 +464,7 @@ declare const fullApi: ApiFromModules<{
   "_model/tournamentRegistrations/_helpers/checkUserIsRegistered": typeof _model_tournamentRegistrations__helpers_checkUserIsRegistered;
   "_model/tournamentRegistrations/_helpers/deepenTournamentRegistration": typeof _model_tournamentRegistrations__helpers_deepenTournamentRegistration;
   "_model/tournamentRegistrations/_helpers/getAvailableActions": typeof _model_tournamentRegistrations__helpers_getAvailableActions;
+  "_model/tournamentRegistrations/_helpers/getCreateSuccessMessage": typeof _model_tournamentRegistrations__helpers_getCreateSuccessMessage;
   "_model/tournamentRegistrations/index": typeof _model_tournamentRegistrations_index;
   "_model/tournamentRegistrations/mutations/createTournamentRegistration": typeof _model_tournamentRegistrations_mutations_createTournamentRegistration;
   "_model/tournamentRegistrations/mutations/deleteTournamentRegistration": typeof _model_tournamentRegistrations_mutations_deleteTournamentRegistration;
@@ -549,7 +550,6 @@ declare const fullApi: ApiFromModules<{
   "_model/users/queries/getCurrentUser": typeof _model_users_queries_getCurrentUser;
   "_model/users/queries/getUser": typeof _model_users_queries_getUser;
   "_model/users/queries/getUsers": typeof _model_users_queries_getUsers;
-  "_model/users/queries/internal/createIdFilter": typeof _model_users_queries_internal_createIdFilter;
   "_model/users/queries/internal/getUserByClaimToken": typeof _model_users_queries_internal_getUserByClaimToken;
   "_model/users/queries/internal/getUserByEmail": typeof _model_users_queries_internal_getUserByEmail;
   "_model/users/table": typeof _model_users_table;

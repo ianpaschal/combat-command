@@ -22,4 +22,5 @@ export {
   useActions,
   useTournament,
 } from './TournamentProvider.hooks';
+export { useCreateRegistrationAction } from './utils/useCreateRegistrationAction';
 export { validateConfigureRound } from './utils/validateConfigureRound';

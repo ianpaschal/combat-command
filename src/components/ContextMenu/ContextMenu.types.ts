@@ -16,6 +16,8 @@ export type Action = {
 
 export type ActionKey = TournamentActionKey | TournamentCompetitorActionKey | TournamentRegistrationActionKey;
 
-export type ActionDefinition<T extends ActionKey> = Action & {
+export type ActionDefinition<T extends ActionKey = ActionKey> = Action & {
   key: T;
 };
+
+export type ActionOverride<T extends ActionKey> = Omit<ActionDefinition<T>, 'handler'>;

@@ -37,7 +37,7 @@ export const TournamentRegistrationsTable = ({
         {
           key: 'identity',
           label: 'Player',
-          width: 'auto',
+          width: tournament.useTeams ? 'auto' : '1fr',
           xAlign: 'left',
           renderCell: ({ user }) => (
             <IdentityBadge user={user} />

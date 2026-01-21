@@ -8,13 +8,21 @@
 @use "/src/style/sizes";
 
 .InputUser {
+  @include flex.row($gap: 0);
+
   &_Trigger {
     @include flex.row;
     @include variants.outlined;
     @include corners.normal;
 
     cursor: pointer;
+
+    flex: 1 auto;
+
     padding: 0.75rem;
+
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
 
     // TODO: Add same focus as component library
     // &:focus {
@@ -22,7 +30,14 @@
   }
 
   &_Clear {
-    margin-left: auto;
+    align-self: stretch !important;
+
+    height: auto !important;
+    max-height: 100% !important;
+
+    border-left: none !important;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
   }
 
   &_Popup {
