@@ -24,12 +24,8 @@
     padding: 0.75rem 1rem;
   }
 
-  &-hasError {
-    color: variables.$red;
-
-    textarea {
-      border-color: variables.$red;
-    }
+  &[aria-invalid="true"] {
+    border-color: var(--border-color-danger);
   }
 }
 

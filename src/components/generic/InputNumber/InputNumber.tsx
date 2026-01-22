@@ -13,14 +13,12 @@ import './InputNumber.scss';
 export interface InputNumberProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange'> {
   slotBefore?: ReactNode;
   slotAfter?: ReactNode;
-  hasError?: boolean;
   value?: number;
   onChange?: (value?: number) => void;
 }
 
 export const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(({
   className,
-  hasError = false,
   slotBefore,
   slotAfter,
   value,
@@ -33,7 +31,7 @@ export const InputNumber = forwardRef<HTMLInputElement, InputNumberProps>(({
     }
   };
   return (
-    <div className={clsx('InputWrapper', { 'InputWrapper-hasError': hasError }, className)}>
+    <div className={clsx('InputWrapper', className)}>
       <input
         className={clsx('Input', { 'Input-slotAfter': !!slotAfter, 'Input-slotBefore': !!slotBefore })}
         ref={ref}

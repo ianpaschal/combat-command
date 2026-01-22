@@ -5,19 +5,6 @@ import { Id } from '../../_generated/dataModel';
 import { editableFields } from './table';
 
 export type TournamentId = Id<'tournaments'>;
-export enum TournamentActionKey {
-  Edit = 'edit',
-  Delete = 'delete',
-  Publish = 'publish',
-  Cancel = 'cancel',
-  Start = 'start',
-  ConfigureRound = 'configureRound',
-  StartRound = 'startRound',
-  EndRound = 'endRound',
-  End = 'end',
-  SubmitMatchResult = 'submitMatchResult',
-  ResetRound = 'resetRound',
-}
 
 const tournamentEditableFields = v.object(editableFields);
 export type TournamentEditableFields = Infer<typeof tournamentEditableFields>;
@@ -26,6 +13,10 @@ export type TournamentFilterParams = Infer<typeof getTournamentsArgs>;
 // Helpers
 export { checkTournamentAuth } from './_helpers/checkTournamentAuth';
 export { deepenTournament, type TournamentDeep } from './_helpers/deepenTournament';
+export {
+  TournamentActionKey,
+} from './_helpers/getAvailableActions';
+export { getDisplayName } from './_helpers/getDisplayName';
 export { getTournamentDeep } from './_helpers/getTournamentDeep';
 export { getTournamentShallow } from './_helpers/getTournamentShallow';
 
@@ -64,10 +55,6 @@ export {
 } from './mutations/updateTournament';
 
 // Queries
-export {
-  getAvailableTournamentActions,
-  getAvailableTournamentActionsArgs,
-} from './queries/getAvailableTournamentActions';
 export {
   getTournament,
   getTournamentArgs,

@@ -1,1 +1,0 @@
-export { TournamentContextMenu } from './TournamentContextMenu';

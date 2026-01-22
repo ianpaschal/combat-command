@@ -1,0 +1,169 @@
+@use "/src/style/flex";
+@use "/src/style/text";
+@use "/src/style/variables";
+@use "/src/style/corners";
+@use "/src/style/variants";
+@use "/src/style/shadows";
+@use "/src/style/borders";
+
+.TournamentCompetitorPage {
+  --ranking-gap: 0.5rem;
+  --avatar-size: 8rem;
+  --ranking-size: 4rem;
+
+  @include variants.card;
+  @include flex.column($gap: 0);
+
+  &_LoadingState {
+    @include flex.centered;
+
+    flex: 1 auto;
+    color: var(--text-color-default);
+    opacity: 0.2;
+
+    svg {
+      width: 4rem;
+      height: 4rem;
+    }
+  }
+
+  &_Header {
+    padding: var(--container-padding-y) var(--container-padding-x);
+  }
+
+  &_Avatar {
+    grid-area: avatar;
+    width: 8rem;
+    height: 8rem;
+  }
+
+  &_Details {
+    display: grid;
+    grid-area: details;
+    grid-template-areas:
+      "name actions"
+      "tournament actions";
+    grid-template-columns: auto 1fr;
+    grid-template-rows: min-content min-content;
+    row-gap: 0.25rem;
+    column-gap: 1rem;
+    align-self: center;
+  }
+
+  &_Name {
+    @include flex.column($xAlign: left, $gap: 0.25rem);
+
+    h1 {
+      @include text.single-line;
+    }
+  }
+
+  &_Tournament {
+    @include text.ui($muted: true);
+    @include text.single-line;
+  }
+
+  &_Actions {
+    grid-area: actions;
+    align-self: center;
+    justify-self: start;
+  }
+
+  &_ContextMenu {
+    margin-left: auto;
+  }
+
+  &_Table {
+    --table-padding: var(--container-padding-x);
+  }
+
+  &_Players {
+    @include text.ui;
+    @include flex.row($gap: 0.25rem, $xAlign: center);
+
+    grid-area: players;
+  }
+
+  &_Ranking {
+    display: grid;
+    grid-area: ranking;
+    grid-template-areas: "." "rank" "label";
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto 1fr;
+    gap: 0.75rem;
+  }
+
+  &_Rank {
+    @include text.large;
+
+    grid-area: rank;
+    align-self: center;
+    justify-self: center;
+
+    font-size: 3rem;
+    line-height: 2rem;
+  }
+
+  &_RankLabel {
+    @include text.small($muted: true);
+
+    grid-area: label;
+    align-self: start;
+    justify-self: center;
+  }
+
+  &_Manage {
+    @include flex.row;
+
+    padding: 0.5rem var(--container-padding-x) var(--container-padding-y);
+  }
+
+  &_Tabs {
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    min-height: 0;
+  }
+
+  &_TabsList {
+    margin-bottom: 1rem;
+    padding: 0.5rem var(--container-padding-x);
+    border-radius: 0;
+  }
+
+  &_TabsContent {
+    @include flex.column($gap: 1rem);
+  }
+
+  &_Warnings {
+    @include flex.column;
+
+    padding: 0 var(--container-padding-x);
+  }
+
+  &_Actions {
+    @include flex.row($xAlign: right);
+    @include borders.normal($side: top);
+
+    width: 100%;
+    padding: 1rem var(--container-padding-x);
+  }
+}
+
+@media (width >= 480px) {
+  .TournamentCompetitorPage {
+    --ranking-size: var(--avatar-size);
+
+    &_Name {
+      @include flex.row;
+    }
+  }
+}
+
+@media (width >= 688px) {
+  .TournamentCompetitorPage {
+    &_Name {
+      @include flex.row;
+    }
+  }
+}

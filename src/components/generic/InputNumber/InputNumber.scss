@@ -54,12 +54,8 @@
 
   width: 100%;
 
-  &-hasError {
-    color: variables.$red;
-
-    input {
-      border-color: variables.$red;
-    }
+  input[aria-invalid="true"] {
+    border-color: var(--border-color-danger);
   }
 }
 

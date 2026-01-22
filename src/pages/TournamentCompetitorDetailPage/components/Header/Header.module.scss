@@ -1,0 +1,77 @@
+@use "/src/style/flex";
+@use "/src/style/text";
+@use "/src/style/corners";
+@use "/src/style/borders";
+@use "/src/style/variables";
+@use "/src/style/variants";
+
+.Header {
+  display: grid;
+  grid-template-areas:
+    "avatar . actions"
+    "avatar name actions"
+    "avatar tournament actions"
+    "avatar standing actions";
+  grid-template-columns: 8rem 1fr auto;
+  grid-template-rows: 1fr auto auto 1fr;
+  row-gap: 0.25rem;
+  column-gap: 1rem;
+
+  box-sizing: content-box;
+  height: 8rem;
+
+  &_Avatar {
+    grid-area: avatar;
+  }
+
+  &_Badge {
+    @include corners.round;
+    @include borders.outlined;
+    @include flex.centered;
+    @include text.ui;
+    @include variants.primary($hover: false);
+
+    position: relative;
+
+    grid-column: 1 / 2;
+    grid-row: 4 / -1;
+    align-self: end;
+    justify-self: end;
+
+    aspect-ratio: 1;
+    height: 100%;
+    padding-left: 2px; // Ugh, it looks better though.
+
+    font-size: 1.25rem;
+    letter-spacing: 1px; // Ugh, it looks better though.
+  }
+
+  &_Name {
+    @include flex.row;
+
+    grid-area: name;
+
+    h1 {
+      @include text.single-line;
+    }
+  }
+
+  &_Tournament {
+    @include text.small($muted: true);
+    @include text.single-line;
+
+    grid-area: tournament;
+  }
+
+  &_ViewAllRankingsButton {
+    grid-area: standing;
+    align-self: center;
+    justify-self: start;
+  }
+
+  &_Actions {
+    grid-area: actions;
+    align-self: start;
+    justify-self: end;
+  }
+}

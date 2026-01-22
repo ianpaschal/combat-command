@@ -14,14 +14,14 @@
     @include flex.centered;
     @include text.ui($muted: true);
 
-    padding-bottom: 4rem;
-  }
-
-  &_Row {
-    padding: 0 var(--container-padding-x);
+    padding: 4rem;
   }
 
   &_Table {
+    --table-padding: var(--container-padding-x);
+  }
+
+  &_TableNumber {
     @include text.large;
   }
 

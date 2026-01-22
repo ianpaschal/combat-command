@@ -1,0 +1,11 @@
+@use "/src/style/flex";
+@use "/src/style/text";
+@use "/src/style/variables";
+
+.TournamentRegistrationForm {
+  @include flex.column;
+
+  &_TeamNameSection {
+    @include flex.column($gap: 0.5rem);
+  }
+}

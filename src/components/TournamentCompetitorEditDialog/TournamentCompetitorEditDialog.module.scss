@@ -1,8 +1,0 @@
-@use "/src/style/flex";
-@use "/src/style/variables";
-
-.Form {
-  @include flex.column;
-
-  padding: 1rem var(--container-padding-x);
-}

@@ -2,15 +2,29 @@
 @use "/src/style/variables";
 @use "/src/style/text";
 
-.TournamentRoster {
-  &_EmptyState {
-    @include flex.centered;
-    @include flex.stretchy;
+.TournamentRosterCard {
+  padding-bottom: var(--container-padding-y);
+
+  &_Filters {
+    @include flex.row;
   }
 
-  &_CompetitorList {
-    @include flex.column($gap: 0.5rem);
+  &_EmptyState {
+    @include flex.stretchy;
+    @include flex.centered;
+    @include text.ui($muted: true);
 
-    padding: 1rem var(--container-padding-x);
+    padding: 4rem;
+  }
+
+  &_Table {
+    --table-padding: var(--container-padding-x);
+    --cell-padding-y: 1rem;
+  }
+
+  &_ReadyIndicatorIcon {
+    @include text.ui;
+
+    height: 1.5rem;
   }
 }

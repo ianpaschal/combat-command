@@ -1,4 +1,4 @@
-import { MouseEvent } from 'react';
+import { MouseEvent, useEffect } from 'react';
 import {
   SubmitHandler,
   useFieldArray,
@@ -7,16 +7,14 @@ import {
 import clsx from 'clsx';
 import { Plus } from 'lucide-react';
 
-import { TournamentCompetitor, TournamentId } from '~/api';
+import { Tournament, TournamentCompetitor } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
 import { Button } from '~/components/generic/Button';
 import { Form, FormField } from '~/components/generic/Form';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { InputText } from '~/components/generic/InputText';
-import { Separator } from '~/components/generic/Separator';
-import { InputUser } from '~/components/InputUser';
+import { InputUser, InputUserProps } from '~/components/InputUser';
 import { ScoreAdjustmentFormItem } from '~/components/TournamentCompetitorForm/components/ScoreAdjustmentFormItem';
-import { useTournament } from '~/components/TournamentProvider';
 import { useGetTournamentCompetitorsByTournament } from '~/services/tournamentCompetitors';
 import { useGetTournamentRegistrationsByTournament } from '~/services/tournamentRegistrations';
 import { getEtcCountryOptions } from '~/utils/common/getCountryOptions';
@@ -24,61 +22,78 @@ import { isUserTournamentOrganizer } from '~/utils/common/isUserTournamentOrgani
 import { validateForm } from '~/utils/validateForm';
 import {
   createSchema,
-  getDefaultValues,
-  TournamentCompetitorFormData,
-  TournamentCompetitorSubmitData,
+  defaultValues,
+  FormData,
+  SubmitData,
 } from './TournamentCompetitorForm.schema';
 
 import styles from './TournamentCompetitorForm.module.scss';
 
-export type SubmitData = TournamentCompetitorSubmitData & {
-  tournamentId: TournamentId;
-};
-
 export interface TournamentCompetitorFormProps {
   className?: string;
-  id: string;
   disabled?: boolean;
+  forcedValues?: Partial<SubmitData>;
+  id?: string;
+  loading?: boolean;
   onSubmit: (data: SubmitData) => void;
+  setDirty?: (dirty: boolean) => void;
+  tournament: Tournament;
   tournamentCompetitor?: TournamentCompetitor | null;
 }
 
 export const TournamentCompetitorForm = ({
   className,
-  id,
   disabled = false,
+  forcedValues,
+  id,
+  // loading = false,
   onSubmit,
+  setDirty,
+  tournament,
   tournamentCompetitor,
 }: TournamentCompetitorFormProps): JSX.Element => {
-  const user = useAuth();
-  const tournament = useTournament();
-  const { data: tournamentCompetitors, loading: tournamentCompetitorsLoading } =
-    useGetTournamentCompetitorsByTournament({
-      tournamentId: tournament._id,
-    });
-  const { data: tournamentRegistrations, loading: tournamentRegistrationsLoading } =
-    useGetTournamentRegistrationsByTournament({
-      tournamentId: tournament._id,
-    });
 
-  const isOrganizer = isUserTournamentOrganizer(user, tournament);
+  const user = useAuth();
+  const {
+    data: tournamentCompetitors,
+    // loading: tournamentCompetitorsLoading,
+  } = useGetTournamentCompetitorsByTournament({
+    tournamentId: tournament._id,
+  });
+  const {
+    data: tournamentRegistrations,
+    // loading: tournamentRegistrationsLoading,
+  } = useGetTournamentRegistrationsByTournament({
+    tournamentId: tournament._id,
+  });
+
+  const userSelectProps: Partial<InputUserProps> = tournamentCompetitor ? {
+    options: (tournamentRegistrations ?? []).filter((r) => (
+      r.tournamentCompetitorId === tournamentCompetitor?._id
+    )).map((r) => r.user),
+  } : {
+    excludeIds: (tournamentRegistrations ?? []).map((r) => r.userId),
+  };
 
   const otherCompetitors = (tournamentCompetitors || []).filter((c) => (
     c._id !== tournamentCompetitor?._id
   ));
 
-  const formSchema = createSchema(
-    !tournamentCompetitor ? 'create' : 'update',
-    tournament.useTeams,
-    otherCompetitors,
-  );
-  const form = useForm<TournamentCompetitorFormData>({
+  const schema = createSchema(tournament.useTeams, otherCompetitors);
+  const form = useForm<FormData>({
     defaultValues: {
-      ...getDefaultValues(!isOrganizer ? user?._id : undefined),
+      ...defaultValues,
       ...tournamentCompetitor,
+      ...forcedValues,
     },
     mode: 'onSubmit',
   });
+
+  const { formState: { isDirty } } = form;
+  useEffect(() => {
+    setDirty?.(isDirty);
+    return () => setDirty?.(false);
+  }, [isDirty, setDirty]);
 
   const { fields, append, remove } = useFieldArray({
     control: form.control,
@@ -99,21 +114,19 @@ export const TournamentCompetitorForm = ({
     });
   };
 
-  const handleSubmit: SubmitHandler<TournamentCompetitorFormData> = async ({
-    ...formData
-  }): Promise<void> => {
-    const data = validateForm(formSchema, formData, form.setError);
-    if (data) {
-      onSubmit({
-        tournamentId: tournament._id,
-        ...data,
-      });
+  const handleSubmit: SubmitHandler<FormData> = async (formData): Promise<void> => {
+    const validFormData = validateForm(schema, {
+      ...formData,
+      ...forcedValues,
+    }, form.setError);
+    if (validFormData) {
+      onSubmit(validFormData);
     }
   };
 
-  const excludedUserIds = (tournamentRegistrations ?? []).map((r) => r.userId);
+  // const showLoading = loading || tournamentCompetitorsLoading || tournamentRegistrationsLoading;
 
-  const loading = tournamentCompetitorsLoading || tournamentRegistrationsLoading;
+  const isOrganizer = isUserTournamentOrganizer(user, tournament);
 
   return (
     <Form
@@ -124,42 +137,43 @@ export const TournamentCompetitorForm = ({
       disabled={disabled}
     >
       {tournament.useTeams && (
-        <FormField
-          name="teamName"
-          label={tournament.useNationalTeams ? 'Country' : 'Team Name'}
-        >
-          {tournament.useNationalTeams ? (
-            <InputSelect options={nationalTeamOptions} />
-          ) : (
-            <InputText />
-          )}
-        </FormField>
+        <>
+          <FormField name="teamName" label={tournament.useNationalTeams ? 'Country' : 'Team Name'}>
+            {tournament.useNationalTeams ? (
+              <InputSelect options={nationalTeamOptions} />
+            ) : (
+              <InputText />
+            )}
+          </FormField>
+          <FormField name="captainUserId" label={tournament.useTeams ? 'Captain' : 'Player'}>
+            <InputUser {...userSelectProps} />
+          </FormField>
+        </>
       )}
-      {!tournamentCompetitor && (
-        <FormField name="captain" label={tournament.useTeams ? 'Captain' : 'Player'}>
-          <InputUser
-            excludedUserIds={excludedUserIds}
-            disabled={disabled || loading || !isOrganizer}
-            allowPlaceholder={false}
-            allowInvite
-          />
-        </FormField>
+
+      {isOrganizer && (
+        <>
+          <div className={styles.TournamentCompetitorForm_ScoreAdjustmentHeader}>
+            <h3>Bonuses & Penalties</h3>
+            <Button
+              disabled={disabled}
+              icon={<Plus />}
+              size="small"
+              text="Add"
+              variant="secondary"
+              onClick={handleAddScoreAdjustment}
+            />
+          </div>
+          {fields.map((field, index) => (
+            <ScoreAdjustmentFormItem
+              index={index}
+              key={field.id}
+              onRemove={remove}
+              tournament={tournament}
+            />
+          ))}
+        </>
       )}
-      <Separator />
-      <div className={styles.TournamentCompetitorForm_ScoreAdjustmentHeader}>
-        <h3>Bonuses & Penalties</h3>
-        <Button
-          disabled={disabled}
-          icon={<Plus />}
-          size="small"
-          text="Add"
-          variant="secondary"
-          onClick={handleAddScoreAdjustment}
-        />
-      </div>
-      {fields.map((field, index) => (
-        <ScoreAdjustmentFormItem key={field.id} index={index} onRemove={remove} />
-      ))}
     </Form>
   );
 };

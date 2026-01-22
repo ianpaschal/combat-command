@@ -1,1 +1,4 @@
-export { InputUser } from './InputUser';
+export {
+  InputUser,
+  type InputUserProps,
+} from './InputUser';

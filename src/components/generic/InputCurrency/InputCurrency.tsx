@@ -18,14 +18,12 @@ export type CurrencyValue = {
 };
 
 export interface InputCurrencyProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange'> {
-  hasError?: boolean;
   value?: CurrencyValue;
   onChange?: (value: CurrencyValue) => void;
 }
 
 export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(({
   className,
-  // hasError = false,
   // disabled = false,
   value,
   onChange,
@@ -55,7 +53,7 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(({
     }
   };
 
-  const handleCurrencyChange = (updated: string | number | undefined) => {
+  const handleCurrencyChange = (updated: string | number | null | undefined) => {
     if (updated && typeof updated === 'string') {
       setCurrency(updated);
       if (onChange) {

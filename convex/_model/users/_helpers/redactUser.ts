@@ -3,6 +3,7 @@ import { getAuthUserId } from '@convex-dev/auth/server';
 import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
 import { getStorageUrl } from '../../common/_helpers/getStorageUrl';
+import { VisibilityLevel } from '../../common/VisibilityLevel';
 import { checkUserRelationshipLevel } from './checkUserRelationshipLevel';
 import { formatUserRealName } from './formatUserRealName';
 
@@ -13,6 +14,8 @@ export type LimitedUser = Pick<Doc<'users'>, '_id' | 'username'> & {
   avatarUrl?: string;
   countryCode?: string;
   displayName: string;
+  locationVisibility: VisibilityLevel;
+  nameVisibility: VisibilityLevel;
 };
 
 /**
@@ -53,7 +56,9 @@ export const redactUser = async (
   return {
     ...restFields,
     avatarUrl,
-    displayName: nameVisible ? formatUserRealName(user) : user.username ?? 'Ghost',
     countryCode: locationVisible ? user.countryCode : undefined,
+    displayName: nameVisible ? formatUserRealName(user) : user.username ?? 'Ghost',
+    locationVisibility: user.locationVisibility,
+    nameVisibility: user.nameVisibility,
   };
 };

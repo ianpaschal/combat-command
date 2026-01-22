@@ -3,17 +3,14 @@ import clsx from 'clsx';
 
 import './InputTextArea.scss';
 
-export interface InputTextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-  hasError?: boolean;
-}
+export type InputTextAreaProps = TextareaHTMLAttributes<HTMLTextAreaElement>;
 
 export const InputTextArea = forwardRef<HTMLTextAreaElement, InputTextAreaProps>(({
   className,
-  hasError = false,
   ...props
 }, ref) => (
   <textarea
-    className={clsx('InputTextArea', { 'InputWrapper-hasError': hasError }, className)}
+    className={clsx('InputTextArea', className)}
     ref={ref}
     {...props}
   />

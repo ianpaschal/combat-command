@@ -1,3 +1,18 @@
+// Types
+export type {
+  TournamentRegistration,
+  TournamentRegistrationId,
+} from './types';
+
+// Helpers
+export {
+  checkUserIsRegistered,
+} from './_helpers/checkUserIsRegistered';
+export {
+  TournamentRegistrationActionKey,
+} from './_helpers/getAvailableActions';
+
+// Mutations
 export {
   createTournamentRegistration,
   createTournamentRegistrationArgs,
@@ -10,6 +25,12 @@ export {
   toggleTournamentRegistrationActive,
   toggleTournamentRegistrationActiveArgs,
 } from './mutations/toggleActive';
+
+// Queries
+export {
+  getTournamentRegistrationByTournamentUser,
+  getTournamentRegistrationByTournamentUserArgs,
+} from './queries/getTournamentRegistrationByTournamentUser';
 export {
   getTournamentRegistrationsByCompetitor,
   getTournamentRegistrationsByCompetitorArgs,
@@ -22,7 +43,3 @@ export {
   getTournamentRegistrationsByUser,
   getTournamentRegistrationsByUserArgs,
 } from './queries/getTournamentRegistrationsByUser';
-export type {
-  TournamentRegistration,
-  TournamentRegistrationId,
-} from './types';

@@ -30,7 +30,6 @@ import { useAsyncState } from '~/hooks/useAsyncState';
 import { useCreateMatchResult, useUpdateMatchResult } from '~/services/matchResults';
 import { useGetActiveTournamentPairingsByUser } from '~/services/tournamentPairings';
 import { useGetTournamentByTournamentPairing } from '~/services/tournaments';
-import { getTournamentPairingDisplayName } from '~/utils/common/getTournamentPairingDisplayName';
 import { validateForm } from '~/utils/validateForm';
 import { SingleMatchPlayerFields } from './components/SingleMatchPlayerFields';
 import { TournamentPlayerFields } from './components/TournamentPlayerFields';
@@ -167,7 +166,7 @@ export const MatchResultForm = ({
     { value: 'single', label: 'Single Match' },
     ...(tournamentPairings || []).filter((pairing) => pairing.matchResultsProgress.submitted < pairing.matchResultsProgress.required).map((pairing) => ({
       value: pairing._id,
-      label: getTournamentPairingDisplayName(pairing),
+      label: pairing.displayName,
     })),
   ];
 

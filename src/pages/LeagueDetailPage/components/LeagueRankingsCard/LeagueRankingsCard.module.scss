@@ -28,11 +28,8 @@
     padding-bottom: 4rem;
   }
 
-  &_Row {
-    padding: 0 var(--container-padding-x);
-  }
-
-  &_IdentityBadge {
-    margin: 0.5rem 0;
+  &_Table {
+    --table-padding: var(--container-padding-x);
+    --cell-padding-y: 1rem;
   }
 }

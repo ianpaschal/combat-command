@@ -5,7 +5,6 @@ import { useTournament } from '~/components/TournamentProvider';
 import { TournamentTimer } from '~/components/TournamentTimer';
 import { DeviceSize, useDeviceSize } from '~/hooks/useDeviceSize';
 import { MAX_WIDTH } from '~/settings';
-import { getTournamentDisplayName } from '~/utils/common/getTournamentDisplayName';
 
 import styles from './TournamentBanner.module.scss';
 
@@ -41,7 +40,7 @@ export const TournamentBanner = ({
             // TODO: Add wrapper
             />
           )}
-          <h1>{getTournamentDisplayName(tournament)}</h1>
+          <h1>{tournament.displayName}</h1>
         </div>
         {showTimer && (
           <div className={styles.TournamentBanner_Timer}>

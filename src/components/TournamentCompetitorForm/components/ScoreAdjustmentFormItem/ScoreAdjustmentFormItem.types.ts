@@ -1,5 +1,5 @@
 import { FieldArrayWithId } from 'react-hook-form';
 
-import { TournamentCompetitorFormData } from '~/components/TournamentCompetitorForm/TournamentCompetitorForm.schema';
+import { FormData } from '~/components/TournamentCompetitorForm/TournamentCompetitorForm.schema';
 
-export type ScoreAdjustmentField = FieldArrayWithId<Partial<TournamentCompetitorFormData>, 'scoreAdjustments', 'id'>;
+export type ScoreAdjustmentField = FieldArrayWithId<Partial<FormData>, 'scoreAdjustments', 'id'>;

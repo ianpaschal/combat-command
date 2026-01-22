@@ -62,10 +62,9 @@
   }
 
   &_Rankings {
-    flex-grow: 1;
+    --table-padding: var(--container-padding-x);
+    --cell-padding-y: 1rem;
 
-    &_Row {
-      padding: 0.5rem var(--container-padding-x);
-    }
+    flex-grow: 1;
   }
 }

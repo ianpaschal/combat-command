@@ -23,7 +23,7 @@
     padding-right: 2.25rem;
   }
 
-  &-hasError {
+  &[aria-invalid="true"] {
     border-color: var(--border-color-danger);
   }
 }

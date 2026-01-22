@@ -17,6 +17,15 @@ export const cleanUpFileStorage = internalMutation(async (ctx) => {
       referencedIds.add(t.bannerStorageId);
     }
   }
+  const leagues = await ctx.db.query('leagues').collect();
+  for (const l of leagues) {
+    if (l.logoStorageId) {
+      referencedIds.add(l.logoStorageId);
+    }
+    if (l.bannerStorageId) {
+      referencedIds.add(l.bannerStorageId);
+    }
+  }
   const photos = await ctx.db.query('photos').collect();
   for (const p of photos) {
     if (p.storageId) {

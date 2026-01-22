@@ -21,11 +21,19 @@ export const PATHS = {
   leagues: '/leagues',
   matchResultDetails: '/matches/:id',
   matchResults: '/matches',
+
+  // Tournament Competitors
+  tournamentCompetitorDetails: '/tournaments/:tournamentId/competitors/:tournamentCompetitorId',
+
+  // Tournament Pairings
+  tournamentPairingDetails: '/pairings/:id',
+  tournamentPairings: '/tournaments/:id/pairings',
+
+  // Tournaments
   tournamentCreate: '/tournaments/create',
   tournamentDetails: '/tournaments/:id',
   tournamentEdit: '/tournaments/:id/edit',
-  tournamentPairingDetails: '/pairings/:id',
-  tournamentPairings: '/tournaments/:id/pairings',
   tournaments: '/tournaments',
+
   userProfile: '/users/:id',
 } as const;

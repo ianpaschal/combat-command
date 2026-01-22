@@ -1,22 +1,27 @@
+import { ConvexError } from 'convex/values';
+
 import { Doc } from '../../../_generated/dataModel';
 import { QueryCtx } from '../../../_generated/server';
-import { getList } from '../../lists';
+import { getErrorMessage } from '../../common/errors';
 import { getUser } from '../../users';
+import { getAvailableActions } from './getAvailableActions';
 
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 export const deepenTournamentRegistration = async (
   ctx: QueryCtx,
-  tournamentRegistration: Doc<'tournamentRegistrations'>,
+  doc: Doc<'tournamentRegistrations'>,
 ) => {
-  const user = await getUser(ctx, { id: tournamentRegistration.userId });
-  const list = tournamentRegistration.listId ? (
-    await getList(ctx, { id: tournamentRegistration.listId })
-  ) : null;
+  const user = await getUser(ctx, { id: doc.userId });
+  if (!user) {
+    throw new ConvexError(getErrorMessage('USER_NOT_FOUND'));
+  }
+  const availableActions = await getAvailableActions(ctx, doc);
 
   return {
-    ...tournamentRegistration,
+    ...doc,
+    availableActions,
     user,
-    list,
+    displayName: user.displayName,
   };
 };
 

@@ -2,6 +2,7 @@ import { api } from '~/api';
 import { createMutationHook, createQueryHook } from '~/services/utils';
 
 // Special Queries
+export const useGetTournamentRegistrationByTournamentUser = createQueryHook(api.tournamentRegistrations.getTournamentRegistrationByTournamentUser);
 export const useGetTournamentRegistrationsByCompetitor = createQueryHook(api.tournamentRegistrations.getTournamentRegistrationsByCompetitor);
 export const useGetTournamentRegistrationsByTournament = createQueryHook(api.tournamentRegistrations.getTournamentRegistrationsByTournament);
 export const useGetTournamentRegistrationsByUser = createQueryHook(api.tournamentRegistrations.getTournamentRegistrationsByUser);

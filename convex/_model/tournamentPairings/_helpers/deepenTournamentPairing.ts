@@ -52,6 +52,7 @@ export const deepenTournamentPairing = async (
 
   return {
     ...tournamentPairing,
+    displayName: `${tournamentCompetitor0.displayName} vs. ${tournamentCompetitor1?.displayName ?? 'Bye'}`,
     tournamentCompetitor0,
     tournamentCompetitor1,
     playerUserIds: [

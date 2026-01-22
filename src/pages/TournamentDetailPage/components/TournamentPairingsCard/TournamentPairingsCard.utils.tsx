@@ -1,26 +1,23 @@
 import { generatePath, NavigateFunction } from 'react-router-dom';
+import { ColumnDef } from '@ianpaschal/combat-command-components';
 import { ChevronRight, Swords } from 'lucide-react';
 
 import { TournamentPairing } from '~/api';
 import { Button } from '~/components/generic/Button';
 import { CircularProgress } from '~/components/generic/CircularProgress';
 import { InfoPopover } from '~/components/generic/InfoPopover';
-import { ColumnDef } from '~/components/generic/Table';
 import { TournamentPairingRow } from '~/components/TournamentPairingRow';
 import { PATHS } from '~/settings';
 
 import styles from './TournamentPairingsCard.module.scss';
 
-const matchIndicatorSize = 40; // 2.5rem
-
 export const getTournamentPairingTableConfig = (navigate: NavigateFunction): ColumnDef<TournamentPairing>[] => [
   {
     key: 'table',
     label: 'Table',
-    width: 40,
-    align: 'center',
+    xAlign: 'center',
     renderCell: (r) => (
-      <div className={styles.TournamentPairingsCard_Table}>
+      <div className={styles.TournamentPairingsCard_TableNumber}>
         {r.table === null ? '-' : r.table + 1}
       </div>
     ),
@@ -28,7 +25,8 @@ export const getTournamentPairingTableConfig = (navigate: NavigateFunction): Col
   {
     key: 'pairing',
     label: 'Pairing',
-    align: 'center',
+    xAlign: 'center',
+    width: '1fr',
     renderCell: (r) => (
       <TournamentPairingRow
         pairing={r}
@@ -38,10 +36,9 @@ export const getTournamentPairingTableConfig = (navigate: NavigateFunction): Col
   },
   {
     key: 'matches',
-    width: matchIndicatorSize,
-    align: 'center',
+    xAlign: 'center',
     renderCell: ({ matchResultsProgress: { submitted, required } }) => (
-      <CircularProgress total={required} filled={submitted} size={matchIndicatorSize} color={submitted === required ? 'green' : undefined}>
+      <CircularProgress total={required} filled={submitted} size={40} color={submitted === required ? 'green' : undefined}>
         <span className={styles.TournamentPairingsCard_MatchIndicatorInner}>{submitted}</span>
       </CircularProgress>
     ),
@@ -53,8 +50,7 @@ export const getTournamentPairingTableConfig = (navigate: NavigateFunction): Col
   },
   {
     key: 'viewPairing',
-    width: matchIndicatorSize,
-    align: 'center',
+    xAlign: 'center',
     renderCell: ({ _id }) => (
       <Button
         icon={<ChevronRight />}

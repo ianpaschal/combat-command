@@ -14,12 +14,14 @@ export interface TournamentPairingRowProps {
   pairing?: TournamentPairingRowData;
   loading?: boolean;
   className?: string;
+  disableLink?: boolean;
 }
 
 export const TournamentPairingRow = ({
   pairing,
   loading = false,
   className,
+  disableLink = true,
 }: TournamentPairingRowProps): JSX.Element => {
   // TODO: Use column width hook
   const windowWidth = useWindowWidth();
@@ -37,6 +39,7 @@ export const TournamentPairingRow = ({
         size={orientation === 'vertical' ? 'small' : 'normal'}
         flipped={orientation === 'horizontal'}
         loading={loading}
+        disableLink={disableLink}
         {...competitor0Props}
       />
       <span className={styles.TournamentPairingRow_Versus}>
@@ -46,6 +49,7 @@ export const TournamentPairingRow = ({
         className={styles.TournamentPairingRow_Competitor1}
         size={orientation === 'vertical' ? 'small' : 'normal'}
         loading={loading}
+        disableLink={disableLink}
         {...competitor1Props}
       />
     </div>

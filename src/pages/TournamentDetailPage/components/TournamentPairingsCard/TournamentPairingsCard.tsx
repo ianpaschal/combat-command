@@ -1,13 +1,13 @@
 import { ReactElement, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Table } from '@ianpaschal/combat-command-components';
 import clsx from 'clsx';
 import { Zap } from 'lucide-react';
 
 import { EmptyState } from '~/components/EmptyState';
 import { Button } from '~/components/generic/Button';
 import { InputSelect } from '~/components/generic/InputSelect';
-import { Table } from '~/components/generic/Table';
-import { useTournamentActions } from '~/components/TournamentActionsProvider/TournamentActionsProvider.hooks';
+import { useConfigureRoundAction } from '~/components/TournamentProvider';
 import { useTournament } from '~/components/TournamentProvider';
 import { useGetTournamentPairings } from '~/services/tournamentPairings';
 import { TournamentDetailCard } from '../TournamentDetailCard';
@@ -23,16 +23,16 @@ export const TournamentPairingsCard = ({
   className,
 }: TournamentPairingsCardProps): JSX.Element => {
   const navigate = useNavigate();
-  const { _id: tournamentId, lastRound, roundCount } = useTournament();
-  const actions = useTournamentActions();
+  const tournament = useTournament();
+  const configureRoundAction = useConfigureRoundAction(tournament);
 
-  const roundIndexes = lastRound !== undefined ? Array.from({
-    length: Math.min(lastRound + 2, roundCount),
+  const roundIndexes = tournament.lastRound !== undefined ? Array.from({
+    length: Math.min(tournament.lastRound + 2, tournament.roundCount),
   }, (_, i) => i) : [0];
   const [round, setRound] = useState<number>(roundIndexes.length - 1);
 
   const { data: tournamentPairings, loading } = useGetTournamentPairings({
-    tournamentId,
+    tournamentId: tournament._id,
     round,
   });
 
@@ -70,15 +70,15 @@ export const TournamentPairingsCard = ({
         ) : (
           showEmptyState ? (
             <EmptyState icon={<Zap />}>
-              {actions?.configureRound && (
+              {configureRoundAction && (
                 <Button
-                  text={actions.configureRound.label}
-                  onClick={actions.configureRound.handler}
+                  text={configureRoundAction.label}
+                  onClick={configureRoundAction.handler}
                 />
               )}
             </EmptyState>
           ) : (
-            <Table columns={columns} rows={rows} rowClassName={styles.TournamentPairingsCard_Row} />
+            <Table className={styles.TournamentPairingsCard_Table} columns={columns} rows={rows} />
           )
         )}
       </TournamentDetailCard>

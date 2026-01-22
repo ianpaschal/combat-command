@@ -6,7 +6,6 @@ import { FormField } from '~/components/generic/Form';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { InputText } from '~/components/generic/InputText';
 import { useGetTournamentPairing } from '~/services/tournamentPairings';
-import { getTournamentCompetitorDisplayName } from '~/utils/common/getTournamentCompetitorDisplayName';
 import { getCompetitorPlayerOptions } from './TournamentPlayerFields.utils';
 
 import styles from './TournamentPlayerFields.module.scss';
@@ -23,8 +22,8 @@ export const TournamentPlayerFields = ({
 
   const { data: selectedPairing } = useGetTournamentPairing({ id: tournamentPairingId });
 
-  const player0Label = `${getTournamentCompetitorDisplayName(selectedPairing?.tournamentCompetitor0)} Player`;
-  const player1Label = selectedPairing?.tournamentCompetitor1 ? `${getTournamentCompetitorDisplayName(selectedPairing?.tournamentCompetitor1)} Player` : 'Bye Placeholder';
+  const player0Label = selectedPairing?.tournamentCompetitor0 ? `${selectedPairing.tournamentCompetitor0.displayName} Player` : 'Player 1';
+  const player1Label = selectedPairing?.tournamentCompetitor1 ? `${selectedPairing.tournamentCompetitor1.displayName} Player` : 'Bye Placeholder';
 
   const player0Options = getCompetitorPlayerOptions(selectedPairing?.tournamentCompetitor0);
   const player1Options = getCompetitorPlayerOptions(selectedPairing?.tournamentCompetitor1);

@@ -18,6 +18,9 @@ export const errors = {
   CANNOT_REMOVE_LAST_ORGANIZER_FROM_TOURNAMENT: 'Cannot remove the last organizer from tournament.',
   CANNOT_REMOVE_LAST_OWNER_FROM_TOURNAMENT: 'Please appoint another organizer as owner before deleting this one.',
   COMPETITOR_ALREADY_HAS_MAX_PLAYERS: 'Team already has the maximum number of active players.',
+  CANNOT_CREATE_REGISTRATION_WITHOUT_COMPETITOR: 'Cannot create a registration without a competitor ID or name.',
+  CANNOT_CREATE_REGISTRATION_WITH_COMPETITOR_NAME_ID: 'Cannot create a registration with both a competitor ID and name.',
+  CANNOT_CREATE_REGISTRATION_WITHOUT_REAL_NAME: 'Cannot create a registration without revealing real name.',
 
   // Tournament Lifecycle
   CANNOT_CLOSE_ROUND_ON_ARCHIVED_TOURNAMENT: 'Cannot close a round on an archived tournament.',

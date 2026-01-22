@@ -15,40 +15,42 @@ import { Select } from 'radix-ui';
 import './InputSelect.scss';
 
 export interface InputSelectProps<T extends number | string> {
+  'aria-invalid'?: boolean;
   className?: string;
   options: { value: T, label: string }[];
-  hasError?: boolean;
   placeholder?: string;
-  onChange?: (value?: T) => void;
-  value?: T;
+  onChange?: (value?: T | null) => void;
+  value?: T | null;
 }
 
 type SelectRef = ElementRef<typeof Select.Root>;
 type SelectProps<T extends number | string> = Omit<ComponentPropsWithoutRef<typeof Select.Root>, 'value'> & InputSelectProps<T>;
 export const InputSelect = forwardRef<SelectRef, SelectProps<number | string>>(({
+  'aria-invalid': ariaInvalid,
   options,
   placeholder,
   onChange,
-  hasError,
   disabled = false,
   value,
   ...props
 }, ref): JSX.Element => {
   const handleChange = (selected: string): void => {
     if (onChange) {
-      if (!isNaN(+selected)) {
+      if (!selected) {
+        onChange(null);
+      } else if (!isNaN(+selected)) {
         onChange(+selected);
       } else {
         onChange(selected);
       }
     }
   };
-  const stringValue: string | undefined = value !== undefined && typeof value === 'number' ? value.toString() : value;
+  const stringValue: string | undefined = value != null && typeof value === 'number' ? value.toString() : (value ?? undefined);
   const stringOptions = options.map((item) => ({ value: typeof item.value === 'number' ? item.value.toString() : item.value, label: item.label }));
   const showDisabled = disabled || options.length < 2;
   return (
     <Select.Root onValueChange={handleChange} disabled={showDisabled} value={stringValue} {...props}>
-      <Select.Trigger className={clsx('InputSelectTrigger', { 'InputSelectTrigger--hasError': hasError, 'InputSelectTrigger--disabled': showDisabled })}>
+      <Select.Trigger className={clsx('InputSelectTrigger', { 'InputSelectTrigger--hasError': ariaInvalid, 'InputSelectTrigger--disabled': showDisabled })}>
         <Select.Value ref={ref} placeholder={placeholder} />
         <Select.Icon className="SelectIcon">
           <ChevronDown />

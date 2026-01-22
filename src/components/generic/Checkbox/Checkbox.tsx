@@ -20,8 +20,8 @@ type CheckboxProps = Omit<ComponentPropsWithoutRef<typeof RadixCheckbox.Root>, '
   onChange?: (checked: boolean) => void;
   size?: ElementSize;
   variant?: ElementVariant;
-  hasError?: boolean;
 };
+
 export const Checkbox = forwardRef<CheckboxRef, CheckboxProps>(({
   className,
   disabled,
@@ -29,7 +29,6 @@ export const Checkbox = forwardRef<CheckboxRef, CheckboxProps>(({
   variant = 'solid',
   value,
   onChange,
-  hasError: _ = false,
   ...props
 }, ref) => (
   <RadixCheckbox.Root

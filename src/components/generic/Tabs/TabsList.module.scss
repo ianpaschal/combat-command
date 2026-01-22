@@ -3,26 +3,19 @@
 @use "/src/style/sizes";
 @use "/src/style/variables";
 
-.Root {
+.TabsList {
   @include corners.normal;
 
-  min-width: min-content;
+  display: grid;
+  gap: 0.25rem;
   padding: 0.25rem;
   background-color: var(--secondary-default-bg);
 
-  &-min {
+  &[data-width="min"] {
     width: min-content;
   }
 
-  &-max {
+  &[data-width="max"] {
     width: 100%;
-  }
-
-  &-vertical {
-    @include flex.column($gap: 0.25rem);
-  }
-
-  &-horizontal {
-    @include flex.row($gap: 0.25rem);
   }
 }

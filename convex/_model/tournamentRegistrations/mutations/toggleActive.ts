@@ -5,9 +5,8 @@ import {
 } from 'convex/values';
 
 import { MutationCtx } from '../../../_generated/server';
-import { checkAuth } from '../../common/_helpers/checkAuth';
 import { getErrorMessage } from '../../common/errors';
-import { getTournamentOrganizersByTournament } from '../../tournamentOrganizers';
+import { getAvailableActions, TournamentRegistrationActionKey } from '../_helpers/getAvailableActions';
 
 export const toggleTournamentRegistrationActiveArgs = v.object({
   id: v.id('tournamentRegistrations'),
@@ -16,10 +15,7 @@ export const toggleTournamentRegistrationActiveArgs = v.object({
 export const toggleTournamentRegistrationActive = async (
   ctx: MutationCtx,
   args: Infer<typeof toggleTournamentRegistrationActiveArgs>,
-): Promise<void> => {
-  // --- CHECK AUTH ----
-  const userId = await checkAuth(ctx);
-
+): Promise<boolean> => {
   // ---- VALIDATE ----
   const tournamentRegistration = await ctx.db.get(args.id);
   if (!tournamentRegistration) {
@@ -41,19 +37,13 @@ export const toggleTournamentRegistrationActive = async (
   }
 
   // ---- EXTENDED AUTH CHECK ----
-  /* These user IDs can make changes to this tournament competitor:
-   * - Tournament organizers;
-   */
-  const tournamentOrganizers = await getTournamentOrganizersByTournament(ctx, {
-    tournamentId: tournamentRegistration.tournamentId,
-  });
-  const authorizedUserIds = tournamentOrganizers.map((r) => r.userId);
-  if (!authorizedUserIds.includes(userId)) {
+  const availableActions = await getAvailableActions(ctx, tournamentRegistration);
+  if (!availableActions.includes(TournamentRegistrationActionKey.ToggleActive)) {
     throw new ConvexError(getErrorMessage('USER_DOES_NOT_HAVE_PERMISSION'));
   }
 
   // ---- PRIMARY ACTIONS ----
-  await ctx.db.patch(args.id, {
-    active: !tournamentRegistration.active,
-  });
+  const active = !tournamentRegistration.active;
+  await ctx.db.patch(args.id, { active });
+  return active;
 };

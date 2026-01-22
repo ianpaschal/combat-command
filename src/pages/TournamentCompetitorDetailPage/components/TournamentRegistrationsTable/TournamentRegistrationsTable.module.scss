@@ -1,0 +1,16 @@
+@use "/src/style/flex";
+@use "/src/style/variables";
+
+@import "@radix-ui/colors/amber-dark.css";
+@import "@radix-ui/colors/amber.css";
+
+.TournamentRegistrationsTable {
+  --cell-padding-y: 1rem;
+  --table-padding: var(--container-padding-x);
+
+  &_CaptainIcon {
+    width: 1.5rem;
+    height: 1.5rem;
+    stroke-width: 1.5px;
+  }
+}

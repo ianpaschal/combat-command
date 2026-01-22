@@ -1,32 +1,28 @@
-import { DeepPartial } from 'react-hook-form';
 import { z } from 'zod';
 
-import { TournamentCompetitor, UserId } from '~/api';
-import { scoreAdjustmentSchema } from '~/components/TournamentCompetitorForm/components/ScoreAdjustmentFormItem/ScoreAdjustmentFormItem.schema';
+import {
+  ScoreAdjustment,
+  TournamentCompetitor,
+  TournamentCompetitorId,
+  TournamentId,
+  UserId,
+} from '~/api';
+import { scoreAdjustmentSchema } from './components/ScoreAdjustmentFormItem';
 
 export const createSchema = (
-  mode: 'create' | 'update',
   useTeams: boolean,
   otherCompetitors: TournamentCompetitor[] = [],
 ) => z.object({
-  teamName: z.string(),
-  captain: z.object({
-    userId: z.optional(z.string().transform((val) => val.length ? val as UserId : undefined)),
-  }),
+  captainUserId: z.string({ message: 'Please select a captain.' }).transform((val) => val as UserId),
   scoreAdjustments: z.array(scoreAdjustmentSchema),
+  teamName: z.string(),
+  tournamentId: z.string().transform((val) => val as TournamentId),
 }).superRefine((data, ctx) => {
   if (useTeams && !data.teamName.length) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
       message: 'Please provide a team name.',
       path: ['teamName'],
-    });
-  }
-  if (mode === 'create' && !data.captain.userId) {
-    ctx.addIssue({
-      code: z.ZodIssueCode.custom,
-      message: 'Please select a captain.',
-      path: ['captain'],
     });
   }
   if (useTeams && otherCompetitors.find((c) => c.teamName?.toLowerCase() === data.teamName.trim().toLowerCase())) {
@@ -38,14 +34,24 @@ export const createSchema = (
   }
 });
 
-export type TournamentCompetitorSubmitData = z.infer<ReturnType<typeof createSchema>>;
+/**
+ * The output of successful form validation.
+ */
+export type SubmitData = z.infer<ReturnType<typeof createSchema>>;
 
-export type TournamentCompetitorFormData = Partial<TournamentCompetitorSubmitData>;
+/**
+ * The internal form state before validation (may contain missing or intermediate values).
+ */
+export type FormData = {
+  tournamentCompetitorId: TournamentCompetitorId | null;
+  tournamentId: TournamentId | null;
+  captainUserId: UserId | null;
+  scoreAdjustments: ScoreAdjustment[];
+};
 
-export const getDefaultValues = (userId?: UserId): DeepPartial<TournamentCompetitorSubmitData> => ({
-  teamName: '',
-  captain: {
-    userId,
-  },
+export const defaultValues: FormData = {
+  tournamentCompetitorId: null,
+  tournamentId: null,
+  captainUserId: null,
   scoreAdjustments: [],
-});
+};

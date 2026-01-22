@@ -1,8 +1,8 @@
+import { ColumnDef } from '@ianpaschal/combat-command-components';
 import { getGameSystem } from '@ianpaschal/combat-command-game-systems/common';
 
 import { League, LeagueRanking } from '~/api';
 import { InfoPopover } from '~/components/generic/InfoPopover';
-import { ColumnDef } from '~/components/generic/Table';
 import { IdentityBadge } from '~/components/IdentityBadge';
 
 import styles from './LeagueRankingsCard.module.scss';
@@ -15,13 +15,14 @@ export const getLeagueRankingTableConfig = (
     {
       key: 'rank',
       label: 'Rank',
-      width: 40,
-      align: 'center',
+      width: '3rem',
+      xAlign: 'center',
       renderCell: (r) => <div>{r.rank + 1}</div>,
     },
     {
       key: 'identity',
       label: 'Player',
+      width: '1fr',
       renderCell: (r) => (
         <IdentityBadge
           size="small"
@@ -33,8 +34,8 @@ export const getLeagueRankingTableConfig = (
     },
     {
       key: 'tournamentCount',
-      width: 40,
-      align: 'center',
+      width: '3rem',
+      xAlign: 'center',
       renderCell: (r) => r.tournamentCount,
       renderHeader: () => (
         <InfoPopover content={'Tournaments Played'}>
@@ -44,8 +45,8 @@ export const getLeagueRankingTableConfig = (
     },
     ...league.rankingFactors.map((key): ColumnDef<LeagueRanking> => ({
       key,
-      width: 40,
-      align: 'center',
+      width: '3rem',
+      xAlign: 'center',
       renderCell: (r) => r.rankingFactors[key] ?? '-',
       renderHeader: () => (
         <InfoPopover content={gameSystem.getRankingFactorDisplayName(key) ?? 'Unknown Factor'}>

@@ -20,7 +20,7 @@ export const CarouselPreviousButton = forwardRef<HTMLButtonElement, ComponentPro
         className={clsx(styles.CarouselPreviousButton, className)}
         data-orientation={orientation}
         icon={<ArrowLeft />}
-        round
+        rounded
         size="large"
         variant="primary"
         onClick={scrollPrev}

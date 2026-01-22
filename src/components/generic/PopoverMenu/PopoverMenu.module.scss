@@ -8,11 +8,11 @@
 @use "/src/style/sizes";
 
 .PopoverContent {
-  @include flex.column($gap: 0.25rem);
+  @include flex.column($gap: 0);
   @include animate.duration-quick;
   @include variants.card($elevated: true);
 
-  z-index: 1;
+  z-index: 9999;
   margin: 0.25rem 0;
   padding: 0.25rem;
   background-color: var(--card-bg);
@@ -23,9 +23,36 @@
 .MenuItem {
   @include variants.ghost;
   @include corners.tight;
-  @include flex.row($gap: 0.125rem);
   @include sizes.normal;
   @include text.ui;
 
+  display: grid;
+  grid-template-areas: "label";
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+
   padding: 0 0.75rem;
+
+  &[data-has-icons="true"] {
+    grid-template-areas: "icon label";
+    grid-template-columns: 1rem 1fr;
+  }
+
+  &_Icon {
+    display: block;
+    grid-area: icon;
+    aspect-ratio: 1;
+  }
+
+  &_Label {
+    display: block;
+    grid-area: label;
+  }
+
+  svg {
+    width: 1rem;
+    height: 1rem;
+  }
 }

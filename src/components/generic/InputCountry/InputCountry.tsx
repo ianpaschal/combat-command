@@ -19,8 +19,8 @@ import { getCountryOptions } from '~/utils/common/getCountryOptions';
 import styles from './InputCountry.module.scss';
 
 export interface InputCountryProps {
+  'aria-invalid'?: boolean;
   className?: string;
-  hasError?: boolean;
   placeholder?: string;
   onChange?: (value?: SelectValue) => void;
 }
@@ -28,9 +28,9 @@ export interface InputCountryProps {
 type SelectRef = ElementRef<typeof Select.Root>;
 type SelectProps = ComponentPropsWithoutRef<typeof Select.Root> & InputCountryProps;
 export const InputCountry = forwardRef<SelectRef, SelectProps>(({
+  'aria-invalid': ariaInvalid,
   placeholder,
   onChange,
-  hasError,
   disabled = false,
   value,
   ...props
@@ -38,7 +38,7 @@ export const InputCountry = forwardRef<SelectRef, SelectProps>(({
   const options = getCountryOptions();
   return (
     <Select.Root value={value} onValueChange={onChange} {...props}>
-      <Select.Trigger className={clsx(styles.Trigger, { [styles.TriggerHasError]: hasError, [styles.TriggerDisabled]: disabled })}>
+      <Select.Trigger className={clsx(styles.Trigger, { [styles.TriggerHasError]: ariaInvalid, [styles.TriggerDisabled]: disabled })}>
         <Select.Value ref={ref} placeholder={placeholder}>
           {value && (
             <div className={styles.Value}>

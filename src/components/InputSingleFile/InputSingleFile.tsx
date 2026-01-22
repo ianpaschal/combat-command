@@ -16,7 +16,6 @@ interface InputSingleFileProps {
   onChange?: (value: StorageId) => void;
   onReset?: (name: string) => void;
   value?: StorageId;
-  hasError?: boolean;
 }
 
 export const InputSingleFile = forwardRef<HTMLDivElement, InputSingleFileProps>(({
@@ -26,8 +25,6 @@ export const InputSingleFile = forwardRef<HTMLDivElement, InputSingleFileProps>(
   onChange,
   onReset,
   value,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  hasError = false,
   ...props
 }, ref): JSX.Element => {
   const { data: fileUrl } = useGetFileUrl(value ? { id: value } : 'skip');

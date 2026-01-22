@@ -8,17 +8,14 @@
 
 .TabsTrigger {
   @include corners.tight;
-  @include flex.row($gap: 0.25rem);
+  @include flex.row($gap: 0.25rem, $xAlign: center);
   @include flex.stretchy;
   @include text.ui;
   @include variants.secondary;
 
-  flex-grow: 0;
-
   height: 100%;
   min-height: 2rem;
   padding: 0 0.75rem;
-
   white-space: nowrap;
 
   &[data-state="active"] {

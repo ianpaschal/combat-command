@@ -1,5 +1,6 @@
 import {
   ComponentPropsWithoutRef,
+  CSSProperties,
   ElementRef,
   forwardRef,
   ReactElement,
@@ -25,6 +26,7 @@ type TabsListProps = ComponentPropsWithoutRef<typeof Tabs.List> & {
   size?: ElementSize;
   tabs: TabDef[];
   hideLabels?: boolean;
+  stretch?: boolean;
 };
 export const TabsList = forwardRef<TabsListRef, TabsListProps>(({
   className,
@@ -33,18 +35,31 @@ export const TabsList = forwardRef<TabsListRef, TabsListProps>(({
   size = 'normal',
   tabs,
   hideLabels = false,
+  stretch = false,
   ...props
-}, ref): JSX.Element => (
-  <Tabs.List
-    ref={ref}
-    className={clsx('TabsList', styles.Root, styles[`Root-${width}`], styles[`Root-${orientation}`], className)}
-    {...props}
-  >
-    {tabs.map(({ value, label, icon }) => (
-      <TabsTrigger key={value} value={value} size={size}>
-        {icon}
-        {!hideLabels && label}
-      </TabsTrigger>
-    ))}
-  </Tabs.List>
-));
+}, ref): JSX.Element => {
+  const createGridStyle = (): CSSProperties => {
+    const size = stretch ? '1fr' : 'min-content';
+    const key = orientation === 'vertical' ? 'gridTemplateRows' : 'gridTemplateColumns';
+    return {
+      [key]: tabs.map((_) => size).join(' '),
+    };
+  };
+  return (
+    <Tabs.List
+      ref={ref}
+      className={clsx(styles.TabsList, className)}
+      style={createGridStyle()}
+      data-width={width}
+      data-stretch={stretch}
+      {...props}
+    >
+      {tabs.map(({ value, label, icon }) => (
+        <TabsTrigger key={value} value={value} size={size}>
+          {icon}
+          {!hideLabels && label}
+        </TabsTrigger>
+      ))}
+    </Tabs.List>
+  );
+});

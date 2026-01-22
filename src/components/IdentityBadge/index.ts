@@ -4,3 +4,6 @@ export type {
   Identity,
   IdentityBadgePlaceholder,
 } from './IdentityBadge.types';
+export {
+  TournamentCompetitorAvatar,
+} from './TournamentCompetitorAvatar';

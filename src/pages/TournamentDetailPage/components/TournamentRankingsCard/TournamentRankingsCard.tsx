@@ -3,6 +3,7 @@ import {
   useMemo,
   useState,
 } from 'react';
+import { Table } from '@ianpaschal/combat-command-components';
 import clsx from 'clsx';
 import { Trophy } from 'lucide-react';
 
@@ -10,7 +11,6 @@ import { TournamentRegistration } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
 import { EmptyState } from '~/components/EmptyState';
 import { InputSelect } from '~/components/generic/InputSelect';
-import { Table } from '~/components/generic/Table';
 import { useTournamentCompetitors } from '~/components/TournamentCompetitorsProvider';
 import { useTournament } from '~/components/TournamentProvider';
 import { getTournamentRankingTableConfig, RankingRow } from '~/pages/TournamentDetailPage/components/TournamentRankingsCard/TournamentRankingsCard.utils';
@@ -107,7 +107,7 @@ export const TournamentRankingsCard = ({
         showEmptyState ? (
           <EmptyState icon={<Trophy />} />
         ) : (
-          <Table columns={columns} rows={rows} rowClassName={styles.TournamentRankingsCard_Row} />
+          <Table className={styles.TournamentRankingsCard_Table} columns={columns} rows={rows} />
         )
       )}
     </TournamentDetailCard>

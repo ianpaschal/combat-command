@@ -1,27 +1,121 @@
-@use "/src/style/flex";
-@use "/src/style/variables";
-@use "/src/style/corners";
 @use "/src/style/borders";
-@use "/src/style/sizes";
-@use "/src/style/variants";
+@use "/src/style/corners";
+@use "/src/style/flex";
+@use "/src/style/shadows";
 @use "/src/style/text";
+@use "/src/style/variables";
+@use "/src/style/variants";
+@use "/src/style/sizes";
 
 .InputUser {
-  @include flex.row;
-  @include sizes.large;
-  @include text.ui;
-  @include variants.outlined;
+  @include flex.row($gap: 0);
 
-  padding: calc(0.5rem - var(--border-width));
-  padding-right: calc(1rem - var(--border-width));
+  &_Trigger {
+    @include flex.row;
+    @include variants.outlined;
+    @include corners.normal;
 
-  & &[data-error="true"] {
-    @include variants.outlined-danger;
+    cursor: pointer;
+
+    flex: 1 auto;
+
+    padding: 0.75rem;
+
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+
+    // TODO: Add same focus as component library
+    // &:focus {
+    // }
   }
 
-  &_Buttons {
-    @include flex.row($gap: 0.25rem);
+  &_Clear {
+    align-self: stretch !important;
 
-    margin-left: auto;
+    height: auto !important;
+    max-height: 100% !important;
+
+    border-left: none !important;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  &_Popup {
+    @include flex.column($gap: 0);
+    @include borders.normal;
+    @include shadows.elevated;
+    @include corners.normal;
+
+    transform-origin: var(--transform-origin);
+
+    overflow: hidden;
+
+    box-sizing: border-box;
+    width: var(--anchor-width);
+    max-height: var(--available-height);
+
+    background-color: var(--card-bg);
+
+    transition: transform 150ms, opacity 150ms;
+
+    &[data-starting-style],
+    &[data-ending-style] {
+      transform: scale(0.9);
+      opacity: 0;
+    }
+  }
+
+  &_SearchBar {
+    position: relative;
+    padding: calc(0.75rem - var(--border-width));
+
+    svg {
+      position: absolute;
+      top: calc(1.5rem - var(--border-width));
+      left: calc(1.5rem - var(--border-width));
+
+      width: 1rem;
+      height: 1rem;
+    }
+
+    input {
+      @include variants.outlined;
+      @include corners.normal;
+      @include text.ui;
+      @include sizes.normal;
+
+      flex: 1;
+
+      width: 100%;
+      height: 100%;
+      padding: 0.75rem;
+      padding-left: 2.5rem;
+
+      background-color: transparent;
+    }
+  }
+
+  &_LoadingState,
+  &_EmptyState {
+    @include text.ui($muted: true);
+    @include flex.centered;
+
+    padding: calc(1.5rem - var(--border-width));
+  }
+
+  &_SearchResults {
+    @include flex.column;
+
+    padding: calc(1.5rem - var(--border-width));
+    padding-top: 0.5rem;
+  }
+
+  &_SearchResult {
+    @include variants.ghost;
+    @include corners.normal;
+
+    cursor: pointer;
+    margin: -0.5rem;
+    padding: 0.5rem;
   }
 }

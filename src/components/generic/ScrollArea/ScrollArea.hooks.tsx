@@ -12,15 +12,17 @@ import { ScrollArea } from 'radix-ui';
 
 import styles from './ScrollArea.module.scss';
 
+export type IndicatorSide = 'top' | 'right' | 'bottom' | 'left';
+export type IndicatorState = {
+  visible?: boolean;
+  border?: boolean;
+};
+export type IndicatorConfig = Partial<Record<IndicatorSide, IndicatorState>>;
+
 /**
  * Type to track the state of an attribute-per-side of a box model.
  */
-export interface FourSidedState {
-  top: boolean;
-  bottom: boolean;
-  left: boolean;
-  right: boolean;
-}
+export type FourSidedState = Record<IndicatorSide, boolean>;
 
 /**
  * Default state for an attribute-per-side of a box model.
@@ -34,17 +36,14 @@ const defaultState: FourSidedState = { top: false, bottom: false, left: false, r
  * @returns The border visibility state per side.
  */
 const getBorderVisibility = (
-  borders?: string | string[],
+  config?: IndicatorConfig,
 ): FourSidedState => {
-  if (borders) {
-    if (Array.isArray(borders)) {
-      return borders.reduce((acc, value) => ({
-        ...acc,
-        [value]: true,
-      }), defaultState);
-    } else {
-      return { ...defaultState, [borders]: true };
-    }
+  if (config) {
+    return Object.keys(defaultState).reduce((acc, side) => {
+      const key = side as IndicatorSide;
+      acc[key] = config[key]?.border ?? defaultState[key];
+      return acc;
+    }, {} as Record<IndicatorSide, boolean>);
   } else {
     return defaultState;
   }
@@ -92,7 +91,7 @@ type UseScrollIndicatorsReturn = {
  * @param borders - Side or sides to render a border on.
  * @returns A object containing a viewport ref, onScroll handler, and four sides' indicator elements.
  */
-export const useScrollIndicators = (borders?: string | string[]): UseScrollIndicatorsReturn => {
+export const useScrollIndicators = (config: IndicatorConfig = {}): UseScrollIndicatorsReturn => {
   const ref = useRef<ElementRef<typeof ScrollArea.Viewport>>(null);
 
   const [visible, setVisible] = useState<FourSidedState>({
@@ -103,7 +102,7 @@ export const useScrollIndicators = (borders?: string | string[]): UseScrollIndic
   });
 
   // Memoize since it will rarely, if ever, change
-  const bordered = useMemo(() => getBorderVisibility(borders), [borders]);
+  const bordered = useMemo(() => getBorderVisibility(config), [config]);
 
   const updateIndicatorVisibility = () => {
     setVisible(getIndicatorVisibility(ref));
@@ -129,8 +128,8 @@ export const useScrollIndicators = (borders?: string | string[]): UseScrollIndic
         className={styles.ScrollArea_Indicator}
         key={key}
         data-side={key}
-        data-visible={visible[key as keyof typeof defaultState]}
-        data-bordered={bordered[key as keyof typeof defaultState]}
+        data-visible={config[key as IndicatorSide]?.visible ?? visible[key as IndicatorSide]}
+        data-bordered={bordered[key as IndicatorSide]}
       />
     )),
   };

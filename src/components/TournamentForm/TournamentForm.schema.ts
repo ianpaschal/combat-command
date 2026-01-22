@@ -14,7 +14,6 @@ import {
   validateGameSystemConfig,
 } from '~/components/GameSystemConfigFields';
 
-// TODO: Add competitor groups
 // TODO: Convert gameSystemConfig to union of other game systems
 export const tournamentFormSchema = z.object({
 

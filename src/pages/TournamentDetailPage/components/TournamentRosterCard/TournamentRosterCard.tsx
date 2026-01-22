@@ -1,28 +1,25 @@
 import { ReactElement } from 'react';
-import { generatePath } from 'react-router-dom';
+import { generatePath, useNavigate } from 'react-router-dom';
+import { Table } from '@ianpaschal/combat-command-components';
 import clsx from 'clsx';
 import {
   EyeOff,
   Link,
-  UserPlus,
   Users,
 } from 'lucide-react';
 
-import { VisibilityLevel } from '~/api';
+import { TournamentActionKey } from '~/api';
 import { useAuth } from '~/components/AuthProvider';
 import { EmptyState } from '~/components/EmptyState';
 import { Button } from '~/components/generic/Button';
 import { toast } from '~/components/ToastProvider';
-import { TournamentCompetitorEditDialog, useTournamentCompetitorEditDialog } from '~/components/TournamentCompetitorEditDialog';
-import { useTournamentCompetitors } from '~/components/TournamentCompetitorsProvider';
-import { useTournament } from '~/components/TournamentProvider';
-import { TournamentRoster } from '~/components/TournamentRoster';
-import { useCreateTournamentCompetitor, useGetTournamentCompetitorsByTournament } from '~/services/tournamentCompetitors';
+import { useActions, useTournament } from '~/components/TournamentProvider';
+import { useGetTournamentCompetitorsByTournament } from '~/services/tournamentCompetitors';
 import { usePublishTournament } from '~/services/tournaments';
 import { PATHS } from '~/settings';
 import { isUserTournamentOrganizer } from '~/utils/common/isUserTournamentOrganizer';
-import { ConfirmRegisterDialog, useConfirmRegisterDialog } from '../ConfirmRegisterDialog';
 import { TournamentDetailCard } from '../TournamentDetailCard';
+import { getTournamentCompetitorTableConfig } from './TournamentRosterCard.utils';
 
 import styles from './TournamentRosterCard.module.scss';
 
@@ -33,43 +30,36 @@ export interface TournamentRosterCardProps {
 export const TournamentRosterCard = ({
   className,
 }: TournamentRosterCardProps): JSX.Element => {
+  const navigate = useNavigate();
   const user = useAuth();
   const tournament = useTournament();
-  const competitors = useTournamentCompetitors();
-  const { open: openConfirmNameVisibilityDialog } = useConfirmRegisterDialog();
-  const { open: openCreateDialog } = useTournamentCompetitorEditDialog();
+  const actions = useActions(tournament);
+
   const { data: tournamentCompetitors, loading } = useGetTournamentCompetitorsByTournament({ tournamentId: tournament._id });
-  const { mutation: createTournamentCompetitor } = useCreateTournamentCompetitor({
-    successMessage: `Successfully joined ${tournament.title}!`,
-  });
+
   const { mutation: publishTournament } = usePublishTournament({
     successMessage: `${tournament.title} is now live!`,
   });
+  const columns = getTournamentCompetitorTableConfig(navigate, tournament);
+  const rows = (tournamentCompetitors || []);
 
   const showLoadingState = loading;
   const showEmptyState = !loading && !tournamentCompetitors?.length;
 
   const isOrganizer = isUserTournamentOrganizer(user, tournament);
 
-  const handleRegister = (): void => {
-    if (tournament.requireRealNames && user && user.nameVisibility < VisibilityLevel.Tournaments) {
-      openConfirmNameVisibilityDialog({
-        onConfirm: handleConfirmRegister,
-      });
-    } else {
-      handleConfirmRegister();
-    }
-  };
-
-  const handleConfirmRegister = (): void => {
-    if (!user) {
-      return;
-    }
-    createTournamentCompetitor({
-      tournamentId: tournament._id,
-      captainUserId: user._id,
-    });
-  };
+  const getControls = (): ReactElement[] => [
+    TournamentActionKey.AddPlayer,
+    TournamentActionKey.Join,
+    TournamentActionKey.Leave,
+  ].reduce((acc, key) => actions[key] ? [...acc, (
+    <Button
+      key={key}
+      text={actions[key].label}
+      onClick={actions[key].handler}
+      icon={actions[key].icon}
+    />
+  )] : acc, [] as ReactElement[]);
 
   const handlePublish = (): void => {
     publishTournament({ id: tournament._id });
@@ -85,34 +75,6 @@ export const TournamentRosterCard = ({
     }
   };
 
-  const getPrimaryButtons = (): ReactElement[] => {
-    const isPlayer = user && tournament.playerUserIds.includes(user._id);
-    const hasMaxTeams = (competitors || []).length >= tournament.maxCompetitors;
-    const buttons: ReactElement[] = [];
-    if (['published', 'active'].includes(tournament.status) && tournament.currentRound === undefined && isOrganizer) {
-      buttons.push(
-        <Button
-          key="create-competitor"
-          icon={<UserPlus />}
-          text={`Add ${tournament.useTeams ? 'Team' : 'Player'}`}
-          onClick={() => openCreateDialog()}
-        />,
-      );
-    }
-    if (tournament.status === 'published' && !isPlayer && !hasMaxTeams) {
-      if (tournament.useTeams) {
-        buttons.push(
-          <Button key="new-team" icon={<UserPlus />} text="New Team" onClick={() => openCreateDialog()} />,
-        );
-      } else {
-        buttons.push(
-          <Button key="join" icon={<UserPlus />} text="Register" onClick={handleRegister} />,
-        );
-      }
-    }
-    return buttons;
-  };
-
   const emptyStateProps = tournament.status === 'draft' && isOrganizer ? {
     icon: <EyeOff />,
     message: 'Your tournament is not yet visible.',
@@ -120,30 +82,26 @@ export const TournamentRosterCard = ({
   } : {
     icon: <Users />,
     message: 'No competitors registered yet.',
-    children: isOrganizer ? (
-      <Button icon={<Link />} text="Copy Link" onClick={handleCopyLink} />
-    ) : undefined,
+    children: <Button icon={<Link />} text="Copy Link" onClick={handleCopyLink} />,
   };
 
   return (
     <TournamentDetailCard
       className={clsx(className)}
       title="Roster"
-      buttons={getPrimaryButtons()}
+      buttons={getControls()}
     >
       {showLoadingState ? (
-        <div className={styles.TournamentRoster_EmptyState}>
+        <div className={styles.TournamentRosterCard_EmptyState}>
           Loading...
         </div>
       ) : (
         showEmptyState ? (
           <EmptyState {...emptyStateProps} />
         ) : (
-          <TournamentRoster className={styles.TournamentRoster_CompetitorList} />
+          <Table className={styles.TournamentRosterCard_Table} columns={columns} rows={rows} />
         )
       )}
-      <TournamentCompetitorEditDialog />
-      <ConfirmRegisterDialog />
     </TournamentDetailCard>
   );
 };

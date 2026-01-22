@@ -48,7 +48,9 @@ export type StorageId = Id<'_storage'>;
 
 // Tournament Competitors
 export {
+  type ScoreAdjustment,
   type DeepTournamentCompetitor as TournamentCompetitor,
+  TournamentCompetitorActionKey,
   type TournamentCompetitorId,
 } from '../convex/_model/tournamentCompetitors';
 
@@ -69,6 +71,7 @@ export {
 // Tournament Registrations
 export {
   type TournamentRegistration,
+  TournamentRegistrationActionKey,
   type TournamentRegistrationId,
 } from '../convex/_model/tournamentRegistrations';
 
@@ -82,6 +85,7 @@ export {
 
 // Tournaments
 export {
+  getDisplayName as getTournamentDisplayName,
   type TournamentDeep as Tournament,
   TournamentActionKey,
   type TournamentEditableFields,

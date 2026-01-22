@@ -20,26 +20,25 @@ const sizeClasses: Record<ElementSize, string | undefined> = {
 export interface IdentityBadgeProps {
   className?: string;
   competitor?: TournamentCompetitor | null;
+  disableLink?: boolean;
   flipped?: boolean;
   loading?: boolean;
   placeholder?: IdentityBadgePlaceholder;
   size?: ElementSize;
   user?: User | null;
-  disableLink?: boolean;
 }
 
 export const IdentityBadge = ({
   className,
   competitor,
+  disableLink = false,
   flipped = false,
   loading = false,
   placeholder,
   size = 'normal',
   user,
-  disableLink = false,
 }: IdentityBadgeProps): JSX.Element | null => {
   const navigate = useNavigate();
-
   const [displayAvatar, displayName] = useIdentityElements({
     user,
     competitor,
@@ -54,14 +53,26 @@ export const IdentityBadge = ({
     }),
     // TODO: Add claim button
   ];
-  const type = user ? 'user' : 'competitor';
+  const handleClick = (): void => {
+    if (disableLink) {
+      return;
+    }
+    if (user) {
+      navigate(generatePath(PATHS.userProfile, { id: user._id }));
+    }
+    if (competitor) {
+      navigate(generatePath(PATHS.tournamentCompetitorDetails, {
+        tournamentId: competitor.tournamentId,
+        tournamentCompetitorId: competitor._id,
+      }));
+    }
+  };
   return (
     <div
       className={clsx(styles.IdentityBadge, sizeClasses[size], className)}
       data-flipped={flipped}
-      data-type={type}
       data-clickable={!disableLink}
-      onClick={() => !disableLink && user ? navigate(generatePath(PATHS.userProfile, { id: user._id })) : null}
+      onClick={handleClick}
     >
       {flipped ? elements.reverse() : elements}
       {/* TODO: Add factions */}

@@ -1,4 +1,9 @@
-import { ReactElement } from 'react';
+import {
+  ComponentPropsWithoutRef,
+  ElementRef,
+  forwardRef,
+  ReactElement,
+} from 'react';
 import clsx from 'clsx';
 import { User, Users } from 'lucide-react';
 import { Avatar as RadixAvatar } from 'radix-ui';
@@ -7,7 +12,8 @@ import { FlagCircle } from '~/components/generic/FlagCircle';
 
 import styles from './Avatar.module.scss';
 
-export interface AvatarProps {
+export type AvatarRef = ElementRef<typeof RadixAvatar.Root>;
+export type AvatarProps = ComponentPropsWithoutRef<typeof RadixAvatar.Root> & {
   className?: string;
   countryCode?: string;
   isTeam?: boolean;
@@ -16,9 +22,9 @@ export interface AvatarProps {
   loading?: boolean;
   url?: string;
   userId?: string;
-}
+};
 
-export const Avatar = ({
+export const Avatar = forwardRef<AvatarRef, AvatarProps>(({
   className,
   countryCode,
   isTeam = false,
@@ -26,7 +32,7 @@ export const Avatar = ({
   loading = false,
   icon,
   url,
-}: AvatarProps): JSX.Element => {
+}, ref) => {
   const getInnerContent = (): ReactElement | null => {
     if (loading) {
       return null;
@@ -43,7 +49,7 @@ export const Avatar = ({
     return <User />;
   };
   return (
-    <RadixAvatar.Root className={clsx(styles.Root, className)}>
+    <RadixAvatar.Root ref={ref} className={clsx(styles.Root, className)}>
       <div className={clsx(styles.Content, { [styles.ContentLoading]: loading, [styles['Content-muted']]: muted })}>
         {getInnerContent()}
       </div>
@@ -52,4 +58,6 @@ export const Avatar = ({
       )}
     </RadixAvatar.Root>
   );
-};
+});
+
+Avatar.displayName = RadixAvatar.Root.displayName;
