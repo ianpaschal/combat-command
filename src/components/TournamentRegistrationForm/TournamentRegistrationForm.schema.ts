@@ -7,6 +7,7 @@ import {
   User,
   UserId,
 } from '~/api';
+import { nameVisibilityChangeRequired } from '~/components/TournamentRegistrationForm/TournamentRegistrationForm.utils';
 
 // Helper to convert empty strings and null to undefined
 const emptyToUndefined = <T extends z.ZodTypeAny>(schema: T) => z.preprocess((val) => (val === '' || val === null ? undefined : val), schema);
@@ -35,7 +36,7 @@ export const createSchema = (tournament: Tournament, currentUser: User | null) =
       path: ['tournamentCompetitorId'],
     });
   }
-  if (tournament.requireRealNames && !values.nameVisibilityConsent && currentUser?._id === values.userId) {
+  if (nameVisibilityChangeRequired(tournament, currentUser, values.userId) && !values.nameVisibilityConsent) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
       message: 'This tournament requires real names.',

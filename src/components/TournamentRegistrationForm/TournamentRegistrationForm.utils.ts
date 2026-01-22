@@ -1,16 +1,12 @@
 import {
   Tournament,
   User,
+  UserId,
   VisibilityLevel,
 } from '~/api';
 
-export type AdditionalRequiredFields = {
-  nameVisibilityConsent: boolean;
-};
-
-export const getAdditionalRequiredFields = (
+export const nameVisibilityChangeRequired = (
   tournament: Tournament,
-  user: User | null,
-): AdditionalRequiredFields => ({
-  nameVisibilityConsent: !!(tournament.requireRealNames && user && user.nameVisibility < VisibilityLevel.Tournaments),
-});
+  currentUser: User | null,
+  selectedUserId: UserId | null,
+): boolean => tournament.requireRealNames && currentUser?._id === selectedUserId && currentUser?.nameVisibility >= VisibilityLevel.Tournaments;

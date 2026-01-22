@@ -19,6 +19,7 @@ import {
   FormData,
   SubmitData,
 } from './TournamentRegistrationForm.schema';
+import { nameVisibilityChangeRequired } from './TournamentRegistrationForm.utils';
 
 import styles from './TournamentRegistrationForm.module.scss';
 
@@ -106,7 +107,7 @@ export const TournamentRegistrationForm = ({
   const showUserField = !forcedValues?.userId;
   const showTeamNameField = !forcedValues?.tournamentCompetitorId && tournament.useTeams;
 
-  const showNameVisibilityConsentInput = tournament?.requireRealNames && currentUser && currentUser._id === form.watch('userId');
+  const showNameVisibilityConsentField = nameVisibilityChangeRequired(tournament, currentUser, form.watch('userId'));
 
   return (
     <Form
@@ -136,7 +137,7 @@ export const TournamentRegistrationForm = ({
           </FormField>
         </div>
       )}
-      {showNameVisibilityConsentInput && (
+      {showNameVisibilityConsentField && (
         <FormField name="nameVisibilityConsent" label="Allow TO and fellow players to see name.">
           <Checkbox />
         </FormField>
