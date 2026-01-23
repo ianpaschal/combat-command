@@ -3,6 +3,7 @@ import { QueryCtx } from '../../../_generated/server';
 import { getTournamentRegistrationsByCompetitor } from '../../tournamentRegistrations';
 import { getTournamentResultsByCompetitor } from '../../tournamentResults';
 import { getAvailableActions } from './getAvailableActions';
+import { getDetails } from './getDetails';
 import { getDisplayName } from './getDisplayName';
 
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
@@ -33,6 +34,7 @@ export const deepenTournamentCompetitor = async (
   });
   const availableActions = await getAvailableActions(ctx, doc);
   const displayName = await getDisplayName(ctx, doc);
+  const details = getDetails(registrations);
   return {
     ...doc,
     ...results,
@@ -40,6 +42,7 @@ export const deepenTournamentCompetitor = async (
     availableActions,
     displayName,
     registrations,
+    details,
   };
 };
 

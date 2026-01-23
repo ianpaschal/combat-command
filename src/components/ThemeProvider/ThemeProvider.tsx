@@ -2,6 +2,7 @@ import { ReactNode, useEffect } from 'react';
 
 import { useGetUserPreferences } from '~/services/userPreferences';
 import { ThemeContext } from './ThemeProvider.context';
+import { useResolvedTheme } from './ThemeProvider.hooks';
 
 export interface ThemeProviderProps {
   children: ReactNode;
@@ -11,32 +12,19 @@ export const ThemeProvider = ({
   children,
 }: ThemeProviderProps) => {
   const { data: userPreferences } = useGetUserPreferences({});
-  const theme = userPreferences?.theme || 'system';
+  const preference = userPreferences?.theme || 'system';
+  const theme = useResolvedTheme(preference);
+
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const updateClass = () => {
-      if (theme === 'system') {
-        if (mediaQuery.matches) {
-          document.body.classList.add('dark');
-        } else {
-          document.body.classList.remove('dark');
-        }
-      } else if (theme === 'dark') {
-        document.body.classList.add('dark');
-      } else {
-        document.body.classList.remove('dark');
-      }
-    };
-    updateClass(); // Set initial state
-    if (theme === 'system') {
-      mediaQuery.addEventListener('change', updateClass); // Listen for changes
+    if (theme === 'dark') {
+      document.body.classList.add('dark');
     } else {
-      mediaQuery.removeEventListener('change', updateClass);
+      document.body.classList.remove('dark');
     }
-    return () => mediaQuery.removeEventListener('change', updateClass); // Cleanup
   }, [theme]);
+
   return (
-    <ThemeContext.Provider value={theme}>
+    <ThemeContext.Provider value={{ preference, theme }}>
       {children}
     </ThemeContext.Provider>
   );

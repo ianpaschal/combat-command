@@ -1,3 +1,6 @@
+import { GameSystem } from '@ianpaschal/combat-command-game-systems/common';
+import { registrationDetails as flamesOfWarV4 } from '@ianpaschal/combat-command-game-systems/flamesOfWarV4';
+import { registrationDetails as teamYankeeV2 } from '@ianpaschal/combat-command-game-systems/teamYankeeV2';
 import { z } from 'zod';
 
 import {
@@ -8,6 +11,21 @@ import {
   UserId,
 } from '~/api';
 import { nameVisibilityChangeRequired } from '~/components/TournamentRegistrationForm/TournamentRegistrationForm.utils';
+
+const getDetailsSchema = (tournament: Tournament) => {
+  const options = {
+    alignment: !!tournament.registrationDetails?.alignment,
+    faction: !!tournament.registrationDetails?.faction,
+  };
+  switch (tournament.gameSystem) {
+    case GameSystem.FlamesOfWarV4:
+      return flamesOfWarV4.createSchema(options);
+    case GameSystem.TeamYankeeV2:
+      return teamYankeeV2.createSchema(options);
+    default:
+      throw new Error(`Unsupported game system: ${tournament.gameSystem}`);
+  }
+};
 
 // Helper to convert empty strings and null to undefined
 const emptyToUndefined = <T extends z.ZodTypeAny>(schema: T) => z.preprocess((val) => (val === '' || val === null ? undefined : val), schema);
@@ -28,6 +46,7 @@ export const createSchema = (tournament: Tournament, currentUser: User | null) =
     message: 'Please select a user.',
   }).transform((val) => val as UserId),
   nameVisibilityConsent: z.boolean().optional(),
+  details: getDetailsSchema(tournament),
 }).superRefine((values, ctx) => {
   if (tournament.useTeams && !values.tournamentCompetitorId && !values.tournamentCompetitor?.teamName) {
     ctx.addIssue({
@@ -48,6 +67,10 @@ export const createSchema = (tournament: Tournament, currentUser: User | null) =
 export type SubmitData = z.infer<ReturnType<typeof createSchema>>;
 
 export type FormData = {
+  details: {
+    alignment: string | null;
+    faction: string | null;
+  };
   tournamentCompetitor: {
     teamName: string;
   };
@@ -58,6 +81,10 @@ export type FormData = {
 };
 
 export const defaultValues: FormData = {
+  details: {
+    alignment: null,
+    faction: null,
+  },
   tournamentCompetitor: {
     teamName: '',
   },

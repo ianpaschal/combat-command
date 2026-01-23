@@ -36,7 +36,6 @@ export const editableFields = {
   registrationClosesAt: v.number(),
   listSubmissionClosesAt: v.number(),
 
-  requireRealNames: v.boolean(),
   rulesPackUrl: v.optional(v.string()),
   editionYear: v.optional(v.number()),
 
@@ -55,6 +54,17 @@ export const editableFields = {
     currency: currencyCode,
   })),
   useNationalTeams: v.boolean(),
+
+  // Registrations
+  requireRealNames: v.boolean(),
+  registrationDetails: v.optional(v.object({
+    alignment: v.union(v.literal('optional'), v.literal('required'), v.null()),
+    faction: v.union(v.literal('optional'), v.literal('required'), v.null()),
+  })),
+
+  // FIXME: Should this be stored here, similar to lists being visible, or with reg details above?
+  alignmentsRevealed: v.optional(v.boolean()),
+  factionsRevealed: v.optional(v.boolean()),
 
   // Format
   pairingMethod: tournamentPairingMethod,

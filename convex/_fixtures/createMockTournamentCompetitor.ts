@@ -23,6 +23,10 @@ export const createMockTournamentCompetitor = (
   _id: overrides.id as Id<'tournamentCompetitors'>,
   activeRegistrationCount: 0,
   availableActions: [],
+  details: {
+    alignments: [],
+    factions: [],
+  },
 });
 
 export const createMockTournamentCompetitors = (

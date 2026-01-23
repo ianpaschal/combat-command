@@ -9,6 +9,7 @@ export { usePublishAction } from './actions/usePublishAction';
 export { useStartAction } from './actions/useStartAction';
 export { useStartRoundAction } from './actions/useStartRoundAction';
 export { useSubmitMatchResultAction } from './actions/useSubmitMatchResultAction';
+export { useToggleAlignmentsRevealedAction } from './actions/useToggleAlignmentsRevealedAction';
 export { useUndoStartRoundAction } from './actions/useUndoStartRoundAction';
 export {
   TournamentContextMenu,

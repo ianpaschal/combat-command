@@ -1,6 +1,8 @@
 import { defineTable } from 'convex/server';
 import { v } from 'convex/values';
 
+import { alignment } from '../common/alignment';
+import { faction } from '../common/faction';
 import { scoreAdjustment } from '../common/scoreAdjustment';
 
 export const editableFields = {
@@ -8,6 +10,10 @@ export const editableFields = {
   scoreAdjustments: v.optional(v.array(scoreAdjustment)),
   teamName: v.optional(v.string()),
   tournamentId: v.id('tournaments'),
+  details: v.optional(v.object({
+    alignment: v.optional(alignment),
+    faction: v.optional(faction),
+  })),
 };
 
 /**

@@ -40,6 +40,11 @@ export const deleteTournament = mutation({
   handler: model.deleteTournament,
 });
 
+export const toggleTournamentAlignmentsRevealed = mutation({
+  args: model.toggleTournamentAlignmentsRevealedArgs,
+  handler: model.toggleTournamentAlignmentsRevealed,
+});
+
 export const endTournamentRound = mutation({
   args: model.endTournamentRoundArgs,
   handler: model.endTournamentRound,

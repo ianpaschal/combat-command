@@ -25,7 +25,7 @@ export const TournamentCompetitorAvatar = forwardRef<HTMLDivElement, TournamentC
   const activeRegistrations = tournamentCompetitor.registrations.filter((r) => r.active);
 
   // If competitor has only 1 player, just use the player's avatar:
-  if (!isTeam && activeRegistrations[0].user) {
+  if (!isTeam && activeRegistrations[0]?.user) {
     return (
       <Avatar ref={ref} url={tournamentCompetitor.registrations[0]?.user?.avatarUrl} {...avatarProps} />
     );

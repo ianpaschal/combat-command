@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import { generatePath, useNavigate } from 'react-router-dom';
-import { Table } from '@ianpaschal/combat-command-components';
+import { Button, Table } from '@ianpaschal/combat-command-components';
 import clsx from 'clsx';
 import {
   EyeOff,
@@ -9,9 +9,10 @@ import {
 } from 'lucide-react';
 
 import { TournamentActionKey } from '~/api';
+import { AlignmentGraph } from '~/components/AlignmentGraph';
 import { useAuth } from '~/components/AuthProvider';
 import { EmptyState } from '~/components/EmptyState';
-import { Button } from '~/components/generic/Button';
+import { Tag } from '~/components/generic/Tag';
 import { toast } from '~/components/ToastProvider';
 import { useActions, useTournament } from '~/components/TournamentProvider';
 import { useGetTournamentCompetitorsByTournament } from '~/services/tournamentCompetitors';
@@ -88,20 +89,37 @@ export const TournamentRosterCard = ({
   return (
     <TournamentDetailCard
       className={clsx(className)}
-      title="Roster"
+      title={(
+        <>
+          <span>Roster</span>
+          <Tag>
+            <Users />{`${tournament.playerCount}/${tournament.maxPlayers}`}
+          </Tag>
+        </>
+      )}
       buttons={getControls()}
     >
-      {showLoadingState ? (
-        <div className={styles.TournamentRosterCard_EmptyState}>
-          Loading...
-        </div>
-      ) : (
-        showEmptyState ? (
-          <EmptyState {...emptyStateProps} />
+      {
+        showLoadingState ? (
+          <div className={styles.TournamentRosterCard_EmptyState} >
+            Loading...
+          </div>
         ) : (
-          <Table className={styles.TournamentRosterCard_Table} columns={columns} rows={rows} />
-        )
-      )}
-    </TournamentDetailCard>
+          showEmptyState ? (
+            <EmptyState {...emptyStateProps} />
+          ) : (
+            <>
+              {(tournament.alignmentsVisible || tournament.factionsVisible) && (
+                <div className={styles.TournamentRosterCard_Graphs}>
+                  {tournament.alignmentsVisible && (
+                    <AlignmentGraph />
+                  )}
+                </div>
+              )}
+              <Table className={styles.TournamentRosterCard_Table} columns={columns} rows={rows} />
+            </>
+          )
+        )}
+    </TournamentDetailCard >
   );
 };

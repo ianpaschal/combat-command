@@ -1,5 +1,6 @@
+import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { getTournamentPairingMethodOptions } from '@ianpaschal/combat-command-game-systems/common';
+import { getTournamentPairingMethodOptions, TournamentPairingMethod } from '@ianpaschal/combat-command-game-systems/common';
 
 import { Animate } from '~/components/generic/Animate';
 import { FormField } from '~/components/generic/Form';
@@ -20,9 +21,15 @@ export interface FormatFieldsProps {
 export const FormatFields = ({
   status = 'draft',
 }: FormatFieldsProps): JSX.Element => {
-  const { watch } = useFormContext<TournamentFormData>();
-  const { roundStructure, competitorSize } = watch();
+  const { watch, setValue } = useFormContext<TournamentFormData>();
+  const { roundStructure, competitorSize, pairingMethod } = watch();
   const isTeam = competitorSize > 1;
+
+  useEffect(() => {
+    if (pairingMethod === TournamentPairingMethod.AdjacentAlignment) {
+      setValue('registrationDetails.alignment', 'required');
+    }
+  }, [pairingMethod, setValue]);
 
   // Once a tournament is active, lock some fields
   const allowedEditStatuses = ['draft', 'published'];

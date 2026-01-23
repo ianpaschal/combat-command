@@ -64,6 +64,13 @@ export const tournamentFormSchema = z.object({
     amount: z.coerce.number().min(0),
     currency: z.string().transform((val) => val as CurrencyCode),
   }),
+  registrationDetails: z.optional(z.object({
+    alignment: z.union([z.literal('optional'), z.literal('required'), z.null()]),
+    faction: z.union([z.literal('optional'), z.literal('required'), z.null()]),
+  })),
+
+  alignmentsRevealed: z.boolean(),
+  factionsRevealed: z.boolean(),
 
   // Format Config
   roundCount: z.coerce.number(),
@@ -114,6 +121,12 @@ export const defaultValues: Omit<z.infer<typeof tournamentFormSchema>, 'location
   logoStorageId: '' as StorageId,
   bannerStorageId: '' as StorageId,
   editionYear: 2025,
+  alignmentsRevealed: true,
+  factionsRevealed: false,
+  registrationDetails: {
+    alignment: 'optional',
+    faction: null,
+  },
   startsAt: (() => {
     const date = new Date();
     date.setDate(date.getDate() + 14);
