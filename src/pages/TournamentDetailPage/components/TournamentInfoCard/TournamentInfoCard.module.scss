@@ -9,5 +9,7 @@
 .TournamentInfoCard {
   &_InfoBlock {
     padding: 1rem var(--container-padding-x);
+    word-break: normal;
+    overflow-wrap: anywhere;
   }
 }
