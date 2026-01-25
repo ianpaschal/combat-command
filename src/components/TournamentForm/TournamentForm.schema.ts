@@ -129,7 +129,7 @@ export const defaultValues: Omit<z.infer<typeof tournamentFormSchema>, 'location
   logoStorageId: '' as StorageId,
   bannerStorageId: '' as StorageId,
   editionYear: new Date().getFullYear(),
-  alignmentsRevealed: true,
+  alignmentsRevealed: false,
   factionsRevealed: false,
   registrationDetails: {
     alignment: 'optional',
