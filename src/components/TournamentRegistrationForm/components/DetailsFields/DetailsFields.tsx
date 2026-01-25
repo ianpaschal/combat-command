@@ -33,8 +33,8 @@ export const DetailsFields = ({
     }
   }, [declaredFaction, getFactionAlignment, setValue]);
 
-  const showAlignmentField = tournament.registrationDetails?.alignment;
-  const showFactionField = tournament.registrationDetails?.faction;
+  const showAlignmentField = !!tournament.registrationDetails?.alignment;
+  const showFactionField = !!tournament.registrationDetails?.faction;
 
   return (
     <div className={clsx(styles.FactionFields, className)}>

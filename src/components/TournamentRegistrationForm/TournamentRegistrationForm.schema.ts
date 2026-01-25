@@ -13,15 +13,15 @@ import {
 import { nameVisibilityChangeRequired } from '~/components/TournamentRegistrationForm/TournamentRegistrationForm.utils';
 
 const getDetailsSchema = (tournament: Tournament) => {
-  const options = {
-    alignment: !!tournament.registrationDetails?.alignment,
-    faction: !!tournament.registrationDetails?.faction,
+  const requiredFields = {
+    alignment: tournament.registrationDetails?.alignment === 'required',
+    faction: tournament.registrationDetails?.faction === 'required',
   };
   switch (tournament.gameSystem) {
     case GameSystem.FlamesOfWarV4:
-      return flamesOfWarV4.createSchema(options);
+      return flamesOfWarV4.createSchema(requiredFields);
     case GameSystem.TeamYankeeV2:
-      return teamYankeeV2.createSchema(options);
+      return teamYankeeV2.createSchema(requiredFields);
     default:
       throw new Error(`Unsupported game system: ${tournament.gameSystem}`);
   }
@@ -31,11 +31,11 @@ const getDetailsSchema = (tournament: Tournament) => {
 const emptyToUndefined = <T extends z.ZodTypeAny>(schema: T) => z.preprocess((val) => (val === '' || val === null ? undefined : val), schema);
 
 export const createSchema = (tournament: Tournament, currentUser: User | null) => z.object({
-  tournamentCompetitor: emptyToUndefined(z.object({
+  tournamentCompetitor: z.object({
     teamName: emptyToUndefined(z.string({
       message: 'Please provide a team name.',
     }).min(2, 'Must be at least 2 characters.').optional()), // FIXME: THIS IS NOT WORKING B/C country library interprets 2 and 3 char strings as country codes
-  }).optional()),
+  }).optional(),
   tournamentCompetitorId: emptyToUndefined(z.string({
     message: 'Please select a team.',
   }).transform((val) => val as TournamentCompetitorId).optional()),
