@@ -172,7 +172,7 @@ import type * as _model_tournamentRegistrations__helpers_getDeleteSuccessMessage
 import type * as _model_tournamentRegistrations_index from "../_model/tournamentRegistrations/index.js";
 import type * as _model_tournamentRegistrations_mutations_createTournamentRegistration from "../_model/tournamentRegistrations/mutations/createTournamentRegistration.js";
 import type * as _model_tournamentRegistrations_mutations_deleteTournamentRegistration from "../_model/tournamentRegistrations/mutations/deleteTournamentRegistration.js";
-import type * as _model_tournamentRegistrations_mutations_toggleActive from "../_model/tournamentRegistrations/mutations/toggleActive.js";
+import type * as _model_tournamentRegistrations_mutations_toggleTournamentRegistrationActive from "../_model/tournamentRegistrations/mutations/toggleTournamentRegistrationActive.js";
 import type * as _model_tournamentRegistrations_queries_getTournamentRegistrationByTournamentUser from "../_model/tournamentRegistrations/queries/getTournamentRegistrationByTournamentUser.js";
 import type * as _model_tournamentRegistrations_queries_getTournamentRegistrationsByCompetitor from "../_model/tournamentRegistrations/queries/getTournamentRegistrationsByCompetitor.js";
 import type * as _model_tournamentRegistrations_queries_getTournamentRegistrationsByTournament from "../_model/tournamentRegistrations/queries/getTournamentRegistrationsByTournament.js";
@@ -477,7 +477,7 @@ declare const fullApi: ApiFromModules<{
   "_model/tournamentRegistrations/index": typeof _model_tournamentRegistrations_index;
   "_model/tournamentRegistrations/mutations/createTournamentRegistration": typeof _model_tournamentRegistrations_mutations_createTournamentRegistration;
   "_model/tournamentRegistrations/mutations/deleteTournamentRegistration": typeof _model_tournamentRegistrations_mutations_deleteTournamentRegistration;
-  "_model/tournamentRegistrations/mutations/toggleActive": typeof _model_tournamentRegistrations_mutations_toggleActive;
+  "_model/tournamentRegistrations/mutations/toggleTournamentRegistrationActive": typeof _model_tournamentRegistrations_mutations_toggleTournamentRegistrationActive;
   "_model/tournamentRegistrations/queries/getTournamentRegistrationByTournamentUser": typeof _model_tournamentRegistrations_queries_getTournamentRegistrationByTournamentUser;
   "_model/tournamentRegistrations/queries/getTournamentRegistrationsByCompetitor": typeof _model_tournamentRegistrations_queries_getTournamentRegistrationsByCompetitor;
   "_model/tournamentRegistrations/queries/getTournamentRegistrationsByTournament": typeof _model_tournamentRegistrations_queries_getTournamentRegistrationsByTournament;

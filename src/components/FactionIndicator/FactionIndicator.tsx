@@ -4,28 +4,28 @@ import clsx from 'clsx';
 import { Alignment, Faction } from '~/api';
 import { InfoPopover } from '~/components/generic/InfoPopover';
 
-import styles from './AlignmentIndicator.module.scss';
+import styles from './FactionIndicator.module.scss';
 
-export interface AlignmentIndicatorProps {
+export interface FactionIndicatorProps {
   alignments: Alignment[];
   factions: Faction[];
   className?: string;
 }
 
-export const AlignmentIndicator = ({
+export const FactionIndicator = ({
   alignments,
   // factions,
   className,
-}: AlignmentIndicatorProps): JSX.Element => {
+}: FactionIndicatorProps): JSX.Element => {
 
   // FIXME: Be smarter about showing competitors (teams) with multiple alignments
   const primaryAlignment = alignments[0];
 
   let primaryAlignmentColor = 'mixed';
-  if (['allies', 'nato'].includes(primaryAlignment)) {
+  if (primaryAlignment && ['allies', 'nato'].includes(primaryAlignment)) {
     primaryAlignmentColor = 'blue';
   }
-  if (['axis', 'warsaw_pact'].includes(primaryAlignment)) {
+  if (primaryAlignment && ['axis', 'warsaw_pact'].includes(primaryAlignment)) {
     primaryAlignmentColor = 'red';
   }
 

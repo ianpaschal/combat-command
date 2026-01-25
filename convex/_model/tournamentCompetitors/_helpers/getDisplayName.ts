@@ -27,7 +27,7 @@ export const getDisplayName = async (
   }
 
   // If competitor has only 1 player, just use the player's name:
-  if (tournament?.competitorSize === 1 && activeRegistrations[0]?.user) {
+  if (tournament.competitorSize === 1 && activeRegistrations[0]?.user) {
     return activeRegistrations[0].user.displayName;
   }
 

@@ -6,27 +6,24 @@ import {
 
 import { MutationCtx } from '../../../_generated/server';
 import { checkAuth } from '../../common/_helpers/checkAuth';
-import { alignment } from '../../common/alignment';
 import { getErrorMessage } from '../../common/errors';
-import { faction } from '../../common/faction';
 import { MutationResponse } from '../../common/types';
 import { VisibilityLevel } from '../../common/VisibilityLevel';
 import { getTournamentOrganizersByTournament } from '../../tournamentOrganizers';
 import { checkUserIsRegistered } from '../_helpers/checkUserIsRegistered';
 import { getCreateSuccessMessage } from '../_helpers/getCreateSuccessMessage';
+import { editableFields } from '../table';
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const { tournamentCompetitorId, ...restEditableFields } = editableFields;
 
 export const createTournamentRegistrationArgs = v.object({
-  userId: v.id('users'),
-  tournamentId: v.id('tournaments'),
+  ...restEditableFields,
   tournamentCompetitorId: v.optional(v.id('tournamentCompetitors')),
   tournamentCompetitor: v.optional(v.object({
     teamName: v.optional(v.string()),
   })),
   nameVisibilityConsent: v.optional(v.boolean()),
-  details: v.optional(v.object({
-    alignment: v.optional(alignment),
-    faction: v.optional(faction),
-  })),
 });
 
 export const createTournamentRegistration = async (

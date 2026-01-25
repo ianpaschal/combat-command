@@ -132,7 +132,7 @@ export const CompetitorFields = ({
           { label: 'Do Not Ask', value: null },
         ]} />
       </FormField>
-      <FormField name="factionsRevealed" label="Factions Visible to Players" description="You always can change this later.">
+      <FormField name="factionsRevealed" label="Factions Visible to Players" description="You can always change this later.">
         <Switch />
       </FormField>
       <FormField name="requireRealNames" label="Require Real Names?" description="Users will be prompted to set their name visibility to 'Tournaments' when registering.">

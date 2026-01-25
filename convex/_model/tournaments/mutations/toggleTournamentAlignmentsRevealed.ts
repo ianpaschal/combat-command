@@ -16,7 +16,7 @@ export const toggleTournamentAlignmentsRevealedArgs = v.object({
 export const toggleTournamentAlignmentsRevealed = async (
   ctx: MutationCtx,
   args: Infer<typeof toggleTournamentAlignmentsRevealedArgs>,
-): Promise<void> => {
+): Promise<boolean> => {
   // --- CHECK AUTH ----
   const userId = await checkAuth(ctx);
 
@@ -40,12 +40,13 @@ export const toggleTournamentAlignmentsRevealed = async (
     throw new ConvexError(getErrorMessage('USER_DOES_NOT_HAVE_PERMISSION'));
   }
 
-  const newValue = !tournament.alignmentsRevealed;
   // ---- PRIMARY ACTIONS ----
+  const alignmentsRevealed = !tournament.alignmentsRevealed;
   await ctx.db.patch(args.id, {
-    alignmentsRevealed: newValue,
-    ...(newValue === false && {
+    alignmentsRevealed,
+    ...(alignmentsRevealed === false && {
       factionsRevealed: false,
     }),
   });
+  return alignmentsRevealed;
 };

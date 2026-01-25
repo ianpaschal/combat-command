@@ -16,7 +16,7 @@ export const toggleTournamentCompetitorActiveArgs = v.object({
 export const toggleTournamentCompetitorActive = async (
   ctx: MutationCtx,
   args: Infer<typeof toggleTournamentCompetitorActiveArgs>,
-): Promise<void> => {
+): Promise<boolean> => {
   // --- CHECK AUTH ----
   const userId = await checkAuth(ctx);
 
@@ -48,7 +48,7 @@ export const toggleTournamentCompetitorActive = async (
   }
 
   // ---- PRIMARY ACTIONS ----
-  await ctx.db.patch(args.id, {
-    active: !tournamentCompetitor.active,
-  });
+  const active = !tournamentCompetitor.active;
+  await ctx.db.patch(args.id, { active });
+  return active;
 };

@@ -3,7 +3,7 @@ import { ColumnDef } from '@ianpaschal/combat-command-components';
 import { ChevronRight } from 'lucide-react';
 
 import { Tournament, TournamentCompetitor } from '~/api';
-import { AlignmentIndicator } from '~/components/AlignmentIndicator/AlignmentIndicator';
+import { FactionIndicator } from '~/components/FactionIndicator';
 import { Button } from '~/components/generic/Button';
 import { IdentityBadge } from '~/components/IdentityBadge';
 import { TournamentCompetitorActiveToggle, TournamentCompetitorPlayerCount } from '~/components/TournamentCompetitorProvider';
@@ -26,7 +26,7 @@ export const getTournamentCompetitorTableConfig = (
     xAlign: 'center',
     width: 100,
     renderCell: (r) => (
-      <AlignmentIndicator {...r.details} />
+      <FactionIndicator {...r.details} />
     ),
   } as ColumnDef<TournamentCompetitor>] : []),
   { key: 'spacer', width: '1fr' },

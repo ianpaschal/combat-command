@@ -28,6 +28,7 @@ export const TournamentContextMenu = ({
         // Lifecycle
         actions[TournamentActionKey.Publish],
         actions[TournamentActionKey.Cancel],
+        actions[TournamentActionKey.ToggleAlignmentsRevealed],
         actions[TournamentActionKey.Start],
         actions[TournamentActionKey.ConfigureRound],
         actions[TournamentActionKey.StartRound],

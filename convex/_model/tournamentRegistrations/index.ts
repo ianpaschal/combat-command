@@ -24,7 +24,7 @@ export {
 export {
   toggleTournamentRegistrationActive,
   toggleTournamentRegistrationActiveArgs,
-} from './mutations/toggleActive';
+} from './mutations/toggleTournamentRegistrationActive';
 
 // Queries
 export {

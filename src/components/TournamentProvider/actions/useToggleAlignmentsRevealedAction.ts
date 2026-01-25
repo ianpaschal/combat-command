@@ -9,12 +9,12 @@ export const useToggleAlignmentsRevealedAction = (
   subject: Tournament,
 ): ActionDefinition<TournamentActionKey> | null => {
   const { mutation } = useToggleTournamentAlignmentsRevealed({
-    onSuccess: () => toast.success(`${subject.displayName} is now active!`),
+    onSuccess: (revealed): void => toast.success(`${subject.displayName} is now ${revealed ? 'active' : 'inactive'}.`),
   });
   if (subject.availableActions.includes(KEY)) {
     return {
       key: KEY,
-      label: subject.alignmentsRevealed ? 'Make Inactive' : 'Make AlignmentsRevealed',
+      label: subject.alignmentsRevealed ? 'Hide Alignments' : 'Reveal Alignments',
       handler: () => mutation({ id: subject._id }),
     };
   }

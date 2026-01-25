@@ -62,7 +62,6 @@ export const editableFields = {
     faction: v.union(v.literal('optional'), v.literal('required'), v.null()),
   })),
 
-  // FIXME: Should this be stored here, similar to lists being visible, or with reg details above?
   alignmentsRevealed: v.optional(v.boolean()),
   factionsRevealed: v.optional(v.boolean()),
 
