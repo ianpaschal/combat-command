@@ -14,6 +14,7 @@ import { usePublishAction } from './actions/usePublishAction';
 import { useStartAction } from './actions/useStartAction';
 import { useStartRoundAction } from './actions/useStartRoundAction';
 import { useSubmitMatchResultAction } from './actions/useSubmitMatchResultAction';
+import { useToggleAlignmentsRevealedAction } from './actions/useToggleAlignmentsRevealedAction';
 import { useUndoStartRoundAction } from './actions/useUndoStartRoundAction';
 import { tournamentContext } from './TournamentProvider.context';
 
@@ -35,6 +36,7 @@ export const useActions = (
 
   // Lifecycle
   usePublishAction(subject),
+  useToggleAlignmentsRevealedAction(subject),
   useStartAction(subject),
   useConfigureRoundAction(subject),
   useStartRoundAction(subject),

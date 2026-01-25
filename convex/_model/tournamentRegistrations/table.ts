@@ -1,10 +1,17 @@
 import { defineTable } from 'convex/server';
 import { v } from 'convex/values';
 
+import { alignment } from '../common/alignment';
+import { faction } from '../common/faction';
+
 export const editableFields = {
   userId: v.id('users'),
   tournamentId: v.id('tournaments'),
   tournamentCompetitorId: v.id('tournamentCompetitors'),
+  details: v.optional(v.object({
+    alignment: v.optional(alignment),
+    faction: v.optional(faction),
+  })),
 };
 
 /**

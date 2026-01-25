@@ -5,6 +5,12 @@ import { Id } from '../convex/_generated/dataModel';
 export { api };
 
 // Common
+export {
+  type Alignment,
+} from '../convex/_model/common/alignment';
+export {
+  type Faction,
+} from '../convex/_model/common/faction';
 export type {
   RankingFactor,
   TournamentStatus,

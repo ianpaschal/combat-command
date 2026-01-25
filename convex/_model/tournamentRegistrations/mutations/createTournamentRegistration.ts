@@ -12,10 +12,13 @@ import { VisibilityLevel } from '../../common/VisibilityLevel';
 import { getTournamentOrganizersByTournament } from '../../tournamentOrganizers';
 import { checkUserIsRegistered } from '../_helpers/checkUserIsRegistered';
 import { getCreateSuccessMessage } from '../_helpers/getCreateSuccessMessage';
+import { editableFields } from '../table';
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const { tournamentCompetitorId, ...restEditableFields } = editableFields;
 
 export const createTournamentRegistrationArgs = v.object({
-  userId: v.id('users'),
-  tournamentId: v.id('tournaments'),
+  ...restEditableFields,
   tournamentCompetitorId: v.optional(v.id('tournamentCompetitors')),
   tournamentCompetitor: v.optional(v.object({
     teamName: v.optional(v.string()),
@@ -98,6 +101,7 @@ export const createTournamentRegistration = async (
     tournamentCompetitorId,
     tournamentId: args.tournamentId,
     userId: args.userId,
+    details: args.details,
   });
 
   // Update user's name visibility if consent given:

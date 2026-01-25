@@ -50,6 +50,10 @@ export {
   startTournamentRoundArgs,
 } from './mutations/startTournamentRound';
 export {
+  toggleTournamentAlignmentsRevealed,
+  toggleTournamentAlignmentsRevealedArgs,
+} from './mutations/toggleTournamentAlignmentsRevealed';
+export {
   updateTournament,
   updateTournamentArgs,
 } from './mutations/updateTournament';

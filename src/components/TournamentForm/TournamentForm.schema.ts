@@ -64,6 +64,13 @@ export const tournamentFormSchema = z.object({
     amount: z.coerce.number().min(0),
     currency: z.string().transform((val) => val as CurrencyCode),
   }),
+  registrationDetails: z.optional(z.object({
+    alignment: z.union([z.literal('optional'), z.literal('required'), z.null()]),
+    faction: z.union([z.literal('optional'), z.literal('required'), z.null()]),
+  })),
+
+  alignmentsRevealed: z.boolean().optional().default(false),
+  factionsRevealed: z.boolean().optional().default(false),
 
   // Format Config
   roundCount: z.coerce.number(),
@@ -81,6 +88,14 @@ export const tournamentFormSchema = z.object({
 }).refine(validateGameSystemConfig, {
   message: 'Invalid config for the selected game system.',
   path: ['gameSystemConfig'], // Highlight the game_system_config field in case of error
+}).superRefine((data, ctx) => {
+  if (data.pairingMethod === TournamentPairingMethod.AdjacentAlignment && data.competitorSize > 1) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'Adjacent alignment (red vs. blue) pairing is not available for team competitions.',
+      path: ['pairingMethod'],
+    });
+  }
 });
 
 export const tournamentFormResolver = zodResolver(tournamentFormSchema);
@@ -113,7 +128,13 @@ export const defaultValues: Omit<z.infer<typeof tournamentFormSchema>, 'location
   rankingFactors: ['total_wins'],
   logoStorageId: '' as StorageId,
   bannerStorageId: '' as StorageId,
-  editionYear: 2025,
+  editionYear: new Date().getFullYear(),
+  alignmentsRevealed: false,
+  factionsRevealed: false,
+  registrationDetails: {
+    alignment: 'optional',
+    faction: null,
+  },
   startsAt: (() => {
     const date = new Date();
     date.setDate(date.getDate() + 14);

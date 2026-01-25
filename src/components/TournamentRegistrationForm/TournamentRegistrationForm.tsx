@@ -13,6 +13,7 @@ import { useGetTournamentCompetitorsByTournament } from '~/services/tournamentCo
 import { useGetTournamentRegistrationsByTournament } from '~/services/tournamentRegistrations';
 import { getEtcCountryOptions } from '~/utils/common/getCountryOptions';
 import { validateForm } from '~/utils/validateForm';
+import { DetailsFields } from './components/DetailsFields';
 import {
   createSchema,
   defaultValues,
@@ -136,6 +137,9 @@ export const TournamentRegistrationForm = ({
             )}
           </FormField>
         </div>
+      )}
+      {tournament.registrationDetails && (
+        <DetailsFields tournament={tournament} />
       )}
       {showNameVisibilityConsentField && (
         <FormField name="nameVisibilityConsent" label="Allow TO and fellow players to see name.">

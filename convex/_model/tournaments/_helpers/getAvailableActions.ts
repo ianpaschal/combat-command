@@ -29,6 +29,10 @@ export enum TournamentActionKey {
 
   // TODO: UndoCancel
 
+  ToggleAlignmentsRevealed = 'toggleAlignmentsRevealed',
+
+  ToggleFactionsRevealed = 'toggleFactionsRevealed',
+
   /** Set a published Tournament's status to 'active'. */
   Start = 'start',
 
@@ -118,6 +122,11 @@ export const getAvailableActions = async (
 
   if (isOrganizer && doc.status !== 'draft' && !hasCurrentRound) {
     actions.push(TournamentActionKey.AddPlayer);
+  }
+
+  if (isOrganizer) {
+    actions.push(TournamentActionKey.ToggleAlignmentsRevealed);
+    actions.push(TournamentActionKey.ToggleFactionsRevealed);
   }
  
   if (isOrganizer && doc.status === 'published') { // TODO: Check for at least 2 competitors

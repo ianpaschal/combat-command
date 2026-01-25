@@ -8,7 +8,7 @@
 @use "/src/style/variables";
 
 .TournamentDetailCard {
-  @include flex.column($gap: 0);
+  @include flex.column($gap: 2rem);
 
   overflow: hidden;
 
@@ -18,12 +18,16 @@
 
     position: relative;
     box-sizing: content-box; // Make the height apply to the inside, without padding
-    padding: 1rem var(--container-padding-x);
+    padding: 1rem var(--container-padding-x) 0;
 
     &_Actions {
       @include flex.row($gap: 0.5rem, $xAlign: center);
 
       margin-left: auto;
+    }
+
+    h2 {
+      @include flex.row($yAlign: center);
     }
   }
 }

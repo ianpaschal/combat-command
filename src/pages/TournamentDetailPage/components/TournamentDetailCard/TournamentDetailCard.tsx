@@ -2,6 +2,7 @@ import {
   cloneElement,
   HTMLAttributes,
   ReactElement,
+  ReactNode,
 } from 'react';
 import clsx from 'clsx';
 
@@ -9,8 +10,8 @@ import { Card } from '~/components/generic/Card';
 
 import styles from './TournamentDetailCard.module.scss';
 
-export interface TournamentDetailCardProps extends HTMLAttributes<HTMLDivElement> {
-  title?: string;
+export interface TournamentDetailCardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
+  title?: ReactNode;
   buttons?: ReactElement[];
 }
 

@@ -9,7 +9,7 @@ export const useToggleActiveAction = (
   subject: TournamentCompetitor,
 ): ActionDefinition<TournamentCompetitorActionKey> | null => {
   const { mutation } = useToggleTournamentCompetitorActive({
-    onSuccess: () => toast.success(`${subject.displayName} is now active!`),
+    onSuccess: (active): void => toast.success(`${subject.displayName} is now ${active ? 'active' : 'inactive'}.`),
   });
   if (subject.availableActions.includes(KEY)) {
     return {

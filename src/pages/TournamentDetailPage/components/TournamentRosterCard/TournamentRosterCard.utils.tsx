@@ -3,6 +3,7 @@ import { ColumnDef } from '@ianpaschal/combat-command-components';
 import { ChevronRight } from 'lucide-react';
 
 import { Tournament, TournamentCompetitor } from '~/api';
+import { FactionIndicator } from '~/components/FactionIndicator';
 import { Button } from '~/components/generic/Button';
 import { IdentityBadge } from '~/components/IdentityBadge';
 import { TournamentCompetitorActiveToggle, TournamentCompetitorPlayerCount } from '~/components/TournamentCompetitorProvider';
@@ -15,32 +16,36 @@ export const getTournamentCompetitorTableConfig = (
   {
     key: 'identity',
     label: tournament.useTeams ? 'Team' : 'Player',
-    width: '1fr',
     xAlign: 'left',
     renderCell: (r) => (
       <IdentityBadge competitor={r} />
     ),
   },
-  ...(tournament.useTeams ? [
-    {
-      key: 'players',
-      label: 'Players',
-      xAlign: 'left',
-      renderCell: (r) => (
-        <TournamentCompetitorPlayerCount tournamentCompetitor={r} />
-      ),
-    } as ColumnDef<TournamentCompetitor>,
-  ] : []),
-  ...(tournament.status === 'active' ? [
-    {
-      key: 'active',
-      label: 'Ready',
-      xAlign: 'center',
-      renderCell: (r) => (
-        <TournamentCompetitorActiveToggle tournamentCompetitor={r} />
-      ),
-    } as ColumnDef<TournamentCompetitor>,
-  ] : []),
+  ...(tournament.alignmentsVisible ? [{
+    key: 'alignments',
+    xAlign: 'center',
+    width: 100,
+    renderCell: (r) => (
+      <FactionIndicator {...r.details} />
+    ),
+  } as ColumnDef<TournamentCompetitor>] : []),
+  { key: 'spacer', width: '1fr' },
+  ...(tournament.useTeams ? [{
+    key: 'players',
+    label: 'Players',
+    xAlign: 'left',
+    renderCell: (r) => (
+      <TournamentCompetitorPlayerCount tournamentCompetitor={r} />
+    ),
+  } as ColumnDef<TournamentCompetitor>] : []),
+  ...(tournament.status === 'active' ? [{
+    key: 'active',
+    label: 'Ready',
+    xAlign: 'center',
+    renderCell: (r) => (
+      <TournamentCompetitorActiveToggle tournamentCompetitor={r} />
+    ),
+  } as ColumnDef<TournamentCompetitor>] : []),
   {
     key: 'viewDetails',
     xAlign: 'center',

@@ -22,6 +22,7 @@ export const useEndTournamentRound = createMutationHook(api.tournaments.endTourn
 export const usePublishTournament = createMutationHook(api.tournaments.publishTournament);
 export const useStartTournament = createMutationHook(api.tournaments.startTournament);
 export const useStartTournamentRound = createMutationHook(api.tournaments.startTournamentRound);
+export const useToggleTournamentAlignmentsRevealed = createMutationHook(api.tournaments.toggleTournamentAlignmentsRevealed);
 
 // Actions
 export const useExportFowV4TournamentMatchData = createActionHook(api.tournaments.exportFowV4TournamentMatchData);

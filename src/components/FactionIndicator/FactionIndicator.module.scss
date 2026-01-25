@@ -1,0 +1,54 @@
+@use "/src/style/variables";
+@use "/src/style/flex";
+
+@import "@radix-ui/colors/blue-dark.css";
+@import "@radix-ui/colors/blue.css";
+@import "@radix-ui/colors/tomato-dark.css";
+@import "@radix-ui/colors/tomato.css";
+@import "@radix-ui/colors/plum-dark.css";
+@import "@radix-ui/colors/plum.css";
+@import "@radix-ui/colors/gray-dark.css";
+@import "@radix-ui/colors/gray.css";
+
+.FactionIndicator {
+  --red: var(--tomato-9);
+  --blue: var(--blue-9);
+  --background: linear-gradient(90deg, var(--blue) 50%, var(--red) 50%);
+
+  position: relative;
+
+  flex: 0 0 auto;
+  align-self: center;
+
+  width: 1.5rem;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  min-height: 1.5rem;
+
+  &[data-color="red"] {
+    --background: var(--red);
+  }
+
+  &[data-color="blue"] {
+    --background: var(--blue);
+  }
+
+  &_Ring {
+    position: absolute;
+    inset: -0.25rem;
+
+    opacity: 0.25;
+    background: var(--background);
+    border-radius: 50%;
+  }
+
+  &_Center {
+    position: absolute;
+    inset: 0;
+    background: var(--background);
+    border-radius: 50%;
+
+    // outline: var(--border-width) solid var(--border-color-default);
+    // outline-offset: calc(-1 * var(--border-width));
+  }
+}

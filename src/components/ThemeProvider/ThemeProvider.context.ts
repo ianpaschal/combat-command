@@ -1,5 +1,11 @@
 import { createContext } from 'react';
 
 import { ThemePreference } from '~/api';
+import { ResolvedTheme } from './ThemeProvider.hooks';
 
-export const ThemeContext = createContext<ThemePreference | null>(null);
+export interface ThemeContextValue {
+  preference: ThemePreference;
+  theme: ResolvedTheme;
+}
+
+export const ThemeContext = createContext<ThemeContextValue | null>(null);

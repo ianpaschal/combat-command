@@ -82,7 +82,7 @@ describe('generateDraftPairings', () => {
 
     it('Does allow repeat pairings when explicitly enabled.', () => {
       // ---- Act ----
-      const pairings = generateDraftPairings(competitors, true);
+      const pairings = generateDraftPairings(competitors, { allowRepeats: true });
 
       // ---- Assert ----
       expect(pairings.length).toBe(2);
