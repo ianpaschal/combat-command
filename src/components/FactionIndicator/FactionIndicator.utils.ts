@@ -4,7 +4,7 @@ import { Alignment as TeamYankeeV2 } from '@ianpaschal/combat-command-game-syste
 import { Alignment } from '~/api';
 
 export const getAlignmentColor = (
-  alignment: Alignment,
+  alignment?: Alignment,
 ): 'red' | 'blue' | 'mixed' => {
   if (alignment === FlamesOfWarV4.Allies) {
     return 'blue';

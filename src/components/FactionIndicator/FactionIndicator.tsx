@@ -3,6 +3,7 @@ import clsx from 'clsx';
 
 import { Alignment, Faction } from '~/api';
 import { InfoPopover } from '~/components/generic/InfoPopover';
+import { getAlignmentColor } from './FactionIndicator.utils';
 
 import styles from './FactionIndicator.module.scss';
 
@@ -21,17 +22,12 @@ export const FactionIndicator = ({
   // FIXME: Be smarter about showing competitors (teams) with multiple alignments
   const primaryAlignment = alignments[0];
 
-  let primaryAlignmentColor = 'mixed';
-  if (primaryAlignment && ['allies', 'nato'].includes(primaryAlignment)) {
-    primaryAlignmentColor = 'blue';
-  }
-  if (primaryAlignment && ['axis', 'warsaw_pact'].includes(primaryAlignment)) {
-    primaryAlignmentColor = 'red';
-  }
+  const color = getAlignmentColor(primaryAlignment);
+  const displayName = getAlignmentDisplayName(primaryAlignment) ?? 'Unknown Alignment';
 
   return (
-    <InfoPopover content={getAlignmentDisplayName(primaryAlignment) ?? 'Unknown Alignment'}>
-      <div className={clsx(styles.FactionIndicator, className)} data-color={primaryAlignmentColor}>
+    <InfoPopover content={displayName}>
+      <div className={clsx(styles.FactionIndicator, className)} data-color={color}>
         <div className={styles.FactionIndicator_Ring} />
         <div className={styles.FactionIndicator_Center} />
       </div>

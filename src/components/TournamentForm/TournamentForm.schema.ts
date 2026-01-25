@@ -69,8 +69,8 @@ export const tournamentFormSchema = z.object({
     faction: z.union([z.literal('optional'), z.literal('required'), z.null()]),
   })),
 
-  alignmentsRevealed: z.boolean(),
-  factionsRevealed: z.boolean(),
+  alignmentsRevealed: z.boolean().optional().default(false),
+  factionsRevealed: z.boolean().optional().default(false),
 
   // Format Config
   roundCount: z.coerce.number(),
