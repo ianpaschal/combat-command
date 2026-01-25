@@ -1,7 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Read(//Users/ian/Code/combat-command-game-systems/src/battlefront/_shared/schema/**)"
-    ]
-  }
-}
