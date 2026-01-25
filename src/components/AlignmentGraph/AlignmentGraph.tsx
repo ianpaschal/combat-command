@@ -65,6 +65,9 @@ export const AlignmentGraph = ({
       return acc;
     }, {} as Partial<Record<Alignment | 'unknown', number>>);
 
+    const emptySpots = tournament.maxPlayers - tournamentRegistrations.length;
+    alignmentGroups['unknown'] = (alignmentGroups['unknown'] ?? 0) + emptySpots;
+
     if (tournament.gameSystem === GameSystem.FlamesOfWarV4) {
       leftLabel = 'Allies';
       rightLabel = 'Axis';
