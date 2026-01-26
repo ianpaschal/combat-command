@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import {
+  getDynamicPointsVersionOptions,
   getEraOptions,
   getLessonsFromTheFrontVersionOptions,
   getMissionMatrixOptions,
   getMissionPackVersionOptions,
-  MissionMatrix,
 } from '@ianpaschal/combat-command-game-systems/flamesOfWarV4';
 import clsx from 'clsx';
 
@@ -35,12 +35,11 @@ export const FlamesOfWarV4GameSystemConfigFields = ({
   const missionMatrixOptions = getMissionMatrixOptions(gameSystemConfig.missionPackVersion);
   const lessonsFromTheFrontVersionOptions = getLessonsFromTheFrontVersionOptions();
   const missionPackVersionOptions = getMissionPackVersionOptions();
+  const dynamicPointsVersionOptions = getDynamicPointsVersionOptions(gameSystemConfig.era);
 
-  useAutoFillSelect(
-    missionMatrixOptions,
-    gameSystemConfig?.missionMatrix,
-    (value: MissionMatrix) => setValue('gameSystemConfig.missionMatrix', value),
-  );
+  useAutoFillSelect(dynamicPointsVersionOptions, gameSystemConfig.dynamicPointsVersion, (value) => setValue('gameSystemConfig.dynamicPointsVersion', value));
+
+  useAutoFillSelect(missionMatrixOptions, gameSystemConfig.missionMatrix, (value) => setValue('gameSystemConfig.missionMatrix', value));
 
   return (
     <div className={clsx(styles.FlamesOfWarV4GameSystemConfigFields, className)}>
@@ -64,6 +63,13 @@ export const FlamesOfWarV4GameSystemConfigFields = ({
               disabled={lessonsFromTheFrontVersionOptions.length < 2}
             >
               <InputSelect options={lessonsFromTheFrontVersionOptions} />
+            </FormField>
+            <FormField
+              name="gameSystemConfig.dynamicPointsVersion"
+              label="Dynamic Points Version"
+              disabled={dynamicPointsVersionOptions.length < 2}
+            >
+              <InputSelect options={dynamicPointsVersionOptions} />
             </FormField>
           </div>
           <div className={styles.FlamesOfWarV4GameSystemConfigFields_Missions}>
