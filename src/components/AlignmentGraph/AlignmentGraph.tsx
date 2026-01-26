@@ -78,6 +78,11 @@ export const AlignmentGraph = ({
           color: themeBlue,
         },
         {
+          label: 'Unknown',
+          value: alignmentGroups['unknown'] ?? 0,
+          color: themeGray,
+        },
+        {
           label: 'Flexible',
           value: alignmentGroups[FlamesOfWarV4.Flexible] ?? 0,
           color: themePurple,
@@ -100,6 +105,11 @@ export const AlignmentGraph = ({
           color: themeBlue,
         },
         {
+          label: 'Unknown',
+          value: alignmentGroups['unknown'] ?? 0,
+          color: themeGray,
+        },
+        {
           label: 'Flexible',
           value: alignmentGroups[TeamYankeeV2.Flexible] ?? 0,
           color: themePurple,
@@ -112,11 +122,6 @@ export const AlignmentGraph = ({
       ]);
     }
 
-    sections.push({
-      label: 'Unknown',
-      value: alignmentGroups['unknown'] ?? 0,
-      color: themeGray,
-    });
   }
 
   return (
