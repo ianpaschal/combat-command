@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import {
+  getDynamicPointsVersionOptions,
   getEraOptions,
   getFieldManual101VersionOptions,
   getMissionMatrixOptions,
   getMissionPackVersionOptions,
-  MissionMatrix,
 } from '@ianpaschal/combat-command-game-systems/teamYankeeV2';
 import clsx from 'clsx';
 
@@ -35,12 +35,11 @@ export const TeamYankeeV2GameSystemConfigFields = ({
   const missionMatrixOptions = getMissionMatrixOptions(gameSystemConfig.missionPackVersion);
   const fieldManual101VersionOptions = getFieldManual101VersionOptions();
   const missionPackVersionOptions = getMissionPackVersionOptions();
+  const dynamicPointsVersionOptions = getDynamicPointsVersionOptions(gameSystemConfig.era);
 
-  useAutoFillSelect(
-    missionMatrixOptions,
-    gameSystemConfig?.missionMatrix,
-    (value: MissionMatrix) => setValue('gameSystemConfig.missionMatrix', value),
-  );
+  useAutoFillSelect(dynamicPointsVersionOptions, gameSystemConfig.dynamicPointsVersion, (value) => setValue('gameSystemConfig.dynamicPointsVersion', value));
+
+  useAutoFillSelect(missionMatrixOptions, gameSystemConfig.missionMatrix, (value) => setValue('gameSystemConfig.missionMatrix', value));
 
   return (
     <div className={clsx(styles.TeamYankeeV2GameSystemConfigFields, className)}>
@@ -61,9 +60,16 @@ export const TeamYankeeV2GameSystemConfigFields = ({
             <FormField
               name="gameSystemConfig.fieldManual101Version"
               label="Field Manual 101 Version"
-            // disabled={fieldManual101VersionOptions.length < 2}
+              disabled={fieldManual101VersionOptions.length < 2}
             >
               <InputSelect options={fieldManual101VersionOptions} />
+            </FormField>
+            <FormField
+              name="gameSystemConfig.dynamicPointsVersion"
+              label="Dynamic Points Version"
+              disabled={dynamicPointsVersionOptions.length < 2}
+            >
+              <InputSelect options={dynamicPointsVersionOptions} />
             </FormField>
           </div>
           <div className={styles.TeamYankeeV2GameSystemConfigFields_Missions}>

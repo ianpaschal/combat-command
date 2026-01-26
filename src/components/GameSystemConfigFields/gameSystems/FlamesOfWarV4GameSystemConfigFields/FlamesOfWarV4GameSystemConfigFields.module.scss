@@ -16,6 +16,6 @@
   }
 
   &_Rules {
-    @include flex.column;
+    @include flex.stackable;
   }
 }
