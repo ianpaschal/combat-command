@@ -1,6 +1,9 @@
 import { country, subdivision } from 'iso-3166-2';
 
-export const getCountryName = (code: string): string | undefined => {
+export const getCountryName = (code: string | undefined): string | undefined => {
+  if (!code) {
+    return undefined;
+  }
   if (code === 'xx-lkt') {
     return 'Landsknechte';
   }
@@ -14,7 +17,15 @@ export const getCountryName = (code: string): string | undefined => {
     return 'United Nations';
   }
   if (code.includes('-')) {
-    return subdivision(code)?.name;
+    try {
+      return subdivision(code)?.name;
+    } catch {
+      return undefined;
+    }
   }
-  return country(code)?.name;
+  try {
+    return country(code)?.name;
+  } catch {
+    return undefined;
+  }
 };
