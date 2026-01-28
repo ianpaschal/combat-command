@@ -1,17 +1,24 @@
 import { useEffect } from 'react';
+import {
+  FieldPath,
+  FieldValues,
+  useFormContext,
+} from 'react-hook-form';
 import { SelectOption } from '@ianpaschal/combat-command-game-systems/common';
 
-export const useAutoFillSelect = <T extends string>(
-  options: SelectOption<T>[],
-  value: T | undefined,
-  onAutoSet: (value: T) => void,
+export const useAutoFillSelect = <TFieldValues extends FieldValues>(
+  options: SelectOption<string>[],
+  path: FieldPath<TFieldValues>,
 ): void => {
+  const { watch, setValue } = useFormContext<TFieldValues>();
+  const value = watch(path);
+
   useEffect(() => {
     const isCurrentValueAvailable = options.some((option) => option.value === value);
 
     if (!isCurrentValueAvailable && options.length > 0) {
       const lastOption = options[options.length - 1];
-      onAutoSet(lastOption.value);
+      setValue(path, lastOption.value as TFieldValues[typeof path]);
     }
-  }, [options, value, onAutoSet]);
+  }, [options, value, setValue, path]);
 };

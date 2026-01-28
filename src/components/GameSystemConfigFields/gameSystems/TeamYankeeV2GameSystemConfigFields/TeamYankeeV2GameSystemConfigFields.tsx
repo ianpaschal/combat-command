@@ -30,23 +30,23 @@ export const TeamYankeeV2GameSystemConfigFields = ({
   setAdvancedOptionsVisible,
 }: TeamYankeeV2GameSystemConfigFieldsProps): JSX.Element => {
 
-  const { getValues, setValue } = useFormContext<CompatibleFormData>();
-  const { gameSystemConfig } = getValues();
+  const { watch } = useFormContext<CompatibleFormData>();
+  const { era, missionPackVersion } = watch('gameSystemConfig');
 
   const eraOptions = getEraOptions();
-  useAutoFillSelect(eraOptions, gameSystemConfig.era, (v) => setValue('gameSystemConfig.era', v));
+  useAutoFillSelect<CompatibleFormData>(eraOptions, 'gameSystemConfig.era');
 
   const fieldManual101VersionOptions = getFieldManual101VersionOptions();
-  useAutoFillSelect(fieldManual101VersionOptions, gameSystemConfig.fieldManual101Version, (v) => setValue('gameSystemConfig.fieldManual101Version', v));
+  useAutoFillSelect<CompatibleFormData>(fieldManual101VersionOptions, 'gameSystemConfig.fieldManual101Version');
 
-  const dynamicPointsVersionOptions = getDynamicPointsVersionOptions(gameSystemConfig.era);
-  useAutoFillSelect(dynamicPointsVersionOptions, gameSystemConfig.dynamicPointsVersion, (v) => setValue('gameSystemConfig.dynamicPointsVersion', v));
+  const dynamicPointsVersionOptions = getDynamicPointsVersionOptions(era);
+  useAutoFillSelect<CompatibleFormData>(dynamicPointsVersionOptions, 'gameSystemConfig.dynamicPointsVersion');
 
   const missionPackVersionOptions = getMissionPackVersionOptions();
-  useAutoFillSelect(missionPackVersionOptions, gameSystemConfig.missionPackVersion, (v) => setValue('gameSystemConfig.missionPackVersion', v));
+  useAutoFillSelect<CompatibleFormData>(missionPackVersionOptions, 'gameSystemConfig.missionPackVersion');
 
-  const missionMatrixOptions = getMissionMatrixOptions(gameSystemConfig.missionPackVersion);
-  useAutoFillSelect(missionMatrixOptions, gameSystemConfig.missionMatrix, (v) => setValue('gameSystemConfig.missionMatrix', v));
+  const missionMatrixOptions = getMissionMatrixOptions(missionPackVersion);
+  useAutoFillSelect<CompatibleFormData>(missionMatrixOptions, 'gameSystemConfig.missionMatrix');
 
   return (
     <div className={clsx(styles.TeamYankeeV2GameSystemConfigFields, className)}>
