@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import {
   getDynamicPointsVersionOptions,
@@ -15,31 +14,39 @@ import { InputSelect } from '~/components/generic/InputSelect';
 import { InputText } from '~/components/generic/InputText';
 import { Switch } from '~/components/generic/Switch';
 import { useAutoFillSelect } from '~/hooks/useAutoFillSelect';
-import { CompatibleFormData } from '../../GameSystemConfigFields.types';
+import { CompatibleFormData } from './FlamesOfWarV4GameSystemConfigFields.types';
 
 import styles from './FlamesOfWarV4GameSystemConfigFields.module.scss';
 
 export interface FlamesOfWarV4GameSystemConfigFieldsProps {
+  advancedOptionsVisible: boolean;
   className?: string;
+  setAdvancedOptionsVisible: (visible: boolean) => void;
 }
 
 export const FlamesOfWarV4GameSystemConfigFields = ({
+  advancedOptionsVisible,
   className,
+  setAdvancedOptionsVisible,
 }: FlamesOfWarV4GameSystemConfigFieldsProps): JSX.Element => {
-  const [advancedOptionsVisible, setAdvancedOptionsVisible] = useState<boolean>(false);
 
   const { getValues, setValue } = useFormContext<CompatibleFormData>();
   const { gameSystemConfig } = getValues();
 
   const eraOptions = getEraOptions();
-  const missionMatrixOptions = getMissionMatrixOptions(gameSystemConfig.missionPackVersion);
+  useAutoFillSelect(eraOptions, gameSystemConfig.era, (v) => setValue('gameSystemConfig.era', v));
+
   const lessonsFromTheFrontVersionOptions = getLessonsFromTheFrontVersionOptions();
-  const missionPackVersionOptions = getMissionPackVersionOptions();
+  useAutoFillSelect(lessonsFromTheFrontVersionOptions, gameSystemConfig.lessonsFromTheFrontVersion, (v) => setValue('gameSystemConfig.lessonsFromTheFrontVersion', v));
+
   const dynamicPointsVersionOptions = getDynamicPointsVersionOptions(gameSystemConfig.era);
+  useAutoFillSelect(dynamicPointsVersionOptions, gameSystemConfig.dynamicPointsVersion, (v) => setValue('gameSystemConfig.dynamicPointsVersion', v));
 
-  useAutoFillSelect(dynamicPointsVersionOptions, gameSystemConfig.dynamicPointsVersion, (value) => setValue('gameSystemConfig.dynamicPointsVersion', value));
+  const missionPackVersionOptions = getMissionPackVersionOptions();
+  useAutoFillSelect(missionPackVersionOptions, gameSystemConfig.missionPackVersion, (v) => setValue('gameSystemConfig.missionPackVersion', v));
 
-  useAutoFillSelect(missionMatrixOptions, gameSystemConfig.missionMatrix, (value) => setValue('gameSystemConfig.missionMatrix', value));
+  const missionMatrixOptions = getMissionMatrixOptions(gameSystemConfig.missionPackVersion);
+  useAutoFillSelect(missionMatrixOptions, gameSystemConfig.missionMatrix, (v) => setValue('gameSystemConfig.missionMatrix', v));
 
   return (
     <div className={clsx(styles.FlamesOfWarV4GameSystemConfigFields, className)}>

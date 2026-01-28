@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import {
   getDynamicPointsVersionOptions,
@@ -15,31 +14,39 @@ import { InputSelect } from '~/components/generic/InputSelect';
 import { InputText } from '~/components/generic/InputText';
 import { Switch } from '~/components/generic/Switch';
 import { useAutoFillSelect } from '~/hooks/useAutoFillSelect';
-import { CompatibleFormData } from '../../GameSystemConfigFields.types';
+import { CompatibleFormData } from './TeamYankeeV2GameSystemConfigFields.types';
 
 import styles from './TeamYankeeV2GameSystemConfigFields.module.scss';
 
 export interface TeamYankeeV2GameSystemConfigFieldsProps {
+  advancedOptionsVisible: boolean;
   className?: string;
+  setAdvancedOptionsVisible: (visible: boolean) => void;
 }
 
 export const TeamYankeeV2GameSystemConfigFields = ({
+  advancedOptionsVisible,
   className,
+  setAdvancedOptionsVisible,
 }: TeamYankeeV2GameSystemConfigFieldsProps): JSX.Element => {
-  const [advancedOptionsVisible, setAdvancedOptionsVisible] = useState<boolean>(false);
 
   const { getValues, setValue } = useFormContext<CompatibleFormData>();
   const { gameSystemConfig } = getValues();
 
   const eraOptions = getEraOptions();
-  const missionMatrixOptions = getMissionMatrixOptions(gameSystemConfig.missionPackVersion);
+  useAutoFillSelect(eraOptions, gameSystemConfig.era, (v) => setValue('gameSystemConfig.era', v));
+
   const fieldManual101VersionOptions = getFieldManual101VersionOptions();
-  const missionPackVersionOptions = getMissionPackVersionOptions();
+  useAutoFillSelect(fieldManual101VersionOptions, gameSystemConfig.fieldManual101Version, (v) => setValue('gameSystemConfig.fieldManual101Version', v));
+
   const dynamicPointsVersionOptions = getDynamicPointsVersionOptions(gameSystemConfig.era);
+  useAutoFillSelect(dynamicPointsVersionOptions, gameSystemConfig.dynamicPointsVersion, (v) => setValue('gameSystemConfig.dynamicPointsVersion', v));
 
-  useAutoFillSelect(dynamicPointsVersionOptions, gameSystemConfig.dynamicPointsVersion, (value) => setValue('gameSystemConfig.dynamicPointsVersion', value));
+  const missionPackVersionOptions = getMissionPackVersionOptions();
+  useAutoFillSelect(missionPackVersionOptions, gameSystemConfig.missionPackVersion, (v) => setValue('gameSystemConfig.missionPackVersion', v));
 
-  useAutoFillSelect(missionMatrixOptions, gameSystemConfig.missionMatrix, (value) => setValue('gameSystemConfig.missionMatrix', value));
+  const missionMatrixOptions = getMissionMatrixOptions(gameSystemConfig.missionPackVersion);
+  useAutoFillSelect(missionMatrixOptions, gameSystemConfig.missionMatrix, (v) => setValue('gameSystemConfig.missionMatrix', v));
 
   return (
     <div className={clsx(styles.TeamYankeeV2GameSystemConfigFields, className)}>
