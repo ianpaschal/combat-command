@@ -13,6 +13,11 @@ export const checkIfPairingIsSameAlignment = (
   const aAlignments = a.details.alignments;
   const bAlignments = b.details.alignments;
 
+  // If either competitor has no alignment data, allow pairing
+  if (aAlignments.length === 0 || bAlignments.length === 0) {
+    return false;
+  }
+
   // A and B can be paired if:
   // at least 1 has alignment 'flexible'
   if (aAlignments.includes('flexible') || bAlignments.includes('flexible')) {

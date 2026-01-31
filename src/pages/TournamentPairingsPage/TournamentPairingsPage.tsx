@@ -78,7 +78,7 @@ export const TournamentPairingsPage = (): JSX.Element => {
 
   const pairingOptions: TournamentPairingOptions = {
     allowRepeats: false,
-    allowSameAlignment: tournament ? tournament.pairingMethod !== TournamentPairingMethod.AdjacentAlignment : true,
+    allowSameAlignment: pairingMethod !== TournamentPairingMethod.AdjacentAlignment,
   };
 
   const round = lastRound + 1;

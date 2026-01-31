@@ -63,11 +63,12 @@ export const TournamentCompetitorIdentity = ({
 
   const handleClick = (e: MouseEvent): void => {
     e.preventDefault(); // Prevent submit if in a form
-    onClick?.();
+    onClick?.(tournamentCompetitor?._id ?? data?._id);
   };
 
   return (
     <button
+      type="button"
       className={clsx(...getStyleClassNames({
         variant: 'ghost',
         corners: 'normal',

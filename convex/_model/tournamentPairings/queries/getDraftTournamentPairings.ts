@@ -44,7 +44,7 @@ export const getDraftTournamentPairings = async (
     !!competitors.find((c) => c._id === _id && c.active)
   ));
 
-  const orderBy = args.method ?? TournamentPairingMethod.Adjacent;
+  const orderBy = args.method === TournamentPairingMethod.AdjacentAlignment ? TournamentPairingMethod.Adjacent : args.method ?? TournamentPairingMethod.Adjacent;
   const orderedCompetitors: DeepTournamentCompetitor[] = [];
   if (orderBy === TournamentPairingMethod.Adjacent) {
     orderedCompetitors.push(...sortByRank(activeCompetitors));
