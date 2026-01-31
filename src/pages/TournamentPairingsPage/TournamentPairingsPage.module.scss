@@ -54,9 +54,27 @@
     }
 
     &_CompetitorCard {
-      @include flex.row;
+      display: grid;
+      grid-template-areas: "rank identity faction";
+      grid-template-columns: 1.25rem 1fr 2.5rem;
+      grid-template-rows: auto;
+      gap: 0.75rem;
+      align-items: center;
 
+      width: 100%;
+      height: 100%;
       padding: 0.5rem;
+
+      &_Identity {
+        grid-area: identity;
+      }
+
+      &_Rank {
+        grid-area: rank;
+        align-self: center;
+        justify-self: center;
+        text-align: center;
+      }
     }
 
     &_TableInputs {

@@ -5,7 +5,7 @@ import { ChevronRight } from 'lucide-react';
 import { Tournament, TournamentCompetitor } from '~/api';
 import { FactionIndicator } from '~/components/FactionIndicator';
 import { Button } from '~/components/generic/Button';
-import { IdentityBadge } from '~/components/IdentityBadge';
+import { TournamentCompetitorIdentity } from '~/components/TournamentCompetitorIdentity';
 import { TournamentCompetitorActiveToggle, TournamentCompetitorPlayerCount } from '~/components/TournamentCompetitorProvider';
 import { PATHS } from '~/settings';
 
@@ -18,13 +18,12 @@ export const getTournamentCompetitorTableConfig = (
     label: tournament.useTeams ? 'Team' : 'Player',
     xAlign: 'left',
     renderCell: (r) => (
-      <IdentityBadge competitor={r} />
+      <TournamentCompetitorIdentity tournamentCompetitor={r} />
     ),
   },
   ...(tournament.alignmentsVisible ? [{
     key: 'alignments',
     xAlign: 'center',
-    width: 100,
     renderCell: (r) => (
       <FactionIndicator {...r.details} />
     ),

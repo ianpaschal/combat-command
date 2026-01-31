@@ -18,6 +18,10 @@ export const getDraftTournamentPairingsArgs = v.object({
   method: tournamentPairingMethod,
   round: v.number(),
   tournamentId: v.id('tournaments'),
+  options: v.object({
+    allowSameAlignment: v.optional(v.boolean()),
+    allowRepeats: v.optional(v.boolean()),
+  }),
 });
 
 /**
@@ -34,18 +38,22 @@ export const getDraftTournamentPairings = async (
   ctx: QueryCtx,
   args: Infer<typeof getDraftTournamentPairingsArgs>,
 ): Promise<DraftTournamentPairing[]> => {
+
   const competitors = await getTournamentCompetitorsByTournament(ctx, args);
   const activeCompetitors = competitors.filter(({ _id }) => (
     !!competitors.find((c) => c._id === _id && c.active)
   ));
+
+  const orderBy = args.method === TournamentPairingMethod.AdjacentAlignment ? TournamentPairingMethod.Adjacent : args.method ?? TournamentPairingMethod.Adjacent;
   const orderedCompetitors: DeepTournamentCompetitor[] = [];
-  if (args.method === 'adjacent') {
+  if (orderBy === TournamentPairingMethod.Adjacent) {
     orderedCompetitors.push(...sortByRank(activeCompetitors));
   }
-  if (args.method === 'random') {
+  if (orderBy === TournamentPairingMethod.Random) {
     orderedCompetitors.push(...shuffle(activeCompetitors));
   }
-  return generateDraftPairings(orderedCompetitors).sort(sortCompetitorPairs).map((draftPairing) => ({
+
+  return generateDraftPairings(orderedCompetitors, args.options).sort(sortCompetitorPairs).map((draftPairing) => ({
     tournamentId: args.tournamentId,
     tournamentCompetitor0Id: draftPairing[0]._id,
     tournamentCompetitor1Id: draftPairing[1]?._id ?? null,

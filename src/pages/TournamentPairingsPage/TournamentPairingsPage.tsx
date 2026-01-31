@@ -18,7 +18,11 @@ import { UniqueIdentifier } from '@dnd-kit/core';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { getTournamentPairingMethodOptions, TournamentPairingMethod } from '@ianpaschal/combat-command-game-systems/common';
 
-import { DraftTournamentPairing, TournamentId } from '~/api';
+import {
+  DraftTournamentPairing,
+  TournamentId,
+  TournamentPairingOptions,
+} from '~/api';
 import { ConfirmationDialog, useConfirmationDialog } from '~/components/ConfirmationDialog';
 import { Button } from '~/components/generic/Button';
 import { InfoPopover } from '~/components/generic/InfoPopover';
@@ -72,11 +76,17 @@ export const TournamentPairingsPage = (): JSX.Element => {
   );
   const [pairingMethod, setPairingMethod] = useState<TournamentPairingMethod>(defaultPairingMethod);
 
+  const pairingOptions: TournamentPairingOptions = {
+    allowRepeats: false,
+    allowSameAlignment: pairingMethod !== TournamentPairingMethod.AdjacentAlignment,
+  };
+
   const round = lastRound + 1;
   const { data: generatedPairings } = useGetDraftTournamentPairings(tournament ? {
+    method: pairingMethod === TournamentPairingMethod.AdjacentAlignment ? TournamentPairingMethod.Adjacent : pairingMethod,
     tournamentId,
     round,
-    method: pairingMethod,
+    options: pairingOptions,
   } : 'skip');
 
   const { mutation: createTournamentPairings } = useCreateTournamentPairings({
@@ -175,7 +185,7 @@ export const TournamentPairingsPage = (): JSX.Element => {
     await createTournamentPairings({ tournamentId, round, pairings });
   };
 
-  const pairingStatuses = getPairingsStatuses(tournamentCompetitors, pairings);
+  const pairingStatuses = getPairingsStatuses(pairingOptions, tournamentCompetitors, pairings);
 
   return (
     <PageWrapper

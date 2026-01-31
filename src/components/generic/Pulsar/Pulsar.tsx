@@ -1,8 +1,10 @@
 import { forwardRef, MouseEvent } from 'react';
+import clsx from 'clsx';
 
 import styles from './Pulsar.module.scss';
 
 interface PulsarProps {
+  className?: string;
   size?: number;
   color?: 'red' | 'yellow' | 'green' | 'blue';
   visible?: boolean;
@@ -11,6 +13,7 @@ interface PulsarProps {
 }
 
 export const Pulsar = forwardRef<HTMLDivElement, PulsarProps>(({
+  className,
   size = 8,
   color = 'blue',
   visible = true,
@@ -19,7 +22,7 @@ export const Pulsar = forwardRef<HTMLDivElement, PulsarProps>(({
 }, ref) => (
   <div
     ref={ref}
-    className={styles.Pulsar}
+    className={clsx(styles.Pulsar, className)}
     data-visible={visible}
     data-color={color}
     onClick={onClick ? (e) => {
@@ -27,8 +30,12 @@ export const Pulsar = forwardRef<HTMLDivElement, PulsarProps>(({
       onClick(e);
     } : undefined}
     style={{
-      width: `${size}px`,
-      height: `${size}px`,
+      width: size,
+      minWidth: size,
+      maxWidth: size,
+      height: size,
+      minHeight: size,
+      maxHeight: size,
     }}
   >
     {pulse && <span className={styles.Pulse} />}

@@ -11,6 +11,7 @@
 @import "@radix-ui/colors/gray.css";
 
 .FactionIndicator {
+  --size: 1.25rem;
   --red: var(--tomato-9);
   --blue: var(--blue-9);
   --background: linear-gradient(90deg, var(--blue) 50%, var(--red) 50%);
@@ -20,10 +21,10 @@
   flex: 0 0 auto;
   align-self: center;
 
-  width: 1.5rem;
-  min-width: 1.5rem;
-  height: 1.5rem;
-  min-height: 1.5rem;
+  width: var(--size);
+  min-width: var(--size);
+  height: var(--size);
+  min-height: var(--size);
 
   &[data-color="red"] {
     --background: var(--red);
