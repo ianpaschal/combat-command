@@ -27,6 +27,11 @@ export {
   type LeagueStatus,
   type RankedLeagueUser,
 } from '../convex/_model/leagues';
+export {
+  type TournamentPairingOptions,
+  type TournamentPairingStatus,
+  validateTournamentPairing,
+} from '../convex/_model/tournamentPairings';
 
 // Match Result Comments
 export {

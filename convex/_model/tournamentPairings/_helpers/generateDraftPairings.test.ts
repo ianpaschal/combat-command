@@ -1,3 +1,4 @@
+import { Alignment } from '@ianpaschal/combat-command-game-systems/flamesOfWarV4';
 import {
   beforeEach,
   describe,
@@ -86,6 +87,85 @@ describe('generateDraftPairings', () => {
 
       // ---- Assert ----
       expect(pairings.length).toBe(2);
+    });
+  });
+
+  describe('When all competitors have the same alignment:', () => {
+    let competitors: DeepTournamentCompetitor[];
+
+    beforeEach(() => {
+      competitors = createMockTournamentCompetitors(4);
+
+      // Every competitor has the same alignment:
+      for (const c of competitors) {
+        c.details.alignments = [Alignment.Allies];
+      }
+    });
+
+    it('Does not allow same alignment pairings when disabled.', () => {
+      // ---- Act & Assert ----
+      expect(() => generateDraftPairings(competitors, { allowSameAlignment: false }))
+        .toThrow(errors.NO_VALID_PAIRINGS_POSSIBLE_WITHOUT_SAME_ALIGNMENT);
+    });
+
+    it('Does allow same alignment pairings by default.', () => {
+      // ---- Act ----
+      const pairings = generateDraftPairings(competitors);
+
+      // ---- Assert ----
+      expect(pairings.length).toBe(2);
+    });
+
+    it('Does allow same alignment pairings when explicitly enabled.', () => {
+      // ---- Act ----
+      const pairings = generateDraftPairings(competitors, { allowSameAlignment: true });
+
+      // ---- Assert ----
+      expect(pairings.length).toBe(2);
+    });
+  });
+
+  describe('When no valid pairings are possible:', () => {
+    it('Throws generic error when both constraints fail simultaneously.', () => {
+      // ---- Arrange ----
+      const competitors = createMockTournamentCompetitors(4);
+
+      // Every competitor has the same alignment:
+      for (const c of competitors) {
+        c.details.alignments = [Alignment.Allies];
+      }
+
+      // Every competitor has played every other competitor at least once:
+      for (const c of competitors) {
+        c.opponentIds = competitors.filter((p) => p._id !== c._id).map((p) => p._id);
+      }
+
+      // ---- Act & Assert ----
+      // With both constraints active, relaxing either one alone doesn't help,
+      // so the generic error is thrown
+      expect(() => generateDraftPairings(competitors, { allowSameAlignment: false }))
+        .toThrow(errors.NO_VALID_PAIRINGS_POSSIBLE);
+    });
+
+    it('Throws same alignment error when repeats allowed but still impossible.', () => {
+      // ---- Arrange ----
+      const competitors = createMockTournamentCompetitors(4);
+
+      // Every competitor has the same alignment:
+      for (const c of competitors) {
+        c.details.alignments = [Alignment.Allies];
+      }
+
+      // Every competitor has played every other competitor at least once:
+      for (const c of competitors) {
+        c.opponentIds = competitors.filter((p) => p._id !== c._id).map((p) => p._id);
+      }
+
+      // ---- Act & Assert ----
+      // With allowRepeats: true but allowSameAlignment: false,
+      // the same alignment check triggers
+      expect(() => generateDraftPairings(competitors, { allowRepeats: true, allowSameAlignment: false }))
+        .toThrow(errors.NO_VALID_PAIRINGS_POSSIBLE_WITHOUT_SAME_ALIGNMENT);
     });
   });
 

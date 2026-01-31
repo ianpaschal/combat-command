@@ -13,7 +13,6 @@ import { useLeaveAction } from './actions/useLeaveAction';
 import { usePublishAction } from './actions/usePublishAction';
 import { useStartAction } from './actions/useStartAction';
 import { useStartRoundAction } from './actions/useStartRoundAction';
-import { useSubmitMatchResultAction } from './actions/useSubmitMatchResultAction';
 import { useToggleAlignmentsRevealedAction } from './actions/useToggleAlignmentsRevealedAction';
 import { useUndoStartRoundAction } from './actions/useUndoStartRoundAction';
 import { tournamentContext } from './TournamentProvider.context';
@@ -41,7 +40,7 @@ export const useActions = (
   useConfigureRoundAction(subject),
   useStartRoundAction(subject),
   useUndoStartRoundAction(subject),
-  useSubmitMatchResultAction(subject),
+  // useSubmitMatchResultAction(subject), // TODO: This is broken. Migrate match result form
   useEndRoundAction(subject),
   // useUndoEndRoundAction(subject), // TODO
   useEndAction(subject),

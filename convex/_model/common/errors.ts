@@ -99,6 +99,7 @@ export const errors = {
   // Pairings
   NO_VALID_PAIRINGS_POSSIBLE: 'No valid pairing result possible.',
   NO_VALID_PAIRINGS_POSSIBLE_WITHOUT_REPEAT: 'No valid pairing result possible without allowing a repeat.',
+  NO_VALID_PAIRINGS_POSSIBLE_WITHOUT_SAME_ALIGNMENT: 'No valid pairing result possible without allowing blue vs. blue or red vs. red.',
   CANNOT_ADD_EMPTY_PAIRINGS_LIST: 'Cannot add an empty list of pairings.',
   CANNOT_ADD_PAIRING_FOR_ALREADY_PAIRED_COMPETITOR: 'Cannot add pairing for competitor who is already paired.',
   CANNOT_ADD_PAIRING_FOR_INACTIVE_COMPETITOR: 'Cannot add pairing for competitor which is not checked in.',

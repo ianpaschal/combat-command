@@ -13,6 +13,13 @@ export { getTournamentPairingDeep } from './_helpers/getTournamentPairingDeep';
 export { getTournamentPairingShallow } from './_helpers/getTournamentPairingShallow';
 export { shuffle } from './_helpers/shuffle';
 export { sortByRank } from './_helpers/sortByRank';
+export {
+  validateTournamentPairing,
+} from './_helpers/validateTournamentPairing';
+export type {
+  TournamentPairingOptions,
+  TournamentPairingStatus,
+} from './types';
 
 // Queries
 export {

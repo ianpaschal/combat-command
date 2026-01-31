@@ -2,9 +2,16 @@ import { ReactElement } from 'react';
 import { UseFormReset } from 'react-hook-form';
 import { UniqueIdentifier } from '@dnd-kit/core';
 
-import { TournamentCompetitor, TournamentCompetitorId } from '~/api';
-import { Pulsar } from '~/components/generic/Pulsar';
+import {
+  TournamentCompetitor,
+  TournamentCompetitorId,
+  TournamentPairingOptions,
+  TournamentPairingStatus,
+  validateTournamentPairing,
+} from '~/api';
+import { FactionIndicator } from '~/components/FactionIndicator';
 import { IdentityBadge } from '~/components/IdentityBadge';
+import { TournamentCompetitorIdentity } from '~/components/TournamentCompetitorIdentity';
 import { FormData, TournamentPairingFormItem } from './TournamentPairingsPage.schema';
 
 import styles from './TournamentPairingsPage.module.scss';
@@ -39,21 +46,18 @@ export const flattenPairings = (
   return result;
 };
 
-export type PairingStatus = {
-  status: 'error' | 'warning' | 'ok';
-  message: string;
-};
-
 /**
- * 
- * @param rankedCompetitors 
- * @param pairings 
- * @returns 
+ * Validates all pairings and returns statuses for each.
+ *
+ * @param rankedCompetitors - List of all competitors
+ * @param pairings - List of pairings to validate
+ * @returns Array of TournamentPairingStatus for each pairing
  */
 export const getPairingsStatuses = (
+  options: TournamentPairingOptions,
   rankedCompetitors: TournamentCompetitor[],
   pairings: TournamentPairingFormItem[],
-): PairingStatus[] => {
+): TournamentPairingStatus[] => {
   const tableCount: Record<number, number> = {};
 
   // First pass: Count table numbers:
@@ -70,57 +74,19 @@ export const getPairingsStatuses = (
   ));
 
   return pairings.map((pairing, i) => {
-    const competitorA = rankedCompetitors.find((c) => c._id === pairing.tournamentCompetitor0Id);
-    const competitorB = rankedCompetitors.find((c) => c._id === pairing.tournamentCompetitor1Id);
+    const competitorA = rankedCompetitors.find((c) => c._id === pairing.tournamentCompetitor0Id) ?? null;
+    const competitorB = rankedCompetitors.find((c) => c._id === pairing.tournamentCompetitor1Id) ?? null;
 
+    // Check duplicate table assignments first (requires context of all pairings)
     if (hasDuplicateTableAssignments[i]) {
       return {
         status: 'error',
         message: 'This table is assigned more than once.',
       };
     }
-    if (competitorA && competitorB) {
-      if (
-        (competitorA?.opponentIds ?? []).includes(competitorB._id) ||
-        (competitorB?.opponentIds ?? []).includes(competitorA._id)
-      ) {
-        return {
-          status: 'error',
-          message: 'These opponents have already played each other.',
-        };
-      }
-    }
-    if (competitorA && !competitorB && (competitorA?.byeRounds ?? []).length) {
-      return {
-        status: 'warning',
-        message: `${competitorA.displayName} has already had a bye.`,
-      };
-    }
-    if (!competitorA && competitorB && (competitorB?.byeRounds ?? []).length) {
-      return {
-        status: 'warning',
-        message: `${competitorB.displayName} has already had a bye.`,
-      };
-    }
-    if (pairing.table !== null && pairing.table > -1) {
-      if (competitorA && (competitorA?.playedTables ?? []).includes(pairing.table)) {
-        return {
-          status: 'warning',
-          message: `${competitorA.displayName} has already played this table.`,
-        };
-      }
-      if (competitorB && (competitorB?.playedTables ?? []).includes(pairing.table)) {
-        return {
-          status: 'warning',
-          message: `${competitorB.displayName} has already played this table.`,
-        };
-      }
-    }
 
-    return {
-      status: 'ok',
-      message: 'Pairing is valid.',
-    };
+    // Use universal validator for all other checks
+    return validateTournamentPairing(options, competitorA, competitorB, pairing.table);
   });
 };
 
@@ -153,20 +119,26 @@ export const renderCompetitorCard = (
   if (!rankedCompetitor) {
     return (
       <div className={styles.TournamentPairingsPage_Form_CompetitorCard}>
-        <IdentityBadge placeholder={{ displayName: 'Bye' }} />
+        <TournamentCompetitorIdentity
+          className={styles.TournamentPairingsPage_Form_CompetitorCard_Identity}
+          placeholder={{ displayName: 'Bye' }}
+        />
       </div>
     );
   }
-
-  const isValid = !!state.activeId && !(rankedCompetitor?.opponentIds ?? []).includes(state.activeId as TournamentCompetitorId);
 
   const rank = (rankedCompetitor.rank ?? -1) < 0 ? '-' : rankedCompetitor.rank + 1;
 
   return (
     <div className={styles.TournamentPairingsPage_Form_CompetitorCard}>
-      <IdentityBadge competitor={rankedCompetitor} />
-      <div>{rank}</div>
-      <Pulsar color={isValid ? 'green' : 'red'} visible={!!state.activeId && !state.isActive} />
+      <div className={styles.TournamentPairingsPage_Form_CompetitorCard_Rank}>
+        {rank}
+      </div>
+      <TournamentCompetitorIdentity
+        className={styles.TournamentPairingsPage_Form_CompetitorCard_Identity}
+        tournamentCompetitor={rankedCompetitor}
+      />
+      <FactionIndicator {...rankedCompetitor.details} />
     </div>
   );
 };
