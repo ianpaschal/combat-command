@@ -9,6 +9,7 @@ import {
   TournamentRegistration,
   TournamentRegistrationId,
 } from '~/api';
+import { FactionIndicator } from '~/components/FactionIndicator';
 import { InfoPopover } from '~/components/generic/InfoPopover';
 import { IdentityBadge } from '~/components/IdentityBadge';
 
@@ -42,7 +43,6 @@ export const getTournamentRankingTableConfig = (
   },
   {
     key: 'identity',
-    width: '1fr',
     label: config.view === 'competitors' ? (config.tournament.useTeams ? 'Team' : 'Player') : 'Player',
     renderCell: (r) => {
       const competitor = config.competitors.find((c) => c._id === r.id);
@@ -67,6 +67,29 @@ export const getTournamentRankingTableConfig = (
       }
       return null;
     },
+  },
+  ...(config.tournament.alignmentsVisible ? [{
+    key: 'alignments',
+    xAlign: 'center',
+    renderCell: (r) => {
+      const competitor = config.competitors.find((c) => c._id === r.id);
+      const registration = config.registrations.find((c) => c._id === r.id);
+      if (config.view === 'competitors' && competitor) {
+        return (
+          <FactionIndicator {...competitor.details} />
+        );
+      }
+      if (config.view === 'registrations' && registration) {
+        return (
+          <FactionIndicator {...registration} />
+        );
+      }
+      return null;
+    },
+  } as ColumnDef<RankingRow>] : []),
+  {
+    key: 'spacer',
+    width: '1fr',
   },
   ...config.tournament.rankingFactors.map((key): ColumnDef<RankingRow> => ({
     key,
