@@ -36,6 +36,8 @@ import { toast } from '~/components/ToastProvider';
 import { TournamentCompetitorsProvider } from '~/components/TournamentCompetitorsProvider';
 import { TournamentProvider } from '~/components/TournamentProvider';
 import { ConfirmPairingsDialog } from '~/pages/TournamentPairingsPage/components/ConfirmPairingsDialog';
+import { TournamentPairingOptionsForm } from '~/pages/TournamentPairingsPage/components/TournamentPairingsForm/TournamentPairingOptionsForm';
+import { TournamentPairingArgs } from '~/pages/TournamentPairingsPage/components/TournamentPairingsForm/TournamentPairingOptionsForm.utils';
 import { useGetTournamentCompetitorsByTournament } from '~/services/tournamentCompetitors';
 import { useCreateTournamentPairings, useGetDraftTournamentPairings } from '~/services/tournamentPairings';
 import { useGetTournament } from '~/services/tournaments';
@@ -63,35 +65,18 @@ export const TournamentPairingsPage = (): JSX.Element => {
   const tournamentId = params.id! as TournamentId; // Must exist or else how did we get to this route?
   const { data: tournament } = useGetTournament({ id: tournamentId });
   const lastRound = tournament?.lastRound ?? -1;
+  const nextRound = lastRound + 1;
 
   const { data: tournamentCompetitors } = useGetTournamentCompetitorsByTournament({
     tournamentId,
     rankingRound: lastRound,
   });
-  const isFirstRound = (tournament?.lastRound ?? -1) < 0;
-  const defaultPairingMethod = isFirstRound ? (
-    TournamentPairingMethod.Random
-  ) : (
-    tournament?.pairingMethod ?? TournamentPairingMethod.Adjacent
-  );
-  const [pairingMethod, setPairingMethod] = useState<TournamentPairingMethod>(defaultPairingMethod);
 
-  const pairingOptions: TournamentPairingOptions = {
-    allowRepeats: false,
-    allowSameAlignment: pairingMethod !== TournamentPairingMethod.AdjacentAlignment,
-  };
-
-  const round = lastRound + 1;
-  const { data: generatedPairings } = useGetDraftTournamentPairings(tournament ? {
-    method: pairingMethod === TournamentPairingMethod.AdjacentAlignment ? TournamentPairingMethod.Adjacent : pairingMethod,
-    tournamentId,
-    round,
-    options: pairingOptions,
-  } : 'skip');
-
+  const [configuration, setConfiguration] = useState<TournamentPairingArgs | null>(null);
+  const { data: generatedPairings } = useGetDraftTournamentPairings(configuration ?? 'skip');
   const { mutation: createTournamentPairings } = useCreateTournamentPairings({
     onSuccess: (): void => {
-      toast.success(`Round ${round + 1} pairings created!`);
+      toast.success(`Round ${nextRound + 1} pairings created!`);
       navigate(`${generatePath(PATHS.tournamentDetails, { id: tournamentId })}?tab=pairings`);
     },
   });
@@ -150,16 +135,6 @@ export const TournamentPairingsPage = (): JSX.Element => {
     updatePairings(items, form.reset);
   };
 
-  const handleChangePairingMethod = (value: TournamentPairingMethod): void => {
-    if (form.formState.isDirty) {
-      openConfirmChangePairingMethodDialog({
-        onConfirm: () => setPairingMethod(value),
-      });
-    } else {
-      setPairingMethod(value);
-    }
-  };
-
   const handleReset = (): void => {
     if (generatedPairings) {
       if (form.formState.isDirty) {
@@ -182,14 +157,18 @@ export const TournamentPairingsPage = (): JSX.Element => {
   };
 
   const handleConfirm = async (pairings: DraftTournamentPairing[]): Promise<void> => {
-    await createTournamentPairings({ tournamentId, round, pairings });
+    await createTournamentPairings({
+      tournamentId: tournament._id,
+      round: configuration?.round ?? 0,
+      pairings,
+    });
   };
 
-  const pairingStatuses = getPairingsStatuses(pairingOptions, tournamentCompetitors, pairings);
+  const pairingStatuses = configuration?.options ? getPairingsStatuses(configuration.options, tournamentCompetitors, pairings) : [];
 
   return (
     <PageWrapper
-      title={`Set Up Round ${round + 1}`}
+      title={`Set Up Round ${nextRound + 1}`}
       maxWidth={WIDTH}
       showBackButton
       footer={
@@ -212,18 +191,14 @@ export const TournamentPairingsPage = (): JSX.Element => {
         <TournamentCompetitorsProvider tournamentCompetitors={tournamentCompetitors}>
           <div className={styles.TournamentPairingsPage}>
             <div className={styles.TournamentPairingsPage_Header}>
-              <Label>Pairing Method</Label>
-              <InputSelect
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                onChange={handleChangePairingMethod}
-                options={getTournamentPairingMethodOptions()}
-                value={pairingMethod}
-                disabled={isFirstRound}
+              <TournamentPairingOptionsForm
+                forcedValues={{ tournamentId: tournament._id }}
+                tournament={tournament}
+                onSubmit={(data) => setConfiguration(data)}
               />
               <Button
                 disabled={!form.formState.isDirty}
-                text="Reset"
+                text={configuration ? 'Regenerate' : 'Generate'}
                 variant="secondary"
                 onClick={handleReset}
               />
@@ -268,7 +243,7 @@ export const TournamentPairingsPage = (): JSX.Element => {
               />
             </div>
           </div>
-          <ConfirmationDialog
+          {/* <ConfirmationDialog
             id={confirmChangePairingMethodDialogId}
             title="Confirm Change Pairing Method"
             description="Are you sure you want to change the pairing method? The existing pairings will be replaced."
@@ -283,7 +258,7 @@ export const TournamentPairingsPage = (): JSX.Element => {
             pairings={pairings}
             competitors={tournamentCompetitors}
             onConfirm={handleConfirm}
-          />
+          /> */}
         </TournamentCompetitorsProvider>
       </TournamentProvider>
     </PageWrapper>
