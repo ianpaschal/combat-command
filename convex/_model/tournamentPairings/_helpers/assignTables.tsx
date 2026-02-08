@@ -76,10 +76,12 @@ export const assignTables = (
   }
 
   // Step 2: Randomly assign tables to pairings that need them:
+  // Step 2: Randomly assign tables to pairings that need them:
+  const availableTablesList = Array.from(availableTables);
   for (let i = 0; i < autoAssignedPairings.length; i++) {
-    const randomTable = Array.from(availableTables)[Math.floor(Math.random() * availableTables.size)];
-    autoAssignedPairings[i].table = randomTable;
-    availableTables.delete(randomTable);
+    const randomIndex = Math.floor(Math.random() * availableTablesList.length);
+    autoAssignedPairings[i].table = availableTablesList[randomIndex];
+    availableTablesList.splice(randomIndex, 1);
   }
 
   // Step 3: Optimization pass - try to swap tables to avoid repeats:
