@@ -2,7 +2,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import {
   CurrencyCode,
   GameSystem,
-  TournamentPairingMethod,
+  tournamentPairingConfig,
+  TournamentPairingPolicy,
 } from '@ianpaschal/combat-command-game-systems/common';
 import { RankingFactor } from '@ianpaschal/combat-command-game-systems/flamesOfWarV4';
 import { z } from 'zod';
@@ -79,7 +80,7 @@ export const tournamentFormSchema = z.object({
     setUpTime: z.coerce.number().min(0).max(30),
     playingTime: z.coerce.number().min(0).max(240),
   }),
-  pairingMethod: z.string().transform((val) => val as TournamentPairingMethod),
+  pairingConfig: tournamentPairingConfig.schema,
   rankingFactors: z.array(z.string().transform((val) => val as RankingFactor)),
 
   // Game Config
@@ -89,7 +90,7 @@ export const tournamentFormSchema = z.object({
   message: 'Invalid config for the selected game system.',
   path: ['gameSystemConfig'], // Highlight the game_system_config field in case of error
 }).superRefine((data, ctx) => {
-  if (data.pairingMethod === TournamentPairingMethod.AdjacentAlignment && data.competitorSize > 1) {
+  if (data.pairingConfig.policies.sameAlignment === TournamentPairingPolicy.Block && data.competitorSize > 1) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
       message: 'Adjacent alignment (red vs. blue) pairing is not available for team competitions.',
@@ -112,7 +113,7 @@ export const defaultValues: Omit<z.infer<typeof tournamentFormSchema>, 'location
   description: '',
   roundCount: 3,
   rulesPackUrl: '',
-  pairingMethod: TournamentPairingMethod.Adjacent,
+  pairingConfig: tournamentPairingConfig.defaultValues,
   title: '',
   gameSystem: GameSystem.FlamesOfWarV4,
   gameSystemConfig: getGameSystemConfigDefaultValues(GameSystem.FlamesOfWarV4),

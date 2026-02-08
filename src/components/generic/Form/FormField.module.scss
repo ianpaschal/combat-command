@@ -17,7 +17,7 @@
   @include form-field-basis;
 
   display: grid;
-  grid-template: "input label" auto ". description" auto / auto 1fr;
+  grid-template: "input label" auto ". description" auto / var(--input-width, auto) 1fr;
   row-gap: 0.25rem;
   column-gap: 0.5rem;
 

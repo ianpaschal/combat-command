@@ -1,0 +1,11 @@
+@use "/src/style/flex";
+
+.TournamentPairingConfigFields {
+  &_TabsList {
+    margin-bottom: 1rem;
+  }
+
+  &_TabsContent {
+    @include flex.column;
+  }
+}

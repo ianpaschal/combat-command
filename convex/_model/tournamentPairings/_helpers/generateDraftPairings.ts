@@ -1,8 +1,8 @@
+import { TournamentPairingPolicies, TournamentPairingPolicy } from '@ianpaschal/combat-command-game-systems/common';
 import { ConvexError } from 'convex/values';
 
 import { getErrorMessage } from '../../common/errors';
 import { DeepTournamentCompetitor } from '../../tournamentCompetitors';
-import { TournamentPairingOptions } from '../types';
 import { assignBye } from './assignBye';
 import { validateTournamentPairing } from './validateTournamentPairing';
 
@@ -24,10 +24,7 @@ export type CompetitorPair = [DeepTournamentCompetitor, DeepTournamentCompetitor
  */
 export const generateDraftPairings = (
   orderedCompetitors: DeepTournamentCompetitor[],
-  options: TournamentPairingOptions = {
-    allowRepeats: false,
-    allowSameAlignment: true,
-  },
+  polices: TournamentPairingPolicies,
 ): CompetitorPair[] => {
   const pairings: CompetitorPair[] = [];
     
@@ -38,22 +35,28 @@ export const generateDraftPairings = (
   }
 
   // Resolve pairings by input order:
-  const resolvedPairings = recursivePair(restCompetitors, options);
+  const resolvedPairings = recursivePair(restCompetitors, polices);
   if (resolvedPairings === null) {
     
     // NOTE: In principle these should never happen, but it's good to know if they do.
 
     // Check if allowing repeats would have worked:
-    if (!options.allowRepeats) {
-      const withRepeats = recursivePair(restCompetitors, { ...options, allowRepeats: true });
+    if (polices.repeat !== TournamentPairingPolicy.Allow) {
+      const withRepeats = recursivePair(restCompetitors, {
+        ...polices,
+        repeat: TournamentPairingPolicy.Allow,
+      });
       if (withRepeats !== null) {
         throw new ConvexError(getErrorMessage('NO_VALID_PAIRINGS_POSSIBLE_WITHOUT_REPEAT'));
       }
     }
 
     // Check if allowing same alignment would have worked:
-    if (!options.allowSameAlignment) {
-      const withSameAlignment = recursivePair(restCompetitors, { ...options, allowSameAlignment: true });
+    if (polices.sameAlignment !== TournamentPairingPolicy.Allow) {
+      const withSameAlignment = recursivePair(restCompetitors, {
+        ...polices,
+        sameAlignment: TournamentPairingPolicy.Allow,
+      });
       if (withSameAlignment !== null) {
         throw new ConvexError(getErrorMessage('NO_VALID_PAIRINGS_POSSIBLE_WITHOUT_SAME_ALIGNMENT'));
       }
@@ -71,7 +74,7 @@ export const generateDraftPairings = (
  */
 export const recursivePair = (
   pool: DeepTournamentCompetitor[],
-  options: TournamentPairingOptions,
+  policies: TournamentPairingPolicies,
 ): CompetitorPair[] | null => {
   if (pool.length === 0) {
     return []; // everyone paired
@@ -81,11 +84,11 @@ export const recursivePair = (
     const opponent = rest[i];
 
     // If the potential pairing is invalid, skip and continue:
-    if (validateTournamentPairing(options, anchor, opponent).status === 'error') {
+    if (validateTournamentPairing(policies, anchor, opponent).status === 'error') {
       continue; // hard‑constraint
     }
     const nextPool = rest.slice(0, i).concat(rest.slice(i + 1));
-    const sub = recursivePair(nextPool, options);
+    const sub = recursivePair(nextPool, policies);
     if (sub) {
       return [ [ anchor, opponent ], ...sub ];
     } // success – unwind

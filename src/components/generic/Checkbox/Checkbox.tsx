@@ -16,19 +16,21 @@ const cn = createCn('Checkbox');
 
 type CheckboxRef = ElementRef<typeof RadixCheckbox.Root>;
 type CheckboxProps = Omit<ComponentPropsWithoutRef<typeof RadixCheckbox.Root>, 'value' | 'onChange'> & {
-  value?: boolean;
+  loading?: boolean;
   onChange?: (checked: boolean) => void;
   size?: ElementSize;
+  value?: boolean;
   variant?: ElementVariant;
 };
 
 export const Checkbox = forwardRef<CheckboxRef, CheckboxProps>(({
   className,
   disabled,
-  size = 'tiny',
-  variant = 'solid',
-  value,
+  loading: _,
   onChange,
+  size = 'tiny',
+  value,
+  variant = 'solid',
   ...props
 }, ref) => (
   <RadixCheckbox.Root

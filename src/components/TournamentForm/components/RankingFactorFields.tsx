@@ -13,10 +13,12 @@ const isValidFactor = (factor: string | number | null | undefined): factor is Ra
 
 export interface RankingFactorFieldsProps {
   status?: 'draft' | 'published' | 'active' | 'archived';
+  disabled?: boolean;
 }
 
 export const RankingFactorFields = ({
   status = 'draft',
+  disabled = false,
 }: RankingFactorFieldsProps): JSX.Element => {
   const { watch, setValue } = useFormContext<TournamentFormData>();
   const rankingFactors = watch('rankingFactors');
@@ -43,7 +45,7 @@ export const RankingFactorFields = ({
 
   // Once a tournament is active, lock some fields
   const allowedEditStatuses = ['draft', 'published'];
-  const disableFields = !allowedEditStatuses.includes(status);
+  const disableFields = disabled || !allowedEditStatuses.includes(status);
 
   return (
     <div className={styles.RankingFactorFields}>

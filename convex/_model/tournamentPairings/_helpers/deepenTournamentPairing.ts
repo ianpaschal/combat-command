@@ -35,11 +35,14 @@ export const deepenTournamentPairing = async (
     return acc;
   }, [] as Id<'users'>[]);
 
-  const rawTournamentCompetitor0 = await ctx.db.get(tournamentPairing.tournamentCompetitor0Id);
-  if (!rawTournamentCompetitor0) {
-    throw new ConvexError(getErrorMessage('TOURNAMENT_COMPETITOR_NOT_FOUND'));
+  let tournamentCompetitor0 = null;
+  if (tournamentPairing.tournamentCompetitor0Id) {
+    const rawTournamentCompetitor0 = await ctx.db.get(tournamentPairing.tournamentCompetitor0Id);
+    if (!rawTournamentCompetitor0) {
+      throw new ConvexError(getErrorMessage('TOURNAMENT_COMPETITOR_NOT_FOUND'));
+    }
+    tournamentCompetitor0 = await deepenTournamentCompetitor(ctx, rawTournamentCompetitor0, tournamentPairing.round);
   }
-  const tournamentCompetitor0 = await deepenTournamentCompetitor(ctx, rawTournamentCompetitor0, tournamentPairing.round);
 
   let tournamentCompetitor1 = null;
   if (tournamentPairing.tournamentCompetitor1Id) {
@@ -52,11 +55,11 @@ export const deepenTournamentPairing = async (
 
   return {
     ...tournamentPairing,
-    displayName: `${tournamentCompetitor0.displayName} vs. ${tournamentCompetitor1?.displayName ?? 'Bye'}`,
+    displayName: `${tournamentCompetitor0?.displayName ?? 'Bye'} vs. ${tournamentCompetitor1?.displayName ?? 'Bye'}`,
     tournamentCompetitor0,
     tournamentCompetitor1,
     playerUserIds: [
-      ...tournamentCompetitor0.registrations.map((r) => r.user?._id),
+      ...(tournamentCompetitor0?.registrations ?? []).map((r) => r.user?._id),
       ...(tournamentCompetitor1?.registrations ?? []).map((r) => r.user?._id),
     ],
     submittedUserIds,

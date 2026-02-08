@@ -1,4 +1,8 @@
-import { mutation, query } from './_generated/server';
+import {
+  action,
+  mutation,
+  query,
+} from './_generated/server';
 import * as model from './_model/tournamentPairings';
 
 export const getTournamentPairing = query({
@@ -29,4 +33,14 @@ export const createTournamentPairings = mutation({
 export const deleteTournamentPairings = mutation({
   args: model.deleteTournamentPairingsArgs,
   handler: model.deleteTournamentPairings,
+});
+
+export const generateDraftTournamentPairings = action({
+  args: model.generateDraftTournamentPairingsArgs,
+  handler: model.generateDraftTournamentPairings,
+});
+
+export const generateTableAssignments = action({
+  args: model.generateTableAssignmentsArgs,
+  handler: model.generateTableAssignments,
 });

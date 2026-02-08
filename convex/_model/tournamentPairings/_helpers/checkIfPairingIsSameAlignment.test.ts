@@ -63,12 +63,12 @@ describe('checkIfPairingIsSameAlignment', () => {
     expect(checkIfPairingIsSameAlignment(a, b)).toBe(true);
   });
 
-  it('returns true if both have empty alignments.', () => {
+  it('returns false if both have empty alignments.', () => {
     const a = createMockTournamentCompetitor({ id: 'A' });
     const b = createMockTournamentCompetitor({ id: 'B' });
     a.details.alignments = [];
     b.details.alignments = [];
 
-    expect(checkIfPairingIsSameAlignment(a, b)).toBe(true);
+    expect(checkIfPairingIsSameAlignment(a, b)).toBe(false);
   });
 });

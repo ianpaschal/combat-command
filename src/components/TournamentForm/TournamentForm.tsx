@@ -17,6 +17,7 @@ import { validateForm } from '~/utils/validateForm';
 import { CompetitorFields } from './components/CompetitorFields';
 import { FormatFields } from './components/FormatFields';
 import { GeneralFields } from './components/GeneralFields';
+import { PairingFields } from './components/PairingFields';
 import {
   defaultValues,
   TournamentFormData,
@@ -83,6 +84,10 @@ export const TournamentForm = ({
       <Card className={styles.TournamentForm_SectionCard}>
         <h2>Competitors</h2>
         <CompetitorFields status={tournament?.status} />
+      </Card>
+      <Card className={styles.TournamentForm_SectionCard}>
+        <h2>Pairing</h2>
+        <PairingFields status={tournament?.status} />
       </Card>
       <Card className={styles.TournamentForm_SectionCard}>
         <h2>Format</h2>

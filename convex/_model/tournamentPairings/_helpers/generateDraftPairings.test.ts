@@ -1,3 +1,4 @@
+import { TournamentPairingPolicy } from '@ianpaschal/combat-command-game-systems/common';
 import { Alignment } from '@ianpaschal/combat-command-game-systems/flamesOfWarV4';
 import {
   beforeEach,
@@ -11,10 +12,15 @@ import { errors } from '../../common/errors';
 import { DeepTournamentCompetitor } from '../../tournamentCompetitors';
 import { generateDraftPairings } from './generateDraftPairings';
 
+const defaultPolicies = {
+  repeat: TournamentPairingPolicy.Block,
+  sameAlignment: TournamentPairingPolicy.Allow,
+};
+
 describe('generateDraftPairings', () => {
   it('Handles 2 players (trivial pair).', () => {
     const competitors = createMockTournamentCompetitors(2);
-    const pairings = generateDraftPairings(competitors);
+    const pairings = generateDraftPairings(competitors, defaultPolicies);
     expect(pairings.length).toBe(1);
     expect(pairings[0][1]).not.toBeNull();
   });
@@ -29,7 +35,7 @@ describe('generateDraftPairings', () => {
 
     it('Assigns a bye.', () => {
       // ---- Act ----
-      const pairings = generateDraftPairings(competitors);
+      const pairings = generateDraftPairings(competitors, defaultPolicies);
       const byePairings = pairings.filter(([ _, b ]) => b === null);
 
       // ---- Assert ----
@@ -43,20 +49,20 @@ describe('generateDraftPairings', () => {
       competitors[competitorCount - 1].byeRounds.push(1);
 
       // ---- Act ----
-      const pairings = generateDraftPairings(competitors);
+      const pairings = generateDraftPairings(competitors, defaultPolicies);
       const byeCompetitor = pairings.find(([ _, b ]) => b === null)?.[0];
 
       // ---- Assert ----
       expect(byeCompetitor?._id).toBe(competitors[competitorCount - 2]?._id);
     });
-  
+
     it('Assigns a bye to the lowest-ranked competitor if all have had byes.', () => {
       // ---- Arrange ----
       // All competitors have already had a bye:
       competitors.forEach((p) => (p.byeRounds = [ 1 ]));
-  
+
       // ---- Act ----
-      const pairings = generateDraftPairings(competitors);
+      const pairings = generateDraftPairings(competitors, defaultPolicies);
       const byeCompetitor = pairings.find(([ _, b ]) => b === null)?.[0];
 
       // ---- Assert ----
@@ -78,12 +84,16 @@ describe('generateDraftPairings', () => {
 
     it('Does not allow repeat pairings by default.', () => {
       // ---- Act & Assert ----
-      expect(() => generateDraftPairings(competitors)).toThrow(errors.NO_VALID_PAIRINGS_POSSIBLE_WITHOUT_REPEAT);
+      expect(() => generateDraftPairings(competitors, defaultPolicies))
+        .toThrow(errors.NO_VALID_PAIRINGS_POSSIBLE_WITHOUT_REPEAT);
     });
 
     it('Does allow repeat pairings when explicitly enabled.', () => {
       // ---- Act ----
-      const pairings = generateDraftPairings(competitors, { allowRepeats: true });
+      const pairings = generateDraftPairings(competitors, {
+        repeat: TournamentPairingPolicy.Allow,
+        sameAlignment: TournamentPairingPolicy.Allow,
+      });
 
       // ---- Assert ----
       expect(pairings.length).toBe(2);
@@ -104,13 +114,15 @@ describe('generateDraftPairings', () => {
 
     it('Does not allow same alignment pairings when disabled.', () => {
       // ---- Act & Assert ----
-      expect(() => generateDraftPairings(competitors, { allowSameAlignment: false }))
-        .toThrow(errors.NO_VALID_PAIRINGS_POSSIBLE_WITHOUT_SAME_ALIGNMENT);
+      expect(() => generateDraftPairings(competitors, {
+        repeat: TournamentPairingPolicy.Block,
+        sameAlignment: TournamentPairingPolicy.Block,
+      })).toThrow(errors.NO_VALID_PAIRINGS_POSSIBLE_WITHOUT_SAME_ALIGNMENT);
     });
 
     it('Does allow same alignment pairings by default.', () => {
       // ---- Act ----
-      const pairings = generateDraftPairings(competitors);
+      const pairings = generateDraftPairings(competitors, defaultPolicies);
 
       // ---- Assert ----
       expect(pairings.length).toBe(2);
@@ -118,7 +130,10 @@ describe('generateDraftPairings', () => {
 
     it('Does allow same alignment pairings when explicitly enabled.', () => {
       // ---- Act ----
-      const pairings = generateDraftPairings(competitors, { allowSameAlignment: true });
+      const pairings = generateDraftPairings(competitors, {
+        repeat: TournamentPairingPolicy.Block,
+        sameAlignment: TournamentPairingPolicy.Allow,
+      });
 
       // ---- Assert ----
       expect(pairings.length).toBe(2);
@@ -143,8 +158,10 @@ describe('generateDraftPairings', () => {
       // ---- Act & Assert ----
       // With both constraints active, relaxing either one alone doesn't help,
       // so the generic error is thrown
-      expect(() => generateDraftPairings(competitors, { allowSameAlignment: false }))
-        .toThrow(errors.NO_VALID_PAIRINGS_POSSIBLE);
+      expect(() => generateDraftPairings(competitors, {
+        repeat: TournamentPairingPolicy.Block,
+        sameAlignment: TournamentPairingPolicy.Block,
+      })).toThrow(errors.NO_VALID_PAIRINGS_POSSIBLE);
     });
 
     it('Throws same alignment error when repeats allowed but still impossible.', () => {
@@ -162,10 +179,12 @@ describe('generateDraftPairings', () => {
       }
 
       // ---- Act & Assert ----
-      // With allowRepeats: true but allowSameAlignment: false,
+      // With repeat: Allow but sameAlignment: Block,
       // the same alignment check triggers
-      expect(() => generateDraftPairings(competitors, { allowRepeats: true, allowSameAlignment: false }))
-        .toThrow(errors.NO_VALID_PAIRINGS_POSSIBLE_WITHOUT_SAME_ALIGNMENT);
+      expect(() => generateDraftPairings(competitors, {
+        repeat: TournamentPairingPolicy.Allow,
+        sameAlignment: TournamentPairingPolicy.Block,
+      })).toThrow(errors.NO_VALID_PAIRINGS_POSSIBLE_WITHOUT_SAME_ALIGNMENT);
     });
   });
 
@@ -179,7 +198,7 @@ describe('generateDraftPairings', () => {
     for (let round = 0; round < roundCount; round++) {
 
       // ---- Act ----
-      const pairings = generateDraftPairings(competitors);
+      const pairings = generateDraftPairings(competitors, defaultPolicies);
       for (const [ a, b ] of pairings) {
         if (b) {
           a.opponentIds.push(b._id);
