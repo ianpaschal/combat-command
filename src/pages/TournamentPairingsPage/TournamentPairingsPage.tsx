@@ -261,7 +261,7 @@ export const TournamentPairingsPage = (): JSX.Element => {
                       <InputSelect
                         options={tableOptions}
                         name={`pairings.${i}.table`}
-                        value={pairings[i].table ?? -1}
+                        value={pairings[i]?.table ?? -1}
                         onChange={(value) => form.setValue(`pairings.${i}.table`, value as number, { shouldDirty: true })}
                       />
                     </div>
