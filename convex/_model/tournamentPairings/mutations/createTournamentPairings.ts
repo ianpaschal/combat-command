@@ -77,7 +77,7 @@ export const createTournamentPairings = async (
         if (!competitor) {
           throw new ConvexError(getErrorMessage('CANNOT_ADD_PAIRING_FOR_MISSING_COMPETITOR'));
         }
-        if (!competitor?.active) {
+        if (!competitor.active) {
           throw new ConvexError(getErrorMessage('CANNOT_ADD_PAIRING_FOR_INACTIVE_COMPETITOR'));
         }
         if (pairedCompetitorIds.has(id)) {
