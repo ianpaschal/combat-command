@@ -9,8 +9,11 @@
 @import "@radix-ui/colors/plum.css";
 @import "@radix-ui/colors/iris.css";
 
-.PairingFields {
-  @include flex.column;
+.FormatFields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  row-gap: 2rem;
+  column-gap: 1.5rem;
 
   &_RoundsSection {
     @include flex.column;

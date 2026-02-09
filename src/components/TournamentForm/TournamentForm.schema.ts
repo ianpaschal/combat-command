@@ -93,8 +93,8 @@ export const tournamentFormSchema = z.object({
   if (data.pairingConfig.policies.sameAlignment === TournamentPairingPolicy.Block && data.competitorSize > 1) {
     ctx.addIssue({
       code: z.ZodIssueCode.custom,
-      message: 'Adjacent alignment (red vs. blue) pairing is not available for team competitions.',
-      path: ['pairingMethod'],
+      message: 'Red vs. blue pairing is not available for team competitions.',
+      path: ['pairingConfig'],
     });
   }
 });
