@@ -1,4 +1,4 @@
-import { MouseEvent } from 'react';
+import { MouseEvent, useState } from 'react';
 import {
   useFieldArray,
   useForm,
@@ -48,6 +48,12 @@ import {
 
 import styles from './TournamentPairingsPage.module.scss';
 
+const STATUS_COLORS: Record<'error' | 'warning' | 'ok', 'red' | 'yellow' | 'green'> = {
+  error: 'red',
+  warning: 'yellow',
+  ok: 'green',
+};
+
 export const TournamentPairingsPage = (): JSX.Element => {
   const params = useParams();
   const navigate = useNavigate();
@@ -66,7 +72,7 @@ export const TournamentPairingsPage = (): JSX.Element => {
     rankingRound: lastRound,
   });
 
-  const existingValues = getDefaultValues(tournament);
+  const [pairingConfig, setPairingConfig] = useState<TournamentPairingConfig>(getDefaultValues(tournament));
 
   const { action: generateTournamentPairings } = useGenerateDraftTournamentPairings({
     onSuccess: (pairings): void => form.reset({ pairings }),
@@ -92,7 +98,7 @@ export const TournamentPairingsPage = (): JSX.Element => {
       ),
       actions: [{
         text: 'Create',
-        onClick: async () => await handleConfirmCreate(pairings),
+        onClick: () => handleConfirmCreate(pairings),
       }],
     }),
   });
@@ -138,6 +144,7 @@ export const TournamentPairingsPage = (): JSX.Element => {
 
   const handleRegenerate = async (config: TournamentPairingConfig): Promise<void> => {
     const onConfirm = async (): Promise<void> => {
+      setPairingConfig(config);
       await generateTournamentPairings({
         tournamentId: tournament._id,
         round: nextRound,
@@ -195,7 +202,7 @@ export const TournamentPairingsPage = (): JSX.Element => {
     });
   };
 
-  const pairingStatuses = getPairingsStatuses(existingValues, tournamentCompetitors, pairings);
+  const pairingStatuses = getPairingsStatuses(pairingConfig, tournamentCompetitors, pairings);
 
   return (
     <PageWrapper
@@ -226,7 +233,7 @@ export const TournamentPairingsPage = (): JSX.Element => {
               <h2>Configuration</h2>
               <TournamentPairingConfigForm
                 id="tournament-pairing-config-form"
-                existingValues={existingValues}
+                existingValues={pairingConfig}
                 onSubmit={handleRegenerate}
               />
               <Button
@@ -243,14 +250,9 @@ export const TournamentPairingsPage = (): JSX.Element => {
                 <div className={styles.TournamentPairingsPage_Pairings_Alerts}>
                   {fields.map((field, i) => {
                     const { status, message } = pairingStatuses[i] ?? { status: 'ok' as const, message: '' };
-                    const statusColors: Record<typeof status, 'red' | 'yellow' | 'green'> = {
-                      'error': 'red',
-                      'warning': 'yellow',
-                      'ok': 'green',
-                    };
                     return (
                       <InfoPopover key={field.id} content={message} orientation="horizontal">
-                        <Pulsar pulse={status !== 'ok'} color={statusColors[status]} size={12} />
+                        <Pulsar pulse={status !== 'ok'} color={STATUS_COLORS[status]} size={12} />
                       </InfoPopover>
                     );
                   })}

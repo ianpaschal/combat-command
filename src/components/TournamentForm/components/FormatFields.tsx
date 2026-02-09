@@ -18,14 +18,15 @@ export const FormatFields = ({
   status = 'draft',
 }: FormatFieldsProps): JSX.Element => {
   const { watch, setValue } = useFormContext<TournamentFormData>();
-  const { roundStructure, competitorSize, pairingConfig } = watch();
+  const { roundStructure, competitorSize } = watch();
   const isTeam = competitorSize > 1;
+  const sameAlignmentPolicy = watch('pairingConfig.policies.sameAlignment');
 
   useEffect(() => {
-    if (pairingConfig.policies.sameAlignment !== TournamentPairingPolicy.Allow) {
+    if (sameAlignmentPolicy !== TournamentPairingPolicy.Allow) {
       setValue('registrationDetails.alignment', 'required');
     }
-  }, [pairingConfig, setValue]);
+  }, [sameAlignmentPolicy, setValue]);
 
   // Once a tournament is active, lock some fields
   const allowedEditStatuses = ['draft', 'published'];

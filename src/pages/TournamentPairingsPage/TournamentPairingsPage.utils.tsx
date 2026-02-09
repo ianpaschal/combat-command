@@ -149,8 +149,7 @@ export const renderCompetitorCard = (
 
 export const getDefaultValues = (tournament?: Tournament | null): TournamentPairingConfig => {
   const isFirstRound = (tournament?.lastRound ?? -1) < 0;
-  // const options = tournament.pairingOptions ?? {};
-  const options: TournamentPairingConfig = {
+  const config = tournament?.pairingConfig ?? {
     orderBy: 'ranking',
     policies: {
       sameAlignment: TournamentPairingPolicy.Allow,
@@ -158,7 +157,7 @@ export const getDefaultValues = (tournament?: Tournament | null): TournamentPair
     },
   };
   return {
-    ...options,
+    ...config,
     ...(isFirstRound ? {
       orderBy: 'random',
     } : {}),
