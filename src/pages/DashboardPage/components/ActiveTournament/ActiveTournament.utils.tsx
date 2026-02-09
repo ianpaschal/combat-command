@@ -24,12 +24,12 @@ export const getOpponent = (userId?: UserId, pairing?: TournamentPairing): Tourn
     return null;
   }
 
-  const competitor0UserIds = (pairing.tournamentCompetitor0?.registrations ?? []).map((r) => r.user?._id);
+  const competitor0UserIds = (pairing.tournamentCompetitor0?.registrations ?? []).map((r) => r.userId);
   if (competitor0UserIds.includes(userId)) {
     return pairing.tournamentCompetitor1;
   }
 
-  const competitor1UserIds = (pairing.tournamentCompetitor1?.registrations ?? []).map((r) => r.user?._id);
+  const competitor1UserIds = (pairing.tournamentCompetitor1?.registrations ?? []).map((r) => r.userId);
   if (competitor1UserIds.includes(userId)) {
     return pairing.tournamentCompetitor0;
   }

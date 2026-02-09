@@ -17,7 +17,7 @@ export const PairingFields = ({
   status = 'draft',
 }: PairingFieldsProps): JSX.Element => {
   const { watch, setValue } = useFormContext<TournamentFormData>();
-  const { pairingConfig } = watch();
+  const pairingConfig = watch('pairingConfig');
 
   useEffect(() => {
     if (pairingConfig.policies.sameAlignment !== TournamentPairingPolicy.Allow) {

@@ -1,58 +1,39 @@
-import { ColumnDef } from '@ianpaschal/combat-command-components';
-
-import { DraftTournamentPairing, TournamentCompetitor } from '~/api';
-import { TournamentPairingRow } from '~/components/TournamentPairingRow';
-import { TournamentPairingFormItem } from '../../TournamentPairingsPage.schema';
-
-import styles from './ConfirmPairingsDialog.module.scss';
-
-export const getTableColumns = (competitors: TournamentCompetitor[]): ColumnDef<DraftTournamentPairing>[] => [
-  {
-    key: 'table',
-    label: 'Table',
-    width: 'auto',
-    xAlign: 'center',
-    renderCell: (r) => (
-      <div className={styles.ConfirmPairingsDialog_TableNumber}>
-        {r.table === null ? '-' : r.table + 1}
-      </div>
-    ),
-  },
-  {
-    key: 'pairing',
-    label: 'Pairing',
-    width: '1fr',
-    xAlign: 'center',
-    renderCell: (r) => {
-      const tournamentCompetitor0 = competitors.find((c) => c._id === r.tournamentCompetitor0Id) ?? null;
-      const tournamentCompetitor1 = competitors.find((c) => c._id === r.tournamentCompetitor1Id) ?? null;
-      if (!tournamentCompetitor0) {
-        return null;
-      }
-      return (
-        <TournamentPairingRow pairing={{
-          table: r.table,
-          tournamentCompetitor0,
-          tournamentCompetitor1,
-        }} />
-      );
-    },
-  },
-];
+import { Id } from '../../../_generated/dataModel';
+import { DeepTournamentCompetitor } from '../../tournamentCompetitors';
+import { TournamentDeep } from '../../tournaments';
+import { DraftTournamentPairing } from '..';
 
 export const assignTables = (
-  pairings: (TournamentPairingFormItem & {
-    playedTables: (number | null)[];
-  })[],
-  tableCount: number,
+  pairings: DraftTournamentPairing[],
+  data: {
+    tournament: TournamentDeep,
+    tournamentCompetitors: DeepTournamentCompetitor[],
+  },
 ): DraftTournamentPairing[] => {
+
+  // Use a map for more efficient look-up of played tables:
+  const playedTablesMap = new Map<Id<'tournamentCompetitors'> | null, number[]>(
+    data.tournamentCompetitors.map((c) => [c._id, c.playedTables]),
+  );
+  playedTablesMap.set(null, []);
+
+  const tableCount = (data.tournament?.competitorCount ?? 2) / 2; // TODO: Use actual table count
+
+  const draftPairings = pairings.map((p) => ({
+    ...p,
+    playedTables: Array.from(new Set([
+      ...(playedTablesMap.get(p.tournamentCompetitor0Id) ?? []),
+      ...(playedTablesMap.get(p.tournamentCompetitor1Id) ?? []),
+    ])),
+  }));
+
   const availableTables = new Set(Array.from({ length: tableCount }, (_, i) => i));
 
   // Step 1: Organize pairings by which DO need tables and which DON'T:
   const autoAssignedPairings = [];
   const manuallyAssignedPairings = [];
 
-  for (const { playedTables, ...pairing } of pairings) {
+  for (const { playedTables, ...pairing } of draftPairings) {
     const ids = [
       pairing.tournamentCompetitor0Id,
       pairing.tournamentCompetitor1Id,
@@ -95,10 +76,11 @@ export const assignTables = (
   }
 
   // Step 2: Randomly assign tables to pairings that need them:
+  const availableTablesList = Array.from(availableTables);
   for (let i = 0; i < autoAssignedPairings.length; i++) {
-    const randomTable = Array.from(availableTables)[Math.floor(Math.random() * availableTables.size)];
-    autoAssignedPairings[i].table = randomTable;
-    availableTables.delete(randomTable);
+    const randomIndex = Math.floor(Math.random() * availableTablesList.length);
+    autoAssignedPairings[i].table = availableTablesList[randomIndex];
+    availableTablesList.splice(randomIndex, 1);
   }
 
   // Step 3: Optimization pass - try to swap tables to avoid repeats:

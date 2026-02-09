@@ -21,7 +21,7 @@ export type UsePresetFieldResult = {
 export const usePresetField = <TFormValues extends FieldValues>(
   path?: FieldPathByValue<TFormValues, TournamentPairingConfig>,
 ): UsePresetFieldResult => {
-  const { watch, setValue, reset } = useFormContext();
+  const { watch, setValue, reset } = useFormContext<TFormValues>();
   const currentConfig = (path ? watch(path) : watch()) as unknown as TournamentPairingConfig;
   return {
     value: getTournamentPairingMethodByConfig(currentConfig),

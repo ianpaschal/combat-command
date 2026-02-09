@@ -59,7 +59,9 @@ describe('generateDraftPairings', () => {
     it('Assigns a bye to the lowest-ranked competitor if all have had byes.', () => {
       // ---- Arrange ----
       // All competitors have already had a bye:
-      competitors.forEach((p) => { p.byeRounds = [ 1 ]; });
+      competitors.forEach((p) => {
+        p.byeRounds = [ 1 ]; 
+      });
 
       // ---- Act ----
       const pairings = generateDraftPairings(competitors, defaultPolicies);
@@ -82,7 +84,7 @@ describe('generateDraftPairings', () => {
       }
     });
 
-    it('Does not allow repeat pairings by default.', () => {
+    it('Does not allow repeat pairings when repeat policy is Block.', () => {
       // ---- Act & Assert ----
       expect(() => generateDraftPairings(competitors, defaultPolicies))
         .toThrow(errors.NO_VALID_PAIRINGS_POSSIBLE_WITHOUT_REPEAT);
@@ -120,7 +122,7 @@ describe('generateDraftPairings', () => {
       })).toThrow(errors.NO_VALID_PAIRINGS_POSSIBLE_WITHOUT_SAME_ALIGNMENT);
     });
 
-    it('Does allow same alignment pairings by default.', () => {
+    it('Does allow same alignment pairings when sameAlignment policy is Allow.', () => {
       // ---- Act ----
       const pairings = generateDraftPairings(competitors, defaultPolicies);
 

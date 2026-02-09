@@ -28,7 +28,6 @@ import { TournamentCompetitorsProvider } from '~/components/TournamentCompetitor
 import { TournamentPairingConfigForm } from '~/components/TournamentPairingConfigForm';
 import { TournamentProvider } from '~/components/TournamentProvider';
 import { useDialogInstance } from '~/hooks/useDialogInstance';
-import { getTableColumns } from '~/pages/TournamentPairingsPage/components/ConfirmPairingsDialog/ConfirmPairingsDialog.utils';
 import { useGetTournamentCompetitorsByTournament } from '~/services/tournamentCompetitors';
 import {
   useCreateTournamentPairings,
@@ -40,6 +39,7 @@ import { MAX_WIDTH, PATHS } from '~/settings';
 import { FormData, schema } from './TournamentPairingsPage.schema';
 import {
   flattenPairings,
+  getConfirmDialogTableColumns,
   getDefaultValues,
   getPairingsStatuses,
   renderCompetitorCard,
@@ -82,7 +82,7 @@ export const TournamentPairingsPage = (): JSX.Element => {
           </p>
           <Table
             className={styles.ConfirmPairingsDialog_Table}
-            columns={getTableColumns(tournamentCompetitors ?? [])}
+            columns={getConfirmDialogTableColumns(tournamentCompetitors ?? [])}
             rows={pairings}
           />
           <Warning className={styles.ConfirmPairingsDialog_Content}>

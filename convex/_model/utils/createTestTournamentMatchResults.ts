@@ -55,50 +55,21 @@ export const createTestTournamentMatchResults = async (
       const playerData: Pick<Doc<'matchResults'>, 'player0UserId' | 'player1UserId' | 'player1Placeholder' | 'player0Placeholder'> = {};
       
       for (const [index, id] of [pairing.tournamentCompetitor0Id, pairing.tournamentCompetitor1Id].entries()) {
+        let userId: Id<'users'> | undefined;
         if (id) {
           const registrations = await ctx.db.query('tournamentRegistrations')
             .withIndex('by_tournament_competitor', (q) => q.eq('tournamentCompetitorId', id))
             .collect();
-          const userId = registrations.filter((r) => (
+          userId = registrations.filter((r) => (
             r.active && !usedPlayerIds.includes(r.userId)
           )).map((r) => r.userId).pop();
-          if (userId) {
-            playerData[`player${index}UserId` as 'player0UserId' | 'player1UserId'] = userId;
-          } else {
-            playerData[`player${index}Placeholder` as 'player0Placeholder' | 'player1Placeholder'] = 'Bye';
-          }
+        }
+        if (userId) {
+          playerData[`player${index}UserId` as 'player0UserId' | 'player1UserId'] = userId;
+        } else {
+          playerData[`player${index}Placeholder` as 'player0Placeholder' | 'player1Placeholder'] = 'Bye';
         }
       }
-    
-      // const competitor0Id = pairing.tournamentCompetitor0Id;
-      // if (competitor0Id) {
-      //   const tournamentCompetitor0Registrations = await ctx.db.query('tournamentRegistrations')
-      //     .withIndex('by_tournament_competitor', (q) => q.eq('tournamentCompetitorId', competitor0Id))
-      //     .collect();
-      //   const tournamentCompetitor0UserIds = tournamentCompetitor0Registrations.filter((r) => (
-      //     r.active && !usedPlayerIds.includes(r.userId)
-      //   )).map((r) => r.userId);
-      //   const player0UserId = tournamentCompetitor0UserIds.pop();
-      //   if (player0UserId) {
-      //     playerData.player0UserId = player0UserId;
-      //   } else {
-      //     playerData.player0Placeholder = 'Bye';
-      //   }
-      // }
-
-      // const competitor1Id = pairing.tournamentCompetitor1Id;
-      // if (competitor1Id) {
-      //   const tournamentCompetitor1Registrations = await ctx.db.query('tournamentRegistrations')
-      //     .withIndex('by_tournament_competitor', (q) => q.eq('tournamentCompetitorId', competitor1Id))
-      //     .collect();
-      //   const tournamentCompetitor1UserIds = tournamentCompetitor1Registrations.filter((r) => (
-      //     r.active && !usedPlayerIds.includes(r.userId)
-      //   )).map((r) => r.userId);
-      //   const player1UserId = tournamentCompetitor1UserIds.pop();
-      //   playerData.player1UserId = player1UserId;
-      // } else {
-      //   playerData.player1Placeholder = 'Bye';
-      // }
 
       // TODO: Replace with actual call to the create mutation
       const matchResultId = await ctx.db.insert('matchResults', {

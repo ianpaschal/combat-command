@@ -24,7 +24,7 @@ export type CompetitorPair = [DeepTournamentCompetitor, DeepTournamentCompetitor
  */
 export const generateDraftPairings = (
   orderedCompetitors: DeepTournamentCompetitor[],
-  polices: TournamentPairingPolicies,
+  policies: TournamentPairingPolicies,
 ): CompetitorPair[] => {
   const pairings: CompetitorPair[] = [];
     
@@ -35,15 +35,15 @@ export const generateDraftPairings = (
   }
 
   // Resolve pairings by input order:
-  const resolvedPairings = recursivePair(restCompetitors, polices);
+  const resolvedPairings = recursivePair(restCompetitors, policies);
   if (resolvedPairings === null) {
     
     // NOTE: In principle these should never happen, but it's good to know if they do.
 
     // Check if allowing repeats would have worked:
-    if (polices.repeat !== TournamentPairingPolicy.Allow) {
+    if (policies.repeat !== TournamentPairingPolicy.Allow) {
       const withRepeats = recursivePair(restCompetitors, {
-        ...polices,
+        ...policies,
         repeat: TournamentPairingPolicy.Allow,
       });
       if (withRepeats !== null) {
@@ -52,9 +52,9 @@ export const generateDraftPairings = (
     }
 
     // Check if allowing same alignment would have worked:
-    if (polices.sameAlignment !== TournamentPairingPolicy.Allow) {
+    if (policies.sameAlignment !== TournamentPairingPolicy.Allow) {
       const withSameAlignment = recursivePair(restCompetitors, {
-        ...polices,
+        ...policies,
         sameAlignment: TournamentPairingPolicy.Allow,
       });
       if (withSameAlignment !== null) {

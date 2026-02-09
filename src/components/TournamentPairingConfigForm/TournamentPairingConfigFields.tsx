@@ -19,6 +19,11 @@ import { usePresetField } from './TournamentPairingConfigFields.hooks';
 
 import styles from './TournamentPairingConfigFields.module.scss';
 
+const TABS = [
+  { value: 'preset', label: 'Preset' },
+  { value: 'advanced', label: 'Advanced' },
+];
+
 export interface TournamentPairingConfigFieldsProps<TFormValues extends FieldValues> {
   className?: string;
   disabled?: boolean;
@@ -32,10 +37,6 @@ export const TournamentPairingConfigFields = <TFormValues extends FieldValues>({
   loading = false,
   path,
 }: TournamentPairingConfigFieldsProps<TFormValues>): JSX.Element => {
-  const tabs = [
-    { value: 'preset', label: 'Preset' },
-    { value: 'advanced', label: 'Advanced' },
-  ];
   const [tab, setTab] = useState<string>('preset');
 
   const presetFieldProps = usePresetField(path);
@@ -51,7 +52,7 @@ export const TournamentPairingConfigFields = <TFormValues extends FieldValues>({
       value={tab}
       onValueChange={setTab}
     >
-      <TabsList tabs={tabs} className={styles.TournamentPairingConfigFields_TabsList} stretch />
+      <TabsList tabs={TABS} className={styles.TournamentPairingConfigFields_TabsList} stretch />
       <TabsContent value="preset" className={styles.TournamentPairingConfigFields_TabsContent}>
         <FormField label="Preset" {...fieldProps}>
           <Select placeholder="Custom" {...presetFieldProps} />

@@ -33,7 +33,7 @@
       grid-template-areas:
         ". tableHeader competitorsHeader"
         "alerts tableInputs competitorsGrid";
-      grid-template-columns: auto 6rem  1fr;
+      grid-template-columns: auto 6rem 1fr;
       grid-template-rows: auto auto;
       flex-grow: 1;
       gap: 1rem;
