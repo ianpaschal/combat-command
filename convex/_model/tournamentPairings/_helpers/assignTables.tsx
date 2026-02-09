@@ -76,7 +76,7 @@ export const assignTables = (
   }
 
   // Step 2: Randomly assign tables to pairings that need them:
-  // Step 2: Randomly assign tables to pairings that need them:
+  const availableTablesList = Array.from(availableTables);
   const availableTablesList = Array.from(availableTables);
   for (let i = 0; i < autoAssignedPairings.length; i++) {
     const randomIndex = Math.floor(Math.random() * availableTablesList.length);
