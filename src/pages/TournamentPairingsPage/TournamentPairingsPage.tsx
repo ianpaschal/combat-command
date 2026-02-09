@@ -241,7 +241,7 @@ export const TournamentPairingsPage = (): JSX.Element => {
               <div className={styles.TournamentPairingsPage_Pairings_Grid}>
                 <div className={styles.TournamentPairingsPage_Pairings_Alerts}>
                   {fields.map((field, i) => {
-                    const { status, message } = pairingStatuses[i];
+                    const { status, message } = pairingStatuses[i] ?? { status: 'ok' as const, message: '' };
                     const statusColors: Record<typeof status, 'red' | 'yellow' | 'green'> = {
                       'error': 'red',
                       'warning': 'yellow',
