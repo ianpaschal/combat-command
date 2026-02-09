@@ -6,11 +6,11 @@ export const getTournamentPairingUserIds = async (
   ctx: QueryCtx,
   doc: Doc<'tournamentPairings'>,
 ): Promise<Id<'users'>[]> => {
-  const competitor0Registrations = await getTournamentRegistrationsByCompetitor(ctx, {
+  const competitor0Registrations = doc.tournamentCompetitor0Id ? await getTournamentRegistrationsByCompetitor(ctx, {
     tournamentCompetitorId: doc.tournamentCompetitor0Id,
-  });
+  }) : [];
   const competitor1Registrations = doc.tournamentCompetitor1Id ? await getTournamentRegistrationsByCompetitor(ctx, {
-    tournamentCompetitorId: doc.tournamentCompetitor0Id,
+    tournamentCompetitorId: doc.tournamentCompetitor1Id,
   }) : [];
   return [
     ...competitor0Registrations.map((r) => r.userId),

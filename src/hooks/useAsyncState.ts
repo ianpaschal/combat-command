@@ -4,6 +4,7 @@ import {
   useEffect,
   useState,
 } from 'react';
+import isEqual from 'fast-deep-equal/es6';
 
 export const useAsyncState = <T>(
   defaultValue: T,
@@ -11,7 +12,7 @@ export const useAsyncState = <T>(
 ): [T, Dispatch<SetStateAction<T>>] => {
   const [value, setValue] = useState<T>(asyncValue ?? defaultValue);
   useEffect(() => {
-    if (asyncValue && asyncValue !== value) {
+    if (asyncValue && !isEqual(asyncValue, value)) {
       setValue(asyncValue);
     }
   }, [value, asyncValue]);

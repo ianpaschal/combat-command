@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { useAction } from 'convex/react';
 import { FunctionReference } from 'convex/server';
-import { ConvexError } from 'convex/values';
 
 import { toast } from '~/components/ToastProvider';
+import { handleError } from '~/services/utils/handleError';
 
 export type ActionFn = FunctionReference<'action'>;
 export type ActionHookConfig<T extends ActionFn> = {
-  onSuccess?: (response: T['_returnType']) => void;
+  onSuccess?: (response: T['_returnType'], args: T['_args']) => void;
   onError?: (error: unknown) => void;
   successMessage?: string;
 };
@@ -16,7 +16,7 @@ export const createActionHook = <T extends ActionFn>(actionFn: T) => (config?: A
   const handler = useAction(actionFn);
   const [loading, setIsLoading] = useState<boolean>(false);
   return {
-    action: async (args: T['_args']) => {
+    action: async (args: T['_args'], instanceConfig?: ActionHookConfig<T>) => {
       setIsLoading(true);
       try {
         const response = await handler(args);
@@ -24,15 +24,19 @@ export const createActionHook = <T extends ActionFn>(actionFn: T) => (config?: A
           toast.success(config.successMessage);
         }
         if (config?.onSuccess) {
-          config.onSuccess(response);
+          config.onSuccess(response, args);
+        }
+        if (instanceConfig?.onSuccess) {
+          instanceConfig.onSuccess(response, args);
         }
         return response;
       } catch (error) {
-        if (error instanceof ConvexError) {
-          toast.error('Error', { description: error.data.message });
-          if (config?.onError) {
-            config.onError(error);
-          }
+        handleError(error);
+        if (config?.onError) {
+          config.onError(error);
+        }
+        if (instanceConfig?.onError) {
+          instanceConfig.onError(error);
         }
       } finally {
         setIsLoading(false);

@@ -1,42 +1,36 @@
 import { Infer, v } from 'convex/values';
 
-import { QueryCtx } from '../../../_generated/server';
+import { api } from '../../../_generated/api';
+import { ActionCtx } from '../../../_generated/server';
 import { tournamentPairingConfig } from '../../common/tournamentPairingConfig';
-import { DeepTournamentCompetitor, getTournamentCompetitorsByTournament } from '../../tournamentCompetitors';
+import { DeepTournamentCompetitor } from '../../tournamentCompetitors';
 import { generateDraftPairings } from '../_helpers/generateDraftPairings';
 import { shuffle } from '../_helpers/shuffle';
 import { sortByRank } from '../_helpers/sortByRank';
 import { sortCompetitorPairs } from '../_helpers/sortCompetitorPairs';
 import { uniqueFields } from '../table';
 
-const draftTournamentPairing = v.object(uniqueFields);
+export const draftTournamentPairing = v.object(uniqueFields);
 export type DraftTournamentPairing = Infer<typeof draftTournamentPairing>;
 
-export const getDraftTournamentPairingsArgs = v.object({
+export const generateDraftTournamentPairingsArgs = v.object({
   tournamentId: v.id('tournaments'),
   round: v.number(),
   config: tournamentPairingConfig,
 });
 
-/**
- * Gets a DraftTournamentPairings object.
- * 
- * @param ctx - Convex query context
- * @param args - Convex query args
- * @param args.method - The pairing method to use
- * @param args.round - The upcoming round index which the generated pairing are for
- * @param args.tournamentId - ID of the Tournament
- * @returns An array of DraftTournamentPairings
- */
-export const getDraftTournamentPairings = async (
-  ctx: QueryCtx,
-  args: Infer<typeof getDraftTournamentPairingsArgs>,
+export const generateDraftTournamentPairings = async (
+  ctx: ActionCtx,
+  args: Infer<typeof generateDraftTournamentPairingsArgs>,
 ): Promise<DraftTournamentPairing[]> => {
 
-  const competitors = await getTournamentCompetitorsByTournament(ctx, args);
-  const activeCompetitors = competitors.filter(({ _id }) => (
-    !!competitors.find((c) => c._id === _id && c.active)
-  ));
+  const tournamentCompetitors = await ctx.runQuery(
+    api.tournamentCompetitors.getTournamentCompetitorsByTournament, {
+      tournamentId: args.tournamentId,
+    },
+  );
+
+  const activeCompetitors = tournamentCompetitors.filter(({ active }) => active);
 
   const orderedCompetitors: DeepTournamentCompetitor[] = [];
   if (args.config.orderBy === 'ranking') {
@@ -47,10 +41,8 @@ export const getDraftTournamentPairings = async (
   }
 
   return generateDraftPairings(orderedCompetitors, args.config.policies).sort(sortCompetitorPairs).map((draftPairing) => ({
-    tournamentId: args.tournamentId,
     tournamentCompetitor0Id: draftPairing[0]._id,
     tournamentCompetitor1Id: draftPairing[1]?._id ?? null,
     table: -1,
-    round: args.round,
   }));
 };

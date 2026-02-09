@@ -17,9 +17,18 @@ export {
   validateTournamentPairing,
 } from './_helpers/validateTournamentPairing';
 export type {
-  TournamentPairingOptions,
   TournamentPairingStatus,
 } from './types';
+
+// Actions
+export {
+  generateDraftTournamentPairings,
+  generateDraftTournamentPairingsArgs,
+} from './actions/generateDraftTournamentPairings';
+export {
+  generateTableAssignments,
+  generateTableAssignmentsArgs,
+} from './actions/generateTableAssignments';
 
 // Queries
 export {

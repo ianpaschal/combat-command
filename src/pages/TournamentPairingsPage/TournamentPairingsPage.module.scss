@@ -8,28 +8,36 @@
 
 .TournamentPairingsPage {
   @include flex.column;
-  @include variants.card;
 
-  &_Header {
-    @include flex.row;
+  &_Config {
+    @include flex.column($gap: 1.5rem);
+    @include variants.card;
 
-    padding: var(--container-padding-y) var(--container-padding-x) 0;
+    grid-area: config;
+    padding: var(--container-padding-y) var(--container-padding-x);
+
+    &_Submit {
+      align-self: flex-end;
+    }
   }
 
-  &_TableRow {
-    padding: 0 var(--container-padding-x);
-  }
+  &_Pairings {
+    @include flex.column($gap: 1.5rem);
+    @include variants.card;
 
-  &_Form {
-    display: grid;
-    grid-template-areas:
-      ". tableHeader competitorsHeader"
-      "alerts tableInputs competitorsGrid";
-    grid-template-columns: auto 6rem  1fr;
-    grid-template-rows: auto auto;
-    gap: 1rem;
+    grid-area: pairings;
+    padding: var(--container-padding-y) var(--container-padding-x);
 
-    padding: 0 var(--container-padding-x) var(--container-padding-y);
+    &_Grid {
+      display: grid;
+      grid-template-areas:
+        ". tableHeader competitorsHeader"
+        "alerts tableInputs competitorsGrid";
+      grid-template-columns: auto 6rem 1fr;
+      grid-template-rows: auto auto;
+      flex-grow: 1;
+      gap: 1rem;
+    }
 
     &_Alerts {
       display: grid;
@@ -92,5 +100,72 @@
         width: 100%;
       }
     }
+  }
+}
+
+// 3 x 320px + 4 x 16px
+@media (width >= 1024px) {
+  .TournamentPairingsPage {
+    display: grid;
+    grid-template-areas: "config pairings pairings";
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto;
+    gap: 1rem;
+    align-items: start;
+  }
+}
+
+.DetailsScrollArea {
+  @include flex.stretchy;
+}
+
+.ConfirmPairingsDialog {
+  padding-bottom: var(--container-padding-y);
+
+  &_Content {
+    margin: 0 var(--container-padding-x);
+  }
+
+  &_Filters {
+    @include flex.row;
+  }
+
+  &_EmptyState {
+    @include flex.stretchy;
+    @include flex.centered;
+    @include text.ui($muted: true);
+
+    padding-bottom: 4rem;
+  }
+
+  &_FirstColumn {
+    padding-left: var(--container-padding-x);
+  }
+
+  &_LastColumn {
+    padding-right: var(--container-padding-x);
+  }
+
+  &_Table {
+    --cell-padding-y: 1rem;
+    --table-padding: var(--container-padding-x);
+  }
+
+  &_TableNumber {
+    @include text.ui;
+
+    font-size: 1.5rem;
+    font-weight: 300;
+    line-height: 1.75rem;
+  }
+
+  &_MatchIndicatorIcon {
+    width: 1.25rem;
+    height: 1.25rem;
+    stroke: currentcolor;
+  }
+
+  &_MatchIndicatorInner {
+    @include text.ui;
   }
 }

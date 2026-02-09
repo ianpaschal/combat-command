@@ -4,7 +4,7 @@ import { ChangeEmailFormData } from '~/components/ChangeEmailDialog';
 import { toast } from '~/components/ToastProvider';
 import { handleError } from '~/services/utils/handleError';
 
-export const useUpdateEmail = () => useMutation({
+export const useUpdateEmail = () => useMutation<void, Error, ChangeEmailFormData>({
   mutationFn: async ({ email: _email }: ChangeEmailFormData): Promise<void> => {
     // TODO: Implement Convex email update
   },

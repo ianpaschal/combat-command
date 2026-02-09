@@ -1,9 +1,4 @@
-import {
-  MouseEvent,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import { MouseEvent } from 'react';
 import {
   useFieldArray,
   useForm,
@@ -16,37 +11,36 @@ import {
 } from 'react-router-dom';
 import { UniqueIdentifier } from '@dnd-kit/core';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { getTournamentPairingMethodOptions, TournamentPairingMethod } from '@ianpaschal/combat-command-game-systems/common';
+import { Table } from '@ianpaschal/combat-command-components';
+import { TournamentPairingConfig, TournamentPairingPolicy } from '@ianpaschal/combat-command-game-systems/common';
 
-import {
-  DraftTournamentPairing,
-  TournamentId,
-  TournamentPairingOptions,
-} from '~/api';
-import { ConfirmationDialog, useConfirmationDialog } from '~/components/ConfirmationDialog';
+import { DraftTournamentPairing, TournamentId } from '~/api';
 import { Button } from '~/components/generic/Button';
 import { InfoPopover } from '~/components/generic/InfoPopover';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { Label } from '~/components/generic/Label';
 import { Pulsar } from '~/components/generic/Pulsar';
-import { Separator } from '~/components/generic/Separator';
 import { SortableGrid } from '~/components/generic/SortableGrid';
+import { Warning } from '~/components/generic/Warning';
 import { PageWrapper } from '~/components/PageWrapper';
 import { toast } from '~/components/ToastProvider';
 import { TournamentCompetitorsProvider } from '~/components/TournamentCompetitorsProvider';
+import { TournamentPairingConfigForm } from '~/components/TournamentPairingConfigForm';
 import { TournamentProvider } from '~/components/TournamentProvider';
-import { ConfirmPairingsDialog } from '~/pages/TournamentPairingsPage/components/ConfirmPairingsDialog';
+import { useAsyncState } from '~/hooks/useAsyncState';
+import { useDialogInstance } from '~/hooks/useDialogInstance';
 import { useGetTournamentCompetitorsByTournament } from '~/services/tournamentCompetitors';
-import { useCreateTournamentPairings, useGetDraftTournamentPairings } from '~/services/tournamentPairings';
-import { useGetTournament } from '~/services/tournaments';
-import { PATHS } from '~/settings';
 import {
-  FormData,
-  sanitize,
-  schema,
-} from './TournamentPairingsPage.schema';
+  useCreateTournamentPairings,
+  useGenerateDraftTournamentPairings,
+  useGenerateTableAssignments,
+} from '~/services/tournamentPairings';
+import { useGetTournament } from '~/services/tournaments';
+import { MAX_WIDTH, PATHS } from '~/settings';
+import { FormData, schema } from './TournamentPairingsPage.schema';
 import {
   flattenPairings,
+  getConfirmDialogTableColumns,
   getPairingsStatuses,
   renderCompetitorCard,
   updatePairings,
@@ -54,7 +48,11 @@ import {
 
 import styles from './TournamentPairingsPage.module.scss';
 
-const WIDTH = 800;
+const STATUS_COLORS: Record<'error' | 'warning' | 'ok', 'red' | 'yellow' | 'green'> = {
+  error: 'red',
+  warning: 'yellow',
+  ok: 'green',
+};
 
 export const TournamentPairingsPage = (): JSX.Element => {
   const params = useParams();
@@ -63,67 +61,67 @@ export const TournamentPairingsPage = (): JSX.Element => {
   const tournamentId = params.id! as TournamentId; // Must exist or else how did we get to this route?
   const { data: tournament } = useGetTournament({ id: tournamentId });
   const lastRound = tournament?.lastRound ?? -1;
+  const nextRound = lastRound + 1;
+
+  const [pairingConfig, setPairingConfig] = useAsyncState<TournamentPairingConfig>({
+    orderBy: 'ranking',
+    policies: {
+      sameAlignment: TournamentPairingPolicy.Allow,
+      repeat: TournamentPairingPolicy.Block,
+    },
+  }, tournament?.pairingConfig);
+
+  const { open: openConfirmRegenerateDialog } = useDialogInstance();
+  const { open: openConfirmCancelDialog } = useDialogInstance();
+  const { open: openConfirmCreateDialog } = useDialogInstance();
 
   const { data: tournamentCompetitors } = useGetTournamentCompetitorsByTournament({
     tournamentId,
     rankingRound: lastRound,
   });
-  const isFirstRound = (tournament?.lastRound ?? -1) < 0;
-  const defaultPairingMethod = isFirstRound ? (
-    TournamentPairingMethod.Random
-  ) : (
-    tournament?.pairingMethod ?? TournamentPairingMethod.Adjacent
-  );
-  const [pairingMethod, setPairingMethod] = useState<TournamentPairingMethod>(defaultPairingMethod);
 
-  const pairingOptions: TournamentPairingOptions = {
-    allowRepeats: false,
-    allowSameAlignment: pairingMethod !== TournamentPairingMethod.AdjacentAlignment,
-  };
-
-  const round = lastRound + 1;
-  const { data: generatedPairings } = useGetDraftTournamentPairings(tournament ? {
-    method: pairingMethod === TournamentPairingMethod.AdjacentAlignment ? TournamentPairingMethod.Adjacent : pairingMethod,
-    tournamentId,
-    round,
-    options: pairingOptions,
-  } : 'skip');
-
+  const { action: generateTournamentPairings } = useGenerateDraftTournamentPairings({
+    onSuccess: (pairings): void => form.reset({ pairings }),
+  });
+  const { action: generateTableAssignments } = useGenerateTableAssignments({
+    onSuccess: (pairings): void => openConfirmCreateDialog({
+      title: 'Confirm Pairings',
+      disablePadding: true,
+      content: (
+        <>
+          <p className={styles.ConfirmPairingsDialog_Content}>
+            The following pairings will be created:
+          </p>
+          <Table
+            className={styles.ConfirmPairingsDialog_Table}
+            columns={getConfirmDialogTableColumns(tournamentCompetitors ?? [])}
+            rows={pairings}
+          />
+          <Warning className={styles.ConfirmPairingsDialog_Content}>
+            Once created, pairings cannot be edited. Please ensure all competitors are present and ready to play!
+          </Warning>
+        </>
+      ),
+      actions: [{
+        text: 'Create',
+        onClick: () => handleConfirmCreate(pairings),
+      }],
+    }),
+  });
   const { mutation: createTournamentPairings } = useCreateTournamentPairings({
     onSuccess: (): void => {
-      toast.success(`Round ${round + 1} pairings created!`);
+      toast.success(`Round ${nextRound + 1} pairings created!`);
       navigate(`${generatePath(PATHS.tournamentDetails, { id: tournamentId })}?tab=pairings`);
     },
   });
 
-  const {
-    id: confirmChangePairingMethodDialogId,
-    open: openConfirmChangePairingMethodDialog,
-  } = useConfirmationDialog();
-  const {
-    id: confirmResetPairingsDialogId,
-    open: openConfirmResetPairingsDialog,
-  } = useConfirmationDialog();
-  const {
-    id: confirmPairingsDialogId,
-    open: openConfirmPairingsDialog,
-  } = useConfirmationDialog();
-
   const form = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
-      pairings: sanitize(generatedPairings),
+      pairings: [],
     },
     mode: 'onSubmit',
   });
-  const reset = useCallback((pairings: unknown[]) => form.reset({
-    pairings: sanitize(pairings),
-  }), [form]);
-  useEffect(() => {
-    if (tournament && generatedPairings) {
-      reset(generatedPairings);
-    }
-  }, [tournament, generatedPairings, reset]);
   const { fields } = useFieldArray({
     control: form.control,
     name: 'pairings',
@@ -150,47 +148,72 @@ export const TournamentPairingsPage = (): JSX.Element => {
     updatePairings(items, form.reset);
   };
 
-  const handleChangePairingMethod = (value: TournamentPairingMethod): void => {
+  const handleRegenerate = async (config: TournamentPairingConfig): Promise<void> => {
+    const onConfirm = async (): Promise<void> => {
+      setPairingConfig(config);
+      await generateTournamentPairings({
+        tournamentId: tournament._id,
+        round: nextRound,
+        config,
+      });
+    };
     if (form.formState.isDirty) {
-      openConfirmChangePairingMethodDialog({
-        onConfirm: () => setPairingMethod(value),
+      openConfirmRegenerateDialog({
+        title: 'Regenerate Pairings',
+        content: 'Your current pairings will be lost. Are you sure you want to regenerate?',
+        actions: [
+          {
+            intent: 'danger',
+            onClick: onConfirm,
+            text: 'Regenerate',
+          },
+        ],
       });
     } else {
-      setPairingMethod(value);
-    }
-  };
-
-  const handleReset = (): void => {
-    if (generatedPairings) {
-      if (form.formState.isDirty) {
-        openConfirmResetPairingsDialog({
-          onConfirm: () => reset(generatedPairings),
-        });
-      } else {
-        reset(generatedPairings);
-      }
+      onConfirm();
     }
   };
 
   const handleCancel = (_e: MouseEvent): void => {
-    // TODO: If dirty, open confirmation dialog
-    navigate(-1);
+    const onConfirm = () => navigate(-1);
+    if (form.formState.isDirty) {
+      openConfirmCancelDialog({
+        title: 'Are you sure you want to cancel?',
+        content: 'Your current pairings will be lost.',
+        actions: [
+          {
+            intent: 'danger',
+            onClick: onConfirm,
+            text: 'Cancel',
+          },
+        ],
+      });
+    } else {
+      onConfirm();
+    }
   };
 
-  const handleProceed = (_e: MouseEvent): void => {
-    openConfirmPairingsDialog();
+  const handleProceed = async (_: MouseEvent): Promise<void> => {
+    await generateTableAssignments({
+      tournamentId,
+      pairings,
+    });
   };
 
-  const handleConfirm = async (pairings: DraftTournamentPairing[]): Promise<void> => {
-    await createTournamentPairings({ tournamentId, round, pairings });
+  const handleConfirmCreate = async (pairings: DraftTournamentPairing[]): Promise<void> => {
+    await createTournamentPairings({
+      tournamentId: tournament._id,
+      round: nextRound,
+      pairings,
+    });
   };
 
-  const pairingStatuses = getPairingsStatuses(pairingOptions, tournamentCompetitors, pairings);
+  const pairingStatuses = getPairingsStatuses(pairingConfig, tournamentCompetitors, pairings);
 
   return (
     <PageWrapper
-      title={`Set Up Round ${round + 1}`}
-      maxWidth={WIDTH}
+      title={`Set Up Round ${nextRound + 1}`}
+      maxWidth={MAX_WIDTH}
       showBackButton
       footer={
         <>
@@ -204,6 +227,7 @@ export const TournamentPairingsPage = (): JSX.Element => {
             key="proceed"
             text="Proceed"
             onClick={handleProceed}
+            disabled={pairings.length < 1}
           />
         </>
       }
@@ -211,79 +235,58 @@ export const TournamentPairingsPage = (): JSX.Element => {
       <TournamentProvider tournament={tournament}>
         <TournamentCompetitorsProvider tournamentCompetitors={tournamentCompetitors}>
           <div className={styles.TournamentPairingsPage}>
-            <div className={styles.TournamentPairingsPage_Header}>
-              <Label>Pairing Method</Label>
-              <InputSelect
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                onChange={handleChangePairingMethod}
-                options={getTournamentPairingMethodOptions()}
-                value={pairingMethod}
-                disabled={isFirstRound}
+            <div className={styles.TournamentPairingsPage_Config}>
+              <h2>Configuration</h2>
+              <TournamentPairingConfigForm
+                id="tournament-pairing-config-form"
+                existingValues={pairingConfig}
+                onSubmit={handleRegenerate}
               />
               <Button
-                disabled={!form.formState.isDirty}
-                text="Reset"
-                variant="secondary"
-                onClick={handleReset}
+                className={styles.TournamentPairingsPage_Config_Submit}
+                text={form.formState.isDirty ? 'Regenerate' : 'Generate'}
+                variant="primary"
+                type="submit"
+                form="tournament-pairing-config-form"
               />
             </div>
-            <Separator />
-            <div className={styles.TournamentPairingsPage_Form}>
-              <div className={styles.TournamentPairingsPage_Form_Alerts}>
-                {fields.map((field, i) => {
-                  const { status, message } = pairingStatuses[i];
-                  const statusColors: Record<typeof status, 'red' | 'yellow' | 'green'> = {
-                    'error': 'red',
-                    'warning': 'yellow',
-                    'ok': 'green',
-                  };
-                  return (
-                    <InfoPopover key={field.id} content={message} orientation="horizontal">
-                      <Pulsar pulse={status !== 'ok'} color={statusColors[status]} size={12} />
-                    </InfoPopover>
-                  );
-                })}
+            <div className={styles.TournamentPairingsPage_Pairings}>
+              <h2>Pairings</h2>
+              <div className={styles.TournamentPairingsPage_Pairings_Grid}>
+                <div className={styles.TournamentPairingsPage_Pairings_Alerts}>
+                  {fields.map((field, i) => {
+                    const { status, message } = pairingStatuses[i] ?? { status: 'ok' as const, message: '' };
+                    return (
+                      <InfoPopover key={field.id} content={message} orientation="horizontal">
+                        <Pulsar pulse={status !== 'ok'} color={STATUS_COLORS[status]} size={12} />
+                      </InfoPopover>
+                    );
+                  })}
+                </div>
+                <Label className={styles.TournamentPairingsPage_Pairings_TableHeader}>Table</Label>
+                <div className={styles.TournamentPairingsPage_Pairings_TableInputs}>
+                  {fields.map((field, i) => (
+                    <div key={field.id} className={styles.TournamentPairingsPage_Pairings_TableInput}>
+                      <InputSelect
+                        options={tableOptions}
+                        name={`pairings.${i}.table`}
+                        value={pairings[i]?.table ?? -1}
+                        onChange={(value) => form.setValue(`pairings.${i}.table`, value as number, { shouldDirty: true })}
+                      />
+                    </div>
+                  ))}
+                </div>
+                <Label className={styles.TournamentPairingsPage_Pairings_CompetitorsHeader}>Opponents</Label>
+                <SortableGrid
+                  className={styles.TournamentPairingsPage_Pairings_CompetitorsGrid}
+                  items={flattenPairings(pairings)}
+                  columns={2}
+                  onChange={handleChange}
+                  renderItem={(id, state) => renderCompetitorCard(id, state, tournamentCompetitors)}
+                />
               </div>
-              <Label className={styles.TournamentPairingsPage_Form_TableHeader}>Table</Label>
-              <div className={styles.TournamentPairingsPage_Form_TableInputs}>
-                {fields.map((field, i) => (
-                  <div key={field.id} className={styles.TournamentPairingsPage_Form_TableInput}>
-                    <InputSelect
-                      options={tableOptions}
-                      name={`pairings.${i}.table`}
-                      value={pairings[i].table ?? -1}
-                      onChange={(value) => form.setValue(`pairings.${i}.table`, value as number, { shouldDirty: true })}
-                    />
-                  </div>
-                ))}
-              </div>
-              <Label className={styles.TournamentPairingsPage_Form_CompetitorsHeader}>Opponents</Label>
-              <SortableGrid
-                className={styles.TournamentPairingsPage_Form_CompetitorsGrid}
-                items={flattenPairings(pairings)}
-                columns={2}
-                onChange={handleChange}
-                renderItem={(id, state) => renderCompetitorCard(id, state, tournamentCompetitors)}
-              />
             </div>
           </div>
-          <ConfirmationDialog
-            id={confirmChangePairingMethodDialogId}
-            title="Confirm Change Pairing Method"
-            description="Are you sure you want to change the pairing method? The existing pairings will be replaced."
-          />
-          <ConfirmationDialog
-            id={confirmResetPairingsDialogId}
-            title="Confirm Reset Pairings"
-            description="Are you sure you want to reset? The existing pairings will be replaced."
-          />
-          <ConfirmPairingsDialog
-            id={confirmPairingsDialogId}
-            pairings={pairings}
-            competitors={tournamentCompetitors}
-            onConfirm={handleConfirm}
-          />
         </TournamentCompetitorsProvider>
       </TournamentProvider>
     </PageWrapper>

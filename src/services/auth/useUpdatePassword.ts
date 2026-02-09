@@ -4,7 +4,7 @@ import { ChangePasswordFormData } from '~/components/ChangePasswordDialog';
 import { toast } from '~/components/ToastProvider';
 import { handleError } from '~/services/utils/handleError';
 
-export const useUpdatePassword = () => useMutation({
+export const useUpdatePassword = () => useMutation<void, Error, ChangePasswordFormData>({
   mutationFn: async ({ password: _password }: ChangePasswordFormData): Promise<void> => {
     // TODO: Implement Convex password update
   },

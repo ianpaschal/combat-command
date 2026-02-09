@@ -22,8 +22,11 @@ export interface FormFieldProps {
   className?: string;
   description?: string;
   disabled?: boolean;
+  inputWidth?: string;
   label: string;
+  loading?: boolean;
   name?: string;
+  orientation?: 'vertical' | 'horizontal';
 }
 
 export const FormField = ({
@@ -31,8 +34,11 @@ export const FormField = ({
   className,
   description,
   disabled = false,
+  inputWidth,
   label,
+  loading,
   name,
+  orientation,
   ...props
 }: FormFieldProps): JSX.Element => {
   const { control, formState: { errors } } = useFormContext();
@@ -40,12 +46,14 @@ export const FormField = ({
   const error = get(errors, name);
   const showErrorState = !!error;
   const nonTextual = isValidElement(children) && ['Switch', 'Checkbox'].includes(getComponentName(children));
+  const isHorizontal = orientation ? orientation === 'horizontal' : nonTextual;
   return (
     <div
       className={clsx(styles.Root, {
-        [styles['Root-vertical']]: !nonTextual,
-        [styles['Root-horizontal']]: nonTextual,
+        [styles['Root-vertical']]: !isHorizontal,
+        [styles['Root-horizontal']]: isHorizontal,
       }, className)}
+      style={inputWidth ? { '--input-width': inputWidth } as React.CSSProperties : undefined}
     >
       <Label className={styles.Label} htmlFor={name}>{label}</Label>
       {(name && control) ? (
@@ -65,6 +73,7 @@ export const FormField = ({
                 'aria-invalid': showErrorState,
                 'aria-label': name,
                 disabled: formDisabled || disabled,
+                loading,
               })
             )}
             name={name}
@@ -78,6 +87,7 @@ export const FormField = ({
           ...props,
           className: clsx(styles.Input),
           disabled: formDisabled || disabled,
+          loading,
         })
       )}
       {description && (

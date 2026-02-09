@@ -55,6 +55,7 @@ export const errors = {
   TOURNAMENT_TIMER_ALREADY_RUNNING: 'Tournament timer is already running.',
   TOURNAMENT_TIMER_ALREADY_EXISTS: 'Tournament already has a timer for this round.',
   CANNOT_REMOVE_LAST_ORGANIZER_FROM_LEAGUE: 'Cannot remove the last organizer from league.',
+  NOT_ENOUGH_AVAILABLE_TABLES: 'There are more unassigned pairings than available tables!',
 
   // Missing docs
   FILE_NOT_FOUND: 'Could not find a file with that ID.',

@@ -1,5 +1,7 @@
+import { TournamentPairingPolicies, TournamentPairingPolicy } from '@ianpaschal/combat-command-game-systems/common';
+
 import { DeepTournamentCompetitor } from '../../tournamentCompetitors';
-import { TournamentPairingOptions, TournamentPairingStatus } from '../types';
+import { TournamentPairingStatus } from '../types';
 import { checkIfPairingIsRepeat } from './checkIfPairingIsRepeat';
 import { checkIfPairingIsSameAlignment } from './checkIfPairingIsSameAlignment';
 
@@ -13,30 +15,39 @@ import { checkIfPairingIsSameAlignment } from './checkIfPairingIsSameAlignment';
  * @returns TournamentPairingStatus with 'error', 'warning', or 'ok' status
  */
 export const validateTournamentPairing = (
-  options: Omit<TournamentPairingOptions, 'method'> = {},
+  policies: TournamentPairingPolicies,
   a: DeepTournamentCompetitor | null,
   b: DeepTournamentCompetitor | null,
   table?: number | null,
 ): TournamentPairingStatus => {
-  const { allowRepeats = false, allowSameAlignment = true } = options;
+  const { repeat, sameAlignment } = policies ?? {
+    repeat: TournamentPairingPolicy.Block,
+    sameAlignment: TournamentPairingPolicy.Block,
+  };
 
   // Both competitors present - check pairing constraints
   if (a && b) {
 
     // Check repeat opponents (error):
-    if (!allowRepeats && checkIfPairingIsRepeat(a, b)) {
-      return {
-        status: 'error',
-        message: 'These opponents have already played each other.',
-      };
+    if (checkIfPairingIsRepeat(a, b)) {
+      const message = 'These opponents have already played each other.';
+      if (repeat === TournamentPairingPolicy.Block) {
+        return { status: 'error', message };
+      }
+      if (repeat === TournamentPairingPolicy.Avoid) {
+        return { status: 'warning', message };
+      }
     }
 
     // Check same alignment (error):
-    if (!allowSameAlignment && checkIfPairingIsSameAlignment(a, b)) {
-      return {
-        status: 'error',
-        message: 'These opponents have the same alignment.',
-      };
+    if (checkIfPairingIsSameAlignment(a, b)) {
+      const message = 'These opponents have the same alignment.';
+      if (sameAlignment === TournamentPairingPolicy.Block) {
+        return { status: 'error', message };
+      }
+      if (sameAlignment === TournamentPairingPolicy.Avoid) {
+        return { status: 'warning', message };
+      }
     }
   }
 

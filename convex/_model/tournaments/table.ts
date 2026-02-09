@@ -10,6 +10,7 @@ import { getStaticEnumConvexValidator } from '../common/_helpers/getStaticEnumCo
 import { gameSystemConfig } from '../common/gameSystemConfig';
 import { location } from '../common/location';
 import { rankingFactor } from '../common/rankingFactor';
+import { tournamentPairingConfig } from '../common/tournamentPairingConfig';
 import { tournamentStatus } from '../common/tournamentStatus';
 
 const currencyCode = getStaticEnumConvexValidator(CurrencyCode);
@@ -66,7 +67,8 @@ export const editableFields = {
   factionsRevealed: v.optional(v.boolean()),
 
   // Format
-  pairingMethod: tournamentPairingMethod,
+  pairingConfig: v.optional(tournamentPairingConfig), // TODO: Remove optional after migration
+  pairingMethod: v.optional(tournamentPairingMethod), // TODO: Remove optional after migration
   roundCount: v.number(),
   roundStructure: v.object({
     pairingTime: v.number(), // Should always be 0 for non team tournaments

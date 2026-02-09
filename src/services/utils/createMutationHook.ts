@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useMutation } from 'convex/react';
 import { FunctionReference } from 'convex/server';
-import { ConvexError } from 'convex/values';
 
 import { toast } from '~/components/ToastProvider';
+import { handleError } from '~/services/utils/handleError';
 
 export type MutationFn = FunctionReference<'mutation'>;
 export type MutationHookConfig<T extends MutationFn> = {
@@ -29,20 +29,18 @@ export const createMutationHook = <T extends MutationFn>(mutationFn: T) => (conf
         if (instanceConfig?.onSuccess) {
           instanceConfig.onSuccess(response, args);
         }
+        return response;
       } catch (error) {
-        if (error instanceof ConvexError) {
-          toast.error('Error', { description: error.data.message });
-        } else if (error instanceof Error) {
-          toast.error('Error', { description: error.message as string });
-        }
+        handleError(error);
         if (config?.onError) {
           config.onError(error);
         }
         if (instanceConfig?.onError) {
           instanceConfig.onError(error);
         }
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     },
     loading,
   };

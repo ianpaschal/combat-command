@@ -5,6 +5,6 @@ import { DeepTournamentCompetitor } from '../../tournamentCompetitors';
  */
 
 export const checkIfPairingIsRepeat = (
-  a: DeepTournamentCompetitor,
-  b: DeepTournamentCompetitor,
-): boolean => a.opponentIds.includes(b._id) || b.opponentIds.includes(a._id);
+  a: DeepTournamentCompetitor | null,
+  b: DeepTournamentCompetitor | null,
+): boolean => !!a && !!b && (a.opponentIds.includes(b._id) || b.opponentIds.includes(a._id));

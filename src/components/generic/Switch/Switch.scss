@@ -14,6 +14,8 @@ $thumb-offset: calc($switch-width - ($thumb-inset + $thumb-size));
 
   position: relative;
 
+  flex-shrink: 0;
+
   width: $switch-width;
   height: $switch-height;
 

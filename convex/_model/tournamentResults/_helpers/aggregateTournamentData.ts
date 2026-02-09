@@ -109,7 +109,7 @@ export const aggregateTournamentData = async (
       if (wasBye) {
         competitorStats[competitorId].byeRounds.add(tournamentPairing.round);
       }
-      if (!wasBye && tournamentPairing.table) {
+      if (!wasBye && typeof tournamentPairing.table === 'number') {
         competitorStats[competitorId].playedTables.add(tournamentPairing.table);
       }
     });

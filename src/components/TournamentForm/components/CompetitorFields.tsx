@@ -1,6 +1,6 @@
 import { useFormContext } from 'react-hook-form';
 import { Select } from '@ianpaschal/combat-command-components';
-import { TournamentPairingMethod } from '@ianpaschal/combat-command-game-systems/common';
+import { TournamentPairingPolicy } from '@ianpaschal/combat-command-game-systems/common';
 import clsx from 'clsx';
 
 import { Animate } from '~/components/generic/Animate';
@@ -24,7 +24,7 @@ export const CompetitorFields = ({
   status = 'draft',
 }: CompetitorFieldsProps): JSX.Element => {
   const { reset, watch } = useFormContext<TournamentFormData>();
-  const { maxCompetitors, competitorSize, pairingMethod } = watch();
+  const { maxCompetitors, competitorSize, pairingConfig } = watch();
 
   // TODO: Implement later
   // const { fields: competitorGroupFields, append, remove } = useFieldArray({
@@ -81,7 +81,7 @@ export const CompetitorFields = ({
   // Once a tournament is published, lock some fields
   const allowedEditStatuses = ['draft'];
   const disableFields = !allowedEditStatuses.includes(status);
-  const disableAlignmentField = pairingMethod === TournamentPairingMethod.AdjacentAlignment;
+  const disableAlignmentField = pairingConfig.policies.sameAlignment === TournamentPairingPolicy.Block;
 
   return (
     <div className={clsx(styles.CompetitorFields, className)}>

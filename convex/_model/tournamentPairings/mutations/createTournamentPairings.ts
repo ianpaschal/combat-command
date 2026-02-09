@@ -61,9 +61,15 @@ export const createTournamentPairings = async (
     round: args.round,
   });
 
+  // Create each pairing:
   for (const pairing of args.pairings) {
 
-    // Validate each pairing:
+    // Skip if empty (neither side has a competitor):
+    if (!pairing.tournamentCompetitor0Id && !pairing.tournamentCompetitor1Id) {
+      continue;
+    }
+
+    // Validate:
     for (const id of [pairing.tournamentCompetitor0Id, pairing.tournamentCompetitor1Id]) {
       const competitor = competitors.find((c) => c._id === id);
       const activePlayers = (competitor?.registrations ?? []).filter((p) => p.active);
@@ -71,10 +77,10 @@ export const createTournamentPairings = async (
         if (!competitor) {
           throw new ConvexError(getErrorMessage('CANNOT_ADD_PAIRING_FOR_MISSING_COMPETITOR'));
         }
-        if (!competitor?.active) {
+        if (!competitor.active) {
           throw new ConvexError(getErrorMessage('CANNOT_ADD_PAIRING_FOR_INACTIVE_COMPETITOR'));
         }
-        if (pairedCompetitorIds.has(pairing.tournamentCompetitor0Id)) {
+        if (pairedCompetitorIds.has(id)) {
           throw new ConvexError(getErrorMessage('CANNOT_ADD_PAIRING_FOR_ALREADY_PAIRED_COMPETITOR'));
         }
         if (activePlayers.length < tournament.competitorSize) {
@@ -95,7 +101,9 @@ export const createTournamentPairings = async (
 
     // Track results:
     pairingIds.push(id);
-    pairedCompetitorIds.add(pairing.tournamentCompetitor0Id);
+    if (pairing.tournamentCompetitor0Id) {
+      pairedCompetitorIds.add(pairing.tournamentCompetitor0Id);
+    }
     if (pairing.tournamentCompetitor1Id) {
       pairedCompetitorIds.add(pairing.tournamentCompetitor1Id);
     }

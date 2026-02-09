@@ -1,8 +1,4 @@
-import {
-  GameSystem,
-  getGameSystemDisplayName,
-  getTournamentPairingMethodDisplayName,
-} from '@ianpaschal/combat-command-game-systems/common';
+import { GameSystem, getGameSystemDisplayName } from '@ianpaschal/combat-command-game-systems/common';
 import clsx from 'clsx';
 import { format } from 'date-fns';
 import {
@@ -16,10 +12,10 @@ import {
 } from 'lucide-react';
 
 import { GameSystemTypeGuard } from '~/components/GameSystemTypeGuard';
-import { getLocalizedCompetitorFee } from '~/components/TournamentInfoBlock/TournamentInfoBlock.utils';
 import { useTournament } from '~/components/TournamentProvider';
 import { FlamesOfWarV4InfoLine } from './gameSystems/FlamesOfWarV4InfoLine';
 import { TeamYankeeV2InfoLine } from './gameSystems/TeamYankeeV2InfoLine';
+import { getLocalizedCompetitorFee, getPairingMethod } from './TournamentInfoBlock.utils';
 
 import styles from './TournamentInfoBlock.module.scss';
 
@@ -89,7 +85,7 @@ export const TournamentInfoBlock = ({
           <div className={styles.TournamentInfoBlock_InfoLine}>
             <Swords />
             <span>{`${tournament.roundCount} rounds`}</span>
-            <span>{`${getTournamentPairingMethodDisplayName(tournament.pairingMethod)} pairing`}</span>
+            <span>{`${getPairingMethod(tournament)} pairing`}</span>
           </div>
           {tournament.rulesPackUrl && (
             <div className={styles.TournamentInfoBlock_InfoLine}>

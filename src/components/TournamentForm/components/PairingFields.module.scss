@@ -1,0 +1,14 @@
+@use "/src/style/flex";
+@use "/src/style/variables";
+
+.PairingFields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  row-gap: 2rem;
+  column-gap: 1.5rem;
+
+  &_Config,
+  &_RankingFactors {
+    @include flex.column($gap: var(--form-field-gap));
+  }
+}

@@ -1,17 +1,20 @@
 import { ReactElement } from 'react';
 import { UseFormReset } from 'react-hook-form';
 import { UniqueIdentifier } from '@dnd-kit/core';
+import { ColumnDef } from '@ianpaschal/combat-command-components';
+import { TournamentPairingConfig } from '@ianpaschal/combat-command-game-systems/common';
 
 import {
+  DraftTournamentPairing,
   TournamentCompetitor,
   TournamentCompetitorId,
-  TournamentPairingOptions,
   TournamentPairingStatus,
   validateTournamentPairing,
 } from '~/api';
 import { FactionIndicator } from '~/components/FactionIndicator';
 import { IdentityBadge } from '~/components/IdentityBadge';
 import { TournamentCompetitorIdentity } from '~/components/TournamentCompetitorIdentity';
+import { TournamentPairingRow } from '~/components/TournamentPairingRow';
 import { FormData, TournamentPairingFormItem } from './TournamentPairingsPage.schema';
 
 import styles from './TournamentPairingsPage.module.scss';
@@ -54,7 +57,7 @@ export const flattenPairings = (
  * @returns Array of TournamentPairingStatus for each pairing
  */
 export const getPairingsStatuses = (
-  options: TournamentPairingOptions,
+  config: TournamentPairingConfig,
   rankedCompetitors: TournamentCompetitor[],
   pairings: TournamentPairingFormItem[],
 ): TournamentPairingStatus[] => {
@@ -86,7 +89,7 @@ export const getPairingsStatuses = (
     }
 
     // Use universal validator for all other checks
-    return validateTournamentPairing(options, competitorA, competitorB, pairing.table);
+    return validateTournamentPairing(config.policies, competitorA, competitorB, pairing.table);
   });
 };
 
@@ -108,7 +111,7 @@ export const renderCompetitorCard = (
 
   if (!tournamentCompetitors) {
     return (
-      <div className={styles.TournamentPairingsPage_Form_CompetitorCard}>
+      <div className={styles.TournamentPairingsPage_Pairings_CompetitorCard}>
         <IdentityBadge loading />
       </div>
     );
@@ -118,9 +121,9 @@ export const renderCompetitorCard = (
 
   if (!rankedCompetitor) {
     return (
-      <div className={styles.TournamentPairingsPage_Form_CompetitorCard}>
+      <div className={styles.TournamentPairingsPage_Pairings_CompetitorCard}>
         <TournamentCompetitorIdentity
-          className={styles.TournamentPairingsPage_Form_CompetitorCard_Identity}
+          className={styles.TournamentPairingsPage_Pairings_CompetitorCard_Identity}
           placeholder={{ displayName: 'Bye' }}
         />
       </div>
@@ -130,15 +133,54 @@ export const renderCompetitorCard = (
   const rank = (rankedCompetitor.rank ?? -1) < 0 ? '-' : rankedCompetitor.rank + 1;
 
   return (
-    <div className={styles.TournamentPairingsPage_Form_CompetitorCard}>
-      <div className={styles.TournamentPairingsPage_Form_CompetitorCard_Rank}>
+    <div className={styles.TournamentPairingsPage_Pairings_CompetitorCard}>
+      <div className={styles.TournamentPairingsPage_Pairings_CompetitorCard_Rank}>
         {rank}
       </div>
       <TournamentCompetitorIdentity
-        className={styles.TournamentPairingsPage_Form_CompetitorCard_Identity}
+        className={styles.TournamentPairingsPage_Pairings_CompetitorCard_Identity}
         tournamentCompetitor={rankedCompetitor}
       />
       <FactionIndicator {...rankedCompetitor.details} />
     </div>
   );
+};
+
+export const getConfirmDialogTableColumns = (competitors: TournamentCompetitor[]): ColumnDef<DraftTournamentPairing>[] => {
+  const competitorMap = new Map<TournamentCompetitorId | null, TournamentCompetitor>(
+    competitors.map((c) => [c._id, c]),
+  );
+  return [
+    {
+      key: 'table',
+      label: 'Table',
+      width: 'auto',
+      xAlign: 'center',
+      renderCell: (r) => (
+        <div className={styles.ConfirmPairingsDialog_TableNumber}>
+          {r.table === null ? '-' : r.table + 1}
+        </div>
+      ),
+    },
+    {
+      key: 'pairing',
+      label: 'Pairing',
+      width: '1fr',
+      xAlign: 'center',
+      renderCell: (r) => {
+        const tournamentCompetitor0 = competitorMap.get(r.tournamentCompetitor0Id) ?? null;
+        const tournamentCompetitor1 = competitorMap.get(r.tournamentCompetitor1Id) ?? null;
+        if (!tournamentCompetitor0 && !tournamentCompetitor1) {
+          return null;
+        }
+        return (
+          <TournamentPairingRow pairing={{
+            table: r.table,
+            tournamentCompetitor0,
+            tournamentCompetitor1,
+          }} />
+        );
+      },
+    },
+  ];
 };

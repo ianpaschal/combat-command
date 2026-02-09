@@ -38,6 +38,7 @@ import type * as _model_common_matchResultDetails from "../_model/common/matchRe
 import type * as _model_common_rankingFactor from "../_model/common/rankingFactor.js";
 import type * as _model_common_scoreAdjustment from "../_model/common/scoreAdjustment.js";
 import type * as _model_common_themes from "../_model/common/themes.js";
+import type * as _model_common_tournamentPairingConfig from "../_model/common/tournamentPairingConfig.js";
 import type * as _model_common_tournamentStatus from "../_model/common/tournamentStatus.js";
 import type * as _model_common_types from "../_model/common/types.js";
 import type * as _model_files_index from "../_model/files/index.js";
@@ -146,6 +147,7 @@ import type * as _model_tournamentOrganizers_queries_getTournamentOrganizersByUs
 import type * as _model_tournamentOrganizers_table from "../_model/tournamentOrganizers/table.js";
 import type * as _model_tournamentOrganizers_types from "../_model/tournamentOrganizers/types.js";
 import type * as _model_tournamentPairings__helpers_assignBye from "../_model/tournamentPairings/_helpers/assignBye.js";
+import type * as _model_tournamentPairings__helpers_assignTables from "../_model/tournamentPairings/_helpers/assignTables.js";
 import type * as _model_tournamentPairings__helpers_checkIfPairingIsRepeat from "../_model/tournamentPairings/_helpers/checkIfPairingIsRepeat.js";
 import type * as _model_tournamentPairings__helpers_checkIfPairingIsSameAlignment from "../_model/tournamentPairings/_helpers/checkIfPairingIsSameAlignment.js";
 import type * as _model_tournamentPairings__helpers_deepenTournamentPairing from "../_model/tournamentPairings/_helpers/deepenTournamentPairing.js";
@@ -158,6 +160,8 @@ import type * as _model_tournamentPairings__helpers_sortByRank from "../_model/t
 import type * as _model_tournamentPairings__helpers_sortCompetitorPairs from "../_model/tournamentPairings/_helpers/sortCompetitorPairs.js";
 import type * as _model_tournamentPairings__helpers_sortPairingsByTable from "../_model/tournamentPairings/_helpers/sortPairingsByTable.js";
 import type * as _model_tournamentPairings__helpers_validateTournamentPairing from "../_model/tournamentPairings/_helpers/validateTournamentPairing.js";
+import type * as _model_tournamentPairings_actions_generateDraftTournamentPairings from "../_model/tournamentPairings/actions/generateDraftTournamentPairings.js";
+import type * as _model_tournamentPairings_actions_generateTableAssignments from "../_model/tournamentPairings/actions/generateTableAssignments.js";
 import type * as _model_tournamentPairings_index from "../_model/tournamentPairings/index.js";
 import type * as _model_tournamentPairings_mutations_createTournamentPairings from "../_model/tournamentPairings/mutations/createTournamentPairings.js";
 import type * as _model_tournamentPairings_mutations_deleteTournamentPairings from "../_model/tournamentPairings/mutations/deleteTournamentPairings.js";
@@ -347,6 +351,7 @@ declare const fullApi: ApiFromModules<{
   "_model/common/rankingFactor": typeof _model_common_rankingFactor;
   "_model/common/scoreAdjustment": typeof _model_common_scoreAdjustment;
   "_model/common/themes": typeof _model_common_themes;
+  "_model/common/tournamentPairingConfig": typeof _model_common_tournamentPairingConfig;
   "_model/common/tournamentStatus": typeof _model_common_tournamentStatus;
   "_model/common/types": typeof _model_common_types;
   "_model/files/index": typeof _model_files_index;
@@ -455,6 +460,7 @@ declare const fullApi: ApiFromModules<{
   "_model/tournamentOrganizers/table": typeof _model_tournamentOrganizers_table;
   "_model/tournamentOrganizers/types": typeof _model_tournamentOrganizers_types;
   "_model/tournamentPairings/_helpers/assignBye": typeof _model_tournamentPairings__helpers_assignBye;
+  "_model/tournamentPairings/_helpers/assignTables": typeof _model_tournamentPairings__helpers_assignTables;
   "_model/tournamentPairings/_helpers/checkIfPairingIsRepeat": typeof _model_tournamentPairings__helpers_checkIfPairingIsRepeat;
   "_model/tournamentPairings/_helpers/checkIfPairingIsSameAlignment": typeof _model_tournamentPairings__helpers_checkIfPairingIsSameAlignment;
   "_model/tournamentPairings/_helpers/deepenTournamentPairing": typeof _model_tournamentPairings__helpers_deepenTournamentPairing;
@@ -467,6 +473,8 @@ declare const fullApi: ApiFromModules<{
   "_model/tournamentPairings/_helpers/sortCompetitorPairs": typeof _model_tournamentPairings__helpers_sortCompetitorPairs;
   "_model/tournamentPairings/_helpers/sortPairingsByTable": typeof _model_tournamentPairings__helpers_sortPairingsByTable;
   "_model/tournamentPairings/_helpers/validateTournamentPairing": typeof _model_tournamentPairings__helpers_validateTournamentPairing;
+  "_model/tournamentPairings/actions/generateDraftTournamentPairings": typeof _model_tournamentPairings_actions_generateDraftTournamentPairings;
+  "_model/tournamentPairings/actions/generateTableAssignments": typeof _model_tournamentPairings_actions_generateTableAssignments;
   "_model/tournamentPairings/index": typeof _model_tournamentPairings_index;
   "_model/tournamentPairings/mutations/createTournamentPairings": typeof _model_tournamentPairings_mutations_createTournamentPairings;
   "_model/tournamentPairings/mutations/deleteTournamentPairings": typeof _model_tournamentPairings_mutations_deleteTournamentPairings;

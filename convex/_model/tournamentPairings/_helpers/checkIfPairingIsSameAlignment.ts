@@ -5,11 +5,14 @@ import { DeepTournamentCompetitor } from '../../tournamentCompetitors';
  * Returns true if they have the same single alignment (conflict).
  * Returns false if pairing is allowed (flexible, multiple alignments, or different).
  */
-
 export const checkIfPairingIsSameAlignment = (
-  a: DeepTournamentCompetitor,
-  b: DeepTournamentCompetitor,
+  a: DeepTournamentCompetitor | null,
+  b: DeepTournamentCompetitor | null,
 ): boolean => {
+  if (!a || !b) {
+    return false;
+  }
+
   const aAlignments = a.details.alignments;
   const bAlignments = b.details.alignments;
 
