@@ -5,6 +5,9 @@ import { QueryCtx } from '../../../_generated/server';
 import { checkUserIsTournamentOrganizer } from '../../tournamentOrganizers';
 
 export enum TournamentRegistrationActionKey {
+
+  Edit = 'edit',
+
   // ---- TO Actions ----
 
   /** Delete this TournamentRegistration (and TournamentCompetitor if no remaining players). */
@@ -66,6 +69,10 @@ export const getAvailableActions = async (
 
   if (tournament.status === 'archived') {
     return actions;
+  }
+
+  if (isOrganizer || ((isCaptain || isSelf) && tournament.status === 'published')) {
+    actions.push(TournamentRegistrationActionKey.Edit);
   }
 
   // if (isOrganizer) {

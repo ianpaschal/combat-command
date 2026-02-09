@@ -82,6 +82,7 @@ export {
 export {
   type TournamentRegistration,
   TournamentRegistrationActionKey,
+  type TournamentRegistrationDetails,
   type TournamentRegistrationId,
 } from '../convex/_model/tournamentRegistrations';
 

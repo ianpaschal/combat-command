@@ -78,7 +78,7 @@ export const getAvailableActions = async (
   }
 
   // TO or Captain Actions:
-  if (isOrganizer || isCaptain) {
+  if (isOrganizer || (isCaptain && tournament.status === 'published')) {
     actions.push(TournamentCompetitorActionKey.Edit);
   }
 

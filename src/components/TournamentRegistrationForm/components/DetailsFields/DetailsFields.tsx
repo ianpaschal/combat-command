@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { DeepPartial, useFormContext } from 'react-hook-form';
 import { Select } from '@ianpaschal/combat-command-components';
 import { getGameSystem } from '@ianpaschal/combat-command-game-systems/common';
 import clsx from 'clsx';
 
-import { Tournament } from '~/api';
+import { Tournament, TournamentRegistration } from '~/api';
 import { FormField } from '~/components/generic/Form';
 import { FormData } from '../../TournamentRegistrationForm.schema';
 
@@ -13,11 +13,13 @@ import styles from './DetailsFields.module.scss';
 export interface DetailsFieldsProps {
   className?: string;
   tournament: Tournament;
+  existingValues?: DeepPartial<TournamentRegistration>;
 }
 
 export const DetailsFields = ({
   className,
   tournament,
+  existingValues,
 }: DetailsFieldsProps): JSX.Element => {
   const {
     getFactionOptions,
@@ -33,8 +35,8 @@ export const DetailsFields = ({
     }
   }, [declaredFaction, getFactionAlignment, setValue]);
 
-  const showAlignmentField = !!tournament.registrationDetails?.alignment;
-  const showFactionField = !!tournament.registrationDetails?.faction;
+  const showAlignmentField = !!(existingValues || tournament.registrationDetails?.alignment);
+  const showFactionField = !!(existingValues || tournament.registrationDetails?.faction);
 
   return (
     <div className={clsx(styles.FactionFields, className)}>

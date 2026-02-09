@@ -38,7 +38,7 @@ export interface TournamentCompetitorFormProps {
   onSubmit: (data: SubmitData) => void;
   setDirty?: (dirty: boolean) => void;
   tournament: Tournament;
-  tournamentCompetitor?: TournamentCompetitor | null;
+  existingValues?: TournamentCompetitor | null;
 }
 
 export const TournamentCompetitorForm = ({
@@ -50,7 +50,7 @@ export const TournamentCompetitorForm = ({
   onSubmit,
   setDirty,
   tournament,
-  tournamentCompetitor,
+  existingValues,
 }: TournamentCompetitorFormProps): JSX.Element => {
 
   const user = useAuth();
@@ -67,23 +67,23 @@ export const TournamentCompetitorForm = ({
     tournamentId: tournament._id,
   });
 
-  const userSelectProps: Partial<InputUserProps> = tournamentCompetitor ? {
+  const userSelectProps: Partial<InputUserProps> = existingValues ? {
     options: (tournamentRegistrations ?? []).filter((r) => (
-      r.tournamentCompetitorId === tournamentCompetitor?._id
+      r.tournamentCompetitorId === existingValues?._id
     )).map((r) => r.user),
   } : {
     excludeIds: (tournamentRegistrations ?? []).map((r) => r.userId),
   };
 
   const otherCompetitors = (tournamentCompetitors || []).filter((c) => (
-    c._id !== tournamentCompetitor?._id
+    c._id !== existingValues?._id
   ));
 
   const schema = createSchema(tournament.useTeams, otherCompetitors);
   const form = useForm<FormData>({
     defaultValues: {
       ...defaultValues,
-      ...tournamentCompetitor,
+      ...existingValues,
       ...forcedValues,
     },
     mode: 'onSubmit',

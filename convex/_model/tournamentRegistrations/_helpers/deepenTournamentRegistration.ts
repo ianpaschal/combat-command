@@ -35,9 +35,15 @@ export const deepenTournamentRegistration = async (
   const alignments = Array.from(new Set(alignmentsVisible && details?.alignment ? [details.alignment] : []));
   const factions = Array.from(new Set(factionsVisible && details?.faction ? [details.faction] : []));
 
+  const visibleDetails = {
+    alignment: alignmentsVisible ? details?.alignment ?? null : null,
+    faction: factionsVisible ? details?.faction ?? null : null,
+  };
+
   return {
     ...restDoc,
     availableActions,
+    details: visibleDetails,
     user,
     displayName: user.displayName,
     alignments,
