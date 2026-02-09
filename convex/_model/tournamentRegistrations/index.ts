@@ -1,8 +1,10 @@
 // Types
 export type {
   TournamentRegistration,
+  TournamentRegistrationCreateArgs,
   TournamentRegistrationDetails,
   TournamentRegistrationId,
+  TournamentRegistrationUpdateArgs,
 } from './types';
 
 // Helpers

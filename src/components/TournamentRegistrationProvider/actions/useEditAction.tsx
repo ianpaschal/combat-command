@@ -22,12 +22,6 @@ export const useEditAction = (
     },
   });
 
-  const forcedValues = {
-    tournamentCompetitorId: subject.tournamentCompetitorId,
-    tournamentId: subject.tournamentId,
-    userId: subject.userId,
-  };
-
   const { open, close } = useFormDialog({
     formId: 'edit-tournament-registration',
     title: `Edit ${subject.displayName}`,
@@ -36,16 +30,11 @@ export const useEditAction = (
       <TournamentRegistrationForm
         tournament={tournament}
         existingValues={subject}
-        forcedValues={forcedValues}
         onSubmit={({
           nameVisibilityConsent: _nameVisibilityConsent, // Only used for new registrations
           tournamentCompetitor: _tournamentCompetitor, // Only used for new registrations
           ...data
-        }) => mutation({
-          id: subject._id,
-          ...forcedValues,
-          ...data,
-        })}
+        }) => mutation({ _id: subject._id, ...data })}
       />
     ),
   });

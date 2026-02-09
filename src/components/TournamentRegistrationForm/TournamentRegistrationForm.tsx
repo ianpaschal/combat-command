@@ -1,9 +1,5 @@
 import { useEffect } from 'react';
-import {
-  DeepPartial,
-  SubmitHandler,
-  useForm,
-} from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { InputText, Select } from '@ianpaschal/combat-command-components';
 import clsx from 'clsx';
 
@@ -35,7 +31,7 @@ import styles from './TournamentRegistrationForm.module.scss';
 export interface TournamentRegistrationFormProps {
   className?: string;
   disabled?: boolean;
-  existingValues?: DeepPartial<TournamentRegistration>;
+  existingValues?: TournamentRegistration;
   forcedValues?: Partial<SubmitData> & { tournamentId: TournamentId };
   id?: string;
   loading?: boolean;
@@ -113,9 +109,8 @@ export const TournamentRegistrationForm = ({
     existingRegistrationsLoading,
   ].some((l) => !!l);
 
-  const showUserField = !forcedValues?.userId;
-  const showTeamNameField = !forcedValues?.tournamentCompetitorId && tournament.useTeams;
-
+  const showUserField = !existingValues && !forcedValues?.userId;
+  const showTeamNameField = !existingValues && !forcedValues?.tournamentCompetitorId && tournament.useTeams;
   const showNameVisibilityConsentField = nameVisibilityChangeRequired(tournament, currentUser, form.watch('userId'));
 
   return (
@@ -146,9 +141,7 @@ export const TournamentRegistrationForm = ({
           </FormField>
         </div>
       )}
-      {(tournament.registrationDetails || existingValues) && (
-        <DetailsFields tournament={tournament} existingValues={existingValues} />
-      )}
+      <DetailsFields tournament={tournament} existingValues={existingValues} />
       {showNameVisibilityConsentField && (
         <FormField name="nameVisibilityConsent" label="Allow TO and fellow players to see name.">
           <Checkbox />

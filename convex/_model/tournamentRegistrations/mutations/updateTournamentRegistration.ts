@@ -5,55 +5,33 @@ import {
 } from 'convex/values';
 
 import { MutationCtx } from '../../../_generated/server';
-import { checkAuth } from '../../common/_helpers/checkAuth';
 import { getErrorMessage } from '../../common/errors';
-import { getTournamentOrganizersByTournament } from '../../tournamentOrganizers';
-import { editableFields } from '../table';
+import { getAvailableActions, TournamentRegistrationActionKey } from '../_helpers/getAvailableActions';
+import { detailFields } from '../table';
 
 export const updateTournamentRegistrationArgs = v.object({
-  id: v.id('tournamentRegistrations'),
-  ...editableFields,
+  _id: v.id('tournamentRegistrations'),
+  details: v.optional(detailFields),
 });
 
 export const updateTournamentRegistration = async (
   ctx: MutationCtx,
   args: Infer<typeof updateTournamentRegistrationArgs>,
 ): Promise<void> => {
-  const { id, ...updated } = args;
-  // --- CHECK AUTH ----
-  const userId = await checkAuth(ctx);
+  const { _id, ...updated } = args;
     
-  // ---- VALIDATE ----
-  const tournamentRegistration = await ctx.db.get(id);
-  if (!tournamentRegistration) {
-    throw new ConvexError(getErrorMessage('TOURNAMENT_COMPETITOR_NOT_FOUND'));
+  // ---- AUTH & VALIDATION CHECK ----
+  const doc = await ctx.db.get(_id);
+  if (!doc) {
+    throw new ConvexError(getErrorMessage('TOURNAMENT_REGISTRATION_NOT_FOUND'));
   }
-  const tournament = await ctx.db.get(tournamentRegistration.tournamentId);
-  if (!tournament) {
-    throw new ConvexError(getErrorMessage('TOURNAMENT_NOT_FOUND'));
-  }
-  if (tournament.status === 'archived') {
-    throw new ConvexError(getErrorMessage('CANNOT_MODIFY_ARCHIVED_TOURNAMENT'));
-  }
-
-  // ---- EXTENDED AUTH CHECK ----
-  /* These user IDs can make changes to this tournament competitor:
-   * - Tournament organizers;
-   * - This tournament competitor's captain;
-   */
-  const tournamentOrganizers = await getTournamentOrganizersByTournament(ctx, {
-    tournamentId: tournamentRegistration.tournamentId,
-  });
-  const authorizedUserIds = [
-    ...tournamentOrganizers.map((r) => r.userId),
-    tournamentRegistration.userId,
-  ];
-  if (!authorizedUserIds.includes(userId)) {
+  const availableActions = await getAvailableActions(ctx, doc);
+  if (!availableActions.includes(TournamentRegistrationActionKey.Edit)) {
     throw new ConvexError(getErrorMessage('USER_DOES_NOT_HAVE_PERMISSION'));
   }
 
   // ---- PRIMARY ACTIONS ----
-  await ctx.db.patch(id, {
+  await ctx.db.patch(_id, {
     ...updated,
     modifiedAt: Date.now(),
   });

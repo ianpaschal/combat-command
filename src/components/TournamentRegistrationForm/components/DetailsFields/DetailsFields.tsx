@@ -20,7 +20,7 @@ export const DetailsFields = ({
   className,
   tournament,
   existingValues,
-}: DetailsFieldsProps): JSX.Element => {
+}: DetailsFieldsProps): JSX.Element | null => {
   const {
     getFactionOptions,
     getAlignmentOptions,
@@ -37,6 +37,10 @@ export const DetailsFields = ({
 
   const showAlignmentField = !!(existingValues || tournament.registrationDetails?.alignment);
   const showFactionField = !!(existingValues || tournament.registrationDetails?.faction);
+
+  if (![showAlignmentField, showFactionField].some(Boolean)) {
+    return null;
+  }
 
   return (
     <div className={clsx(styles.FactionFields, className)}>

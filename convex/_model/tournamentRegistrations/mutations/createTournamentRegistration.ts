@@ -12,13 +12,12 @@ import { VisibilityLevel } from '../../common/VisibilityLevel';
 import { getTournamentOrganizersByTournament } from '../../tournamentOrganizers';
 import { checkUserIsRegistered } from '../_helpers/checkUserIsRegistered';
 import { getCreateSuccessMessage } from '../_helpers/getCreateSuccessMessage';
-import { editableFields } from '../table';
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const { tournamentCompetitorId, ...restEditableFields } = editableFields;
+import { detailFields } from '../table';
 
 export const createTournamentRegistrationArgs = v.object({
-  ...restEditableFields,
+  userId: v.id('users'),
+  tournamentId: v.id('tournaments'),
+  details: v.optional(detailFields),
   tournamentCompetitorId: v.optional(v.id('tournamentCompetitors')),
   tournamentCompetitor: v.optional(v.object({
     teamName: v.optional(v.string()),

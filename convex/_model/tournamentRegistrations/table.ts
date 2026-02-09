@@ -16,23 +16,19 @@ export const editableFields = {
   details: v.optional(detailFields),
 };
 
-/**
- * Fields which can only be edited using special mutations, or which are set programmatically.
- */
-export const computedFields = {
-  listId: v.optional(v.id('lists')),
+export default defineTable({
+  userId: v.id('users'),
+  tournamentId: v.id('tournaments'),
+  tournamentCompetitorId: v.id('tournamentCompetitors'),
+  details: v.optional(detailFields),
   active: v.optional(v.boolean()),
   confirmed: v.optional(v.boolean()),
   modifiedAt: v.optional(v.number()),
 
   // Deprecated fields:
+  listId: v.optional(v.id('lists')),
   userConfirmed: v.optional(v.boolean()),
   listApproved: v.optional(v.boolean()),
-};
-
-export default defineTable({
-  ...editableFields,
-  ...computedFields,
 })
   .index('by_tournament', ['tournamentId'])
   .index('by_tournament_user', ['tournamentId', 'userId'])
