@@ -4,8 +4,17 @@ import { toast } from '~/components/ToastProvider';
 
 export const handleError = (error: unknown): void => {
   if (error instanceof ConvexError) {
-    toast.error('Error', { description: error.data.message });
+    toast.error('Error', {
+      description: error.data.message,
+    });
   } else if (error instanceof Error) {
-    toast.error('Error', { description: error.message as string });
+    toast.error('Error', {
+      description: error.message,
+    });
+  } else {
+    toast.error('Error', {
+      description: typeof error === 'string' ? error : JSON.stringify(error) ?? 'Unknown error',
+    });
   }
+  console.error(error);
 };

@@ -38,8 +38,9 @@ export const createMutationHook = <T extends MutationFn>(mutationFn: T) => (conf
         if (instanceConfig?.onError) {
           instanceConfig.onError(error);
         }
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     },
     loading,
   };

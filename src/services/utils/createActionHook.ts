@@ -38,8 +38,9 @@ export const createActionHook = <T extends ActionFn>(actionFn: T) => (config?: A
         if (instanceConfig?.onError) {
           instanceConfig.onError(error);
         }
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     },
     loading,
   };

@@ -1,12 +1,11 @@
-import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { TournamentPairingPolicy } from '@ianpaschal/combat-command-game-systems/common';
 
 import { Animate } from '~/components/generic/Animate';
 import { FormField } from '~/components/generic/Form';
 import { InputText } from '~/components/generic/InputText';
 import { TournamentFormData } from '~/components/TournamentForm/TournamentForm.schema';
 import { TournamentRoundStructure } from '~/components/TournamentRoundStructure';
+import { ALLOWED_EDIT_STATUSES } from '../TournamentForm.utils';
 
 import styles from './FormatFields.module.scss';
 
@@ -17,20 +16,12 @@ export interface FormatFieldsProps {
 export const FormatFields = ({
   status = 'draft',
 }: FormatFieldsProps): JSX.Element => {
-  const { watch, setValue } = useFormContext<TournamentFormData>();
-  const { roundStructure, competitorSize } = watch();
+  const { watch } = useFormContext<TournamentFormData>();
+  const [roundStructure, competitorSize] = watch(['roundStructure', 'competitorSize']);
   const isTeam = competitorSize > 1;
-  const sameAlignmentPolicy = watch('pairingConfig.policies.sameAlignment');
-
-  useEffect(() => {
-    if (sameAlignmentPolicy !== TournamentPairingPolicy.Allow) {
-      setValue('registrationDetails.alignment', 'required');
-    }
-  }, [sameAlignmentPolicy, setValue]);
 
   // Once a tournament is active, lock some fields
-  const allowedEditStatuses = ['draft', 'published'];
-  const disableFields = !allowedEditStatuses.includes(status);
+  const disableFields = !ALLOWED_EDIT_STATUSES.includes(status);
 
   return (
     <div className={styles.FormatFields}>

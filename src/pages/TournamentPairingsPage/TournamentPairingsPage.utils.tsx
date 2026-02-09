@@ -2,11 +2,10 @@ import { ReactElement } from 'react';
 import { UseFormReset } from 'react-hook-form';
 import { UniqueIdentifier } from '@dnd-kit/core';
 import { ColumnDef } from '@ianpaschal/combat-command-components';
-import { TournamentPairingConfig, TournamentPairingPolicy } from '@ianpaschal/combat-command-game-systems/common';
+import { TournamentPairingConfig } from '@ianpaschal/combat-command-game-systems/common';
 
 import {
   DraftTournamentPairing,
-  Tournament,
   TournamentCompetitor,
   TournamentCompetitorId,
   TournamentPairingStatus,
@@ -145,23 +144,6 @@ export const renderCompetitorCard = (
       <FactionIndicator {...rankedCompetitor.details} />
     </div>
   );
-};
-
-export const getDefaultValues = (tournament?: Tournament | null): TournamentPairingConfig => {
-  const isFirstRound = (tournament?.lastRound ?? -1) < 0;
-  const config = tournament?.pairingConfig ?? {
-    orderBy: 'ranking',
-    policies: {
-      sameAlignment: TournamentPairingPolicy.Allow,
-      repeat: TournamentPairingPolicy.Block,
-    },
-  };
-  return {
-    ...config,
-    ...(isFirstRound ? {
-      orderBy: 'random',
-    } : {}),
-  };
 };
 
 export const getConfirmDialogTableColumns = (competitors: TournamentCompetitor[]): ColumnDef<DraftTournamentPairing>[] => {

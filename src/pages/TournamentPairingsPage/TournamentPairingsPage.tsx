@@ -1,4 +1,4 @@
-import { MouseEvent, useState } from 'react';
+import { MouseEvent } from 'react';
 import {
   useFieldArray,
   useForm,
@@ -12,7 +12,7 @@ import {
 import { UniqueIdentifier } from '@dnd-kit/core';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Table } from '@ianpaschal/combat-command-components';
-import { TournamentPairingConfig } from '@ianpaschal/combat-command-game-systems/common';
+import { TournamentPairingConfig, TournamentPairingPolicy } from '@ianpaschal/combat-command-game-systems/common';
 
 import { DraftTournamentPairing, TournamentId } from '~/api';
 import { Button } from '~/components/generic/Button';
@@ -27,6 +27,7 @@ import { toast } from '~/components/ToastProvider';
 import { TournamentCompetitorsProvider } from '~/components/TournamentCompetitorsProvider';
 import { TournamentPairingConfigForm } from '~/components/TournamentPairingConfigForm';
 import { TournamentProvider } from '~/components/TournamentProvider';
+import { useAsyncState } from '~/hooks/useAsyncState';
 import { useDialogInstance } from '~/hooks/useDialogInstance';
 import { useGetTournamentCompetitorsByTournament } from '~/services/tournamentCompetitors';
 import {
@@ -40,7 +41,6 @@ import { FormData, schema } from './TournamentPairingsPage.schema';
 import {
   flattenPairings,
   getConfirmDialogTableColumns,
-  getDefaultValues,
   getPairingsStatuses,
   renderCompetitorCard,
   updatePairings,
@@ -63,6 +63,14 @@ export const TournamentPairingsPage = (): JSX.Element => {
   const lastRound = tournament?.lastRound ?? -1;
   const nextRound = lastRound + 1;
 
+  const [pairingConfig, setPairingConfig] = useAsyncState<TournamentPairingConfig>({
+    orderBy: 'ranking',
+    policies: {
+      sameAlignment: TournamentPairingPolicy.Allow,
+      repeat: TournamentPairingPolicy.Block,
+    },
+  }, tournament?.pairingConfig);
+
   const { open: openConfirmRegenerateDialog } = useDialogInstance();
   const { open: openConfirmCancelDialog } = useDialogInstance();
   const { open: openConfirmCreateDialog } = useDialogInstance();
@@ -71,8 +79,6 @@ export const TournamentPairingsPage = (): JSX.Element => {
     tournamentId,
     rankingRound: lastRound,
   });
-
-  const [pairingConfig, setPairingConfig] = useState<TournamentPairingConfig>(getDefaultValues(tournament));
 
   const { action: generateTournamentPairings } = useGenerateDraftTournamentPairings({
     onSuccess: (pairings): void => form.reset({ pairings }),
