@@ -1,5 +1,4 @@
 import { Migrations } from '@convex-dev/migrations';
-import { getTournamentPairingConfigByMethod } from '@ianpaschal/combat-command-game-systems/common';
 
 import { components } from './_generated/api';
 import { DataModel, Id } from './_generated/dataModel';
@@ -62,27 +61,6 @@ export const migrateTournamentResults = migrations.define({
           round: i,
         });
       }
-    }
-  },
-});
-
-export const migratePairingMethodToConfig = migrations.define({
-  table: 'tournaments',
-  migrateOne: async (ctx, doc) => {
-    if (doc.pairingConfig) {
-      // Already has pairingConfig, just remove pairingMethod
-      await ctx.db.patch(doc._id, { pairingMethod: undefined });
-      return;
-    }
-    if (doc.pairingMethod) {
-      const pairingConfig = getTournamentPairingConfigByMethod(doc.pairingMethod);
-      if (!pairingConfig) {
-        throw new Error('Found a pairing method with no corresponding config');
-      }
-      await ctx.db.patch(doc._id, {
-        pairingConfig,
-        pairingMethod: undefined,
-      });
     }
   },
 });

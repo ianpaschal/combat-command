@@ -1,8 +1,4 @@
-import {
-  CurrencyCode,
-  GameSystem,
-  TournamentPairingMethod,
-} from '@ianpaschal/combat-command-game-systems/common';
+import { CurrencyCode, GameSystem } from '@ianpaschal/combat-command-game-systems/common';
 import { defineTable } from 'convex/server';
 import { v } from 'convex/values';
 
@@ -15,7 +11,6 @@ import { tournamentStatus } from '../common/tournamentStatus';
 
 const currencyCode = getStaticEnumConvexValidator(CurrencyCode);
 const gameSystem = getStaticEnumConvexValidator(GameSystem);
-const tournamentPairingMethod = getStaticEnumConvexValidator(TournamentPairingMethod);
 
 export const editableFields = {
 
@@ -67,8 +62,7 @@ export const editableFields = {
   factionsRevealed: v.optional(v.boolean()),
 
   // Format
-  pairingConfig: v.optional(tournamentPairingConfig), // TODO: Remove optional after migration
-  pairingMethod: v.optional(tournamentPairingMethod), // TODO: Remove optional after migration
+  pairingConfig: tournamentPairingConfig,
   roundCount: v.number(),
   roundStructure: v.object({
     pairingTime: v.number(), // Should always be 0 for non team tournaments
