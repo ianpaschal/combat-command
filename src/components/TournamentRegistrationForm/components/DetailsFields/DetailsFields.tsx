@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { DeepPartial, useFormContext } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 import { Select } from '@ianpaschal/combat-command-components';
 import { getGameSystem } from '@ianpaschal/combat-command-game-systems/common';
 import clsx from 'clsx';
@@ -13,7 +13,7 @@ import styles from './DetailsFields.module.scss';
 export interface DetailsFieldsProps {
   className?: string;
   tournament: Tournament;
-  existingValues?: DeepPartial<TournamentRegistration>;
+  existingValues?: TournamentRegistration;
 }
 
 export const DetailsFields = ({
