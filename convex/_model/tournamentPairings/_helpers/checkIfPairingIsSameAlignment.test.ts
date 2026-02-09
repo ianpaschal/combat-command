@@ -63,6 +63,20 @@ describe('checkIfPairingIsSameAlignment', () => {
     expect(checkIfPairingIsSameAlignment(a, b)).toBe(true);
   });
 
+  it('returns false if first competitor is null.', () => {
+    const b = createMockTournamentCompetitor({ id: 'B' });
+    expect(checkIfPairingIsSameAlignment(null, b)).toBe(false);
+  });
+
+  it('returns false if second competitor is null.', () => {
+    const a = createMockTournamentCompetitor({ id: 'A' });
+    expect(checkIfPairingIsSameAlignment(a, null)).toBe(false);
+  });
+
+  it('returns false if both competitors are null.', () => {
+    expect(checkIfPairingIsSameAlignment(null, null)).toBe(false);
+  });
+
   it('returns false if both have empty alignments.', () => {
     const a = createMockTournamentCompetitor({ id: 'A' });
     const b = createMockTournamentCompetitor({ id: 'B' });

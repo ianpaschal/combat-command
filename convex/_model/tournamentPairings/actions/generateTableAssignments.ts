@@ -12,7 +12,6 @@ import { DraftTournamentPairing, draftTournamentPairing } from './generateDraftT
 
 export const generateTableAssignmentsArgs = v.object({
   tournamentId: v.id('tournaments'),
-  round: v.optional(v.number()),
   pairings: v.array(draftTournamentPairing),
 });
 

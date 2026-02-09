@@ -166,11 +166,9 @@ export const getDefaultValues = (tournament?: Tournament | null): TournamentPair
 };
 
 export const getConfirmDialogTableColumns = (competitors: TournamentCompetitor[]): ColumnDef<DraftTournamentPairing>[] => {
-
-  const playedTablesMap = new Map<TournamentCompetitorId | null, TournamentCompetitor>(
+  const competitorMap = new Map<TournamentCompetitorId | null, TournamentCompetitor>(
     competitors.map((c) => [c._id, c]),
   );
-
   return [
     {
       key: 'table',
@@ -189,8 +187,8 @@ export const getConfirmDialogTableColumns = (competitors: TournamentCompetitor[]
       width: '1fr',
       xAlign: 'center',
       renderCell: (r) => {
-        const tournamentCompetitor0 = playedTablesMap.get(r.tournamentCompetitor0Id) ?? null;
-        const tournamentCompetitor1 = playedTablesMap.get(r.tournamentCompetitor1Id) ?? null;
+        const tournamentCompetitor0 = competitorMap.get(r.tournamentCompetitor0Id) ?? null;
+        const tournamentCompetitor1 = competitorMap.get(r.tournamentCompetitor1Id) ?? null;
         if (!tournamentCompetitor0 && !tournamentCompetitor1) {
           return null;
         }

@@ -30,7 +30,7 @@ export const Checkbox = forwardRef<CheckboxRef, CheckboxProps>(({
   onChange,
   size = 'tiny',
   value,
-  variant = 'solid',
+  variant = 'primary',
   ...props
 }, ref) => (
   <RadixCheckbox.Root
