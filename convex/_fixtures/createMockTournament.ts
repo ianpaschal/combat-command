@@ -2,7 +2,6 @@ import {
   CurrencyCode,
   GameSystem,
   getGameSystem,
-  TournamentPairingMethod,
 } from '@ianpaschal/combat-command-game-systems/common';
 
 import { Doc } from '../_generated/dataModel';
@@ -45,7 +44,6 @@ export const createMockTournament = (
       currency: CurrencyCode.EUR,
     },
     roundCount: 5,
-    pairingMethod: TournamentPairingMethod.Adjacent,
     gameSystemConfig: gameSystemConfig.defaultValues,
     startsAt: Date.now() + (DAY_LENGTH_MS * 3),
     endsAt: Date.now() + (DAY_LENGTH_MS * 5),
