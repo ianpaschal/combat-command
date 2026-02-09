@@ -9,13 +9,6 @@ export const detailFields = v.object({
   faction: v.optional(faction),
 });
 
-export const editableFields = {
-  userId: v.id('users'),
-  tournamentId: v.id('tournaments'),
-  tournamentCompetitorId: v.id('tournamentCompetitors'),
-  details: v.optional(detailFields),
-};
-
 export default defineTable({
   userId: v.id('users'),
   tournamentId: v.id('tournaments'),

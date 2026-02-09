@@ -33,6 +33,9 @@ export const useEditAction = (
         onSubmit={({
           nameVisibilityConsent: _nameVisibilityConsent, // Only used for new registrations
           tournamentCompetitor: _tournamentCompetitor, // Only used for new registrations
+          tournamentCompetitorId: _tournamentCompetitorId,
+          tournamentId: _tournamentId,
+          userId: _userId,
           ...data
         }) => mutation({ _id: subject._id, ...data })}
       />
