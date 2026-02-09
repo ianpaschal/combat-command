@@ -1,7 +1,10 @@
 // Types
 export type {
   TournamentRegistration,
+  TournamentRegistrationCreateArgs,
+  TournamentRegistrationDetails,
   TournamentRegistrationId,
+  TournamentRegistrationUpdateArgs,
 } from './types';
 
 // Helpers
@@ -25,6 +28,10 @@ export {
   toggleTournamentRegistrationActive,
   toggleTournamentRegistrationActiveArgs,
 } from './mutations/toggleTournamentRegistrationActive';
+export {
+  updateTournamentRegistration,
+  updateTournamentRegistrationArgs,
+} from './mutations/updateTournamentRegistration';
 
 // Queries
 export {

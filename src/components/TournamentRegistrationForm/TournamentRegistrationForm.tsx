@@ -3,7 +3,11 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { InputText, Select } from '@ianpaschal/combat-command-components';
 import clsx from 'clsx';
 
-import { Tournament, TournamentId } from '~/api';
+import {
+  Tournament,
+  TournamentId,
+  TournamentRegistration,
+} from '~/api';
 import { useAuth } from '~/components/AuthProvider';
 import { Checkbox } from '~/components/generic/Checkbox';
 import { Form, FormField } from '~/components/generic/Form';
@@ -27,7 +31,7 @@ import styles from './TournamentRegistrationForm.module.scss';
 export interface TournamentRegistrationFormProps {
   className?: string;
   disabled?: boolean;
-  existingValues?: Partial<SubmitData>;
+  existingValues?: TournamentRegistration;
   forcedValues?: Partial<SubmitData> & { tournamentId: TournamentId };
   id?: string;
   loading?: boolean;
@@ -105,9 +109,8 @@ export const TournamentRegistrationForm = ({
     existingRegistrationsLoading,
   ].some((l) => !!l);
 
-  const showUserField = !forcedValues?.userId;
-  const showTeamNameField = !forcedValues?.tournamentCompetitorId && tournament.useTeams;
-
+  const showUserField = !existingValues && !forcedValues?.userId;
+  const showTeamNameField = !existingValues && !forcedValues?.tournamentCompetitorId && tournament.useTeams;
   const showNameVisibilityConsentField = nameVisibilityChangeRequired(tournament, currentUser, form.watch('userId'));
 
   return (
@@ -138,9 +141,7 @@ export const TournamentRegistrationForm = ({
           </FormField>
         </div>
       )}
-      {tournament.registrationDetails && (
-        <DetailsFields tournament={tournament} />
-      )}
+      <DetailsFields tournament={tournament} existingValues={existingValues} />
       {showNameVisibilityConsentField && (
         <FormField name="nameVisibilityConsent" label="Allow TO and fellow players to see name.">
           <Checkbox />

@@ -9,4 +9,4 @@ export const nameVisibilityChangeRequired = (
   tournament: Tournament,
   currentUser: User | null,
   selectedUserId: UserId | null,
-): boolean => tournament.requireRealNames && currentUser?._id === selectedUserId && currentUser?.nameVisibility >= VisibilityLevel.Tournaments;
+): boolean => tournament.requireRealNames && currentUser?._id === selectedUserId && currentUser?.nameVisibility < VisibilityLevel.Tournaments;

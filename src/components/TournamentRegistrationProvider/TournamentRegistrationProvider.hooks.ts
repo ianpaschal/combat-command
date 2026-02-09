@@ -2,8 +2,9 @@ import { useContext } from 'react';
 
 import { TournamentRegistration, TournamentRegistrationActionKey } from '~/api';
 import { Action } from '~/components/ContextMenu/ContextMenu.types';
-import { useLeaveAction } from '~/components/TournamentRegistrationProvider/actions/useLeaveAction';
 import { useDeleteAction } from './actions/useDeleteAction';
+import { useEditAction } from './actions/useEditAction';
+import { useLeaveAction } from './actions/useLeaveAction';
 import { useToggleActiveAction } from './actions/useToggleActiveAction';
 import { tournamentRegistrationContext } from './TournamentRegistrationProvider.context';
 
@@ -19,6 +20,7 @@ export const useActions = (
   subject: TournamentRegistration,
 ): Record<TournamentRegistrationActionKey, Action> => [
   useToggleActiveAction(subject),
+  useEditAction(subject),
   useLeaveAction(subject),
   useDeleteAction(subject),
 ].filter((a) => a !== null).reduce((acc, { key, ...action }) => ({

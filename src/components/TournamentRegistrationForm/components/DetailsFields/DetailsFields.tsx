@@ -4,7 +4,7 @@ import { Select } from '@ianpaschal/combat-command-components';
 import { getGameSystem } from '@ianpaschal/combat-command-game-systems/common';
 import clsx from 'clsx';
 
-import { Tournament } from '~/api';
+import { Tournament, TournamentRegistration } from '~/api';
 import { FormField } from '~/components/generic/Form';
 import { FormData } from '../../TournamentRegistrationForm.schema';
 
@@ -13,12 +13,14 @@ import styles from './DetailsFields.module.scss';
 export interface DetailsFieldsProps {
   className?: string;
   tournament: Tournament;
+  existingValues?: TournamentRegistration;
 }
 
 export const DetailsFields = ({
   className,
   tournament,
-}: DetailsFieldsProps): JSX.Element => {
+  existingValues,
+}: DetailsFieldsProps): JSX.Element | null => {
   const {
     getFactionOptions,
     getAlignmentOptions,
@@ -33,8 +35,12 @@ export const DetailsFields = ({
     }
   }, [declaredFaction, getFactionAlignment, setValue]);
 
-  const showAlignmentField = !!tournament.registrationDetails?.alignment;
-  const showFactionField = !!tournament.registrationDetails?.faction;
+  const showAlignmentField = !!(existingValues || tournament.registrationDetails?.alignment);
+  const showFactionField = !!(existingValues || tournament.registrationDetails?.faction);
+
+  if (![showAlignmentField, showFactionField].some(Boolean)) {
+    return null;
+  }
 
   return (
     <div className={clsx(styles.FactionFields, className)}>

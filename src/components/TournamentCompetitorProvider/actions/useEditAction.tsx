@@ -28,7 +28,7 @@ export const useEditAction = (
     content: (
       <TournamentCompetitorForm
         tournament={tournament}
-        tournamentCompetitor={subject}
+        existingValues={subject}
         onSubmit={(data) => mutation({
           id: subject._id,
           ...data,
