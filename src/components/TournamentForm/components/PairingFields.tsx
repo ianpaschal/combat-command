@@ -6,6 +6,7 @@ import { Label } from '~/components/generic/Label';
 import { RankingFactorFields } from '~/components/TournamentForm/components/RankingFactorFields';
 import { TournamentFormData } from '~/components/TournamentForm/TournamentForm.schema';
 import { TournamentPairingConfigFields } from '~/components/TournamentPairingConfigForm';
+import { ALLOWED_EDIT_STATUSES } from '../TournamentForm.utils';
 
 import styles from './PairingFields.module.scss';
 
@@ -25,9 +26,7 @@ export const PairingFields = ({
     }
   }, [pairingConfig, setValue]);
 
-  // Once a tournament is active, lock some fields
-  const allowedEditStatuses = ['draft', 'published'];
-  const disabled = !allowedEditStatuses.includes(status);
+  const disabled = !ALLOWED_EDIT_STATUSES.includes(status);
 
   return (
     <div className={styles.PairingFields}>
@@ -37,7 +36,7 @@ export const PairingFields = ({
       </div>
       <div className={styles.PairingFields_RankingFactors}>
         <Label>Ranking Factors</Label>
-        <RankingFactorFields disabled={disabled} />
+        <RankingFactorFields disabled={disabled} status={status} />
         <p>Combat Command uses a system of progressive tie breakers. Competitors are ranked according to the first ranking factor. If they are tied, the next ranking factor is compared until the tie is broken.</p>
       </div>
     </div>

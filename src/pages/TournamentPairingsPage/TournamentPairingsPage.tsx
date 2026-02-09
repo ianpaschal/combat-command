@@ -230,7 +230,7 @@ export const TournamentPairingsPage = (): JSX.Element => {
               />
               <Button
                 className={styles.TournamentPairingsPage_Config_Submit}
-                text={!form.formState.isDirty ? 'Regenerate' : 'Generate'}
+                text={form.formState.isDirty ? 'Regenerate' : 'Generate'}
                 variant="primary"
                 type="submit"
                 form="tournament-pairing-config-form"

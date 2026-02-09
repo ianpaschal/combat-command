@@ -24,6 +24,10 @@ const TABS = [
   { value: 'advanced', label: 'Advanced' },
 ];
 
+const ORDER_BY_OPTIONS = getTournamentPairingOrderMethodOptions();
+// FIXME: Avoid is not yet supported on the back-end, so hide it in the front-end for now.
+const POLICY_OPTIONS = getTournamentPairingPolicyOptions().filter((option) => option.value !== TournamentPairingPolicy.Avoid);
+
 export interface TournamentPairingConfigFieldsProps<TFormValues extends FieldValues> {
   className?: string;
   disabled?: boolean;
@@ -40,9 +44,6 @@ export const TournamentPairingConfigFields = <TFormValues extends FieldValues>({
   const [tab, setTab] = useState<string>('preset');
 
   const presetFieldProps = usePresetField(path);
-  const orderByOptions = getTournamentPairingOrderMethodOptions();
-  // FIXME: Avoid is not yet supported on the back-end, so hide it in the front-end for now.
-  const policyOptions = getTournamentPairingPolicyOptions().filter((option) => option.value !== TournamentPairingPolicy.Avoid);
 
   const pathPrefix = (name: string): string => path ? `${path}.${name}` : name;
   const fieldProps = { disabled, loading };
@@ -60,7 +61,7 @@ export const TournamentPairingConfigFields = <TFormValues extends FieldValues>({
       </TabsContent>
       <TabsContent value="advanced" className={styles.TournamentPairingConfigFields_TabsContent}>
         <FormField name={pathPrefix('orderBy')} label="Pair By" {...fieldProps}>
-          <Select options={orderByOptions} />
+          <Select options={ORDER_BY_OPTIONS} />
         </FormField>
         <FormField
           name={pathPrefix('policies.repeat')}
@@ -70,7 +71,7 @@ export const TournamentPairingConfigFields = <TFormValues extends FieldValues>({
           inputWidth="6rem"
           {...fieldProps}
         >
-          <Select options={policyOptions} />
+          <Select options={POLICY_OPTIONS} />
         </FormField>
         <FormField
           name={pathPrefix('policies.sameAlignment')}
@@ -80,7 +81,7 @@ export const TournamentPairingConfigFields = <TFormValues extends FieldValues>({
           inputWidth="6rem"
           {...fieldProps}
         >
-          <Select options={policyOptions} />
+          <Select options={POLICY_OPTIONS} />
         </FormField>
       </TabsContent>
     </Tabs>

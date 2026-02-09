@@ -6,6 +6,7 @@ import { RankingFactor } from '~/api';
 import { Button } from '~/components/generic/Button';
 import { InputSelect } from '~/components/generic/InputSelect';
 import { TournamentFormData } from '~/components/TournamentForm/TournamentForm.schema';
+import { ALLOWED_EDIT_STATUSES } from '../TournamentForm.utils';
 
 import styles from './RankingFactorFields.module.scss';
 
@@ -43,9 +44,7 @@ export const RankingFactorFields = ({
     ]);
   };
 
-  // Once a tournament is active, lock some fields
-  const allowedEditStatuses = ['draft', 'published'];
-  const disableFields = disabled || !allowedEditStatuses.includes(status);
+  const disableFields = disabled || !ALLOWED_EDIT_STATUSES.includes(status);
 
   return (
     <div className={styles.RankingFactorFields}>

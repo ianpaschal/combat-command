@@ -1,5 +1,7 @@
 import { fromZonedTime, toZonedTime } from 'date-fns-tz';
 
+export const ALLOWED_EDIT_STATUSES = ['draft', 'published'];
+
 export const convertEpochToDate = (epoch: number, timezone: string): Date => {
   // Create a Date object from the epoch (this will be in UTC)
   const utcDate = new Date(epoch);

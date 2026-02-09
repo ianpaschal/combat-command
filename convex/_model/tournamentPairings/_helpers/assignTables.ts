@@ -1,4 +1,7 @@
+import { ConvexError } from 'convex/values';
+
 import { Id } from '../../../_generated/dataModel';
+import { getErrorMessage } from '../../common/errors';
 import { DeepTournamentCompetitor } from '../../tournamentCompetitors';
 import { TournamentDeep } from '../../tournaments';
 import { DraftTournamentPairing } from '..';
@@ -72,7 +75,7 @@ export const assignTables = (
   }
 
   if (availableTables.size < autoAssignedPairings.length) {
-    throw new Error('There are more unassigned pairings than available tables!');
+    throw new ConvexError(getErrorMessage('NOT_ENOUGH_AVAILABLE_TABLES'));
   }
 
   // Step 2: Randomly assign tables to pairings that need them:
