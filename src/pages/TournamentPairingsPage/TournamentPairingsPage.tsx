@@ -147,6 +147,7 @@ export const TournamentPairingsPage = (): JSX.Element => {
     if (form.formState.isDirty) {
       openConfirmRegenerateDialog({
         title: 'Regenerate Pairings',
+        content: 'Your current pairings will be lost. Are you sure you want to regenerate?',
         actions: [
           {
             intent: 'danger',
