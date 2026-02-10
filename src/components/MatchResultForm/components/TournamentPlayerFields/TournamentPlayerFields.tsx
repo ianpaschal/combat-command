@@ -35,10 +35,10 @@ export const TournamentPlayerFields = ({
 
   const player0Registration = useMemo(() => (
     selectedPairing?.tournamentCompetitor0?.registrations.find((r) => r.userId === player0UserId)
-  ), [selectedPairing, player0UserId]);
+  ), [selectedPairing?.tournamentCompetitor0, player0UserId]);
   const player1Registration = useMemo(() => (
     selectedPairing?.tournamentCompetitor1?.registrations.find((r) => r.userId === player1UserId)
-  ), [selectedPairing, player1UserId]);
+  ), [selectedPairing?.tournamentCompetitor1, player1UserId]);
 
   // Automatically set "Player 1" if possible
   useEffect(() => {
