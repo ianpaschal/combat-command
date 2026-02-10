@@ -26,6 +26,7 @@ import { Label } from '~/components/generic/Label';
 import { Separator } from '~/components/generic/Separator';
 import { MatchResultDetailFields } from '~/components/MatchResultDetailFields';
 import { MatchResultDetails } from '~/components/MatchResultDetails';
+import { toast } from '~/components/ToastProvider';
 import { useAsyncState } from '~/hooks/useAsyncState';
 import { useCreateMatchResult, useUpdateMatchResult } from '~/services/matchResults';
 import { useGetActiveTournamentPairingsByUser } from '~/services/tournamentPairings';
@@ -131,7 +132,13 @@ export const MatchResultForm = ({
   const selectedGameSystem = form.watch('gameSystem');
 
   const onSubmit: SubmitHandler<MatchResultFormData> = (formData): void => {
-    const schema = getMatchResultFormSchema(selectedGameSystem as GameSystem);
+    if (!formData.gameSystem) {
+      toast.error('Cannot Submit Match Result', {
+        description: 'Data could not be validated because game system is not set.',
+      });
+      return;
+    }
+    const schema = getMatchResultFormSchema(formData.gameSystem);
     const data = validateForm(schema, formData, form.setError);
     if (data) {
       if (matchResult) {
@@ -234,7 +241,6 @@ export const MatchResultForm = ({
         title="Are all details correct?"
         description="This match is for a tournament, so after you submit it the game configuration and outcome can no longer be changed!"
       />
-      {/* <pre>{JSON.stringify(form.formState.errors)}</pre> */}
     </Form>
   );
 };

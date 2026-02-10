@@ -49,7 +49,7 @@ export const TournamentPlayerFields = ({
 
   // Automatically set "Player 1" faction if possible
   useEffect(() => {
-    if (player0Registration && player0Registration.factions.length > 0 && player0Faction !== player0Registration.factions[0]) {
+    if (player0Registration && player0Registration.factions.length > 0 && !player0Faction) {
       setValue('details.player0Faction', player0Registration.factions[0]);
     }
   }, [player0Registration, player0Faction, setValue]);
@@ -63,7 +63,7 @@ export const TournamentPlayerFields = ({
 
   // Automatically set "Player 2" faction if possible
   useEffect(() => {
-    if (player1Registration && player1Registration.factions.length > 0 && player1Faction !== player1Registration.factions[0]) {
+    if (player1Registration && player1Registration.factions.length > 0 && !player1Faction) {
       setValue('details.player1Faction', player1Registration.factions[0]);
     }
   }, [player1Registration, player1Faction, setValue]);
