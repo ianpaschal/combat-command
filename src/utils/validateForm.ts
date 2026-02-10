@@ -17,7 +17,7 @@ export const validateForm = <T extends ZodTypeAny, TFieldValues extends FieldVal
     result.error.issues.forEach((issue) => {
       const fieldPath = issue.path.join('.') as Path<TFieldValues>;
       setError(fieldPath, { message: issue.message });
-      toast.error('Error', { description: issue.message });
+      toast.error('Error', { description: 'Please check the form for errors.' });
     });
   }
   return result.data;

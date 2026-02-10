@@ -36,8 +36,8 @@ import { TournamentPlayerFields } from './components/TournamentPlayerFields';
 import { usePlayerDisplayNames } from './MatchResultForm.hooks';
 import {
   defaultValues,
+  getMatchResultFormSchema,
   MatchResultFormData,
-  matchResultFormSchema,
 } from './MatchResultForm.schema';
 
 import styles from './MatchResultForm.module.scss';
@@ -109,7 +109,7 @@ export const MatchResultForm = ({
     defaultValues: {
       ...defaultValues,
       ...(matchResult ? (() => {
-        const result = matchResultFormSchema.safeParse(matchResult);
+        const result = getMatchResultFormSchema(matchResult.gameSystem as GameSystem).safeParse(matchResult);
         if (!result.success) {
           console.error('MatchResultForm schema parsing failed:', result.error);
           console.error('MatchResult data:', matchResult);
@@ -131,7 +131,8 @@ export const MatchResultForm = ({
   const selectedGameSystem = form.watch('gameSystem');
 
   const onSubmit: SubmitHandler<MatchResultFormData> = (formData): void => {
-    const data = validateForm(matchResultFormSchema, formData, form.setError);
+    const schema = getMatchResultFormSchema(selectedGameSystem as GameSystem);
+    const data = validateForm(schema, formData, form.setError);
     if (data) {
       if (matchResult) {
         updateMatchResult({ ...data, id: matchResult._id, playedAt: matchResult.playedAt });
@@ -213,7 +214,10 @@ export const MatchResultForm = ({
         </>
       )}
       {isTournament ? (
-        <TournamentPlayerFields tournamentPairingId={tournamentPairingId} />
+        <TournamentPlayerFields
+          tournament={tournament}
+          tournamentPairingId={tournamentPairingId}
+        />
       ) : (
         <>
           <FormField name="gameSystem" label="Game System" disabled={gameSystemOptions.length < 2}>
@@ -230,6 +234,7 @@ export const MatchResultForm = ({
         title="Are all details correct?"
         description="This match is for a tournament, so after you submit it the game configuration and outcome can no longer be changed!"
       />
+      {/* <pre>{JSON.stringify(form.formState.errors)}</pre> */}
     </Form>
   );
 };

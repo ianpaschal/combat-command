@@ -9,11 +9,10 @@ import { CompatibleFormData } from './MatchResultDetailFields.types';
 
 export interface MatchResultDetailFieldsProps {
   className?: string;
+  disableFactions?: boolean;
 }
 
-export const MatchResultDetailFields = ({
-  className,
-}: MatchResultDetailFieldsProps): JSX.Element => {
+export const MatchResultDetailFields = (props: MatchResultDetailFieldsProps): JSX.Element => {
   const { reset, watch, getFieldState } = useFormContext<CompatibleFormData>();
   const gameSystem = watch('gameSystem');
 
@@ -36,20 +35,15 @@ export const MatchResultDetailFields = ({
    */
   const playerOptions = usePlayerOptions();
 
-  const sharedProps = {
-    className,
-    playerOptions,
-  };
-
   if (gameSystem === GameSystem.FlamesOfWarV4) {
     return (
-      <FlamesOfWarV4MatchResultDetailFields {...sharedProps} />
+      <FlamesOfWarV4MatchResultDetailFields {...props} playerOptions={playerOptions} />
     );
   }
 
   if (gameSystem === GameSystem.TeamYankeeV2) {
     return (
-      <TeamYankeeV2MatchResultDetailFields {...sharedProps} />
+      <TeamYankeeV2MatchResultDetailFields {...props} playerOptions={playerOptions} />
     );
   }
 

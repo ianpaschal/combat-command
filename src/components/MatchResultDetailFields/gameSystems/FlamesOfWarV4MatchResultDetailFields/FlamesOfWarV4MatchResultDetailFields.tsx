@@ -22,11 +22,13 @@ import styles from './FlamesOfWarV4MatchResultDetailFields.module.scss';
 export interface FlamesOfWarV4MatchResultDetailFieldsProps {
   className?: string;
   playerOptions: InputSelectOption<number>[];
+  disableFactions?: boolean;
 }
 
 export const FlamesOfWarV4MatchResultDetailFields = ({
   className,
   playerOptions,
+  disableFactions = false,
 }: FlamesOfWarV4MatchResultDetailFieldsProps): JSX.Element => {
   const [showScoreOverride, setShowScoreOverride] = useState<boolean>(false);
 
@@ -35,6 +37,8 @@ export const FlamesOfWarV4MatchResultDetailFields = ({
   const { details } = values;
   const gameSystemConfig = validateGameSystemConfig(GameSystem.FlamesOfWarV4, values.gameSystemConfig);
 
+  const factionOptions = getFactionOptions();
+  const battlePlanOptions = getBattlePlanOptions();
   const missionOptions = useMissionOptions(gameSystemConfig, details.player0BattlePlan, details.player1BattlePlan);
 
   // TODO: Don't allow winner 'None' for certain outcome types.
@@ -80,24 +84,22 @@ export const FlamesOfWarV4MatchResultDetailFields = ({
   return (
     <div className={clsx(styles.FlamesOfWarV4MatchResultDetailFields, className)}>
       <div className={styles.FlamesOfWarV4MatchResultDetailFields_Player0Section}>
-        {/*  TODO: AUTO-FILTER OPTIONS TO 1 USING LIST INFO */}
-        <FormField name="details.player0Faction" label="Faction">
-          <InputSelect options={getFactionOptions()} />
+        <FormField name="details.player0Faction" label="Faction" disabled={disableFactions}>
+          <InputSelect options={factionOptions} />
         </FormField>
         <FormField name="details.player0BattlePlan" label="Battle Plan">
-          <InputSelect options={getBattlePlanOptions()} />
+          <InputSelect options={battlePlanOptions} />
         </FormField>
         <FormField name="details.player0UnitsLost" label="Units Lost">
           <InputText type="number" />
         </FormField>
       </div>
       <div className={styles.FlamesOfWarV4MatchResultDetailFields_Player1Section}>
-        {/*  TODO: AUTO-FILTER OPTIONS TO 1 USING LIST INFO */}
-        <FormField name="details.player1Faction" label="Faction">
-          <InputSelect options={getFactionOptions()} />
+        <FormField name="details.player1Faction" label="Faction" disabled={disableFactions}>
+          <InputSelect options={factionOptions} />
         </FormField>
         <FormField name="details.player1BattlePlan" label="Battle Plan">
-          <InputSelect options={getBattlePlanOptions()} />
+          <InputSelect options={battlePlanOptions} />
         </FormField>
         <FormField name="details.player1UnitsLost" label="Units Lost">
           <InputText type="number" />
