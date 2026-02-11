@@ -26,6 +26,7 @@ import { Label } from '~/components/generic/Label';
 import { Separator } from '~/components/generic/Separator';
 import { MatchResultDetailFields } from '~/components/MatchResultDetailFields';
 import { MatchResultDetails } from '~/components/MatchResultDetails';
+import { toast } from '~/components/ToastProvider';
 import { useAsyncState } from '~/hooks/useAsyncState';
 import { useCreateMatchResult, useUpdateMatchResult } from '~/services/matchResults';
 import { useGetActiveTournamentPairingsByUser } from '~/services/tournamentPairings';
@@ -36,8 +37,8 @@ import { TournamentPlayerFields } from './components/TournamentPlayerFields';
 import { usePlayerDisplayNames } from './MatchResultForm.hooks';
 import {
   defaultValues,
+  getMatchResultFormSchema,
   MatchResultFormData,
-  matchResultFormSchema,
 } from './MatchResultForm.schema';
 
 import styles from './MatchResultForm.module.scss';
@@ -109,7 +110,7 @@ export const MatchResultForm = ({
     defaultValues: {
       ...defaultValues,
       ...(matchResult ? (() => {
-        const result = matchResultFormSchema.safeParse(matchResult);
+        const result = getMatchResultFormSchema(matchResult.gameSystem as GameSystem).safeParse(matchResult);
         if (!result.success) {
           console.error('MatchResultForm schema parsing failed:', result.error);
           console.error('MatchResult data:', matchResult);
@@ -131,7 +132,14 @@ export const MatchResultForm = ({
   const selectedGameSystem = form.watch('gameSystem');
 
   const onSubmit: SubmitHandler<MatchResultFormData> = (formData): void => {
-    const data = validateForm(matchResultFormSchema, formData, form.setError);
+    if (!formData.gameSystem) {
+      toast.error('Cannot Submit Match Result', {
+        description: 'Data could not be validated because game system is not set.',
+      });
+      return;
+    }
+    const schema = getMatchResultFormSchema(formData.gameSystem);
+    const data = validateForm(schema, formData, form.setError);
     if (data) {
       if (matchResult) {
         updateMatchResult({ ...data, id: matchResult._id, playedAt: matchResult.playedAt });
@@ -213,7 +221,10 @@ export const MatchResultForm = ({
         </>
       )}
       {isTournament ? (
-        <TournamentPlayerFields tournamentPairingId={tournamentPairingId} />
+        <TournamentPlayerFields
+          tournament={tournament}
+          tournamentPairingId={tournamentPairingId}
+        />
       ) : (
         <>
           <FormField name="gameSystem" label="Game System" disabled={gameSystemOptions.length < 2}>
