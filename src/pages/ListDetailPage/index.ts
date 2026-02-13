@@ -1,0 +1,1 @@
+export { ListDetailPage } from './ListDetailPage';

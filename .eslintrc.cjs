@@ -49,6 +49,7 @@ module.exports = {
     "arrow-body-style": ["error", "as-needed"],
     "no-console": ["warn", { allow: ["warn", "error", "info"] }],
     "@typescript-eslint//explicit-function-return-type": "off",
+    "implicit-arrow-linebreak": ["error", "beside"],
 
     // Plugin configurations
     'import-newlines/enforce': ['error', 2],

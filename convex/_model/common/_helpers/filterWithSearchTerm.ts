@@ -7,18 +7,17 @@ export const filterWithSearchTerm = <T extends object>(
     return items;
   }
   const tokens = searchTerm.trim().toLowerCase().split(' ');
-  return items.filter((item) =>
-    fields.some((field) => {
-      const value = item[field];
-      return tokens.some((token) => {
-        if (typeof value === 'string') {
-          return value.toLowerCase().includes(token);
-        }
-        if (typeof value === 'number') {
-          return value.toString().includes(token);
-        }
-        return false;
-      });
-    }),
+  return items.filter((item) => fields.some((field) => {
+    const value = item[field];
+    return tokens.some((token) => {
+      if (typeof value === 'string') {
+        return value.toLowerCase().includes(token);
+      }
+      if (typeof value === 'number') {
+        return value.toString().includes(token);
+      }
+      return false;
+    });
+  }),
   );
 };

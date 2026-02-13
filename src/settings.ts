@@ -19,6 +19,9 @@ export const PATHS = {
   dashboard: '/dashboard',
   leagueDetails: '/leagues/:id',
   leagues: '/leagues',
+  listCreate: '/lists/create',
+  listDetails: '/lists/:id',
+  listEdit: '/lists/:id/edit',
   matchResultDetails: '/matches/:id',
   matchResults: '/matches',
 

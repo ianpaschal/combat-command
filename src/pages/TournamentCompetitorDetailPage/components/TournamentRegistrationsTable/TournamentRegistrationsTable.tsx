@@ -5,6 +5,7 @@ import { ShieldUser } from 'lucide-react';
 import { TournamentRegistration } from '~/api';
 import { InfoPopover } from '~/components/generic/InfoPopover';
 import { IdentityBadge } from '~/components/IdentityBadge';
+import { ManageListButton } from '~/components/ManageListButton';
 import { useTournamentCompetitor } from '~/components/TournamentCompetitorProvider';
 import { useTournament } from '~/components/TournamentProvider';
 import { TournamentRegistrationActiveToggle, TournamentRegistrationContextMenu } from '~/components/TournamentRegistrationProvider';
@@ -54,16 +55,16 @@ export const TournamentRegistrationsTable = ({
             ) : null,
           } as ColumnDef<TournamentRegistration>,
         ] : []),
-        // {
-        //   key: 'lists',
-        //   label: 'List',
-        //   renderCell: (row) => {
-        //     const isCaptain = user && (tournamentCompetitors ?? []).find((c) => c._id === row.tournamentCompetitorId)?.registrations.find((r) => r.userId === user._id);
-        //     return (
-        //       <TournamentRegistrationListButton tournamentRegistration={row} deadline={Date.now() - 3600} />
-        //     );
-        //   },
-        // },
+        {
+          key: 'lists',
+          label: 'List',
+          renderCell: (row) => (
+            <ManageListButton
+              tournamentRegistration={row}
+              canManage={true}
+            />
+          ),
+        },
         {
           key: 'actions',
           renderCell: (r) => (

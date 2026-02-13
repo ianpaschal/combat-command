@@ -16,10 +16,14 @@ export const getFileMetadataArgs = v.object({
 export const getFileMetadata = async (
   ctx: QueryCtx,
   args: Infer<typeof getFileMetadataArgs>,
-): Promise<GenericDoc<SystemDataModel,'_storage'> | null> => {
+): Promise<GenericDoc<SystemDataModel,'_storage'> & { url: string } | null> => {
+  const fileUrl = await ctx.storage.getUrl(args.id);
   const fileMetadata = await ctx.db.system.get(args.id);
-  if (!fileMetadata) {
+  if (!fileMetadata || !fileUrl) {
     throw new ConvexError(getErrorMessage('FILE_NOT_FOUND'));
   }
-  return fileMetadata;
+  return {
+    ...fileMetadata,
+    url: fileUrl,
+  };
 };

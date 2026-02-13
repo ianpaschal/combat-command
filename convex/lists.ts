@@ -6,6 +6,11 @@ export const createList = mutation({
   handler: model.createList,
 });
 
+export const updateList = mutation({
+  args: model.updateListArgs,
+  handler: model.updateList,
+});
+
 export const getList = query({
   args: model.getListArgs,
   handler: model.getList,

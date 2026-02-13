@@ -18,7 +18,6 @@ export const checkUsersAreTeammates = async (
 
   const player0CompetitorIds = new Set(player0Records.map((r) => r.tournamentCompetitorId));
 
-  return player1Records.some((r) =>
-    player0CompetitorIds.has(r.tournamentCompetitorId),
+  return player1Records.some((r) => player0CompetitorIds.has(r.tournamentCompetitorId),
   );
 };

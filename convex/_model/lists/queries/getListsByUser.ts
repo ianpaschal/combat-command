@@ -5,16 +5,16 @@ import { notNullOrUndefined } from '../../common/_helpers/notNullOrUndefined';
 import { checkListVisibility } from '../_helpers/checkListVisibility';
 import { deepenList, DeepList } from '../_helpers/deepenList';
 
-export const getListsByTournamentRegistrationArgs = v.object({
-  tournamentRegistrationId: v.id('tournamentRegistrations'),
+export const getListsByUserArgs = v.object({
+  userId: v.id('users'),
 });
 
-export const getListsByTournamentRegistration = async (
+export const getListsByUser = async (
   ctx: QueryCtx,
-  args: Infer<typeof getListsByTournamentRegistrationArgs>,
+  args: Infer<typeof getListsByUserArgs>,
 ): Promise<DeepList[]> => {
   const results = await ctx.db.query('lists')
-    .withIndex('by_tournament_registration', (q) => q.eq('tournamentRegistrationId', args.tournamentRegistrationId))
+    .withIndex('by_user', (q) => q.eq('userId', args.userId))
     .collect();
   const deepResults = await Promise.all(results.map(async (r) => {
     if (await checkListVisibility(ctx, r)) {

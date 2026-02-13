@@ -21,6 +21,7 @@ import { DashboardPage } from '~/pages/DashboardPage';
 import { LandingPage } from '~/pages/LandingPage';
 import { LeagueDetailPage } from '~/pages/LeagueDetailPage/LeagueDetailPage';
 import { LeaguesPage } from '~/pages/LeaguesPage';
+import { ListDetailPage } from '~/pages/ListDetailPage';
 import { MatchResultDetailPage } from '~/pages/MatchResultDetailPage';
 import { MatchResultsPage } from '~/pages/MatchResultsPage';
 import {
@@ -143,6 +144,11 @@ export const routes = [
     path: PATHS.leagueDetails,
     visibility: [],
     element: <LeagueDetailPage />,
+  },
+  {
+    path: PATHS.listDetails,
+    visibility: [],
+    element: <ListDetailPage />,
   },
   {
     path: PATHS.matchResultDetails,

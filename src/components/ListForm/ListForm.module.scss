@@ -1,0 +1,56 @@
+@use "sass:color";
+@use "/src/style/flex";
+@use "/src/style/corners";
+@use "/src/style/borders";
+@use "/src/style/text";
+@use "/src/style/variables";
+@use "/src/style/variants";
+
+.ListForm {
+  @include flex.column;
+
+  &_Pdf {
+    @include corners.normal;
+    @include borders.normal;
+  }
+}
+
+.ListForm_FileDropzone {
+  @include variants.outlined;
+  @include corners.normal;
+  @include text.ui($muted: true);
+  @include flex.column($xAlign: center, $yAlign: center, $gap: 0.5rem);
+
+  cursor: pointer;
+
+  width: 100%;
+  padding: 1rem;
+
+  border-style: dashed;
+
+  transition-timing-function: ease-in-out;
+  transition-duration: 250ms;
+  transition-property: color, background-color, border-color;
+
+  &[data-active="true"] {
+    color: variables.$blue;
+    background-color: color.adjust(variables.$blue, $alpha: -0.9);
+    border-color: variables.$blue;
+  }
+}
+
+// .ListForm_Viewer {
+
+// }
+
+.ListForm_FormationsHeader {
+  @include flex.row($yAlign: center, $xAlign: space-between);
+}
+
+.ListForm_FormationItem {
+  @include flex.row($yAlign: end, $gap: 0.5rem);
+}
+
+.ListForm_OrganizerSection {
+  @include flex.column;
+}

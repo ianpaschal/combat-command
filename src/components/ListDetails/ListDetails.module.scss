@@ -1,0 +1,5 @@
+@use "/src/style/flex";
+
+.ListDetails {
+  @include flex.column;
+}

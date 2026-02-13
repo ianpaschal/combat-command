@@ -35,6 +35,7 @@ export {
 // Lists
 export {
   type DeepList as List,
+  type ListId,
 } from '../convex/_model/lists';
 
 // Match Result Comments

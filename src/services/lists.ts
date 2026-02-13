@@ -7,3 +7,4 @@ export const useGetListsByTournamentRegistration = createQueryHook(api.lists.get
 
 // Basic (C_UD) Mutations
 export const useCreateList = createMutationHook(api.lists.createList);
+export const useUpdateList = createMutationHook(api.lists.updateList);

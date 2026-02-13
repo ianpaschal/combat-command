@@ -11,14 +11,19 @@ export const checkListVisibility = async (
   doc: Doc<'lists'>,
 ): Promise<boolean> => {
   const userId = await getAuthUserId(ctx);
-  const tournamentRegistration = await getDocStrict(ctx, doc.tournamentRegistrationId);  
-  const tournament = await getDocStrict(ctx, tournamentRegistration.tournamentId);
-  const isOrganizer = await checkUserIsTournamentOrganizer(ctx, tournament._id, userId);
-  const isTeammate = await checkUsersAreTeammates(ctx, tournamentRegistration.userId, userId);
 
-  if (isOrganizer || isTeammate || tournament.listsRevealed) {
-    return true;
+  if (doc.tournamentRegistrationId) {
+    const tournamentRegistration = await getDocStrict(ctx, doc.tournamentRegistrationId);  
+    const tournament = await getDocStrict(ctx, tournamentRegistration.tournamentId);
+    const isOrganizer = await checkUserIsTournamentOrganizer(ctx, tournament._id, userId);
+    const isTeammate = await checkUsersAreTeammates(ctx, tournamentRegistration.userId, userId);
+
+    if (isOrganizer || isTeammate || tournament.listsRevealed) {
+      return true;
+    }
+
+    return false;
   }
 
-  return false;
-};
+  return true;
+}; 
