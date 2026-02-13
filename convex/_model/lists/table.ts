@@ -3,14 +3,17 @@ import { defineTable } from 'convex/server';
 import { v } from 'convex/values';
 
 import { getStaticEnumConvexValidator } from '../common/_helpers/getStaticEnumConvexValidator';
-import { FlamesOfWarV4 } from '../gameSystems';
 
 const gameSystem = getStaticEnumConvexValidator(GameSystem);
 
 export const editableFields = {
-  gameSystem: gameSystem,
-  data: FlamesOfWarV4.listData,
-  ownerUserId: v.id('users'),
+  gameSystem,
+  storageId: v.id('_storage'),
+  userId: v.id('users'),
+  tournamentRegistrationId: v.optional(v.id('tournamentRegistrations')),
+
+  // FUTURE:
+  // data: listData,
 };
 
 /**
@@ -18,11 +21,14 @@ export const editableFields = {
  */
 export const computedFields = {
   modifiedAt: v.optional(v.number()),
-  locked: v.optional(v.boolean()),
+  locked: v.boolean(),
+  approved: v.boolean(),
 };
 
 export default defineTable({
   ...editableFields,
   ...computedFields,
 })
-  .index('by_owner_user_id', ['ownerUserId']);
+  .index('by_game_system', ['gameSystem'])
+  .index('by_tournament_registration', ['tournamentRegistrationId'])
+  .index('by_user', ['userId']);

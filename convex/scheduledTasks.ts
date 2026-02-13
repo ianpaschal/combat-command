@@ -38,6 +38,12 @@ export const cleanUpFileStorage = internalMutation(async (ctx) => {
       referencedIds.add(u.avatarStorageId);
     }
   }
+  const lists = await ctx.db.query('lists').collect();
+  for (const l of lists) {
+    if (l.storageId) {
+      referencedIds.add(l.storageId);
+    }
+  }
 
   const deletedIds = new Set();
 

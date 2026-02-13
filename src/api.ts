@@ -32,6 +32,12 @@ export {
   validateTournamentPairing,
 } from '../convex/_model/tournamentPairings';
 
+// Lists
+export {
+  type DeepList as List,
+  type ListId,
+} from '../convex/_model/lists';
+
 // Match Result Comments
 export {
   type DeepMatchResultComment as MatchResultComment,
